@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCCPL &middot; Mechanical GET Recruitment Test</title>
+<style>
+  :root{
+    --ink:#20302f;
+    --ink-soft:#4a5c5a;
+    --paper:#f4f0e6;
+    --panel:#fffdf8;
+    --line:#d9d2bd;
+    --rust:#9c4a22;
+    --rust-dark:#7c3a1a;
+    --teal:#2c5a54;
+    --teal-soft:#e4ece9;
+    --amber:#b3791f;
+    --alert:#a53324;
+    --alert-soft:#f6e2de;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;}
+  .app{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:28px 16px 60px;
+  }
+  .topbar{
+    width:100%;
+    max-width:640px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:18px;
+  }
+  .brand{
+    font-size:13px;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+  }
+  .brand b{color:var(--ink);}
+  .timer{
+    font-size:20px;
+    font-weight:600;
+    padding:4px 10px;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    background:var(--panel);
+  }
+  .timer.warn{color:var(--amber);border-color:var(--amber);}
+  .timer.danger{color:var(--alert);border-color:var(--alert);}
+  .card{
+    width:100%;
+    max-width:640px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px;
+  }
+  h1{
+    font-size:22px;
+    margin:0 0 6px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 22px;
+  }
+  .meta-row{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin:0 0 24px;
+    padding:14px 16px;
+    background:var(--teal-soft);
+    border-left:3px solid var(--teal);
+    font-size:13px;
+    color:var(--ink);
+  }
+  .meta-row div b{display:block;font-size:15px;}
+  label{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:16px 0 5px;
+  }
+  input[type=text]{
+    width:100%;
+    padding:11px 12px;
+    font-size:15px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:#fff;
+    color:var(--ink);
+    font-family:inherit;
+  }
+  input[type=text]:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal);}
+  .btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+    padding:12px 22px;
+    border-radius:var(--radius);
+    background:var(--rust);
+    color:#fff9f2;
+    transition:background .12s ease;
+  }
+  .btn:hover:not(:disabled){background:var(--rust-dark);}
+  .btn:disabled{background:#c8c0ab;cursor:not-allowed;}
+  .btn.ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--line);
+  }
+  .btn.ghost:hover:not(:disabled){border-color:var(--ink);}
+  .actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px;}
+  .actions .right{display:flex;gap:10px;}
+  .start-actions{margin-top:26px;}
+  .err{color:var(--alert);font-size:13px;margin-top:10px;min-height:16px;}
+
+  .progress-track{
+    width:100%;max-width:640px;
+    display:flex;gap:3px;margin-bottom:20px;
+  }
+  .progress-tick{flex:1;height:4px;background:var(--line);}
+  .progress-tick.answered{background:var(--teal);}
+  .progress-tick.current{background:var(--rust);}
+
+  .section-label{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--teal);
+    margin-bottom:6px;
+    font-weight:600;
+  }
+  .qcount{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .qtext{
+    font-size:18px;
+    font-weight:600;
+    line-height:1.45;
+    margin:0 0 22px;
+  }
+  .options{display:flex;flex-direction:column;gap:9px;}
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:13px 14px;
+    border:1px solid var(--line);
+    border-left:3px solid var(--line);
+    border-radius:var(--radius);
+    cursor:pointer;
+    background:#fff;
+  }
+  .option:hover{border-left-color:var(--teal);}
+  .option.selected{
+    border-left-color:var(--rust);
+    background:#fbf3ec;
+  }
+  .option .mark{
+    width:20px;height:20px;flex:none;
+    border:1.5px solid var(--ink-soft);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:var(--ink-soft);
+    margin-top:1px;
+  }
+  .option.selected .mark{
+    background:var(--rust);border-color:var(--rust);color:#fff;
+  }
+  .option .otext{font-size:15px;}
+
+  .palette{
+    display:grid;
+    grid-template-columns:repeat(10,1fr);
+    gap:5px;
+    margin-top:26px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .pcell{
+    aspect-ratio:1;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:var(--ink-soft);
+    background:#fff;
+    cursor:pointer;
+  }
+  .pcell.answered{background:var(--teal-soft);border-color:var(--teal);color:var(--teal);}
+  .pcell.current{border-color:var(--rust);color:var(--rust);font-weight:700;}
+
+  .done-icon{font-size:34px;margin-bottom:12px;}
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:14px;}
+
+  @media (max-width:480px){
+    .card{padding:22px 18px;}
+    .qtext{font-size:16.5px;}
+    .palette{grid-template-columns:repeat(8,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+/* ======================================================================
+   CONFIG — paste your deployed Apps Script Web App URL below once ready.
+   ====================================================================== */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPYU5s9OReUutgzG29SKNenS9MgVnv7rnyiJYShhG_3vh18QOhkyZQiYOxDj_-O9vUhg/exec";
+const TEST_DURATION_MIN = 45;
+const STORAGE_KEY = "pccpl_get_test_mechanical_v1";
+const TEST_TYPE = "mechanical";
+
+/* ======================================================================
+   QUESTIONS — text + options only. Correct answers are NOT stored here;
+   scoring happens server-side in Apps Script against the master key.
+   ====================================================================== */
+const QUESTIONS = [
+{id:1,section:"Aptitude & Basic Engineering",text:"A car travels 60 km in 1.5 hours. What is its average speed?",options:{A:"30 km/h",B:"40 km/h",C:"45 km/h",D:"50 km/h"}},
+{id:2,section:"Fluid Mechanics & Pumps",text:"Which type of pump is best suited for handling highly viscous fluids at low flow rates?",options:{A:"Centrifugal pump",B:"Positive displacement pump",C:"Axial flow pump",D:"Jet pump"}},
+{id:3,section:"Fluid Mechanics & Pumps",text:"What does NPSH stand for in pump terminology?",options:{A:"Net Positive Suction Head",B:"Normal Pump Suction Height",C:"Net Pressure Suction Head",D:"Normal Positive Suction Head"}},
+{id:4,section:"Process Plant & Chemical Engineering",text:"Which of the following is NOT a unit operation in chemical engineering?",options:{A:"Distillation",B:"Filtration",C:"Absorption",D:"Combustion"}},
+{id:5,section:"Process Plant & Chemical Engineering",text:"What is the primary function of a reboiler in a distillation column?",options:{A:"Cool the overhead vapor",B:"Provide reflux to the column",C:"Vaporize part of the bottom liquid",D:"Remove non-condensable gases"}},
+{id:6,section:"Process Plant & Chemical Engineering",text:"Which material is commonly used for gaskets in corrosive chemical service?",options:{A:"Rubber",B:"Cork",C:"PTFE (Teflon)",D:"Paper"}},
+{id:7,section:"Process Plant & Chemical Engineering",text:"What is the purpose of a pressure relief valve (PRV) on a vessel?",options:{A:"Regulate normal operating pressure",B:"Protect against overpressure",C:"Measure vessel pressure",D:"Control flow rate"}},
+{id:8,section:"Process Plant & Chemical Engineering",text:"Which type of valve is best suited for on/off (fully open or fully closed) service?",options:{A:"Gate valve",B:"Globe valve",C:"Needle valve",D:"Butterfly valve for throttling"}},
+{id:9,section:"Process Plant & Chemical Engineering",text:"What does 'MOC' commonly refer to in a chemical plant context?",options:{A:"Management of Change",B:"Materials of Construction",C:"Both A and B, depending on context",D:"Maintenance Operating Cost"}},
+{id:10,section:"Process Plant & Chemical Engineering",text:"Which instrument is used to measure the flow rate of a liquid in a pipe using a pressure differential?",options:{A:"Orifice meter",B:"Thermocouple",C:"Manometer alone",D:"Anemometer"}},
+{id:11,section:"Process Plant & Chemical Engineering",text:"What is the main hazard associated with static electricity in a chemical plant handling flammable solvents?",options:{A:"Corrosion",B:"Mechanical fatigue",C:"Ignition of vapors",D:"Reduced flow rate"}},
+{id:12,section:"Process Plant & Chemical Engineering",text:"Which type of agitator impeller is best suited for low-viscosity liquid blending requiring high flow?",options:{A:"Anchor impeller",B:"Marine propeller / pitched blade turbine",C:"Helical ribbon",D:"Paddle at very low speed"}},
+{id:13,section:"Process Plant & Chemical Engineering",text:"What does 'HAZOP' stand for?",options:{A:"Hazard Operations Procedure",B:"Hazardous Operations Plan",C:"Hazard Optimization Process",D:"Hazard and Operability Study"}},
+{id:14,section:"Process Plant & Chemical Engineering",text:"Which of the following best describes the purpose of a rupture disc?",options:{A:"Provide a reusable pressure relief path",B:"Provide a one-time-use overpressure protection device",C:"Regulate steady-state flow",D:"Measure vessel temperature"}},
+{id:15,section:"Thermal Engineering & Refrigeration",text:"In a vapor-compression refrigeration cycle, what happens to the refrigerant's pressure as it passes through the expansion valve?",options:{A:"Remains constant",B:"Decreases",C:"Increases"}},
+{id:16,section:"Thermal Engineering & Refrigeration",text:"Which component of a refrigeration system rejects heat to the surroundings?",options:{A:"Evaporator",B:"Compressor",C:"Condenser",D:"Expansion valve"}},
+{id:17,section:"Thermal Engineering & Refrigeration",text:"What is the function of the evaporator in a refrigeration cycle?",options:{A:"Compress the refrigerant vapor",B:"Reject heat to ambient air",C:"Absorb heat from the space being cooled",D:"Reduce refrigerant pressure"}},
+{id:18,section:"Thermal Engineering & Refrigeration",text:"Which refrigeration cycle component consumes the most work input?",options:{A:"Evaporator",B:"Compressor",C:"Condenser",D:"Expansion valve"}},
+{id:19,section:"Thermal Engineering & Refrigeration",text:"How does the boiling point of a refrigerant at the evaporator pressure compare to the temperature of the space being cooled?",options:{A:"Same as the space temperature",B:"Lower than the space temperature",C:"Higher than the space temperature"}},
+{id:20,section:"Strength, Machines & Mechanical Fundamentals",text:"What is the SI unit of stress?",options:{A:"Newton",B:"Joule",C:"Pascal",D:"Watt"}},
+{id:21,section:"Strength, Machines & Mechanical Fundamentals",text:"For a beam under a given load, how does deflection generally vary with span length compared between a long span and a short span?",options:{A:"Long span deflects more",B:"Medium span deflects most",C:"Short span deflects more"}},
+{id:22,section:"Strength, Machines & Mechanical Fundamentals",text:"Which type of gear is used to transmit motion between two intersecting shafts?",options:{A:"Spur gear",B:"Helical gear",C:"Worm gear",D:"Bevel gear"}},
+{id:23,section:"Strength, Machines & Mechanical Fundamentals",text:"What does a factor of safety greater than 1 indicate in mechanical design?",options:{A:"The design strength exceeds the expected load",B:"The design is under-strength for the load",C:"The load equals the design strength exactly",D:"The material will fail immediately"}},
+{id:24,section:"Strength, Machines & Mechanical Fundamentals",text:"Which type of bearing supports both radial and axial (thrust) loads effectively?",options:{A:"Simple ball bearing (radial only)",B:"Plain journal bearing",C:"Roller bearing (radial only)",D:"Tapered roller bearing"}},
+{id:25,section:"Strength, Machines & Mechanical Fundamentals",text:"What is the primary purpose of a flywheel in a machine?",options:{A:"Increase speed fluctuation",B:"Reduce weight of the machine",C:"Store energy and smooth out speed fluctuations",D:"Increase friction losses"}},
+{id:26,section:"Strength, Machines & Mechanical Fundamentals",text:"Which coupling type is used to connect two shafts that are slightly misaligned?",options:{A:"Rigid coupling",B:"Sleeve coupling",C:"Flexible coupling",D:"Flange coupling (rigid)"}},
+{id:27,section:"Strength, Machines & Mechanical Fundamentals",text:"What is the term for the maximum stress a material can withstand before permanent deformation begins?",options:{A:"Yield strength",B:"Ultimate tensile strength",C:"Fatigue strength",D:"Modulus of elasticity"}},
+{id:28,section:"Strength, Machines & Mechanical Fundamentals",text:"Which welding defect is caused by insufficient fusion between the weld metal and base metal?",options:{A:"Lack of fusion",B:"Porosity",C:"Undercut",D:"Spatter"}},
+{id:29,section:"Strength, Machines & Mechanical Fundamentals",text:"What is the primary purpose of a key (keyway) in a shaft-hub assembly?",options:{A:"Reduce shaft weight",B:"Improve shaft surface finish",C:"Increase shaft speed",D:"Prevent relative rotation between shaft and hub"}},
+{id:30,section:"Pressure Fundamentals",text:"What is the SI unit of pressure?",options:{A:"Pascal",B:"Newton",C:"Joule",D:"Bar (only)"}}
+];
+
+/* ======================================================================
+   STATE
+   ====================================================================== */
+function getParam(name){
+  const v = new URLSearchParams(window.location.search).get(name);
+  return v ? decodeURIComponent(v) : "";
+}
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const s = JSON.parse(raw);
+      if(s && s.startTime && !s.submitted){
+        const endTime = s.startTime + TEST_DURATION_MIN*60*1000;
+        if(Date.now() < endTime) return s;
+      }
+      if(s && s.submitted) return s;
+    }
+  }catch(e){}
+  return {
+    screen:"start",
+    name:"", roll:"", college: getParam("college"), accessCode:"",
+    answers:{}, currentIndex:0,
+    startTime:null, submitted:false
+  };
+}
+
+function saveState(){
+  try{ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+let timerHandle = null;
+
+/* ======================================================================
+   RENDER
+   ====================================================================== */
+function render(){
+  const app = document.getElementById("app");
+  if(state.screen === "start") return renderStart(app);
+  if(state.screen === "test") return renderTest(app);
+  if(state.screen === "done") return renderDone(app);
+  if(state.screen === "error") return renderError(app);
+}
+
+function renderStart(app){
+  app.innerHTML = `
+    <div class="topbar">
+      <div class="brand"><b>PCCPL</b> &middot; Campus Recruitment</div>
+    </div>
+    <div class="card">
+      <h1>Mechanical &ndash; GET: Online Screening Test</h1>
+      <p class="sub">Punjab Chemical &amp; Crop Protection Ltd &mdash; Graduate Engineer Trainee (Mechanical)</p>
+      <div class="meta-row">
+        <div><b>30</b>Total Questions</div>
+        <div><b>45 min</b>Time Allowed</div>
+        <div><b>18 / 30</b>Qualifying Cutoff</div>
+        <div><b>+1</b>Per Correct, No Negative Marking</div>
+      </div>
+      <label for="f-name">Full Name</label>
+      <input type="text" id="f-name" placeholder="As per your ID / application" value="${escapeHtml(state.name)}">
+      <label for="f-roll">Roll Number</label>
+      <input type="text" id="f-roll" placeholder="e.g. 21ME045" value="${escapeHtml(state.roll)}">
+      <label for="f-college">College Name</label>
+      <input type="text" id="f-college" placeholder="Your college / institute" value="${escapeHtml(state.college)}">
+      <label for="f-code">Access Code</label>
+      <input type="text" id="f-code" placeholder="Provided by your invigilator" value="">
+      <div class="err" id="start-err"></div>
+      <div class="start-actions">
+        <button class="btn" id="start-btn">Start Test</button>
+      </div>
+      <p class="hint">Once you start, a ${TEST_DURATION_MIN}-minute timer begins and cannot be paused. Do not close or reload this tab &mdash; your progress is kept only for this browser session. The test submits automatically when time runs out.</p>
+    </div>
+  `;
+  document.getElementById("start-btn").onclick = async () => {
+    const name = document.getElementById("f-name").value.trim();
+    const roll = document.getElementById("f-roll").value.trim();
+    const college = document.getElementById("f-college").value.trim();
+    const code = document.getElementById("f-code").value.trim();
+    const errEl = document.getElementById("start-err");
+    const startBtn = document.getElementById("start-btn");
+
+    if(!name || !roll || !code){
+      errEl.textContent = "Please enter your name, roll number, and access code to begin.";
+      return;
+    }
+
+    errEl.textContent = "";
+    startBtn.disabled = true;
+    startBtn.textContent = "Verifying access code\u2026";
+
+    const check = await checkAccess(code, roll);
+
+    if(!check.valid){
+      startBtn.disabled = false;
+      startBtn.textContent = "Start Test";
+      errEl.textContent = check.reason || "Unable to verify access code. Please try again.";
+      return;
+    }
+
+    state.name = name; state.roll = roll; state.college = college; state.accessCode = code;
+    state.startTime = Date.now();
+    state.screen = "test";
+    state.currentIndex = 0;
+    saveState();
+    render();
+    startTimer();
+  };
+}
+
+/* ======================================================================
+   ACCESS CODE CHECK (JSONP — Apps Script GET responses aren't readable
+   cross-origin via normal fetch, so we use a <script> tag callback instead)
+   ====================================================================== */
+function checkAccess(code, roll){
+  return attemptAccessCheck(code, roll, true);
+}
+
+function attemptAccessCheck(code, roll, allowRetry){
+  return new Promise((resolve) => {
+    if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === 0){
+      resolve({valid:false, reason:"Backend not configured yet."});
+      return;
+    }
+    const cbName = "accessCheckCb_" + Date.now() + "_" + Math.floor(Math.random()*10000);
+    let settled = false;
+    const cleanup = () => {
+      delete window[cbName];
+      if(scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
+    };
+    const finish = async (result) => {
+      if(settled) return;
+      settled = true;
+      cleanup();
+      if(!result.valid && allowRetry && /reach the server|too long/i.test(result.reason || "")){
+        // First attempt failed to reach the server (common on slow mobile
+        // networks / a "cold" Apps Script response) — retry once silently.
+        resolve(await attemptAccessCheck(code, roll, false));
+      } else {
+        resolve(result);
+      }
+    };
+    window[cbName] = (result) => { finish(result); };
+    const scriptEl = document.createElement("script");
+    scriptEl.src = APPS_SCRIPT_URL
+      + "?action=checkAccess"
+      + "&code=" + encodeURIComponent(code)
+      + "&roll=" + encodeURIComponent(roll)
+      + "&testType=" + encodeURIComponent(TEST_TYPE)
+      + "&callback=" + cbName;
+    scriptEl.onerror = () => {
+      finish({valid:false, reason:"Could not reach the server. Check your internet connection and try again."});
+    };
+    document.body.appendChild(scriptEl);
+    setTimeout(() => {
+      finish({valid:false, reason:"Server took too long to respond. Please try again."});
+    }, 20000);
+  });
+}
+
+function renderTest(app){
+  const q = QUESTIONS[state.currentIndex];
+  const answeredCount = Object.keys(state.answers).length;
+  const isLast = state.currentIndex === QUESTIONS.length - 1;
+
+  const ticks = QUESTIONS.map((qq,i) => {
+    let cls = "progress-tick";
+    if(state.answers[qq.id]) cls += " answered";
+    if(i === state.currentIndex) cls += " current";
+    return `<div class="${cls}"></div>`;
+  }).join("");
+
+  const optionsHtml = Object.keys(q.options).map(letter => {
+    const selected = state.answers[q.id] === letter;
+    return `
+      <div class="option${selected?' selected':''}" data-letter="${letter}">
+        <div class="mark">${letter}</div>
+        <div class="otext">${escapeHtml(q.options[letter])}</div>
+      </div>`;
+  }).join("");
+
+  const paletteHtml = QUESTIONS.map((qq,i) => {
+    let cls = "pcell";
+    if(state.answers[qq.id]) cls += " answered";
+    if(i === state.currentIndex) cls += " current";
+    return `<div class="${cls}" data-jump="${i}">${qq.id}</div>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="topbar">
+      <div class="brand"><b>${escapeHtml(state.name)}</b> &middot; Roll ${escapeHtml(state.roll)}</div>
+      <div class="timer mono" id="timer-display">--:--</div>
+    </div>
+    <div class="progress-track">${ticks}</div>
+    <div class="card">
+      <div class="section-label">${q.section}</div>
+      <div class="qcount">Question ${state.currentIndex+1} of ${QUESTIONS.length} &middot; ${answeredCount} answered</div>
+      <p class="qtext">${escapeHtml(q.text)}</p>
+      <div class="options">${optionsHtml}</div>
+      <div class="actions">
+        <button class="btn ghost" id="prev-btn" ${state.currentIndex===0?'disabled':''}>Previous</button>
+        <div class="right">
+          ${isLast
+            ? `<button class="btn" id="submit-btn">Submit Test</button>`
+            : `<button class="btn" id="next-btn">Next</button>`}
+        </div>
+      </div>
+      <div class="palette">${paletteHtml}</div>
+    </div>
+  `;
+
+  app.querySelectorAll(".option").forEach(el => {
+    el.onclick = () => {
+      state.answers[q.id] = el.getAttribute("data-letter");
+      saveState();
+      renderTest(app);
+    };
+  });
+  app.querySelectorAll("[data-jump]").forEach(el => {
+    el.onclick = () => {
+      state.currentIndex = parseInt(el.getAttribute("data-jump"),10);
+      saveState();
+      renderTest(app);
+    };
+  });
+  const prevBtn = document.getElementById("prev-btn");
+  if(prevBtn) prevBtn.onclick = () => {
+    state.currentIndex = Math.max(0, state.currentIndex-1);
+    saveState(); renderTest(app);
+  };
+  const nextBtn = document.getElementById("next-btn");
+  if(nextBtn) nextBtn.onclick = () => {
+    state.currentIndex = Math.min(QUESTIONS.length-1, state.currentIndex+1);
+    saveState(); renderTest(app);
+  };
+  const submitBtn = document.getElementById("submit-btn");
+  if(submitBtn) submitBtn.onclick = () => {
+    const unanswered = QUESTIONS.length - Object.keys(state.answers).length;
+    if(unanswered > 0){
+      if(!confirm(unanswered + " question(s) are still unanswered. Submit anyway?")) return;
+    }
+    submitTest(false);
+  };
+
+  updateTimerDisplay();
+}
+
+function renderDone(app){
+  app.innerHTML = `
+    <div class="topbar"><div class="brand"><b>PCCPL</b> &middot; Campus Recruitment</div></div>
+    <div class="card" style="text-align:center;">
+      <div class="done-icon">&#9679;</div>
+      <h1>Test submitted</h1>
+      <p class="sub">Thank you, ${escapeHtml(state.name)}. Your responses for the Mechanical GET screening test have been recorded.</p>
+      <p class="hint">You may close this tab now. Results and next steps will be communicated by the placement/HR team.</p>
+      <p class="hint" style="margin-top:20px;"><a href="https://pharmacheme.in" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600;text-decoration:none;">Visit pharmacheme.in &rarr;</a></p>
+    </div>
+  `;
+}
+
+function renderError(app){
+  app.innerHTML = `
+    <div class="topbar"><div class="brand"><b>PCCPL</b> &middot; Campus Recruitment</div></div>
+    <div class="card" style="text-align:center;">
+      <div class="done-icon">&#9888;</div>
+      <h1>Submission did not go through</h1>
+      <p class="sub">Your answers are still saved on this device. Please check your internet connection and retry, or inform the invigilator.</p>
+      <button class="btn" id="retry-btn" style="margin-top:10px;">Retry Submission</button>
+    </div>
+  `;
+  document.getElementById("retry-btn").onclick = () => submitTest(state.pendingAutoSubmit || false);
+}
+
+function escapeHtml(s){
+  return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+/* ======================================================================
+   TIMER
+   ====================================================================== */
+function startTimer(){
+  if(timerHandle) clearInterval(timerHandle);
+  timerHandle = setInterval(updateTimerDisplay, 1000);
+  window.addEventListener("beforeunload", beforeUnloadHandler);
+}
+
+function beforeUnloadHandler(e){
+  if(state.screen === "test"){ e.preventDefault(); e.returnValue = ""; }
+}
+
+function updateTimerDisplay(){
+  if(state.screen !== "test" || !state.startTime) return;
+  const endTime = state.startTime + TEST_DURATION_MIN*60*1000;
+  const remainingMs = endTime - Date.now();
+  const el = document.getElementById("timer-display");
+  if(remainingMs <= 0){
+    if(el) el.textContent = "00:00";
+    clearInterval(timerHandle);
+    submitTest(true);
+    return;
+  }
+  const totalSec = Math.floor(remainingMs/1000);
+  const mm = String(Math.floor(totalSec/60)).padStart(2,"0");
+  const ss = String(totalSec%60).padStart(2,"0");
+  if(el){
+    el.textContent = mm+":"+ss;
+    el.className = "timer mono";
+    if(totalSec <= 120) el.className += " danger";
+    else if(totalSec <= 300) el.className += " warn";
+  }
+}
+
+/* ======================================================================
+   SUBMIT
+   ====================================================================== */
+let submitting = false;
+
+async function submitTest(autoSubmitted){
+  if(submitting) return;
+  submitting = true;
+  state.pendingAutoSubmit = autoSubmitted;
+
+  const timeTakenSeconds = state.startTime ? Math.round((Date.now()-state.startTime)/1000) : "";
+  const payload = {
+    name: state.name,
+    rollNumber: state.roll,
+    college: state.college,
+    accessCode: state.accessCode || "",
+    testType: TEST_TYPE,
+    answers: JSON.stringify(state.answers),
+    timeTakenSeconds: String(timeTakenSeconds),
+    autoSubmitted: String(!!autoSubmitted)
+  };
+
+  try{
+    if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === 0){
+      throw new Error("Backend URL not configured");
+    }
+    await fetch(APPS_SCRIPT_URL, {
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body: new URLSearchParams(payload)
+    });
+    state.submitted = true;
+    state.screen = "done";
+    submitting = false;
+    window.removeEventListener("beforeunload", beforeUnloadHandler);
+    if(timerHandle) clearInterval(timerHandle);
+    saveState();
+    render();
+  }catch(err){
+    submitting = false;
+    state.screen = "error";
+    saveState();
+    render();
+  }
+}
+
+/* ======================================================================
+   INIT
+   ====================================================================== */
+render();
+if(state.screen === "test") startTimer();
+</script>
+</body>
+</html>
