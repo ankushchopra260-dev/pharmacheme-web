@@ -316,7 +316,7 @@ function loadState(){
   }catch(e){}
   return {
     screen:"start",
-    name:"", roll:"", college: getParam("college"),
+    name:"", roll:"", college: getParam("college"), accessCode:"",
     answers:{}, currentIndex:0,
     startTime:null, submitted:false
   };
@@ -359,6 +359,8 @@ function renderStart(app){
       <input type="text" id="f-roll" placeholder="e.g. 21ME045" value="${escapeHtml(state.roll)}">
       <label for="f-college">College Name</label>
       <input type="text" id="f-college" placeholder="Your college / institute" value="${escapeHtml(state.college)}">
+      <label for="f-code">Access Code</label>
+      <input type="text" id="f-code" placeholder="Provided by your invigilator" value="">
       <div class="err" id="start-err"></div>
       <div class="start-actions">
         <button class="btn" id="start-btn">Start Test</button>
@@ -366,15 +368,33 @@ function renderStart(app){
       <p class="hint">Once you start, a 60-minute timer begins and cannot be paused. Do not close or reload this tab &mdash; your progress is kept only for this browser session. The test submits automatically when time runs out.</p>
     </div>
   `;
-  document.getElementById("start-btn").onclick = () => {
+  document.getElementById("start-btn").onclick = async () => {
     const name = document.getElementById("f-name").value.trim();
     const roll = document.getElementById("f-roll").value.trim();
     const college = document.getElementById("f-college").value.trim();
-    if(!name || !roll){
-      document.getElementById("start-err").textContent = "Please enter your name and roll number to begin.";
+    const code = document.getElementById("f-code").value.trim();
+    const errEl = document.getElementById("start-err");
+    const startBtn = document.getElementById("start-btn");
+
+    if(!name || !roll || !code){
+      errEl.textContent = "Please enter your name, roll number, and access code to begin.";
       return;
     }
-    state.name = name; state.roll = roll; state.college = college;
+
+    errEl.textContent = "";
+    startBtn.disabled = true;
+    startBtn.textContent = "Checking\u2026";
+
+    const check = await checkAccess(code, roll);
+
+    if(!check.valid){
+      startBtn.disabled = false;
+      startBtn.textContent = "Start Test";
+      errEl.textContent = check.reason || "Unable to verify access code. Please try again.";
+      return;
+    }
+
+    state.name = name; state.roll = roll; state.college = college; state.accessCode = code;
     state.startTime = Date.now();
     state.screen = "test";
     state.currentIndex = 0;
@@ -382,6 +402,50 @@ function renderStart(app){
     render();
     startTimer();
   };
+}
+
+/* ======================================================================
+   ACCESS CODE CHECK (JSONP — Apps Script GET responses aren't readable
+   cross-origin via normal fetch, so we use a <script> tag callback instead)
+   ====================================================================== */
+function checkAccess(code, roll){
+  return new Promise((resolve) => {
+    if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === 0){
+      resolve({valid:false, reason:"Backend not configured yet."});
+      return;
+    }
+    const cbName = "accessCheckCb_" + Date.now();
+    let settled = false;
+    const cleanup = () => {
+      delete window[cbName];
+      if(scriptEl.parentNode) scriptEl.parentNode.removeChild(scriptEl);
+    };
+    window[cbName] = (result) => {
+      if(settled) return;
+      settled = true;
+      cleanup();
+      resolve(result);
+    };
+    const scriptEl = document.createElement("script");
+    scriptEl.src = APPS_SCRIPT_URL
+      + "?action=checkAccess"
+      + "&code=" + encodeURIComponent(code)
+      + "&roll=" + encodeURIComponent(roll)
+      + "&callback=" + cbName;
+    scriptEl.onerror = () => {
+      if(settled) return;
+      settled = true;
+      cleanup();
+      resolve({valid:false, reason:"Could not reach the server. Check your internet connection and try again."});
+    };
+    document.body.appendChild(scriptEl);
+    setTimeout(() => {
+      if(settled) return;
+      settled = true;
+      cleanup();
+      resolve({valid:false, reason:"Server took too long to respond. Please try again."});
+    }, 10000);
+  });
 }
 
 function renderTest(app){
@@ -550,6 +614,7 @@ async function submitTest(autoSubmitted){
     name: state.name,
     rollNumber: state.roll,
     college: state.college,
+    accessCode: state.accessCode || "",
     answers: JSON.stringify(state.answers),
     timeTakenSeconds: String(timeTakenSeconds),
     autoSubmitted: String(!!autoSubmitted)
