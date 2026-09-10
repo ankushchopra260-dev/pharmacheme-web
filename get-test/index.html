@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCCPL &middot; GET Operations Recruitment Test</title>
+<style>
+  :root{
+    --ink:#20302f;
+    --ink-soft:#4a5c5a;
+    --paper:#f4f0e6;
+    --panel:#fffdf8;
+    --line:#d9d2bd;
+    --rust:#9c4a22;
+    --rust-dark:#7c3a1a;
+    --teal:#2c5a54;
+    --teal-soft:#e4ece9;
+    --amber:#b3791f;
+    --alert:#a53324;
+    --alert-soft:#f6e2de;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;}
+  .app{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:28px 16px 60px;
+  }
+  .topbar{
+    width:100%;
+    max-width:640px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:18px;
+  }
+  .brand{
+    font-size:13px;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+  }
+  .brand b{color:var(--ink);}
+  .timer{
+    font-size:20px;
+    font-weight:600;
+    padding:4px 10px;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    background:var(--panel);
+  }
+  .timer.warn{color:var(--amber);border-color:var(--amber);}
+  .timer.danger{color:var(--alert);border-color:var(--alert);}
+  .card{
+    width:100%;
+    max-width:640px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px;
+  }
+  h1{
+    font-size:22px;
+    margin:0 0 6px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 22px;
+  }
+  .meta-row{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin:0 0 24px;
+    padding:14px 16px;
+    background:var(--teal-soft);
+    border-left:3px solid var(--teal);
+    font-size:13px;
+    color:var(--ink);
+  }
+  .meta-row div b{display:block;font-size:15px;}
+  label{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:16px 0 5px;
+  }
+  input[type=text]{
+    width:100%;
+    padding:11px 12px;
+    font-size:15px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:#fff;
+    color:var(--ink);
+    font-family:inherit;
+  }
+  input[type=text]:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal);}
+  .btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+    padding:12px 22px;
+    border-radius:var(--radius);
+    background:var(--rust);
+    color:#fff9f2;
+    transition:background .12s ease;
+  }
+  .btn:hover:not(:disabled){background:var(--rust-dark);}
+  .btn:disabled{background:#c8c0ab;cursor:not-allowed;}
+  .btn.ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--line);
+  }
+  .btn.ghost:hover:not(:disabled){border-color:var(--ink);}
+  .actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px;}
+  .actions .right{display:flex;gap:10px;}
+  .start-actions{margin-top:26px;}
+  .err{color:var(--alert);font-size:13px;margin-top:10px;min-height:16px;}
+
+  .progress-track{
+    width:100%;max-width:640px;
+    display:flex;gap:3px;margin-bottom:20px;
+  }
+  .progress-tick{flex:1;height:4px;background:var(--line);}
+  .progress-tick.answered{background:var(--teal);}
+  .progress-tick.current{background:var(--rust);}
+
+  .section-label{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--teal);
+    margin-bottom:6px;
+    font-weight:600;
+  }
+  .qcount{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .qtext{
+    font-size:18px;
+    font-weight:600;
+    line-height:1.45;
+    margin:0 0 22px;
+  }
+  .options{display:flex;flex-direction:column;gap:9px;}
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:13px 14px;
+    border:1px solid var(--line);
+    border-left:3px solid var(--line);
+    border-radius:var(--radius);
+    cursor:pointer;
+    background:#fff;
+  }
+  .option:hover{border-left-color:var(--teal);}
+  .option.selected{
+    border-left-color:var(--rust);
+    background:#fbf3ec;
+  }
+  .option .mark{
+    width:20px;height:20px;flex:none;
+    border:1.5px solid var(--ink-soft);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:var(--ink-soft);
+    margin-top:1px;
+  }
+  .option.selected .mark{
+    background:var(--rust);border-color:var(--rust);color:#fff;
+  }
+  .option .otext{font-size:15px;}
+
+  .palette{
+    display:grid;
+    grid-template-columns:repeat(10,1fr);
+    gap:5px;
+    margin-top:26px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .pcell{
+    aspect-ratio:1;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    color:var(--ink-soft);
+    background:#fff;
+    cursor:pointer;
+  }
+  .pcell.answered{background:var(--teal-soft);border-color:var(--teal);color:var(--teal);}
+  .pcell.current{border-color:var(--rust);color:var(--rust);font-weight:700;}
+
+  .done-icon{font-size:34px;margin-bottom:12px;}
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:14px;}
+
+  @media (max-width:480px){
+    .card{padding:22px 18px;}
+    .qtext{font-size:16.5px;}
+    .palette{grid-template-columns:repeat(8,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+/* ======================================================================
+   CONFIG — paste your deployed Apps Script Web App URL below once ready.
+   ====================================================================== */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPYU5s9OReUutgzG29SKNenS9MgVnv7rnyiJYShhG_3vh18QOhkyZQiYOxDj_-O9vUhg/exec";
+const TEST_DURATION_MIN = 60;
+const STORAGE_KEY = "pccpl_get_test_v1";
+
+/* ======================================================================
+   QUESTIONS — text + options only. Correct answers are NOT stored here;
+   scoring happens server-side in Apps Script against the master key.
+   ====================================================================== */
+const QUESTIONS = [
+{id:1,section:"Basic",text:"What is the SI unit of dynamic viscosity?",options:{A:"Pascal-second (Pa\u00b7s)",B:"Poise",C:"Stokes",D:"m\u00b2/s"}},
+{id:2,section:"Basic",text:"Which parameter remains constant during an isothermal process?",options:{A:"Pressure",B:"Volume",C:"Temperature",D:"Enthalpy"}},
+{id:3,section:"Basic",text:"What does a rotameter measure?",options:{A:"Fluid density",B:"Volumetric flow rate",C:"Fluid pressure",D:"Dynamic viscosity"}},
+{id:4,section:"Basic",text:"Which of the following is an intensive property?",options:{A:"Total Volume",B:"Total Mass",C:"Density",D:"Total Enthalpy"}},
+{id:5,section:"Basic",text:"What is the primary mode of heat transfer in solid metals?",options:{A:"Convection",B:"Conduction",C:"Radiation",D:"Advection"}},
+{id:6,section:"Basic",text:"What is the molecular weight of water (approximate)?",options:{A:"16 g/mol",B:"18 g/mol",C:"32 g/mol",D:"2 g/mol"}},
+{id:7,section:"Basic",text:"Bernoulli's equation is a statement of conservation of what?",options:{A:"Mass",B:"Momentum",C:"Energy",D:"Angular momentum"}},
+{id:8,section:"Basic",text:"What is the pH of pure water at 25\u00b0C?",options:{A:"0",B:"7",C:"14",D:"1"}},
+{id:9,section:"Basic",text:"Which dimensionless number relates inertial forces to viscous forces?",options:{A:"Nusselt number",B:"Prandtl number",C:"Reynolds number",D:"Schmidt number"}},
+{id:10,section:"Basic",text:"What is the value of standard atmospheric pressure in kPa?",options:{A:"101.325 kPa",B:"14.7 kPa",C:"1.013 kPa",D:"760 kPa"}},
+{id:11,section:"Basic",text:"Which instrument is typically used to measure high temperatures in a furnace?",options:{A:"Mercury thermometer",B:"Bimetallic strip",C:"Pyrometer / Thermocouple",D:"Barometer"}},
+{id:12,section:"Basic",text:"What is the main component of Natural Gas?",options:{A:"Ethane",B:"Propane",C:"Methane",D:"Butane"}},
+{id:13,section:"Basic",text:"A catalyst alters which of the following in a chemical reaction?",options:{A:"Equilibrium constant",B:"Activation energy",C:"Total enthalpy change",D:"Gibbs free energy change"}},
+{id:14,section:"Basic",text:"What happens to the viscosity of a gas as temperature increases?",options:{A:"Decreases",B:"Increases",C:"Remains constant",D:"First increases then drops"}},
+{id:15,section:"Basic",text:"Which law states that pressure is inversely proportional to volume at constant temperature?",options:{A:"Charle's Law",B:"Boyle's Law",C:"Gay-Lussac's Law",D:"Dalton's Law"}},
+{id:16,section:"Basic",text:"What type of pump is a centrifugal pump?",options:{A:"Positive displacement pump",B:"Kinetic / Dynamic pump",C:"Reciprocating pump",D:"Gear pump"}},
+{id:17,section:"Basic",text:"What is the term for a solution that cannot dissolve any more solute at a given temperature?",options:{A:"Unsaturated solution",B:"Supersaturated solution",C:"Saturated solution",D:"Dilute solution"}},
+{id:18,section:"Basic",text:"Which thermodynamic cycle is considered the most efficient ideal cycle?",options:{A:"Rankine cycle",B:"Carnot cycle",C:"Otto cycle",D:"Diesel cycle"}},
+{id:19,section:"Basic",text:"What does a high Prandtl number indicate about a fluid?",options:{A:"Thermal diffusivity dominates",B:"Momentum diffusivity dominates",C:"Mass diffusivity dominates",D:"Forces are perfectly balanced"}},
+{id:20,section:"Basic",text:"What unit is used to express the concentration of a solution as moles of solute per liter of solution?",options:{A:"Molality",B:"Normality",C:"Molarity",D:"Mole fraction"}},
+{id:21,section:"Basic",text:"Which equipment is standard for separating solid particles from a gas stream using centrifugal force?",options:{A:"Filter press",B:"Cyclone separator",C:"Electrostatic precipitator",D:"Sedimentation tank"}},
+{id:22,section:"Basic",text:"What is the color of a universal indicator in a strongly acidic solution?",options:{A:"Blue",B:"Green",C:"Yellow",D:"Red"}},
+{id:23,section:"Basic",text:"In fluid flow, what does a friction factor quantify?",options:{A:"Fluid velocity",B:"Pressure loss due to rough walls/viscosity",C:"Fluid density change",D:"Pipe diameter expansion"}},
+{id:24,section:"Basic",text:"What is the universal gas constant (R) value in J/(mol\u00b7K)?",options:{A:"8.314",B:"0.0821",C:"1.987",D:"62.36"}},
+{id:25,section:"Basic",text:"Which thermal heat transfer mechanism does not require a physical medium?",options:{A:"Conduction",B:"Convection",C:"Radiation",D:"Evaporation"}},
+{id:26,section:"Core Operations",text:"Which operational phenomenon occurs in a distillation column when the vapor flow rate is high enough to hold up liquid in the downcomer?",options:{A:"Weeping",B:"Channelling",C:"Flooding",D:"Entrainment"}},
+{id:27,section:"Core Operations",text:"To prevent cavitation in an operational centrifugal pump, what condition must be satisfied?",options:{A:"NPSH Available > NPSH Required",B:"NPSH Required > NPSH Available",C:"NPSH Available = 0",D:"Discharge valve must be fully closed"}},
+{id:28,section:"Core Operations",text:"Which pump type is highly preferred for handling highly viscous hazardous fluids or dosing operations in chemical plants?",options:{A:"Centrifugal pump",B:"Positive displacement pump (e.g., Gear/Diaphragm)",C:"Axial flow pump",D:"Ejector system"}},
+{id:29,section:"Core Operations",text:"What type of reactor offers the highest conversion per unit volume for a simple positive-order isothermal reaction?",options:{A:"Plug Flow Reactor (PFR)",B:"Continuous Stirred Tank Reactor (CSTR)",C:"Batch Reactor with slow cooling",D:"Fluidized Bed Reactor"}},
+{id:30,section:"Core Operations",text:"In a shell-and-tube heat exchanger, why are baffles primarily installed on the shell side?",options:{A:"To decrease pressure drop",B:"To support tubes and induce turbulence for higher heat transfer",C:"To prevent corrosion",D:"To streamline the fluid flow parallel to tubes"}},
+{id:31,section:"Core Operations",text:"What operational adjustment is made when a distillation column experiences 'weeping'?",options:{A:"Increase the liquid reflux rate",B:"Increase the vapor flow rate / reboiler heat load",C:"Decrease the feed temperature",D:"Lower the column top pressure"}},
+{id:32,section:"Core Operations",text:"For an exothermic chemical reaction operating in a CSTR, what happens if the cooling water flow fails?",options:{A:"Reaction rate drops to zero",B:"Thermal runaway occurs due to rising temperature",C:"Conversion increases safely",D:"Pressure instantly drops"}},
+{id:33,section:"Core Operations",text:"Which component of a standard PID controller helps eliminate steady-state offset error?",options:{A:"Proportional action (P)",B:"Integral action (I)",C:"Derivative action (D)",D:"Bias tracker"}},
+{id:34,section:"Core Operations",text:"What is the primary target parameter controlled by a reflux ratio adjustment in an industrial distillation column?",options:{A:"Reboiler level",B:"Top product composition/purity",C:"Feed flow rate",D:"Bottom stream pressure"}},
+{id:35,section:"Core Operations",text:"In gas absorption operations, what does the term 'flooding velocity' represent?",options:{A:"The minimum liquid rate to wet packing",B:"The maximum vapor velocity above which liquid accumulates on packing",C:"The feed velocity entering the absorber",D:"The velocity of liquid leaving the bottom column"}},
+{id:36,section:"Core Operations",text:"Which parameter describes the ease with which a component can be separated via distillation?",options:{A:"Relative volatility",B:"Distribution coefficient",C:"Selectivity",D:"Activity coefficient"}},
+{id:37,section:"Core Operations",text:"Why should a positive displacement pump never be operated with its discharge valve completely closed?",options:{A:"It will cause severe cavitation",B:"It will lead to a rapid, dangerous pressure build-up and mechanical failure",C:"The motor will spin freely without drawing power",D:"The fluid will flow backwards through the suction"}},
+{id:38,section:"Core Operations",text:"Which parameter remains constant during a throttling process across a control valve?",options:{A:"Entropy",B:"Enthalpy",C:"Temperature",D:"Internal energy"}},
+{id:39,section:"Core Operations",text:"What does it indicate if the Gibbs Free Energy change (\u0394G) of a reaction is negative?",options:{A:"The reaction is non-spontaneous",B:"The reaction is at equilibrium",C:"The reaction is spontaneous",D:"The reaction is endothermic"}},
+{id:40,section:"Core Operations",text:"In cooling tower operations, what is the absolute lowest temperature to which water can theoretically be cooled?",options:{A:"Dry-bulb temperature",B:"Wet-bulb temperature",C:"Dew point temperature",D:"Ambient temperature"}},
+{id:41,section:"Core Operations",text:"What is the main operational purpose of using a multi-stage compressor with interstage cooling?",options:{A:"To increase gas density dramatically",B:"To save compression work/power and control outlet temperature",C:"To eliminate the need for lubrication",D:"To separate mixed gases"}},
+{id:42,section:"Core Operations",text:"Which filtration equipment operates continuously under a vacuum for high throughput slurries?",options:{A:"Plate and frame filter press",B:"Rotary drum vacuum filter",C:"Leaf filter",D:"Sand bed filter"}},
+{id:43,section:"Core Operations",text:"What does 'LMTD correction factor' account for in heat exchanger design and operations?",options:{A:"Fouling layer accumulation",B:"Deviations from true counter-current flow (e.g., multi-pass configurations)",C:"Fluid properties variance with temperature",D:"Tube wall thickness variations"}},
+{id:44,section:"Core Operations",text:"If a control valve is designated as 'Air-to-Open' (Fail-Closed), what happens when the instrument air supply fails entirely?",options:{A:"The valve fully opens",B:"The valve remains in its last position",C:"The valve closes completely to ensure safety",D:"The valve cycles rapidly"}},
+{id:45,section:"Core Operations",text:"What does the McCabe-Thiele method assume to simplify distillation column calculations?",options:{A:"Constant molar overflow",B:"Constant temperature on all plates",C:"Zero pressure drop throughout the column",D:"Perfect gas behavior at high pressure"}},
+{id:46,section:"Core Operations",text:"Which type of crystallization operation relies primarily on removing solvent to create supersaturation?",options:{A:"Cooling crystallization",B:"Evaporative crystallization",C:"Vacuum flash crystallization",D:"Precipitation"}},
+{id:47,section:"Core Operations",text:"In reactor kinetics, what does the Arrhenius equation describe?",options:{A:"The effect of pressure on reaction rate",B:"The temperature dependence of the reaction rate constant",C:"The relationship between concentration and conversion",D:"The volume requirements of ideal reactors"}},
+{id:48,section:"Core Operations",text:"What is the core purpose of a steam trap installed on process steam lines?",options:{A:"To regulate steam pressure",B:"To discharge condensate and non-condensable gases without letting steam escape",C:"To superheat the steam",D:"To mix air with steam"}},
+{id:49,section:"Core Operations",text:"Which mass transfer operation is used to separate components of a liquid mixture using a liquid solvent?",options:{A:"Gas absorption",B:"Stripping",C:"Liquid-liquid extraction",D:"Leaching"}},
+{id:50,section:"Core Operations",text:"What does 'fouling factor' represent in heat exchanger operation over time?",options:{A:"Increased mechanical stability",B:"Thermal resistance introduced by scales, rust, or deposits on tube surfaces",C:"Fluid velocity drop across shell side",D:"Optimal heat transfer rate improvement"}}
+];
+
+/* ======================================================================
+   STATE
+   ====================================================================== */
+function getParam(name){
+  const v = new URLSearchParams(window.location.search).get(name);
+  return v ? decodeURIComponent(v) : "";
+}
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const s = JSON.parse(raw);
+      if(s && s.startTime && !s.submitted){
+        const endTime = s.startTime + TEST_DURATION_MIN*60*1000;
+        if(Date.now() < endTime) return s;
+      }
+      if(s && s.submitted) return s;
+    }
+  }catch(e){}
+  return {
+    screen:"start",
+    name:"", roll:"", college: getParam("college"),
+    answers:{}, currentIndex:0,
+    startTime:null, submitted:false
+  };
+}
+
+function saveState(){
+  try{ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+let timerHandle = null;
+
+/* ======================================================================
+   RENDER
+   ====================================================================== */
+function render(){
+  const app = document.getElementById("app");
+  if(state.screen === "start") return renderStart(app);
+  if(state.screen === "test") return renderTest(app);
+  if(state.screen === "done") return renderDone(app);
+  if(state.screen === "error") return renderError(app);
+}
+
+function renderStart(app){
+  app.innerHTML = `
+    <div class="topbar">
+      <div class="brand"><b>PCCPL</b> &middot; Campus Recruitment</div>
+    </div>
+    <div class="card">
+      <h1>GET &ndash; Operations: Online Screening Test</h1>
+      <p class="sub">Punjab Chemical &amp; Crop Protection Ltd &mdash; Graduate Engineer Trainee (Operations)</p>
+      <div class="meta-row">
+        <div><b>50</b>Total Questions</div>
+        <div><b>60 min</b>Time Allowed</div>
+        <div><b>30 / 50</b>Qualifying Cutoff</div>
+        <div><b>+1</b>Per Correct, No Negative Marking</div>
+      </div>
+      <label for="f-name">Full Name</label>
+      <input type="text" id="f-name" placeholder="As per your ID / application" value="${escapeHtml(state.name)}">
+      <label for="f-roll">Roll Number</label>
+      <input type="text" id="f-roll" placeholder="e.g. 21ME045" value="${escapeHtml(state.roll)}">
+      <label for="f-college">College Name</label>
+      <input type="text" id="f-college" placeholder="Your college / institute" value="${escapeHtml(state.college)}">
+      <div class="err" id="start-err"></div>
+      <div class="start-actions">
+        <button class="btn" id="start-btn">Start Test</button>
+      </div>
+      <p class="hint">Once you start, a 60-minute timer begins and cannot be paused. Do not close or reload this tab &mdash; your progress is kept only for this browser session. The test submits automatically when time runs out.</p>
+    </div>
+  `;
+  document.getElementById("start-btn").onclick = () => {
+    const name = document.getElementById("f-name").value.trim();
+    const roll = document.getElementById("f-roll").value.trim();
+    const college = document.getElementById("f-college").value.trim();
+    if(!name || !roll){
+      document.getElementById("start-err").textContent = "Please enter your name and roll number to begin.";
+      return;
+    }
+    state.name = name; state.roll = roll; state.college = college;
+    state.startTime = Date.now();
+    state.screen = "test";
+    state.currentIndex = 0;
+    saveState();
+    render();
+    startTimer();
+  };
+}
+
+function renderTest(app){
+  const q = QUESTIONS[state.currentIndex];
+  const answeredCount = Object.keys(state.answers).length;
+  const isLast = state.currentIndex === QUESTIONS.length - 1;
+
+  const ticks = QUESTIONS.map((qq,i) => {
+    let cls = "progress-tick";
+    if(state.answers[qq.id]) cls += " answered";
+    if(i === state.currentIndex) cls += " current";
+    return `<div class="${cls}"></div>`;
+  }).join("");
+
+  const optionsHtml = ["A","B","C","D"].map(letter => {
+    const selected = state.answers[q.id] === letter;
+    return `
+      <div class="option${selected?' selected':''}" data-letter="${letter}">
+        <div class="mark">${letter}</div>
+        <div class="otext">${escapeHtml(q.options[letter])}</div>
+      </div>`;
+  }).join("");
+
+  const paletteHtml = QUESTIONS.map((qq,i) => {
+    let cls = "pcell";
+    if(state.answers[qq.id]) cls += " answered";
+    if(i === state.currentIndex) cls += " current";
+    return `<div class="${cls}" data-jump="${i}">${qq.id}</div>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="topbar">
+      <div class="brand"><b>${escapeHtml(state.name)}</b> &middot; Roll ${escapeHtml(state.roll)}</div>
+      <div class="timer mono" id="timer-display">--:--</div>
+    </div>
+    <div class="progress-track">${ticks}</div>
+    <div class="card">
+      <div class="section-label">${q.section}</div>
+      <div class="qcount">Question ${state.currentIndex+1} of ${QUESTIONS.length} &middot; ${answeredCount} answered</div>
+      <p class="qtext">${escapeHtml(q.text)}</p>
+      <div class="options">${optionsHtml}</div>
+      <div class="actions">
+        <button class="btn ghost" id="prev-btn" ${state.currentIndex===0?'disabled':''}>Previous</button>
+        <div class="right">
+          ${isLast
+            ? `<button class="btn" id="submit-btn">Submit Test</button>`
+            : `<button class="btn" id="next-btn">Next</button>`}
+        </div>
+      </div>
+      <div class="palette">${paletteHtml}</div>
+    </div>
+  `;
+
+  app.querySelectorAll(".option").forEach(el => {
+    el.onclick = () => {
+      state.answers[q.id] = el.getAttribute("data-letter");
+      saveState();
+      renderTest(app);
+    };
+  });
+  app.querySelectorAll("[data-jump]").forEach(el => {
+    el.onclick = () => {
+      state.currentIndex = parseInt(el.getAttribute("data-jump"),10);
+      saveState();
+      renderTest(app);
+    };
+  });
+  const prevBtn = document.getElementById("prev-btn");
+  if(prevBtn) prevBtn.onclick = () => {
+    state.currentIndex = Math.max(0, state.currentIndex-1);
+    saveState(); renderTest(app);
+  };
+  const nextBtn = document.getElementById("next-btn");
+  if(nextBtn) nextBtn.onclick = () => {
+    state.currentIndex = Math.min(QUESTIONS.length-1, state.currentIndex+1);
+    saveState(); renderTest(app);
+  };
+  const submitBtn = document.getElementById("submit-btn");
+  if(submitBtn) submitBtn.onclick = () => {
+    const unanswered = QUESTIONS.length - Object.keys(state.answers).length;
+    if(unanswered > 0){
+      if(!confirm(unanswered + " question(s) are still unanswered. Submit anyway?")) return;
+    }
+    submitTest(false);
+  };
+
+  updateTimerDisplay();
+}
+
+function renderDone(app){
+  app.innerHTML = `
+    <div class="topbar"><div class="brand"><b>PCCPL</b> &middot; Campus Recruitment</div></div>
+    <div class="card" style="text-align:center;">
+      <div class="done-icon">&#9679;</div>
+      <h1>Test submitted</h1>
+      <p class="sub">Thank you, ${escapeHtml(state.name)}. Your responses for the GET &ndash; Operations screening test have been recorded.</p>
+      <p class="hint">You may close this tab now. Results and next steps will be communicated by the placement/HR team.</p>
+    </div>
+  `;
+}
+
+function renderError(app){
+  app.innerHTML = `
+    <div class="topbar"><div class="brand"><b>PCCPL</b> &middot; Campus Recruitment</div></div>
+    <div class="card" style="text-align:center;">
+      <div class="done-icon">&#9888;</div>
+      <h1>Submission did not go through</h1>
+      <p class="sub">Your answers are still saved on this device. Please check your internet connection and retry, or inform the invigilator.</p>
+      <button class="btn" id="retry-btn" style="margin-top:10px;">Retry Submission</button>
+    </div>
+  `;
+  document.getElementById("retry-btn").onclick = () => submitTest(state.pendingAutoSubmit || false);
+}
+
+function escapeHtml(s){
+  return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+/* ======================================================================
+   TIMER
+   ====================================================================== */
+function startTimer(){
+  if(timerHandle) clearInterval(timerHandle);
+  timerHandle = setInterval(updateTimerDisplay, 1000);
+  window.addEventListener("beforeunload", beforeUnloadHandler);
+}
+
+function beforeUnloadHandler(e){
+  if(state.screen === "test"){ e.preventDefault(); e.returnValue = ""; }
+}
+
+function updateTimerDisplay(){
+  if(state.screen !== "test" || !state.startTime) return;
+  const endTime = state.startTime + TEST_DURATION_MIN*60*1000;
+  const remainingMs = endTime - Date.now();
+  const el = document.getElementById("timer-display");
+  if(remainingMs <= 0){
+    if(el) el.textContent = "00:00";
+    clearInterval(timerHandle);
+    submitTest(true);
+    return;
+  }
+  const totalSec = Math.floor(remainingMs/1000);
+  const mm = String(Math.floor(totalSec/60)).padStart(2,"0");
+  const ss = String(totalSec%60).padStart(2,"0");
+  if(el){
+    el.textContent = mm+":"+ss;
+    el.className = "timer mono";
+    if(totalSec <= 120) el.className += " danger";
+    else if(totalSec <= 300) el.className += " warn";
+  }
+}
+
+/* ======================================================================
+   SUBMIT
+   ====================================================================== */
+let submitting = false;
+
+async function submitTest(autoSubmitted){
+  if(submitting) return;
+  submitting = true;
+  state.pendingAutoSubmit = autoSubmitted;
+
+  const timeTakenSeconds = state.startTime ? Math.round((Date.now()-state.startTime)/1000) : "";
+  const payload = {
+    name: state.name,
+    rollNumber: state.roll,
+    college: state.college,
+    answers: JSON.stringify(state.answers),
+    timeTakenSeconds: String(timeTakenSeconds),
+    autoSubmitted: String(!!autoSubmitted)
+  };
+
+  try{
+    if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === 0){
+      throw new Error("Backend URL not configured");
+    }
+    await fetch(APPS_SCRIPT_URL, {
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body: new URLSearchParams(payload)
+    });
+    state.submitted = true;
+    state.screen = "done";
+    submitting = false;
+    window.removeEventListener("beforeunload", beforeUnloadHandler);
+    if(timerHandle) clearInterval(timerHandle);
+    saveState();
+    render();
+  }catch(err){
+    submitting = false;
+    state.screen = "error";
+    saveState();
+    render();
+  }
+}
+
+/* ======================================================================
+   INIT
+   ====================================================================== */
+render();
+if(state.screen === "test") startTimer();
+</script>
+</body>
+</html>
