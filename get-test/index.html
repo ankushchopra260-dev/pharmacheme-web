@@ -365,7 +365,7 @@ function renderStart(app){
       <div class="start-actions">
         <button class="btn" id="start-btn">Start Test</button>
       </div>
-      <p class="hint">Once you start, a 60-minute timer begins and cannot be paused. Do not close or reload this tab &mdash; your progress is kept only for this browser session. The test submits automatically when time runs out.</p>
+      <p class="hint">Once you start, a ${TEST_DURATION_MIN}-minute timer begins and cannot be paused. Do not close or reload this tab &mdash; your progress is kept only for this browser session. The test submits automatically when time runs out.</p>
     </div>
   `;
   document.getElementById("start-btn").onclick = async () => {
@@ -548,6 +548,7 @@ function renderDone(app){
       <h1>Test submitted</h1>
       <p class="sub">Thank you, ${escapeHtml(state.name)}. Your responses for the GET &ndash; Operations screening test have been recorded.</p>
       <p class="hint">You may close this tab now. Results and next steps will be communicated by the placement/HR team.</p>
+      <p class="hint" style="margin-top:20px;"><a href="https://pharmacheme.in" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600;text-decoration:none;">Visit pharmacheme.in &rarr;</a></p>
     </div>
   `;
 }
