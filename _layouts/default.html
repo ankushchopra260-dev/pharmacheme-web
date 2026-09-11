@@ -19,6 +19,19 @@
 </script>
 {% endif %}
 
+{% if page.breadcrumbs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ '/' | absolute_url }}" }
+    {% for crumb in page.breadcrumbs %}, { "@type": "ListItem", "position": {{ forloop.index | plus: 1 }}, "name": "{{ crumb.label }}", "item": "{{ crumb.url | absolute_url }}" }{% endfor %}
+  ]
+}
+</script>
+{% endif %}
+
 <link rel="stylesheet" href="{{ '/assets/css/pharmacheme-core.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/site-shell.css' | relative_url }}">
 {% if page.needs_ocl %}<script type="module" src="{{ '/assets/js/ocl-engine.js' | relative_url }}"></script>{% endif %}
