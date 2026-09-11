@@ -1,0 +1,40 @@
+---
+layout: default
+title: Corrosion Coupon Calculator
+description: "Weight-loss corrosion rate (mpy) from coupon exposure data, with an Excellent/Good/Satisfactory rating."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderCouponStudy();
+    initCouponStudy();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Corrosion Coupon Calculator
+    url: /calculators/corrosion-coupon-calculator/
+---
+
+<div class="container calc-page-head">
+  <h1>Corrosion Coupon Calculator</h1>
+  <p>Weight-loss corrosion rate (mils per year, mpy) from coupon exposure data, with an Excellent / Good / Satisfactory / Unsatisfactory rating.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>Formula</h2>
+  <div class="formula-box">
+    Corrosion rate (mpy) = (534 &times; W) / (D &times; A &times; T)
+  </div>
+  <p>Where W is weight loss (mg), D is metal density (g/cm&sup3;), A is exposed area (in&sup2;), and T is exposure time (hours) — the standard ASTM G1 weight-loss formula.</p>
+
+  <h2>Engineering Notes &amp; Assumptions</h2>
+  <p>This assumes uniform general corrosion — it won't capture localized attack like pitting or crevice corrosion, which can be far more damaging than the average weight-loss rate suggests. Always inspect the coupon visually for pitting alongside the calculated rate.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/materials-compatibility/' | relative_url }}">Materials &amp; Corrosion Compatibility</a>
+  </div>
+</div>

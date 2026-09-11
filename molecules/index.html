@@ -1,0 +1,24 @@
+---
+layout: default
+title: Molecule Tools
+description: "Chemical structure and molecular tools for chemistry and pharmaceutical professionals."
+breadcrumbs:
+  - label: Molecules
+    url: /molecules/
+---
+
+<div class="container calc-page-head">
+  <h1>Molecule Tools</h1>
+  <p>Chemical structure and molecular tools for chemistry and pharmaceutical professionals.</p>
+</div>
+<div class="container section" style="padding-top:0;">
+  <div class="grid-cards">
+    <a class="category-card" href="{{ '/molecules/structure/' | relative_url }}">
+      <span class="icon">&#129514;</span>
+      <h3>Structure Builder</h3>
+      <p>Draw a 2D structure (atoms, bonds, ring and functional-group templates) and get molecular formula, weight, atom/bond counts, and SMILES both ways.</p>
+      <span class="card-link">Open Tool &rarr;</span>
+    </a>
+  </div>
+  <p style="color:var(--muted-dim); font-size:0.85rem; margin-top:24px;">Chemistry (formula, molecular weight, valence, implicit hydrogens, SMILES parsing and generation) is computed by <a href="https://github.com/cheminfo/openchemlib-js" style="color:var(--brass);">OpenChemLib</a>, an established open-source cheminformatics library. InChI generation and 3D structure viewing aren't implemented yet — they would need an additional chemistry library dependency, which isn't wired in at this stage.</p>
+</div>

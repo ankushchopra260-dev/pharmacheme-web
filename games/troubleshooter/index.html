@@ -1,0 +1,24 @@
+---
+layout: default
+title: PharmaChemE Troubleshooter
+description: "Test your chemical and pharmaceutical plant troubleshooting skills."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderBatchTroubleshooter();
+    initBatchTroubleshooter();
+  });
+breadcrumbs:
+  - label: Games
+    url: /games/
+  - label: Troubleshooter
+    url: /games/troubleshooter/
+---
+
+<div class="container calc-page-head">
+  <h1>PharmaChemE Troubleshooter</h1>
+  <p>Test your chemical and pharmaceutical plant troubleshooting skills against realistic operating scenarios.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>

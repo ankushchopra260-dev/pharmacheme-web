@@ -1,0 +1,38 @@
+---
+layout: default
+title: Molecule Structure Tool
+description: "Draw molecular structures and get formula, molecular weight, atom/bond counts, and SMILES both ways."
+needs_calculators: true
+needs_ocl: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderMolBuilder();
+    initMolBuilder();
+  });
+breadcrumbs:
+  - label: Molecules
+    url: /molecules/
+  - label: Structure Tool
+    url: /molecules/structure/
+---
+
+<div class="container calc-page-head">
+  <h1>Molecule Structure Tool</h1>
+  <p>Draw a structure (click to place atoms, drag to draw bonds, ring and functional-group templates) and get molecular formula, weight, atom/bond counts, and SMILES both ways.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>What's Reliable Here</h2>
+  <p>Formula, molecular weight, valence/implicit-hydrogen handling, and SMILES parsing and generation are all computed by OpenChemLib, not a hand-built parser — this covers common organic structures with standard valences (C, N, O, S, P, F, Cl, Br, I) plus the NO&#8322; group's formal charges.</p>
+
+  <h2>Known Limitations</h2>
+  <p>This tool does not currently model expanded sulfur/phosphorus valence states, stereochemistry, or fusing a ring template onto an existing atom. InChI generation and a 3D viewer aren't implemented — both would require an additional chemistry library dependency that isn't wired into this build yet, rather than being silently faked.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/materials-compatibility/' | relative_url }}">Materials &amp; Corrosion Compatibility</a>
+  </div>
+</div>

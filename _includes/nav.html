@@ -1,0 +1,28 @@
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="{{ '/' | relative_url }}" class="site-logo">PHARMA<span>CHEM</span>E</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+    <ul class="site-nav-links" id="navLinks">
+      <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>Home</a></li>
+      <li><a href="{{ '/calculators/' | relative_url }}"{% if page.url contains '/calculators/' %} class="active"{% endif %}>Calculators</a></li>
+      <li><a href="{{ '/games/' | relative_url }}"{% if page.url contains '/games/' %} class="active"{% endif %}>Games</a></li>
+      <li><a href="{{ '/molecules/' | relative_url }}"{% if page.url contains '/molecules/' %} class="active"{% endif %}>Molecules</a></li>
+      <li><a href="{{ '/articles/' | relative_url }}"{% if page.url contains '/articles/' %} class="active"{% endif %}>Articles</a></li>
+      <li><a href="{{ '/custom-solutions/' | relative_url }}"{% if page.url contains '/custom-solutions/' %} class="active"{% endif %}>Custom Solutions</a></li>
+      <li><a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} class="active"{% endif %}>About</a></li>
+      <li><a href="{{ '/' | relative_url }}#android-app" class="nav-cta">Android App</a></li>
+    </ul>
+  </div>
+</nav>
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', function () {
+        var isOpen = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+  })();
+</script>

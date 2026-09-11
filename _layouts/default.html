@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if page.title %}{{ page.title }} | PharmaChemE{% else %}PharmaChemE — Chemical &amp; Pharmaceutical Engineering Tools{% endif %}</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PharmaChemE">
+<meta property="og:title" content="{{ page.title | default: 'PharmaChemE' }}">
+<meta property="og:description" content="{{ page.description | default: site.description }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+
+{% if page.structured_data %}
+<script type="application/ld+json">
+{{ page.structured_data }}
+</script>
+{% endif %}
+
+<link rel="stylesheet" href="{{ '/assets/css/pharmacheme-core.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/site-shell.css' | relative_url }}">
+{% if page.needs_ocl %}<script type="module" src="{{ '/assets/js/ocl-engine.js' | relative_url }}"></script>{% endif %}
+</head>
+<body>
+
+{% include nav.html %}
+{% include breadcrumbs.html %}
+
+{{ content }}
+
+{% include footer.html %}
+
+{% if page.needs_calculators %}<script src="{{ '/assets/js/calculators.js' | relative_url }}"></script>{% endif %}
+{% if page.calc_init %}<script>{{ page.calc_init }}</script>{% endif %}
+</body>
+</html>

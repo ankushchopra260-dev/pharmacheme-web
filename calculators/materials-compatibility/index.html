@@ -1,0 +1,34 @@
+---
+layout: default
+title: Materials & Corrosion Compatibility Reference
+description: "Chemical-to-material compatibility reference across SS316, Hastelloy, PTFE, common plastics and elastomers."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderMaterialsCompat();
+    initMaterialsCompat();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Materials & Corrosion Compatibility
+    url: /calculators/materials-compatibility/
+---
+
+<div class="container calc-page-head">
+  <h1>Materials &amp; Corrosion Compatibility</h1>
+  <p>Pick a chemical, see a compatibility rating across 20 common construction materials — SS316, Mild Steel, Hastelloy C276, Titanium, PTFE, PEEK, common plastics, and elastomers.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>How This Works</h2>
+  <p>Ratings are compiled from published manufacturer compatibility references, covering 45 common process chemicals against 20 materials of construction. This is a starting reference, not a substitute for a vendor datasheet or an in-house trial — always confirm against your specific concentration, temperature, and duty before finalizing a material of construction, and treat chloride-bearing streams as needing a separate pitting/stress-corrosion-cracking review even where stainless is rated Good.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/corrosion-coupon-calculator/' | relative_url }}">Corrosion Coupon Calculator</a>
+  </div>
+</div>
