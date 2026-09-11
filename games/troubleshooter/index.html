@@ -3,6 +3,7 @@ layout: default
 title: PharmaChemE Troubleshooter
 description: "Test your chemical and pharmaceutical plant troubleshooting skills."
 needs_calculators: true
+needs_troubleshooter: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('calc-mount').innerHTML = renderBatchTroubleshooter();
@@ -21,4 +22,14 @@ breadcrumbs:
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>How to Play</h2>
+  <p>Click <strong>Start Shift</strong> to begin. Each round drops a live upset on the panel with no diagnosis given &mdash; a batch sheet and a short narrative are all you get. Click <strong>Go to Panel</strong> to see the live gauge and two control stations beside the vessel.</p>
+  <p>Click either control station to flip its state (e.g. a valve between OPEN/CLOSED, a cooling source between MAIN CW/CHILLED). The gauge reading updates immediately. As soon as the reading settles into the target range, the round locks in automatically &mdash; there's no separate "submit" button.</p>
+  <h2>Scoring</h2>
+  <p>Each round starts at 100 points. Every click beyond your first two costs 15 points, and passing through a genuinely dangerous configuration along the way costs 25 more (points never drop below 10 for a solved round). Solve a round in two clicks or fewer to build a streak, shown as a &#128293; multiplier.</p>
+  <p>After 6 rounds you'll see a shift summary with a total score, a rank (Trainee Operator, Field Operator, Senior Operator, or Shift-in-Charge), and badges for a clean shift (no dangerous excursions), minimum moves, a streak of 3+, and zero near-misses.</p>
+  <p style="color:var(--muted-dim); font-size:0.85rem;">The scenario pool currently covers 22 different upsets across reactors, filtration, centrifuges, pumps, heat exchangers, drying, crystallization, scrubbing, and plant utilities (nitrogen, chilled water, instrument air, dust collection) &mdash; each shift draws 6 at random, so replaying gives different rounds.</p>
 </div>
