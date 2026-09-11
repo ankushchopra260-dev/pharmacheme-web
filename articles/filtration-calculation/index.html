@@ -1,0 +1,49 @@
+---
+layout: default
+title: How to Calculate Filtration Performance
+description: "Specific cake resistance and flux from a bench-scale filtration trial, explained with formula and worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: How to Calculate Filtration Performance
+    url: /articles/filtration-calculation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Calculate Filtration Performance",
+    "description": "Specific cake resistance and flux from a bench-scale filtration trial.",
+    "author": { "@type": "Person", "name": "Ankush Chopra" },
+    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>How to Calculate Filtration Performance</h1>
+  <p class="article-meta">Chemical Engineering &middot; Equipment</p>
+
+  <p>A quick Büchner or Nutsche trial can tell you a lot about how a slurry will filter at production scale — but only if you turn the raw filtrate-volume-vs-time data into two numbers that actually transfer: specific cake resistance and expected flux.</p>
+
+  <h2>The Cake Filtration Equation</h2>
+  <div class="formula-box">
+    dV/dt = &Delta;P &times; A / [&mu; &times; (&alpha; &times; c &times; V/A + R<sub>m</sub>)]
+  </div>
+  <p>Where V is filtrate volume, t is time, &Delta;P is the pressure/vacuum driving force, A is filter area, &mu; is filtrate viscosity, &alpha; is specific cake resistance, c is the mass of dry cake solids per unit volume of filtrate, and R<sub>m</sub> is the filter medium resistance. In practice, this is rearranged and the trial data (t/V vs V) is plotted to extract &alpha; and R<sub>m</sub> from the slope and intercept.</p>
+
+  <h2>Worked Example</h2>
+  <p>A bench trial at 0.5 bar vacuum through a 20 cm&sup2; Büchner filter collects 150 mL of filtrate in 90 seconds, with a slurry concentration giving c = 40 kg/m&sup3;. Plotting t/V against V from several timed readings gives a straight line whose slope yields &alpha; and whose intercept yields R<sub>m</sub> — the actual regression needs several data points, not just the endpoint, which is why a single-point trial isn't enough on its own.</p>
+  <p>Once &alpha; is known, expected flux at a given &Delta;P and cake thickness can be estimated directly from the rearranged equation, and specific cake resistance above roughly 10<sup>11</sup>&ndash;10<sup>12</sup> m/kg is generally considered slow-filtering, prompting a look at flocculation, filter aid, or a different filter type.</p>
+
+  <h2>Practical Considerations</h2>
+  <p>Specific cake resistance for compressible cakes (many organic precipitates and biological solids) isn't constant — it increases with &Delta;P. A trial run at bench-scale vacuum doesn't automatically predict performance at a much higher production-scale pressure differential; ideally, run the trial at a &Delta;P close to what production will actually use.</p>
+
+  <h2>Common Mistakes</h2>
+  <p>Using only the total volume and total time (a single point) instead of a proper t/V vs V regression across the run; ignoring filter medium resistance when it's actually a significant fraction of total resistance for a thin cake; and assuming bench-scale flux scales linearly to a production filter of different geometry without accounting for the medium and support structure differences.</p>
+
+  <div class="related-box">
+    <h3>Try the Calculator</h3>
+    <a href="/calculators/filtration-calculator/">Filtration Evaluation Calculator</a>
+    <h3>Related Articles</h3>
+    <a href="/articles/centrifuge-cake-weight/">Centrifuge Cake Weight Calculation</a>
+  </div>
+</div>

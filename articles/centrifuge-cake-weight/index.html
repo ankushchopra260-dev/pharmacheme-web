@@ -1,0 +1,55 @@
+---
+layout: default
+title: Centrifuge Cake Weight & G-Force Calculation
+description: "Basket centrifuge cake weight and G-force from basket geometry and cake thickness, with formula and worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Centrifuge Cake Weight
+    url: /articles/centrifuge-cake-weight/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Centrifuge Cake Weight & G-Force Calculation",
+    "description": "Basket centrifuge cake weight and G-force from basket geometry and cake thickness.",
+    "author": { "@type": "Person", "name": "Ankush Chopra" },
+    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Centrifuge Cake Weight &amp; G-Force Calculation</h1>
+  <p class="article-meta">Chemical Engineering &middot; Equipment</p>
+
+  <p>Two numbers matter most when planning a basket centrifuge batch: how hard the cake is actually being spun (G-force), and how much cake that translates to once the basket is loaded to a given thickness.</p>
+
+  <h2>The Formula</h2>
+  <div class="formula-box">
+    G-force = 1.118 &times; 10<sup>&minus;5</sup> &times; r &times; N&sup2;<br>
+    Cake weight = Cake volume &times; bulk density
+  </div>
+  <p>Where r is basket radius (cm) and N is rotational speed (rpm). Cake volume comes from the annular geometry defined by basket radius and cake thickness — essentially the basket's cylindrical volume minus the empty core left in the middle.</p>
+
+  <h2>Worked Example</h2>
+  <p>A basket with 40 cm radius spinning at 1,200 rpm:</p>
+  <div class="formula-box">
+    G-force = 1.118 &times; 10<sup>&minus;5</sup> &times; 40 &times; 1,200&sup2;<br>
+    = 1.118 &times; 10<sup>&minus;5</sup> &times; 40 &times; 1,440,000<br>
+    &asymp; 644 G
+  </div>
+  <p>If that basket carries a 10 cm-thick cake at a bulk density of 1,400 kg/m&sup3;, the cake volume comes from the annulus between the full basket radius (40 cm) and the inner radius left after the cake (40 &minus; 10 = 30 cm) times the basket height — multiply that volume by the bulk density to get total cake mass for the batch.</p>
+
+  <h2>Practical Considerations</h2>
+  <p>Bulk density of a centrifuged cake is not a fixed material property — it depends heavily on particle shape, size distribution, and how well the cake has been de-liquored during the spin. A bulk density measured from a different product, or even a different batch of the same product with different crystal habit, can give a meaningfully wrong cake weight.</p>
+
+  <h2>Common Mistakes</h2>
+  <p>Using the full basket radius instead of the cake's actual radial position when computing G-force at the cake surface versus at the basket wall (G-force varies with radius, so the value at the cake's inner surface is lower than at the basket wall); and assuming a bulk density from a handbook table rather than from an actual discharged cake of the real product.</p>
+
+  <div class="related-box">
+    <h3>Try the Calculator</h3>
+    <a href="/calculators/centrifuge-cake-weight-calculator/">Centrifuge Cake Weight Calculator</a>
+    <h3>Related Articles</h3>
+    <a href="/articles/filtration-calculation/">Filtration Calculation Explained</a>
+  </div>
+</div>

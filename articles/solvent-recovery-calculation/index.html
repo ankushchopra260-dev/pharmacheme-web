@@ -1,0 +1,57 @@
+---
+layout: default
+title: Solvent Recovery Calculation Explained
+description: "How boiling point at vacuum, heat load, and recovery time are calculated for batch solvent recovery, with a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Solvent Recovery Calculation Explained
+    url: /articles/solvent-recovery-calculation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Solvent Recovery Calculation Explained",
+    "description": "How boiling point at vacuum, heat load, and recovery time are calculated for batch solvent recovery.",
+    "author": { "@type": "Person", "name": "Ankush Chopra" },
+    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Solvent Recovery Calculation Explained</h1>
+  <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
+
+  <p>Batch solvent recovery under vacuum comes down to one question repeated at every step: at what temperature does this solvent boil at this pressure, and how much heat does it take to get there and keep it boiling? Everything else — condenser sizing, vacuum pump capacity, recovery time — follows from that.</p>
+
+  <h2>Boiling Point at Vacuum: the Antoine Equation</h2>
+  <div class="formula-box">
+    log&#8321;&#8320;(P) = A &minus; B / (T + C)<br>
+    &rArr; T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C
+  </div>
+  <p>Where P is pressure in mmHg, T is temperature in &deg;C, and A, B, C are compound-specific Antoine coefficients fitted from experimental vapor-pressure data. At standard atmospheric pressure (760 mmHg), this reduces to the solvent's normal boiling point — a useful sanity check on any Antoine coefficient set before trusting it at vacuum.</p>
+
+  <h2>Worked Example: Toluene Under Vacuum</h2>
+  <p>Toluene's Antoine coefficients (in this form) are A = 6.95087, B = 1342.31, C = 219.187. At 100 mmHg vacuum:</p>
+  <div class="formula-box">
+    T<sub>b</sub> = 1342.31 / (6.95087 &minus; log&#8321;&#8320;100) &minus; 219.187<br>
+    = 1342.31 / (6.95087 &minus; 2.0) &minus; 219.187<br>
+    &asymp; 271.2 &minus; 219.187 &asymp; 52.0&deg;C
+  </div>
+  <p>Compare that to toluene's normal boiling point of 110.6&deg;C at 760 mmHg (the same equation with P = 760) — pulling vacuum drops the boiling point by nearly 60&deg;C, which is the entire reason batch recovery runs under vacuum in the first place: it lets you strip solvent at a temperature the batch (and the jacket steam pressure available) can actually sustain.</p>
+
+  <h2>Heat Load &amp; Recovery Time</h2>
+  <p>Once you know the boiling temperature, the heat duty to sustain boiling is governed by the solvent's latent heat of vaporization and the target vapor rate: Duty (kW) = mass vaporization rate (kg/s) &times; latent heat (kJ/kg). Recovery time then follows from total solvent mass to be recovered divided by that vaporization rate, adjusted for the available heating duty from the jacket or coil.</p>
+
+  <h2>Practical Considerations</h2>
+  <p>Antoine coefficients are only valid over the temperature/pressure range they were fitted to. Extrapolating far outside that range — very deep vacuum, or temperatures near a solvent's critical point — can give a boiling point that looks plausible but is wrong. Always check the returned value against a known reference point (like the normal boiling point) before using it to size equipment.</p>
+
+  <h2>Common Mistakes</h2>
+  <p>Mixing up mmHg and mbar (a factor of ~1.33 apart) when entering the vacuum level; using latent heat measured at atmospheric pressure without adjusting for the actual recovery temperature; and forgetting that mixed-solvent systems don't follow a single Antoine curve at all — a binary or multi-component mix needs a real VLE calculation, not this single-compound shortcut.</p>
+
+  <div class="related-box">
+    <h3>Try the Calculators</h3>
+    <a href="/calculators/solvent-recovery-calculator/">Solvent Recovery Calculator</a>
+    <a href="/calculators/heat-load-calculator/">Heat Load &amp; Recovery Calculator</a>
+  </div>
+</div>

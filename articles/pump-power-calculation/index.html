@@ -1,0 +1,59 @@
+---
+layout: default
+title: How to Calculate Pump Power
+description: "Pump power calculation explained — hydraulic power, shaft power, and motor sizing, with formula, worked example, and common mistakes."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: How to Calculate Pump Power
+    url: /articles/pump-power-calculation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Calculate Pump Power",
+    "description": "Pump power calculation explained — hydraulic power, shaft power, and motor sizing.",
+    "author": { "@type": "Person", "name": "Ankush Chopra" },
+    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>How to Calculate Pump Power</h1>
+  <p class="article-meta">Chemical Engineering &middot; Engineering Calculations</p>
+
+  <p>Sizing a pump motor comes down to three numbers stacked on top of each other: the power the fluid itself needs (hydraulic power), the power the pump has to draw at the shaft to deliver that (shaft power), and the power the motor has to supply to turn that shaft (motor power). Each step loses a bit to inefficiency, which is why a pump moving water at a modest flow and head can still need a noticeably larger motor than the "theoretical" number suggests.</p>
+
+  <h2>The Formula</h2>
+  <div class="formula-box">
+    Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 1,000<br>
+    Shaft power (kW) = Hydraulic power / &eta;<sub>pump</sub><br>
+    Motor power (kW) = Shaft power / &eta;<sub>motor</sub>
+  </div>
+  <p>Where &rho; is fluid density (kg/m&sup3;), g is 9.81 m/s&sup2;, Q is flow rate (m&sup3;/s), H is total developed head (m), and &eta;<sub>pump</sub> / &eta;<sub>motor</sub> are the pump and motor efficiencies as fractions (e.g. 0.65 for 65%).</p>
+
+  <h2>Variables and Units</h2>
+  <p>Total head H isn't just the static lift — it's static lift plus friction losses in the piping plus any pressure the destination vessel is already holding, all converted to an equivalent height of fluid. Getting H wrong (usually by forgetting friction losses) is the single most common source of an undersized pump.</p>
+
+  <h2>Worked Example</h2>
+  <p>Take water (&rho; = 1,000 kg/m&sup3;) at a flow of 50 m&sup3;/hr (0.0139 m&sup3;/s) against a total head of 30 m, with a pump efficiency of 65% and motor efficiency of 92%:</p>
+  <div class="formula-box">
+    Hydraulic power = 1,000 &times; 9.81 &times; 0.0139 &times; 30 / 1,000 &asymp; 4.09 kW<br>
+    Shaft power = 4.09 / 0.65 &asymp; 6.29 kW<br>
+    Motor power = 6.29 / 0.92 &asymp; 6.84 kW
+  </div>
+  <p>In practice you'd round up to the next standard motor frame size above 6.84 kW (commonly a 7.5 kW motor) rather than specifying the exact calculated value, to leave margin for wear and off-curve operation.</p>
+
+  <h2>Practical Considerations</h2>
+  <p>Pump efficiency isn't constant — it peaks at the best-efficiency point (BEP) on the pump curve and drops off the further you run from it. A pump selected purely on this formula using catalog efficiency, but actually operated well off its BEP, will draw more real power than this calculation predicts.</p>
+
+  <h2>Common Mistakes</h2>
+  <p>Using static head alone and skipping friction losses; using density from a different fluid than the one actually being pumped; and applying a single "safety factor" on top of an already-conservative efficiency estimate, which can lead to an oversized motor running inefficiently at partial load.</p>
+
+  <div class="related-box">
+    <h3>Try the Calculator</h3>
+    <a href="/calculators/pump-power-calculator/">Pump Power Calculator</a>
+    <h3>Related Articles</h3>
+    <a href="/articles/solvent-recovery-calculation/">Solvent Recovery Calculation Explained</a>
+  </div>
+</div>

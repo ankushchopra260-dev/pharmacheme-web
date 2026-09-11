@@ -1,0 +1,54 @@
+---
+layout: default
+title: How to Calculate Heat Load & Recovery Time
+description: "Heat duty and batch recovery time for solvent recovery, explained with formula and worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Heat Load & Recovery Time
+    url: /articles/heat-load-calculation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Calculate Heat Load & Recovery Time",
+    "description": "Heat duty and batch recovery time for solvent recovery.",
+    "author": { "@type": "Person", "name": "Ankush Chopra" },
+    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>How to Calculate Heat Load &amp; Recovery Time</h1>
+  <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
+
+  <p>Once a solvent's boiling point at your working vacuum is known, the next question is practical: how much heat does it take to boil it off at a useful rate, and how long will the batch actually take? This is what separates a recovery step that finishes in two hours from one that drags on all shift.</p>
+
+  <h2>The Formula</h2>
+  <div class="formula-box">
+    Heat duty (kW) = m&#775; &times; &lambda;<br>
+    Recovery time (hr) = M<sub>total</sub> / m&#775;
+  </div>
+  <p>Where m&#775; is the vaporization mass rate (kg/hr), &lambda; is the solvent's latent heat of vaporization (kJ/kg) at the recovery temperature, and M<sub>total</sub> is the total mass of solvent to be recovered from the batch.</p>
+
+  <h2>Worked Example</h2>
+  <p>Recovering 500 kg of a solvent with a latent heat of 360 kJ/kg, using a jacket that can sustainably deliver 40 kW of heating duty to the batch at the vacuum boiling point:</p>
+  <div class="formula-box">
+    m&#775; = Duty / &lambda; = 40 / 360 &times; 3,600 &asymp; 400 kg/hr<br>
+    Recovery time = 500 / 400 &asymp; 1.25 hr
+  </div>
+  <p>That's the sustained-boiling estimate — real recovery time is usually somewhat longer once you account for the initial heat-up to boiling point and the tail end of the batch where the boil-up rate naturally falls off as the last of the solvent is stripped.</p>
+
+  <h2>Practical Considerations</h2>
+  <p>Available heat duty isn't fixed — it depends on jacket steam pressure (or hot water supply temperature), heat transfer area, and how fouled the jacket surface is. A jacket that delivered 40 kW when clean may only manage 30 kW after a few years of service, stretching recovery time well beyond this calculation.</p>
+
+  <h2>Common Mistakes</h2>
+  <p>Using latent heat at atmospheric pressure when the batch is actually recovering under vacuum at a lower temperature (latent heat does shift with temperature, though usually modestly); assuming the full nameplate heating duty is available throughout the batch rather than derating for fouling and real steam supply conditions; and not accounting for the slower boil-up rate typical near the end of a batch.</p>
+
+  <div class="related-box">
+    <h3>Try the Calculator</h3>
+    <a href="/calculators/heat-load-calculator/">Heat Load &amp; Recovery Calculator</a>
+    <h3>Related Articles</h3>
+    <a href="/articles/solvent-recovery-calculation/">Solvent Recovery Calculation Explained</a>
+  </div>
+</div>
