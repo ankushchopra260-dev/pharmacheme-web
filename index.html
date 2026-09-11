@@ -2,6 +2,15 @@
 layout: default
 title: PharmaChemE — Chemical & Pharmaceutical Engineering Tools
 description: "Practical calculators, troubleshooting challenges, molecule tools and engineering knowledge for chemical and pharmaceutical professionals."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PharmaChemE",
+    "url": "https://pharmacheme.in",
+    "description": "Practical calculators, troubleshooting challenges, molecule tools and engineering knowledge for chemical and pharmaceutical professionals.",
+    "sameAs": ["https://youtube.com/@PharmaChemE"]
+  }
 ---
 
 <section class="hero">
@@ -128,6 +137,35 @@ description: "Practical calculators, troubleshooting challenges, molecule tools 
     </div>
     <div style="text-align:center;">
       <a href="{{ '/molecules/structure/' | relative_url }}" class="btn btn-primary">Open Molecule Tool</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Latest Articles</p>
+      <h2>Practical Engineering Knowledge</h2>
+    </div>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>How to Calculate Pump Power</h3>
+        <p>Hydraulic power, shaft power, and motor sizing, with a full worked example.</p>
+        <a href="{{ '/articles/pump-power-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+      </div>
+      <div class="tool-card">
+        <h3>Solvent Recovery Calculation Explained</h3>
+        <p>The Antoine equation, boiling point at vacuum, and why recovery runs under vacuum at all.</p>
+        <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+      </div>
+      <div class="tool-card">
+        <h3>Mixing &amp; Scale-up Calculations Explained</h3>
+        <p>Why constant tip speed, constant P/V, and constant Reynolds number give different answers.</p>
+        <a href="{{ '/articles/mixing-scale-up/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:24px;">
+      <a href="{{ '/articles/' | relative_url }}" class="btn btn-outline">All Articles</a>
     </div>
   </div>
 </section>
