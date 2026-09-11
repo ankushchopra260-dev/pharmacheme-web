@@ -1,0 +1,42 @@
+---
+layout: default
+title: Centrifuge Cake Weight Calculator
+description: "Basket centrifuge cake weight and G-force from basket geometry, cake thickness, and bulk density."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderCentrifuge();
+    initCentrifuge();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Centrifuge Cake Weight Calculator
+    url: /calculators/centrifuge-cake-weight-calculator/
+---
+
+<div class="container calc-page-head">
+  <h1>Centrifuge Cake Weight Calculator</h1>
+  <p>Basket centrifuge cake weight and G-force from basket geometry, cake thickness, and bulk density.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>Formula</h2>
+  <div class="formula-box">
+    G-force = 1.118 &times; 10<sup>&minus;5</sup> &times; r &times; N&sup2;<br>
+    Cake weight = cake volume &times; bulk density
+  </div>
+  <p>Where r is basket radius (cm) and N is rotational speed (rpm). Cake volume comes from the annular geometry defined by basket radius and cake thickness.</p>
+
+  <h2>Engineering Notes &amp; Assumptions</h2>
+  <p>Bulk density of a centrifuged cake depends heavily on particle shape, size distribution, and how well the cake has been de-liquored — a value taken from a different batch or product can be misleading. Use a bulk density measured from an actual discharged cake wherever possible.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/filtration-calculator/' | relative_url }}">Filtration Evaluation Calculator</a>
+    <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing / Scale-up Calculator</a>
+  </div>
+</div>

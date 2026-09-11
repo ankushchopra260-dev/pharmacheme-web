@@ -1,0 +1,43 @@
+---
+layout: default
+title: Solvent Recovery Calculator
+description: "Batch vacuum distillation design — boiling point at vacuum, heat load & recovery time, condenser sizing, vacuum pump capacity."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    initSolventRecovery();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Solvent Recovery Calculator
+    url: /calculators/solvent-recovery-calculator/
+---
+
+<div class="container calc-page-head">
+  <h1>Solvent Recovery Calculator</h1>
+  <p>Batch vacuum distillation design, drawing on an embedded ~4,979-compound solvent database with Antoine coefficients.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="panels"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>What's Inside</h2>
+  <p>This tool bundles four related sub-calculators, reached from the panel above:</p>
+  <ul>
+    <li><strong>Boiling Point at Vacuum</strong> — solves the Antoine equation, T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C, for the boiling temperature at your applied vacuum.</li>
+    <li><strong>Heat Load &amp; Recovery Time</strong> — sizing for how much heat duty and time a batch recovery will take. Also reachable directly at the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load &amp; Recovery Calculator</a>.</li>
+    <li><strong>Condenser Sizing</strong> — duty and area estimate for the recovery condenser.</li>
+    <li><strong>Vacuum Pump Capacity</strong> — required pump capacity for the vacuum level and vapor load.</li>
+  </ul>
+
+  <h2>Engineering Notes &amp; Assumptions</h2>
+  <p>Antoine coefficients are compound-specific and only valid over the temperature/pressure range they were fitted to — very high vacuum or near-critical conditions can fall outside that range. Always sanity-check the returned boiling point against a known reference point for the solvent before using it for equipment sizing.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load &amp; Recovery Calculator</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump Power Calculator</a>
+  </div>
+</div>

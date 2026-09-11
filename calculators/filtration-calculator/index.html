@@ -1,0 +1,38 @@
+---
+layout: default
+title: Filtration Evaluation Calculator
+description: "Büchner filtration trial — specific cake resistance and flux, with a Good/Moderate/Slow verdict."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderFiltrationEvaluation();
+    initFiltrationEvaluation();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Filtration Calculator
+    url: /calculators/filtration-calculator/
+---
+
+<div class="container calc-page-head">
+  <h1>Filtration Evaluation Calculator</h1>
+  <p>Turn a bench-scale Büchner filtration trial into specific cake resistance and flux, with a practical Good / Moderate / Slow read on filterability.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>How to Use</h2>
+  <p>Run a small Büchner or Nutsche trial at a known vacuum/pressure, record filtrate volume against time, and enter the trial data along with filter area and slurry concentration. The tool fits the standard cake-filtration relationship to estimate specific cake resistance and expected flux.</p>
+
+  <h2>Engineering Notes &amp; Assumptions</h2>
+  <p>Bench-scale trials don't always scale linearly to production filters — cake compressibility, medium fouling, and pressure differences between bench and plant equipment can all shift the real result. Use this as a first-pass filterability screen, and confirm with a larger trial before committing to production filter sizing.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}">Centrifuge Cake Weight Calculator</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump Power Calculator</a>
+  </div>
+</div>

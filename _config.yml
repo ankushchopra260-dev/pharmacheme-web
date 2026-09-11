@@ -1,0 +1,11 @@
+title: PharmaChemE
+description: "Practical calculators, troubleshooting challenges, molecule tools and engineering knowledge for chemical and pharmaceutical professionals."
+url: "https://pharmacheme.in"
+baseurl: ""
+
+markdown: kramdown
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - README.md

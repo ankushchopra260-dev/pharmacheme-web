@@ -1,0 +1,38 @@
+---
+layout: default
+title: Mixing / Scale-up Calculator
+description: "Reactor geometry, agitation, Reynolds number, tip speed, Power, P/V, torque — compare across plants or scales."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderScaleUp();
+    initScaleUp();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Mixing / Scale-up Calculator
+    url: /calculators/mixing-scale-up-calculator/
+---
+
+<div class="container calc-page-head">
+  <h1>Mixing / Scale-up Calculator</h1>
+  <p>Reactor geometry, agitation Reynolds number, impeller tip speed, power draw, power-per-volume (P/V), and torque — with side-by-side case comparison across plants or scales.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>How to Use</h2>
+  <p>Enter vessel and impeller geometry, RPM, and fluid properties for each case you want to compare. The tool computes Reynolds number, tip speed, power number-based draw, P/V, and torque, laid out as a comparison table so you can judge whether a lab or pilot condition is being scaled consistently to plant scale.</p>
+
+  <h2>Engineering Notes &amp; Assumptions</h2>
+  <p>Constant P/V, constant tip speed, and constant Reynolds number are three different (and mutually exclusive) scale-up rules — which one is appropriate depends on whether your process is shear-sensitive, mass-transfer-limited, or blend-time-limited. This tool reports the numbers; picking the right scale-up criterion for your chemistry is still an engineering judgment call.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump Power Calculator</a>
+    <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}">Centrifuge Cake Weight Calculator</a>
+  </div>
+</div>

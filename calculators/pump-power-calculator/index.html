@@ -1,0 +1,46 @@
+---
+layout: default
+title: Pump Power Calculator
+description: "Calculate theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderPumpPower();
+    initPumpPower();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Pump Power Calculator
+    url: /calculators/pump-power-calculator/
+---
+
+<div class="container calc-page-head">
+  <h1>Pump Power Calculator</h1>
+  <p>Theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>Formula</h2>
+  <div class="formula-box">
+    Hydraulic power (kW) = ρ &times; g &times; Q &times; H / 1,000<br>
+    Shaft power (kW) = Hydraulic power / η<sub>pump</sub><br>
+    Motor power (kW) = Shaft power / η<sub>motor</sub>
+  </div>
+  <p>Where ρ is fluid density (kg/m&sup3;), g is 9.81 m/s&sup2;, Q is flow rate (m&sup3;/s), H is total head (m), and η<sub>pump</sub> / η<sub>motor</sub> are the pump and motor efficiencies as fractions.</p>
+
+  <h2>How to Use</h2>
+  <p>Enter the flow rate, total developed head, fluid density, and the pump and motor efficiencies from the datasheet or field test. The calculator returns hydraulic, shaft, and motor power together so you can size a motor with adequate margin.</p>
+
+  <h2>Engineering Notes &amp; Assumptions</h2>
+  <p>This is a steady-state power estimate — it doesn't account for startup transients, NPSH-limited operation, or a pump running away from its best-efficiency point. Always cross-check against the pump curve and motor nameplate rating, and apply your site's standard safety margin (commonly 10&ndash;20%) on top of the calculated motor power.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent Recovery Calculator</a>
+    <a href="{{ '/calculators/filtration-calculator/' | relative_url }}">Filtration Calculator</a>
+  </div>
+</div>

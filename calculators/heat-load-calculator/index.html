@@ -1,0 +1,39 @@
+---
+layout: default
+title: Heat Load & Recovery Calculator
+description: "Heat load and recovery-time sizing for batch solvent recovery."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    initSolventRecovery();
+    var card = document.querySelector('[data-sr-open="heatload"]');
+    if (card) card.click();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Heat Load & Recovery Calculator
+    url: /calculators/heat-load-calculator/
+---
+
+<div class="container calc-page-head">
+  <h1>Heat Load &amp; Recovery Calculator</h1>
+  <p>This is a sub-tool of Solvent Recovery — it opens directly into the Heat Load &amp; Recovery Time panel below. Use the "Solvent Recovery" link in the panel to reach the other three sub-tools (boiling point, condenser sizing, vacuum pump capacity).</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="panels"></div>
+</div>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>What This Calculates</h2>
+  <p>Given the batch volume, solvent properties, and available heat duty, this estimates how long a batch will take to recover and the heat load required to hit a target recovery time.</p>
+
+  <h2>Engineering Notes &amp; Assumptions</h2>
+  <p>This is a lumped, steady-heat-duty estimate — it doesn't model the changing boil-up rate as composition shifts during a real multi-component recovery, or heat losses from the vessel. Treat it as a sizing starting point, not a substitute for a rigorous batch distillation simulation on a critical separation.</p>
+
+  <div class="related-box">
+    <h3>Related Calculators</h3>
+    <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent Recovery Calculator (all sub-tools)</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump Power Calculator</a>
+  </div>
+</div>
