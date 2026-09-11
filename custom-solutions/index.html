@@ -48,7 +48,7 @@ breadcrumbs:
     <div class="section-head">
       <h2>Have a Requirement? Let's Build It.</h2>
     </div>
-    <form class="enquiry-form" id="enquiry-form">
+    <form class="enquiry-form" id="enquiry-form" action="https://formspree.io/f/maeyvvbg" method="POST">
       <div>
         <label for="ef-name">Name</label>
         <input type="text" id="ef-name" name="name" required>
@@ -75,12 +75,52 @@ breadcrumbs:
       </div>
       <div>
         <label for="ef-file">Optional File Upload</label>
-        <input type="file" id="ef-file">
+        <input type="file" id="ef-file" name="attachment">
       </div>
-      <div class="form-note">
-        This form is a frontend only right now &mdash; it is <strong>not yet connected to an email or database backend</strong>, so submissions won't currently reach anyone. It needs to be wired to a form service (e.g. Formspree, Google Forms) or a real backend before it goes live. Until then, please reach out via the <a href="{{ '/contact/' | relative_url }}" style="color:var(--brass);">Contact page</a> instead.
-      </div>
-      <button type="submit" class="btn btn-primary" disabled title="Form backend not connected yet">Submit Requirement</button>
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <div id="ef-status" style="font-size:0.85rem; min-height:1.2em;"></div>
+      <button type="submit" class="btn btn-primary" id="ef-submit-btn">Submit Requirement</button>
     </form>
   </div>
 </div>
+
+<script>
+  (function () {
+    var form = document.getElementById('enquiry-form');
+    var status = document.getElementById('ef-status');
+    var btn = document.getElementById('ef-submit-btn');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.textContent = '';
+      status.style.color = '';
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      }).then(function (response) {
+        if (response.ok) {
+          form.reset();
+          form.style.display = 'none';
+          status.style.color = 'var(--brass)';
+          status.style.fontSize = '0.95rem';
+          status.textContent = 'Thanks \u2014 your requirement has been sent. We\u2019ll get back to you by email.';
+        } else {
+          return response.json().then(function (data) {
+            var msg = (data && data.errors && data.errors.map(function (e2) { return e2.message; }).join(', ')) || 'Something went wrong. Please try again or email pharmacheme.app@gmail.com directly.';
+            status.style.color = 'var(--rust)';
+            status.textContent = msg;
+          });
+        }
+      }).catch(function () {
+        status.style.color = 'var(--rust)';
+        status.textContent = 'Network error \u2014 please try again or email pharmacheme.app@gmail.com directly.';
+      }).finally(function () {
+        btn.disabled = false;
+        btn.textContent = 'Submit Requirement';
+      });
+    });
+  })();
+</script>
