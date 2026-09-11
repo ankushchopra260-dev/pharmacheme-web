@@ -11,7 +11,6 @@
       <li><a href="{{ '/custom-solutions/' | relative_url }}"{% if page.url contains '/custom-solutions/' %} class="active"{% endif %}>Custom Solutions</a></li>
       <li><a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} class="active"{% endif %}>About</a></li>
       <li><a href="{{ '/' | relative_url }}#android-app" class="nav-cta">Android App</a></li>
-      <li id="auth-slot" style="display:flex; align-items:center;"></li>
     </ul>
   </div>
 </nav>
@@ -26,48 +25,4 @@
       });
     }
   })();
-</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-
-  var firebaseConfig = {
-    apiKey: "AIzaSyAoko-Lgtl23DrJQ5_Dk3bQpdCHX0NvMCc",
-    authDomain: "pharmacheme-1f559.firebaseapp.com",
-    projectId: "pharmacheme-1f559",
-    storageBucket: "pharmacheme-1f559.firebasestorage.app",
-    messagingSenderId: "324335799446",
-    appId: "1:324335799446:web:a7bb53bbc3e4b67c9906b7"
-  };
-
-  var app = initializeApp(firebaseConfig);
-  var auth = getAuth(app);
-  var provider = new GoogleAuthProvider();
-
-  function renderAuthUI(user) {
-    var slot = document.getElementById('auth-slot');
-    if (!slot) return;
-    if (user) {
-      var name = user.displayName || user.email || 'Signed in';
-      var photo = user.photoURL || '';
-      slot.innerHTML =
-        '<div style="display:flex; align-items:center; gap:8px; padding:6px 8px;">' +
-        (photo ? '<img src="' + photo + '" alt="" style="width:26px;height:26px;border-radius:50%;" referrerpolicy="no-referrer">' : '') +
-        '<span style="font-size:0.78rem; color:var(--paper); max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + name + '</span>' +
-        '<button id="auth-signout-btn" class="pill" style="padding:6px 10px; font-size:0.65rem;">Sign Out</button>' +
-        '</div>';
-      document.getElementById('auth-signout-btn').addEventListener('click', function () {
-        signOut(auth);
-      });
-    } else {
-      slot.innerHTML = '<button id="auth-signin-btn" class="pill" style="padding:9px 14px;">Sign in with Google</button>';
-      document.getElementById('auth-signin-btn').addEventListener('click', function () {
-        signInWithPopup(auth, provider).catch(function (err) {
-          console.error('Sign-in failed:', err && err.message);
-        });
-      });
-    }
-  }
-
-  onAuthStateChanged(auth, renderAuthUI);
 </script>
