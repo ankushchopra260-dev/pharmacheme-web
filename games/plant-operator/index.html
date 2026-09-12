@@ -1,0 +1,24 @@
+---
+layout: default
+title: Plant Operator
+description: "Walk a pixel-art pilot plant, operate real equipment, and run a batch as a chemical plant operator."
+needs_plant_operator: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calc-mount').innerHTML = renderPlantOperator();
+    initPlantOperator();
+  });
+breadcrumbs:
+  - label: Games
+    url: /games/
+  - label: Plant Operator
+    url: /games/plant-operator/
+---
+
+<div class="container calc-page-head">
+  <h1>Plant Operator</h1>
+  <p>Walk a compact pilot plant, observe equipment, and operate it directly \u2014 not a menu, an actual plant floor. This build (V2): movement, collision, and a live Reactor R-101 you can walk up to and actually operate \u2014 agitator, steam valve, cooling water \u2014 with a real temperature response that keeps running even after you close the panel and walk away. A full charge-to-transfer batch sequence is being built next.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
