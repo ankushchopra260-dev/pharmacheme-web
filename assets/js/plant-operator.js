@@ -15,8 +15,8 @@ function plateHeader(title, code) {
 // ---------- Constants ----------
 const PO_TILE = 16;          // source tile size in the tileset image
 const PO_SCALE = 3;          // on-screen scale factor
-const PO_COLS = 20;
-const PO_ROWS = 13;
+const PO_COLS = 15;
+const PO_ROWS = 10;
 const PO_CANVAS_W = PO_COLS * PO_TILE * PO_SCALE;
 const PO_CANVAS_H = PO_ROWS * PO_TILE * PO_SCALE;
 const PO_PLAYER_SPEED = 90;  // pixels per second, in source-tile-space (pre-scale)
@@ -26,9 +26,13 @@ const PO_INTERACT_RANGE = 22; // source-space pixels
 const PO_TILES = {
   FLOOR: 2,        // checker floor
   FLOOR_HAZARD: 3, // diagonal hazard stripe floor
-  WALL: 9,         // steel wall panel
+  WALL: 11,        // plain dark wall backdrop (tiles cleanly, unlike the raised panel look of tile 9)
+  CRATE: 74,       // decorative prop
+  BARREL: 78,      // decorative prop
+  LOCKER_BLUE: 109, // decorative prop (also doubles as a control-panel look)
   PIPE_H: 80,      // horizontal pipe run w/ valve wheel
   PIPE_V: 17,      // vertical pipe segment
+  PLAYER: 121,     // worker sprite
 };
 
 // ---------- Map layout ----------
@@ -44,9 +48,13 @@ function poBuildMap() {
       if (isBorder) {
         floorRow.push(PO_TILES.WALL);
         solidRow.push(true);
+      } else if (r === 1) {
+        // a decorative pipe run just inside the top wall, matching a real plant's overhead piping
+        floorRow.push(PO_TILES.PIPE_H);
+        solidRow.push(false);
       } else {
-        // hazard-stripe walkway near the reactor (cols 5-9, row 6-7), else plain checker
-        const nearReactor = r >= 5 && r <= 8 && c >= 4 && c <= 9;
+        // hazard-stripe walkway around the reactor, else plain checker
+        const nearReactor = r >= 3 && r <= 7 && c >= 4 && c <= 9;
         floorRow.push(nearReactor ? PO_TILES.FLOOR_HAZARD : PO_TILES.FLOOR);
         solidRow.push(false);
       }
@@ -55,6 +63,22 @@ function poBuildMap() {
     solid.push(solidRow);
   }
   return { floor, solid };
+}
+
+// ---------- Decorative props (solid, but not interactable \u2014 give the room texture) ----------
+function poBuildProps() {
+  return [
+    { tile: PO_TILES.CRATE, col: 2, row: 2 },
+    { tile: PO_TILES.CRATE, col: 2, row: 3 },
+    { tile: PO_TILES.BARREL, col: 12, row: 2 },
+    { tile: PO_TILES.LOCKER_BLUE, col: 12, row: 6 },
+    { tile: PO_TILES.LOCKER_BLUE, col: 12, row: 7 },
+    { tile: PO_TILES.BARREL, col: 2, row: 7 },
+  ];
+}
+
+function poPropRect(p) {
+  return { x: p.col * PO_TILE, y: p.row * PO_TILE, w: PO_TILE, h: PO_TILE };
 }
 
 // ---------- Equipment (V1: one reactor, stub interaction) ----------
@@ -66,7 +90,7 @@ function poBuildEquipment() {
       id: "R-101",
       label: "Reactor R-101",
       type: "reactor",
-      col: 6, row: 4,      // top-left tile position
+      col: 6, row: 3,      // top-left tile position
       wTiles: 2, hTiles: 3,
       state: "idle",
       // Process state (V2): live simulation, updated every frame regardless of
@@ -191,6 +215,7 @@ let poReactorImg = null;
 let poAssetsReady = false;
 let poMap = null;
 let poEquipment = null;
+let poProps = [];
 let poPlayer = { x: 0, y: 0, w: 12, h: 14, facing: "down" };
 let poKeys = {};
 let poTapTarget = null; // {x,y} in source-space, or null
@@ -231,6 +256,10 @@ function poCanMoveTo(nx, ny) {
   }
   for (const eq of poEquipment) {
     const r = poEquipmentRect(eq);
+    if (poRectsOverlap(nx, ny, poPlayer.w, poPlayer.h, r.x, r.y, r.w, r.h)) return false;
+  }
+  for (const p of poProps) {
+    const r = poPropRect(p);
     if (poRectsOverlap(nx, ny, poPlayer.w, poPlayer.h, r.x, r.y, r.w, r.h)) return false;
   }
   return true;
@@ -319,6 +348,10 @@ function poRender() {
     }
   }
 
+  for (const p of poProps) {
+    poDrawTile(ctx, p.tile, p.col * PO_TILE, p.row * PO_TILE);
+  }
+
   for (const eq of poEquipment) {
     const r = poEquipmentRect(eq);
     ctx.drawImage(poReactorImg, r.x * PO_SCALE, r.y * PO_SCALE, r.w * PO_SCALE, r.h * PO_SCALE);
@@ -338,12 +371,31 @@ function poRender() {
     }
   }
 
-  // Player (simple colored capsule as placeholder-visible marker + facing tick)
+  poDrawPlayer(ctx);
+}
+
+// Draws the worker sprite (tile 121) anchored so its feet sit on the player's
+// hitbox bottom edge, flipped horizontally when facing left.
+function poDrawPlayer(ctx) {
   const p = poPlayer;
-  ctx.fillStyle = "#E3862A";
-  ctx.fillRect(p.x * PO_SCALE, p.y * PO_SCALE, p.w * PO_SCALE, p.h * PO_SCALE);
-  ctx.fillStyle = "#54405A";
-  ctx.fillRect(p.x * PO_SCALE, (p.y - 3) * PO_SCALE, p.w * PO_SCALE, 3 * PO_SCALE);
+  const col = (PO_TILES.PLAYER - 1) % 12;
+  const row = Math.floor((PO_TILES.PLAYER - 1) / 12);
+  const cx = (p.x + p.w / 2) * PO_SCALE;
+  const bottomY = (p.y + p.h) * PO_SCALE;
+  const size = PO_TILE * PO_SCALE;
+
+  ctx.save();
+  if (p.facing === "left") {
+    ctx.translate(cx, 0);
+    ctx.scale(-1, 1);
+    ctx.translate(-cx, 0);
+  }
+  ctx.drawImage(
+    poTilesetImg,
+    col * PO_TILE, row * PO_TILE, PO_TILE, PO_TILE,
+    cx - size / 2, bottomY - size, size, size
+  );
+  ctx.restore();
 }
 
 function poLoop(ts) {
@@ -531,6 +583,7 @@ function initPlantOperator() {
   poCtx = canvas.getContext("2d");
   poMap = poBuildMap();
   poEquipment = poBuildEquipment();
+  poProps = poBuildProps();
   poBatch = poBuildBatch();
   poPlayer = { x: 4 * PO_TILE, y: 4 * PO_TILE, w: 12, h: 14, facing: "down" };
   poKeys = {}; poTapTarget = null; poActiveEquipment = null; poInteractionOpen = null;
