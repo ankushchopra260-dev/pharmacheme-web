@@ -1,0 +1,576 @@
+---
+layout: default
+title: Stop the Hazard
+description: "A fast arcade-style process safety game — spot hazards, read live process trends, and decide what needs attention first before risk escalates."
+breadcrumbs:
+  - label: Games
+    url: /games/
+  - label: Stop the Hazard
+    url: /games/stop-the-hazard/
+---
+
+<style>
+#sth-root * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+  #sth-root {
+    margin: 0; padding: 0; background: #0F1B2A; color: #1B2A3A;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif; overflow-x: hidden;
+  }#sth-root #wrap { max-width: 560px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }#sth-root #hud {
+    background: #0B1622; color: #ECE7D8; display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; font-family: 'Big Shoulders Display', sans-serif;
+  }#sth-root #hud .brand { font-weight: 800; font-size: 1.15rem; color: #FDBE53; }#sth-root #hud .mid { display: flex; align-items: center; gap: 14px; font-size: 0.85rem; }#sth-root #risk-badge { font-weight: 700; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; }#sth-root #risk-badge.normal { background: #1E9E52; color: #fff; }#sth-root #risk-badge.elevated { background: #F2A33C; color: #1B2A3A; }#sth-root #risk-badge.high { background: #E8622A; color: #fff; }#sth-root #risk-badge.critical { background: #D8352C; color: #fff; animation: riskPulse 0.6s infinite alternate; }#sth-root @keyframes riskPulse { from { opacity: 1; } to { opacity: 0.55; } }
+  #score-val { font-weight: 800; color: #FDBE53; font-size: 1.1rem; }#sth-root #round-timer { font-family: monospace; font-size: 0.82rem; color: #9FB2C4; }#sth-root #stage {
+    flex: 1; background: #E7EEF5; position: relative; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 16px; min-height: 460px;
+  }#sth-root #round-title {
+    position: absolute; top: 12px; left: 0; right: 0; text-align: center;
+    font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 1.05rem; color: #1B2A3A;
+  }#sth-root #round-sub { position: absolute; top: 38px; left: 0; right: 0; text-align: center; font-size: 0.8rem; color: #5A6B7A; }#sth-root canvas#scene { touch-action: none; cursor: pointer; }#sth-root #priority-game { width: 100%; max-width: 420px; display: none; flex-direction: column; align-items: center; margin-top: 30px; }#sth-root #round-summary {
+    display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.97);
+    flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; z-index: 15;
+  }#sth-root #round-summary.show { display: flex; }#sth-root #summary-title { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 6px; }#sth-root #summary-title.good { color: #1E9E52; }#sth-root #summary-title.bad { color: #D8352C; }#sth-root #summary-points { font-weight: 700; font-size: 1rem; color: #5A6B7A; margin-bottom: 10px; }#sth-root #summary-detail { font-size: 0.9rem; color: #1B2A3A; max-width: 340px; line-height: 1.5; margin-bottom: 20px; }#sth-root #next-round-btn {
+    padding: 14px 32px; background: #FDBE53; border: none; border-radius: 8px;
+    font-weight: 800; font-size: 1rem; cursor: pointer;
+  }#sth-root #priority-canvas { touch-action: none; cursor: pointer; }#sth-root #priority-prompt { font-weight: 700; font-size: 0.95rem; color: #1B2A3A; margin-top: 10px; text-align: center; }#sth-root #priority-explain { font-size: 0.8rem; color: #5A6B7A; text-align: center; margin-top: 6px; max-width: 380px; min-height: 2.2em; }#sth-root #start-overlay, #sth-root #end-overlay {
+    position: fixed; inset: 0; background: rgba(11,22,34,0.96); z-index: 30;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }#sth-root .card { max-width: 420px; width: 100%; background: #16283C; border-radius: 12px; padding: 30px; text-align: center; color: #ECE7D8; }#sth-root .card h1 { font-family: 'Big Shoulders Display', sans-serif; font-size: 1.8rem; margin: 0 0 8px; }#sth-root .card h1 span { color: #FDBE53; }#sth-root .card p { font-size: 0.88rem; color: #9FB2C4; line-height: 1.6; }#sth-root .bigbtn {
+    margin-top: 18px; padding: 14px 30px; background: #FDBE53; color: #0B1622; border: none;
+    border-radius: 8px; font-weight: 800; font-size: 1rem; cursor: pointer;
+  }#sth-root .stat-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin: 8px 0; }#sth-root .stat-row b { color: #FDBE53; }#sth-root .bar-track { background: #0B1622; border-radius: 6px; height: 10px; overflow: hidden; margin-top: 3px; }#sth-root .bar-fill { height: 100%; background: #4CD97B; }
+
+</style>
+
+<div class="container calc-page-head">
+  <p style="font-size:0.85rem; color:var(--muted, #6E8CA8); margin-bottom:4px;">
+    Spot dangers before they escalate. Short rounds, real trends, no color-coded answers — you have to read the situation.
+  </p>
+</div>
+
+<div id="sth-root">
+
+
+<div id="start-overlay">
+  <div class="card">
+    <h1>STOP THE <span>HAZARD</span></h1>
+    <p>Spot dangers before they become incidents. Read the situation, beat the clock, and keep risk under control.</p>
+    <button class="bigbtn" id="start-btn">START</button>
+  </div>
+</div>
+
+<div id="end-overlay" style="display:none;">
+  <div class="card">
+    <h1>SHIFT <span>COMPLETE</span></h1>
+    <p id="end-msg"></p>
+    <div class="stat-row"><span>Final Score</span><b id="end-score">0</b></div>
+    <div style="margin-top:14px; text-align:left;">
+      <div style="font-size:0.82rem; color:#9FB2C4;">Hazard Identification</div>
+      <div class="bar-track"><div class="bar-fill" id="bar-hazard" style="width:0%;"></div></div>
+      <div style="font-size:0.82rem; color:#9FB2C4; margin-top:10px;">Alarm Prioritization</div>
+      <div class="bar-track"><div class="bar-fill" id="bar-alarm" style="width:0%;"></div></div>
+    </div>
+    <button class="bigbtn" id="retry-btn">PLAY AGAIN</button>
+  </div>
+</div>
+
+<div id="wrap">
+  <div id="hud">
+    <span class="brand">STOP THE HAZARD</span>
+    <div class="mid">
+      <span id="round-timer">00:00</span>
+      <span id="risk-badge" class="normal">RISK: NORMAL</span>
+      <span>&#11088; <span id="score-val">0</span></span>
+      <button id="mute-btn" style="background:none; border:1px solid #2A3F55; border-radius:4px; color:#9FB2C4; cursor:pointer; padding:3px 8px; font-family:inherit; font-size:0.72rem;">&#128266;</button>
+    </div>
+  </div>
+
+  <div id="stage">
+    <div id="round-title">Round 1</div>
+    <div id="round-sub">Find the hazard</div>
+    <canvas id="scene" width="420" height="340"></canvas>
+    <div id="priority-game">
+      <canvas id="priority-canvas" width="380" height="260"></canvas>
+      <div id="priority-prompt">Something is changing. What needs attention first?</div>
+      <div id="priority-explain"></div>
+    </div>
+    <div id="round-summary">
+      <div id="summary-title"></div>
+      <div id="summary-points"></div>
+      <div id="summary-detail"></div>
+      <button id="next-round-btn">NEXT ROUND &#9654;</button>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<script>
+
+// ================================================================
+// Stop the Hazard — a new, separate arcade game. No plant-walking,
+// no equipment inspection. SEE -> THINK -> CLICK -> CONSEQUENCE -> SCORE.
+// First slice: two mini-games (Spot the Hazard, Alarm Priority),
+// two rounds each, sharing lives/combo/score/timer infrastructure.
+// ================================================================
+
+const COL = {
+  steel: '#B9C6D2', steelDark: '#8797A6', steelMid: '#9FAFBD',
+  danger: '#D8352C', warn: '#F2A33C', good: '#2E9E52', ok: '#3B7DD8',
+  outline: '#1B2A3A', pipe: '#7C8DA0',
+};
+
+// ---------------- Game state ----------------
+// ---------------- Sound (Web Audio API — no external files needed) ----------------
+let audioCtx = null;
+let soundOn = true;
+function ensureAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { audioCtx = null; }
+  }
+  return audioCtx;
+}
+function playTone(freq, duration, type, gain, delay) {
+  if (!soundOn) return;
+  const ctxA = ensureAudio();
+  if (!ctxA) return;
+  try {
+    const osc = ctxA.createOscillator();
+    const g = ctxA.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.value = freq;
+    const startAt = ctxA.currentTime + (delay || 0);
+    g.gain.value = gain !== undefined ? gain : 0.07;
+    osc.connect(g); g.connect(ctxA.destination);
+    osc.start(startAt);
+    g.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+    osc.stop(startAt + duration);
+  } catch (e) { /* never break gameplay over audio */ }
+}
+function sfxCorrect() { playTone(600, 0.09, 'sine', 0.08); playTone(900, 0.14, 'sine', 0.08, 0.09); }
+function sfxWrong() { playTone(220, 0.22, 'sawtooth', 0.06); }
+function sfxClick() { playTone(500, 0.04, 'square', 0.03); }
+function sfxWin() { [523, 659, 784, 1046].forEach((f, i) => playTone(f, 0.16, 'sine', 0.08, i * 0.11)); }
+function sfxLose() { [400, 300, 220].forEach((f, i) => playTone(f, 0.22, 'sawtooth', 0.06, i * 0.15)); }
+
+const state = {
+  score: 0,
+  risk: 0, // 0-100, drives the risk badge; incident when it hits 100
+  roundIndex: 0,
+  results: { hazard: [], alarm: [] }, // push true/false per attempt for the end-screen bars
+  running: false,
+  timerId: null,
+  timeLeft: 0,
+  timeTotal: 0,
+};
+
+const ROUNDS = [
+  { type: 'hazard', scene: 'leak', time: 12 },
+  { type: 'priority', scenario: 'A', time: 14 },
+  { type: 'hazard', scene: 'valve', time: 10 },
+  { type: 'priority', scenario: 'B', time: 14 },
+];
+
+// ---------------- Hazard scenes ----------------
+// Each element: {id, x, y, w, h, hazard, draw}
+function sceneLeak() {
+  return [
+    { id: 'agitator', x: 60, y: 40, w: 60, h: 90, hazard: false,
+      draw(ctx) {
+        ctx.fillStyle = COL.steel; ctx.fillRect(this.x, this.y + 20, this.w, this.h - 20);
+        ctx.fillStyle = COL.steelDark; ctx.fillRect(this.x + this.w/2 - 4, this.y, 8, 24);
+        ctx.fillStyle = COL.outline; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Agitator', this.x + this.w/2, this.y + this.h + 16);
+      } },
+    { id: 'gauge', x: 300, y: 50, w: 50, h: 50, hazard: false,
+      draw(ctx) {
+        ctx.fillStyle = '#fff'; ctx.strokeStyle = COL.good; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.arc(this.x + 25, this.y + 25, 24, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = COL.good; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('OK', this.x + 25, this.y + 29);
+        ctx.fillStyle = COL.outline; ctx.font = '11px sans-serif';
+        ctx.fillText('Temp', this.x + 25, this.y + 66);
+      } },
+    { id: 'pipe', x: 130, y: 90, w: 160, h: 16, hazard: false,
+      draw(ctx) {
+        ctx.fillStyle = COL.pipe; ctx.fillRect(this.x, this.y, this.w, this.h);
+      } },
+    { id: 'leak', x: 185, y: 100, w: 50, h: 65, hazard: true,
+      draw(ctx) {
+        // crack in the pipe (jagged dark line)
+        ctx.strokeStyle = '#1B2A3A'; ctx.lineWidth = 2; ctx.beginPath();
+        ctx.moveTo(this.x + 18, this.y);
+        ctx.lineTo(this.x + 24, this.y + 6);
+        ctx.lineTo(this.x + 19, this.y + 11);
+        ctx.lineTo(this.x + 25, this.y + 16);
+        ctx.stroke();
+        // falling droplets
+        function drop(dx, dy, s) {
+          ctx.fillStyle = '#4E9BE0';
+          ctx.beginPath();
+          ctx.moveTo(dx, dy);
+          ctx.quadraticCurveTo(dx + s, dy + s * 1.4, dx, dy + s * 2.2);
+          ctx.quadraticCurveTo(dx - s, dy + s * 1.4, dx, dy);
+          ctx.fill();
+        }
+        drop(this.x + 22, this.y + 18, 4);
+        drop(this.x + 30, this.y + 28, 3);
+        // puddle
+        ctx.fillStyle = 'rgba(78,155,224,0.55)';
+        ctx.beginPath();
+        ctx.ellipse(this.x + 24, this.y + 56, 22, 7, 0, 0, Math.PI * 2);
+        ctx.fill();
+      } },
+    { id: 'reactor', x: 90, y: 150, w: 220, h: 130, hazard: false,
+      draw(ctx) {
+        ctx.fillStyle = COL.steelMid; ctx.fillRect(this.x, this.y, this.w, this.h);
+        ctx.fillStyle = COL.outline; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('R-101', this.x + this.w/2, this.y + this.h + 18);
+      } },
+  ];
+}
+
+function sceneValve() {
+  return [
+    { id: 'reactor', x: 70, y: 60, w: 180, h: 140, hazard: false,
+      draw(ctx) {
+        ctx.fillStyle = COL.steelMid; ctx.fillRect(this.x, this.y, this.w, this.h);
+        ctx.fillStyle = COL.outline; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('R-105', this.x + this.w/2, this.y + this.h + 18);
+      } },
+    { id: 'gauge', x: 290, y: 70, w: 50, h: 50, hazard: true,
+      draw(ctx) {
+        ctx.fillStyle = '#fff'; ctx.strokeStyle = COL.danger; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.arc(this.x + 25, this.y + 25, 24, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = COL.danger; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('HIGH', this.x + 25, this.y + 29);
+        ctx.fillStyle = COL.outline; ctx.font = '11px sans-serif';
+        ctx.fillText('Pressure', this.x + 25, this.y + 66);
+      } },
+    { id: 'pipe1', x: 250, y: 95, w: 60, h: 14, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.pipe; ctx.fillRect(this.x, this.y, this.w, this.h); } },
+    { id: 'cwlabel', x: 60, y: 195, w: 200, h: 16, hazard: false,
+      draw(ctx) {
+        ctx.fillStyle = '#5A6B7A'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Reactor Utility Valves \u2014 Cooling Step', this.x + 100, this.y + 12);
+      } },
+    { id: 'steamvalve', x: 90, y: 220, w: 34, h: 34, hazard: false,
+      draw(ctx) {
+        ctx.save(); ctx.translate(this.x + 17, this.y + 17); ctx.rotate(Math.PI / 2);
+        ctx.fillStyle = COL.ok; ctx.fillRect(-15, -5, 30, 10);
+        ctx.restore();
+        ctx.fillStyle = COL.outline; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Steam', this.x + 17, this.y + 48);
+        ctx.fillStyle = COL.good; ctx.font = 'bold 10px sans-serif';
+        ctx.fillText('CLOSED', this.x + 17, this.y + 61);
+      } },
+    { id: 'chilledvalve', x: 190, y: 220, w: 34, h: 34, hazard: false,
+      draw(ctx) {
+        ctx.save(); ctx.translate(this.x + 17, this.y + 17);
+        ctx.fillStyle = COL.ok; ctx.fillRect(-15, -5, 30, 10);
+        ctx.restore();
+        ctx.fillStyle = COL.outline; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Chilled Water', this.x + 17, this.y + 48);
+        ctx.fillStyle = COL.good; ctx.font = 'bold 10px sans-serif';
+        ctx.fillText('OPEN', this.x + 17, this.y + 61);
+      } },
+  ];
+}
+
+const SCENES = { leak: sceneLeak, valve: sceneValve };
+const SCENE_CAPTIONS = {
+  leak: 'A cracked pipe joint was leaking process fluid near R-101. Even a small leak should be reported and isolated immediately \u2014 it can worsen quickly.',
+  valve: 'Steam was correctly closed and Chilled Water was correctly open for this cooling step \u2014 but pressure was still reading high. Correct valve lineup doesn\u2019t guarantee everything downstream is fine; always check the actual readings.',
+};
+let currentSceneElements = [];
+
+// ---------------- Alarm sets ----------------
+const PRIORITY_SCENARIOS = {
+  A: {
+    params: [
+      { id: 'level', label: 'Level', unit: '%', start: 78, rate: 0.5, dir: 1, x: 60, y: 210 },
+      { id: 'temp', label: 'Temperature', unit: '\u00b0C', start: 88, rate: 1.1, dir: 1, x: 60, y: 60 },
+      { id: 'pressure', label: 'Pressure', unit: ' bar', start: 6.2, rate: 0.62, dir: 1, x: 260, y: 60 },
+      { id: 'flow', label: 'Cooling Flow', unit: '%', start: 100, rate: -2.4, dir: -1, x: 260, y: 210 },
+    ],
+    thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
+    explain: 'Pressure was climbing fastest toward its safe limit \u2014 early recognition here prevents escalation.',
+  },
+  B: {
+    params: [
+      { id: 'level', label: 'Level', unit: '%', start: 60, rate: 0.35, dir: 1, x: 60, y: 210 },
+      { id: 'temp', label: 'Temperature', unit: '\u00b0C', start: 70, rate: 3.1, dir: 1, x: 60, y: 60 },
+      { id: 'pressure', label: 'Pressure', unit: ' bar', start: 5.0, rate: 0.08, dir: 1, x: 260, y: 60 },
+      { id: 'flow', label: 'Cooling Flow', unit: '%', start: 100, rate: -0.3, dir: -1, x: 260, y: 210 },
+    ],
+    thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
+    explain: 'Temperature was rising fastest toward its limit \u2014 the other readings were barely moving.',
+  },
+};
+
+function paramValueAt(param, ticks) { return param.start + param.rate * ticks; }
+
+function mostUrgentParam(scenario, ticks) {
+  let best = null, bestTime = Infinity;
+  for (const p of scenario.params) {
+    const current = paramValueAt(p, ticks);
+    const threshold = scenario.thresholds[p.id];
+    const remaining = p.dir > 0 ? (threshold - current) / p.rate : (current - threshold) / (-p.rate);
+    if (remaining < bestTime) { bestTime = remaining; best = p.id; }
+  }
+  return best;
+}
+
+let currentScenario = null;
+let priorityTicks = 0;
+let priorityAnimId = null;
+
+// ---------------- HUD ----------------
+function refreshHUD() {
+  document.getElementById('score-val').textContent = state.score;
+  const badge = document.getElementById('risk-badge');
+  let level, cls;
+  if (state.risk >= 85) { level = 'CRITICAL'; cls = 'critical'; }
+  else if (state.risk >= 55) { level = 'HIGH'; cls = 'high'; }
+  else if (state.risk >= 25) { level = 'ELEVATED'; cls = 'elevated'; }
+  else { level = 'NORMAL'; cls = 'normal'; }
+  badge.textContent = 'RISK: ' + level;
+  badge.className = cls;
+}
+
+
+// ---------------- Timer ----------------
+function startTimer(seconds, onExpire) {
+  state.timeTotal = seconds;
+  state.timeLeft = seconds;
+  const label = document.getElementById('round-timer');
+  label.textContent = '00:' + String(Math.ceil(seconds)).padStart(2, '0');
+  clearInterval(state.timerId);
+  state.timerId = setInterval(() => {
+    state.timeLeft -= 0.1;
+    label.textContent = '00:' + String(Math.max(0, Math.ceil(state.timeLeft))).padStart(2, '0');
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timerId);
+      onExpire();
+    }
+  }, 100);
+}
+function stopTimer() { clearInterval(state.timerId); }
+
+// ---------------- Round flow ----------------
+function startRound() {
+  if (state.roundIndex >= ROUNDS.length) { endGame(); return; }
+  const r = ROUNDS[state.roundIndex];
+  document.getElementById('round-title').textContent = 'Round ' + (state.roundIndex + 1);
+  document.getElementById('round-sub').textContent = r.type === 'hazard' ? 'Find the hazard' : 'Something is changing \u2014 what needs attention first?';
+  if (r.type === 'hazard') {
+    document.getElementById('scene').style.display = 'block';
+    document.getElementById('priority-game').style.display = 'none';
+    startHazardRound(r);
+  } else {
+    document.getElementById('scene').style.display = 'none';
+    document.getElementById('priority-game').style.display = 'flex';
+    startPriorityRound(r);
+  }
+}
+
+function showRoundSummary(good, title, points, detail) {
+  stopTimer();
+  cancelAnimationFrame(priorityAnimId);
+  const panel = document.getElementById('round-summary');
+  document.getElementById('summary-title').textContent = title;
+  document.getElementById('summary-title').className = good ? 'good' : 'bad';
+  document.getElementById('summary-points').textContent = points;
+  document.getElementById('summary-detail').textContent = detail;
+  panel.classList.add('show');
+}
+document.getElementById('next-round-btn').addEventListener('click', () => {
+  sfxClick();
+  document.getElementById('round-summary').classList.remove('show');
+  state.roundIndex++;
+  startRound();
+});
+
+// ---------------- Hazard mini-game ----------------
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+
+function renderScene() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const el of currentSceneElements) el.draw(ctx);
+}
+
+function startHazardRound(r) {
+  currentSceneElements = SCENES[r.scene]();
+  renderScene();
+  startTimer(r.time, () => {
+    state.results.hazard.push(false);
+    sfxWrong();
+    increaseRisk(20);
+    showRoundSummary(false, 'MISSED IT', 'No points', SCENE_CAPTIONS[r.scene]);
+  });
+}
+
+canvas.addEventListener('click', (e) => {
+  if (!state.running) return;
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
+  const x = (e.clientX - rect.left) * scaleX, y = (e.clientY - rect.top) * scaleY;
+  const hit = [...currentSceneElements].reverse().find((el) => x >= el.x && x <= el.x + el.w && y >= el.y && y <= el.y + el.h);
+  if (!hit) return;
+  const r = ROUNDS[state.roundIndex];
+  if (hit.hazard) {
+    state.results.hazard.push(true);
+    state.score += 100;
+    sfxCorrect();
+    decreaseRisk(10);
+    showRoundSummary(true, 'HAZARD FOUND!', '+100 points', SCENE_CAPTIONS[r.scene]);
+  } else {
+    state.results.hazard.push(false);
+    sfxWrong();
+    increaseRisk(15);
+    showRoundSummary(false, 'NOT A HAZARD', 'No points', SCENE_CAPTIONS[r.scene]);
+  }
+  refreshHUD();
+});
+
+// ---------------- Priority mini-game ----------------
+const pCanvas = document.getElementById('priority-canvas');
+const pCtx = pCanvas.getContext('2d');
+let priorityAnswered = false;
+
+function startPriorityRound(r) {
+  currentScenario = PRIORITY_SCENARIOS[r.scenario];
+  priorityTicks = 0;
+  priorityAnswered = false;
+  document.getElementById('priority-explain').textContent = '';
+  const startTime = performance.now();
+  function tick(ts) {
+    priorityTicks = (ts - startTime) / 1000; // ticks measured in elapsed seconds
+    renderPriorityScene();
+    if (!priorityAnswered) priorityAnimId = requestAnimationFrame(tick);
+  }
+  priorityAnimId = requestAnimationFrame(tick);
+  startTimer(r.time, () => {
+    if (priorityAnswered) return;
+    priorityAnswered = true;
+    state.results.alarm.push(false);
+    sfxWrong();
+    increaseRisk(25);
+    const correctId = mostUrgentParam(currentScenario, priorityTicks);
+    const correctLabel = currentScenario.params.find((x) => x.id === correctId).label;
+    showRoundSummary(false, 'TOO SLOW', 'No points', correctLabel + ' needed attention first. ' + currentScenario.explain);
+  });
+}
+
+function renderPriorityScene() {
+  const W = pCanvas.width, H = pCanvas.height;
+  pCtx.clearRect(0, 0, W, H);
+  // simple process schematic: reactor -> condenser -> product
+  pCtx.fillStyle = '#B9C6D2'; pCtx.fillRect(W/2 - 55, H/2 - 45, 110, 90);
+  pCtx.strokeStyle = COL.outline; pCtx.lineWidth = 2; pCtx.strokeRect(W/2 - 55, H/2 - 45, 110, 90);
+  pCtx.fillStyle = COL.outline; pCtx.font = 'bold 12px sans-serif'; pCtx.textAlign = 'center';
+  pCtx.fillText('R-101', W/2, H/2 + 5);
+  pCtx.fillStyle = '#7C8DA0'; pCtx.fillRect(W/2 + 55, H/2 - 8, 40, 16);
+  pCtx.fillStyle = COL.outline; pCtx.font = '10px sans-serif';
+  pCtx.fillText('Condenser', W/2 + 100, H/2 - 14);
+  pCtx.beginPath(); pCtx.moveTo(W/2, H/2 + 45); pCtx.lineTo(W/2, H/2 + 70); pCtx.strokeStyle = COL.pipe; pCtx.lineWidth = 4; pCtx.stroke();
+  pCtx.fillStyle = COL.outline; pCtx.font = '11px sans-serif'; pCtx.fillText('Product', W/2, H/2 + 86);
+
+  for (const p of currentScenario.params) {
+    const val = paramValueAt(p, priorityTicks);
+    const displayVal = p.unit === '%' || p.unit === ' bar' ? val.toFixed(1) : Math.round(val);
+    pCtx.fillStyle = '#fff'; pCtx.strokeStyle = '#C7D3DE'; pCtx.lineWidth = 2;
+    pCtx.fillRect(p.x - 45, p.y - 22, 90, 44);
+    pCtx.strokeRect(p.x - 45, p.y - 22, 90, 44);
+    pCtx.fillStyle = '#5A6B7A'; pCtx.font = '10px sans-serif'; pCtx.textAlign = 'center';
+    pCtx.fillText(p.label, p.x, p.y - 7);
+    pCtx.fillStyle = COL.outline; pCtx.font = 'bold 14px sans-serif';
+    const arrow = p.dir > 0 ? '\u2191' : '\u2193';
+    pCtx.fillText(displayVal + p.unit + ' ' + arrow, p.x, p.y + 12);
+    p._hit = { x: p.x - 45, y: p.y - 22, w: 90, h: 44 };
+  }
+}
+
+function priorityExplainText(correctId, pickedId) {
+  const correctLabel = currentScenario.params.find((x) => x.id === correctId).label;
+  if (pickedId === correctId) return currentScenario.explain;
+  const pickedLabel = currentScenario.params.find((x) => x.id === pickedId).label;
+  return 'You picked ' + pickedLabel + '. ' + correctLabel + ' actually needed attention first. ' + currentScenario.explain;
+}
+
+pCanvas.addEventListener('click', (e) => {
+  if (!state.running || priorityAnswered || !currentScenario) return;
+  const rect = pCanvas.getBoundingClientRect();
+  const scaleX = pCanvas.width / rect.width, scaleY = pCanvas.height / rect.height;
+  const x = (e.clientX - rect.left) * scaleX, y = (e.clientY - rect.top) * scaleY;
+  const hit = currentScenario.params.find((p) => p._hit && x >= p._hit.x && x <= p._hit.x + p._hit.w && y >= p._hit.y && y <= p._hit.y + p._hit.h);
+  if (!hit) return;
+  priorityAnswered = true;
+  const correctId = mostUrgentParam(currentScenario, priorityTicks);
+  const detail = priorityExplainText(correctId, hit.id);
+  if (hit.id === correctId) {
+    state.results.alarm.push(true);
+    state.score += 100;
+    sfxCorrect();
+    decreaseRisk(10);
+    showRoundSummary(true, 'GOOD PRIORITY!', '+100 points', detail);
+  } else {
+    state.results.alarm.push(false);
+    sfxWrong();
+    increaseRisk(20);
+    showRoundSummary(false, 'NOT THE TOP PRIORITY', 'No points', detail);
+  }
+  refreshHUD();
+});
+
+// ---------------- Risk / end ----------------
+function increaseRisk(amount) {
+  state.risk = Math.min(100, state.risk + amount);
+  refreshHUD();
+  if (state.risk >= 100) {
+    setTimeout(() => endGame(), 950);
+  }
+}
+function decreaseRisk(amount) {
+  state.risk = Math.max(0, state.risk - amount);
+  refreshHUD();
+}
+
+function endGame() {
+  state.running = false;
+  stopTimer();
+  document.getElementById('start-overlay').style.display = 'none';
+  const hazardPct = pct(state.results.hazard);
+  const alarmPct = pct(state.results.alarm);
+  document.getElementById('bar-hazard').style.width = hazardPct + '%';
+  document.getElementById('bar-alarm').style.width = alarmPct + '%';
+  document.getElementById('end-score').textContent = state.score;
+  document.getElementById('end-msg').textContent = state.risk < 100
+    ? 'Shift complete \u2014 nice work spotting the danger.'
+    : 'Risk reached critical \u2014 an incident occurred. Review what you missed and try again.';
+  if (state.risk < 100) sfxWin(); else sfxLose();
+  document.getElementById('end-overlay').style.display = 'flex';
+}
+function pct(arr) {
+  if (!arr.length) return 0;
+  return Math.round((arr.filter(Boolean).length / arr.length) * 100);
+}
+
+// ---------------- Start / Restart ----------------
+document.getElementById('start-btn').addEventListener('click', () => {
+  document.getElementById('start-overlay').style.display = 'none';
+  state.running = true;
+  ensureAudio();
+  refreshHUD();
+  startRound();
+});
+document.getElementById('mute-btn').addEventListener('click', () => {
+  soundOn = !soundOn;
+  document.getElementById('mute-btn').innerHTML = soundOn ? '&#128266;' : '&#128263;';
+  if (soundOn) sfxClick();
+});
+document.getElementById('retry-btn').addEventListener('click', () => { window.location.reload(); });
+
+refreshHUD();
+
+</script>
