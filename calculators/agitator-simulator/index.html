@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agitator comparison simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e4eaee;--paper:#f6f8f9;--ink:#15212c;--muted:#56687a;--line:#c5d0d8;--shell:#2a3a4a;--jacket:#d3dde4;--head:#eef2f5;--a:#1f4e86;--b:#b07a0f;--warn:#9a3412;--warnbg:#fbeee4;--field:#fff;
+ --font:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;--cond:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131b22;--paper:#1b252e;--ink:#e6edf2;--muted:#94a6b5;--line:#2e3c48;--shell:#9fb3c4;--jacket:#24313c;--head:#1f2a33;--a:#6ea3e0;--b:#e0a93a;--warn:#f0a36b;--warnbg:#2c2019;--field:#141d25;}}
+:root[data-theme="dark"]{--bg:#131b22;--paper:#1b252e;--ink:#e6edf2;--muted:#94a6b5;--line:#2e3c48;--shell:#9fb3c4;--jacket:#24313c;--head:#1f2a33;--a:#6ea3e0;--b:#e0a93a;--warn:#f0a36b;--warnbg:#2c2019;--field:#141d25;}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 18px 40px}
+h1{font-family:var(--cond);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1;letter-spacing:-.01em;margin:0 0 8px}
+.lede{color:var(--muted);max-width:68ch;margin:0 0 20px}
+h2{font-family:var(--cond);font-weight:600;font-size:21px;margin:0 0 10px}
+.proc{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 14px}
+label{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--muted)}
+input,select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%;min-width:0}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--a);outline-offset:1px}
+.speed{grid-column:span 2;}
+.speed .row{display:flex;gap:8px;align-items:center}
+.speed input[type=range]{flex:1;padding:0;accent-color:var(--a)}
+.speed input[type=number]{width:84px;flex:none}
+.sub{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;font-size:13px;color:var(--muted)}
+.sub a{color:var(--a)}
+.sub b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:22px 0 12px}
+.tabs{display:inline-flex;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:3px}
+.tabs button,.ctl button{font:inherit;font-size:14px;border:0;background:transparent;color:var(--muted);padding:7px 12px;border-radius:6px;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.ctl{display:inline-flex;gap:4px;margin-left:auto}
+.ctl button{border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.ctl button[aria-pressed=true]{border-color:var(--ink)}
+.pan{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.pan{grid-template-columns:1fr}.speed{grid-column:1/-1}.ctl{margin-left:0}}
+.sys{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:14px;min-width:0}
+.sys h2{display:flex;align-items:baseline;gap:8px;color:var(--c)}
+.sys h2 small{font-family:var(--font);font-size:13px;color:var(--muted);font-weight:400}
+.sgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:8px 10px;margin-bottom:8px}
+.sgrid .full{grid-column:1/-1}
+.npnote{font-size:12px;color:var(--muted);align-self:end}
+.src{font-size:13px;color:var(--muted);margin:-4px 0 10px}.src b{color:var(--ink);font-weight:600}
+.src button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--field);color:var(--ink);border-radius:5px;padding:2px 8px;cursor:pointer}
+.stagebtns{display:flex;gap:6px}
+.stagebtns button{flex:1;font:inherit;font-size:14px;padding:6px;border:1px solid var(--line);border-radius:6px;background:var(--field);color:var(--muted);cursor:pointer}
+.stagebtns button[aria-pressed=true]{border-color:var(--c);color:var(--c);font-weight:600}
+.cv{position:relative;width:100%;aspect-ratio:4/5;margin-top:4px}
+.cv canvas{position:absolute;inset:0;width:100%;height:100%}
+.status{font-size:13px;color:var(--muted);min-height:2.6em;margin:6px 0 10px;font-variant-numeric:tabular-nums}
+.read{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 12px;border-top:1px solid var(--line);padding-top:10px}
+.read div{display:flex;flex-direction:column}
+.read span{font-size:12.5px;color:var(--muted)}
+.read strong{font-family:var(--cond);font-weight:600;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.read em{font-style:normal;font-size:13px;color:var(--muted)}
+.warn{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:6px}
+.warn li{background:var(--warnbg);color:var(--warn);border-radius:6px;padding:7px 10px;font-size:13px}
+.cryopts{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 12px}
+.cryopts label{min-width:180px}.cryopts p{margin:0;font-size:12.5px;color:var(--muted);flex:1 1 220px}
+.crybox{border-top:1px solid var(--line);padding:10px 0 12px;margin-bottom:4px}
+.crybox canvas{width:100%;height:110px;display:block}
+.crynum{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px 10px;margin-top:8px}
+.crynum div{display:flex;flex-direction:column}.crynum span{font-size:12px;color:var(--muted)}
+.crynum strong{font-family:var(--cond);font-weight:600;font-size:18px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.legend{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin:0 0 4px}
+.legend i{display:block;height:8px;flex:1;max-width:220px;border-radius:4px}
+.geo{font-size:12.5px;color:var(--muted);margin:2px 0 4px;font-variant-numeric:tabular-nums}
+.badge{position:absolute;left:8px;top:8px;font-size:11.5px;line-height:1.3;background:rgba(21,33,44,.72);color:#f3f6f8;padding:4px 8px;border-radius:5px;pointer-events:none;max-width:calc(100% - 16px)}
+.tag{display:inline-block;font-size:10.5px;font-weight:500;line-height:1;padding:3px 6px;border-radius:4px;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.t-in{background:#e6eaee;color:#465563}.t-calc{background:#e3eef8;color:#1f4e86}.t-corr{background:#e6f2ea;color:#276b3c}.t-model{background:#f8eedb;color:#8a5a06}.t-anim{background:#efe7f7;color:#5d3591}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .t-in{background:#2b3640;color:#b8c5d0}:root:not([data-theme="light"]) .t-calc{background:#1c3350;color:#9cc3ee}:root:not([data-theme="light"]) .t-corr{background:#1d3a28;color:#9ad3ad}:root:not([data-theme="light"]) .t-model{background:#3d2f14;color:#e8c27a}:root:not([data-theme="light"]) .t-anim{background:#33254a;color:#cdb2ee}}
+.tblhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:22px}
+.tagkey{display:flex;flex-wrap:wrap;gap:6px}.tagkey .tag{margin:0;font-size:12px;padding:4px 8px}
+.ctl2{display:flex;gap:6px}.ctl2 button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:7px 12px;border-radius:6px;cursor:pointer}
+tr.sec th{font-family:var(--cond);font-size:15px;font-weight:600;color:var(--ink);background:var(--bg);padding-top:10px}
+.corr{background:var(--paper);border:1px solid var(--line);border-radius:10px;margin-top:16px;padding:0 16px}
+.corr summary{cursor:pointer;font-family:var(--cond);font-weight:600;font-size:19px;padding:12px 0}
+.corr h3{font-family:var(--cond);font-weight:600;font-size:16px;margin:14px 0 6px}.corr p{font-size:13.5px;color:var(--muted);max-width:90ch}
+.corr table{border-collapse:collapse;width:100%;font-size:13px}.corr td,.corr th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.corr .eq td:nth-child(3){color:var(--muted);width:24%}.corr #selftest{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--field);color:var(--ink);padding:6px 12px;border-radius:6px;cursor:pointer}
+.corr .tw{overflow-x:auto}.corr .imp{min-width:720px}
+.tblwrap{margin-top:10px !important;overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:10px;margin-top:22px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 14px;border-bottom:1px solid var(--line);font-size:14px}
+thead th{font-family:var(--cond);font-size:18px;font-weight:600}
+thead th.a{color:var(--a)}thead th.b{color:var(--b)}
+tbody th{font-weight:500;color:var(--muted)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+td.best{font-weight:600}
+.notes{color:var(--muted);font-size:13px;max-width:78ch;margin-top:20px}
+.notes p{margin:0 0 8px}.notes a{color:var(--a)}
+.crumb{font-size:13px;color:var(--muted);margin-bottom:10px}.crumb a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.tabs button{transition:none}}
+.link{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--a);border-radius:10px;padding:14px 16px;margin-top:16px}
+.link p{margin:0;flex:1 1 320px;max-width:62ch}
+.link p strong{display:block;font-family:var(--cond);font-weight:600;font-size:19px;margin-bottom:2px}
+.link .acts{display:flex;flex-wrap:wrap;gap:8px}
+.link a,.link button{font:inherit;font-size:14px;text-decoration:none;border-radius:6px;padding:8px 12px;cursor:pointer;border:1px solid var(--line);background:var(--field);color:var(--ink)}
+.link a.go{background:var(--a);border-color:var(--a);color:#fff;font-weight:600}
+.link a:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+#copied{font-size:13px;color:var(--muted);min-width:8ch}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="crumb"><a href="https://pharmacheme.in/">PharmaChemE</a> › <a href="https://pharmacheme.in/calculators/">Calculators</a></nav>
+<h1>Agitator comparison simulator</h1>
+<p class="lede">Put two agitation systems in the same vessel and watch how they circulate, blend and lift solids. Engineering numbers come from standard mixing correlations; the animation is a simplified flow model for comparison, not CFD.</p>
+
+<section class="proc" aria-labelledby="ph">
+<h2 id="ph">Vessel and process</h2>
+<div class="grid">
+ <label>Vessel diameter T (mm)<input id="T" type="number" min="200" max="6000" step="10" value="1600"></label>
+ <label>RM volume (L)<input id="V" type="number" min="1" step="10" value="2950"></label>
+ <label>Baffles<select id="baffle"><option value="none">None</option><option value="finger" selected>One finger baffle</option><option value="full">Four standard baffles</option></select></label>
+ <label>Liquid density (kg/m³)<input id="rho" type="number" min="500" max="2500" step="10" value="1000"></label>
+ <label>Viscosity (cP)<input id="mu" type="number" min="0.2" max="200000" step="any" value="1"></label>
+ <div class="speed"><label for="Nr">Speed of system A (rpm)</label><div class="row"><input id="Nr" type="range" min="5" max="400" step="1" value="90" aria-label="Speed slider"><input id="N" type="number" min="1" max="3000" step="1" value="90" aria-label="Speed in rpm"></div></div>
+ <label>Run system B at<select id="mode"><option value="rpm">Same speed</option><option value="pv">Same power per volume</option><option value="tip">Same tip speed</option></select></label>
+ <label>Power numbers<select id="npsrc"><option value="calc" selected>Same as Scale-up Calculator</option><option value="sim">Simulator (literature)</option></select></label>
+ <label>Particle size (µm)<input id="dp" type="number" min="1" max="5000" step="10" value="200"></label>
+ <label>Particle density (kg/m³)<input id="rhos" type="number" min="100" max="8000" step="50" value="2500"></label>
+ <label>Solids loading (wt %)<input id="ws" type="number" min="0" max="50" step="1" value="10"></label>
+</div>
+<div class="sub"><span>Liquid height <b id="vol">–</b></span><span>Dished bottom 2:1 elliptical</span><span>Inputs use the same units as the <a href="https://pharmacheme.in/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a></span></div>
+</section>
+
+<div class="bar">
+ <div class="tabs" role="group" aria-label="View">
+  <button data-v="flow" aria-pressed="true">Flow pattern</button>
+  <button data-v="dye" aria-pressed="false">Homogenization</button>
+  <button data-v="solids" aria-pressed="false">Solids suspension</button>
+  <button data-v="cryst" aria-pressed="false">Crystallisation (qualitative)</button>
+ </div>
+ <div class="ctl">
+  <button id="play" aria-pressed="false">Pause</button>
+  <button id="restart">Restart</button>
+  <button data-s="1" aria-pressed="false">1×</button>
+  <button data-s="3" aria-pressed="true">3×</button>
+  <button data-s="8" aria-pressed="false">8×</button>
+ </div>
+</div>
+<div class="cryopts" id="cryopts" hidden>
+ <label>Crystallisation<select id="crmode"><option value="cool">Cooling (jacket)</option><option value="anti">Antisolvent addition</option></select></label>
+ <label>Addition point<select id="crfeed"><option value="surf">At the surface</option><option value="imp">Sub-surface, at the impeller</option></select></label>
+ <p>Kinetics are sped up so a batch runs in about 100 simulated seconds. Settings apply to both systems.</p>
+</div>
+<div class="legend" id="legend"><span id="lg0">0</span><i id="lgbar"></i><span id="lg1">–</span></div>
+
+<div class="pan" id="pan"></div>
+
+<div class="tblhead"><div class="tagkey"><span class="tag t-in">Input</span><span class="tag t-calc">Calculated</span><span class="tag t-corr">Correlation</span><span class="tag t-model">Model estimate</span><span class="tag t-anim">Animation</span></div>
+ <div class="ctl2"><button id="reset">Reset to baseline</button><button id="csv">Export results (CSV)</button></div></div>
+<div class="tblwrap"><table id="tbl"><thead><tr><th scope="col">Result</th><th scope="col" class="a">System A</th><th scope="col" class="b">System B</th></tr></thead><tbody></tbody></table></div>
+
+<details class="corr"><summary>Correlations and assumptions</summary><div id="corrbody"></div></details>
+<div class="link">
+ <p><strong>Need the numbers across scales?</strong>The Mixing / Scale-up Calculator compares Re, tip speed, power, P/V and torque for any number of reactors. Enter the same diameter, RM volume, speed and impellers there.</p>
+ <div class="acts"><a class="go" href="https://pharmacheme.in/calculators/mixing-scale-up-calculator/">Open Mixing / Scale-up Calculator</a></div>
+</div>
+<div class="notes">
+<p>Power uses Np–Re curves per impeller class with a baffling correction; by default the turbulent power numbers for the types the Scale-up Calculator lists (Rushton 3/4/5/6-blade, 2- and 4-blade paddles, PBT, anchor, RCI) are the calculator's own values, and the other types use literature values; multi-impeller power is the sum of all stages less 5 %. Blend time θ95 follows Grenville's turbulent and transitional correlations, corrected for liquid height and baffling. Just-suspended speed uses the Zwietering correlation with indicative S-factors. The motor size assumes 85 % drive efficiency plus a 20 % margin.</p>
+<p>The animated field is a reduced-order model: circulation loops placed by impeller type, shrunk at low Reynolds number and weakened without baffles. The model blend time from the dye animation is shown for comparison and will not match the correlation exactly. The crystallisation view is a teaching model: supersaturation from jacket cooling or antisolvent feed is carried by the same flow field, nucleation rises steeply above a metastable limit, crystals grow where supersaturation reaches them, settle by size, and chip when they pass through the impeller zone (more for high-shear impellers and higher tip speed). Use it to compare trends between agitators, not to predict a real CSD. Use all of this for screening, teaching and discussion; confirm critical designs with vendor data, scale-up trials or CFD. Background on the scale-up rules is in <a href="https://www.pharmacheme.in/articles/mixing-scale-up/" target="_blank" rel="noopener">Mixing &amp; Scale-up Calculations Explained</a>.</p>
+</div>
+</div>
+<script>
+const G=9.81;
+const IMP={
+ rushton3:{npCalc:3.3,grp:"Radial flow",name:"Rushton turbine 3-blade",flow:"radial",NpT:3.3,Kp:60,Nq:0.55,S:6.5,DT:0.33,CT:0.25,vf:0.36,blades:3,glyph:"rushton"},
+ rushton4:{npCalc:4.3,grp:"Radial flow",name:"Rushton turbine 4-blade",flow:"radial",NpT:4.3,Kp:65,Nq:0.62,S:6.3,DT:0.33,CT:0.25,vf:0.38,blades:4,glyph:"rushton"},
+ rushton5:{npCalc:5.4,grp:"Radial flow",name:"Rushton turbine 5-blade",flow:"radial",NpT:4.7,Kp:68,Nq:0.7,S:6.1,DT:0.33,CT:0.25,vf:0.4,blades:5,glyph:"rushton"},
+ rushton:{npCalc:6,grp:"Radial flow",name:"Rushton turbine 6-blade",flow:"radial",NpT:5.0,Kp:70,Nq:0.75,S:6.0,DT:0.33,CT:0.25,vf:0.42,blades:6,glyph:"rushton"},
+ cbt:{grp:"Radial flow",name:"Concave-blade (Smith) turbine",flow:"radial",NpT:3.2,Kp:70,Nq:0.72,S:6.0,DT:0.35,CT:0.25,vf:0.4,blades:6,glyph:"rushton"},
+ fbt:{grp:"Radial flow",name:"Flat-blade turbine 6-blade (open)",flow:"radial",NpT:3.0,Kp:70,Nq:0.70,S:5.8,DT:0.35,CT:0.25,vf:0.40,blades:6,glyph:"flat",hb:0.2},
+ paddle:{npCalc:5.4,grp:"Radial flow",name:"Flat paddle 2-blade",flow:"radial",NpT:1.70,Kp:100,Nq:0.45,S:7.5,DT:0.50,CT:0.25,vf:0.38,blades:2,glyph:"flat",hb:0.25},
+ paddle4:{npCalc:2,grp:"Radial flow",name:"Flat paddle 4-blade",flow:"radial",NpT:2.5,Kp:100,Nq:0.55,S:6.8,DT:0.50,CT:0.25,vf:0.38,blades:4,glyph:"flat",hb:0.2},
+ rci:{npCalc:0.4,grp:"Radial flow",name:"Retreat-curve impeller (RCI)",flow:"radial",NpT:0.70,Kp:150,Nq:0.35,S:5.5,DT:0.60,CT:0.12,vf:0.35,blades:3,glyph:"rci",bottom:true},
+ pbt:{npCalc:1.27,grp:"Axial / mixed flow",name:"Pitched-blade turbine 45° 4-blade",flow:"mixed",NpT:1.27,Kp:50,Nq:0.79,S:5.0,DT:0.40,CT:0.25,vf:0.30,blades:4,glyph:"pitched"},
+ pbt3:{grp:"Axial / mixed flow",name:"Pitched-blade turbine 45° 3-blade",flow:"mixed",NpT:1.0,Kp:45,Nq:0.7,S:5.3,DT:0.40,CT:0.25,vf:0.27,blades:3,glyph:"pitched"},
+ hydrofoil:{grp:"Axial / mixed flow",name:"Hydrofoil 3-blade",flow:"axial",NpT:0.30,Kp:40,Nq:0.56,S:5.5,DT:0.40,CT:0.25,vf:0.20,blades:3,glyph:"hydrofoil"},
+ propeller:{grp:"Axial / mixed flow",name:"Marine propeller",flow:"axial",NpT:0.35,Kp:40,Nq:0.50,S:6.5,DT:0.33,CT:0.25,vf:0.22,blades:3,glyph:"propeller"},
+ anchor:{npCalc:0.6,grp:"Close-clearance (viscous)",name:"Anchor",flow:"close",NpT:0.35,Kp:420,Nq:0.15,S:11,DT:0.90,CT:0.04,vf:0.12,blades:2,glyph:"anchor",bottom:true,shear:0.3},
+ gate:{grp:"Close-clearance (viscous)",name:"Gate / frame",flow:"close",NpT:0.5,Kp:350,Nq:0.18,S:10,DT:0.85,CT:0.05,vf:0.14,blades:2,glyph:"gate",bottom:true,shear:0.3},
+ ribbon:{grp:"Close-clearance (viscous)",name:"Helical ribbon",flow:"close",NpT:0.4,Kp:1000,Nq:0.3,S:9,DT:0.95,CT:0.03,vf:0.16,blades:2,glyph:"ribbon",bottom:true,single:true,ribbon:true,shear:0.3},
+ sawtooth:{grp:"High shear",name:"Sawtooth (Cowles) disperser",flow:"radial",NpT:0.4,Kp:35,Nq:0.12,S:8.5,DT:0.30,CT:0.3,vf:0.28,blades:12,glyph:"disc",shear:3}
+};
+// Model constants in one place (shown in the Correlations & assumptions panel)
+const MODEL={
+ bafNp:{none:{radial:.22,mixed:.40,axial:.50,close:1},finger:{radial:.55,mixed:.65,axial:.75,close:1},full:{radial:1,mixed:1,axial:1,close:1}},
+ bafQ:{none:.45,finger:.75,full:1},
+ multiP:0.95, multiQ:0.85, multiNjs:0.95, unbafNjs:1.2,
+ lamQ:300, driveEff:0.85, motorMargin:1.2
+};
+const MOTORS=[0.37,0.55,0.75,1.1,1.5,2.2,3,4,5.5,7.5,11,15,18.5,22,30,37,45,55,75,90,110,132,160,200,250,315];
+function geom(T,HT){const R=T/2,hd=T/4,H=HT*T;return{T,R,hd,H};}
+function rAt(g,z){if(z>=g.hd)return g.R;if(z<=0)return 0;const t=(g.hd-z)/g.hd;return g.R*Math.sqrt(Math.max(0,1-t*t));}
+function floorAt(g,x){const a=Math.min(1,Math.abs(x)/g.R);return g.hd*(1-Math.sqrt(1-a*a));}
+function isIn(g,x,z){return z>=0&&z<=g.H&&Math.abs(x)<=rAt(g,z);}
+function liquidVolume(g){const{R,hd,H}=g;if(H<=hd)return Math.PI*R*R*(H*H/hd-H*H*H/(3*hd*hd));return Math.PI*R*R*(2*hd/3)+Math.PI*R*R*(H-hd);}
+function npOf(imp,Re,baffle){
+ const fb=MODEL.bafNp[baffle][imp.flow];const w=Re/(Re+2000);const f=1-(1-fb)*w;
+ return imp.Kp/Re+imp.NpT*f/(1+30/Re);
+}
+function stagesOf(sys,g){
+ return sys.st.map((s,k)=>{const base=IMP[s.type];const ov=s.np!=null&&isFinite(s.np);const imp=ov?Object.assign({},base,{NpT:s.np}):base;
+  return{key:s.type,imp,npSrc:ov?'Scale-up Calculator':'Literature (simulator)',D:s.DT*g.T,zi:sys.CT1*g.T+k*sys.ST*g.T};});
+}
+function vt(dp,drho,rho,mu){let v=G*dp*dp*drho/(18*mu);for(let i=0;i<40;i++){const Re=Math.max(1e-9,rho*v*dp/mu);const Cd=Re<1000?24/Re*(1+0.15*Math.pow(Re,0.687)):0.44;v=Math.sqrt(4*G*dp*drho/(3*Cd*rho));}return v;}
+function stagePower(p,act,N,store){const rho=p.rho,mu=p.mu/1000;let P=0,Q=0;
+ act.forEach(s=>{const Re=rho*N*s.D*s.D/mu,Np=npOf(s.imp,Re,p.baffle),Ps=Np*rho*N**3*s.D**5;P+=Ps;
+  const bq=(p.baffle==='full'||s.imp.flow==='close')?1:MODEL.bafQ[p.baffle];
+  Q+=s.imp.Nq*N*s.D**3*(1-Math.exp(-Re/MODEL.lamQ))*bq;if(store){s.Re=Re;s.Np=Np;s.P=Ps;}});
+ if(act.length>1){if(store)act.forEach(s=>s.P*=MODEL.multiP);P*=MODEL.multiP;Q*=MODEL.multiQ;}
+ return{P,Q};}
+function regimeOf(Re){return Re<10?"Laminar":Re<1e4?"Transitional":"Turbulent";}
+function calc(p,sys,Nrpm){
+ const g=geom(p.T,p.HT),rho=p.rho,mu=p.mu/1000,nu=mu/rho,N=Nrpm/60,warn=[];
+ const st=stagesOf(sys,g);
+ const act=st.filter(s=>s.zi<g.H-0.02*g.T);
+ if(!act.length)return{ok:false,warn:["Impeller is above the liquid level — raise H/T or lower the clearance."],g,st:[]};
+ if(act.length<st.length)warn.push(st.length-act.length>1?"Upper impellers are above the liquid surface and do no work.":"Top impeller is above the liquid surface and does no work.");
+ const pw=stagePower(p,act,N,true);let P=pw.P,Q=pw.Q;
+ const V=liquidVolume(g),lo=act[0],Re=lo.Re;
+ const Npeq=P/(rho*N**3*lo.D**5),DT=lo.D/g.T;
+ const hfac=Math.pow(Math.max(1,(g.H/act.length)/g.T),1.5);
+ const Recrit=6370/Math.cbrt(Npeq);
+ let Nth=Re>=Recrit?5.2/Math.cbrt(Npeq)/(DT*DT):33500/(Math.pow(Npeq,2/3)*Re)/(DT*DT);
+ if(lo.imp.flow==='close'&&Re>1000)Nth*=lo.imp.ribbon?2:3;
+ if(p.baffle==='none'&&lo.imp.flow!=='close')Nth*=1.6;else if(p.baffle==='finger'&&lo.imp.flow!=='close')Nth*=1.2;
+ const theta=Nth/N*hfac;
+ const regime=regimeOf(Re),ReMin=Math.min(...act.map(s=>s.Re)),ReMax=Math.max(...act.map(s=>s.Re));
+ const Dmax=Math.max(...act.map(s=>s.D));const Utip=Math.PI*N*Dmax;
+ const r={ok:true,g,st:act,N:Nrpm,Re,ReMin,ReMax,regime:ReMin===ReMax?regime:(regimeOf(ReMin)===regimeOf(ReMax)?regimeOf(ReMin):regimeOf(ReMin)+' to '+regimeOf(ReMax).toLowerCase()),Np:Npeq,P,V,PV:P/V,Q,turn:V/Q,theta,Utip,torque:P/(2*Math.PI*N),Fr:N*N*lo.D/G,warn};
+ r.motor=MOTORS.find(m=>m>=P/1000/MODEL.driveEff*MODEL.motorMargin)||null;
+ // solids
+ r.solids=null;
+ if(p.ws>0){const drho=p.rhos-rho;
+  if(drho<=0){warn.push("Solids are lighter than the liquid — floating-solids drawdown is not modelled.");}
+  else{// Zwietering's X is 100 x (mass of solids / mass of liquid), e.g. 10 wt% slurry -> X = 11.1
+   const X=100*p.ws/(100-p.ws),dp=p.dp*1e-6;
+   const cr=Math.min(3,Math.max(0.5,(lo.zi/g.T)/lo.imp.CT));
+   let S=lo.imp.S*Math.pow(cr,0.3)*Math.pow(lo.imp.DT/DT,0.8);
+   let Njs=S*Math.pow(nu,0.1)*Math.pow(G*drho/rho,0.45)*Math.pow(X,0.13)*Math.pow(dp,0.2)*Math.pow(lo.D,-0.85);
+   if(act.length>1)Njs*=MODEL.multiNjs;if(p.baffle==='none')Njs*=MODEL.unbafNjs;
+   const NjsR=Njs*60,ratio=Nrpm/NjsR;
+   const state=ratio<0.8?"Settled bed":ratio<1?"Partly suspended, fillets":ratio<1.6?"Just off-bottom":"Well suspended";
+   r.solids={Njs:NjsR,ratio,state,X,vt:vt(dp,drho,rho,mu),Pjs:stagePower(p,act,Njs,false).P};}}
+ // warnings
+ if(lo.D/2>rAt(g,lo.zi+(lo.imp.flow==='close'?0.05*g.T:0))*1.001&&lo.imp.flow!=='close')warn.push("Lower impeller tips clash with the dished bottom — increase clearance or reduce D/T.");
+ if(p.baffle==='none'&&Re>2000&&lo.imp.flow!=='close')warn.push("Unbaffled: expect solid-body swirl and a central vortex; power and top-to-bottom flow drop sharply.");
+ if(act.length===1&&g.H/g.T>1.3&&lo.imp.flow!=='close')warn.push("Liquid is tall for one impeller (H/T > 1.3) — a second stage would cut blend time.");
+ act.slice(1).forEach(s=>{if(s.imp.bottom)warn.push(s.imp.name+" is a bottom (close-clearance) agitator — as an upper impeller it is shown for comparison only.");});
+ if(lo.imp.ribbon&&act.length>1)warn.push("Helical ribbon normally runs alone — extra impellers are unusual.");
+ const top=act[act.length-1];
+ if(g.H-top.zi<0.5*top.D&&top.imp.flow!=='close')warn.push("Top impeller is close to the surface — risk of air entrainment.");
+ if(Re<100&&lo.imp.flow!=='close')warn.push("Low Reynolds number: this impeller only moves liquid near its blades. Consider an anchor or helical ribbon.");
+ if(lo.imp.flow==='close'&&Re>5000)warn.push(lo.imp.name+" at high Re: mostly swirl, little top-to-bottom turnover.");
+ if(Utip>8)warn.push("Tip speed above 8 m/s — check shear sensitivity and mechanical limits.");
+ return r;
+}
+function solveN(p,sys,target,kind){
+ let lo=Math.log(0.5),hi=Math.log(3000);
+ for(let i=0;i<60;i++){const m=(lo+hi)/2,N=Math.exp(m);const r=calc(p,sys,N);if(!r.ok)return null;
+  const v=kind==='pv'?r.PV:r.Utip;if(v>target)hi=m;else lo=m;}
+ return Math.exp((lo+hi)/2);
+}
+// ---------- reduced-order flow field ----------
+function buildField(p,sys,r){
+ const g=r.g,NX=60,dx=g.T/NX,NZ=Math.max(8,Math.ceil(g.H/dx)),N=r.N/60,R=g.R,T=g.T;
+ const st=r.st,cells=[];
+ const Re=r.Re;
+ const shrink=Math.min(1,Math.max(0.35,0.35+0.65*(Math.log10(Math.max(Re,1))-1)/2.5));
+ const bnd=[0];for(let i=0;i<st.length-1;i++)bnd.push((st[i].zi+st[i+1].zi)/2);bnd.push(g.H);
+ st.forEach((s,i)=>{
+  const z0=bnd[i],z1=bnd[i+1],zi=Math.min(s.zi,z1-0.02*T),w=s.imp.vf*s.D,f=s.imp.flow,sh=f==='close'?1:shrink;
+  if(f==='radial'){
+   const rc=Math.min(0.72*R,(s.D/2+R)/2);
+   const upH=z1-zi,loH=zi-z0;
+   cells.push({rc,zc:zi+upH*0.45*sh,a:0.30*R,b:Math.max(0.1*T,upH*0.36*sh),s:w});
+   if(loH>0.05*T)cells.push({rc,zc:z0+loH*0.55,a:0.28*R,b:Math.max(0.05*T,loH*0.35),s:-w*Math.min(1,loH/(0.25*T))});
+  }else if(f==='axial'||f==='mixed'){
+   const mid=(z0+z1)/2,zc=zi+(mid-zi)*sh;
+   cells.push({rc:f==='mixed'?0.58*R:0.55*R,zc,a:0.42*R,b:Math.max(0.1*T,(z1-z0)*0.38*sh),s:w});
+   if(f==='mixed'&&z1-zi>0.5*T)cells.push({rc:0.6*R,zc:zi+(z1-zi)*0.75,a:0.35*R,b:(z1-zi)*0.2,s:-0.25*w});
+  }else if(s.imp.ribbon){
+   const h=z1-z0;cells.push({rc:0.62*R,zc:z0+h*0.5,a:0.38*R,b:Math.max(0.1*T,h*0.4),s:-w});
+  }else{
+   const h=Math.min(g.H,s.zi+0.8*T)-z0;
+   cells.push({rc:0.8*R,zc:z0+h*0.3,a:0.16*R,b:0.18*h,s:w});
+   cells.push({rc:0.8*R,zc:z0+h*0.72,a:0.16*R,b:0.18*h,s:-w});
+  }
+ });
+ const del=0.07*T;
+ const psi=new Float32Array((NX+1)*(NZ+1));
+ for(let j=0;j<=NZ;j++){const z=Math.min(j*dx,g.H);for(let i=0;i<=NX;i++){const x=-R+i*dx;
+  const rr=rAt(g,z);if(Math.abs(x)>rr){psi[j*(NX+1)+i]=0;continue;}
+  let d=Math.min(rr-Math.abs(x),g.H-z);
+  if(z<g.hd){const e=Math.sqrt((x/R)**2+((g.hd-z)/g.hd)**2);d=Math.min(d,(1-e)*g.hd*1.4);}
+  const m=1-Math.exp(-((d/del)**2));let s=0;
+  for(const c of cells){const gz=Math.exp(-(((z-c.zc)/c.b)**2));if(gz<1e-6)continue;s+=c.s*gz*(Math.exp(-(((x-c.rc)/c.a)**2))-Math.exp(-(((x+c.rc)/c.a)**2)));}
+  psi[j*(NX+1)+i]=s*m;}}
+ const u=new Float32Array(NX*NZ),w=new Float32Array(NX*NZ),ins=new Uint8Array(NX*NZ),sp=new Float32Array(NX*NZ);
+ let mx=1e-12;
+ for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=j*NX+i,x=-R+(i+.5)*dx,z=(j+.5)*dx;
+  if(!isIn(g,x,z))continue;ins[k]=1;
+  const a=psi[j*(NX+1)+i],b=psi[j*(NX+1)+i+1],c=psi[(j+1)*(NX+1)+i],d=psi[(j+1)*(NX+1)+i+1];
+  u[k]=((c+d)-(a+b))/(2*dx);w[k]=-((b+d)-(a+c))/(2*dx);const v=Math.hypot(u[k],w[k]);sp[k]=v;if(v>mx)mx=v;}
+ const lo=st[0];
+ const bm=lo.imp.flow==='close'?1:p.baffle==='full'?1:p.baffle==='finger'?0.7:(lo.imp.flow==='radial'?0.35:0.5);
+ const lam=lo.imp.flow==='close'?0.6+0.4*(1-Math.exp(-Re/150)):1-Math.exp(-Re/150);
+ const Uvis=Math.max(...st.map(s=>s.imp.vf*Math.PI*N*s.D))*bm*Math.max(0.05,lam);
+ const sc=Uvis/mx;for(let k=0;k<NX*NZ;k++){u[k]*=sc;w[k]*=sc;sp[k]*=sc;}
+ return{g,NX,NZ,dx,u,w,ins,sp,Uvis,cells};
+}
+function sampleU(f,x,z,o){
+ const fx=(x+f.g.R)/f.dx-0.5,fz=z/f.dx-0.5;let i=Math.floor(fx),j=Math.floor(fz);const tx=fx-i,tz=fz-j;
+ let uu=0,ww=0;
+ for(let dj=0;dj<2;dj++)for(let di=0;di<2;di++){const ii=i+di,jj=j+dj;if(ii<0||jj<0||ii>=f.NX||jj>=f.NZ)continue;const k=jj*f.NX+ii;if(!f.ins[k])continue;
+  const wt=(di?tx:1-tx)*(dj?tz:1-tz);uu+=wt*f.u[k];ww+=wt*f.w[k];}
+ o[0]=uu;o[1]=ww;
+}
+function gauss(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+const KD=0.02;
+class Sim{
+ constructor(){this.f=null;this.t=0;this.tr=[];this.pa=[];this.c=null;this.o=[0,0];}
+ setField(f){const re=!this.f||this.f.NX!==f.NX||this.f.NZ!==f.NZ||this.f.g.T!==f.g.T;this.f=f;if(re||!this.tr.length)this.resetFlow();this.resetDye();}
+ rndIn(){const g=this.f.g;for(let n=0;n<200;n++){const x=(Math.random()*2-1)*g.R,z=Math.random()*g.H;if(isIn(g,x,z))return[x,z];}return[0,g.H/2];}
+ resetFlow(){this.tr=[];for(let i=0;i<340;i++){const[x,z]=this.rndIn();this.tr.push({x,z,px:x,pz:z,age:Math.random()*3,life:1.5+Math.random()*3});}}
+ stepFlow(dt){const f=this.f,g=f.g,o=this.o;for(const t of this.tr){t.px=t.x;t.pz=t.z;t.age+=dt;
+  if(t.age>t.life){const[x,z]=this.rndIn();t.x=t.px=x;t.z=t.pz=z;t.age=0;continue;}
+  sampleU(f,t.x,t.z,o);const mx=t.x+o[0]*dt/2,mz=t.z+o[1]*dt/2;sampleU(f,mx,mz,o);t.x+=o[0]*dt;t.z+=o[1]*dt;
+  if(!isIn(g,t.x,t.z)){t.age=t.life+1;}}}
+ resetDye(){const f=this.f,g=f.g;this.c=new Float32Array(f.NX*f.NZ);this.cn=new Float32Array(f.NX*f.NZ);this.t=0;this.t95=null;this.cov=[];
+  const x0=0.55*g.R,z0=g.H-0.12*g.T,s=0.07*g.T;let m=0,wsum=0;
+  for(let j=0;j<f.NZ;j++)for(let i=0;i<f.NX;i++){const k=j*f.NX+i;if(!f.ins[k])continue;const x=-g.R+(i+.5)*f.dx,z=(j+.5)*f.dx;
+   this.c[k]=Math.exp(-(((x-x0)**2+(z-z0)**2)/(s*s)));}
+  this.mass=this.totalMass();}
+ wt(i){return Math.abs(-this.f.g.R+(i+.5)*this.f.dx)+this.f.dx*0.5;}
+ totalMass(){const f=this.f;let m=0;for(let j=0;j<f.NZ;j++)for(let i=0;i<f.NX;i++){const k=j*f.NX+i;if(f.ins[k])m+=this.c[k]*this.wt(i);}return m;}
+ sampleC(x,z){const f=this.f,fx=(x+f.g.R)/f.dx-0.5,fz=z/f.dx-0.5;const i=Math.floor(fx),j=Math.floor(fz),tx=fx-i,tz=fz-j;let s=0,ws=0;
+  for(let dj=0;dj<2;dj++)for(let di=0;di<2;di++){const ii=i+di,jj=j+dj;if(ii<0||jj<0||ii>=f.NX||jj>=f.NZ)continue;const k=jj*f.NX+ii;if(!f.ins[k])continue;const wt=(di?tx:1-tx)*(dj?tz:1-tz);s+=wt*this.c[k];ws+=wt;}
+  return ws>1e-6?s/ws:null;}
+ stepDye(dt){const f=this.f,o=this.o,NX=f.NX,NZ=f.NZ,c=this.c,cn=this.cn,g=f.g;
+  const Dt=KD*f.Uvis*g.T+1e-5;
+  for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=j*NX+i;if(!f.ins[k]){cn[k]=0;continue;}
+   const x=-g.R+(i+.5)*f.dx,z=(j+.5)*f.dx;const u0=f.u[k],w0=f.w[k];sampleU(f,x-u0*dt/2,z-w0*dt/2,o);
+   const v=this.sampleC(x-o[0]*dt,z-o[1]*dt);cn[k]=v===null?c[k]:v;}
+  c.set(cn);
+  let a=Dt*dt/(f.dx*f.dx);const ns=Math.ceil(a/0.2);a/=ns;
+  for(let s=0;s<ns;s++){for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=j*NX+i;if(!f.ins[k])continue;let L=0;
+    if(i>0&&f.ins[k-1])L+=c[k-1]-c[k];if(i<NX-1&&f.ins[k+1])L+=c[k+1]-c[k];if(j>0&&f.ins[k-NX])L+=c[k-NX]-c[k];if(j<NZ-1&&f.ins[k+NX])L+=c[k+NX]-c[k];cn[k]=c[k]+a*L;}
+   c.set(cn);}
+  const m=this.totalMass();if(m>0){const s=this.mass/m;for(let k=0;k<c.length;k++)c[k]*=s;}
+  this.t+=dt;
+  let W=0,S=0,S2=0;for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=j*NX+i;if(!f.ins[k])continue;const w=this.wt(i);W+=w;S+=w*c[k];S2+=w*c[k]*c[k];}
+  const mean=S/W,cov=Math.sqrt(Math.max(0,S2/W-mean*mean))/mean;this.mean=mean;this.cv=cov;
+  this.cov.push([this.t,cov]);if(this.t95===null&&cov<0.05)this.t95=this.t;}
+ resetSolids(n,vs,ucrit){const f=this.f,g=f.g;this.vs=vs;this.ucrit=ucrit;this.pa=[];
+  for(let i=0;i<n;i++){const x=(Math.random()*2-1)*g.R*0.97;const z=floorAt(g,x)+Math.random()*0.03*g.T;this.pa.push({x,z,rest:true});}}
+ stepSolids(dt){const f=this.f,g=f.g,o=this.o,T=g.T,vs=this.vs,uc=this.ucrit;
+  for(const q of this.pa){
+   if(q.rest){sampleU(f,q.x,q.z+0.06*T,o);const sp=Math.hypot(o[0],o[1])+0.35*f.Uvis;if(sp>uc&&Math.random()<3*dt)q.rest=false;else continue;}
+   const fl0=floorAt(g,q.x),ze=Math.max(q.z,fl0+0.06*T);
+   sampleU(f,q.x,ze,o);const u0=o[0],w0=o[1];sampleU(f,q.x+u0*dt/2,ze+w0*dt/2,o);
+   const sp=Math.hypot(o[0],o[1]);const K=0.03*(sp+0.15*f.Uvis)*T;const sd=Math.sqrt(2*K*dt);
+   q.x+=o[0]*dt+sd*gauss();q.z+=(o[1]-vs)*dt+sd*gauss();
+   if(q.z>g.H-0.005*T)q.z=g.H-0.005*T;
+   const rr=rAt(g,Math.max(q.z,0.001))*0.995;if(Math.abs(q.x)>rr&&q.z>=g.hd)q.x=Math.sign(q.x)*rr;
+   const fl=floorAt(g,q.x);if(Math.abs(q.x)>g.R*0.995)q.x=Math.sign(q.x)*g.R*0.995;
+   if(q.z<fl+0.004*T){q.z=fl+0.004*T;sampleU(f,q.x,q.z+0.06*T,o);if(Math.hypot(o[0],o[1])+0.35*f.Uvis<uc)q.rest=true;}
+  }}
+ solidsStats(){const g=this.f.g;let off=0;const zs=[];for(const q of this.pa){const h=q.z-floorAt(g,q.x);if(!q.rest&&h>0.03*g.T)off++;zs.push(q.z);}zs.sort((a,b)=>a-b);
+  return{off:off/this.pa.length,cloud:zs[Math.floor(zs.length*0.95)]/g.H};}
+}
+
+// ---------- crystallisation (reduced-order, kinetics accelerated for display) ----------
+const CRY={tB:100,G:0.012,sc:0.15,kn:0.25,kg:5.0,kc:1.0e-5,L0:4,ka:0.003,cap:1800};
+Sim.prototype.scalarStep=function(c,cn,dt){const f=this.f,o=this.o,NX=f.NX,NZ=f.NZ,g=f.g;const keep=this.c;this.c=c;
+ for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=j*NX+i;if(!f.ins[k]){cn[k]=0;continue;}
+  const x=-g.R+(i+.5)*f.dx,z=(j+.5)*f.dx;sampleU(f,x-f.u[k]*dt/2,z-f.w[k]*dt/2,o);const v=this.sampleC(x-o[0]*dt,z-o[1]*dt);cn[k]=v===null?c[k]:v;}
+ c.set(cn);const Dt=KD*f.Uvis*g.T+1e-5;let a=Dt*dt/(f.dx*f.dx);const ns=Math.ceil(a/0.2);a/=ns;
+ for(let s=0;s<ns;s++){for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=j*NX+i;if(!f.ins[k])continue;let L=0;
+  if(i>0&&f.ins[k-1])L+=c[k-1]-c[k];if(i<NX-1&&f.ins[k+1])L+=c[k+1]-c[k];if(j>0&&f.ins[k-NX])L+=c[k-NX]-c[k];if(j<NZ-1&&f.ins[k+NX])L+=c[k+NX]-c[k];cn[k]=c[k]+a*L;}c.set(cn);}
+ this.c=keep;};
+Sim.prototype.resetCryst=function(o){const f=this.f,g=f.g,N=f.NX*f.NZ;this.co=o;this.sg=new Float32Array(N);this.sgn=new Float32Array(N);this.src=new Float32Array(N);
+ this.cr=[];this.ct=0;this.born=0;this.over=0;this.attr=0;this.peak=0;
+ let fx=0.5*g.R,fz=g.H-0.05*g.T;if(o.feed==='imp'&&o.st.length){const s0=o.st[0];fx=Math.min(g.R*0.85,s0.D/2+0.05*g.T);fz=Math.min(g.H-0.03*g.T,s0.zi);}
+ let S=0,W=0;const sw=0.05*g.T;
+ for(let j=0;j<f.NZ;j++)for(let i=0;i<f.NX;i++){const k=j*f.NX+i;if(!f.ins[k])continue;const x=-g.R+(i+.5)*f.dx,z=(j+.5)*f.dx,w=this.wt(i);W+=w;
+  let v;if(o.mode==='cool'){const edge=[k-1,k+1,k-f.NX,k+f.NX].some(n=>n<0||n>=N||!f.ins[n])||(z>=g.H-f.dx);v=edge&&z<g.H-f.dx?5:1;}
+  else v=Math.exp(-(((x-fx)**2+(z-fz)**2)/(sw*sw)));
+  this.src[k]=v;S+=v*w;}
+ for(let k=0;k<N;k++)this.src[k]*=W/S;this.W=W;};
+Sim.prototype.cellOf=function(x,z){const f=this.f;const i=Math.min(f.NX-1,Math.max(0,Math.floor((x+f.g.R)/f.dx))),j=Math.min(f.NZ-1,Math.max(0,Math.floor(z/f.dx)));return[i,j,j*f.NX+i];};
+Sim.prototype.stepCryst=function(dt){const f=this.f,g=f.g,T=g.T,o=this.o,co=this.co,sg=this.sg,NX=f.NX,NZ=f.NZ;
+ if(this.ct<CRY.tB){const a=CRY.G*dt;for(let k=0;k<sg.length;k++)if(f.ins[k])sg[k]+=a*this.src[k];}
+ this.scalarStep(sg,this.sgn,dt);
+ const wm=this.W/f.ins.reduce((s,v)=>s+v,0);
+ // nucleation
+ let pk=0;for(let j=0;j<NZ;j++)for(let i=0;i<NX;i++){const k=j*NX+i;if(!f.ins[k])continue;const s=sg[k];if(s>pk)pk=s;if(s<=CRY.sc)continue;
+  let n=CRY.kn*Math.pow(s-CRY.sc,3)*(this.wt(i)/wm)*dt;while(n>0){if(Math.random()<Math.min(1,n)){if(this.cr.length<CRY.cap){this.cr.push({x:-g.R+(i+Math.random())*f.dx,z:(j+Math.random())*f.dx,L:CRY.L0,rest:false});this.born++;}else this.over++;}n-=1;}}
+ if(pk>this.peak)this.peak=pk;this.sigPk=pk;
+ const Ut=co.Utip,vr=co.vsRef,uc=co.ucrit,dr=co.dpRef;
+ const born=[];
+ for(const q of this.cr){const [i,j,k]=this.cellOf(q.x,q.z);
+  // growth + consumption
+  const s=sg[k];if(s>0){const dL=CRY.kg*s*dt*(q.rest?0.3:1);sg[k]=Math.max(0,s-CRY.kc*q.L*q.L*dL/(this.wt(i)/wm));q.L+=dL;}
+  // attrition in impeller swept zones
+  if(!q.rest)for(const st of co.st){const R2=st.D/2;const inZ=st.imp.flow==='close'?(Math.abs(Math.abs(q.x)-R2)<0.03*T&&q.z<Math.min(g.H,st.zi+0.8*T)):(Math.abs(q.x)<R2&&Math.abs(q.z-st.zi)<0.12*st.D+0.02*T);
+   if(inZ&&q.L>15){const sh=st.imp.shear||Math.min(3,Math.max(0.3,Math.sqrt(st.imp.NpT/1.27)));if(Math.random()<CRY.ka*sh*Ut*Ut*(q.L/100)*dt){q.L*=0.985;this.attr++;if(this.cr.length+born.length<CRY.cap)born.push({x:q.x,z:q.z,L:CRY.L0,rest:false});}}}
+  // transport (size-dependent settling)
+  const vs=Math.min(3*vr,vr*Math.pow(q.L/dr,1.5)),ucl=uc*Math.pow(Math.max(0.2,q.L/dr),0.3);
+  if(q.rest){sampleU(f,q.x,q.z+0.06*T,o);if(Math.hypot(o[0],o[1])+0.35*f.Uvis>ucl&&Math.random()<3*dt)q.rest=false;else continue;}
+  const fl0=floorAt(g,q.x),ze=Math.max(q.z,fl0+0.06*T);sampleU(f,q.x,ze,o);const u0=o[0],w0=o[1];sampleU(f,q.x+u0*dt/2,ze+w0*dt/2,o);
+  const sp=Math.hypot(o[0],o[1]),K=0.03*(sp+0.15*f.Uvis)*T,sd=Math.sqrt(2*K*dt);
+  q.x+=o[0]*dt+sd*gauss();q.z+=(o[1]-vs)*dt+sd*gauss();
+  if(q.z>g.H-0.005*T)q.z=g.H-0.005*T;
+  const rr=rAt(g,Math.max(q.z,0.001))*0.995;if(Math.abs(q.x)>rr&&q.z>=g.hd)q.x=Math.sign(q.x)*rr;if(Math.abs(q.x)>g.R*0.995)q.x=Math.sign(q.x)*g.R*0.995;
+  const fl=floorAt(g,q.x);if(q.z<fl+0.004*T){q.z=fl+0.004*T;sampleU(f,q.x,q.z+0.06*T,o);if(Math.hypot(o[0],o[1])+0.35*f.Uvis<ucl)q.rest=true;}}
+ for(const b of born){this.cr.push(b);this.born++;}
+ this.ct+=dt;};
+Sim.prototype.crystStats=function(){const cr=this.cr,n=cr.length;if(!n)return{n:0};
+ const Ls=cr.map(q=>q.L).sort((a,b)=>a-b);let V=0;for(const L of Ls)V+=L*L*L;let acc=0,d10=0,d50=0,d90=0;
+ for(const L of Ls){acc+=L*L*L;const fr=acc/V;if(!d10&&fr>=0.1)d10=L;if(!d50&&fr>=0.5)d50=L;if(!d90&&fr>=0.9){d90=L;break;}}
+ const fines=Ls.filter(L=>L<20).length/n,bed=cr.filter(q=>q.rest).length/n;
+ let W=0,S=0;const f=this.f;for(let j=0;j<f.NZ;j++)for(let i=0;i<f.NX;i++){const k=j*f.NX+i;if(!f.ins[k])continue;const w=this.wt(i);W+=w;S+=w*this.sg[k];}
+ return{n,d10,d50,d90,span:d50?(d90-d10)/d50:0,fines,bed,sigMean:S/W,Ls};};
+
+MODEL.dyeKD=KD;MODEL.cryst=CRY;
+// Regression test: P/V and tip speed must rise with speed, and solveN must hit its target within 0.1 %,
+// for every impeller, baffling option and viscosity from 1 to 100,000 cP. Run from the assumptions panel or the console.
+function runSelfTest(){const base={T:1.6,HT:1,rho:1000,ws:10,rhos:2500,dp:200};const fails=[];let cases=0;
+ for(const mu of [1,50,1000,20000,100000])for(const baffle of ['full','finger','none'])for(const k of Object.keys(IMP)){cases++;
+  const p={...base,mu,baffle},sys={st:[{type:k,DT:IMP[k].DT}],CT1:IMP[k].CT,ST:.45};
+  let prev=null;for(let N=1;N<=1500;N*=1.05){const r=calc(p,sys,N),n=calc(p,sys,N*1.001);
+   if(!(n.PV>r.PV&&n.Utip>r.Utip)){fails.push(`${IMP[k].name}, ${mu} cP, ${baffle}: not monotonic near ${N.toFixed(1)} rpm`);break;}}
+  for(const kind of ['pv','tip']){const r=calc(p,sys,90),tgt=(kind==='pv'?r.PV:r.Utip)*2.3,Ns=solveN(p,sys,tgt,kind);
+   const v=Ns?(kind==='pv'?calc(p,sys,Ns).PV:calc(p,sys,Ns).Utip):NaN;const e=Math.abs(v-tgt)/tgt;
+   if(!(e<1e-3))fails.push(`${IMP[k].name}, ${mu} cP, ${baffle}: ${kind} solve error ${(e*100).toFixed(3)} %`);}}
+ return{cases,fails};}
+const $=id=>document.getElementById(id);
+const P={T:1.6,HT:1.0,npsrc:'calc',rho:1000,mu:1,baffle:'finger',N:90,mode:'rpm',ws:10,rhos:2500,dp:200};
+// UI state in mm (same style as the Mixing / Scale-up Calculator); SYS holds the derived fractions used by the model
+const U=[{st:[{type:'rci',D:960}],C:190,S:720},{st:[{type:'pbt',D:640},{type:'pbt',D:640}],C:400,S:720}];
+const SYS=[null,null];
+const r10=x=>Math.round(x/10)*10;
+function deriveSys(){U.forEach((u,i)=>{const T=P.T*1000;SYS[i]={st:u.st.map(x=>{const o={type:x.type,DT:Math.min(0.98,Math.max(0.1,x.D/T))};if(P.npsrc==='calc'&&IMP[x.type].npCalc!=null)o.np=IMP[x.type].npCalc;return o;}),CT1:Math.max(0.005,u.C/T),ST:Math.max(0.05,u.S/T)};});}
+let view='flow',speed=3,paused=false,Uref=1;
+const VCM=[[0,[14,34,56]],[0.25,[31,78,134]],[0.5,[42,143,176]],[0.75,[127,209,193]],[1,[242,227,160]]];
+const SCM=[[0,[233,238,242]],[0.15,[214,205,232]],[0.5,[140,96,190]],[1,[58,20,96]]];
+const CR={mode:'cool',feed:'surf'};
+const DCM=[[0,[222,231,236]],[0.4,[217,138,160]],[1,[120,20,55]]];
+function cmap(cm,v){v=Math.max(0,Math.min(1,v));for(let i=1;i<cm.length;i++){if(v<=cm[i][0]){const a=cm[i-1],b=cm[i],t=(v-a[0])/(b[0]-a[0]);return[a[1][0]+(b[1][0]-a[1][0])*t,a[1][1]+(b[1][1]-a[1][1])*t,a[1][2]+(b[1][2]-a[1][2])*t];}}return cm[cm.length-1][1];}
+function grad(cm){return'linear-gradient(90deg,'+cm.map(s=>`rgb(${s[1].join(',')}) ${s[0]*100}%`).join(',')+')';}
+const fmt=(v,d=1)=>v==null||!isFinite(v)?'–':(Math.abs(v)>=1000?Math.round(v).toLocaleString('en-IN'):v.toFixed(d));
+const sig=v=>v==null||!isFinite(v)?'–':v>=100?Math.round(v).toLocaleString('en-IN'):v>=10?v.toFixed(1):v>=1?v.toFixed(2):v.toFixed(3);
+// ---------- panels ----------
+const panels=[];
+function impOpts(sel){const g={};Object.entries(IMP).forEach(([k,v])=>{(g[v.grp]=g[v.grp]||[]).push(`<option value="${k}"${k===sel?' selected':''}>${v.name}</option>`);});return Object.entries(g).map(([n,o])=>`<optgroup label="${n}">${o.join('')}</optgroup>`).join('');}
+function buildPanel(i){
+ const L=i?'B':'A',c=i?'var(--b)':'var(--a)';
+ const el=document.createElement('section');el.className='sys';el.style.setProperty('--c',c);el.setAttribute('aria-label','System '+L);
+ el.innerHTML=`<h2>System ${L}<small class="nrpm"></small></h2>
+ <div class="sgrid">
+  <div class="full stagebtns" role="group" aria-label="Number of impellers"><button data-st="1">1 impeller</button><button data-st="2">2 impellers</button><button data-st="3">3 impellers</button></div>
+  <label>Bottom impeller<select class="t0"></select></label>
+  <label>Dia (mm)<input class="d0" type="number" min="50" max="6000" step="10"></label>
+  <label>Bottom clearance (mm)<input class="C" type="number" min="10" max="4000" step="10"></label>
+  <label class="r1">Middle / 2nd impeller<select class="t1"></select></label>
+  <label class="r1">Dia (mm)<input class="d1" type="number" min="50" max="6000" step="10"></label>
+  <label class="r1">Impeller spacing (mm)<input class="S" type="number" min="50" max="6000" step="10"></label>
+  <label class="r2">Top impeller<select class="t2"></select></label>
+  <label class="r2">Dia (mm)<input class="d2" type="number" min="50" max="6000" step="10"></label>
+  <span class="r2 npnote">Spacing applies to each gap</span>
+ </div>
+ <p class="geo"></p>
+ <div class="cv"><canvas></canvas><div class="badge"></div></div>
+ <div class="status" aria-live="polite"></div>
+ <div class="crybox" hidden><canvas class="csd"></canvas>
+  <div class="crynum"><div><span>D10 / D50 / D90</span><strong class="c-d">–</strong></div><div><span>Span</span><strong class="c-sp">–</strong></div><div><span>Fines under 20 µm</span><strong class="c-f">–</strong></div>
+  <div><span>Crystals (parcels)</span><strong class="c-n">–</strong></div><div><span>Peak supersaturation</span><strong class="c-pk">–</strong></div><div><span>Chipping events</span><strong class="c-at">–</strong></div></div></div>
+ <div class="read">
+  <div><span>Power per volume</span><strong class="r-pv">–</strong><em class="r-pv2"></em></div>
+  <div><span>Blend time θ95</span><strong class="r-th">–</strong><em class="r-th2"></em></div>
+  <div><span>Max tip speed</span><strong class="r-ut">–</strong><em class="r-ut2"></em></div>
+  <div><span>Speed vs just-suspended</span><strong class="r-js">–</strong><em class="r-js2"></em></div>
+ </div>
+ <ul class="warn"></ul>`;
+ $('pan').appendChild(el);
+ const q=c=>el.querySelector(c);
+ const pn={i,el,q,cv:q('canvas'),sim:new Sim(),phi:0,heat:document.createElement('canvas'),trail:document.createElement('canvas'),r:null,f:null};
+ pn.ctx=pn.cv.getContext('2d');
+ const sync=()=>{const u=U[i];
+  if(IMP[u.st[0].type].single&&u.st.length>1)u.st.length=1;
+  for(let k=0;k<3;k++){const st=u.st[k];q('.t'+k).innerHTML=impOpts(st?st.type:'pbt',k>0);q('.d'+k).value=st?st.D:'';}
+  q('.C').value=u.C;q('.S').value=u.S;
+  const canMulti=!IMP[u.st[0].type].single;
+  el.querySelectorAll('.stagebtns button').forEach(b=>{b.setAttribute('aria-pressed',String(+b.dataset.st===u.st.length));b.disabled=+b.dataset.st>1&&!canMulti;});
+  [['.r1',2],['.r2',3]].forEach(([c,m])=>el.querySelectorAll(c).forEach(e=>{const on=u.st.length>=m;e.style.visibility=on?'':'hidden';e.querySelectorAll('input,select').forEach(x=>x.tabIndex=on?0:-1);}));
+ };
+ pn.sync=sync;sync();
+ const Tmm=()=>P.T*1000;
+ el.querySelectorAll('.stagebtns button').forEach(b=>b.onclick=()=>{const u=U[i],n=+b.dataset.st;while(u.st.length<n)u.st.push({type:'pbt',D:r10(Math.min(0.5*Tmm(),u.st[0].D))});u.st.length=n;sync();recompute();});
+ [0,1,2].forEach(k=>{
+  q('.t'+k).onchange=e=>{const u=U[i];if(!u.st[k])return;const t=e.target.value;u.st[k]={type:t,D:r10((k?Math.min(0.6,IMP[t].DT):IMP[t].DT)*Tmm())};if(k===0)u.C=r10(IMP[t].CT*Tmm());sync();recompute();};
+  q('.d'+k).onchange=e=>{const u=U[i],v=parseFloat(e.target.value);if(u.st[k]&&isFinite(v))u.st[k].D=Math.min(0.98*Tmm(),Math.max(50,v));sync();recompute();};
+ });
+ [['C',10],['S',50]].forEach(([k,mn])=>q('.'+k).onchange=e=>{const u=U[i],v=parseFloat(e.target.value);if(isFinite(v))u[k]=Math.min(4*Tmm(),Math.max(mn,v));sync();recompute();});
+ new ResizeObserver(()=>resize(pn)).observe(q('.cv'));
+ panels.push(pn);
+}
+function resize(pn){const r=pn.cv.getBoundingClientRect(),d=window.devicePixelRatio||1;pn.cv.width=Math.max(10,Math.round(r.width*d));pn.cv.height=Math.max(10,Math.round(r.height*d));pn.trail.width=pn.cv.width;pn.trail.height=pn.cv.height;pn.dpr=d;}
+// ---------- compute ----------
+function readP(){P.T=clampv('T',200,6000)/1000;P.baffle=$('baffle').value;P.rho=clampv('rho',500,2500);P.mu=clampv('mu',0.2,200000);
+ P.N=clampv('N',1,3000);P.mode=$('mode').value;P.dp=clampv('dp',1,5000);P.rhos=clampv('rhos',100,8000);P.ws=clampv('ws',0,50);P.npsrc=$('npsrc').value;
+ const V=clampv('V',1,1e7)/1000;const ht=solveHT(P.T,V);P.HT=Math.min(2.2,Math.max(0.3,ht));P.Vclamp=ht>2.2?'high':ht<0.3?'low':'';}
+function clampv(id,a,b){let v=parseFloat($(id).value);if(!isFinite(v))v=a;return Math.min(b,Math.max(a,v));}
+function recompute(){
+ readP();deriveSys();$('Nr').value=Math.min(400,P.N);
+ const rA=calc(P,SYS[0],P.N);let NB=P.N;
+ if(P.mode!=='rpm'&&rA.ok){const t=P.mode==='pv'?rA.PV:rA.Utip;NB=solveN(P,SYS[1],t,P.mode)||P.N;}
+ const res=[rA,calc(P,SYS[1],NB)];
+ panels.forEach((pn,i)=>{const r=res[i];pn.r=r;pn.anim={};pn.solT=0;pn.q('.nrpm').textContent=r.ok?`${fmt(r.N,0)} rpm`:'';
+  if(r.ok){pn.f=buildField(P,SYS[i],r);pn.sim.setField(pn.f);resetSolids(pn);if(view==='cryst')resetCry(pn);}else pn.f=null;});
+ Uref=Math.max(...panels.map(p=>p.f?p.f.Uvis:0.01));
+ panels.forEach(pn=>{pn.heatDirty=true;clearTrail(pn);updateReadouts(pn);});
+ const g=geom(P.T,P.HT);$('vol').textContent=`${fmt(g.H*1000,0)} mm (H/T ${P.HT.toFixed(2)})`+(P.Vclamp==='high'?', volume capped at H/T 2.2':P.Vclamp==='low'?', volume raised to H/T 0.3':'');
+ updateTable(res);updateLegend();
+}
+function resetSolids(pn){pn.solT=0;const r=pn.r,f=pn.f;if(!r||!f)return;if(!r.solids){pn.sim.pa=[];return;}
+ const Uj=f.Uvis/r.solids.ratio;const n=Math.round(250+Math.min(1,P.ws/30)*450);pn.sim.resetSolids(n,0.25*Uj,0.35*Uj);}
+function drawCSD(pn){const S=pn.sim.crystStats(),q=pn.q,cv=q('.csd'),d=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;if(!w)return;
+ cv.width=w*d;cv.height=h*d;const x=cv.getContext('2d');x.scale(d,d);x.clearRect(0,0,w,h);
+ const nb=36,l0=Math.log10(2),l1=Math.log10(1000),bins=new Array(nb).fill(0);let V=0;
+ if(S.n){for(const L of S.Ls){const b=Math.min(nb-1,Math.max(0,Math.floor((Math.log10(L)-l0)/(l1-l0)*nb)));const v=L*L*L;bins[b]+=v;V+=v;}}
+ const mx=Math.max(...bins)||1,pad=18,ph=h-pad-4;x.fillStyle=pn.i?css('--b'):css('--a');
+ bins.forEach((v,b)=>{const bh=v/mx*ph;x.fillRect(b/nb*w+1,4+ph-bh,w/nb-2,bh);});
+ x.fillStyle=css('--muted');x.font='11px Barlow, system-ui, sans-serif';x.textAlign='center';[10,100,1000].forEach(L=>{const px=Math.min(w-1,(Math.log10(L)-l0)/(l1-l0)*w);x.textAlign=L===1000?'right':'center';x.fillText(L+' µm',px,h-3);x.fillRect(px,4+ph,1,3);});
+ x.textAlign='left';x.fillText('Qualitative crystal size distribution (by volume)',4,12);
+ q('.c-d').textContent=S.n?`${fmt(S.d10,0)} / ${fmt(S.d50,0)} / ${fmt(S.d90,0)} µm`:'–';q('.c-sp').textContent=S.n?S.span.toFixed(2):'–';
+ q('.c-f').textContent=S.n?`${fmt(S.fines*100,0)} %`:'–';q('.c-n').textContent=S.n?`${fmt(S.n,0)}${pn.sim.over?'+':''}`:'0';
+ q('.c-pk').textContent=pn.sim.peak.toFixed(2);q('.c-at').textContent=fmt(pn.sim.attr,0);}
+function resetCry(pn){const r=pn.r,f=pn.f;if(!r||!f||!r.ok)return;const ratio=r.solids?r.solids.ratio:1.5;const Uj=f.Uvis/ratio;
+ pn.sim.resetCryst({mode:CR.mode,feed:CR.feed,st:r.st,Utip:r.Utip,vsRef:0.25*Uj,ucrit:0.35*Uj,dpRef:P.dp});pn.cryTick=0;}
+function updateReadouts(pn){const r=pn.r,q=pn.q,w=q('.warn');
+ if(!r.ok){['pv','th','ut','js'].forEach(k=>{q('.r-'+k).textContent='–';q('.r-'+k+'2').textContent='';});w.innerHTML=r.warn.map(x=>`<li>${x}</li>`).join('');return;}
+ q('.r-pv').textContent=`${sig(r.PV/1000)} kW/m³`;q('.r-pv2').textContent=`${sig(r.P/1000)} kW shaft, ${r.regime.toLowerCase()} (Re ${r.st.length>1?fmt(r.ReMin,0)+'–'+fmt(r.ReMax,0):fmt(r.Re,0)})`;
+ q('.geo').textContent=geoText(pn.i,r);
+ q('.r-th').textContent=r.Re<100?'> '+fmt(r.theta,0)+' s':`${fmt(r.theta,r.theta<10?1:0)} s`;q('.r-th2').textContent=`Correlation. Turnover ${fmt(r.turn,1)} s`;
+ q('.r-ut').textContent=`${sig(r.Utip)} m/s`;q('.r-ut2').textContent=`Torque ${fmt(r.torque,0)} N·m`;
+ if(r.solids){q('.r-js').textContent=`${r.solids.ratio.toFixed(2)}×`;q('.r-js2').textContent=`${r.solids.state} (simulator class), Njs ${fmt(r.solids.Njs,0)} rpm`;}
+ else{q('.r-js').textContent='–';q('.r-js2').textContent=P.ws>0?'Solids float':'No solids';}
+ w.innerHTML=r.warn.map(x=>`<li>${x}</li>`).join('');
+}
+function impLabel(s){const n=s.st.map(x=>IMP[x.type].name);return n.every(x=>x===n[0])&&n.length>1?`${n.length} × ${n[0]}`:n.join(' + ');}
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function geoText(i,r){const T=P.T,st=r&&r.st&&r.st.length?stagesOf(SYS[i],r.g):stagesOf(SYS[i],geom(P.T,P.HT));
+ return `D/T ${st.map(s=>(s.D/T).toFixed(2)).join(' / ')}. C/T ${SYS[i].CT1.toFixed(2)}${st.length>1?`, S/T ${SYS[i].ST.toFixed(2)}`:''}. H/T ${P.HT.toFixed(2)}.`;}
+let lastRes=null;
+const TAG={calc:['Calculated','t-calc'],corr:['Correlation','t-corr'],model:['Model estimate','t-model'],anim:['Animation','t-anim'],in:['Input','t-in']};
+function perImp(r,fn){return r.st.map(fn).join(' / ');}
+function updateTable(res){lastRes=res;const A=i=>panels[i].anim||{};
+ const sec=t=>({sec:t});
+ const rows=[
+  sec('Geometry and operating point'),
+  ['Impellers (bottom to top)','in',i=>impLabel(SYS[i])],
+  ['D/T per impeller','calc',i=>perImp(res[i],s=>(s.D/P.T).toFixed(2))],
+  ['Clearance C/T, spacing S/T','calc',i=>SYS[i].CT1.toFixed(2)+(SYS[i].st.length>1?', '+SYS[i].ST.toFixed(2):'')],
+  ['Liquid height H/T','calc',()=>P.HT.toFixed(2)],
+  ['Speed','in',i=>`${fmt(res[i].N,0)} rpm`+(i===1&&P.mode!=='rpm'?' (solved)':'')],
+  ...(P.mode!=='rpm'?[['Match to system A','calc',i=>{if(i===0)return'reference';const t=P.mode==='pv'?res[0].PV:res[0].Utip,v=P.mode==='pv'?res[1].PV:res[1].Utip;return`${P.mode==='pv'?'P/V':'Max tip speed'} within ${(Math.abs(v-t)/t*100).toFixed(2)} %`;}]]:[]),
+  sec('Per-impeller correlations'),
+  ['Reynolds number per impeller','calc',i=>perImp(res[i],s=>fmt(s.Re,0))],
+  ['Flow regime','calc',i=>res[i].regime],
+  ['Power number per impeller (correlation, before interaction correction)','model',i=>perImp(res[i],s=>s.Np.toFixed(2))],
+  ['Effective system Np (total power expressed on the bottom impeller diameter)','model',i=>res[i].Np.toFixed(2)],
+  ['Power number source','in',i=>[...new Set(res[i].st.map(s=>s.npSrc))].join(' / ')],
+  sec('Power and circulation'),
+  ['Shaft power per impeller','model',i=>perImp(res[i],s=>sig(s.P/1000))+' kW'+(res[i].st.length>1?` (incl. ×${MODEL.multiP} interaction)`:'')],
+  ['Total shaft power','model',i=>`${sig(res[i].P/1000)} kW`,'P',-1],
+  ['Power per volume','model',i=>`${sig(res[i].PV/1000)} kW/m³`],
+  ['Torque','model',i=>`${fmt(res[i].torque,0)} N·m`],
+  ['Max tip speed','calc',i=>`${sig(res[i].Utip)} m/s`],
+  ['Estimated pumping capacity','model',i=>`${fmt(res[i].Q*3600,0)} m³/h`,'Q',1],
+  ['Turnover time','model',i=>`${fmt(res[i].turn,1)} s`],
+  ['Indicative motor size','model',i=>res[i].motor?`${res[i].motor} kW`:'–'],
+  sec('Blending'),
+  ['Blend time θ95','corr',i=>`${fmt(res[i].theta,1)} s`+(res[i].Re<100?' (outside valid range)':''),'theta',-1],
+  ['Blend time, dye animation','anim',i=>A(i).t95!=null?`${fmt(A(i).t95,1)} s`:'Run the Homogenization view'],
+  sec('Solids'),
+  ['Just-suspended speed Njs','corr',i=>res[i].solids?`${fmt(res[i].solids.Njs,0)} rpm`:'–'],
+  ['Speed / Njs','corr',i=>res[i].solids?`${res[i].solids.ratio.toFixed(2)}×`:'–'],
+  ['Suspension class','model',i=>res[i].solids?res[i].solids.state:'–'],
+  ['Power at Njs','model',i=>res[i].solids?`${sig(res[i].solids.Pjs/1000)} kW`:'–'],
+  ['Estimated terminal settling velocity','corr',i=>res[i].solids?`${fmt(res[i].solids.vt*1000,1)} mm/s`:'–'],
+  ['Particles off the bottom, animation','anim',i=>A(i).off!=null?`${fmt(A(i).off*100,0)} %`:'Run the Solids view for 15 s'],
+  sec('Crystallisation (qualitative)'),
+  ['D50 / fines under 20 µm','anim',i=>A(i).cry?`${fmt(A(i).cry.d50,0)} µm / ${fmt(A(i).cry.fines*100,0)} %`:'Run the Crystallisation view to the end'],
+ ];
+ const ok=res.every(r=>r.ok);
+ $('tbl').tBodies[0].innerHTML=rows.map(row=>{
+  if(row.sec)return`<tr class="sec"><th colspan="3" scope="colgroup">${row.sec}</th></tr>`;
+  const [n,tag,fn,key,dir]=row;let best=-1;
+  if(ok&&key){const v=res.map(r=>r[key]);if(Math.abs(v[0]-v[1])/Math.max(v[0],v[1])>0.03)best=(dir>0?v[0]>v[1]:v[0]<v[1])?0:1;}
+  return`<tr><th scope="row">${n} <span class="tag ${TAG[tag][1]}">${TAG[tag][0]}</span></th>${[0,1].map(i=>`<td${best===i?' class="best"':''}>${res[i].ok?fn(i):'–'}</td>`).join('')}</tr>`;}).join('');
+}
+function buildCorrPanel(){const imps=Object.entries(IMP).map(([k,v])=>`<tr><td>${v.name}</td><td>${v.flow}</td><td>${v.NpT}</td><td>${v.npCalc??'–'}</td><td>${v.Kp}</td><td>${v.Nq}</td><td>${v.S}</td><td>${v.DT} / ${v.CT}</td></tr>`).join('');
+ $('corrbody').innerHTML=`
+<h3>Equations</h3>
+<table class="eq"><tbody>
+<tr><td>Reynolds number, per impeller</td><td>Re = ρ N D² / μ</td><td>Calculated</td></tr>
+<tr><td>Power number</td><td>Np = Kp/Re + Np<sub>T</sub> · f<sub>baffle</sub> / (1 + 30/Re); f<sub>baffle</sub> blends from 1 at low Re to the baffling factor at high Re</td><td>Empirical interpolation, not a published Np–Re curve</td></tr>
+<tr><td>Shaft power</td><td>P = Σ Np ρ N³ D⁵, × ${MODEL.multiP} for two or more impellers</td><td>Model estimate</td></tr>
+<tr><td>Pumping</td><td>Q = Σ Nq N D³ · (1 − e<sup>−Re/${MODEL.lamQ}</sup>) · f<sub>baffle,Q</sub>, × ${MODEL.multiQ} for two or more impellers</td><td>Model estimate</td></tr>
+<tr><td>Blend time θ95</td><td>Grenville: Nθ = 5.2 / (Np<sup>1/3</sup> (D/T)²) turbulent, 33500 / (Np<sup>2/3</sup> Re (D/T)²) transitional; Np is the total-power equivalent on the bottom impeller; × (H per impeller / T)<sup>1.5</sup> when above 1; × 1.2 finger baffle, × 1.6 unbaffled; × 3 anchor/gate and × 2 ribbon above Re 1000</td><td>Correlation with model corrections; not valid below Re ≈ 100</td></tr>
+<tr><td>Just-suspended speed</td><td>Zwietering: Njs = S ν<sup>0.1</sup> (g Δρ/ρ<sub>L</sub>)<sup>0.45</sup> X<sup>0.13</sup> d<sub>p</sub><sup>0.2</sup> D<sup>−0.85</sup>, with X = 100 × (mass of solids / mass of liquid) as Zwietering defined it (10 wt % slurry gives X = 11.1); S scaled with clearance and D/T; × ${MODEL.multiNjs} multi-impeller, × ${MODEL.unbafNjs} unbaffled</td><td>Correlation with indicative S-factors</td></tr>
+<tr><td>Power at Njs</td><td>The same power model evaluated at Njs (so Np follows Re)</td><td>Model estimate</td></tr>
+<tr><td>Suspension class</td><td>N/Njs below 0.8 settled, 0.8–1 partly suspended, 1–1.6 just off-bottom, above 1.6 well suspended</td><td>Simulator classification, not a design criterion</td></tr>
+<tr><td>Settling velocity</td><td>Terminal velocity with Schiller–Naumann drag, C<sub>D</sub> = 0.44 above Re<sub>p</sub> 1000</td><td>Estimate for a single sphere</td></tr>
+<tr><td>Indicative motor</td><td>Next standard size above P / ${MODEL.driveEff} × ${MODEL.motorMargin}</td><td>Screening only; check starting torque, gearbox and service factor</td></tr>
+</tbody></table>
+<h3>Baffling factors on turbulent Np (Q factor in brackets)</h3>
+<p>Four baffles: 1 (1). One finger baffle: radial ${MODEL.bafNp.finger.radial}, mixed ${MODEL.bafNp.finger.mixed}, axial ${MODEL.bafNp.finger.axial} (${MODEL.bafQ.finger}). Unbaffled: radial ${MODEL.bafNp.none.radial}, mixed ${MODEL.bafNp.none.mixed}, axial ${MODEL.bafNp.none.axial} (${MODEL.bafQ.none}). Close-clearance agitators are not corrected.</p>
+<h3>Animation models</h3>
+<p>Flow: circulation loops placed by impeller class, scaled to a fraction of tip speed, shrunk at low Re and weakened without baffles. Not CFD. Homogenization: tracer carried by that flow plus an effective dispersion D = ${KD} × U × T, a tuning parameter. Solids: settling and pick-up thresholds are scaled from N/Njs, so the animation follows the correlation rather than predicting it independently. Core engineering constants and correction factors are kept in one MODEL object in the code, which also links to the dye and crystallisation parameters. Crystallisation: accelerated teaching kinetics (nucleation above σ = ${CRY.sc}, growth, size-dependent settling, chipping in the impeller zone); not a population balance.</p>
+<h3>Solver self-test</h3>
+<p>Checks that P/V and tip speed rise with speed and that the same-P/V and same-tip-speed solver hits its target within 0.1 %, for all ${Object.keys(IMP).length} impellers, three baffling options and 1 to 100,000 cP. Takes a second or two.</p>
+<p><button id="selftest" type="button">Run self-test</button> <span id="selfres"></span></p>
+<h3>Impeller data used</h3>
+<div class="tw"><table class="imp"><thead><tr><th>Impeller</th><th>Flow</th><th>Np<sub>T</sub> literature</th><th>Np<sub>T</sub> Scale-up Calculator</th><th>Kp (laminar)</th><th>Nq</th><th>Zwietering S</th><th>Default D/T / C/T</th></tr></thead><tbody>${imps}</tbody></table></div>
+<p>Literature values are typical fully baffled, turbulent figures for standard geometries and vary between sources and blade details. Replace them with vendor data for design work.</p>`;}
+function exportCSV(){if(!lastRes)return;updateTable(lastRes);const rows=[['PharmaChemE Agitator Simulator export'],['Vessel diameter T (mm)',P.T*1000],['RM volume (L)',$('V').value],['H/T',P.HT.toFixed(3)],['Baffles',$('baffle').selectedOptions[0].text],['Density (kg/m3)',P.rho],['Viscosity (cP)',P.mu],['Power numbers',$('npsrc').selectedOptions[0].text],[]];
+ rows.push(['Result','Type','System A','System B']);
+ [...$('tbl').tBodies[0].rows].forEach(tr=>{if(tr.classList.contains('sec')){rows.push([tr.textContent.trim()]);return;}const th=tr.cells[0],tag=th.querySelector('.tag');rows.push([th.childNodes[0].textContent.trim(),tag?tag.textContent:'',tr.cells[1].textContent,tr.cells[2].textContent]);});
+ const csv=rows.map(r=>r.map(v=>{const s=String(v);return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;}).join(',')).join('\r\n');
+ const b=new Blob(['\ufeff'+csv],{type:'text/csv'}),u=URL.createObjectURL(b),l=document.createElement('a');l.href=u;l.download='agitator-comparison.csv';document.body.appendChild(l);l.click();setTimeout(()=>{URL.revokeObjectURL(u);l.remove();},500);}
+function updateLegend(){const lg=$('legend');
+ if(view==='dye'){$('lgbar').style.background=grad(DCM);$('lg0').textContent='No tracer';$('lg1').textContent='2.5× average';}
+ else if(view==='cryst'){$('lgbar').style.background=grad(SCM);$('lg0').textContent='Supersaturation 0';$('lg1').textContent='1 and above (nucleation starts near 0.15)';}
+ else{$('lgbar').style.background=grad(VCM);$('lg0').textContent='0';$('lg1').textContent=`${sig(Uref)} m/s circulation velocity`;}
+ lg.style.opacity=view==='solids'?0.6:1;}
+// ---------- drawing ----------
+function xf(pn){const g=pn.f.g,W=pn.cv.width,H=pn.cv.height;const Hs=Math.max(g.H+0.2*g.T,panels.reduce((m,p)=>{if(!p.f)return m;const s=stagesOf(SYS[p.i],g);return Math.max(m,s[s.length-1].zi+0.15*g.T);},0));
+ const x0=-g.R-0.12*g.T,x1=g.R+0.12*g.T,z0=-0.08*g.T,z1=Hs+g.hd+0.42*g.T;
+ const s=Math.min(W/(x1-x0),H/(z1-z0));const ox=W/2,oy=H-(H-(z1-z0)*s)/2+z0*s;return{s,ox,oy,Hs,X:x=>ox+x*s,Z:z=>oy-z*s};}
+function vesselPath(ctx,g,t,Hs,off){const n=40;ctx.beginPath();ctx.moveTo(t.X(-g.R-off),t.Z(Hs));
+ for(let k=0;k<=n;k++){const a=Math.PI+k/n*Math.PI;const x=(g.R+off)*Math.cos(a),z=g.hd+(g.hd+off)*Math.sin(a);ctx.lineTo(t.X(x),t.Z(z));}
+ ctx.lineTo(t.X(g.R+off),t.Z(Hs));}
+function liquidPath(ctx,g,t){const n=40;ctx.beginPath();const zt=Math.min(g.H,g.hd);
+ if(g.H>=g.hd){ctx.moveTo(t.X(-g.R),t.Z(g.H));ctx.lineTo(t.X(-g.R),t.Z(g.hd));}
+ else{const r=rAt(g,g.H);ctx.moveTo(t.X(-r),t.Z(g.H));}
+ for(let k=0;k<=n;k++){const x=-g.R+2*g.R*k/n;const z=floorAt(g,x);if(z<=g.H)ctx.lineTo(t.X(x),t.Z(z));}
+ if(g.H>=g.hd){ctx.lineTo(t.X(g.R),t.Z(g.hd));ctx.lineTo(t.X(g.R),t.Z(g.H));}else{ctx.lineTo(t.X(rAt(g,g.H)),t.Z(g.H));}
+ ctx.closePath();}
+function renderHeat(pn){const f=pn.f,c=pn.heat;c.width=f.NX;c.height=f.NZ;const cx=c.getContext('2d'),im=cx.createImageData(f.NX,f.NZ),d=im.data;
+ const dye=view==='dye',sol=view==='solids',mean=pn.sim.mean||1;
+ for(let j=0;j<f.NZ;j++)for(let i=0;i<f.NX;i++){const k=j*f.NX+i,p=((f.NZ-1-j)*f.NX+i)*4;
+  if(!f.ins[k]){const kk=nearestIn(f,i,j);if(kk<0){d[p+3]=0;continue;}paint(kk);continue;}paint(k);
+  function paint(kk){let col=view==='cryst'&&pn.sim.sg?cmap(SCM,pn.sim.sg[kk]):dye?cmap(DCM,pn.sim.c[kk]/mean/2.5):cmap(VCM,Math.pow(f.sp[kk]/Uref,0.7));
+   if(sol){col=[col[0]*0.45+232*0.55,col[1]*0.45+238*0.55,col[2]*0.45+242*0.55];}
+   d[p]=col[0];d[p+1]=col[1];d[p+2]=col[2];d[p+3]=255;}}
+ cx.putImageData(im,0,0);}
+function nearestIn(f,i,j){for(const [a,b] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const ii=i+a,jj=j+b;if(ii>=0&&jj>=0&&ii<f.NX&&jj<f.NZ&&f.ins[jj*f.NX+ii])return jj*f.NX+ii;}return -1;}
+function clearTrail(pn){pn.trail.getContext('2d').clearRect(0,0,pn.trail.width,pn.trail.height);}
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function draw(pn){const ctx=pn.ctx,W=pn.cv.width,H=pn.cv.height;ctx.clearRect(0,0,W,H);if(!pn.f){ctx.fillStyle=css('--muted');ctx.font=`${14*pn.dpr}px Barlow`;ctx.fillText('Adjust the setup to place an impeller in the liquid.',16*pn.dpr,30*pn.dpr);return;}
+ const f=pn.f,g=f.g,t=xf(pn),s=t.s,T=g.T,shell=css('--shell');
+ // jacket
+ ctx.fillStyle=css('--jacket');vesselPath(ctx,g,t,t.Hs-0.1*T,0.06*T);ctx.lineTo(t.X(g.R),t.Z(t.Hs-0.1*T));vesselPath2(ctx,g,t,t.Hs-0.1*T);ctx.fill('evenodd');
+ // headspace
+ ctx.fillStyle=css('--head');vesselPath(ctx,g,t,t.Hs,0);topHead(ctx,g,t,t.Hs,true);ctx.fill();
+ // liquid heat
+ ctx.save();liquidPath(ctx,g,t);ctx.clip();
+ if(pn.heatDirty||view==='dye'||view==='cryst'){renderHeat(pn);pn.heatDirty=false;}
+ ctx.imageSmoothingEnabled=true;ctx.drawImage(pn.heat,t.X(-g.R),t.Z(f.NZ*f.dx),2*g.R*s,f.NZ*f.dx*s);
+ if(view==='flow')ctx.drawImage(pn.trail,0,0);
+ if(view==='solids'){ctx.fillStyle='#c98a0e';ctx.strokeStyle='rgba(60,35,0,.55)';ctx.lineWidth=0.6*pn.dpr;const rp=Math.max(1.6,0.011*T*s);
+  for(const q of pn.sim.pa){ctx.beginPath();ctx.arc(t.X(q.x),t.Z(q.z),rp,0,6.283);ctx.fill();ctx.stroke();}}
+ if(view==='cryst'&&pn.sim.cr){ctx.fillStyle='#fbf7ea';ctx.strokeStyle='rgba(40,20,70,.75)';ctx.lineWidth=0.7*pn.dpr;
+  for(const q of pn.sim.cr){const r=Math.max(1.1*pn.dpr,Math.min(6*pn.dpr,0.0025*T*s*Math.sqrt(q.L/4))),X=t.X(q.x),Z=t.Z(q.z);ctx.beginPath();ctx.moveTo(X,Z-r);ctx.lineTo(X+r*0.8,Z);ctx.lineTo(X,Z+r);ctx.lineTo(X-r*0.8,Z);ctx.closePath();ctx.fill();ctx.stroke();}}
+ ctx.restore();
+ // surface
+ const unb=P.baffle==='none'&&pn.r.Re>2000;ctx.strokeStyle='rgba(120,170,210,.9)';ctx.lineWidth=2*pn.dpr;ctx.beginPath();
+ const rS=rAt(g,g.H),dip=unb?Math.min(0.25*g.H,0.6*pn.r.Utip*pn.r.Utip/9.81):0;
+ for(let k=0;k<=30;k++){const x=-rS+2*rS*k/30;const z=g.H-dip*Math.max(0,1-(x/(0.55*g.R))**2);k?ctx.lineTo(t.X(x),t.Z(z)):ctx.moveTo(t.X(x),t.Z(z));}ctx.stroke();
+ // baffles
+ ctx.fillStyle=shell;
+ if(P.baffle==='full'){const bw=T/12,gap=T/60,zb=g.hd*0.6;[-1,1].forEach(sg=>{const xa=sg*(g.R-gap),xb=sg*(g.R-gap-bw);ctx.fillRect(Math.min(t.X(xa),t.X(xb)),t.Z(t.Hs-0.05*T),Math.abs(bw*s),(t.Hs-0.05*T-zb)*s);});
+  ctx.globalAlpha=0.35;ctx.fillRect(t.X(-T/24),t.Z(t.Hs-0.05*T),T/12*s,(t.Hs-0.05*T-g.hd*0.6)*s);ctx.globalAlpha=1;}
+ if(P.baffle==='finger'){const x=0.72*g.R,bw=0.045*T,zb=Math.max(g.hd*0.8,g.H*0.35);ctx.beginPath();ctx.roundRect(t.X(x-bw/2),t.Z(t.Hs+0.05*T),bw*s,(t.Hs+0.05*T-zb)*s,bw*s/2);ctx.fill();}
+ // shell
+ ctx.strokeStyle=shell;ctx.lineWidth=Math.max(2,0.018*T*s);ctx.lineJoin='round';vesselPath(ctx,g,t,t.Hs,0);topHead(ctx,g,t,t.Hs,false);ctx.stroke();
+ ctx.lineWidth=Math.max(1,0.008*T*s);vesselPath(ctx,g,t,t.Hs-0.1*T,0.06*T);ctx.stroke();
+ // drive
+ const zt=t.Hs+g.hd;ctx.fillStyle=shell;const lo=pn.r.st[0];
+ ctx.fillRect(t.X(-0.09*T),t.Z(zt+0.1*T),0.18*T*s,0.1*T*s);ctx.fillRect(t.X(-0.06*T),t.Z(zt+0.36*T),0.12*T*s,0.26*T*s);
+ ctx.fillRect(t.X(-0.012*T),t.Z(zt),0.024*T*s,(zt-lo.zi)*s);
+ // impellers
+ const col=pn.i?css('--b'):css('--a');stagesOf(SYS[pn.i],g).forEach(st=>drawImp(ctx,t,g,st,pn.phi,col,pn.dpr));
+}
+function vesselPath2(ctx,g,t,Hs){const n=40;ctx.moveTo(t.X(g.R),t.Z(Hs));ctx.lineTo(t.X(g.R),t.Z(g.hd));for(let k=0;k<=n;k++){const a=-k/n*Math.PI;ctx.lineTo(t.X(g.R*Math.cos(a)),t.Z(g.hd+g.hd*Math.sin(a)));}ctx.lineTo(t.X(-g.R),t.Z(Hs));ctx.closePath();}
+function topHead(ctx,g,t,Hs){const n=30;for(let k=0;k<=n;k++){const a=k/n*Math.PI;ctx.lineTo(t.X(g.R*Math.cos(a)),t.Z(Hs+g.hd*Math.sin(a)));}ctx.closePath();}
+function drawImp(ctx,t,g,st,phi,col,dpr){const I=st.imp,Ri=st.D/2,zi=st.zi,s=t.s,T=g.T;
+ const nb=I.blades,bl=[];for(let k=0;k<nb;k++){const th=phi+k*2*Math.PI/nb;bl.push({th,dep:Math.sin(th)});}
+ bl.sort((a,b)=>a.dep-b.dep);
+ ctx.fillStyle=col;ctx.fillRect(t.X(-0.035*T),t.Z(zi+0.04*T),0.07*T*s,0.08*T*s);
+ if(I.glyph==='disc'){ctx.globalAlpha=1;ctx.fillStyle=col;ctx.fillRect(t.X(-Ri),t.Z(zi+0.008*T),2*Ri*s,Math.max(2*dpr,0.016*T*s));const nt=8;for(let k=0;k<nt;k++){const x=-Ri+2*Ri*(k+0.5)/nt,up=k%2?1:-1,w=Ri/nt*0.8;ctx.beginPath();ctx.moveTo(t.X(x-w),t.Z(zi));ctx.lineTo(t.X(x),t.Z(zi+up*0.05*st.D));ctx.lineTo(t.X(x+w),t.Z(zi));ctx.fill();}return;}
+ if(I.glyph==='ribbon'){const H2=Math.min(g.H*0.97,zi+1.1*T),pitch=st.D;ctx.lineCap='round';ctx.lineWidth=Math.max(2*dpr,0.03*T*s);for(let r=0;r<2;r++){let prev=null;for(let k=0;k<=80;k++){const z=zi+(H2-zi)*k/80,a=phi+r*Math.PI+2*Math.PI*(z-zi)/pitch,rr=Math.min(Ri*0.95,rAt(g,z+0.03*T)*0.93),x=rr*Math.cos(a),front=Math.sin(a)>=0;if(prev){ctx.globalAlpha=front?1:0.35;ctx.strokeStyle=col;ctx.beginPath();ctx.moveTo(t.X(prev[0]),t.Z(prev[1]));ctx.lineTo(t.X(x),t.Z(z));if(front){ctx.save();ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth+=2*dpr;ctx.stroke();ctx.restore();}ctx.stroke();}prev=[x,z];}}ctx.globalAlpha=1;ctx.fillStyle=col;{const bw=Math.min(Ri*0.95,rAt(g,zi+0.03*T)*0.9);ctx.fillRect(t.X(-bw),t.Z(zi+0.012*T),2*bw*s,Math.max(2*dpr,0.02*T*s));}return;}
+ if(I.glyph==='rushton'){ctx.fillRect(t.X(-0.75*Ri),t.Z(zi+0.006*T),1.5*Ri*s,Math.max(1.5*dpr,0.012*T*s));}
+ for(const b of bl){const c=Math.cos(b.th),front=b.dep>=0;ctx.globalAlpha=front?1:0.45;ctx.fillStyle=col;ctx.strokeStyle=col;
+  const pts=[];const n=10;let r0=0.06*T,top=[],bot=[];
+  if(I.glyph==='anchor'||I.glyph==='gate'){ctx.lineWidth=Math.max(2*dpr,0.035*T*s);ctx.lineCap='round';ctx.beginPath();
+   const H2=Math.min(g.H*0.95,zi+0.8*T);ctx.moveTo(t.X(Ri*c),t.Z(H2));
+   for(let k=0;k<=24;k++){const x=Ri*(1-2*k/24);const z=zi+floorAt(g,x*(g.R/Ri)*0.999)*(Ri/g.R);ctx.lineTo(t.X(x*c),t.Z(Math.max(z,zi)+0.0));}
+   ctx.lineTo(t.X(-Ri*c),t.Z(H2));ctx.save();ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth+=2.5*dpr;ctx.stroke();ctx.restore();ctx.stroke();
+   if(I.glyph==='gate'){ctx.lineWidth=Math.max(1.5*dpr,0.022*T*s);[0.4,0.7].forEach(f=>{const z=zi+(H2-zi)*f;ctx.beginPath();ctx.moveTo(t.X(-Ri*c),t.Z(z));ctx.lineTo(t.X(Ri*c),t.Z(z));ctx.save();ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth+=2.5*dpr;ctx.stroke();ctx.restore();ctx.stroke();});[0.45].forEach(f=>{ctx.beginPath();ctx.moveTo(t.X(-Ri*f*c),t.Z(zi+(H2-zi)*0.1));ctx.lineTo(t.X(-Ri*f*c),t.Z(H2*0.95));ctx.moveTo(t.X(Ri*f*c),t.Z(zi+(H2-zi)*0.1));ctx.lineTo(t.X(Ri*f*c),t.Z(H2*0.95));ctx.save();ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth+=2.5*dpr;ctx.stroke();ctx.restore();ctx.stroke();});}
+   ctx.globalAlpha=1;continue;}
+  if(I.glyph==='rushton')r0=0.5*Ri;
+  for(let k=0;k<=n;k++){const r=r0+(Ri-r0)*k/n,fr=(r-r0)/(Ri-r0);let h=0.2*st.D,zo=0,sk=0;
+   if(I.glyph==='flat')h=(I.hb||0.2)*st.D;
+   if(I.glyph==='pitched'){h=0.2*st.D;sk=0.5*h*b.dep;}
+   if(I.glyph==='hydrofoil'){h=st.D*(0.2-0.12*fr);sk=0.6*h*b.dep;zo=0.03*st.D*fr;}
+   if(I.glyph==='propeller'){h=st.D*0.34*Math.sin(Math.PI*Math.min(0.98,0.1+fr*0.9));sk=0.6*h*b.dep;}
+   if(I.glyph==='rci'){h=0.11*st.D;zo=0.14*st.D*fr*fr;}
+   top.push([r*c+sk,zi+zo+h/2]);bot.push([r*c-sk,zi+zo-h/2]);}
+  ctx.beginPath();top.forEach((p,k)=>k?ctx.lineTo(t.X(p[0]),t.Z(p[1])):ctx.moveTo(t.X(p[0]),t.Z(p[1])));bot.reverse().forEach(p=>ctx.lineTo(t.X(p[0]),t.Z(p[1])));ctx.closePath();ctx.fill();if(front){ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=1*dpr;ctx.stroke();}
+  ctx.globalAlpha=1;}
+}
+// ---------- loop ----------
+let last=performance.now();
+function frame(now){const dtR=Math.min(0.05,(now-last)/1000);last=now;
+ panels.forEach(pn=>{if(!pn.f)return draw(pn);const f=pn.f,dt=paused?0:dtR*speed;
+  pn.phi+=paused?0:2*Math.PI*Math.min(pn.r.N/60*Math.min(speed,2),1.2)*dtR;
+  if(dt>0){
+   if(view==='flow'){const tc=pn.trail.getContext('2d');tc.globalCompositeOperation='destination-in';tc.fillStyle='rgba(0,0,0,0.9)';tc.fillRect(0,0,pn.trail.width,pn.trail.height);tc.globalCompositeOperation='source-over';
+    const n=Math.min(8,Math.ceil(dt*f.Uvis/(0.5*f.dx)));const t=xf(pn);tc.strokeStyle='rgba(255,255,255,.85)';tc.lineWidth=1.3*pn.dpr;tc.beginPath();
+    for(let k=0;k<n;k++){pn.sim.stepFlow(dt/n);for(const q of pn.sim.tr){if(q.age===0)continue;tc.moveTo(t.X(q.px),t.Z(q.pz));tc.lineTo(t.X(q.x),t.Z(q.z));}}tc.stroke();}
+   else if(view==='dye'){if(!(pn.sim.t95!==null&&pn.sim.t>pn.sim.t95+20)){const n=Math.min(6,Math.max(1,Math.ceil(dt*f.Uvis/(0.8*f.dx))));for(let k=0;k<n;k++)pn.sim.stepDye(dt/n);}}
+   else if(view==='cryst'&&pn.sim.sg){if(pn.sim.ct<CRY.tB+80){const n=Math.min(6,Math.max(1,Math.ceil(dt*f.Uvis/(0.8*f.dx))));for(let k=0;k<n;k++)pn.sim.stepCryst(dt/n);}}
+   else if(view==='solids'&&pn.sim.pa.length){pn.solT=(pn.solT||0)+dt;const n=Math.max(1,Math.ceil(dt/0.03));for(let k=0;k<n;k++)pn.sim.stepSolids(dt/n);}
+  }
+  draw(pn);status(pn);pn.q('.badge').textContent=view==='cryst'?'Qualitative crystallisation model, not a population balance':'Reduced-order flow model, illustrative, not CFD';});
+ if(lastRes&&(frameN=(frameN||0)+1)%45===0)updateTable(lastRes);
+ requestAnimationFrame(frame);}
+let frameN=0;
+let stT=0;
+function status(pn){const el=pn.q('.status');if(!pn.f){el.textContent='';return;}const sim=pn.sim,r=pn.r;
+ if(view==='flow')el.textContent=`Streaks follow the circulation loops in the vessel's vertical plane. Peak loop velocity ${sig(pn.f.Uvis)} m/s.`;
+ else if(view==='dye'){el.textContent=`Tracer added at the surface. Time ${fmt(sim.t,1)} s, variation ${fmt((sim.cv||0)*100,0)} %. Dye model reaches 95 % mixed at ${sim.t95!==null?fmt(sim.t95,1)+' s':'…'}; the correlation gives ${fmt(r.theta,1)} s.`;if(sim.t95!==null)pn.anim.t95=sim.t95;}
+ else if(view==='cryst'){const s=pn.sim;if(!s.sg){el.textContent='';return;}const pr=Math.min(100,s.ct/CRY.tB*100);
+  el.textContent=pr<100?`${CR.mode==='cool'?'Cooling':'Adding antisolvent'}: ${fmt(pr,0)} % of the batch. Supersaturation now peaks at ${(s.sigPk||0).toFixed(2)}; crystals growing.`:`Batch complete. Remaining supersaturation is being consumed by growth${s.ct>=CRY.tB+80?' — finished':''}.`;
+  if((pn.cryTick=(pn.cryTick||0)+1)%10===1)drawCSD(pn);if(s.ct>=CRY.tB+80&&!pn.anim.cry){const S=s.crystStats();if(S.n)pn.anim.cry=S;}return;}
+ else{if(!r.solids){el.textContent=P.ws>0?'Particles are lighter than the liquid, so suspension is not simulated.':'Set a solids loading above zero to simulate suspension.';return;}
+  const st=sim.pa.length?sim.solidsStats():{off:0,cloud:0};if((pn.solT||0)>15)pn.anim.off=st.off;el.textContent=`${fmt(st.off*100,0)} % of particles off the bottom, cloud height about ${fmt(st.cloud,2)} H. Correlation: ${r.solids.state.toLowerCase()}.`;}
+}
+// ---------- wire ----------
+buildPanel(0);buildPanel(1);
+['T','V','baffle','rho','mu','N','mode','dp','rhos','ws','npsrc'].forEach(id=>$(id).addEventListener('change',recompute));
+$('Nr').addEventListener('input',e=>{$('N').value=e.target.value;recompute();});
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{view=b.dataset.v;document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+ if(lastRes)updateTable(lastRes);$('cryopts').hidden=view!=='cryst';panels.forEach(pn=>pn.q('.crybox').hidden=view!=='cryst');
+ panels.forEach(pn=>{pn.heatDirty=true;if(pn.f){if(view==='dye')pn.sim.resetDye();if(view==='solids')resetSolids(pn);if(view==='cryst')resetCry(pn);clearTrail(pn);}});updateLegend();});
+$('play').onclick=()=>{paused=!paused;$('play').textContent=paused?'Play':'Pause';$('play').setAttribute('aria-pressed',String(paused));};
+$('restart').onclick=()=>panels.forEach(pn=>{if(!pn.f)return;pn.sim.resetDye();resetSolids(pn);if(view==='cryst')resetCry(pn);pn.sim.resetFlow();clearTrail(pn);pn.heatDirty=true;});
+['crmode','crfeed'].forEach(id=>$(id).addEventListener('change',()=>{CR.mode=$('crmode').value;CR.feed=$('crfeed').value;$('crfeed').disabled=CR.mode==='cool';panels.forEach(pn=>{resetCry(pn);pn.heatDirty=true;});}));$('crfeed').disabled=true;
+document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{speed=+b.dataset.s;document.querySelectorAll('[data-s]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){speed=1;document.querySelectorAll('[data-s]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.s==='1')));}
+function solveHT(T,V){let lo=0.01,hi=5;for(let k=0;k<60;k++){const m=(lo+hi)/2;if(liquidVolume(geom(T,m))>V)hi=m;else lo=m;}return(lo+hi)/2;}
+const BASE={inputs:{},U:JSON.parse(JSON.stringify(U))};['T','V','baffle','rho','mu','N','mode','npsrc','dp','rhos','ws','crmode','crfeed'].forEach(id=>BASE.inputs[id]=$(id).value);
+$('reset').onclick=()=>{Object.entries(BASE.inputs).forEach(([id,v])=>$(id).value=v);$('Nr').value=BASE.inputs.N;U.splice(0,2,...JSON.parse(JSON.stringify(BASE.U)));CR.mode=$('crmode').value;CR.feed=$('crfeed').value;$('crfeed').disabled=CR.mode==='cool';recompute();panels.forEach(pn=>pn.sync());};
+$('csv').onclick=exportCSV;buildCorrPanel();
+$('selftest').onclick=()=>{$('selfres').textContent='Running…';setTimeout(()=>{const t=runSelfTest();$('selfres').textContent=t.fails.length?`${t.fails.length} failures out of ${t.cases} cases: ${t.fails.slice(0,3).join('; ')}`:`Passed: ${t.cases} cases, no failures.`;},30);};
+panels.forEach(resize);recompute();requestAnimationFrame(frame);
+</script></body></html>
