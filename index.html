@@ -21,7 +21,7 @@ structured_data: |
     <div class="hero-actions">
       <a href="{{ '/calculators/' | relative_url }}" class="btn btn-primary">Explore Calculators</a>
       <a href="{{ '/games/' | relative_url }}" class="btn btn-outline">Try Troubleshooter</a>
-      <a href="#android-app" class="btn btn-outline">Get Android App</a>
+      <a href="{{ '/plant-tour/' | relative_url }}" class="btn btn-outline">Virtual Plant Tour</a>
     </div>
   </div>
 </section>
@@ -170,11 +170,14 @@ structured_data: |
   </div>
 </section>
 
-<section id="android-app" class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line); text-align:center;">
+<section id="plant-tour" class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line); text-align:center;">
   <div class="container">
-    <p class="eyebrow">Android App</p>
-    <h2 style="font-family:var(--f-display); font-size:1.6rem; margin:0 0 12px;">PharmaChemE on Android</h2>
-    <p style="color:var(--muted); max-width:520px; margin:0 auto 20px;">Take practical chemical and pharmaceutical engineering calculations with you. The Android app is in development — this section will link to the Play Store listing once it's published.</p>
-    <span class="coming-soon-badge">Coming Soon</span>
+    <p class="eyebrow">Virtual Plant Tour</p>
+    <h2 style="font-family:var(--f-display); font-size:1.6rem; margin:0 0 12px;">Walk Through a Chemical Plant in 3D</h2>
+    <p style="color:var(--muted); max-width:620px; margin:0 auto 20px;">Fly through, walk in and watch a full working day: production, distillation, utilities, QC/QA, warehouse, effluent treatment with MEE (zero liquid discharge) and fire &amp; safety &mdash; with equipment data at every stop.</p>
+    <a href="{{ '/plant-tour/' | relative_url }}" style="display:block; max-width:720px; margin:0 auto 20px; border:1px solid var(--grid-line); border-radius:10px; overflow:hidden;">
+      <img src="{{ '/plant-tour/og-image.png' | relative_url }}" alt="3D view of the PharmaChemE virtual chemical plant" loading="lazy" style="display:block; width:100%; height:auto;">
+    </a>
+    <a href="{{ '/plant-tour/' | relative_url }}" class="btn btn-primary">Start the Tour</a>
   </div>
 </section>
