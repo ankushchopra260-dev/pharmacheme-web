@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PharmaChemE — Virtual Plant Tour</title>
-<meta name="description" content="Walk through a virtual pharma / chemical plant in 3D: production, distillation, utilities, QC, warehouse, ETP with MEE (ZLD), fire &amp; safety. Fly-through, walk mode and a full day of plant operations.">
-<link rel="canonical" href="https://pharmacheme.in/plant-tour/">
+<meta name="description" content="Walk through a virtual pharma / chemical plant in 3D, and model a chemical leak: toxic cloud, flammable cloud and pool-fire zones on the plant with What-If Leak mode.">
+<link rel="canonical" href="https://www.pharmacheme.in/plant-tour/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PharmaChemE">
 <meta property="og:title" content="PharmaChemE — Virtual Plant Tour">
-<meta property="og:description" content="Explore a 3D chemical plant: fly through, walk in, and watch a full day of operations from gate to dispatch.">
-<meta property="og:url" content="https://pharmacheme.in/plant-tour/">
-<meta property="og:image" content="https://pharmacheme.in/plant-tour/og-image.png">
+<meta property="og:description" content="Explore a 3D chemical plant, watch a full day of operations, and see what a chemical leak would do with What-If Leak mode.">
+<meta property="og:url" content="https://www.pharmacheme.in/plant-tour/">
+<meta property="og:image" content="https://www.pharmacheme.in/plant-tour/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -139,12 +139,17 @@ canvas { display:block; touch-action:none; -webkit-user-select:none; user-select
 @media (min-width: 721px) { body.info-open #mode-bar { right:338px; } #hud-loc { right:470px; } }
 @media (max-width: 720px) {
   #mode-bar button span { display:none; }
-  #mode-bar button { flex-direction:column; gap:1px; padding:4px 8px; font-size:16px; line-height:1.1; min-width:46px; }
+  #mode-bar button { flex-direction:column; gap:1px; padding:4px 5px; font-size:16px; line-height:1.1; min-width:42px; }
+  #mode-bar #snd-btn { padding:4px 7px; }
   #mode-bar button small { display:block; font-size:9.5px; font-weight:600; }
   #mode-bar .mode-btn.active small::after { content:' ✕'; }
   body #walk-hint-desktop, body #walk-hint-mobile { left:160px; right:12px; bottom:72px; max-width:none; }
-  #hud-loc { right:200px; }
+  #hud-loc { right:var(--mb-w, 260px); }
+  #hud-loc-inner { padding:8px 10px; }
   #info-panel { z-index:30; }
+}
+@media (max-width: 370px) {
+  #hud-loc { display:none; }
 }
 #hud-loc-inner { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; vertical-align:top; }
 /* the three modes live in the mode bar; the older buttons stay in the page (hidden) for compatibility */
@@ -321,6 +326,121 @@ canvas { display:block; touch-action:none; -webkit-user-select:none; user-select
   font-size:11px; color:var(--muted); background:rgba(10,14,16,0.6); padding:6px 14px; border-radius:14px;
   transition:opacity 0.6s;
 }
+
+/* ---------- What-If Leak mode ---------- */
+#leak-panel { position:fixed; right:0; top:0; bottom:0; width:360px; max-width:92vw; z-index:27; background:var(--panel); border-left:1px solid var(--line);
+  backdrop-filter:blur(8px); display:flex; flex-direction:column; transform:translateX(105%); transition:transform 0.3s ease; font-size:12.5px;
+  padding-top:env(safe-area-inset-top); }
+#leak-panel.show { transform:none; }
+#leak-panel .lk-handle { display:none; }
+#leak-panel .lk-head { display:flex; justify-content:space-between; align-items:flex-start; padding:14px 16px 6px; }
+#leak-panel .lk-head b { font-size:16px; display:block; }
+#leak-panel .lk-head small { color:var(--muted); font-size:11px; }
+#leak-panel .lk-head button { background:none; border:1px solid var(--line); color:var(--text); border-radius:8px; width:34px; height:34px; cursor:pointer; font-size:15px; }
+#leak-panel .lk-verdict { margin:4px 12px 8px; padding:9px 11px; border:1px solid var(--line); border-radius:10px; background:var(--panel-raised); line-height:1.5; }
+.lk-verdict .lk-v1 { color:var(--muted); font-size:11px; } .lk-verdict .lk-v2 { font-size:13px; margin:2px 0; } .lk-verdict .lk-v3 { font-size:12px; }
+.lk-verdict .bad { color:#ff6b5a; } .lk-verdict .warn { color:#f2c230; } .lk-verdict .ok { color:#6fe08a; }
+#leak-panel .lk-body { overflow-y:auto; padding:0 16px 20px; flex:1; -webkit-overflow-scrolling:touch; }
+.lk-body .lk-sec { font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--cyan); margin:16px 0 8px; border-top:1px solid var(--line); padding-top:12px; }
+.lk-body label { display:block; color:var(--muted); font-size:11.5px; margin-bottom:9px; }
+.lk-body label b { color:var(--text); font-weight:600; }
+.lk-body select, .lk-body input[type=number] { display:block; width:100%; margin-top:4px; padding:8px 9px; border-radius:7px; border:1px solid var(--line); background:var(--panel-raised);
+  color:var(--text); font-family:'Space Grotesk',sans-serif; font-size:13px; }
+.lk-body input[type=range] { display:block; width:100%; margin-top:6px; accent-color:#4fb8c4; }
+.lk-body .lk-row { display:flex; gap:8px; } .lk-body .lk-row > label { flex:1; min-width:0; }
+.lk-body .lk-chk { display:flex; gap:8px; align-items:center; color:var(--text); font-size:12.5px; cursor:pointer; }
+.lk-body .lk-chk input { width:18px; height:18px; accent-color:#ff5a1f; }
+.lk-pick { width:100%; margin:-2px 0 10px; padding:8px; border-radius:8px; border:1px dashed var(--cyan); background:rgba(79,184,196,0.08); color:var(--cyan); cursor:pointer; font-family:'Space Grotesk',sans-serif; font-size:12.5px; }
+.lk-pick.on { background:rgba(255,90,31,0.18); border-color:#ff5a1f; color:#ffb08a; }
+.lk-presets { display:flex; gap:6px; margin-bottom:10px; }
+.lk-presets button { flex:1; padding:7px 4px; border-radius:8px; border:1px solid var(--line); background:var(--panel-raised); color:var(--text); cursor:pointer; font-family:'Space Grotesk',sans-serif; font-size:12px; }
+.lk-presets button small { display:block; color:var(--muted); font-size:10.5px; }
+.lk-presets button:hover { border-color:var(--cyan); }
+.lk-src div { margin-bottom:6px; line-height:1.5; }
+.lk-zones { width:100%; border-collapse:collapse; margin-top:6px; }
+.lk-zones th { text-align:left; font-weight:500; color:var(--muted); font-size:10.5px; padding:4px 2px; border-bottom:1px solid var(--line); }
+.lk-zones td { padding:6px 2px; border-bottom:1px solid var(--line); vertical-align:top; }
+.lk-zones td:last-child, .lk-zones th:last-child { text-align:right; white-space:nowrap; }
+.lk-zones td i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+.lk-zones td small { display:block; color:var(--muted); font-size:10.5px; margin-left:16px; }
+.lk-zones .lk-note { color:var(--muted); font-size:11.5px; }
+.lk-aff div { margin-bottom:6px; line-height:1.45; }
+.lk-tips { padding-left:18px; margin:0; } .lk-tips li { margin-bottom:6px; line-height:1.45; }
+.lk-how { margin-top:14px; color:var(--muted); font-size:11.5px; line-height:1.5; } .lk-how summary { cursor:pointer; color:var(--cyan); margin-bottom:6px; }
+.lk-how p { margin-bottom:7px; } .lk-how b { color:var(--text); }
+.lk-disc { margin-top:12px; color:var(--muted); font-size:10.5px; line-height:1.5; }
+.label.lk-label { border-width:1.5px; font-size:10.5px; padding:2px 7px; background:rgba(10,14,16,0.82); }
+.label.lk-src-label { color:#ffb3a8; font-weight:600; }
+.lk-quick { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:4px; }
+.lk-quick button { padding:8px 6px; border-radius:8px; border:1px solid var(--line); background:var(--panel-raised); color:var(--text); cursor:pointer; font-family:'Space Grotesk',sans-serif; font-size:12px; text-align:left; }
+.lk-quick button:hover { border-color:var(--cyan); }
+.lk-er-btn { margin:0 12px 8px; padding:10px; border-radius:10px; border:1px solid #ff5a1f; background:rgba(255,90,31,0.14); color:#ffb08a; cursor:pointer; font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; }
+.lk-er-btn:hover { background:rgba(255,90,31,0.24); }
+.lk-ap-sel { color:#6fe08a; }
+#lk-er { position:fixed; z-index:28; bottom:18px; left:50%; transform:translateX(-50%); width:min(620px, calc(100vw - 40px)); display:none;
+  background:rgba(10,14,16,0.5); border:1px solid rgba(255,90,31,0.55); border-radius:12px; padding:8px 12px 9px; font-size:13px; line-height:1.4;
+  transition:background 0.2s ease; }
+#lk-er:hover { background:rgba(10,14,16,0.88); }
+body:not(.leak-min) #lk-er { left:calc((100vw - 360px)/2); width:min(560px, calc(100vw - 400px)); }
+#lk-er.show { display:block; }
+#lk-er .er-k { display:flex; align-items:center; gap:10px; font-size:11.5px; color:#ffb08a; margin-bottom:2px; }
+#lk-er .er-k #er-hc { margin-left:auto; }
+#lk-er .er-c { color:#f2f6f8; text-shadow:0 1px 2px #000, 0 0 8px rgba(0,0,0,0.9); }
+#lk-er .er-p { height:3px; background:rgba(255,255,255,0.12); border-radius:2px; margin-top:6px; overflow:hidden; } #lk-er .er-p i { display:block; height:100%; width:0; background:#ff5a1f; }
+#lk-er .er-b { display:flex; gap:6px; }
+#lk-er .er-b button { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.22); color:var(--text); border-radius:7px; width:32px; height:28px; cursor:pointer; font-size:12px; }
+#lk-tab { display:none; position:fixed; z-index:27; right:0; top:84px; padding:9px 12px; border-radius:10px 0 0 10px; border:1px solid var(--line); border-right:none;
+  background:var(--panel); color:var(--text); cursor:pointer; font-family:'Space Grotesk',sans-serif; font-size:12.5px; box-shadow:0 2px 10px rgba(0,0,0,0.4); }
+#lk-tab:hover { color:var(--cyan); }
+#leak-panel .lk-head span { display:flex; gap:6px; }
+@media (min-width: 721px) {
+  #leak-panel.min { transform:translateX(105%); }
+  body.leak-open.leak-min #lk-tab { display:block; }
+  body.leak-open.leak-min #mode-bar { right:18px; }
+  body.leak-open.leak-min #hud-loc { right:470px; }
+  body.leak-open #reset-btn { display:none; }
+}
+@media (max-width: 720px) { #leak-panel #lk-hide { display:none; }
+  #lk-er { left:8px; right:8px; width:auto; transform:none; bottom:calc(142px + env(safe-area-inset-bottom)); font-size:12px; padding:7px 10px; }
+  body:not(.leak-min) #lk-er { left:8px; width:auto; } }
+body.leak-open #drag-hint { display:none; }
+@media (max-width: 720px) {
+  body.leak-open #label-layer .label { font-size:9.5px; padding:2px 6px; }
+  body.leak-open #label-layer .label:not(.lk-label) { opacity:0.72; }
+  body.er-run #label-layer .label:not(.lk-label) { display:none !important; }
+  body.leak-open #label-layer .label.lk-label { font-size:9.5px; padding:1px 5px; }
+  body.er-run #leak-panel { transform:translateY(105%) !important; }
+  body.er-run #lk-er { bottom:calc(10px + env(safe-area-inset-bottom)); }
+  #lk-er .er-k { flex-wrap:wrap; row-gap:2px; }
+  #lk-er .er-b button { width:38px; height:32px; }
+}
+@media (min-width: 721px) { body.leak-open #mode-bar { right:378px; } body.leak-open #hud-loc { right:560px; } }
+@media (max-width: 720px) {
+  #leak-panel { top:auto; left:0; right:0; width:auto; max-width:none; height:56vh; border-left:none; border-top:1px solid var(--line); border-radius:16px 16px 0 0;
+    transform:translateY(105%); padding-top:0; padding-bottom:env(safe-area-inset-bottom); transition:transform 0.3s ease, height 0.3s ease; }
+  #leak-panel.show { transform:none; }
+  #leak-panel { height:52vh; }
+  #leak-panel.min { height:auto; }
+  /* faded, see-through sheet on phones so the plant shows behind it */
+  #leak-panel { background:rgba(15,21,24,0.72); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); border-top-color:rgba(255,255,255,0.12); }
+  #leak-panel.min { background:rgba(15,21,24,0.42); backdrop-filter:none; -webkit-backdrop-filter:none; }
+  #leak-panel .lk-verdict, #leak-panel .lk-quick button, #leak-panel .lk-presets button, #leak-panel .lk-body select, #leak-panel .lk-body input[type=number] { background:rgba(24,32,35,0.55); }
+  #leak-panel .lk-er-btn { background:rgba(255,90,31,0.12); }
+  #leak-panel.min .lk-verdict { background:rgba(10,14,16,0.35); border-color:rgba(255,255,255,0.12); }
+  #leak-panel .lk-verdict, #leak-panel .lk-er-btn, #leak-panel .lk-handle em { text-shadow:0 1px 2px #000, 0 0 6px rgba(0,0,0,0.85); }
+  body.leak-open #label-layer .label:not(.lk-label) { opacity:0.45 !important; }
+  #leak-panel.min .lk-head, #leak-panel.min .lk-body, #leak-panel.min .lk-v1 { display:none; }
+  #leak-panel.min .lk-verdict { margin:2px 10px 6px; padding:6px 10px; line-height:1.35; }
+  #leak-panel.min .lk-verdict .lk-v2 { font-size:12.5px; margin:0; } #leak-panel.min .lk-verdict .lk-v3 { font-size:11.5px; }
+  #leak-panel.min .lk-er-btn { margin:0 10px 8px; padding:8px; font-size:12.5px; }
+  #leak-panel .lk-handle em { font-style:normal; font-size:11px; color:var(--cyan); margin-left:10px; }
+  #leak-panel .lk-handle { align-items:center; }
+  #leak-panel .lk-handle { display:flex; justify-content:center; padding:7px 0 5px; cursor:pointer; }
+  #leak-panel .lk-handle span { width:44px; height:5px; border-radius:3px; background:var(--muted); opacity:0.6; }
+  #leak-panel .lk-head { padding:2px 14px 2px; }
+  #leak-panel .lk-head small { display:none; }
+  body.leak-open #reset-btn { display:none; }
+}
 </style>
 </head>
 <body>
@@ -354,6 +474,7 @@ canvas { display:block; touch-action:none; -webkit-user-select:none; user-select
   <button class="mode-btn" data-mode="fly" data-tip="Fly-through: the camera flies through the plant, stop by stop">✈️<span>Fly-Through</span><small>Fly</small></button>
   <button class="mode-btn" data-mode="walk" data-tip="Walk: explore on foot (WASD / arrows, or the on-screen pad)">🚶<span>Walk</span><small>Walk</small></button>
   <button class="mode-btn" data-mode="ops" data-tip="Operations: a full working day in the plant, department by department">🏭<span>Operations</span><small>Ops</small></button>
+  <button class="mode-btn" data-mode="leak" data-tip="What-If Leak: model a chemical leak and see the toxic cloud, flammable cloud and fire zones">⚠️<span>What-If Leak</span><small>Leak</small></button>
   <button id="snd-btn" title="Sound on — click to mute">🔊</button>
 </div>
 <button id="walk-fab-btn">🚶 Walk Mode</button>
@@ -385,6 +506,8 @@ canvas { display:block; touch-action:none; -webkit-user-select:none; user-select
 </div>
 
 <div id="reset-btn"><button id="reset-view-btn">⤺ Back to Overview</button></div>
+
+<div id="leak-panel" aria-label="What-If Leak controls"></div>
 
 <div id="info-panel">
   <button class="close-btn" id="info-close">✕</button>
@@ -678,10 +801,10 @@ const DEPARTMENTS = [
           {
             id: "ch101", name: "CH-101", type: "Screw Brine Chiller Package",
             function: "Chills glycol brine below zero for low-temperature reactions, crystallisation and vent condensers, where 7 °C chilled water is not cold enough.",
-            capacity: "60 TR at −10 °C brine outlet", material: "Insulated CS evaporator, semi-hermetic screw compressor",
+            capacity: "60 TR at −10 °C brine outlet; about 250 kg ammonia (R-717) charge", material: "Insulated CS evaporator, semi-hermetic screw compressor",
             operatingRange: "Brine −15 to −5 °C (30 % ethylene glycol)",
             instruments: ["TT-821 / TT-822 (Brine Out / In)", "PT-823 / PT-824 (Suction / Discharge)", "FS-825 (Brine Flow)"],
-            safety: "Low-brine-temperature cutout, HP/LP refrigerant cutouts, brine flow-switch interlock, refrigerant leak detector.",
+            safety: "Low-brine-temperature cutout, HP/LP refrigerant cutouts, brine flow-switch interlock, ammonia leak detectors with emergency ventilation and water-spray curtain. Try an ammonia leak here in What-If Leak mode.",
             documents: ["SOP", "P&ID", "Datasheet"],
           },
           {
@@ -957,6 +1080,14 @@ const DEPARTMENTS = [
             documents: ["SOP", "Hazardous Waste Manifest"],
           },
           {
+            id: "cl901", name: "CL-901", type: "Chlorine Tonner Shed (Treated-Water Disinfection)",
+            function: "Two 900 kg chlorine tonners feed a vacuum chlorinator that disinfects the treated water before reuse. Chlorine is drawn as gas from the upper valve; the lower valve would give liquid.",
+            capacity: "2 \u00d7 900 kg tonners (one on line, one standby)", material: "Carbon-steel tonners on roller saddles",
+            operatingRange: "Tonner pressure about 7\u201310 barg (vapour pressure at 25\u201335 \u00b0C)",
+            instruments: ["Chlorine leak detector (alarm at 1 ppm) with beacon", "Weighing scale", "Vacuum regulator"],
+            safety: "Open-sided shed, leak detector and beacon, Emergency Kit B for tonners, caustic scrubber, SCBA sets outside the shed. If a tonner leaks liquid, roll it so the leak is at the top: gas escapes about ten times more slowly than liquid. Never spray water on the leak itself. Try it in What-If Leak mode.",
+            documents: ["SOP", "Chlorine Emergency Plan", "Gas Cylinder Rules licence"] },
+          {
             id: "lab901", name: "ETP-LAB", type: "ETP Lab & Control Room",
             function: "Daily tests (pH, COD, BOD, TSS, TDS, MLSS, DO) and the ETP control panel; operator log book.",
             capacity: "N/A", material: "N/A", operatingRange: "N/A",
@@ -1012,6 +1143,14 @@ const DEPARTMENTS = [
             instruments: ["Bath TIC", "Vacuum controller", "Speed indicator"],
             safety: "Flask clips and splash shield; vapours condensed on a chilled-water coil and a cold trap before the vacuum pump.",
             documents: ["SOP", "Equipment Log"],
+          },
+          {
+            id: "eap902", name: "EAP-02", type: "Emergency Assembly Point (East)",
+            function: "The second assembly point, on the opposite side of the site from EAP-01, so that one of them is always upwind of a release. Reached along the Distillation / R&D service lane.",
+            capacity: "Whole shift plus visitors", material: "N/A", operatingRange: "N/A",
+            instruments: ["Muster list", "Head-count board", "Windsock in view"],
+            safety: "Used when the PA names it (wind from the west, or an incident near the fire & safety yard). Wardens carry the muster list for both points.",
+            documents: ["On-site Emergency Plan", "Mock Drill Report"],
           },
         ],
       },
@@ -1098,13 +1237,63 @@ const DEPARTMENTS = [
             documents: ["SOP", "Visitor Induction Record"],
           },
           {
-            id: "eap901", name: "EAP-01", type: "Emergency Assembly Point",
+            id: "eap901", name: "EAP-01", type: "Emergency Assembly Point (West)",
             function: "Where everyone gathers when the siren sounds. Area wardens take a head count against the muster list, so the fire team knows whether anyone is missing inside.",
             capacity: "Whole shift plus visitors", material: "N/A", operatingRange: "N/A",
             instruments: ["Muster list", "Head-count board"],
-            safety: "Upwind of the process units; kept free of parked vehicles; mock drill at least twice a year.",
+            safety: "One of two assembly points on opposite sides of the site (EAP-02 is on the east side, beside R&D). The control room names the one that is upwind of the incident in the PA announcement. Kept free of parked vehicles; mock drill at least twice a year.",
             documents: ["On-site Emergency Plan", "Mock Drill Report"],
           },
+        ],
+      },
+    ],
+  },
+  {
+    id: "tankfarm", name: "Solvent Tank Farm", tag: "Bulk Solvent Storage (Bunded)", noRoad: true,
+    pos: [22.5, 0, -30], color: 0x9c7b52, kind: "tankfarm",
+    desc: "Bulk storage for the plant's main solvents: four vertical fixed-roof tanks inside a concrete bund (dyke) that can hold more than the largest tank, with transfer pumps outside the bund. Flammable tanks have nitrogen blanketing, breather valves with flame arresters and foam chambers; a foam-water monitor covers the farm. Use What-If Leak mode to see what a leak here could do.",
+    equipment: ["TK-1001 Methanol", "TK-1002 Toluene", "TK-1003 n-Hexane", "TK-1004 Dichloromethane", "Bund (dyke) & drain valve", "Transfer Pumps P-1001 A/B", "Foam-Water Monitor"],
+    padSize: [11, 9.6],
+    areas: [
+      {
+        id: "tankfarm-yard", name: "Tank Farm",
+        desc: "Four tanks in a 10 m \u00d7 5.8 m bund with a 0.9 m wall (about 45 m\u00b2 of pool area once the tank footprints are deducted). A leak inside the bund is contained, which limits the pool size and therefore the evaporation rate. The transfer pumps sit outside the bund on their own drained plinth.",
+        equipment: [
+          { id: "tk1001", name: "TK-1001", type: "Methanol Storage Tank (Vertical, Fixed Roof)",
+            function: "Holds fresh methanol for Production. Filled from road tankers; pumped to the reactors by P-1001 A/B.",
+            capacity: "12 m\u00b3 (\u00d8 2.0 m \u00d7 3.8 m), filled to 85 %", material: "SS304",
+            operatingRange: "Atmospheric, N\u2082 blanketed, ambient temperature",
+            instruments: ["LT-1011 (Radar Level)", "LAHH-1011 (High-High Level Trip)", "TG-1011"],
+            safety: "Breather valve with flame arrester, N\u2082 blanket, earthing and bonding for tanker unloading, foam chamber. Methanol burns with an almost invisible flame: use thermal cameras and alcohol-resistant foam.",
+            documents: ["SOP", "P&ID", "PESO Licence", "MSDS"] },
+          { id: "tk1002", name: "TK-1002", type: "Toluene Storage Tank (Vertical, Fixed Roof)",
+            function: "Holds toluene, the main reaction and extraction solvent.",
+            capacity: "12 m\u00b3 (\u00d8 2.0 m \u00d7 3.8 m), filled to 85 %", material: "MS, epoxy-lined",
+            operatingRange: "Atmospheric, N\u2082 blanketed, ambient temperature",
+            instruments: ["LT-1021 (Radar Level)", "LAHH-1021", "TG-1021"],
+            safety: "Static accumulator: filling velocity limited below 1 m/s until the inlet is submerged, dip pipe to the bottom, earthing checked before every transfer.",
+            documents: ["SOP", "P&ID", "PESO Licence", "MSDS"] },
+          { id: "tk1003", name: "TK-1003", type: "n-Hexane Storage Tank (Vertical, Fixed Roof)",
+            function: "Holds n-hexane for crystallisation and washing.",
+            capacity: "12 m\u00b3 (\u00d8 2.0 m \u00d7 3.8 m), filled to 85 %", material: "MS, epoxy-lined",
+            operatingRange: "Atmospheric, N\u2082 blanketed, ambient temperature",
+            instruments: ["LT-1031 (Radar Level)", "LAHH-1031", "TG-1031"],
+            safety: "Very low flash point (\u221222 \u00b0C) and a static accumulator: the highest fire risk in the farm. Nitrogen blanket O\u2082 below 8 %.",
+            documents: ["SOP", "P&ID", "PESO Licence", "MSDS"] },
+          { id: "tk1004", name: "TK-1004", type: "Dichloromethane (MDC) Storage Tank",
+            function: "Holds dichloromethane for extractions. Not easily ignited, but toxic, very volatile (boils at 40 \u00b0C) and heavier than air.",
+            capacity: "12 m\u00b3 (\u00d8 2.0 m \u00d7 3.8 m), filled to 85 %", material: "MS",
+            operatingRange: "Atmospheric, ambient temperature (shaded / cooled in summer)",
+            instruments: ["LT-1041 (Radar Level)", "LAHH-1041", "TG-1041"],
+            safety: "Vapour collects in pits and low areas; entry into the bund after a spill only with SCBA. Keep away from hot surfaces (forms phosgene and HCl).",
+            documents: ["SOP", "P&ID", "MSDS"] },
+          { id: "p1001", name: "P-1001 A/B", type: "Solvent Transfer Pumps (Duty / Standby)",
+            function: "Pump solvent from the tanks up to the pipe rack and on to Production. Outside the bund, so a seal or flange leak here spreads freely on the plinth.",
+            capacity: "10 m\u00b3/h at 3 barg (each)", material: "SS316, double mechanical seals",
+            operatingRange: "3 barg discharge",
+            instruments: ["PT-1051 (Discharge)", "Local panel with emergency stop", "Seal-pot level switch"],
+            safety: "Double mechanical seals with seal-pot alarm, remote-operated tank outlet valves, flameproof motors, emergency stop at the panel.",
+            documents: ["SOP", "Datasheet"] },
         ],
       },
     ],
@@ -1205,6 +1394,7 @@ const EQUIPMENT_LAYOUT = {
   flp901: { pos: [-5.6, 7.9],  radius: 1.5, interactRadius: 2.6, shape: 'filterpress2' },
   sdb901: { pos: [5.6, 8.0],   radius: 1.4, interactRadius: 2.8, shape: 'dryingbeds2' },
   ds901:  { pos: [-2.6, -1.6], radius: 1.0, interactRadius: 2.3, shape: 'dosing2' },
+  cl901:  { pos: [-13.5, 5.5],  radius: 2.4, interactRadius: 3.8, shape: 'clshed2', approach: [0.4, 4.6] },
   lab901: { pos: [2.2, 8.4],   radius: 1.4, interactRadius: 2.6, shape: 'etpcabin2', rotY: Math.PI },
   mee901: { pos: [5.4, -7.4],  radius: 2.3, interactRadius: 3.6, shape: 'mee2', approach: [-4.4, 3.4] },
   atfd901:{ pos: [7.95, -8.5], radius: 0.7, interactRadius: 2.4, shape: 'atfd2', approach: [-2.2, 2.6] },
@@ -1213,6 +1403,7 @@ const EQUIPMENT_LAYOUT = {
   fh01:  { pos: [-2.5, -2],radius: 1.1, interactRadius: 2.5, shape: 'fumehood2' },
   ab901: { pos: [2.5, -2], radius: 1.1, interactRadius: 2.5, shape: 'anabench2' },
   rv901: { pos: [3.75, 3.0], radius: 0.75, interactRadius: 2.3, shape: 'rotavap2', rotY: -Math.PI/2 },
+  eap902: { pos: [9.9, -2.4], radius: 0.05, interactRadius: 2.2, shape: 'assembly2b' },
 
   // Fire & safety yard (pad 15.2 x 11); the road arrives at the north-east corner, the tender parks facing it
   fwt901: { pos: [-5.4, -2.8], radius: 2.6, interactRadius: 4.0, shape: 'firetank2' },
@@ -1224,6 +1415,13 @@ const EQUIPMENT_LAYOUT = {
   eap901: { pos: [5.6, -3.0],  radius: 0.05, interactRadius: 2.2, shape: 'assembly2' },
   ws901:  { pos: [6.9, -4.9],  radius: 0.4, interactRadius: 2.2, shape: 'windsock2' },
   ft901:  { pos: [4.3, 3.6],   radius: 1.3, interactRadius: 3.4, shape: 'firetender2', rotY: Math.PI/2 },
+
+  // Solvent tank farm (pad 11 x 9.6): 2 x 2 tanks inside the bund, back row turned to face the centre aisle, pumps outside
+  tk1001: { pos: [-2.55, -0.25], radius: 1.1, interactRadius: 2.6, shape: 'tank_meoh', approach: [0, 3.7] },
+  tk1002: { pos: [2.55, -0.25],  radius: 1.1, interactRadius: 2.6, shape: 'tank_tol', approach: [0, 3.7] },
+  tk1003: { pos: [-2.55, -3.05], radius: 1.1, interactRadius: 2.6, shape: 'tank_hex', rotY: Math.PI/2, approach: [2.3, 1.3] },
+  tk1004: { pos: [2.55, -3.05],  radius: 1.1, interactRadius: 2.6, shape: 'tank_mdc', rotY: -Math.PI/2, approach: [-2.3, 1.3] },
+  p1001:  { pos: [0, 3.2],       radius: 1.4, interactRadius: 2.8, shape: 'tfpumps2' },
 };
 
 const AREA_MARKER_LAYOUT = {
@@ -1260,7 +1458,7 @@ const AREA_MARKER_LAYOUT = {
 
 let scene, camera, renderer;
 let cameraTarget, targetLookAt;
-let cameraRadius = 42, cameraAzimuth = Math.PI/4, cameraPolar = Math.PI/3.2;
+let cameraRadius = 50, cameraAzimuth = Math.PI/4, cameraPolar = Math.PI/3.2;
 let targetRadius = cameraRadius, targetAzimuth = cameraAzimuth, targetPolar = cameraPolar;
 let isDragging = false, lastX = 0, lastY = 0, dragStartX = 0, dragStartY = 0, hasDragged = false;
 const buildingMeshes = [];
@@ -1277,7 +1475,7 @@ let walkYaw = 0, walkPitch = 0;
 let pointerLocked = false;
 const WALK_EYE_HEIGHT = 1.7;
 const WALK_SPEED = 6.5, WALK_SPEED_FAST = 12;
-const SITE_BOUNDARY_RADIUS = 46;
+const SITE_BOUNDARY_RADIUS = 54;              // boundary wall just outside; the perimeter fire road runs inside it
 const keys = {};
 const DEPT_COLLISION_RADIUS = {
   reactor: 6.5, column: 5.5, utility: 5.5, warehouse: 7.5,
@@ -1359,6 +1557,7 @@ function init(){
   window.addEventListener('keydown', (e) => {
     if (isTypingInField()) return;
     const k = e.key.toLowerCase();
+    if (LEAK.active){ if (k === 'escape') leakExit(); return; }
     if (cine.mode){
       if (k===' '){ e.preventDefault(); toggleCinePause(); }
       else if (k==='escape') stopCinematic();
@@ -1434,13 +1633,13 @@ function init3D(){
   scene.add(sun);
 
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(140, 140),
+    new THREE.PlaneGeometry(190, 190),
     new THREE.MeshStandardMaterial({ color: 0x1a2226, roughness: 0.95 })
   );
   ground.rotation.x = -Math.PI/2;
   scene.add(ground);
 
-  const grid = new THREE.GridHelper(140, 28, 0x2a3438, 0x1e2528);
+  const grid = new THREE.GridHelper(190, 38, 0x2a3438, 0x1e2528);
   grid.position.y = 0.008;
   scene.add(grid);
 
@@ -2758,13 +2957,13 @@ function eqFirstAid(){
   eqBox(g, [0.7,0.4,0.25], [-W/2+0.4, 2.1, -D/2-0.13], M.labWhite);                                 // AC unit
   return g;
 }
-function eqAssemblyPoint(){
+function eqAssemblyPoint(title){
   const g = new THREE.Group();
   const green = new THREE.MeshStandardMaterial({ color:0x2e8b3e, roughness:0.9, polygonOffset:true, polygonOffsetFactor:-3, polygonOffsetUnits:-12 });
   const white = new THREE.MeshStandardMaterial({ color:0xf0f0ea, roughness:0.8, polygonOffset:true, polygonOffsetFactor:-4, polygonOffsetUnits:-16 });
   const pad = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.02, 2.4), green); pad.position.y = 0.035; pad.userData.keepMat = true; g.add(pad);
   [[0,1.15,3.2,0.1],[0,-1.15,3.2,0.1],[1.55,0,0.1,2.4],[-1.55,0,0.1,2.4]].forEach(([x,z,w,d]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w,0.022,d), white); m.position.set(x,0.037,z); m.userData.keepMat = true; g.add(m); });
-  eqSignBoard(g, ['EMERGENCY', 'ASSEMBLY POINT'], '#1f8a3a', '#ffffff', [1.5, 0.9], [0, 2.1, -1.35], 0, true);
+  eqSignBoard(g, ['EMERGENCY', title || 'ASSEMBLY POINT 1'], '#1f8a3a', '#ffffff', [1.5, 0.9], [0, 2.1, -1.35], 0, true);
   return g;
 }
 function eqWindsock(){
@@ -3006,6 +3205,109 @@ function eqATFD(){
   return g;
 }
 
+// ===================== SOLVENT TANK FARM & CHLORINE TONNER SHED =====================
+// Vertical fixed-roof solvent tank: breather valve + flame arrester, N2 blanket, foam chamber (flammables), radar level,
+// caged ladder with roof handrail, product band and name board, bottom outlet with valve heading south to the pumps.
+function eqSolventTank(label, band, flammable){
+  const M = eqMats2(), g = new THREE.Group(), R = 1.0, H = 3.8;
+  const shell = new THREE.MeshStandardMaterial({ color:0xe6e8e6, metalness:0.2, roughness:0.55 });
+  eqDisc(g, [0,0.1,0], [0,1,0], R+0.2, 0.2, M.concrete, 30);                                   // ring foundation
+  eqDisc(g, [0,0.2+H/2,0], [0,1,0], R, H, shell, 30);
+  [1.3, 2.6].forEach(y => eqDisc(g, [0,0.2+y,0], [0,1,0], R+0.012, 0.03, M.ssDark, 30));          // shell course seams
+  eqDisc(g, [0,0.2+H*0.62,0], [0,1,0], R+0.015, 0.34, new THREE.MeshStandardMaterial({ color:band, roughness:0.5 }), 30);   // product band
+  g.add(eqLathe([[R+0.03,0.2+H],[0.2,0.2+H+0.32],[0.001,0.2+H+0.34]], shell, 30));               // cone roof
+  // roof: breather (PVRV) + flame arrester, N2 blanket line, radar level, manhole
+  const ry = r => 0.2 + H + 0.32*(1 - r/(R+0.03));
+  eqPipe(g, [0.35,ry(0.35),0.1], [0.35,ry(0.35)+0.25,0.1], 0.07, M.ssDark); eqBox(g, [0.26,0.18,0.26], [0.35,ry(0.35)+0.33,0.1], M.cylGrey);
+  if (flammable) eqDisc(g, [0.35,ry(0.35)+0.18,0.1], [0,1,0], 0.12, 0.08, M.black, 14);           // flame arrester element
+  eqPipe(g, [-0.3,ry(0.3),-0.3], [-0.3,ry(0.3)+0.3,-0.3], 0.03, M.n2Green || M.green);
+  eqDisc(g, [0.05,ry(0.1)+0.08,-0.45], [0,1,0], 0.07, 0.16, M.labWhite, 12);                       // radar level transmitter
+  eqDisc(g, [-0.45,ry(0.45)+0.05,0.35], [0,1,0], 0.2, 0.08, M.ssDark, 16);
+  if (flammable){ eqBox(g, [0.28,0.26,0.22], [0,0.2+H-0.25,-(R+0.1)], M.fireRed); eqPipe(g, [0,0.2+H-0.25,-(R+0.2)], [0,0.2+H-0.25,-(R+0.6)], 0.04, M.fireRed); }   // foam chamber + foam line
+  // caged ladder on the east side, roof handrail
+  [-0.2,0.2].forEach(z => eqPipe(g, [R+0.18,0.2,z], [R+0.18,0.2+H+0.9,z], 0.018, M.yellow));
+  for (let y = 0.5; y < H+0.2; y += 0.3) eqPipe(g, [R+0.18,y,-0.2], [R+0.18,y,0.2], 0.012, M.yellow);
+  for (let y = 2.0; y < H+0.2; y += 0.6){ const hoop = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.012, 5, 14, Math.PI), M.yellow); hoop.rotation.y = -Math.PI/2; hoop.rotation.x = Math.PI/2; hoop.position.set(R+0.18, y, 0); g.add(hoop); }
+  eqRail(g, [[R*0.7, -0.5],[R*0.7, 0.5]], 0.9, M.yellow, 0.2+H+0.1);
+  // bottom outlet + valve (south, +z), level gauge, earthing lug
+  eqPipe(g, [0,0.45,R-0.05], [0,0.45,R+0.35], 0.06, M.ssDark); eqDisc(g, [0,0.45,R+0.25], [0,0,1], 0.1, 0.12, M.ssDark, 14);
+  eqHandwheel(g, [0,0.62,R+0.25], [0,1,0], 0.09);
+  eqBox(g, [0.06,0.12,0.03], [-0.6,0.35,R-0.2], M.green);
+  eqSignBoard(g, [label], '#ffffff', '#1c2a33', [1.3, 0.3], [0, 1.25, R+0.03], 0);
+  g.userData.leakPoint = [0, 0.45, R+0.4];
+  return g;
+}
+// Transfer pumps (duty / standby) outside the bund, with suction header from the tanks and discharge riser to the rack
+function eqTransferPumps(){
+  const M = eqMats2(), g = new THREE.Group();
+  eqBox(g, [3.2,0.15,1.3], [0,0.075,0], M.concrete);
+  [-0.75, 0.75].forEach(x => { eqBox(g, [0.9,0.1,0.34], [x,0.2,0], M.paint); eqDisc(g, [x-0.25,0.45,0], [1,0,0], 0.15, 0.16, M.boilerBlue, 16);
+    eqBox(g, [0.14,0.16,0.16], [x-0.06,0.45,0], M.yellow); eqMotor(g, [x+0.02,0.45,0], [1,0,0], 0.11, 0.3);
+    eqPipe(g, [x-0.25,0.6,0], [x-0.25,1.05,0], 0.045, M.ssDark); eqPipe(g, [x-0.25,0.45,-0.16], [x-0.25,0.45,-0.55], 0.05, M.ssDark); });
+  eqPipe(g, [-1.4,0.45,-0.55], [1.4,0.45,-0.55], 0.07, M.ssDark);                                 // suction header
+  eqPipe(g, [-1.4,0.45,-0.55], [-1.4,0.45,-1.9], 0.06, M.ssDark); eqPipe(g, [1.4,0.45,-0.55], [1.4,0.45,-1.9], 0.06, M.ssDark);
+  eqPipe(g, [-1.0,1.05,0], [1.0,1.05,0], 0.06, M.ssDark); eqPipe(g, [0,1.05,0], [0,2.6,0], 0.06, M.ssDark);   // discharge to rack
+  eqBox(g, [0.5,0.7,0.2], [1.35,0.55,0.5], M.labWhite); eqBox(g, [0.14,0.14,0.02], [1.3,0.7,0.61], M.fireRed);   // local panel + e-stop
+  eqSignBoard(g, ['FLAMMABLE', 'NO SMOKING'], '#b3231c', '#ffffff', [1.0, 0.45], [-1.35, 1.1, 0.62], 0, true);
+  g.userData.leakPoint = [-0.75, 0.45, 0.2];
+  return g;
+}
+// Chlorine tonner shed: open-sided with roof, two 900 kg tonners on roller saddles, monorail hoist, leak detector + beacon,
+// emergency kit, caustic scrubber tank, wind-sock style warning board
+function eqChlorineShed(){
+  const M = eqMats2(), g = new THREE.Group(), W = 4.4, D = 3.2, H = 3.0;
+  eqBox(g, [W+0.4,0.15,D+0.4], [0,0.075,0], M.concrete);
+  [[-W/2,-D/2],[W/2,-D/2],[-W/2,D/2],[W/2,D/2]].forEach(([x,z]) => eqBox(g, [0.12,H,0.12], [x,H/2,z], M.paint));
+  eqBox(g, [W+0.5,0.1,D+0.5], [0,H+0.05,0], M.cylGrey);
+  eqBox(g, [W,0.12,0.12], [0,H-0.3,0], M.yellow);                                                 // monorail
+  eqBox(g, [0.3,0.3,0.25], [0.6,H-0.55,0], M.yellow); eqPipe(g, [0.6,H-0.7,0], [0.6,1.3,0], 0.01, M.black);   // hoist
+  const tonMat = new THREE.MeshStandardMaterial({ color:0xd8c93c, metalness:0.2, roughness:0.5 });   // chlorine yellow
+  [-0.55, 0.55].forEach(z => {
+    [-1.1, 1.1].forEach(x => { eqBox(g, [0.3,0.22,0.7], [x,0.26,z], M.paint); eqDisc(g, [x,0.4,z-0.22], [1,0,0], 0.08, 0.2, M.rubber, 12); eqDisc(g, [x,0.4,z+0.22], [1,0,0], 0.08, 0.2, M.rubber, 12); });
+    eqDisc(g, [0,0.82,z], [1,0,0], 0.39, 1.9, tonMat, 24);
+    [-1, 1].forEach(k => { const h = eqLathe(eqHead(0.39,0.12,0,true,6), tonMat, 24); h.position.set(k*0.95,0.82,z); eqOrient(h, [k,0,0]); g.add(h); });
+    eqDisc(g, [-1.1,0.82,z], [1,0,0], 0.16, 0.08, M.ssDark, 12);                                     // valve protection hood end
+    eqPipe(g, [-1.12,0.9,z], [-1.3,0.9,z], 0.02, M.ss); eqPipe(g, [-1.12,0.74,z], [-1.3,0.74,z], 0.02, M.ss);   // upper (gas) / lower (liquid) valves
+  });
+  eqPipe(g, [-1.3,0.9,-0.55], [-1.3,1.6,-0.55], 0.015, M.ss); eqPipe(g, [-1.3,1.6,-0.55], [-1.9,1.6,-0.55], 0.015, M.ss);   // to the chlorinator
+  eqBox(g, [0.4,0.6,0.25], [-1.95,1.3,-1.2], M.labWhite);                                           // chlorinator
+  eqDisc(g, [1.8,0.7,-1.1], [0,1,0], 0.4, 1.3, M.frpGreen, 18);                                      // caustic scrubber tank
+  eqBox(g, [0.5,0.4,0.3], [1.9,0.35,1.25], M.yellow); eqBox(g, [0.5,0.08,0.3], [1.9,0.6,1.25], M.black);   // emergency kit
+  eqPipe(g, [W/2,1.5,-D/2], [W/2,2.4,-D/2], 0.02, M.ss); eqBox(g, [0.2,0.25,0.1], [W/2,2.45,-D/2+0.08], M.labWhite);   // leak detector
+  const bcn = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 8), new THREE.MeshStandardMaterial({ color:0xffaa22, emissive:0xff9900, emissiveIntensity:0.6 }));
+  bcn.position.set(W/2, H+0.2, -D/2); bcn.userData.statusLamp = true; bcn.userData.pulse = true; g.add(bcn);
+  eqSignBoard(g, ['DANGER', 'CHLORINE'], '#ffd400', '#1c1c1c', [1.4, 0.6], [0, 2.3, D/2+0.3], 0, true);
+  g.userData.leakPoint = [-1.3, 0.74, 0.55];
+  return g;
+}
+function buildTankFarmExtras(group, dept){
+  const M = eqMats2(), g = new THREE.Group();
+  // bund wall (dyke) round the tanks, 0.9 m high, with a step-over stile on the south side and a drain valve
+  const x0 = -5.1, x1 = 5.1, z0 = -4.6, z1 = 1.4, h = 0.9, t = 0.2;
+  eqBox(g, [x1-x0+t, h, t], [0, h/2, z0], M.concrete);
+  eqBox(g, [(x1-x0)/2-0.6, h, t], [x0+((x1-x0)/2-0.6)/2, h/2, z1], M.concrete);
+  eqBox(g, [(x1-x0)/2-0.6, h, t], [x1-((x1-x0)/2-0.6)/2, h/2, z1], M.concrete);
+  eqBox(g, [1.2, 0.35, t], [0, 0.175, z1], M.concrete);                                             // low section under the stile
+  [x0, x1].forEach(x => eqBox(g, [t, h, z1-z0], [x, h/2, (z0+z1)/2], M.concrete));
+  [-0.45, 0.45].forEach(dx => { eqPipe(g, [dx, 0.35, z1-0.5], [dx, 1.2, z1], 0.03, M.yellow); eqPipe(g, [dx, 1.2, z1], [dx, 0.35, z1+0.5], 0.03, M.yellow); });   // stile
+  for (let k=0;k<3;k++){ eqBox(g, [0.9,0.04,0.25], [0, 0.55+k*0.22, z1-0.32+k*0.1], M.paint); eqBox(g, [0.9,0.04,0.25], [0, 0.55+k*0.22, z1+0.32-k*0.1], M.paint); }
+  eqPipe(g, [x1-0.6, 0.12, z1], [x1-0.6, 0.12, z1+0.5], 0.05, M.cylGrey); eqHandwheel(g, [x1-0.6, 0.3, z1+0.4], [0,1,0], 0.08);   // dyke drain valve
+  // tank outlet lines, up over the bund wall and into the pump suction header (back-row tanks face the centre aisle)
+  const run = pts => { for (let k=1;k<pts.length;k++) eqPipe(g, pts[k-1], pts[k], 0.045, M.ssDark); };
+  [-1, 1].forEach(sd => {
+    run([[sd*2.55,0.45,1.1],[sd*2.55,1.15,1.1],[sd*2.55,1.15,1.6],[sd*1.4,1.15,1.6],[sd*1.4,0.45,1.6]]);
+    run([[sd*1.2,0.45,-3.05],[sd*1.2,1.15,-3.05],[sd*1.2,1.15,1.6]]);
+  });
+  [-3.9, 3.9].forEach(x => { eqBox(g, [0.12, 1.1, 0.12], [x, 0.55, z1+0.05], M.paint); });
+  // foam-water monitor and hydrant at the south-east corner, earthing reel
+  eqPipe(g, [x1+0.3, 0, z1+2.8], [x1+0.3, 1.3, z1+2.8], 0.09, M.fireRed); eqPipe(g, [x1+0.3, 1.3, z1+2.8], [x1-0.2, 1.55, z1+2.3], 0.06, M.fireRed);
+  eqDisc(g, [x0-0.25, 0.9, z1+1.2], [1,0,0], 0.2, 0.08, M.green, 14); eqPipe(g, [x0-0.25, 0, z1+1.2], [x0-0.25, 0.8, z1+1.2], 0.03, M.cylGrey);
+  eqSignBoard(g, ['SOLVENT TANK FARM', 'FLAMMABLE · NO SMOKING'], '#b3231c', '#ffffff', [2.4, 0.7], [x0-0.35, 1.3, -1.6], -Math.PI/2, true);
+  g.traverse(o => { if (o.isMesh) o.userData.deptId = dept.id; });
+  group.add(eqMergeStatic(g));
+  STATIC_OBSTACLES.push({ x:dept.pos[0]+x1+0.3, z:dept.pos[2]+z1+2.8, r:0.35 });
+}
+
 function buildRealisticEquipment4(shape){
   switch (shape){
     case 'firetank2': return eqFireTank();
@@ -3025,6 +3327,13 @@ function buildRealisticEquipment4(shape){
     case 'dryingbeds2': return eqDryingBeds();
     case 'dosing2': return eqDosing();
     case 'etpcabin2': return eqEtpCabin();
+    case 'assembly2b': return eqAssemblyPoint('ASSEMBLY POINT 2');
+    case 'tank_meoh': return eqSolventTank('TK-1001 METHANOL', 0x3f7fc4, true);
+    case 'tank_tol': return eqSolventTank('TK-1002 TOLUENE', 0xd08a2a, true);
+    case 'tank_hex': return eqSolventTank('TK-1003 n-HEXANE', 0xc0392b, true);
+    case 'tank_mdc': return eqSolventTank('TK-1004 MDC', 0x6d8f3a, false);
+    case 'tfpumps2': return eqTransferPumps();
+    case 'clshed2': return eqChlorineShed();
     case 'mee2': return eqMEE();
     case 'atfd2': return eqATFD();
   }
@@ -3450,11 +3759,11 @@ function updateEmergency(dt){
   if (!EMERG.found){ const D = deptById('ehs'); EMERG.found = true;
     (D && D.walkEquipment || []).forEach(it => it.mesh && it.mesh.traverse(o => {
       if (o.userData.sirenBeacon) EMERG.beacon = o; if (o.userData.lightBar) EMERG.bars = o.children; if (o.userData.windsock) EMERG.sock = o; if (o.userData.sockSeg !== undefined) EMERG.segs.push(o); })); }
-  const st = cine.mode === 'batch' && BATCH_STEPS[cine.step], drill = !!(st && st.drill), t = animClock;
+  const st = cine.mode === 'batch' && BATCH_STEPS[cine.step], drill = !!(st && st.drill) || !!(LEAK.er && LEAK.er.siren), t = animClock;
   if (EMERG.beacon){ EMERG.beacon.userData.pulse = !drill; if (drill) EMERG.beacon.material.emissiveIntensity = Math.sin(t*14) > 0 ? 1.8 : 0.15; }
   EMERG.bars.forEach((b, i) => { b.material.emissiveIntensity = drill ? ((Math.sin(t*16) > 0) === (i === 0) ? 2.0 : 0.1) : 0.25; });
   // wind blows from the safety yard towards the process units (so the assembly point is upwind); the sock swings a little
-  if (EMERG.sock){ EMERG.sock.rotation.y = -0.5 + Math.sin(t*0.13)*0.25 + Math.sin(t*0.71)*0.05; EMERG.segs.forEach(sg => { sg.rotation.x = Math.sin(t*5 + sg.userData.sockSeg)*0.08; sg.position.y = -sg.userData.sockSeg*0.04; }); }
+  if (EMERG.sock){ EMERG.sock.rotation.y = (EMERG.baseYaw !== undefined ? EMERG.baseYaw : -0.5) + Math.sin(t*0.13)*(EMERG.baseYaw !== undefined ? 0.08 : 0.25) + Math.sin(t*0.71)*0.05; EMERG.segs.forEach(sg => { sg.rotation.x = Math.sin(t*5 + sg.userData.sockSeg)*0.08; sg.position.y = -sg.userData.sockSeg*0.04; }); }
 }
 const LEVEL_GAUGES = {};   // eqId -> { fill, level, target, glassH }
 const PRODUCTION_RACK_Y = 4.3;
@@ -3757,6 +4066,7 @@ function buildGenericInterior(group, dept, darkMat, yellowMat){
   if (dept.id === 'reactor') buildProductionProcess(group, dept);
   if (dept.id === 'etp') buildETPProcess(group, dept);
   if (dept.id === 'ehs') buildFireSafetyExtras(group, dept);
+  if (dept.id === 'tankfarm') buildTankFarmExtras(group, dept);
 }
 
 function addPersonFigure(x, z){
@@ -4004,6 +4314,7 @@ function isCoarsePointer(){
 }
 function onClick(e){
   if (cine.mode) return;
+  if (LEAK.active){ leakOnClick(e); return; }
   if (appMode === 'walk'){
     if (!pointerLocked && !pointerLockUnavailable && !isCoarsePointer()){
       try {
@@ -4053,6 +4364,7 @@ function getEntrancePoint(dept){
 }
 
 function focusDepartment(id){
+  if (LEAK.active) leakExit(true);
   const dept = DEPARTMENTS.find(d=>d.id===id);
   if (!dept) return;
   stopCinematic(true);
@@ -4184,6 +4496,7 @@ function showEquipmentCard(dept, area, eq){
 }
 
 function resetView(){
+  if (LEAK.active) leakExit();
   if (appMode === 'walk'){
     appMode = 'overview';
     if (document.pointerLockElement) document.exitPointerLock();
@@ -4201,7 +4514,7 @@ function resetView(){
   activeDept = null;
   if (plant3DReady){
     targetLookAt.set(0,3,0);
-    targetRadius = 42; targetPolar = Math.PI/3.2; targetAzimuth = Math.PI/4;
+    targetRadius = 50; targetPolar = Math.PI/3.2; targetAzimuth = Math.PI/4;
   }
   document.getElementById('hud-sub').textContent = 'Overview — click a department';
   closeInfo();
@@ -4244,6 +4557,7 @@ function onResize(){
   fitCameraFov();
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  if (LEAK.active) leakViewOffset();
 }
 
 function updateLabels(){
@@ -4253,9 +4567,11 @@ function updateLabels(){
     if (L.actor) worldPos.set(L.actor.position.x, L.actor.position.y + (L.actor.userData.load ? 3.6 : 2.7), L.actor.position.z);
     const v = worldPos.clone().project(camera);
     const behind = v.z > 1 || L.hidden;
-    const x = (v.x*0.5+0.5)*window.innerWidth;
+    let x = (v.x*0.5+0.5)*window.innerWidth;
     const y = (-v.y*0.5+0.5)*window.innerHeight;
     el.style.display = behind ? 'none' : 'block';
+    // keep hazard / response labels fully on screen (phones cut them off at the edges)
+    if (!behind && el.classList.contains('lk-label') && Math.abs(v.x) < 1.4){ const hw = el.offsetWidth/2 + 6, W = window.innerWidth; if (hw*2 < W) x = Math.min(W - hw, Math.max(hw, x)); }
     el.style.left = x+'px';
     el.style.top = y+'px';
   });
@@ -4511,6 +4827,7 @@ function teleportToEquipment(dept, eqId){
 
 function enterWalkMode(){
   if (!plant3DReady) return;
+  if (LEAK.active) leakExit(true);
   stopCinematic(true, true);
   stopTour();
   closeSidebar();
@@ -4926,6 +5243,7 @@ function applyFlyState(st){
 let _keepPanelCollapsed = false;
 function startCinematic(mode){
   if (!plant3DReady) return;
+  if (LEAK.active) leakExit(true);
   stopTour();
   if (cine.mode) stopCinematic(true, true);
   if (appMode === 'walk'){ _keepPanelCollapsed = true; exitWalkMode(); _keepPanelCollapsed = false; }
@@ -5378,11 +5696,12 @@ function focusPipeService(id){
 // door, a shared service lane for Distillation + R&D, main gate with security cabin, boom barrier and boundary wall.
 let ROADS = null;
 function computeRoadNetwork(){
-  const R = { ringIn:6.8, ringOut:12.2, laneR:10.85, walkIn:13.0, walkOut:14.5, spurs:[], gate:null };
+  const R = { ringIn:6.8, ringOut:12.2, laneR:10.85, walkIn:13.0, walkOut:14.5, spurs:[], gate:null,
+             perim:{ rIn:46.5, rOut:50.3, laneR:48.4 } };      // perimeter fire road just inside the boundary wall
   const onRingEdge = (x, z) => { const L = Math.hypot(x, z); return { x:x/L*R.ringOut, z:z/L*R.ringOut }; };
   const tweak = { admin:{ dx:0.35, w:3.4 } };           // keeps the Admin road clear of the utility pad corner
   DEPARTMENTS.forEach(d => {
-    if (d.id === 'distillation' || d.id === 'rnd') return;       // served by the shared service lane below
+    if (d.id === 'distillation' || d.id === 'rnd' || d.noRoad) return;       // served by the shared service lane below (the tank farm is reached on foot)
     const t = tweak[d.id] || {};
     const w = t.w || 4.0;
     let pts;
@@ -5401,9 +5720,13 @@ function computeRoadNetwork(){
   });
   // Service lane between Distillation (door on its +z face) and R&D (door on its -z face)
   const laneZ = -4.0;
-  R.spurs.push({ depts:['distillation','rnd'], pts:[{ x:Math.sqrt(R.ringOut*R.ringOut - laneZ*laneZ), z:laneZ }, { x:29.8, z:laneZ }], w:3.2 });
+  // service lane: Distillation and R&D doors, carried on east to join the perimeter fire road
+  R.spurs.push({ depts:['distillation','rnd'], pts:[{ x:Math.sqrt(R.ringOut*R.ringOut - laneZ*laneZ), z:laneZ }, { x:29.8, z:laneZ }, { x:Math.sqrt(R.perim.rOut*R.perim.rOut - laneZ*laneZ), z:laneZ }], w:3.2 });
   const gx = 1.3;   // off-centre so a pedestrian walkway fits between the road and the Production wall
-  R.gate = { x:gx, pts:[{ x:gx, z:-Math.sqrt(R.ringOut*R.ringOut - gx*gx) }, { x:gx, z:-49 }], w:4.4, cabin:{ x:gx+4.7, z:-40 }, boom:{ x:gx+2.75, z:-38.2 } };
+  R.gate = { x:gx, pts:[{ x:gx, z:-Math.sqrt(R.ringOut*R.ringOut - gx*gx) }, { x:gx, z:-62 }], w:4.4, cabin:{ x:gx+4.7, z:-53 }, boom:{ x:gx+2.75, z:-51.2 } };
+  // links from the inner roads to the perimeter road (for the fire tender): the gate road and the service lane
+  R.links = [{ id:'gate', inner:{ x:gx, z:-Math.sqrt(R.laneR*R.laneR - gx*gx) }, outer:{ x:gx, z:-Math.sqrt(R.perim.laneR*R.perim.laneR - gx*gx) } },
+             { id:'lane', inner:{ x:Math.sqrt(R.laneR*R.laneR - laneZ*laneZ), z:laneZ }, outer:{ x:Math.sqrt(R.perim.laneR*R.perim.laneR - laneZ*laneZ), z:laneZ } }];
   return R;
 }
 function roadSpurFor(deptId){ return ROADS && ROADS.spurs.find(s => s.depts.indexOf(deptId) !== -1); }
@@ -5418,6 +5741,7 @@ function distToPolyline(x, z, pts){
 }
 function onAnyRoad(x, z, margin){
   const r = Math.hypot(x, z);
+  if (ROADS.perim && r > ROADS.perim.rIn - margin && r < ROADS.perim.rOut + margin) return true;
   if (r > ROADS.ringIn - margin && r < ROADS.ringOut + margin) return true;
   if (r > ROADS.walkIn - margin && r < ROADS.walkOut + margin) return true;
   return ROADS.spurs.concat([ROADS.gate]).some(s => distToPolyline(x, z, s.pts) < s.w/2 + margin);
@@ -5473,6 +5797,10 @@ function buildRoadNetwork(){
     const arcs = []; for (let i=0;i<gs.length;i++){ const end = gs[i][1], next = i+1 < gs.length ? gs[i+1][0] : gs[0][0] + 2*Math.PI; if (next - end > 0.01) arcs.push([end, next]); } return arcs; })();
   // Roundabout: carriageway, landscaped island with kerb, edge lines, dashed lane divider, direction arrows
   flatRing(ROADS.ringIn, ROADS.ringOut, GROUND_Y[2], asphalt);
+  const PR = ROADS.perim;
+  flatRing(PR.rIn, PR.rOut, GROUND_Y[2], asphalt, 160);
+  flatRing(PR.rIn + 0.15, PR.rIn + 0.27, GROUND_Y[3], white, 160); flatRing(PR.rOut - 0.27, PR.rOut - 0.15, GROUND_Y[3], white, 160);
+  for (let i=0;i<90;i++){ const a0 = i/90*Math.PI*2; flatRing(PR.laneR - 0.06, PR.laneR + 0.06, GROUND_Y[3], yellow, 6, a0, Math.PI*2/200); }
   const island = new THREE.Mesh(new THREE.CylinderGeometry(ROADS.ringIn-0.2, ROADS.ringIn-0.2, 0.18, 64), grass); island.position.y = 0.09; g.add(island);
   const kerbRing = new THREE.Mesh(new THREE.CylinderGeometry(ROADS.ringIn, ROADS.ringIn, 0.2, 64, 1, true), kerb); kerbRing.position.y = 0.1; g.add(kerbRing);
   flatRing(ROADS.ringIn-0.2, ROADS.ringIn, 0.2, kerb, 64);
@@ -5539,7 +5867,9 @@ function buildRoadNetwork(){
     if (obstacle) STATIC_OBSTACLES.push({ x, z, r:0.25 });
   };
   for (let i=0;i<6;i++){ const a = i/6*Math.PI*2 + 0.8, r = ROADS.ringIn - 0.5; lightAt(Math.cos(a)*r, Math.sin(a)*r, Math.cos(a), Math.sin(a), false); }
-  [-17,-29,-36].forEach(z => lightAt(gt.x + gt.w/2 + 0.8, z, -1, 0, true));             // lights on the east verge (walkway side kept clear)
+  [-17,-29,-38].forEach(z => lightAt(gt.x + gt.w/2 + 0.8, z, -1, 0, true));
+  for (let i=0;i<10;i++){ const a = i/10*Math.PI*2 + 0.31, r = ROADS.perim.rIn - 0.9; const x = Math.cos(a)*r, z = Math.sin(a)*r;
+    if (Math.abs(x - gt.x) < 5 && z < 0) continue; lightAt(x, z, Math.cos(a), Math.sin(a), true); }   // perimeter road lights             // lights on the east verge (walkway side kept clear)
   scene.add(eqMergeStatic(g));
 }
 // Boom barrier: lifts only for a vehicle that is moving through the gate (entering or leaving) and drops again once it
@@ -5571,7 +5901,7 @@ function buildFlyPlan(){
   const P = deptById('reactor'), D = deptById('distillation');
   const W = (d, lx, y, lz) => ({ x:d.pos[0]+lx, y, z:d.pos[2]+lz }), V = (x, y, z) => ({ x, y, z });
   const K = [
-    { shot:true, hold:4, p:V(0,42,48), l:V(0,0,0), title:'PharmaChemE Site', text:'Nine departments round a central roundabout, linked by a ring pipe rack and access roads.' },
+    { shot:true, hold:4, p:V(0,42,48), l:V(0,0,0), title:'PharmaChemE Site', text:'Ten departments round a central roundabout, linked by a ring pipe rack and access roads.' },
     { d:4.5, p:V(-38,22,14), l:V(-10,0,-12) },
     { d:3.5, p:V(-6,8.5,-1), l:V(-9.6,2,-15) },
     { shot:true, hold:3, d:3, p:W(P,-0.4,3.0,20), l:W(P,-0.4,2.4,0), title:'Production Building', text:'Batch reactors, centrifuge and dryers under one roof. Straight ahead through the main door.' },
@@ -5594,6 +5924,7 @@ function buildFlyPlan(){
     { shot:true, hold:4.5, d:2, p:V(27.6,2.1,-1.2), l:V(27.6,1.1,3.2), title:'R&D Laboratory', text:'Scientists and chemists at work: a reaction in the fume hood, pipetting at the analytical bench, a solvent strip on the rotary evaporator, and the 100 L pilot reactor being logged before scale-up.' },
     { d:2.5, p:V(27.6,2.6,-3.7), l:V(20,2.8,-4) },
     { d:2.8, p:V(17,3.2,-4.0), l:V(8,4,-4) },
+    { shot:true, hold:4, d:3.5, p:V(12,12.5,-40.5), l:V(22.5,1,-28.5), title:'Solvent Tank Farm', text:'Four solvent tanks inside a concrete bund, with the transfer pumps outside it. Open What-If Leak mode to see how far the cloud or a pool fire from a leak here would reach.' },
     { d:3, p:V(11,8,-2), l:V(-29,1.5,4.2) },
     { shot:true, hold:4.5, d:4.5, p:V(-15,11,-5), l:V(-29,1.5,4.2), title:'Utility Yard', text:'Boiler (steam) and turbine-generator (power); cooling tower, VAM chilled water, brine chiller, thermic fluid heater (hot oil), PSA nitrogen and air compressor. An overhead pipe bridge carries every service to the rack.' },
     { shot:true, hold:4, d:4, p:V(-22,8,-26), l:V(-34,13.5,-1.4), title:'Chimney STK-801', text:'The 30 m common stack takes flue gas from the boiler and the thermic fluid heater. It has a monitoring platform with sampling ports, a caged ladder and an aviation warning light.' },
@@ -5602,7 +5933,7 @@ function buildFlyPlan(){
     { shot:true, hold:4, d:4, p:V(3.5,12,17.5), l:V(-2,0.5,31), title:'Effluent Treatment Plant', text:'Collection sump, equalisation, neutralisation and flocculation, tube settler, aeration with blowers, secondary clarifier, sand and carbon filters, treated-water tank with online monitoring, filter press and drying beds. High-TDS streams go to the three-effect MEE and the thin film dryer (zero liquid discharge).' },
     { shot:true, hold:3.5, d:4, p:V(8,9,9), l:V(18,1,16), title:'Warehouse', text:'Finished goods in racking. The forklift brings drums from Production along the roundabout.' },
     { d:3.5, p:V(4,9,-6), l:V(0,1,-30) },
-    { shot:true, hold:3.5, d:3.5, p:V(0.4,6.5,-24), l:V(1.3,1,-40.5), title:'Main Gate', text:'Security cabin and boom barrier. All traffic enters here and joins the roundabout.' },
+    { shot:true, hold:3.5, d:3.5, p:V(0.4,7.5,-36), l:V(1.3,1,-53.5), title:'Main Gate', text:'Security cabin and boom barrier at the boundary wall. Inside it, the perimeter fire road runs right round the site, so a fire tender can reach every unit.' },
     { shot:true, hold:3, d:5.5, p:V(0,42,48), l:V(0,0,0), title:'Tour complete', text:'Try Walk Mode, trace a pipeline from the sidebar, or run the Batch Process Animation.' },
   ];
   // heading / pitch per point, unwrapped so heading never jumps by 2*pi
@@ -5745,7 +6076,7 @@ function buildWorkshopAndProjectSite(){
   cols.forEach(c => STATIC_OBSTACLES.push({ x:p.x+c[0], z:p.z+c[1], r:0.6 }));
   scene.add(eqMergeStatic(g));
   // Mobile crane: carrier + slewing superstructure with a luffed boom (slews slowly)
-  const crane = new THREE.Group(); crane.position.set(p.x+1.2, 0, p.z+7.0);
+  const crane = new THREE.Group(); crane.position.set(p.x+1.2, 0, p.z+5.6);
   const carrier = new THREE.Group();
   eqBox(carrier, [2.2,0.9,5.0], [0,0.9,0], M.forkYellow);
   [[-1,1.8],[1,1.8],[-1,-1.8],[1,-1.8]].forEach(w2 => eqDisc(carrier, [w2[0],0.45,w2[1]], [1,0,0], 0.45, 0.3, M.rubber, 16));
@@ -5757,7 +6088,7 @@ function buildWorkshopAndProjectSite(){
   const beam = new THREE.Mesh(new THREE.BoxGeometry(0.2,0.2,3.0), M.fireRed); beam.position.set(0,2.6,6.2); beam.rotation.y = Math.PI/2; beam.userData.keepSeparate = true; upper.add(beam);
   crane.add(upper); scene.add(crane);
   STORY.craneUpper = upper;
-  STATIC_OBSTACLES.push({ x:p.x+1.2, z:p.z+7.0, r:1.8 });
+  STATIC_OBSTACLES.push({ x:p.x+1.2, z:p.z+5.6, r:1.8 });
 }
 
 // ---------- Routes (on the real roads and footpath) ----------
@@ -5769,7 +6100,7 @@ function storyRing(a0, a1, r, cw){      // arc points from a0 to a1 (cw = increa
   return out;
 }
 function storySpur(key){        // polyline from the unit's door apron towards the roundabout
-  if (key === 'gate') return [{ x:ROADS.gate.x, z:-33 }, { x:ROADS.gate.x, z:ROADS.gate.pts[0].z }];
+  if (key === 'gate') return [{ x:ROADS.gate.x, z:-46 }, { x:ROADS.gate.x, z:ROADS.gate.pts[0].z }];
   const sp = roadSpurFor(key); return sp.pts.slice().reverse();
 }
 function cutAtRadius(pts, r){    // truncate a polyline running inwards at the first point where it reaches radius r
@@ -5785,7 +6116,7 @@ function cutAtRadius(pts, r){    // truncate a polyline running inwards at the f
 function walkRoute(fromKey, toKey, startAt){
   const leg = key => {
     if (key === 'project') return [{ x:10.5, z:31.0 }, { x:7.8, z:29.0 }, { x:7.8, z:19.8 }, { x:0.8, z:18.0 }, { x:0.8, z:ROADS.walkIn+0.4 }];
-    if (key === 'gate') return [{ x:-1.55, z:-33 }, { x:-1.55, z:-ROADS.walkIn-0.2 }];
+    if (key === 'gate') return [{ x:-1.55, z:-46 }, { x:-1.55, z:-ROADS.walkIn-0.2 }];
     const e = getEntrancePoint(deptById(key));
     return cutAtRadius([{ x:e.x, z:e.z }].concat(storySpur(key).filter(q => Math.hypot(q.x,q.z) < Math.hypot(e.x,e.z) - 0.2)), (ROADS.walkIn+ROADS.walkOut)/2);
   };
@@ -5799,7 +6130,7 @@ function walkRoute(fromKey, toKey, startAt){
 function driveRoute(fromKey, toKey, opts){
   opts = opts || {};
   const R = ROADS.laneR;
-  const inbound = key => key === 'gate' ? [{ x:ROADS.gate.x, z:-58 }, { x:ROADS.gate.x, z:ROADS.gate.pts[0].z }] : storySpur(key);
+  const inbound = key => key === 'gate' ? [{ x:ROADS.gate.x, z:-71 }, { x:ROADS.gate.x, z:ROADS.gate.pts[0].z }] : storySpur(key);
   const a = inbound(fromKey), b = inbound(toKey).slice().reverse();
   const la = a[a.length-1], lb = b[0], aa = Math.atan2(la.z, la.x), ab = Math.atan2(lb.z, lb.x);
   const pts = a.concat([{ x:Math.cos(aa)*R, z:Math.sin(aa)*R }], storyRing(aa, ab, R, true), [{ x:Math.cos(ab)*R, z:Math.sin(ab)*R }], b);
@@ -5826,7 +6157,7 @@ function buildStorySteps(){
   const P = deptById('reactor'), D = deptById('distillation');
   const Wp = (lx, y, lz) => [P.pos[0]+lx, y, P.pos[2]+lz], Wd = (lx, y, lz) => [D.pos[0]+lx, y, D.pos[2]+lz];
   const E = id => { const e = getEntrancePoint(deptById(id)); return { x:e.x, z:e.z }; };
-  const gateIn = { x:-1.55, z:-33 }, GX = ROADS.gate.x;
+  const gateIn = { x:-1.55, z:-46 }, GX = ROADS.gate.x;
   const whApron = driveRoute('gate', 'warehouse', { stopShort:3.3 });
   const whStop = whApron[whApron.length-1];
   const toGate = driveRoute('warehouse', 'gate', { startAt:whStop });
@@ -5836,11 +6167,11 @@ function buildStorySteps(){
   return [
     { id:'gate', title:'Main Gate — arrivals', dur:11, depts:[],
       text:'Security checks the raw-material truck’s invoice, weighment slip and gate pass. The day shift badges in wearing PPE.',
-      shot:{ pos:[5.8,8.0,-36.6], look:[1.9,1.3,-41.2] }, boom:'closed',
-      place:[{ actor:'guard', at:{ x:GX+3.3, z:-37.4, yaw:-Math.PI/2 }, show:true }],
-      moves:[{ actor:'truck', path:[{ x:GX, z:-60 }, { x:GX, z:-43.6 }], t0:0, t1:0.5, load:true },
-             { actor:'workers', path:[{ x:-1.55, z:-54 }, gateIn], t0:0.35, t1:1 }],
-      subject:[[GX,1.5,-43.6],[GX+4.7,1.3,-40],[-1.55,1,-40]] },
+      shot:{ pos:[5.8,8.0,-49.6], look:[1.9,1.3,-54.2] }, boom:'closed',
+      place:[{ actor:'guard', at:{ x:GX+3.3, z:-50.4, yaw:-Math.PI/2 }, show:true }],
+      moves:[{ actor:'truck', path:[{ x:GX, z:-73 }, { x:GX, z:-56.6 }], t0:0, t1:0.5, load:true },
+             { actor:'workers', path:[{ x:-1.55, z:-67 }, gateIn], t0:0.35, t1:1 }],
+      subject:[[GX,1.5,-56.6],[GX+4.7,1.3,-53],[-1.55,1,-53]] },
     { id:'hr', title:'HR & Admin — manpower', dur:12, depts:['admin'], badges:{ admin:['HR: shift allocated','info'] },
       text:'HR/Admin allocates the shift: operators report to Production while the HR officer confirms the muster roll.',
       shot:{ pos:[-9.7,22.0,9.8], look:[-13.8,1.0,-1.5] },
@@ -5854,7 +6185,7 @@ function buildStorySteps(){
       subject:[[-31.6,2,-17.3],[-24.4,1,-14.3],[-21.9,1.5,-10.9]] },
     { id:'rm_in', title:'Raw material → Warehouse', dur:14, depts:['warehouse'], boom:'open', track:'truck', badges:{ warehouse:['RM: QUARANTINE','warn'] },
       text:'The barrier lifts; the truck follows the roundabout clockwise to the Warehouse loading bay.',
-      moves:[{ actor:'truck', path:[{ x:GX, z:-43.6 }].concat(whApron.slice(1)), t0:0, t1:1, load:true }] },
+      moves:[{ actor:'truck', path:[{ x:GX, z:-56.6 }].concat(whApron.slice(1)), t0:0, t1:1, load:true }] },
     { id:'rm_unload', title:'Quarantine', dur:9, depts:['warehouse'], badges:{ warehouse:['RM: QUARANTINE','warn'] },
       text:'Drums are unloaded into the quarantine bay and labelled UNDER TEST — nothing can be used until QA releases it.',
       shot:{ pos:[9,8,4], look:[18,1,12] },
@@ -6086,7 +6417,7 @@ const SOUND_BY_SHAPE = {
   coolingtower2:['fan',16,0.9], boiler2:['burner',15,1.0], thf2:['burner',12,0.8], tg2:['turbine',14,0.85], aircomp2:['compressor',13,0.9],
   brinechiller2:['compressor',11,0.8], vam2:['hum',9,0.6], psa2:['psa',10,0.7], fumehood2:['airflow',6,0.5], aeration2:['airflow',12,0.6],
   blowers2:['compressor',12,0.85], mee2:['pump',12,0.8], atfd2:['rotary',8,0.6], etpneut2:['agitator',8,0.45], dosing2:['agitator',5,0.3], filterpress2:['hum',6,0.35],
-  dcs2:['hum',5,0.25], hplc2:['hum',5,0.3], gc2:['hum',5,0.3], rotavap2:['hum',4,0.3]
+  tfpumps2:['pump',9,0.6], dcs2:['hum',5,0.25], hplc2:['hum',5,0.3], gc2:['hum',5,0.3], rotavap2:['hum',4,0.3]
 };
 function audioReady(){ return !!(SOUND.ctx && SOUND.ctx.state === 'running'); }
 function ensureAudio(){
@@ -6143,6 +6474,7 @@ function makeVoice(type){
     case 'hum':        osc('sine', 100, 0.18); osc('sine', 200, 0.05); noise('bandpass', 400, 1, 0.03); break;
     case 'forklift':   v.oscs.push(osc('sine', 380, 0.05)); v.oscs.push(osc('triangle', 190, 0.04)); noise('lowpass', 160, 0.7, 0.4); break;
     case 'truck':      v.oscs.push(osc('sawtooth', 42, 0.45, 280)); noise('lowpass', 120, 0.7, 0.25); v.am = am(21, 0.45); break;
+    case 'hiss':       noise('highpass', 2600, 0.7, 0.55); noise('bandpass', 900, 0.8, 0.12); break;
     case 'siren': { const o = osc('sawtooth', 900, 0.1, 2400); const o2 = osc('square', 450, 0.03, 1600);
                     const l = c.createOscillator(); l.frequency.value = 0.22; const lg = c.createGain(); lg.gain.value = 320; l.connect(lg); lg.connect(o.frequency); const lg2 = c.createGain(); lg2.gain.value = 160; l.connect(lg2); lg2.connect(o2.frequency); l.start(); break; }
   }
@@ -6191,6 +6523,7 @@ function updateSound(dt){
   const cands = [];
   if (FORKLIFT.mesh && FORKLIFT.mesh.visible){ const sp = vehicleSpeed('fork', FORKLIFT.mesh, dt); if (sp > 0.3) cands.push({ type:'forklift', range:14, vol:0.8*Math.min(1, sp/3), p:FORKLIFT.mesh.position, speed:sp }); }
   const tr = STORY.actors && STORY.actors.truck && STORY.actors.truck.mesh;
+  if (LEAK.active && LEAK.S){ if (LEAK.jet && !LEAK.stopped) cands.push({ type:'hiss', range:35, vol:0.75, p:{ x:LEAK.S.x, z:LEAK.S.z } }); if (LEAK.res && LEAK.res.fire && LEAK.fireK > 0.2) cands.push({ type:'burner', range:60, vol:1.0*LEAK.fireK, p:{ x:LEAK.poolC.x, z:LEAK.poolC.z } }); }
   if (tr && tr.visible){ const sp = vehicleSpeed('truck', tr, dt); cands.push({ type:'truck', range:32, vol:sp > 0.3 ? 1 : 0.55, p:tr.position, speed:sp }); }
   // loudness of every sound type at the camera (its loudest source)
   const byType = {};
@@ -6198,7 +6531,7 @@ function updateSound(dt){
     const l = e.vol*Math.pow(1 - d/e.range, 1.6); if (!byType[e.type] || l > byType[e.type].l) byType[e.type] = { l, src:e }; };
   soundEmitters().forEach(e => add(e, e.x, e.y, e.z));
   const stp = cine.mode === 'batch' && BATCH_STEPS[cine.step];
-  if (stp && stp.drill) byType.siren = { l:0.7, src:{} };                                 // the siren carries across the whole site
+  if ((stp && stp.drill) || (LEAK.er && LEAK.er.siren)) byType.siren = { l:0.7, src:{} };                                 // the siren carries across the whole site
   cands.forEach(e => add(e, e.p.x, 1.2, e.p.z));
   let want = null, bestL = 0.015;
   Object.keys(byType).forEach(t => { if (byType[t].l > bestL){ bestL = byType[t].l; want = t; } });
@@ -6228,17 +6561,910 @@ function soundDebug(){
 ['pointerdown','keydown','touchstart'].forEach(ev => window.addEventListener(ev, () => ensureAudio(), { passive:true }));
 document.addEventListener('visibilitychange', () => { if (!SOUND.ctx) return; if (document.hidden) SOUND.ctx.suspend(); else if (SOUND.on) SOUND.ctx.resume(); });
 
+// ===================== WHAT-IF LEAK: CONSEQUENCE MODELS (screening level) =====================
+// Source term -> pool spread & evaporation -> Gaussian plume (Pasquill-Gifford / Briggs rural) -> toxic (AEGL-60 min)
+// and flammable (LFL, 1/2 LFL) footprints; pool fire thermal radiation (point-source model).
+// Plain functions, no THREE dependency, so the numbers can be unit-tested on their own.
+const LEAK_R = 8.314, LEAK_PA = 101325, LEAK_G = 9.81;
+const LEAK_CHEM = {
+  // antoine: log10 P[mmHg] = A - B/(C + T[degC])  |  cc: ln P[bar abs] = a - b/T[K] (liquefied gases)
+  // aegl: 60-min AEGL-1/2/3 in ppm (null = not recommended)  |  lfl/ufl vol%  |  fire: m''inf kg/m2s, kbeta 1/m, dHc kJ/kg (LHV), chi = radiative fraction
+  methanol: { name:'Methanol', formula:'CH₃OH', mw:32.04, rho:791, bp:64.7, sc:1.0, antoine:[8.08097,1582.271,239.726],
+              aegl:[530,2100,7200], lfl:6.0, ufl:36, fire:{ m:0.017, kb:100, dhc:19900, chi:0.20 }, kind:'liquid', color:0xb8c8d8 },
+  toluene:  { name:'Toluene', formula:'C₇H₈', mw:92.14, rho:867, bp:110.6, sc:1.8, antoine:[6.95464,1344.8,219.482],
+              aegl:[67,560,5200], lfl:1.1, ufl:7.1, fire:{ m:0.090, kb:1.4, dhc:40500, chi:0.35 }, kind:'liquid', color:0xc9c2b0 },
+  hexane:   { name:'n-Hexane', formula:'C₆H₁₄', mw:86.18, rho:655, bp:68.7, sc:2.1, antoine:[6.87601,1171.17,224.408],
+              aegl:[null,2900,8600], lfl:1.1, ufl:7.5, fire:{ m:0.074, kb:1.9, dhc:44700, chi:0.35 }, kind:'liquid', color:0xd0d6dc },
+  acetone:  { name:'Acetone', formula:'C₃H₆O', mw:58.08, rho:784, bp:56.1, sc:1.25, antoine:[7.02447,1161.0,224.0],
+              aegl:[200,3200,5700], lfl:2.5, ufl:12.8, fire:{ m:0.041, kb:1.9, dhc:28600, chi:0.30 }, kind:'liquid', color:0xc8d4e0 },
+  dcm:      { name:'Dichloromethane (MDC)', formula:'CH₂Cl₂', mw:84.93, rho:1326, bp:39.6, sc:1.5, antoine:[7.0803,1138.91,231.45],
+              aegl:[200,560,6900], lfl:null, ufl:null, fire:null, kind:'liquid', color:0xd8dce8 },
+  chlorine: { name:'Chlorine', formula:'Cl₂', mw:70.90, rho:1400, bp:-34.0, cc:[10.323,2465], gamma:1.33,
+              aegl:[0.5,2.0,20], lfl:null, ufl:null, fire:null, kind:'liquefied', color:0xc8d86a },
+  ammonia:  { name:'Ammonia (anhydrous)', formula:'NH₃', mw:17.03, rho:610, bp:-33.3, cc:[11.481,2736], gamma:1.31,
+              aegl:[30,160,1100], lfl:15, ufl:28, fire:null, kind:'liquefied', color:0xeef2f2 },
+};
+// vapour pressure, Pa
+function leakPsat(c, TK){
+  if (c.cc) return Math.exp(c.cc[0] - c.cc[1]/TK)*1e5;
+  const TC = TK - 273.15; return Math.pow(10, c.antoine[0] - c.antoine[1]/(c.antoine[2] + TC))*133.322;
+}
+// ppm <-> kg/m3 at ambient T
+function leakPpmToKgm3(ppm, mw, TK){ return ppm*1e-6*LEAK_PA*(mw/1000)/(LEAK_R*TK); }
+function leakKgm3ToPpm(C, mw, TK){ return C/leakPpmToKgm3(1, mw, TK); }
+// Briggs rural dispersion coefficients (open-country, ~10 min average)
+const LEAK_BRIGGS = {
+  A:[0.22, 0.20, 0,      0],   B:[0.16, 0.12, 0, 0],   C:[0.11, 0.08, 0.0002, -0.5],
+  D:[0.08, 0.06, 0.0015, -0.5], E:[0.06, 0.03, 0.0003, -1], F:[0.04, 0.016, 0.0003, -1] };
+function leakSigmas(x, stab){
+  const b = LEAK_BRIGGS[stab] || LEAK_BRIGGS.D;
+  const sy = b[0]*x*Math.pow(1 + 0.0001*x, -0.5);
+  const sz = b[3] ? b[1]*x*Math.pow(1 + b[2]*x, b[3]) : b[1]*x;
+  return { sy, sz };
+}
+// ---------- source term ----------
+// s: { chem, mode:'tank'|'liqline'|'vapour', holeMM, headM, inventoryKg, maxMin, bundM2, Tc, u, stab }
+function leakSource(s){
+  const c = LEAK_CHEM[s.chem], TK = s.Tc + 273.15, A = Math.PI*Math.pow(s.holeMM/1000, 2)/4, out = { chem:c, TK };
+  const psat = leakPsat(c, TK);
+  if (s.fireOnly){
+    // a fire in stored material (e.g. a drum store): no release to the air, only the burning area
+    const area = s.fireAreaM2 || 30, D = Math.sqrt(4*area/Math.PI);
+    return Object.assign(out, { Q:0, tRel:0, released:0, Qair:0, phase:'fire', P:LEAK_PA, pool:{ area, D, bunded:false, boiling:false, psat } });
+  }
+  if (c.kind === 'liquefied' && s.mode === 'vapour'){
+    // choked vapour flow from the vapour space at the saturation pressure
+    const P = psat, g = c.gamma || 1.3, Cd = 0.85, M = c.mw/1000;
+    const choked = P/LEAK_PA >= Math.pow((g + 1)/2, g/(g - 1));
+    out.Q = choked ? Cd*A*P*Math.sqrt(g*M/(LEAK_R*TK)*Math.pow(2/(g + 1), (g + 1)/(g - 1)))
+                   : Cd*A*Math.sqrt(2*(P*M/(LEAK_R*TK))*(P - LEAK_PA));
+    out.phase = 'vapour'; out.P = P;
+  } else {
+    // Bernoulli liquid discharge: pad / vapour pressure above atmospheric plus the liquid head
+    const Cd = 0.61, dP = Math.max(0, (c.kind === "liquefied" ? psat - LEAK_PA : 0) + (s.pBarg || 0)*1e5 + c.rho*LEAK_G*(s.headM || 0));
+    out.Q = Cd*A*Math.sqrt(2*c.rho*dP); out.phase = 'liquid'; out.P = LEAK_PA + dP;
+  }
+  out.tRel = Math.min(s.inventoryKg/Math.max(out.Q, 1e-9), s.maxMin*60);
+  out.released = out.Q*out.tRel;
+  if (c.kind === 'liquefied'){
+    // flashing liquid or gas: taken as fully airborne (flash + aerosol), a conservative screening assumption
+    out.Qair = out.Q; out.pool = null;
+  } else {
+    // pool: fills the bund, or spreads to a 10 mm film on concrete if unbunded
+    const vol = out.released/c.rho, spread = vol/0.01;
+    const area = s.bundM2 > 0 ? Math.min(s.bundM2, spread) : spread;
+    const D = Math.sqrt(4*area/Math.PI);
+    const Ps = Math.min(psat, 0.98*LEAK_PA);
+    const km = 0.004786*Math.pow(Math.max(s.u, 0.5), 0.78)*Math.pow(D, -0.11)*Math.pow(c.sc, -0.67);   // Mackay & Matsugu
+    let E = km*area*Ps*(c.mw/1000)/(LEAK_R*TK);
+    const boiling = TK >= c.bp + 273.15;
+    if (boiling) E = Math.max(E, out.Q);                                                   // a boiling pool evaporates as fast as it is fed
+    out.Qair = E; out.pool = { area, D, bunded: s.bundM2 > 0 && spread >= s.bundM2, boiling, psat };
+  }
+  return out;
+}
+// ---------- Gaussian plume (ground-level release, ground-level receptor, full ground reflection) ----------
+function leakPlume(Qair, u, stab, sy0){
+  sy0 = sy0 || 0.1;
+  return {
+    C0(x){ if (x <= 0) return Infinity; const s = leakSigmas(x, stab); const sy = Math.hypot(s.sy, sy0), sz = Math.max(s.sz, 0.05);
+      return Qair/(Math.PI*sy*sz*u); },
+    sy(x){ return Math.hypot(leakSigmas(Math.max(x, 0.01), stab).sy, sy0); },
+    at(x, y){ if (x <= 0) return 0; const s = this.sy(x); return this.C0(x)*Math.exp(-y*y/(2*s*s)); }
+  };
+}
+// Footprint (downwind distance and half-width profile) of the zone where C >= Cth
+function leakFootprint(pl, Cth, maxX){
+  maxX = maxX || 10000;
+  if (!(Cth > 0) || pl.C0(1) < Cth) return null;
+  let hi = 1;
+  while (hi < maxX && pl.C0(hi) >= Cth) hi *= 1.5;
+  if (hi >= maxX){ if (pl.C0(maxX) >= Cth) return { xmax:maxX, beyond:true, prof:leakProfile(pl, Cth, maxX) }; hi = maxX; }
+  let lo = Math.max(1, hi/1.5);
+  for (let i=0;i<60;i++){ const m = (lo + hi)/2; if (pl.C0(m) >= Cth) lo = m; else hi = m; }
+  return { xmax:lo, beyond:false, prof:leakProfile(pl, Cth, lo) };
+}
+function leakProfile(pl, Cth, xmax){
+  const pts = [], n = 48;
+  for (let i=0;i<=n;i++){
+    const x = 0.2 + (xmax - 0.2)*Math.pow(i/n, 1.6);
+    const r = pl.C0(Math.max(x, 0.2))/Cth, w = r > 1 ? pl.sy(Math.max(x, 0.2))*Math.sqrt(2*Math.log(r)) : 0;
+    pts.push([x, w]);
+  }
+  pts[pts.length-1][1] = 0;
+  return pts;
+}
+// ---------- pool fire (point-source radiation) ----------
+function leakPoolFire(c, pool){
+  if (!c.fire || !pool) return null;
+  const D = pool.D, mpp = c.fire.m*(1 - Math.exp(-c.fire.kb*D)), burn = mpp*pool.area;
+  const H = 42*D*Math.pow(mpp/(1.2*Math.sqrt(LEAK_G*D)), 0.61);           // Thomas flame height
+  const Qrad = c.fire.chi*burn*c.fire.dhc;                              // kW
+  const dist = q => Math.max(D/2, Math.sqrt(Qrad/(4*Math.PI*q)));
+  return { D, H, mpp, burn, Qrad, qAt:(R) => Qrad/(4*Math.PI*Math.max(R, D/2)*Math.max(R, D/2)),
+           zones:[{ q:37.5, r:dist(37.5), label:'37.5 kW/m² — equipment damage, fatal' }, { q:12.5, r:dist(12.5), label:'12.5 kW/m² — wood ignites, 1% fatality in 1 min' }, { q:4, r:dist(4), label:'4 kW/m² — pain in 20 s, 2nd-degree burns' }] };
+}
+// ---------- whole scenario ----------
+function leakRun(s){
+  const src = leakSource(s), c = src.chem, TK = src.TK;
+  const sy0 = src.pool ? src.pool.D/4.3 : 0.1;
+  const pl = leakPlume(Math.max(src.Qair, 1e-12), Math.max(s.u, 1), s.stab, sy0);
+  const tox = c.aegl.map((ppm, i) => ppm == null ? null : { level:i+1, ppm, fp:leakFootprint(pl, leakPpmToKgm3(ppm, c.mw, TK)) });
+  const flam = c.lfl ? [{ key:'LFL', ppm:c.lfl*1e4, fp:leakFootprint(pl, leakPpmToKgm3(c.lfl*1e4, c.mw, TK)) },
+                        { key:'½ LFL', ppm:c.lfl*5e3, fp:leakFootprint(pl, leakPpmToKgm3(c.lfl*5e3, c.mw, TK)) }] : [];
+  const fire = (s.ignited || s.fireOnly) ? leakPoolFire(c, src.pool) : null;
+  // once the pool is burning, the vapour burns in the fire: the hazards are heat radiation and smoke, not a toxic / flammable cloud
+  if (fire){ tox.forEach(t => { if (t) t.fp = null; }); flam.forEach(f => f.fp = null); }
+  return { s, src, pl, tox, flam, fire, ppmAt:(x, y) => leakKgm3ToPpm(pl.at(x, y), c.mw, TK) };
+}
+if (typeof module !== 'undefined' && module.exports) module.exports = { LEAK_CHEM, leakPsat, leakSigmas, leakSource, leakPlume, leakFootprint, leakPoolFire, leakRun, leakPpmToKgm3, leakKgm3ToPpm };
+
+// ===================== WHAT-IF LEAK MODE =====================
+// Pick a release point, chemical, hole and weather; the plant shows the toxic cloud (AEGL-1/2/3), flammable cloud (LFL,
+// 1/2 LFL) and pool-fire radiation zones on the ground, animates the cloud drifting downwind, turns the windsock, lights up
+// the buildings inside each zone and checks the assembly point. Numbers come from the screening models above.
+const LEAK = { active:false, picking:false, s:null, res:null, site:'tk1001', custom:null, group:null, cloud:null, jet:null, smoke:null,
+               flames:null, light:null, marker:null, glowed:[], labels:[], t:0, min:false, framed:false };
+const LEAK_ZC = { tox:['#f2c230','#f07b1f','#d62d20'], lfl:'#b04ce0', hlfl:'#d79cf0', fire:['#c0001a','#ff5a1f','#ffb000'] };
+const LEAK_DIRS = ['N','NE','E','SE','S','SW','W','NW'];
+const LEAK_DIR_NAMES = { N:'north', NE:'north-east', E:'east', SE:'south-east', S:'south', SW:'south-west', W:'west', NW:'north-west' };
+const LEAK_SITES = [
+  { id:'tk1001', eq:'tk1001', label:'TK-1001 methanol tank (in bund)', chem:'methanol', kind:'tank' },
+  { id:'tk1002', eq:'tk1002', label:'TK-1002 toluene tank (in bund)', chem:'toluene', kind:'tank' },
+  { id:'tk1003', eq:'tk1003', label:'TK-1003 n-hexane tank (in bund)', chem:'hexane', kind:'tank' },
+  { id:'tk1004', eq:'tk1004', label:'TK-1004 MDC tank (in bund)', chem:'dcm', kind:'tank' },
+  { id:'p1001', eq:'p1001', label:'P-1001 transfer pump (outside bund)', chem:'hexane', kind:'pump' },
+  { id:'cl901', eq:'cl901', label:'CL-901 chlorine tonner (ETP)', chem:'chlorine', kind:'tonner' },
+  { id:'ch101', eq:'ch101', label:'CH-101 brine chiller, ammonia circuit', chem:'ammonia', kind:'nh3' },
+  { id:'whfire', label:'🔥 Warehouse drum-store fire', chem:'toluene', kind:'bldgfire', dept:'warehouse', local:[2.5, 3] },
+  { id:'custom', label:'📍 A point you pick on the map', kind:'custom' },
+];
+const LEAK_HOLES = [[3,'3 mm — pinhole'],[6,'6 mm — valve / fitting'],[10,'10 mm — pump seal / small flange'],[25,'25 mm — flange / nozzle'],[50,'50 mm — broken 2″ line'],[100,'100 mm — full-bore 4″ line']];
+const LEAK_STAB = [['A','A — very unstable (strong sun)'],['B','B — unstable (sunny)'],['C','C — slightly unstable'],['D','D — neutral (overcast / windy)'],['E','E — slightly stable (night)'],['F','F — stable (clear, calm night)']];
+const LEAK_QUICK = [
+  { id:'q-meoh', label:'🧪 Methanol tank leak', site:'tk1001', set:{ holeMM:25, ignited:false, stab:'F', u:1.5, Tc:25, windFrom:45 } },
+  { id:'q-tfire', label:'🔥 Tank farm bund fire', site:'tk1003', set:{ holeMM:50, ignited:true, stab:'D', u:3, Tc:32, windFrom:0 } },
+  { id:'q-cl2', label:'☠️ Chlorine tonner leak', site:'cl901', set:{ holeMM:6, phase:'liquid', stab:'D', u:3, Tc:32, windFrom:225 } },
+  { id:'q-whfire', label:'🔥 Warehouse fire', site:'whfire', set:{ stab:'D', u:3, Tc:32, windFrom:270 } },
+];
+const LEAK_PRESETS = { night:{ stab:'F', u:1.5, Tc:25 }, day:{ stab:'D', u:3, Tc:32 }, sunny:{ stab:'B', u:2, Tc:38 } };
+const LEAK_TIPS = {
+  methanol:['Methanol burns with an almost invisible flame: approach with a thermal camera and watch for heat shimmer.','Use alcohol-resistant (AR-AFFF) foam; ordinary foam breaks down on methanol.','Water dilutes methanol, but check the bund capacity before adding large amounts.','Toxic by inhalation and skin contact: SCBA and suits for anyone entering the bund.'],
+  toluene:['The vapour is heavier than air and runs into drains, trenches and pits: block drains and remove ignition sources downwind.','A foam blanket on the pool cuts evaporation sharply.','Toluene builds up static charge: earth and bond any recovery pump and hose.'],
+  hexane:['Flash point −22 °C: any spark can ignite it. Stop hot work and vehicle movement at once.','Blanket the pool with foam immediately and keep the foam-water monitor manned.','The vapour creeps along the ground to drains and pits.'],
+  acetone:['Very volatile, flash point −20 °C: expect a large flammable zone around the pool.','Water dilutes acetone and raises its flash point; use alcohol-resistant foam on a fire.','Narcotic at high concentration: SCBA inside the bund.'],
+  dcm:['Hard to ignite but toxic: dizziness and collapse in pits and low areas (the body turns it into carbon monoxide).','The vapour is about three times heavier than air: never enter the bund or a pit without SCBA.','Cover the pool with foam or sheeting to cut evaporation; keep flames and hot surfaces away (forms phosgene and HCl).','It boils at 40 °C: raise the air temperature and see how much faster it evaporates.'],
+  chlorine:['If liquid is leaking, roll the tonner so the leak is at the top: gas escapes about ten times more slowly. Compare Leak phase: Liquid and Vapour.','Cap the valve with Chlorine Emergency Kit B (trained team in SCBA only).','Never spray water on the leak itself (it forms acid and enlarges the hole); use water curtains downwind to knock the cloud down.','Chlorine is 2.5 times heavier than air and stays low. If the cloud is already over you, stay indoors with doors, windows and ventilation shut.'],
+  ammonia:['Close the king valve and isolation valves from a safe place; start the emergency ventilation.','Water-spray curtains absorb ammonia strongly: use them to knock the cloud down (contain the run-off).','A cold liquid-release cloud hugs the ground even though ammonia gas is lighter than air.','Flammable only at 15–28 % in air, mainly inside the machine room.'],
+};
+function leakFmtD(fp){ if (!fp) return 'not reached'; if (fp.beyond) return 'more than 10 km'; const x = fp.xmax; return x < 1000 ? Math.max(1, Math.round(x))+' m' : (x/1000).toFixed(1)+' km'; }
+function leakFmtN(v, d){ return (+v).toLocaleString('en-IN', { maximumFractionDigits:d === undefined ? 0 : d, minimumFractionDigits:0 }); }
+function leakPpmLabel(p){ return p >= 10000 ? (p/1e4).toLocaleString('en-IN', { maximumFractionDigits:1 })+' % vol' : leakFmtN(p, p < 10 ? 1 : 0)+' ppm'; }
+function leakShort(site){ return site.kind === 'bldgfire' ? 'Warehouse' : site.kind === 'custom' ? 'your point' : site.label.split(' ')[0]; }
+function leakSiteById(id){ return LEAK_SITES.find(x => x.id === id) || LEAK_SITES[0]; }
+// World release point, plus the outward direction of the leak (for the jet)
+function leakSitePoint(site){
+  if (site.kind === 'custom'){ const c = LEAK.custom || { x:0, z:-20 }; return { x:c.x, y:0.5, z:c.z, ox:0, oz:1 }; }
+  if (site.kind === 'bldgfire'){ const D = deptById(site.dept); return { x:D.pos[0] + site.local[0], y:(D.hall ? D.hall.height : 0), z:D.pos[2] + site.local[1], ox:0, oz:1 }; }
+  const it = findEquipItem(site.eq); if (!it || !it.mesh) return { x:0, y:0.5, z:0, ox:0, oz:1 };
+  it.mesh.updateWorldMatrix(true, false);
+  const c = new THREE.Vector3(); it.mesh.getWorldPosition(c);
+  const lp = it.mesh.userData.leakPoint || [0, 0.8, 1.2];
+  const v = new THREE.Vector3(lp[0], lp[1], lp[2]); it.mesh.localToWorld(v);
+  const ox = v.x - c.x, oz = v.z - c.z, L = Math.hypot(ox, oz) || 1;
+  return { x:v.x, y:v.y, z:v.z, ox:ox/L, oz:oz/L };
+}
+function leakDefaults(siteId, keepWeather){
+  const site = leakSiteById(siteId), prev = LEAK.s || {};
+  const s = { site:siteId, chem:site.chem || prev.chem || 'methanol', holeMM:25, headM:3.2, pBarg:0, maxMin:10, bundM2:45.4, phase:'liquid', ignited:false,
+              stab:'F', u:1.5, Tc:25, windFrom:45 };
+  if (site.kind === 'pump'){ s.holeMM = 10; s.headM = 0; s.pBarg = 3; s.bundM2 = 0; }
+  if (site.kind === 'tonner'){ s.holeMM = 6; s.headM = 0.4; s.maxMin = 60; s.bundM2 = 0; }
+  if (site.kind === 'nh3'){ s.holeMM = 10; s.headM = 0.3; s.maxMin = 60; s.bundM2 = 0; }
+  if (site.kind === 'bldgfire'){ s.fireOnly = true; s.fireAreaM2 = 30; s.ignited = true; s.bundM2 = 0; }
+  if (site.kind === 'custom'){ s.chem = (prev.chem && LEAK_CHEM[prev.chem]) ? prev.chem : 'methanol'; s.headM = 1; s.bundM2 = 0; s.holeMM = 25;
+    if (LEAK_CHEM[s.chem].kind === 'liquefied'){ s.holeMM = 6; s.headM = 0.4; s.maxMin = 60; s.phase = prev.phase || 'liquid'; } }
+  if (keepWeather && LEAK.s){ ['stab','u','Tc','windFrom'].forEach(k => s[k] = LEAK.s[k]); }
+  LEAK.s = s; leakSetInventory();
+}
+function leakSetMin(v){
+  LEAK.min = v; const P = document.getElementById('leak-panel'); if (P) P.classList.toggle('min', v);
+  document.body.classList.toggle('leak-min', v); setTimeout(leakViewOffset, 330);
+  const hl = document.getElementById('lk-handle-t'); if (hl) hl.textContent = v ? '▲ Scenario & settings' : '▼ Show the plant';
+}
+function leakSetInventory(){
+  const s = LEAK.s, c = LEAK_CHEM[s.chem], kind = leakSiteById(s.site).kind;
+  if (c.kind === 'liquefied'){ s.inventoryKg = s.chem === 'chlorine' ? 900 : 250; if (kind !== 'tonner' && kind !== 'nh3') s.maxMin = 60; }
+  else s.inventoryKg = Math.round(c.rho*(kind === 'custom' ? 1.0 : 10.2));      // custom point: a 1 m3 IBC; tanks: 85 % of 12 m3
+}
+function leakChemsFor(kind){
+  if (kind === 'bldgfire') return Object.keys(LEAK_CHEM).filter(k => LEAK_CHEM[k].fire);
+  if (kind === 'tonner') return ['chlorine'];
+  if (kind === 'nh3') return ['ammonia'];
+  if (kind === 'custom') return Object.keys(LEAK_CHEM);
+  return Object.keys(LEAK_CHEM).filter(k => LEAK_CHEM[k].kind === 'liquid');
+}
+// ---------- panel ----------
+function leakEnsureUI(){
+  const P = document.getElementById('leak-panel'); if (P.dataset.built) return; P.dataset.built = '1';
+  const opt = (arr) => arr.map(([v, t]) => '<option value="'+v+'">'+t+'</option>').join('');
+  P.innerHTML = `
+    <div class="lk-handle" id="lk-handle" title="Show / hide the controls"><span></span><em id="lk-handle-t">▼ Show the plant</em></div>
+    <div class="lk-head"><div><b>⚠️ What-If Leak</b><small>Consequence screening in the plant</small></div><span><button id="lk-hide" title="Hide the panel">»</button><button id="lk-close" title="Close (Esc)">✕</button></span></div>
+    <div class="lk-verdict" id="lk-verdict"></div>
+    <button class="lk-er-btn" id="lk-er-btn">▶ Play the emergency response</button>
+    <div class="lk-body" id="lk-body">
+      <div class="lk-sec">Quick scenarios</div>
+      <div class="lk-quick">${LEAK_QUICK.map(q => '<button data-q="'+q.id+'">'+q.label+'</button>').join('')}</div>
+      <div class="lk-sec">Scenario</div>
+      <label>Where is the leak?<select id="lk-site">${LEAK_SITES.map(x => '<option value="'+x.id+'">'+x.label+'</option>').join('')}</select></label>
+      <button class="lk-pick" id="lk-pick">📍 Pick a point on the map</button>
+      <label>Chemical<select id="lk-chem"></select></label>
+      <label id="lk-hole-w">Hole size<select id="lk-hole">${opt(LEAK_HOLES)}</select></label>
+      <label id="lk-phase-w">Leak phase<select id="lk-phase"><option value="liquid">Liquid leaking (hole below the liquid level)</option><option value="vapour">Vapour leaking (hole in the gas space at the top)</option></select></label>
+      <div class="lk-row" id="lk-rel-w">
+        <label>Release lasts up to<select id="lk-dur"><option value="10">10 min</option><option value="30">30 min</option><option value="60">60 min</option></select></label>
+        <label>Inventory (kg)<input id="lk-inv" type="number" min="1" step="1" inputmode="numeric"></label>
+      </div>
+      <label class="lk-chk" id="lk-ign-w"><input type="checkbox" id="lk-ign"> The pool catches fire (pool fire)</label>
+      <div class="lk-sec">Weather</div>
+      <div class="lk-presets"><button data-p="night">🌙 Calm night<small>F, 1.5 m/s</small></button><button data-p="day">⛅ Typical day<small>D, 3 m/s</small></button><button data-p="sunny">☀️ Sunny<small>B, 2 m/s</small></button></div>
+      <div class="lk-row">
+        <label>Wind from<select id="lk-wdir">${LEAK_DIRS.map((d, i) => '<option value="'+(i*45)+'">'+d+' ('+LEAK_DIR_NAMES[d]+')</option>').join('')}</select></label>
+        <label>Stability<select id="lk-stab">${opt(LEAK_STAB)}</select></label>
+      </div>
+      <label>Wind speed <b id="lk-u-v"></b><input type="range" id="lk-u" min="1" max="10" step="0.5"></label>
+      <label>Air temperature <b id="lk-t-v"></b><input type="range" id="lk-t" min="5" max="45" step="1"></label>
+      <div class="lk-sec">Results</div>
+      <div id="lk-src" class="lk-src"></div>
+      <table class="lk-zones" id="lk-zones"></table>
+      <div class="lk-sec">Who is affected</div>
+      <div id="lk-aff" class="lk-aff"></div>
+      <div class="lk-sec">What to do</div>
+      <ul id="lk-tips" class="lk-tips"></ul>
+      <details class="lk-how"><summary>How this is calculated</summary>
+        <p><b>Release:</b> liquid flow through the hole by Bernoulli (C<sub>d</sub> 0.61) with the liquid head and pump or vapour pressure; choked gas flow for a vapour leak.</p>
+        <p><b>Pool:</b> fills the bund, or spreads to a 10 mm layer if there is no bund; evaporation by Mackay &amp; Matsugu. Liquefied gases (chlorine, ammonia): the whole release is taken as airborne (flash plus aerosol), a conservative assumption.</p>
+        <p><b>Cloud:</b> Gaussian plume from a ground-level source, Pasquill–Gifford stability classes with Briggs open-country coefficients, steady state (conservative for short releases).</p>
+        <p><b>Toxic limits:</b> 60-minute AEGLs. AEGL-1: discomfort, reversible. AEGL-2: serious or lasting effects, may impair escape. AEGL-3: life-threatening. <b>Flammable:</b> LFL, and ½ LFL as a margin for pockets of richer mixture.</p>
+        <p><b>Pool fire:</b> point-source radiation with fire-engineering burning rates and Thomas flame height. 37.5 kW/m²: equipment damage, fatal; 12.5: 1 % fatality in one minute; 4: pain within 20 s.</p>
+        <p><b>Not modelled:</b> dense-gas slumping, buildings deflecting the cloud, terrain, indoor concentrations and explosions.</p>
+      </details>
+      <p class="lk-disc">For training and awareness only. Results are indicative screening estimates, not a substitute for a QRA or emergency-planning software such as ALOHA or PHAST.</p>
+    </div>`;
+  const $ = id => document.getElementById(id);
+  $('lk-close').addEventListener('click', () => leakExit());
+  $('lk-hide').addEventListener('click', () => leakSetMin(true));
+  if (!document.getElementById('lk-tab')){ const tb = document.createElement('button'); tb.id = 'lk-tab'; tb.innerHTML = '« ⚠️ What-If panel'; tb.addEventListener('click', () => leakSetMin(false)); document.body.appendChild(tb); }
+  const toggleMin = () => leakSetMin(!LEAK.min);
+  $('lk-handle').addEventListener('click', toggleMin);
+  $('lk-verdict').addEventListener('click', () => { if (!isDesktopLayout()) toggleMin(); });
+  $('lk-site').addEventListener('change', e => { const id = e.target.value;
+    if (id === 'custom' && !LEAK.custom){ leakArmPick(); return; }
+    LEAK.site = id; leakDefaults(id, true); leakSyncUI(); leakUpdate(true); });
+  $('lk-pick').addEventListener('click', leakArmPick);
+  $('lk-chem').addEventListener('change', e => { LEAK.s.chem = e.target.value; const c = LEAK_CHEM[LEAK.s.chem];
+    if (c.kind === 'liquefied' && leakSiteById(LEAK.s.site).kind === 'custom'){ LEAK.s.holeMM = 6; LEAK.s.headM = 0.4; LEAK.s.maxMin = 60; }
+    leakSetInventory(); leakSyncUI(); leakUpdate(false); });
+  $('lk-hole').addEventListener('change', e => { LEAK.s.holeMM = +e.target.value; leakUpdate(false); });
+  $('lk-phase').addEventListener('change', e => { LEAK.s.phase = e.target.value; leakUpdate(false); });
+  $('lk-dur').addEventListener('change', e => { LEAK.s.maxMin = +e.target.value; leakUpdate(false); });
+  $('lk-inv').addEventListener('change', e => { LEAK.s.inventoryKg = Math.max(1, +e.target.value || 1); leakUpdate(false); });
+  $('lk-ign').addEventListener('change', e => { LEAK.s.ignited = e.target.checked; leakUpdate(false); });
+  $('lk-wdir').addEventListener('change', e => { LEAK.s.windFrom = +e.target.value; leakUpdate(true); });
+  $('lk-stab').addEventListener('change', e => { LEAK.s.stab = e.target.value; leakUpdate(false); });
+  $('lk-u').addEventListener('input', e => { LEAK.s.u = +e.target.value; $('lk-u-v').textContent = LEAK.s.u+' m/s'; leakUpdate(false); });
+  $('lk-t').addEventListener('input', e => { LEAK.s.Tc = +e.target.value; $('lk-t-v').textContent = LEAK.s.Tc+' °C'; leakUpdate(false); });
+  P.querySelectorAll('.lk-quick button').forEach(b => b.addEventListener('click', () => { const q = LEAK_QUICK.find(x => x.id === b.dataset.q);
+    LEAK.site = q.site; leakDefaults(q.site, true); Object.assign(LEAK.s, q.set); leakSetInventory(); leakSyncUI(); leakUpdate(true); if (!isDesktopLayout()) leakSetMin(true); }));
+  $('lk-er-btn').addEventListener('click', () => { if (LEAK.er && !LEAK.er.done) erStop(); else erStart(); });
+  P.querySelectorAll('.lk-presets button').forEach(b => b.addEventListener('click', () => { Object.assign(LEAK.s, LEAK_PRESETS[b.dataset.p]); leakSyncUI(); leakUpdate(false); }));
+}
+function leakSyncUI(){
+  const s = LEAK.s, c = LEAK_CHEM[s.chem], $ = id => document.getElementById(id), kind = leakSiteById(s.site).kind;
+  $('lk-site').value = s.site;
+  $('lk-chem').innerHTML = leakChemsFor(kind).map(k => '<option value="'+k+'">'+LEAK_CHEM[k].name+' ('+LEAK_CHEM[k].formula+')</option>').join('');
+  $('lk-chem').value = s.chem;
+  $('lk-hole').value = s.holeMM; $('lk-dur').value = s.maxMin; $('lk-inv').value = Math.round(s.inventoryKg);
+  $('lk-phase-w').style.display = c.kind === 'liquefied' ? '' : 'none'; $('lk-phase').value = s.phase;
+  $('lk-ign-w').style.display = c.fire && kind !== 'bldgfire' ? '' : 'none'; $('lk-ign').checked = !!s.ignited;
+  ['lk-hole-w','lk-rel-w'].forEach(id => $(id).style.display = kind === 'bldgfire' ? 'none' : '');
+  if (kind === 'bldgfire') $('lk-phase-w').style.display = 'none';
+  $('lk-wdir').value = s.windFrom; $('lk-stab').value = s.stab;
+  $('lk-u').value = s.u; $('lk-u-v').textContent = s.u+' m/s'; $('lk-t').value = s.Tc; $('lk-t-v').textContent = s.Tc+' °C';
+}
+function leakArmPick(){
+  LEAK.picking = true; document.getElementById('lk-pick').classList.add('on'); document.getElementById('lk-pick').textContent = '👆 Now tap the ground where the leak is…';
+  if (!isDesktopLayout() && !LEAK.min) leakSetMin(true);
+  document.getElementById('hud-sub').textContent = 'Tap the ground to place the leak';
+}
+function leakOnClick(e){
+  if (!LEAK.picking || hasDragged) return;
+  pointer.x = (e.clientX/window.innerWidth)*2 - 1; pointer.y = -(e.clientY/window.innerHeight)*2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  const hit = new THREE.Vector3();
+  if (!raycaster.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0,1,0), 0), hit)) return;
+  if (Math.hypot(hit.x, hit.z) > SITE_BOUNDARY_RADIUS) return;
+  LEAK.custom = { x:hit.x, z:hit.z }; LEAK.picking = false;
+  const b = document.getElementById('lk-pick'); b.classList.remove('on'); b.textContent = '📍 Pick another point on the map';
+  if (LEAK.s.site !== 'custom'){ LEAK.site = 'custom'; leakDefaults('custom', true); }
+  if (LEAK.min && !isDesktopLayout()) leakSetMin(false);
+  leakSyncUI(); leakUpdate(true);
+}
+// ---------- 3D overlays ----------
+function leakClear(){
+  if (LEAK.group){ scene.remove(LEAK.group); LEAK.group.traverse(o => { if (o.geometry) o.geometry.dispose(); }); LEAK.group = null; }
+  LEAK.cloud = LEAK.jet = LEAK.smoke = LEAK.flames = LEAK.light = LEAK.marker = null;
+  LEAK.labels.forEach(id => { const L = labelEls[id]; if (L){ L.el.remove(); delete labelEls[id]; } }); LEAK.labels = [];
+  LEAK.glowed.forEach(m => { m.emissive.setHex(0x000000); m.emissiveIntensity = 1; }); LEAK.glowed = [];
+}
+function leakLabel(text, pos, color){
+  const id = 'lk:'+LEAK.labels.length; addLabel(id, text, new THREE.Vector3(pos.x, pos.y, pos.z));
+  const L = labelEls[id]; L.el.classList.add('lk-label'); if (color) L.el.style.borderColor = color; LEAK.labels.push(id); return L;
+}
+let _leakSoftTex = null;
+function leakSoftTexture(){
+  if (_leakSoftTex) return _leakSoftTex;
+  try {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 64; const x = cv.getContext && cv.getContext('2d');
+    if (x){ const gr = x.createRadialGradient(32,32,2,32,32,32); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.45,'rgba(255,255,255,0.55)'); gr.addColorStop(1,'rgba(255,255,255,0)');
+      x.fillStyle = gr; x.fillRect(0,0,64,64); _leakSoftTex = new THREE.CanvasTexture(cv); return _leakSoftTex; }
+  } catch(e){}
+  return (_leakSoftTex = pipeDotTexture());
+}
+function leakGeom(){
+  const th = LEAK.s.windFrom*Math.PI/180, d = { x:-Math.sin(th), z:Math.cos(th) };        // north = -z; the plume travels away from 'wind from'
+  return { d, n:{ x:-d.z, z:d.x } };
+}
+function leakZoneMesh(g, prof, color, y, S, G, clip, opacity){
+  const up = [];
+  for (let i=0;i<prof.length;i++){ const [x, w] = prof[i];
+    if (x <= clip) up.push([x, w]);
+    else { const [x0, w0] = prof[i-1] || [0, 0]; up.push([clip, w0 + (w - w0)*(clip - x0)/Math.max(1e-6, x - x0)]); break; } }
+  if (up.length < 2) return null;
+  const pts = up.concat(up.slice().reverse().map(([x, w]) => [x, -w]));
+  const W = ([x, w]) => ({ x:S.x + G.d.x*x + G.n.x*w, z:S.z + G.d.z*x + G.n.z*w });
+  const shape = new THREE.Shape(pts.map(p => { const q = W(p); return new THREE.Vector2(q.x, -q.z); }));
+  const mat = new THREE.MeshBasicMaterial({ color, transparent:true, opacity:opacity === undefined ? 0.3 : opacity, depthWrite:false, side:THREE.DoubleSide, polygonOffset:true, polygonOffsetFactor:-6, polygonOffsetUnits:-24 });
+  const m = new THREE.Mesh(new THREE.ShapeGeometry(shape), mat); m.rotation.x = -Math.PI/2; m.position.y = y; m.renderOrder = 5; g.add(m);
+  const lp = pts.concat([pts[0]]).map(p => { const q = W(p); return new THREE.Vector3(q.x, y + 0.02, q.z); });
+  const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(lp), new THREE.LineBasicMaterial({ color, transparent:true, opacity:0.95 })); line.renderOrder = 6; g.add(line);
+  return up[up.length-1][0];
+}
+function leakDisc(g, S, r, color, y, opacity){
+  const m = new THREE.Mesh(new THREE.CircleGeometry(r, 64), new THREE.MeshBasicMaterial({ color, transparent:true, opacity, depthWrite:false, side:THREE.DoubleSide, polygonOffset:true, polygonOffsetFactor:-6, polygonOffsetUnits:-24 }));
+  m.rotation.x = -Math.PI/2; m.position.set(S.x, y, S.z); m.renderOrder = 5; g.add(m);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(r - 0.12, r, 64), new THREE.MeshBasicMaterial({ color, side:THREE.DoubleSide, depthWrite:false }));
+  ring.rotation.x = -Math.PI/2; ring.position.set(S.x, y + 0.01, S.z); ring.renderOrder = 6; g.add(ring);
+}
+const LEAK_CLIP = 115;
+function leakDraw(){
+  leakClear(); LEAK.fireK = 1; LEAK.stopped = false;
+  const r = LEAK.res, s = LEAK.s, c = r.src.chem, g = new THREE.Group(), G = leakGeom(), P = leakSitePoint(leakSiteById(s.site));
+  const S = { x:P.x, z:P.z }; LEAK.S = S; LEAK.P = P; LEAK.G = G;
+  // flammable zones (under), toxic zones (on top), fire discs
+  let yz = 0.075;
+  r.flam.slice().reverse().forEach((f, i) => { if (f.fp){ const tip = leakZoneMesh(g, f.fp.prof, i === 0 ? LEAK_ZC.hlfl : LEAK_ZC.lfl, yz, S, G, LEAK_CLIP, i === 0 ? 0.12 : 0.28); yz += 0.006;
+    if (tip !== null && f.key === 'LFL') leakLabel('LFL · '+leakFmtD(f.fp), { x:S.x + G.d.x*tip, y:1.2, z:S.z + G.d.z*tip }, LEAK_ZC.lfl); } });
+  r.tox.slice().filter(Boolean).sort((a, b) => a.level - b.level).forEach(t => { if (!t.fp) return;
+    const tip = leakZoneMesh(g, t.fp.prof, LEAK_ZC.tox[t.level-1], yz, S, G, LEAK_CLIP); yz += 0.006;
+    if (tip !== null){ const beyond = t.fp.xmax > LEAK_CLIP, lx = beyond ? LEAK_CLIP*(0.2 + 0.22*t.level) : tip;
+      leakLabel('AEGL-'+t.level+' · '+leakFmtD(t.fp)+(beyond ? ' →' : ''), { x:S.x + G.d.x*lx, y:2.2, z:S.z + G.d.z*lx }, LEAK_ZC.tox[t.level-1]); } });
+  if (r.fire){ r.fire.zones.slice().reverse().forEach((z, i) => { leakDisc(g, S, Math.min(z.r, LEAK_CLIP), LEAK_ZC.fire[2 - i], yz, 0.22); yz += 0.006; });
+    leakLabel('Pool fire · 4 kW/m² at '+Math.round(r.fire.zones[2].r)+' m', { x:S.x - G.d.x*r.fire.zones[2].r, y:2, z:S.z - G.d.z*r.fire.zones[2].r }, LEAK_ZC.fire[1]); }
+  // pool
+  const bfire = leakSiteById(s.site).kind === 'bldgfire';
+  LEAK.fireBaseY = bfire ? P.y + 0.1 : 0.1;
+  if (r.src.pool && !bfire){
+    const pm = new THREE.MeshStandardMaterial({ color:0x2b3b4a, metalness:0.6, roughness:0.15, transparent:true, opacity:0.85, polygonOffset:true, polygonOffsetFactor:-8, polygonOffsetUnits:-30 });
+    const site = leakSiteById(s.site), T = deptById('tankfarm');
+    let pool;
+    if (site.kind === 'tank' && T && r.src.pool.bunded){ pool = new THREE.Mesh(new THREE.PlaneGeometry(9.9, 5.8), pm); pool.position.set(T.pos[0], 0.1, T.pos[2] - 1.6); }
+    else { const rad = Math.min(r.src.pool.D/2, 40); pool = new THREE.Mesh(new THREE.CircleGeometry(rad, 48), pm); pool.position.set(site.kind === 'tank' ? T.pos[0] : S.x, 0.1, site.kind === 'tank' ? T.pos[2] - 1.6 : S.z); }
+    pool.rotation.x = -Math.PI/2; pool.renderOrder = 7; g.add(pool); LEAK.poolC = { x:pool.position.x, z:pool.position.z };
+  } else LEAK.poolC = { x:S.x, z:S.z };
+  LEAK.zoneMats = []; g.traverse(o => { if (o.material && o.material.transparent && o.renderOrder >= 5 && o.renderOrder <= 6) LEAK.zoneMats.push({ m:o.material, op:o.material.opacity }); });
+  // source marker
+  const mk = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.08, 8, 40), new THREE.MeshBasicMaterial({ color:0xff3b30 })); mk.rotation.x = Math.PI/2; mk.position.set(S.x, 0.15, S.z); g.add(mk); LEAK.marker = mk;
+  leakLabel(bfire ? '🔥 FIRE · drum store ('+c.name+')' : '⚠ LEAK · '+c.name, { x:S.x, y:bfire ? P.y + 4 : 3.2, z:S.z }, '#ff3b30').el.classList.add('lk-src-label');
+  // drifting cloud
+  const reach = Math.max(...r.tox.filter(Boolean).map(t => t.fp ? t.fp.xmax : 0), ...r.flam.map(f => f.fp ? f.fp.xmax : 0), 0);
+  LEAK.reach = Math.min(Math.max(reach, 18), LEAK_CLIP);
+  const N = 520, pos = new Float32Array(N*3), cl = new THREE.BufferGeometry(); cl.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  const tint = new THREE.Color(c.color);
+  const cloud = new THREE.Points(cl, new THREE.PointsMaterial({ color:tint, size:c.kind === 'liquefied' ? 3.2 : 2.6, map:leakSoftTexture(), transparent:true, opacity:c.kind === 'liquefied' ? 0.42 : 0.3, depthWrite:false }));
+  cloud.frustumCulled = false; cloud.renderOrder = 8; g.add(cloud);
+  const v = Math.max(s.u, 1)*3.2;
+  LEAK.cloud = { pts:cloud, v, parts:Array.from({ length:N }, () => ({ a:Math.random()*LEAK.reach/v, g1:leakGauss(), g2:Math.abs(leakGauss()) })) };
+  // leak jet at the hole
+  if (!bfire){
+  const NJ = 90, jp = new Float32Array(NJ*3), jg = new THREE.BufferGeometry(); jg.setAttribute('position', new THREE.Float32BufferAttribute(jp, 3));
+  const jet = new THREE.Points(jg, new THREE.PointsMaterial({ color:c.kind === 'liquefied' ? 0xf4f8f8 : 0x9fc3dc, size:c.kind === 'liquefied' ? 0.7 : 0.22, map:leakSoftTexture(), transparent:true, opacity:0.85, depthWrite:false }));
+  jet.frustumCulled = false; g.add(jet);
+  const jspeed = Math.min(14, 2 + r.src.Q*3), jetKind = c.kind === 'liquefied' ? (s.phase === 'vapour' ? 'gas' : 'flash') : 'liquid';
+  LEAK.jet = { pts:jet, kind:jetKind, speed:jspeed, parts:Array.from({ length:NJ }, () => ({ a:Math.random(), r1:leakGauss(), r2:leakGauss() })) };
+  }
+  // pool fire: flame cones, smoke, flickering light
+  if (r.fire){
+    const fg = new THREE.Group(), C = LEAK.poolC; fg.position.set(C.x, LEAK.fireBaseY, C.z);
+    const Hf = Math.min(r.fire.H, 30), Rf = Math.min(r.fire.D/2, 12);
+    LEAK.flames = [];
+    const flame = (r0, h, col, op, ox, oz) => { const m = new THREE.Mesh(new THREE.ConeGeometry(r0, h, 16, 1, true), new THREE.MeshBasicMaterial({ color:col, transparent:true, opacity:op, depthWrite:false, side:THREE.DoubleSide }));
+      m.position.set(ox, h/2, oz); m.userData.ph = Math.random()*6; fg.add(m); LEAK.flames.push(m); };
+    flame(Rf, Hf*0.72, 0xe0501a, 0.42, 0, 0);
+    for (let i=0;i<7;i++){ const a = i/7*Math.PI*2 + Math.random()*0.5, off = Rf*(0.25 + 0.4*Math.random());
+      flame(Rf*(0.28 + 0.22*Math.random()), Hf*(0.55 + 0.45*Math.random()), i % 2 ? 0xff8a1c : 0xff6a1a, 0.5, Math.cos(a)*off, Math.sin(a)*off); }
+    flame(Rf*0.62, Hf*0.42, 0xffc440, 0.6, 0, 0);
+    const tilt = Math.min(0.55, s.u*0.09); fg.rotation.set(G.d.z*tilt, 0, -G.d.x*tilt);
+    g.add(fg); LEAK.flameGroup = fg;
+    const NS = 140, sp = new Float32Array(NS*3), sg = new THREE.BufferGeometry(); sg.setAttribute('position', new THREE.Float32BufferAttribute(sp, 3));
+    const smoke = new THREE.Points(sg, new THREE.PointsMaterial({ color:0x2a2a2a, size:Math.max(4, Rf*1.3), map:leakSoftTexture(), transparent:true, opacity:0.5, depthWrite:false }));
+    smoke.frustumCulled = false; g.add(smoke);
+    LEAK.smoke = { pts:smoke, H:Hf, R:Rf, parts:Array.from({ length:NS }, () => ({ a:Math.random(), g1:leakGauss(), g2:leakGauss() })) };
+    const L = new THREE.PointLight(0xff7a2a, 2.2, Math.max(30, r.fire.zones[2].r*1.4), 1.6); L.position.set(C.x, LEAK.fireBaseY + Math.min(Hf, 10), C.z); g.add(L); LEAK.light = L;
+  }
+  g.traverse(o => { o.userData.leakFx = true; });
+  scene.add(g); LEAK.group = g;
+  leakGlowTargets();
+}
+function leakGauss(){ let u = 0, v = 0; while (u === 0) u = Math.random(); while (v === 0) v = Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+// ---------- exposure of buildings and people ----------
+function leakFootprintPts(d){
+  const hx = d.hall ? d.hall.halfWidth : d.padSize[0]/2, z0 = d.hall ? d.hall.backZ : -d.padSize[1]/2, z1 = d.hall ? d.hall.frontZ : d.padSize[1]/2, out = [];
+  for (let i=0;i<=4;i++) for (let k=0;k<=4;k++) out.push({ x:d.pos[0] - hx + 2*hx*i/4, z:d.pos[2] + z0 + (z1 - z0)*k/4 });
+  return out;
+}
+function leakExposure(pts){
+  const r = LEAK.res, S = LEAK.S, G = LEAK.G, C = LEAK.poolC || S;
+  let ppm = 0, q = 0, dMin = Infinity;
+  pts.forEach(p => { const rx = p.x - S.x, rz = p.z - S.z, x = rx*G.d.x + rz*G.d.z, y = rx*G.n.x + rz*G.n.z;
+    ppm = Math.max(ppm, r.ppmAt(x, y)); dMin = Math.min(dMin, Math.hypot(p.x - C.x, p.z - C.z)); });
+  if (r.fire) q = r.fire.qAt(dMin);
+  const c = r.src.chem, a = c.aegl;
+  let tox = 0; [0,1,2].forEach(i => { if (a[i] != null && ppm >= a[i]) tox = i + 1; });
+  const flam = c.lfl ? (ppm >= c.lfl*1e4 ? 2 : ppm >= c.lfl*5e3 ? 1 : 0) : 0;
+  const fire = q >= 37.5 ? 3 : q >= 12.5 ? 2 : q >= 4 ? 1 : 0;
+  return { ppm, q, tox, flam, fire, sev:Math.max(tox, fire, flam === 2 ? 3 : flam === 1 ? 1 : 0) };
+}
+function leakGlowTargets(){
+  const out = [];
+  DEPARTMENTS.forEach(d => { const e = leakExposure(leakFootprintPts(d)); out.push({ d, e });
+    if (e.sev > 0) (d.glowMats || []).forEach(m => { m.emissive.setHex(e.sev >= 3 ? 0xd62d20 : e.sev === 2 ? 0xf07b1f : 0xf2c230); m.emissiveIntensity = 0.55; LEAK.glowed.push(m); }); });
+  LEAK.aff = out;
+}
+function leakAPs(){
+  const at = (dId, eId, fb) => { const D = deptById(dId), it = D && (D.walkEquipment || []).find(i => i.eq && i.eq.id === eId); return it ? { x:D.pos[0] + it.pos[0], z:D.pos[2] + it.pos[1] } : fb; };
+  return [{ id:'EAP-01', where:'west, fire & safety yard', host:'ehs', ...at('ehs', 'eap901', { x:-20.6, z:-17.5 }) },
+          { id:'EAP-02', where:'east, beside R&D', host:'rnd', ...at('rnd', 'eap902', { x:37.5, z:2.5 }) }];
+}
+// the assembly point the control room names: the safer one, and of two equally safe ones the one further upwind / away
+function leakPickAP(){
+  const G = LEAK.G, S = LEAK.S;
+  const list = leakAPs().map(a => { const e = leakExposure([a]); const rx = a.x - S.x, rz = a.z - S.z;
+    return Object.assign(a, { e, up:-(rx*G.d.x + rz*G.d.z), dist:Math.hypot(rx, rz) }); });
+  list.sort((a, b) => (a.e.sev - b.e.sev) || (b.e.ppm > 0 || a.e.ppm > 0 ? a.e.ppm - b.e.ppm : 0) || (b.up - a.up) || (b.dist - a.dist));
+  return list;
+}
+// ---------- results panel ----------
+function leakResults(){
+  const r = LEAK.res, s = LEAK.s, c = r.src.chem, src = r.src, $ = id => document.getElementById(id), site = leakSiteById(s.site);
+  const kgmin = v => leakFmtN(v*60, v*60 < 10 ? 1 : 0)+' kg/min';
+  let h = '';
+  const bfire = site.kind === 'bldgfire';
+  if (bfire){
+    h += `<div><b>Drum-store fire:</b> ${c.name} drums burning in the Warehouse, taken as a ${leakFmtN(src.pool.area)} m\u00b2 pool fire (\u00d8 ${leakFmtN(src.pool.D, 1)} m) breaking through the roof. Flames about ${leakFmtN(Math.min(r.fire.H, 30))} m high.</div>`;
+    h += `<div><b>Smoke:</b> carbon monoxide, soot and irritant gases drift downwind: keep everyone out of the smoke plume and upwind of the fire.</div>`;
+  } else if (c.kind === 'liquefied'){
+    h += `<div><b>${src.phase === 'vapour' ? 'Vapour' : 'Flashing liquid'} release:</b> ${leakFmtN(src.Q, 2)} kg/s (${kgmin(src.Q)}) through a ${s.holeMM} mm hole at ${leakFmtN((src.P - 101325)/1e5, 1)} barg.</div>`;
+    h += `<div>${src.tRel < s.maxMin*60 - 1 ? 'The inventory ('+leakFmtN(s.inventoryKg)+' kg) is empty after <b>'+leakFmtN(src.tRel/60, 1)+' min</b>.' : 'After '+s.maxMin+' min, '+leakFmtN(src.released)+' kg has escaped.'} All of it is taken as airborne.</div>`;
+  } else {
+    h += `<div><b>Liquid release:</b> ${leakFmtN(src.Q, 2)} kg/s (${kgmin(src.Q)}) through a ${s.holeMM} mm hole; ${leakFmtN(src.released)} kg in ${leakFmtN(src.tRel/60, 1)} min.</div>`;
+    const pl = src.pool;
+    h += `<div><b>Pool:</b> ${leakFmtN(pl.area)} m² ${pl.bunded ? '(bund floor covered)' : s.bundM2 > 0 ? '(inside the bund)' : '(no bund: spreads freely)'}${pl.boiling ? ', <b>boiling</b>' : ''}. Evaporating <b>${kgmin(src.Qair)}</b> into the air.</div>`;
+  }
+  $('lk-src').innerHTML = h;
+  const row = (dot, name, lim, dist, desc) => `<tr><td><i style="background:${dot}"></i>${name}<small>${desc}</small></td><td>${lim}</td><td><b>${dist}</b></td></tr>`;
+  let z = '<tr><th>Zone</th><th>Limit</th><th>Distance</th></tr>';
+  const desc = ['Discomfort (reversible)','Serious or lasting effects','Life-threatening'];
+  if (!bfire) r.tox.slice().reverse().forEach(t => { if (t) z += row(LEAK_ZC.tox[t.level-1], 'AEGL-'+t.level, leakPpmLabel(t.ppm), leakFmtD(t.fp), desc[t.level-1]); });
+  if (c.aegl[0] == null && !bfire) z += row('#555', 'AEGL-1', '—', '—', 'Not set for this chemical');
+  if (!bfire) r.flam.forEach((f, i) => z += row(i ? LEAK_ZC.hlfl : LEAK_ZC.lfl, f.key, leakPpmLabel(f.ppm), leakFmtD(f.fp), i ? 'Safety margin (pockets)' : 'Flash fire if ignited'));
+  if (r.fire) r.fire.zones.forEach((f, i) => z += row(LEAK_ZC.fire[i], f.q+' kW/m²', 'Pool fire', Math.round(f.r)+' m', f.label.split('—')[1].trim()));
+  if (!c.lfl && !c.fire) z += `<tr><td colspan="3" class="lk-note">${c.name} is not a practical fire hazard here; the danger is toxic.</td></tr>`;
+  else if (r.fire && !bfire) z += `<tr><td colspan="3" class="lk-note">Once the pool is burning, the vapour burns in the fire: the hazards are heat radiation and smoke, not a toxic or flammable cloud.</td></tr>`;
+  else if (c.fire && !s.ignited && !bfire) z += `<tr><td colspan="3" class="lk-note">Tick “The pool catches fire” to see the pool-fire zones.</td></tr>`;
+  $('lk-zones').innerHTML = z;
+  // affected
+  const sevIcon = e => e.sev >= 3 ? '🔴' : e.sev === 2 ? '🟠' : '🟡';
+  const describe = e => [e.tox ? 'AEGL-'+e.tox+' ('+leakPpmLabel(e.ppm)+')' : '', e.flam === 2 ? 'inside flammable cloud' : e.flam === 1 ? '½ LFL' : '', e.fire ? leakFmtN(e.q, 1)+' kW/m²' : ''].filter(Boolean).join(' · ');
+  const hit = LEAK.aff.filter(a => a.e.sev > 0).sort((a, b) => b.e.sev - a.e.sev || b.e.ppm - a.e.ppm);
+  const APs = leakPickAP(), ap = APs[0].e, apSel = APs[0], apOther = APs[1];
+  const gt = ROADS && ROADS.gate ? leakExposure([{ x:ROADS.gate.cabin.x, z:ROADS.gate.cabin.z }]) : null;
+  let a = hit.map(x => `<div>${sevIcon(x.e)} <b>${x.d.name}</b> — ${describe(x.e)}</div>`).join('') || '<div>✅ No building is inside a danger zone.</div>';
+  leakAPs().forEach(x => { const e = (x.id === apSel.id ? apSel : apOther).e; a += `<div>${e.sev ? sevIcon(e) : '✅'} <b>Assembly point ${x.id}</b> (${x.where}) — ${e.sev ? describe(e) : 'outside the zones'}${x.id === apSel.id ? ' · <b class="lk-ap-sel">muster here</b>' : ''}</div>`; });
+  if (gt) a += `<div>${gt.sev ? sevIcon(gt) : '✅'} <b>Main gate / security</b> — ${gt.sev ? describe(gt) : 'outside the zones'}</div>`;
+  // off-site
+  const S = LEAK.S, G = LEAK.G, R = SITE_BOUNDARY_RADIUS + 0.6, sd = S.x*G.d.x + S.z*G.d.z, disc = sd*sd - (S.x*S.x + S.z*S.z - R*R);
+  const tB = disc > 0 ? -sd + Math.sqrt(disc) : 0, t2 = r.tox[1];
+  let offsite = '';
+  if (t2 && t2.fp && t2.fp.xmax > tB) offsite = t2.fp.beyond ? 'more than 10 km' : leakFmtD({ xmax:t2.fp.xmax - tB });
+  if (offsite) a += `<div>🔴 <b>Beyond the boundary wall</b> — the AEGL-2 zone reaches ${offsite} past the site: neighbours and the public must be warned (off-site emergency plan).</div>`;
+  $('lk-aff').innerHTML = a;
+  // tips
+  const wf = LEAK_DIRS[Math.round(s.windFrom/45) % 8], cw1 = LEAK_DIRS[Math.round((s.windFrom + 90)/45) % 8], cw2 = LEAK_DIRS[Math.round((s.windFrom + 270)/45) % 8];
+  const tips = ['Raise the alarm (manual call point, siren) and inform the control room.',
+    `Evacuate <b>crosswind</b>, towards the ${LEAK_DIR_NAMES[cw1]} or ${LEAK_DIR_NAMES[cw2]}, then move upwind (towards the ${LEAK_DIR_NAMES[wf]}). Never walk into the cloud.`,
+    `The PA names <b>${apSel.id}</b> (${apSel.where}) as the assembly point${apOther.e.sev ? ': '+apOther.id+' is inside a danger zone for this wind' : ''}. Wardens take the head count there.` + (ap.sev >= 2 ? ' <b>Both assembly points are affected</b>: shelter in the nearest building upwind instead, doors and windows shut.' : ap.sev === 1 ? ' It is in an outer zone: move people further upwind if the release continues.' : ''),
+    'Stop the leak only from a safe position (remote or emergency shut-off valves); responders in SCBA and chemical suits.'].concat(LEAK_TIPS[s.chem] || []);
+  $('lk-tips').innerHTML = tips.map(t => '<li>'+t+'</li>').join('');
+  // verdict line
+  const worst = r.tox.filter(Boolean).reduce((m, t) => t.fp && (!m || t.level > m.level) ? t : m, null);
+  const fireR = r.fire ? Math.round(r.fire.zones[1].r) : 0, lfl = r.flam[0] && r.flam[0].fp;
+  const parts = [];
+  if (worst) parts.push(`<b style="color:${LEAK_ZC.tox[worst.level-1]}">AEGL-${worst.level}</b> to ${leakFmtD(worst.fp)}`);
+  if (lfl) parts.push(`<b style="color:${LEAK_ZC.lfl}">LFL</b> to ${leakFmtD(lfl)}`);
+  if (r.fire) parts.push(`<b style="color:${LEAK_ZC.fire[1]}">12.5 kW/m²</b> to ${fireR} m`);
+  if (!parts.length) parts.push('No zone reaches beyond the source');
+  $('lk-verdict').innerHTML = `<div class="lk-v1">${c.name} · ${leakShort(site)} · wind from ${wf}, ${s.u} m/s, class ${s.stab}</div>
+    <div class="lk-v2">${parts.join(' · ')}</div>
+    <div class="lk-v3">${hit.length} building${hit.length === 1 ? '' : 's'} affected · Muster at <b class="${ap.sev >= 2 ? 'bad' : ap.sev === 1 ? 'warn' : 'ok'}">${apSel.id}</b>${offsite ? ' · <b class="bad">OFF-SITE</b>' : ''}</div>`;
+  document.getElementById('hud-sub').textContent = (site.kind === 'bldgfire' ? 'What-If Fire — ' : 'What-If Leak — ')+c.name+' at '+leakShort(site);
+}
+// ---------- run ----------
+function leakUpdate(reframe){
+  const s = LEAK.s, site = leakSiteById(s.site), c = LEAK_CHEM[s.chem];
+  const mode = c.kind === 'liquefied' ? (s.phase === 'vapour' ? 'vapour' : 'tank') : (site.kind === 'pump' ? 'liqline' : 'tank');
+  if (LEAK.er) erStop(true);
+  LEAK.res = leakRun({ fireOnly:!!s.fireOnly && site.kind === 'bldgfire', fireAreaM2:s.fireAreaM2, chem:s.chem, mode, holeMM:s.holeMM, headM:s.headM, pBarg:s.pBarg, inventoryKg:s.inventoryKg, maxMin:s.maxMin, bundM2:s.bundM2, Tc:s.Tc, u:s.u, stab:s.stab, ignited:(s.ignited || site.kind === 'bldgfire') && !!c.fire });
+  // windsock points downwind
+  const G = leakGeom(); EMERG.baseYaw = Math.atan2(-G.d.z, G.d.x);
+  leakDraw(); leakResults();
+  if (reframe || !LEAK.framed) leakFrame();
+}
+function leakFrame(){
+  if (!LEAK.S) return;
+  LEAK.framed = true;
+  const S = LEAK.S, G = LEAK.G, L = Math.min(LEAK.reach || 30, 70);
+  targetLookAt.set(S.x + G.d.x*L*0.38, 1.5, S.z + G.d.z*L*0.38);
+  const ox = G.n.x - G.d.x*0.55, oz = G.n.z - G.d.z*0.55;
+  targetAzimuth = Math.atan2(ox, oz);
+  while (targetAzimuth - cameraAzimuth > Math.PI) targetAzimuth -= 2*Math.PI; while (targetAzimuth - cameraAzimuth < -Math.PI) targetAzimuth += 2*Math.PI;
+  targetRadius = Math.max(32, Math.min(80, L*1.05 + 28)); targetPolar = Math.PI/4.4;
+}
+function leakViewOffset(){
+  if (!camera) return;
+  const P = document.getElementById('leak-panel');
+  if (!LEAK.active || !P){ if (camera.view && camera.view.enabled) camera.clearViewOffset(); return; }
+  const w = window.innerWidth, h = window.innerHeight;
+  if (isDesktopLayout()){ if (LEAK.min) camera.clearViewOffset(); else camera.setViewOffset(w, h, P.offsetWidth/2, 0, w, h); }
+  else { const B = document.getElementById('lk-er'), ph = document.body.classList.contains('er-run') ? 0 : P.classList.contains('min') ? (P.offsetHeight || 118) : Math.round(h*0.56), occ = ph + (B && B.classList.contains('show') ? B.offsetHeight + 10 : 0); camera.setViewOffset(w, h, 0, Math.min(occ, h*0.75)/2, w, h); }
+}
+function leakEnter(){
+  if (!plant3DReady) return;
+  stopTour();
+  if (cine.mode) stopCinematic(true, true);
+  if (appMode === 'walk'){ _keepPanelCollapsed = true; exitWalkMode(); _keepPanelCollapsed = false; }
+  closeInfo(); closeSidebar();
+  if (pipeFocus) focusPipeService(pipeFocus);
+  if (cine.sbRestore === undefined) cine.sbRestore = !document.body.classList.contains('sb-collapsed');
+  if (isDesktopLayout()) setSidebarCollapsed(true, false);
+  leakEnsureUI();
+  LEAK.active = true; LEAK.framed = false; LEAK.picking = false; LEAK.min = false;
+  if (!LEAK.s) leakDefaults(LEAK.site);
+  const P = document.getElementById('leak-panel'); leakSetMin(!isDesktopLayout()); P.classList.add('show');   // phone: opens as a slim bar so the plant stays in view
+  document.body.classList.add('leak-open');
+  document.getElementById('drag-hint').style.display = 'none';
+  leakSyncUI(); leakUpdate(true);
+  setTimeout(leakViewOffset, 380);
+  updateModeBar(true);
+}
+function leakExit(silent){
+  if (!LEAK.active) return;
+  if (LEAK.er) erStop(true);
+  LEAK.active = false; LEAK.picking = false;
+  leakClear(); EMERG.baseYaw = undefined;
+  const P = document.getElementById('leak-panel'); if (P) P.classList.remove('show', 'min');
+  document.body.classList.remove('leak-open', 'leak-min', 'er-run');
+  leakViewOffset();
+  if (!silent){
+    if (cine.sbRestore && isDesktopLayout()) setSidebarCollapsed(false, false);
+    cine.sbRestore = undefined;
+    targetLookAt.set(0,3,0); targetRadius = 42; targetPolar = Math.PI/3.2; targetAzimuth = Math.PI/4;
+    document.getElementById('hud-sub').textContent = 'Overview — click a department';
+  }
+  updateModeBar(true);
+}
+function updateLeak(dt){
+  if (!LEAK.active || !LEAK.group) return;
+  LEAK.t += dt; const t = LEAK.t, S = LEAK.S, G = LEAK.G, s = LEAK.s, stab = s.stab, P = LEAK.P;
+  if (LEAK.marker){ const k = 1 + 0.25*Math.sin(t*5); LEAK.marker.scale.set(k, k, k); }
+  const heavy = s.chem === 'chlorine' || s.chem === 'dcm' ? 0.35 : 0.7;
+  if (LEAK.cloud){ const C = LEAK.cloud, arr = C.pts.geometry.attributes.position.array, sy0 = LEAK.res.src.pool ? LEAK.res.src.pool.D/4.3 : 0.3;
+    C.parts.forEach((p, i) => { p.a += dt; let x = p.a*C.v; if (x > LEAK.reach){ if (LEAK.stopped){ arr[i*3+1] = -50; return; } p.a = 0; p.g1 = leakGauss(); p.g2 = Math.abs(leakGauss()); x = 0; }
+      const sg = leakSigmas(Math.max(x, 0.5), stab), sy = Math.hypot(sg.sy, sy0), sz = Math.min(sg.sz, 25);
+      const lat = p.g1*sy, hgt = 0.3 + p.g2*sz*heavy;
+      arr[i*3] = S.x + G.d.x*x + G.n.x*lat; arr[i*3+1] = hgt; arr[i*3+2] = S.z + G.d.z*x + G.n.z*lat; });
+    C.pts.geometry.attributes.position.needsUpdate = true; }
+  if (LEAK.jet) LEAK.jet.pts.visible = !LEAK.stopped;
+  if (LEAK.jet && !LEAK.stopped){ const J = LEAK.jet, arr = J.pts.geometry.attributes.position.array;
+    J.parts.forEach((p, i) => { p.a += dt*(J.kind === 'liquid' ? 1.4 : 2.2); if (p.a > 1){ p.a -= 1; p.r1 = leakGauss(); p.r2 = leakGauss(); }
+      const f = p.a; let x, y, zz;
+      if (J.kind === 'liquid'){ const v = Math.min(J.speed, 8)*0.35, tt = f*0.9; x = v*tt + p.r1*0.05; y = P.y - 4.9*tt*tt*0.9 + p.r2*0.03; zz = p.r2*0.06; if (y < 0.12) y = 0.12; }
+      else { const L = J.kind === 'flash' ? 6 : 3.5; x = f*L; y = P.y + f*(J.kind === 'flash' ? 0.8 : 0.4); zz = p.r1*f*(J.kind === 'flash' ? 1.4 : 0.6); y += Math.abs(p.r2)*f*0.6; }
+      arr[i*3] = P.x + P.ox*x - P.oz*zz; arr[i*3+1] = y; arr[i*3+2] = P.z + P.oz*x + P.ox*zz; });
+    J.pts.geometry.attributes.position.needsUpdate = true; }
+  const fk = LEAK.fireK === undefined ? 1 : LEAK.fireK, fr = Math.sqrt(fk);
+  if (LEAK.flames){ LEAK.flames.forEach((m, i) => { const ph = m.userData.ph; m.visible = fk > 0.03; m.scale.set((1 + 0.08*Math.sin(t*9 + ph))*fr, (1 + 0.18*Math.sin(t*6.3 + ph*2) + 0.08*Math.sin(t*17 + ph))*fk, (1 + 0.08*Math.cos(t*8 + ph))*fr);
+      m.rotation.y = t*0.8 + ph; });
+    if (LEAK.light) LEAK.light.intensity = (1.8 + 0.6*Math.sin(t*13) + 0.3*Math.sin(t*29))*fk; }
+  if (LEAK.smoke){ const K = LEAK.smoke, arr = K.pts.geometry.attributes.position.array, C = LEAK.poolC, v = Math.max(s.u, 1);
+    K.parts.forEach((p, i) => { p.a += dt*0.12; if (p.a > 1){ if (Math.random() > fk){ arr[i*3+1] = -50; return; } p.a -= 1; p.g1 = leakGauss(); p.g2 = leakGauss(); }
+      const hgt = (LEAK.fireBaseY || 0) + K.H*0.8*(LEAK.fireK === undefined ? 1 : LEAK.fireK) + p.a*40, drift = p.a*v*22, spread = K.R*0.5 + p.a*10;
+      arr[i*3] = C.x + G.d.x*drift + G.n.x*p.g1*spread; arr[i*3+1] = hgt + p.g2*2; arr[i*3+2] = C.z + G.d.z*drift + G.n.z*p.g1*spread; });
+    K.pts.geometry.attributes.position.needsUpdate = true; }
+  updateER(dt);
+}
+
+// ===================== EMERGENCY RESPONSE PLAYBACK (What-If Leak) =====================
+// Detection -> manual call point -> siren -> PA names the safe assembly point -> everyone walks there by the safer side
+// of the footpath ring (head count) -> fire tender drives to an upwind staging point on the ring road -> foam / water
+// curtain / cooling -> ERT in SCBA isolates the leak or knocks the fire down -> head count complete -> all clear.
+const ER_STAFF = { reactor:6, distillation:3, utility:3, warehouse:3, qc:3, etp:2, rnd:3, admin:5, tankfarm:1 };
+function erEntrance(key){ const e = getEntrancePoint(deptById(key)); return { x:e.x, z:e.z }; }
+function erLeg(key){                                   // entrance -> the footpath ring
+  const r = (ROADS.walkIn + ROADS.walkOut)/2, e = erEntrance(key);
+  if (!roadSpurFor(key)){ const L = Math.hypot(e.x, e.z) || 1; return [e, { x:e.x/L*r, z:e.z/L*r }]; }
+  return cutAtRadius([e].concat(storySpur(key).filter(q => Math.hypot(q.x, q.z) < Math.hypot(e.x, e.z) - 0.2)), r);
+}
+function erApTail(ap){ return ap.id === 'EAP-02' ? [{ x:33.8, z:-4.6 }, { x:ap.x, z:ap.z }] : [{ x:ap.x, z:ap.z }]; }
+function erCost(p){ const e = leakExposure([p]); return e.sev*1000 + (LEAK.res.fire ? e.q : 0) + Math.min(999, e.ppm/((LEAK.res.src.chem.aegl[1]) || 1e9)*100); }
+function erRoute(fromKey, ap){
+  const lane = ['distillation', 'rnd'];
+  if (fromKey === ap.host || (lane.includes(fromKey) && lane.includes(ap.host))) return [erEntrance(fromKey), erEntrance(ap.host)].concat(erApTail(ap));
+  const r = (ROADS.walkIn + ROADS.walkOut)/2, a = erLeg(fromKey), b = erLeg(ap.host).slice().reverse().concat(erApTail(ap));
+  const pa = a[a.length-1], pb = b[0], a0 = Math.atan2(pa.z, pa.x), a1 = Math.atan2(pb.z, pb.x);
+  const arcs = [storyRing(a0, a1, r, true), storyRing(a1, a0, r, true).reverse()];
+  const score = arc => { let m = 0; arc.forEach(p => m = Math.max(m, erCost(p))); return m*1000 + polyLen([pa].concat(arc, [pb])); };
+  return a.concat(score(arcs[0]) <= score(arcs[1]) ? arcs[0] : arcs[1], b);
+}
+// Staging point for the fire tender: on the inner ring road or the perimeter fire road, with a clear line of sight to
+// the incident, upwind, and outside the danger zones (for a fire: outside 4.7 kW/m2, the limit for emergency work in
+// protective clothing). Candidates on the perimeter road let the tender reach units on the outside of the site.
+function erStage(){
+  const S = LEAK.S, G = LEAK.G, src = leakSiteById(LEAK.s.site), fire = LEAK.res.fire;
+  const own = src.dept || (src.eq && DEPARTMENTS.find(d => (d.walkEquipment || []).some(i => i.eq && i.eq.id === src.eq)) || {}).id;
+  const blocked = (a, b) => { for (let k=1;k<20;k++){ const x = a.x + (b.x - a.x)*k/20, z = a.z + (b.z - a.z)*k/20;
+      if (DEPARTMENTS.some(d => d.hall && d.id !== own && Math.abs(x - d.pos[0]) < d.hall.halfWidth + 0.3 && z > d.pos[2] + d.hall.backZ - 0.3 && z < d.pos[2] + d.hall.frontZ + 0.3)) return true; } return false; };
+  let best = null;
+  [['inner', ROADS.laneR], ['perim', ROADS.perim.laneR]].forEach(([ring, R]) => {
+    for (let deg = 0; deg < 360; deg += 2){
+      const a = deg*Math.PI/180, p = { x:Math.cos(a)*R, z:Math.sin(a)*R }, dist = Math.hypot(p.x - S.x, p.z - S.z), e = leakExposure([p]);
+      if (ring === 'perim' && Math.abs(p.x - ROADS.gate.x) < 6 && p.z < 0) continue;              // not in the gate mouth
+      const down = ((p.x - S.x)*G.d.x + (p.z - S.z)*G.d.z)/Math.max(dist, 1e-6);
+      const q = fire ? fire.qAt(Math.hypot(p.x - (LEAK.poolC || S).x, p.z - (LEAK.poolC || S).z)) : 0;
+      const cost = dist + (down > 0 ? 30*down : 0) + (fire ? (q > 4.7 ? 300 + q*10 : 0) : e.sev*400) + (blocked(p, S) ? 300 : 0) + (dist < 8 ? 100 : 0) + (dist > 60 ? 200 : 0);
+      if (!best || cost < best.cost) best = { a, p, dist, cost, ring, q };
+    }
+  });
+  return best;
+}
+// Route from the fire & safety yard: out along its access road, round the inner ring, and (for a perimeter staging
+// point) out along the shorter of the two links (gate road / service lane) and round the perimeter road.
+function erTenderRoute(st, stage){
+  const out = roadSpurFor('ehs').pts.slice().reverse(), Rl = ROADS.laneR, PR = ROADS.perim.laneR;
+  const aa = Math.atan2(out[out.length-1].z, out[out.length-1].x);
+  const start = [{ x:st.x, z:st.z }].concat(out, [{ x:Math.cos(aa)*Rl, z:Math.sin(aa)*Rl }]);
+  if (stage.ring === 'inner') return start.concat(storyRing(aa, stage.a, Rl, false), [stage.p]);
+  let best = null;
+  ROADS.links.forEach(L => { const ai = Math.atan2(L.inner.z, L.inner.x), ao = Math.atan2(L.outer.z, L.outer.x);
+    const pts = start.concat(storyRing(aa, ai, Rl, false), [L.inner, L.outer], storyRing(ao, stage.a, PR, false), [stage.p]);
+    const len = polyLen(pts); if (!best || len < best.len) best = { pts, len }; });
+  return best.pts;
+}
+function erPerson(opts){ const m = makePerson(opts); m.visible = true; return m; }
+function erDisposePerson(m){ scene.remove(m); const i = peopleMeshes.indexOf(m); if (i >= 0) peopleMeshes.splice(i, 1); }
+function erLabel(id, text, pos, color){ addLabel(id, text, new THREE.Vector3(pos.x, pos.y, pos.z)); const L = labelEls[id]; L.el.classList.add('lk-label'); if (color) L.el.style.borderColor = color; LEAK.er.labels.push(id); return L; }
+function erParticles(n, color, size, opacity){
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(n*3), 3));
+  const pts = new THREE.Points(geo, new THREE.PointsMaterial({ color, size, map:leakSoftTexture(), transparent:true, opacity, depthWrite:false }));
+  pts.frustumCulled = false; pts.visible = false; LEAK.er.group.add(pts);
+  return { pts, parts:Array.from({ length:n }, () => ({ u:Math.random(), r1:leakGauss(), r2:leakGauss(), r3:Math.random() })) };
+}
+function erStart(){
+  if (!LEAK.active || !LEAK.res) return;
+  if (LEAK.er) erStop(true);
+  leakDraw(); LEAK.fireK = 1; LEAK.stopped = false;
+  const r = LEAK.res, s = LEAK.s, site = leakSiteById(s.site), c = r.src.chem, G = LEAK.G, S = LEAK.S;
+  const isFire = !!r.fire, bfire = site.kind === 'bldgfire', tankFire = isFire && site.kind === 'tank';
+  const APs = leakPickAP(), ap = APs[0], other = APs[1];
+  const er = LEAK.er = { t:0, paused:false, group:new THREE.Group(), labels:[], people:[], team:[], siren:false, done:false, ev:[], evI:0, ap, other };
+  scene.add(er.group);
+  // --- people in every building ---
+  let k = 0;
+  Object.entries(ER_STAFF).forEach(([key, n]) => { if (!deptById(key)) return;
+    const route = erRoute(key, ap);
+    const inZone = leakExposure([erEntrance(key)]).sev > 0;
+    for (let i=0;i<n;i++){
+      const m = erPerson({ marker:0xffe066 }), j = { x:(Math.random() - 0.5)*1.6, z:(Math.random() - 0.5)*1.6 };
+      const pts = [{ x:route[0].x + j.x, z:route[0].z + j.z }].concat(route.slice(1, -1), [{ x:ap.x + ((k % 6) - 2.5)*0.55, z:ap.z + (Math.floor(k/6) - 2)*0.6 }]);
+      m.position.set(pts[0].x, 0, pts[0].z); m.visible = false;
+      er.people.push({ m, pts, L:polyLen(pts), s:0, t0:7 + (inZone ? 0.3 : 1) + Math.random()*4.5, v:2.2 + Math.random()*0.5, arrived:false });
+      k++; }
+  });
+  er.total = er.people.length; er.arrived = 0;
+  // --- fire tender: leaves the fire & safety yard, drives the ring road to the staging point ---
+  const E = deptById('ehs'), fti = E && (E.walkEquipment || []).find(i => i.eq && i.eq.id === 'ft901');
+  const stage = er.stage = erStage();
+  if (fti && fti.mesh){
+    fti.mesh.updateWorldMatrix(true, false); const st = new THREE.Vector3(); fti.mesh.getWorldPosition(st);
+    const route = erTenderRoute(st, stage);
+    const mesh = buildEquipmentShape('firetender2', new THREE.MeshStandardMaterial({ color:0x2a2f33 }));
+    mesh.position.set(st.x, 0, st.z); er.group.add(mesh); fti.mesh.visible = false; er.ftStatic = fti.mesh;
+    let bars = []; mesh.traverse(o => { if (o.userData.lightBar) bars = o.children; });
+    er.tender = { mesh, route, L:polyLen(route), s:0, v:9, t0:14, bars, arrived:false };
+    er.tArr = 14 + er.tender.L/er.tender.v + 1.2;
+    erLabel('lk:er-ft', '🚒 Fire tender FT-901', { x:st.x, y:4.2, z:st.z }, '#ff5a1f');
+  } else er.tArr = 30;
+  // --- where the water / foam goes ---
+  const fireC = LEAK.poolC || S;
+  er.target = isFire ? { x:fireC.x, y:(LEAK.fireBaseY || 0) + 0.8, z:fireC.z } : { x:S.x + G.d.x*6, y:0.6, z:S.z + G.d.z*6 };
+  er.stream = erParticles(160, isFire ? 0xffffff : 0xcfe9ff, 0.45, 0.8);
+  if (!isFire) er.curtain = erParticles(220, 0xbfe3ff, 0.55, 0.55);
+  if (tankFire){ const T = deptById('tankfarm'), own = site.eq;
+    er.cool = (T.walkEquipment || []).filter(i => i.eq && /^tk/.test(i.eq.id) && i.eq.id !== own).map(i => ({ x:T.pos[0] + i.pos[0], z:T.pos[2] + i.pos[1] }));
+    er.cooling = erParticles(er.cool.length*60, 0xcfe9ff, 0.3, 0.7); }
+  // --- ERT in SCBA ---
+  const appr = isFire ? Math.max(6, Math.min(r.fire.zones[1].r, 20)) : 2.5;
+  er.teamTarget = { x:S.x - G.d.x*appr, z:S.z - G.d.z*appr };
+  er.tTeam0 = er.tArr + 4;
+  // --- assembly point markers ---
+  const ring = (a, col) => { const m = new THREE.Mesh(new THREE.RingGeometry(2.2, 2.6, 40), new THREE.MeshBasicMaterial({ color:col, side:THREE.DoubleSide, transparent:true, opacity:0.9, depthWrite:false })); m.rotation.x = -Math.PI/2; m.position.set(a.x, 0.12, a.z); er.group.add(m); return m; };
+  er.apRing = ring(ap, 0x3ddc84);
+  if (other.e.sev > 0){ ring(other, 0xff3b30); erLabel('lk:er-ap2', '⛔ '+other.id+': not safe for this wind', { x:other.x, y:3.4, z:other.z }, '#ff3b30'); }
+  er.hc = erLabel('lk:er-hc', '👥 '+ap.id+' · head count 0 / '+er.total, { x:ap.x, y:3.6, z:ap.z }, '#3ddc84');
+  // --- captions ---
+  const wf = LEAK_DIRS[Math.round(s.windFrom/45) % 8];
+  const where = bfire ? 'the Warehouse drum store' : site.kind === 'custom' ? 'the marked point' : site.label.replace(/ \(.*\)$/, '');
+  const stopText = isFire ? (bfire ? 'Hose teams attack the fire from the doorway upwind; the fire is knocked down.' : 'The foam blanket smothers the burning pool; the ERT follows up with a foam hose line from upwind.')
+    : s.chem === 'chlorine' ? 'The ERT in SCBA fits Chlorine Emergency Kit B on the tonner valve: the leak stops.'
+    : s.chem === 'ammonia' ? 'The ERT in SCBA closes the king valve on the ammonia receiver: the leak stops.'
+    : site.kind === 'pump' ? 'The ERT in SCBA isolates the pump suction and discharge valves and trips the pump: the leak stops.'
+    : 'The ERT in SCBA closes the tank outlet valve (remote shut-off confirmed): the leak stops.';
+  const attack = isFire ? (bfire ? 'Water monitor on the fire through the roof; cooling spray on the racks and the roof next to it.' : tankFire ? 'Foam monitor lays a foam blanket on the burning bund; deluge sprays cool the neighbouring tanks.' : 'Foam monitor on the burning pool.')
+    : (c.kind === 'liquefied' ? 'Water curtain set up downwind to knock the cloud down (never sprayed on the leak itself).' : 'Water curtain downwind to knock down the vapour; foam on the pool to cut evaporation.');
+  er.tStop = isFire ? er.tArr + 26 : er.tTeam0 + polyLen([stage.p, er.teamTarget])/1.6 + 6;
+  er.ev = [
+    { t:0, text:isFire ? `🔥 Fire breaks out at ${where}.` : `⚠️ ${c.name} starts leaking at ${where}.` },
+    { t:4, text:isFire ? 'Heat and smoke detectors alarm in the control room. The operator confirms on CCTV and presses the manual call point.' : 'The gas detector alarms in the control room. The operator confirms on CCTV and presses the manual call point.' },
+    { t:7, text:'🚨 Emergency siren (wailing tone). Everyone stops work, makes equipment safe and leaves by the nearest exit: walk, do not run; no vehicles.', fn:() => { er.siren = true; } },
+    { t:10, text:`📢 PA: “Emergency at ${where}. Wind from the ${LEAK_DIR_NAMES[wf]}. Go to ${ap.id}, ${ap.where}. Keep crosswind and away from the ${isFire ? 'fire and smoke' : 'cloud'}.”` + (other.e.sev > 0 ? ` ${other.id} is not used: it is in the danger zone.` : '') },
+    { t:14, text:'🚒 The Incident Controller takes charge. The fire tender and the emergency response team (ERT) leave the fire & safety yard.' },
+    { t:Math.min(er.tArr - 1, 20), text:'📞 Mutual-aid fire brigade and the district emergency authority are informed' + (isFire ? '.' : '; the ambulance is called to the assembly point.') },
+    { t:er.tArr, text:`🚒 The fire tender sets up on the ${stage.ring === 'perim' ? 'perimeter fire road' : 'ring road'}, ${Math.round(stage.dist)} m from the ${isFire ? 'fire' : 'leak'}${isFire ? ' (outside 4.7 kW/m², the limit for crews in protective clothing)' : ', upwind'}, and connects to the hydrant.` },
+    { t:er.tArr + 3, text:attack, fn:() => { er.streamOn = true; } },
+    { t:er.tTeam0, text:isFire ? 'The ERT runs out a hose line and advances from upwind.' : 'The ERT, in SCBA and chemical suits, approaches from upwind.' },
+    { t:er.tStop, text:stopText, fn:() => { LEAK.stopped = true; } },
+  ];
+  er.ev.sort((a, b) => a.t - b.t);
+  // --- caption box and framing ---
+  let box = document.getElementById('lk-er');
+  if (!box){ box = document.createElement('div'); box.id = 'lk-er'; document.body.appendChild(box);
+    box.innerHTML = '<div class="er-k"><b id="er-t">T+0:00</b><span id="er-hc"></span><span class="er-b"><button id="er-pause" title="Pause / play">⏸</button><button id="er-x" title="Stop">✕</button></span></div><div class="er-c" id="er-c"></div><div class="er-p"><i id="er-pf"></i></div>';
+    document.getElementById('er-pause').addEventListener('click', () => { if (!LEAK.er) return; LEAK.er.paused = !LEAK.er.paused; document.getElementById('er-pause').textContent = LEAK.er.paused ? '▶' : '⏸'; });
+    document.getElementById('er-x').addEventListener('click', () => erStop()); }
+  box.classList.add('show'); document.body.classList.add('er-run'); document.getElementById('er-pause').textContent = '⏸'; setTimeout(leakViewOffset, 350);
+  document.getElementById('lk-er-btn').textContent = '■ Stop the emergency response';
+  leakSetMin(true);                                        // fold the panel away so the plant is in full view
+  const pts = [S, ap, stage.p], cx = (S.x + ap.x + stage.p.x)/3, cz = (S.z + ap.z + stage.p.z)/3;
+  const rad = Math.max(...pts.map(p => Math.hypot(p.x - cx, p.z - cz)));
+  const portrait = window.innerHeight > window.innerWidth;
+  targetLookAt.set(cx, 1, cz); targetRadius = Math.max(40, Math.min(portrait ? 110 : 90, (rad*1.5 + 22)*(portrait ? 1.3 : 1))); targetPolar = portrait ? Math.PI/7 : Math.PI/4.6;
+  erCaption(er.ev[0].text); er.evI = 1;
+}
+function erCaption(text){ const c = document.getElementById('er-c'); if (c) c.textContent = text; }
+function erStop(silent){
+  const er = LEAK.er; if (!er) return;
+  er.people.forEach(p => erDisposePerson(p.m)); er.team.forEach(p => erDisposePerson(p.m));
+  scene.remove(er.group); er.group.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+  er.labels.forEach(id => { const L = labelEls[id]; if (L){ L.el.remove(); delete labelEls[id]; } });
+  if (er.ftStatic) er.ftStatic.visible = true;
+  LEAK.er = null; LEAK.stopped = false; LEAK.fireK = 1;
+  const box = document.getElementById('lk-er'); if (box) box.classList.remove('show'); document.body.classList.remove('er-run'); setTimeout(leakViewOffset, 50);
+  const b = document.getElementById('lk-er-btn'); if (b) b.textContent = '▶ Play the emergency response';
+  if (!silent && LEAK.active){ leakDraw(); }
+}
+function erWalk(p, dt){
+  if (p.arrived) return false;
+  p.s = Math.min(p.L, p.s + p.v*dt);
+  const q = polyAt(p.pts, p.s); p.m.position.x = q.x; p.m.position.z = q.z;
+  if (Math.abs(q.hx) + Math.abs(q.hz) > 1e-6) p.m.rotation.y = Math.atan2(q.hx, q.hz);
+  const legs = p.m.userData.legs; if (legs){ const sw = Math.sin(animClock*10 + p.L)*0.55; legs[0].rotation.x = sw; legs[1].rotation.x = -sw; }
+  if (p.s >= p.L - 1e-3){ p.arrived = true; if (legs){ legs[0].rotation.x = legs[1].rotation.x = 0; } return true; }
+  return false;
+}
+function updateER(dt){
+  const er = LEAK.er; if (!er || er.paused) return;
+  er.t += dt; const t = er.t;
+  // timeline
+  while (er.evI < er.ev.length && t >= er.ev[er.evI].t){ const e = er.ev[er.evI++]; erCaption(e.text); if (e.fn) e.fn(); }
+  // people
+  er.people.forEach(p => { if (t < p.t0) return; p.m.visible = true; if (erWalk(p, dt)){ er.arrived++; } });
+  if (!er.hcDone && er.arrived >= er.total){ er.hcDone = t;
+    er.ev.push({ t:t + 0.5, text:`✅ Wardens report the head count to the Incident Controller: all ${er.total} people accounted for at ${er.ap.id}.` }); er.ev.sort((a, b) => a.t - b.t); }
+  if (er.hc) er.hc.el.textContent = '👥 '+er.ap.id+' · head count '+er.arrived+' / '+er.total;
+  // all clear once the head count is complete and the leak / fire is dealt with
+  if (!er.clearT && er.hcDone && LEAK.stopped && (!LEAK.res.fire || LEAK.fireK <= 0.02)){
+    er.clearT = Math.max(t + 5, er.tStop + 6);
+    er.ev.push({ t:er.clearT, text:'🟢 All clear: steady siren tone. Re-entry only after the area is gas-tested and the Incident Controller gives permission.', fn:() => { er.siren = false; } });
+    er.ev.push({ t:er.clearT + 7, text:'Emergency response complete. Change the wind or the scenario and play it again, or press Stop.', fn:() => { er.done = true; } });
+    er.ev.sort((a, b) => a.t - b.t); }
+  // fire tender
+  const T = er.tender;
+  if (T){
+    if (t >= T.t0 && !T.arrived){ T.s = Math.min(T.L, T.s + T.v*dt*Math.min(1, (t - T.t0)/1.5));
+      const q = polyAt(T.route, T.s); T.mesh.position.set(q.x, 0, q.z); T.mesh.rotation.y = Math.atan2(q.hx, q.hz); if (T.s >= T.L - 1e-3) T.arrived = true; }
+    const L = labelEls['lk:er-ft']; if (L) L.worldPos.set(T.mesh.position.x, 4.2, T.mesh.position.z);
+    T.bars.forEach((b, i) => { if (b.material) b.material.emissiveIntensity = t >= T.t0 && !er.done ? ((Math.sin(animClock*16) > 0) === (i === 0) ? 2.0 : 0.1) : 0.25; });
+  }
+  // ERT
+  if (T && t >= er.tTeam0 && !er.team.length){
+    const from = { x:T.mesh.position.x, z:T.mesh.position.z };
+    for (let i=0;i<2;i++){ const m = erPerson({ body:0xc0271f, helmet:0xffd400, marker:0xff5a1f, item:[0.28,0.42,0.18], itemColor:0x9aa3aa });
+      const side = i ? 0.7 : -0.7, tgt = { x:er.teamTarget.x + LEAK.G.n.x*side, z:er.teamTarget.z + LEAK.G.n.z*side };
+      const pts = [{ x:from.x + LEAK.G.n.x*side, z:from.z + LEAK.G.n.z*side }, tgt];
+      m.position.set(pts[0].x, 0, pts[0].z); er.team.push({ m, pts, L:polyLen(pts), s:0, v:1.6, arrived:false }); }
+    erLabel('lk:er-team', '🧑‍🚒 ERT (SCBA)', { x:from.x, y:3, z:from.z }, '#ff5a1f');
+  }
+  er.team.forEach(p => erWalk(p, dt));
+  if (er.team.length){ const L = labelEls['lk:er-team']; if (L) L.worldPos.set(er.team[0].m.position.x, 3, er.team[0].m.position.z); }
+  // fire knock-down
+  if (LEAK.res.fire && er.streamOn){ const k = Math.max(0, 1 - (t - (er.tArr + 3))/24); LEAK.fireK = Math.min(LEAK.fireK, k*k*(3 - 2*k)); }
+  // zones fade once the leak is stopped / fire out
+  if (LEAK.stopped && LEAK.zoneMats){ const f = Math.max(0.2, 1 - (t - er.tStop)/8); LEAK.zoneMats.forEach(z => z.m.opacity = z.op*f); }
+  if (er.apRing){ const k = 1 + 0.12*Math.sin(animClock*4); er.apRing.scale.set(k, k, k); }
+  // water / foam stream from the roof monitor
+  if (er.stream && T){
+    const on = er.streamOn && !(er.done && LEAK.stopped); er.stream.pts.visible = on;
+    if (on){ const A = new THREE.Vector3(-0.6, 3.6, -2.0); T.mesh.localToWorld(A); const B = er.target, dx = B.x - A.x, dz = B.z - A.z, D = Math.hypot(dx, dz), H = 2 + D*0.18;
+      const arr = er.stream.pts.geometry.attributes.position.array;
+      er.stream.parts.forEach((p, i) => { p.u += dt*0.9; if (p.u > 1) p.u -= 1; const u = p.u, sp = u*0.7;
+        arr[i*3] = A.x + dx*u + p.r1*sp; arr[i*3+1] = A.y + (B.y - A.y)*u + H*4*u*(1 - u) + p.r2*sp*0.5; arr[i*3+2] = A.z + dz*u + p.r2*sp; });
+      er.stream.pts.geometry.attributes.position.needsUpdate = true; }
+  }
+  // water curtain across the plume
+  if (er.curtain){ const on = er.streamOn && !er.done; er.curtain.pts.visible = on;
+    if (on){ const C = er.target, n = LEAK.G.n, arr = er.curtain.pts.geometry.attributes.position.array;
+      er.curtain.parts.forEach((p, i) => { p.u += dt*0.7; if (p.u > 1) p.u -= 1; const w = (p.r3 - 0.5)*10, h = 5.2*Math.sin(Math.PI*p.u);
+        arr[i*3] = C.x + n.x*w + p.r1*0.2; arr[i*3+1] = 0.2 + h; arr[i*3+2] = C.z + n.z*w + p.r2*0.2; });
+      er.curtain.pts.geometry.attributes.position.needsUpdate = true; } }
+  // deluge cooling on the neighbouring tanks
+  if (er.cooling){ const on = er.streamOn && !er.done; er.cooling.pts.visible = on;
+    if (on){ const arr = er.cooling.pts.geometry.attributes.position.array;
+      er.cooling.parts.forEach((p, i) => { const tk = er.cool[Math.floor(i/60)]; p.u += dt*0.8; if (p.u > 1) p.u -= 1; const a = p.r3*Math.PI*2;
+        arr[i*3] = tk.x + Math.cos(a)*1.08; arr[i*3+1] = 4.2 - p.u*3.8; arr[i*3+2] = tk.z + Math.sin(a)*1.08; });
+      er.cooling.pts.geometry.attributes.position.needsUpdate = true; } }
+  // progress
+  const end = er.clearT ? er.clearT + 7 : Math.max(er.tStop + 12, 60);
+  const pf = document.getElementById('er-pf'); if (pf) pf.style.width = Math.min(100, 100*t/end).toFixed(1)+'%';
+  const tt = document.getElementById('er-t'); if (tt) tt.textContent = 'T+'+Math.floor(t/60)+':'+String(Math.floor(t % 60)).padStart(2, '0');
+  const hc = document.getElementById('er-hc'); if (hc) hc.textContent = '👥 '+er.arrived+' / '+er.total+' at '+er.ap.id + (er.siren ? '  ·  🚨 siren' : '');
+  if (er.done){ const b = document.getElementById('lk-er-btn'); if (b && b.textContent[0] !== '↻') b.textContent = '↻ Replay the emergency response'; }
+}
+
 // ===================== MODE BAR: Fly-Through · Walk · Operations =====================
-function currentMode(){ return cine.mode === 'fly' ? 'fly' : cine.mode === 'batch' ? 'ops' : appMode === 'walk' ? 'walk' : null; }
+function currentMode(){ return LEAK.active ? 'leak' : cine.mode === 'fly' ? 'fly' : cine.mode === 'batch' ? 'ops' : appMode === 'walk' ? 'walk' : null; }
 function switchMode(m){
   stopTour();
-  if (currentMode() === m){ if (m === 'walk') exitWalkMode(); else stopCinematic(); updateModeBar(true); return; }
+  if (currentMode() === m){ if (m === 'walk') exitWalkMode(); else if (m === 'leak') leakExit(); else stopCinematic(); updateModeBar(true); return; }
+  if (m === 'leak'){ leakEnter(); return; }
+  if (LEAK.active) leakExit(true);
   if (m === 'walk') enterWalkMode();
   else startCinematic(m === 'fly' ? 'fly' : 'batch');
   updateModeBar(true);
 }
 let _modeShown;
 function updateModeBar(force){
+  const mb = document.getElementById('mode-bar'); if (mb && mb.offsetWidth) document.documentElement.style.setProperty('--mb-w', (mb.offsetWidth + 26)+'px');
   const m = currentMode(), ip = document.getElementById('info-panel');
   document.body.classList.toggle('info-open', !!(ip && ip.classList.contains('show')));
   if (m === _modeShown && !force) return;
@@ -6294,6 +7520,7 @@ function animate(){
   updateLevels(dt);
   updateConveyor(dt);
   updateEmergency(dt);
+  updateLeak(dt);
   updateSound(dt);
   updateModeBar();
 
