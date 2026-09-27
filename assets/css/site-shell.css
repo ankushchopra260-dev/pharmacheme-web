@@ -223,10 +223,10 @@ a { color: inherit; text-decoration: none; }
 .related-box a:hover { color: var(--paper); }
 
 /* ---------- Calculator page wrapper (hosts the existing tool UI) ---------- */
-.calc-page-head { padding: 32px 0 8px; }
+.calc-page-head { padding-top: 32px; padding-bottom: 8px; }
 .calc-page-head h1 { font-family: var(--f-display); font-size: 1.9rem; color: var(--paper); margin: 0 0 6px; }
 .calc-page-head p { color: var(--muted); font-size: 0.92rem; margin: 0; max-width: 640px; }
-.calc-mount { padding: 8px 0 48px; }
+.calc-mount { padding-top: 8px; padding-bottom: 48px; }
 .calc-mount .plate {
   background: var(--panel); border: 1px solid var(--grid-line); border-radius: 4px; padding: 24px;
 }

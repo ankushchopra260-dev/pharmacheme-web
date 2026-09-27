@@ -1,35 +1,94 @@
 ---
 layout: default
-title: Molecule Structure Tool
-description: "Draw molecular structures and get formula, molecular weight, atom/bond counts, and SMILES both ways."
+title: Molecule Structure Builder
+description: "Free online chemical structure drawing tool: draw or load a molecule (SMILES, molfile or name) and get molecular formula, molecular weight, exact mass, degree of unsaturation, cLogP, TPSA, Lipinski and Veber checks, and PNG/SVG/molfile export."
 needs_calculators: true
 needs_ocl: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('calc-mount').innerHTML = renderMolBuilder();
-    initMolBuilder();
+    if (window.PCEStructureInit) { window.PCEStructureInit(); }
+    else { document.getElementById('calc-mount').innerHTML = renderMolBuilder(); initMolBuilder(); }
   });
 breadcrumbs:
   - label: Molecules
     url: /molecules/
-  - label: Structure Tool
+  - label: Structure Builder
     url: /molecules/structure/
 ---
 
+<style>
+  .ms-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .ms-lbl { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .ms-editor-wrap { border: 1px solid var(--grid-line); border-radius: 4px; overflow: hidden; background: #fff; }
+  .ms-editor { width: 100%; height: 440px; }
+  .ms-under-editor { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+  .ms-help { flex: 1 1 300px; font-family: var(--f-sans); font-size: 0.82rem; color: var(--muted); }
+  .ms-help summary { cursor: pointer; color: var(--brass); font-weight: 600; font-size: 0.8rem; padding: 4px 0; }
+  .ms-help ul { margin: 6px 0 0; padding-left: 18px; line-height: 1.55; }
+  .ms-help b { color: var(--paper); font-weight: 600; }
+  .ms-import { margin-top: 18px; }
+  .ms-import .lbl { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .ms-import-row { display: flex; gap: 8px; margin-top: 6px; align-items: stretch; }
+  .ms-import-row textarea { flex: 1; min-width: 0; padding: 10px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); font-family: var(--f-mono); font-size: 0.9rem; resize: vertical; min-height: 42px; }
+  .ms-import-row .pill { padding: 10px 20px; }
+  .ms-status { font-size: 0.78rem; margin-top: 6px; min-height: 1.2em; font-family: var(--f-sans); }
+  .ms-note { margin-top: 14px; padding: 10px 14px; border-left: 3px solid var(--brass); background: var(--bg-deep); color: var(--paper); font-size: 0.85rem; font-family: var(--f-sans); }
+  .ms-h { font-family: var(--f-display); color: var(--paper); font-size: 1.15rem; letter-spacing: 0.02em; margin: 28px 0 10px; }
+  .ms-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); }
+  .ms-cell { padding: 12px 14px; min-width: 0; }
+  .ms-cell .val { font-size: 1.25rem; overflow-wrap: anywhere; }
+  .ms-cell .val sub { font-size: 0.7em; }
+  .ms-sub { font-size: 0.72rem; color: var(--muted-dim); font-family: var(--f-sans); min-height: 1em; }
+  .ms-code-box { margin-top: 10px; padding: 12px 14px; }
+  .ms-code-head { display: flex; justify-content: space-between; align-items: center; }
+  .ms-code { font-family: var(--f-mono); font-size: 0.85rem; color: var(--paper); word-break: break-all; margin-top: 4px; display: block; }
+  .ms-mini { background: transparent; border: 1px solid var(--grid-line); color: var(--brass); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; cursor: pointer; font-family: var(--f-sans); font-weight: 600; }
+  .ms-export { margin-top: 10px; }
+  .ms-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .ms-rule-card { background: var(--bg-deep); border: 1px solid var(--grid-line); padding: 12px 14px; }
+  .ms-rule-title { font-family: var(--f-sans); font-weight: 600; color: var(--paper); font-size: 0.88rem; display: flex; justify-content: space-between; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+  .ms-badge { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border: 1px solid transparent; }
+  .ms-badge-ok { color: #6FCB9F; border-color: #2E6B50; }
+  .ms-badge-bad { color: #E07A6A; border-color: var(--rust); }
+  .ms-table { width: 100%; border-collapse: collapse; font-family: var(--f-sans); font-size: 0.82rem; }
+  .ms-table td { padding: 5px 4px; border-top: 1px solid var(--grid-line); color: var(--muted); }
+  .ms-table .ms-num { font-family: var(--f-mono); color: var(--paper); text-align: right; }
+  .ms-table .ms-ok { color: #6FCB9F; text-align: right; font-weight: 600; width: 44px; }
+  .ms-table .ms-bad { color: #E07A6A; text-align: right; font-weight: 600; width: 44px; }
+  .ms-pubchem { background: var(--bg-deep); border: 1px solid var(--grid-line); padding: 14px; }
+  .ms-small { font-size: 0.8rem; color: var(--muted); font-family: var(--f-sans); margin: 0 0 10px; line-height: 1.5; }
+  .ms-pubchem-out { margin-top: 10px; }
+  .ms-kv { margin-top: 8px; }
+  .ms-kv .lbl { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .ms-link { display: inline-block; margin-top: 10px; color: var(--brass); font-size: 0.85rem; }
+  .ms-foot { font-size: 0.75rem; color: var(--muted-dim); font-family: var(--f-sans); margin-top: 20px; line-height: 1.5; }
+  @media (max-width: 720px) { .ms-grid { grid-template-columns: repeat(2, 1fr); } .ms-rules { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) {
+    .calc-mount .plate { padding: 14px; }
+    .ms-editor { height: 460px; }
+    .ms-toolbar { flex-wrap: nowrap; }
+    .ms-toolbar .pill-group { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+    .ms-toolbar .pill { white-space: nowrap; }
+  }
+</style>
+
 <div class="container calc-page-head">
-  <h1>Molecule Structure Tool</h1>
-  <p>Draw a structure (click to place atoms, drag to draw bonds, ring and functional-group templates) and get molecular formula, weight, atom/bond counts, and SMILES both ways.</p>
+  <h1>Molecule Structure Builder</h1>
+  <p>Draw a structure (or load it from SMILES, a molfile or a compound name) and get formula, molecular weight, exact mass, degree of unsaturation, cLogP, TPSA and drug-likeness checks &mdash; then export it as PNG, SVG or molfile.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
 </div>
 
+<script src="{{ '/assets/js/molecule-studio.js' | relative_url }}"></script>
+
 <div class="container article-body" style="margin-top:24px;">
   <h2>What's Reliable Here</h2>
-  <p>Formula, molecular weight, valence/implicit-hydrogen handling, and SMILES parsing and generation are all computed by OpenChemLib, not a hand-built parser — this covers common organic structures with standard valences (C, N, O, S, P, F, Cl, Br, I) plus the NO&#8322; group's formal charges.</p>
+  <p>Drawing, formula, molecular weight, exact (monoisotopic) mass, SMILES and molfile output are handled by OpenChemLib, an established open-source cheminformatics library, running entirely in your browser. Degree of unsaturation is computed from the atom counts for neutral structures with normal valences. cLogP, logS and TPSA are OpenChemLib's calculated estimates &mdash; good for screening and comparing structures, not a substitute for measured data.</p>
+  <p>Lipinski's rule of 5 counts H-bond donors as NH/OH groups and acceptors as N and O atoms; one violation is conventionally still considered acceptable. Veber's rules (rotatable bonds &le; 10, TPSA &le; 140 &Aring;&sup2;) are a complementary oral-bioavailability check.</p>
 
   <h2>Known Limitations</h2>
-  <p>This tool does not currently model expanded sulfur/phosphorus valence states, stereochemistry, or fusing a ring template onto an existing atom. InChI generation and a 3D viewer aren't implemented — both would require an additional chemistry library dependency that isn't wired into this build yet, rather than being silently faked.</p>
+  <p>IUPAC names, InChI and InChIKey are not generated locally &mdash; they come from PubChem, and only when you press the lookup button (which sends the structure's SMILES to PubChem). Loading by compound name also uses PubChem. Structures you draw are remembered only in this browser, on this device.</p>
 
   <div class="related-box">
     <h3>Related</h3>
