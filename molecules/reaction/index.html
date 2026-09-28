@@ -1,0 +1,122 @@
+---
+layout: default
+title: Reaction Builder — Equation, Balance & Batch Stoichiometry
+description: "Build a chemical reaction one component at a time — by name, SMILES or drawn structure — then check the atom balance, auto-balance it, and get batch stoichiometry (kmol, kg, charge quantities, limiting reagent, yield), atom economy and a theoretical mass balance."
+needs_calculators: true
+needs_ocl: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.PCEReactionInit) window.PCEReactionInit();
+  });
+breadcrumbs:
+  - label: Molecules
+    url: /molecules/
+  - label: Reaction Builder
+    url: /molecules/reaction/
+---
+
+<style>
+  .rb-intro { color: var(--muted); font-family: var(--f-sans); font-size: 0.9rem; line-height: 1.5; margin: 0 0 16px; }
+  .rb-intro b { color: var(--paper); }
+  .rb-cols { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 12px; align-items: start; }
+  .rb-arrow { font-size: 2rem; color: var(--brass); text-align: center; padding-top: 44px; }
+  .rb-col-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .rb-col-head h3 { font-family: var(--f-display); color: var(--paper); font-size: 1.15rem; margin: 0; }
+  .rb-list { display: grid; gap: 10px; }
+  .rb-card { background: var(--bg-deep); border: 1px solid var(--grid-line); border-left: 3px solid var(--brass-dim); padding: 10px; }
+  .rb-card.rb-by { border-left-color: var(--muted-dim); }
+  .rb-card-top { display: flex; gap: 6px; align-items: center; }
+  .rb-card input, .rb-card select, .rb-basis input, .rb-basis select, .rb-cell { background: var(--panel); color: var(--paper); border: 1px solid var(--grid-line); padding: 7px 8px; font-family: var(--f-mono); font-size: 0.85rem; box-sizing: border-box; }
+  .rb-card input:focus, .rb-basis input:focus, .rb-cell:focus { outline: none; border-color: var(--brass); }
+  .rb-coeff { width: 58px; text-align: center; font-weight: 700; color: var(--brass) !important; }
+  .rb-label { flex: 1; min-width: 0; font-family: var(--f-sans) !important; }
+  .rb-x { background: none; border: none; color: var(--muted); font-size: 1.3rem; cursor: pointer; padding: 0 4px; }
+  .rb-x:hover { color: var(--rust); }
+  .rb-kind { margin-top: 6px; width: 100%; font-family: var(--f-sans) !important; }
+  .rb-find { display: flex; gap: 6px; margin-top: 6px; }
+  .rb-find .rb-in { flex: 1; min-width: 0; }
+  .rb-find .pill { padding: 7px 10px; }
+  .rb-struct { background: #fff; margin-top: 8px; border-radius: 3px; display: flex; justify-content: center; min-height: 100px; }
+  .rb-struct svg { max-width: 100%; height: auto; }
+  .rb-meta { display: flex; justify-content: space-between; gap: 8px; margin-top: 6px; font-family: var(--f-mono); font-size: 0.82rem; color: var(--brass); }
+  .rb-src { font-family: var(--f-sans); font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  .rb-src a { color: var(--muted); }
+  .rb-empty { margin-top: 8px; padding: 14px; text-align: center; color: var(--muted-dim); font-family: var(--f-sans); font-size: 0.8rem; border: 1px dashed var(--grid-line); }
+  .rb-msg { font-family: var(--f-sans); font-size: 0.8rem; color: var(--muted); margin-top: 6px; min-height: 1em; }
+  .rb-err { color: #E07A6A; }
+  .rb-okm { color: #6FCB9F; }
+  .rb-note { margin-top: 14px; padding: 10px 14px; border-left: 3px solid var(--brass); background: var(--bg-deep); color: var(--paper); font-size: 0.85rem; font-family: var(--f-sans); line-height: 1.5; }
+  .rb-h { font-family: var(--f-display); color: var(--paper); font-size: 1.15rem; margin: 26px 0 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .rb-eq { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; background: var(--bg-deep); border: 1px solid var(--brass-dim); padding: 14px; font-family: var(--f-sans); font-size: 1.05rem; color: var(--paper); }
+  .rb-eq b { color: var(--brass); }
+  .rb-eq em { color: var(--muted); font-size: 0.8rem; font-style: normal; }
+  .rb-eq-op { color: var(--muted); }
+  .rb-eq-arrow { color: var(--brass); font-size: 1.4rem; padding: 0 4px; }
+  .rb-eq-f { margin-top: 6px; font-family: var(--f-mono); font-size: 0.88rem; color: var(--muted); }
+  .rb-eq-actions { margin-top: 10px; align-items: center; }
+  .rb-badge { font-family: var(--f-sans); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border: 1px solid; }
+  .rb-ok { color: #6FCB9F; border-color: #2E6B50; }
+  .rb-bad { color: #E07A6A; border-color: var(--rust); }
+  .rb-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .rb-table { width: 100%; border-collapse: collapse; font-family: var(--f-sans); font-size: 0.84rem; }
+  .rb-table th { text-align: left; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 8px 8px; border-bottom: 1px solid var(--brass-dim); white-space: nowrap; }
+  .rb-table td { padding: 7px 8px; border-bottom: 1px solid var(--grid-line); color: var(--paper); font-family: var(--f-mono); white-space: nowrap; }
+  .rb-table td:first-child { font-family: var(--f-sans); white-space: normal; min-width: 120px; }
+  .rb-table b { color: var(--brass); }
+  .rb-bal { max-width: 520px; }
+  .rb-okc { color: #6FCB9F !important; }
+  .rb-badc { color: #E07A6A !important; font-weight: 700; }
+  .rb-cell { width: 84px; padding: 5px 6px; }
+  .rb-lim td:first-child { color: var(--brass); }
+  .rb-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 1px 6px; border: 1px solid var(--brass-dim); color: var(--brass); margin-left: 4px; white-space: nowrap; }
+  .rb-tag-b { border-color: var(--grid-line); color: var(--muted); }
+  .rb-basis { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+  .rb-basis label { display: flex; flex-direction: column; gap: 4px; font-family: var(--f-sans); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .rb-basis input { width: 130px; }
+  .rb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .rb-cell-r { padding: 12px 14px; }
+  .rb-cell-r .val { font-size: 1.3rem; }
+  .rb-sub { font-size: 0.72rem; color: var(--muted-dim); font-family: var(--f-sans); }
+  .rb-small { font-size: 0.76rem; color: var(--muted); font-family: var(--f-sans); margin-top: 6px; line-height: 1.45; }
+  .rb-foot { font-size: 0.75rem; color: var(--muted-dim); font-family: var(--f-sans); margin-top: 22px; line-height: 1.5; }
+  .rb-dialog { position: fixed; inset: 0; z-index: 1000; background: rgba(5,10,16,0.8); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .rb-dialog[hidden] { display: none; }
+  .rb-dialog-box { background: var(--panel); border: 1px solid var(--brass-dim); padding: 14px; width: min(900px, 100%); max-height: 100%; overflow: auto; box-sizing: border-box; }
+  .rb-dialog-head { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; color: var(--paper); font-family: var(--f-sans); }
+  .rb-draw-editor { width: 100%; height: min(460px, 60vh); background: #fff; }
+  @media (max-width: 760px) {
+    .rb-cols { grid-template-columns: 1fr; }
+    .rb-arrow { padding: 0; transform: rotate(90deg); }
+    .rb-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) { .calc-mount .plate { padding: 14px; } }
+  @media print {
+    .site-nav, .site-footer, .breadcrumbs, .article-body, .rb-intro, .rb-find, .rb-x, .rb-col-head .pill, .rb-eq-actions, .rb-foot, .pill-group { display: none !important; }
+    body, .plate, .calc-mount .plate { background: #fff !important; color: #000 !important; border: none !important; }
+    .rb-card, .rb-eq, .readout, .rb-note { background: #fff !important; border-color: #999 !important; break-inside: avoid; }
+    .rb-table td, .rb-eq, .rb-h, .rb-col-head h3, .readout .val, .rb-meta { color: #000 !important; text-shadow: none !important; }
+    .rb-card input, .rb-card select, .rb-cell, .rb-basis input, .rb-basis select { background: #fff !important; color: #000 !important; border: 1px solid #999 !important; }
+  }
+</style>
+
+<div class="container calc-page-head">
+  <h1>Reaction Builder</h1>
+  <p>Build A + B &rarr; C + D one component at a time &mdash; by chemical name, SMILES, or a drawn structure. Check the atom balance, auto-balance it, and get batch stoichiometry: charge quantities, limiting reagent, theoretical and actual yield, atom economy and mass balance.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<script src="{{ '/assets/js/reaction-builder.js' | relative_url }}"></script>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>How the Calculations Work</h2>
+  <p>Each component's molecular formula and molecular weight are calculated from its structure. <strong>Auto-balance</strong> solves the element (and charge) balance exactly and returns the smallest whole-number coefficients; if the set can't be balanced, a component is usually missing.</p>
+  <p>For the batch table, you choose a <strong>basis reactant</strong> and its pure amount. Every other reactant is charged at the equivalents you enter (moles per mole of basis; defaults to the stoichiometric ratio), corrected for purity. The <strong>limiting reagent</strong> is the one that runs out first. Products are calculated at full conversion of the limiting reagent; the main-product yield % then gives the expected output.</p>
+  <p><strong>Atom economy</strong> = (main product MW &times; its coefficient) &divide; &Sigma;(reactant MW &times; coefficient) &times; 100. The <strong>theoretical mass balance</strong> compares pure reactants charged against products plus unreacted excess; the two match when the equation is balanced.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/molecules/structure/' | relative_url }}">Molecule Structure Builder</a>
+  </div>
+</div>

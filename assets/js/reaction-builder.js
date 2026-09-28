@@ -1,0 +1,502 @@
+// ================================================================
+// PharmaChemE Reaction Builder
+// Build A + B -> C + D one component at a time (name via PubChem,
+// SMILES / molfile, or a drawn structure), then: element balance
+// check, auto-balance, batch stoichiometry, atom economy and a
+// theoretical mass balance. All chemistry by OpenChemLib (window.OCL).
+// ================================================================
+(function () {
+  "use strict";
+
+  const STORE_KEY = "pce-reaction-v1";
+  const PUG = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound";
+
+  let comps = [];     // {id, role:'R'|'P', kind:'main'|'by', label, smiles, source, coeff, eq, purity, density}
+  let nextId = 1;
+  let basisId = null;
+  let basisAmt = 100, basisUnit = "kg";
+  let yieldPct = 100;
+  let drawTarget = null, drawEditor = null;
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const f = (v, d) => (v === null || v === undefined || !isFinite(v) ? "—" : Number(v).toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d }));
+  const num = (v, dflt) => { const x = parseFloat(v); return isFinite(x) ? x : dflt; };
+
+  // ---------------------------------------------------------------
+  // Chemistry helpers (pure)
+  // ---------------------------------------------------------------
+  function molFromSmiles(s) {
+    const m = window.OCL.Molecule.fromSmiles(s);
+    if (!m.getAllAtoms()) throw new Error("empty");
+    return m;
+  }
+  // Element counts incl. implicit H, plus net charge, formula (Hill) and MW
+  function analyze(smiles) {
+    const OCL = window.OCL;
+    const mol = molFromSmiles(smiles);
+    mol.ensureHelperArrays(OCL.Molecule.cHelperNeighbours);
+    const counts = {};
+    let charge = 0;
+    for (let i = 0; i < mol.getAllAtoms(); i++) {
+      const el = mol.getAtomLabel(i);
+      counts[el] = (counts[el] || 0) + 1;
+      if (mol.getAtomicNo(i) !== 1) { const h = mol.getAllHydrogens(i); if (h) counts.H = (counts.H || 0) + h; }
+      charge += mol.getAtomCharge(i);
+    }
+    const els = Object.keys(counts);
+    const order = counts.C ? ["C", "H"].filter((e) => counts[e]).concat(els.filter((e) => e !== "C" && e !== "H").sort()) : els.sort();
+    let formula = order.map((e) => e + (counts[e] > 1 ? counts[e] : "")).join("");
+    if (charge) formula += (Math.abs(charge) > 1 ? Math.abs(charge) : "") + (charge > 0 ? "+" : "−");
+    const mw = mol.getMolecularFormula().relativeWeight;
+    return { counts, charge, formula, mw };
+  }
+
+  // --- exact rational arithmetic for balancing ---
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+  const fr = (n, d = 1) => { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d) || 1; return [n / g, d / g]; };
+  const fsub = (a, b) => fr(a[0] * b[1] - b[0] * a[1], a[1] * b[1]);
+  const fmul = (a, b) => fr(a[0] * b[0], a[1] * b[1]);
+  const fdiv = (a, b) => fr(a[0] * b[1], a[1] * b[0]);
+
+  // Returns smallest positive integer coefficients, or {error}
+  function autoBalance(list) {
+    const species = list.map((c) => ({ c, a: analyze(c.smiles) }));
+    const els = [...new Set(species.flatMap((s) => Object.keys(s.a.counts)))];
+    const rows = els.map((e) => species.map((s) => (s.c.role === "R" ? 1 : -1) * (s.a.counts[e] || 0)));
+    if (species.some((s) => s.a.charge)) rows.push(species.map((s) => (s.c.role === "R" ? 1 : -1) * s.a.charge));
+    const n = species.length;
+    let M = rows.map((r) => r.map((v) => fr(v)));
+    // RREF
+    const pivCols = [];
+    let r = 0;
+    for (let col = 0; col < n && r < M.length; col++) {
+      let p = M.findIndex((row, i) => i >= r && row[col][0] !== 0);
+      if (p < 0) continue;
+      [M[r], M[p]] = [M[p], M[r]];
+      const pv = M[r][col];
+      M[r] = M[r].map((v) => fdiv(v, pv));
+      for (let i = 0; i < M.length; i++) {
+        if (i === r || M[i][col][0] === 0) continue;
+        const k = M[i][col];
+        M[i] = M[i].map((v, j) => fsub(v, fmul(k, M[r][j])));
+      }
+      pivCols.push(col); r++;
+    }
+    const free = [...Array(n).keys()].filter((c) => !pivCols.includes(c));
+    if (free.length === 0) return { error: "These components can't be balanced as written — check that no reactant or product is missing." };
+    if (free.length > 1) return { error: "More than one independent way to balance this set (it may be two reactions combined). Enter the coefficients manually." };
+    const fc = free[0];
+    const x = Array(n).fill(null);
+    x[fc] = fr(1);
+    pivCols.forEach((pc, i) => { x[pc] = fr(-M[i][fc][0], M[i][fc][1]); });
+    const lcm = x.reduce((l, v) => (l * v[1]) / gcd(l, v[1]), 1);
+    let ints = x.map((v) => (v[0] * lcm) / v[1]);
+    if (ints.every((v) => v <= 0)) ints = ints.map((v) => -v);
+    if (!ints.every((v) => v > 0)) return { error: "No balance with all components taking part — one of them may not belong in this reaction." };
+    const g = ints.reduce((a, b) => gcd(a, b));
+    return { coeffs: ints.map((v) => v / g) };
+  }
+
+  function elementBalance(list) {
+    const tot = { R: {}, P: {} }, ch = { R: 0, P: 0 };
+    list.forEach((c) => {
+      const a = analyze(c.smiles);
+      Object.entries(a.counts).forEach(([e, k]) => { tot[c.role][e] = (tot[c.role][e] || 0) + k * c.coeff; });
+      ch[c.role] += a.charge * c.coeff;
+    });
+    const els = [...new Set([...Object.keys(tot.R), ...Object.keys(tot.P)])];
+    const rows = els.map((e) => ({ el: e, left: tot.R[e] || 0, right: tot.P[e] || 0 }));
+    const ok = rows.every((r) => Math.abs(r.left - r.right) < 1e-9) && Math.abs(ch.R - ch.P) < 1e-9;
+    return { rows, ok, chargeL: ch.R, chargeR: ch.P };
+  }
+
+  // Batch stoichiometry. Returns per-component results + summary.
+  function stoich(list, basis, amt, unit, yld) {
+    const R = list.filter((c) => c.role === "R"), P = list.filter((c) => c.role === "P");
+    const an = new Map(list.map((c) => [c.id, analyze(c.smiles)]));
+    const b = R.find((c) => c.id === basis) || R[0];
+    if (!b) return null;
+    const bMW = an.get(b.id).mw;
+    const bKmol = unit === "kmol" ? amt : amt / bMW;   // pure basis kmol
+    const rows = [];
+    let limExtent = Infinity, limId = null;
+    R.forEach((c) => {
+      const mw = an.get(c.id).mw;
+      const eq = c.id === b.id ? 1 : num(c.eq, c.coeff / b.coeff);
+      const kmol = bKmol * eq;
+      const pureKg = kmol * mw;
+      const purity = Math.min(100, Math.max(0.0001, num(c.purity, 100)));
+      const chargedKg = pureKg / (purity / 100);
+      const dens = num(c.density, null);
+      const vol = dens ? chargedKg / dens : null;
+      const extent = kmol / c.coeff;
+      if (extent < limExtent - 1e-12) { limExtent = extent; limId = c.id; }
+      rows.push({ c, mw, eq, kmol, pureKg, chargedKg, purity, vol, stoichEq: c.coeff / b.coeff });
+    });
+    R.forEach((c) => { const r = rows.find((x) => x.c.id === c.id); r.excessKmol = r.kmol - limExtent * c.coeff; r.excessKg = r.excessKmol * r.mw; });
+    const prodRows = P.map((c) => {
+      const mw = an.get(c.id).mw;
+      const kmol = limExtent * c.coeff;
+      return { c, mw, kmol, kg: kmol * mw, actualKg: c.kind === "main" ? kmol * mw * yld / 100 : null };
+    });
+    const main = P.find((c) => c.kind === "main") || null;
+    const sumR = R.reduce((s, c) => s + c.coeff * an.get(c.id).mw, 0);
+    const atomEcon = main ? (main.coeff * an.get(main.id).mw) / sumR * 100 : null;
+    const inPure = rows.reduce((s, r) => s + r.pureKg, 0);
+    const inImp = rows.reduce((s, r) => s + (r.chargedKg - r.pureKg), 0);
+    const outProd = prodRows.reduce((s, r) => s + r.kg, 0);
+    const outExcess = rows.reduce((s, r) => s + r.excessKg, 0);
+    return { basis: b, bKmol, rows, prodRows, limId, limExtent, main, atomEcon, inPure, inImp, outProd, outExcess };
+  }
+  window.PCEReactionTest = { analyze, autoBalance, elementBalance, stoich };
+
+  // ---------------------------------------------------------------
+  // Resolving input -> SMILES
+  // ---------------------------------------------------------------
+  async function pubchemSmilesByName(name) {
+    const url = (prop) => `${PUG}/name/${encodeURIComponent(name)}/property/${prop},Title/JSON`;
+    let r = await fetch(url("SMILES"));
+    if (r.status === 400) r = await fetch(url("IsomericSMILES"));
+    if (!r.ok) { const e = new Error("HTTP " + r.status); e.status = r.status; throw e; }
+    const p = (await r.json()).PropertyTable.Properties[0];
+    const smi = p.SMILES || p.IsomericSMILES || p.CanonicalSMILES;
+    if (!smi) throw new Error("no smiles");
+    return { smiles: smi, title: p.Title || name, cid: p.CID };
+  }
+
+  async function resolve(c, text) {
+    text = (text || "").trim();
+    if (!text) return;
+    c.status = "busy"; c.msg = ""; render();
+    const OCL = window.OCL;
+    try {
+      if (/M\s+END/.test(text) || /V2000|V3000/.test(text)) {
+        const m = OCL.Molecule.fromMolfile(text);
+        if (!m.getAllAtoms()) throw new Error("empty");
+        setStructure(c, m.toIsomericSmiles(), "Molfile");
+        return;
+      }
+      if (!/\s/.test(text)) {
+        try { molFromSmiles(text); setStructure(c, text, "SMILES"); if (!c.label) c.label = ""; return; } catch (e) { /* not SMILES: try name */ }
+      }
+      const p = await pubchemSmilesByName(text);
+      if (!c.label) c.label = text;
+      setStructure(c, p.smiles, `PubChem CID ${p.cid}`, p.cid);
+    } catch (e) {
+      c.status = "err";
+      c.msg = e && e.status === 404 ? `PubChem has no compound named “${text}”. Try another name, paste SMILES, or draw it.`
+        : `Not a valid SMILES, and PubChem couldn't be reached for a name search. Paste SMILES or draw the structure.`;
+      render();
+    }
+  }
+
+  function setStructure(c, smiles, source, cid) {
+    c.smiles = smiles; c.source = source; c.cid = cid || null; c.status = "ok"; c.msg = "";
+    save(); render();
+  }
+
+  // ---------------------------------------------------------------
+  // Rendering
+  // ---------------------------------------------------------------
+  function molSVG(smiles, w, h) {
+    try {
+      const m = molFromSmiles(smiles);
+      m.inventCoordinates();
+      return m.toSVG(w, h, null, { autoCrop: true, autoCropMargin: 8, suppressChiralText: true, suppressESR: true, suppressCIPParity: true, noStereoProblem: true });
+    } catch (e) { return ""; }
+  }
+  const sub = (fml) => esc(fml).replace(/([A-Za-z])(\d+)/g, "$1<sub>$2</sub>");
+  const nameOf = (c) => c.label || (c.smiles ? analyze(c.smiles).formula : "(empty)");
+
+  function compCard(c) {
+    const a = c.smiles ? safeAnalyze(c.smiles) : null;
+    const prodSel = c.role === "P" ? `<select class="rb-kind" data-rb-kind="${c.id}" aria-label="Product type">
+        <option value="main"${c.kind === "main" ? " selected" : ""}>Main product</option>
+        <option value="by"${c.kind === "by" ? " selected" : ""}>By-product</option></select>` : "";
+    return `<div class="rb-card ${c.role === "P" && c.kind === "by" ? "rb-by" : ""}" data-id="${c.id}">
+      <div class="rb-card-top">
+        <input class="rb-coeff" type="number" min="0" step="any" value="${c.coeff}" data-rb-coeff="${c.id}" aria-label="Coefficient" title="Stoichiometric coefficient">
+        <input class="rb-label" type="text" value="${esc(c.label)}" placeholder="Label (optional), e.g. KSM-1" data-rb-label="${c.id}">
+        <button type="button" class="rb-x" data-rb-remove="${c.id}" aria-label="Remove">×</button>
+      </div>
+      ${prodSel}
+      <div class="rb-find">
+        <input type="text" class="rb-in" data-rb-in="${c.id}" placeholder="Name or SMILES" value="${esc(c.pending || "")}">
+        <button type="button" class="pill" data-rb-find="${c.id}">Find</button>
+        <button type="button" class="pill" data-rb-draw="${c.id}">Draw</button>
+      </div>
+      ${c.status === "busy" ? `<div class="rb-msg">Looking up…</div>` : ""}
+      ${c.status === "err" ? `<div class="rb-msg rb-err">${esc(c.msg)}</div>` : ""}
+      ${a ? `<div class="rb-struct">${molSVG(c.smiles, 220, 130)}</div>
+        <div class="rb-meta"><span>${sub(a.formula)}</span><span>MW ${f(a.mw, 2)}</span></div>
+        <div class="rb-src">${c.cid ? `<a href="https://pubchem.ncbi.nlm.nih.gov/compound/${c.cid}" target="_blank" rel="noopener">${esc(c.source)}</a>` : esc(c.source || "")}</div>` : `<div class="rb-empty">No structure yet</div>`}
+    </div>`;
+  }
+  function safeAnalyze(s) { try { return analyze(s); } catch (e) { return null; } }
+
+  function equationHTML(ready) {
+    const side = (role) => ready.filter((c) => c.role === role).map((c) =>
+      `<span class="rb-eq-term">${c.coeff !== 1 ? `<b>${esc(c.coeff)}</b> ` : ""}${esc(nameOf(c))}${c.role === "P" && c.kind === "by" ? ` <em>(by-product)</em>` : ""}</span>`).join(`<span class="rb-eq-op">+</span>`);
+    const sideF = (role) => ready.filter((c) => c.role === role).map((c) => `${c.coeff !== 1 ? c.coeff + " " : ""}${sub(analyze(c.smiles).formula)}`).join(" + ");
+    return `<div class="rb-eq">${side("R")}<span class="rb-eq-arrow">→</span>${side("P")}</div>
+      <div class="rb-eq-f">${sideF("R")} → ${sideF("P")}</div>`;
+  }
+
+  function render() {
+    const R = comps.filter((c) => c.role === "R"), P = comps.filter((c) => c.role === "P");
+    $("rb-reactants").innerHTML = R.map(compCard).join("");
+    $("rb-products").innerHTML = P.map(compCard).join("");
+    renderResults();
+  }
+
+  function renderResults() {
+    const out = $("rb-results");
+    const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles) && c.coeff > 0);
+    const R = ready.filter((c) => c.role === "R"), P = ready.filter((c) => c.role === "P");
+    const pending = comps.filter((c) => !c.smiles).length;
+    if (!R.length || !P.length) {
+      out.innerHTML = `<div class="rb-note">Add at least one reactant and one product with a structure to see the equation and calculations.${pending ? ` (${pending} component${pending > 1 ? "s" : ""} still without a structure.)` : ""}</div>`;
+      return;
+    }
+    let html = `<h3 class="rb-h">Equation</h3>${equationHTML(ready)}`;
+    if (pending) html += `<div class="rb-note">${pending} component${pending > 1 ? "s have" : " has"} no structure yet and ${pending > 1 ? "are" : "is"} left out of the calculations.</div>`;
+    html += `<div class="pill-group rb-eq-actions"><button type="button" class="pill" id="rb-balance">Auto-balance</button><button type="button" class="pill" id="rb-dl-png">Download image</button><button type="button" class="pill" id="rb-print">Print / save as PDF</button><button type="button" class="pill" id="rb-share">Copy link</button><span id="rb-share-msg" class="rb-small"></span></div><div id="rb-balance-msg" class="rb-msg"></div>`;
+
+    // Element balance
+    const eb = elementBalance(ready);
+    html += `<h3 class="rb-h">Atom balance <span class="rb-badge ${eb.ok ? "rb-ok" : "rb-bad"}">${eb.ok ? "Balanced" : "Not balanced"}</span></h3>
+      <div class="rb-scroll"><table class="rb-table rb-bal"><thead><tr><th>Element</th><th>Reactants</th><th>Products</th><th>Difference</th></tr></thead><tbody>
+      ${eb.rows.map((r) => { const d = r.right - r.left; return `<tr><td>${esc(r.el)}</td><td>${f(r.left, fracDigits(r.left))}</td><td>${f(r.right, fracDigits(r.right))}</td><td class="${Math.abs(d) < 1e-9 ? "rb-okc" : "rb-badc"}">${Math.abs(d) < 1e-9 ? "✓" : (d > 0 ? "+" : "") + f(d, fracDigits(d))}</td></tr>`; }).join("")}
+      ${eb.chargeL || eb.chargeR ? `<tr><td>Charge</td><td>${eb.chargeL}</td><td>${eb.chargeR}</td><td class="${eb.chargeL === eb.chargeR ? "rb-okc" : "rb-badc"}">${eb.chargeL === eb.chargeR ? "✓" : eb.chargeR - eb.chargeL}</td></tr>` : ""}
+      </tbody></table></div>
+      ${eb.ok ? "" : `<div class="rb-note">A positive difference means the products have more of that element than the reactants. Check the coefficients, or whether a reactant, product or by-product is missing — or use Auto-balance.</div>`}`;
+
+    // Stoichiometry
+    if (!R.some((c) => c.id === basisId)) basisId = R[0].id;
+    const s = stoich(ready, basisId, basisAmt, basisUnit, yieldPct);
+    html += `<h3 class="rb-h">Batch stoichiometry</h3>
+      <div class="rb-basis">
+        <label>Basis reactant <select id="rb-basis">${R.map((c) => `<option value="${c.id}"${c.id === basisId ? " selected" : ""}>${esc(nameOf(c))}</option>`).join("")}</select></label>
+        <label>Amount (pure) <input id="rb-amt" type="number" step="any" min="0" value="${basisAmt}"></label>
+        <label>Unit <select id="rb-unit"><option value="kg"${basisUnit === "kg" ? " selected" : ""}>kg</option><option value="kmol"${basisUnit === "kmol" ? " selected" : ""}>kmol</option></select></label>
+        <label>Main product yield % <input id="rb-yield" type="number" step="any" min="0" max="100" value="${yieldPct}"></label>
+      </div>
+      <div class="rb-scroll"><table class="rb-table">
+        <thead><tr><th>Reactant</th><th>MW</th><th>Equiv.</th><th>kmol</th><th>Pure kg</th><th>Purity %</th><th>Charge kg</th><th>Density kg/L</th><th>Volume L</th></tr></thead><tbody>
+        ${s.rows.map((r) => `<tr class="${r.c.id === s.limId ? "rb-lim" : ""}">
+          <td>${esc(nameOf(r.c))}${r.c.id === s.limId ? ` <span class="rb-tag">limiting</span>` : ""}${r.c.id === s.basis.id ? ` <span class="rb-tag rb-tag-b">basis</span>` : ""}</td>
+          <td>${f(r.mw, 2)}</td>
+          <td>${r.c.id === s.basis.id ? "1.000" : `<input type="number" step="any" min="0" class="rb-cell" data-rb-eq="${r.c.id}" value="${+r.eq.toFixed(4)}">`}</td>
+          <td>${f(r.kmol, 4)}</td><td>${f(r.pureKg, 2)}</td>
+          <td><input type="number" step="any" min="0" max="100" class="rb-cell" data-rb-purity="${r.c.id}" value="${r.purity}"></td>
+          <td><b>${f(r.chargedKg, 2)}</b></td>
+          <td><input type="number" step="any" min="0" class="rb-cell" data-rb-density="${r.c.id}" value="${r.c.density || ""}" placeholder="—"></td>
+          <td>${r.vol ? f(r.vol, 1) : "—"}</td></tr>`).join("")}
+        </tbody></table></div>
+      <div class="rb-small">Equiv. = moles of this reactant per mole of the basis reactant (defaults to the stoichiometric ratio). Limiting reagent = the reactant that runs out first given the equivalents charged.</div>
+      <div class="rb-scroll"><table class="rb-table" style="margin-top:12px;">
+        <thead><tr><th>Product</th><th>Type</th><th>MW</th><th>kmol (theor.)</th><th>kg (theor.)</th><th>kg at ${f(yieldPct, 1)}% yield</th></tr></thead><tbody>
+        ${s.prodRows.map((r) => `<tr><td>${esc(nameOf(r.c))}</td><td>${r.c.kind === "main" ? "Main product" : "By-product"}</td><td>${f(r.mw, 2)}</td><td>${f(r.kmol, 4)}</td><td>${f(r.kg, 2)}</td><td>${r.actualKg !== null ? `<b>${f(r.actualKg, 2)}</b>` : "—"}</td></tr>`).join("")}
+        </tbody></table></div>`;
+
+    // Metrics + mass balance
+    const mainCount = P.filter((c) => c.kind === "main").length;
+    html += `<h3 class="rb-h">Metrics &amp; theoretical mass balance</h3><div class="rb-grid">
+      <div class="readout rb-cell-r"><span class="lbl">Atom economy</span><span class="val">${s.atomEcon !== null ? f(s.atomEcon, 1) + "%" : "—"}</span><span class="rb-sub">${mainCount === 1 ? "main product MW × coeff ÷ Σ reactant MW × coeff" : mainCount === 0 ? "mark one product as the main product" : "uses the first main product"}</span></div>
+      <div class="readout rb-cell-r"><span class="lbl">In — pure reactants</span><span class="val">${f(s.inPure, 2)} kg</span><span class="rb-sub">${s.inImp > 0.005 ? `+ ${f(s.inImp, 2)} kg impurities (from purity %)` : "no impurities entered"}</span></div>
+      <div class="readout rb-cell-r"><span class="lbl">Out — products + unreacted excess</span><span class="val">${f(s.outProd + s.outExcess, 2)} kg</span><span class="rb-sub">${f(s.outProd, 2)} kg products + ${f(s.outExcess, 2)} kg excess reactants</span></div>
+    </div>
+    <div class="rb-small">The mass balance assumes the limiting reagent is fully converted (before yield losses). In and Out match only when the equation is balanced${eb.ok ? " — difference here: " + f(s.inPure - s.outProd - s.outExcess, 3) + " kg" : ""}.</div>`;
+    out.innerHTML = html;
+  }
+  function fracDigits(v) { return Math.abs(v - Math.round(v)) < 1e-9 ? 0 : 2; }
+
+  // ---------------------------------------------------------------
+  // Export / share / persist
+  // ---------------------------------------------------------------
+  function equationSVG() {
+    const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles) && c.coeff > 0);
+    const W = 200, H = 150, gap = 44;
+    const items = [];
+    const push = (role) => ready.filter((c) => c.role === role).forEach((c, i) => { if (i) items.push({ op: "+" }); items.push({ c }); });
+    push("R"); items.push({ op: "→" }); push("P");
+    let x = 10, parts = [];
+    items.forEach((it) => {
+      if (it.op) { parts.push(`<text x="${x + gap / 2}" y="${H / 2 + 8}" font-family="Arial" font-size="${it.op === "+" ? 26 : 30}" text-anchor="middle">${it.op}</text>`); x += gap; return; }
+      const c = it.c;
+      let svg = molSVG(c.smiles, W, H).replace(/<svg[^>]*>/, `<svg x="${x}" y="0" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`);
+      parts.push(svg);
+      const lbl = (c.coeff !== 1 ? c.coeff + " " : "") + nameOf(c);
+      parts.push(`<text x="${x + W / 2}" y="${H + 20}" font-family="Arial" font-size="14" text-anchor="middle">${esc(lbl)}</text>`);
+      x += W;
+    });
+    const total = x + 10;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${total}" height="${H + 34}" viewBox="0 0 ${total} ${H + 34}"><rect width="100%" height="100%" fill="#fff"/>${parts.join("")}</svg>`;
+  }
+  function downloadPNG() {
+    const svg = equationSVG();
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = img.naturalWidth * 2; c.height = img.naturalHeight * 2;
+      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob((b) => { const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "reaction.png"; document.body.appendChild(a); a.click(); a.remove(); }, "image/png");
+    };
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  }
+
+  function stateObj() {
+    return { v: 1, c: comps.map((c) => ({ r: c.role, k: c.kind, l: c.label, s: c.smiles, o: c.source, i: c.cid, n: c.coeff, e: c.eq, p: c.purity, d: c.density })), b: comps.findIndex((c) => c.id === basisId), a: basisAmt, u: basisUnit, y: yieldPct };
+  }
+  function loadState(o) {
+    if (!o || !Array.isArray(o.c)) return false;
+    comps = o.c.map((x) => ({ id: nextId++, role: x.r === "P" ? "P" : "R", kind: x.k === "by" ? "by" : "main", label: x.l || "", smiles: x.s || "", source: x.o || "", cid: x.i || null, coeff: num(x.n, 1), eq: x.e, purity: num(x.p, 100), density: x.d || "", status: x.s ? "ok" : "" }));
+    basisId = comps[o.b] ? comps[o.b].id : null;
+    basisAmt = num(o.a, 100); basisUnit = o.u === "kmol" ? "kmol" : "kg"; yieldPct = num(o.y, 100);
+    return true;
+  }
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(stateObj())); } catch (e) { /* ignore */ }
+  }
+  function shareURL() {
+    return location.origin + location.pathname + "#r=" + encodeURIComponent(JSON.stringify(stateObj()));
+  }
+
+  // ---------------------------------------------------------------
+  // Draw dialog
+  // ---------------------------------------------------------------
+  function openDraw(c) {
+    drawTarget = c;
+    const dlg = $("rb-dialog");
+    dlg.hidden = false;
+    document.body.style.overflow = "hidden";
+    if (!drawEditor) drawEditor = new window.OCL.CanvasEditor($("rb-draw-editor"), { initialMode: "molecule" });
+    try {
+      if (c.smiles) { const m = molFromSmiles(c.smiles); m.inventCoordinates(); drawEditor.setMolecule(m); }
+      else drawEditor.clearAll();
+    } catch (e) { drawEditor.clearAll(); }
+  }
+  function closeDraw(useIt) {
+    if (useIt && drawTarget) {
+      const m = drawEditor.getMolecule();
+      if (m && m.getAllAtoms()) setStructure(drawTarget, m.toIsomericSmiles(), "Drawn");
+    }
+    $("rb-dialog").hidden = true;
+    document.body.style.overflow = "";
+    drawTarget = null;
+  }
+
+  // ---------------------------------------------------------------
+  // Init & events
+  // ---------------------------------------------------------------
+  function add(role) {
+    const c = { id: nextId++, role, kind: role === "P" && comps.some((x) => x.role === "P" && x.kind === "main") ? "by" : "main", label: "", smiles: "", source: "", coeff: 1, purity: 100, density: "" };
+    comps.push(c); save(); render();
+    const inp = document.querySelector(`[data-rb-in="${c.id}"]`); if (inp) inp.focus();
+  }
+  const byId = (id) => comps.find((c) => c.id === +id);
+
+  function shell() {
+    return `
+      ${typeof plateHeader === "function" ? plateHeader("PharmaChemE Reaction Builder", "EQUATION — BALANCE — STOICHIOMETRY") : ""}
+      <p class="rb-intro">Add each reactant and product one at a time: type a <b>name</b> (looked up on PubChem), paste <b>SMILES</b>, or <b>draw</b> the structure. Give it a label if it has no common name (e.g. KSM-1, Intermediate B).</p>
+      <div class="rb-cols">
+        <section><div class="rb-col-head"><h3>Reactants</h3><button type="button" class="pill active" data-rb-add="R">+ Add reactant</button></div><div id="rb-reactants" class="rb-list"></div></section>
+        <div class="rb-arrow" aria-hidden="true">→</div>
+        <section><div class="rb-col-head"><h3>Products</h3><button type="button" class="pill active" data-rb-add="P">+ Add product</button></div><div id="rb-products" class="rb-list"></div></section>
+      </div>
+      <div class="pill-group" style="margin-top:12px;"><span class="rb-small" style="align-self:center;">Example:</span><button type="button" class="pill" id="rb-example">Esterification</button><button type="button" class="pill" id="rb-reset" style="border-color:var(--rust); color:var(--rust);">Clear all</button></div>
+      <div id="rb-results"></div>
+      <p class="rb-foot">Formulas and molecular weights are calculated from the structures by OpenChemLib in your browser. Names are looked up on PubChem only when you press Find with a name (that sends the name, not your structures). Stoichiometry is theoretical: it does not account for side reactions, solubility or losses beyond the yield % you enter.</p>
+      <div id="rb-dialog" class="rb-dialog" hidden role="dialog" aria-modal="true" aria-label="Draw structure">
+        <div class="rb-dialog-box">
+          <div class="rb-dialog-head"><b>Draw structure</b><span class="rb-small">Use the tools on the left — same editor as the Structure Builder.</span></div>
+          <div id="rb-draw-editor" class="rb-draw-editor"></div>
+          <div class="pill-group" style="justify-content:flex-end; margin-top:10px;"><button type="button" class="pill" id="rb-draw-cancel">Cancel</button><button type="button" class="pill active" id="rb-draw-ok">Use this structure</button></div>
+        </div>
+      </div>`;
+  }
+
+  function loadExample() {
+    comps = []; nextId = 1;
+    const ex = [
+      ["R", "main", "Acetic acid", "CC(=O)O"], ["R", "main", "Ethanol", "CCO"],
+      ["P", "main", "Ethyl acetate", "CCOC(C)=O"], ["P", "by", "Water", "O"],
+    ];
+    ex.forEach(([r, k, l, s]) => comps.push({ id: nextId++, role: r, kind: k, label: l, smiles: s, source: "SMILES", coeff: 1, purity: 100, density: "", status: "ok" }));
+    basisId = comps[0].id; basisAmt = 100; basisUnit = "kg"; yieldPct = 100;
+    save(); render();
+  }
+
+  function init() {
+    const mount = $("calc-mount");
+    if (!mount) return;
+    if (!window.OCL) { mount.innerHTML = `<p style="color:var(--rust)">The chemistry engine did not load. Please reload the page.</p>`; return; }
+    mount.innerHTML = shell();
+
+    let loaded = false;
+    try { const m = location.hash.match(/^#r=(.*)$/); if (m) loaded = loadState(JSON.parse(decodeURIComponent(m[1]))); } catch (e) { /* ignore */ }
+    if (!loaded) { try { loaded = loadState(JSON.parse(localStorage.getItem(STORE_KEY))); } catch (e) { /* ignore */ } }
+    if (!loaded || !comps.length) { comps = []; add("R"); add("R"); add("P"); add("P"); }
+    render();
+
+    mount.addEventListener("click", (e) => {
+      const t = e.target;
+      const a = t.closest("[data-rb-add]"); if (a) { add(a.dataset.rbAdd); return; }
+      const rm = t.closest("[data-rb-remove]"); if (rm) { comps = comps.filter((c) => c.id !== +rm.dataset.rbRemove); save(); render(); return; }
+      const fd = t.closest("[data-rb-find]"); if (fd) { const c = byId(fd.dataset.rbFind); const inp = document.querySelector(`[data-rb-in="${c.id}"]`); c.pending = ""; resolve(c, inp.value); return; }
+      const dr = t.closest("[data-rb-draw]"); if (dr) { openDraw(byId(dr.dataset.rbDraw)); return; }
+      switch (t.id) {
+        case "rb-example": loadExample(); break;
+        case "rb-reset": comps = []; nextId = 1; add("R"); add("R"); add("P"); add("P"); break;
+        case "rb-draw-ok": closeDraw(true); break;
+        case "rb-draw-cancel": closeDraw(false); break;
+        case "rb-print": window.print(); break;
+        case "rb-dl-png": downloadPNG(); break;
+        case "rb-share": {
+          const msg = $("rb-share-msg");
+          navigator.clipboard.writeText(shareURL()).then(() => { msg.textContent = "Link copied"; }, () => { msg.textContent = "Couldn't copy"; });
+          setTimeout(() => { msg.textContent = ""; }, 2000); break;
+        }
+        case "rb-balance": {
+          const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles));
+          const res = autoBalance(ready);
+          if (res.error) { $("rb-balance-msg").textContent = res.error; $("rb-balance-msg").className = "rb-msg rb-err"; return; }
+          ready.forEach((c, i) => { c.coeff = res.coeffs[i]; c.eq = undefined; });
+          save(); render();
+          $("rb-balance-msg").textContent = "Balanced with the smallest whole-number coefficients."; $("rb-balance-msg").className = "rb-msg rb-okm";
+          break;
+        }
+      }
+    });
+    mount.addEventListener("keydown", (e) => {
+      const inp = e.target.closest("[data-rb-in]");
+      if (inp && e.key === "Enter") { e.preventDefault(); const c = byId(inp.dataset.rbIn); resolve(c, inp.value); }
+    });
+    mount.addEventListener("input", (e) => {
+      const t = e.target;
+      if (t.dataset.rbIn) { byId(t.dataset.rbIn).pending = t.value; return; }
+      if (t.dataset.rbLabel) { byId(t.dataset.rbLabel).label = t.value; save(); renderResults(); return; }
+    });
+    mount.addEventListener("change", (e) => {
+      const t = e.target;
+      if (t.dataset.rbCoeff) { const c = byId(t.dataset.rbCoeff); c.coeff = Math.max(0, num(t.value, 1)); c.eq = undefined; comps.forEach((x) => { x.eq = undefined; }); }
+      else if (t.dataset.rbKind) byId(t.dataset.rbKind).kind = t.value;
+      else if (t.dataset.rbEq) byId(t.dataset.rbEq).eq = num(t.value, undefined);
+      else if (t.dataset.rbPurity) byId(t.dataset.rbPurity).purity = num(t.value, 100);
+      else if (t.dataset.rbDensity) byId(t.dataset.rbDensity).density = t.value;
+      else if (t.id === "rb-basis") { basisId = +t.value; comps.forEach((x) => { x.eq = undefined; }); }
+      else if (t.id === "rb-amt") basisAmt = Math.max(0, num(t.value, 0));
+      else if (t.id === "rb-unit") basisUnit = t.value;
+      else if (t.id === "rb-yield") yieldPct = Math.min(100, Math.max(0, num(t.value, 100)));
+      else return;
+      save();
+      if (t.dataset.rbCoeff || t.dataset.rbKind) render(); else renderResults();
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("rb-dialog").hidden) closeDraw(false); });
+  }
+
+  window.PCEReactionInit = init;
+})();
