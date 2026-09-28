@@ -17,6 +17,7 @@
   let basisAmt = 100, basisUnit = "kg";
   let yieldPct = 100;
   let drawTarget = null, drawEditor = null;
+  let lastSugg = [];
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -98,6 +99,30 @@
     return { coeffs: ints.map((v) => v / g) };
   }
 
+  // When a set can't be balanced, try adding ONE common small species on
+  // either side and report every option that gives a valid balance.
+  // Pure arithmetic: suggestions are shown for the user to accept, never applied silently.
+  const COMMON_SPECIES = [
+    ["Water", "O"], ["Hydrogen chloride", "Cl"], ["Hydrogen bromide", "Br"], ["Carbon dioxide", "O=C=O"],
+    ["Sodium chloride", "[Na+].[Cl-]"], ["Sodium bromide", "[Na+].[Br-]"], ["Potassium chloride", "[K+].[Cl-]"],
+    ["Methanol", "CO"], ["Ethanol", "CCO"], ["Acetic acid", "CC(=O)O"], ["Ammonia", "N"], ["Sulfur dioxide", "O=S=O"],
+    ["Hydrogen", "[H][H]"], ["Nitrogen", "N#N"], ["Oxygen", "O=O"], ["Sodium hydroxide", "[Na+].[OH-]"],
+  ];
+  function suggestMissing(list) {
+    const out = [];
+    const present = new Set(list.map((c) => { try { return window.OCL.Molecule.fromSmiles(c.smiles).getIDCode(); } catch (e) { return c.smiles; } }));
+    COMMON_SPECIES.forEach(([name, smi]) => {
+      const idc = window.OCL.Molecule.fromSmiles(smi).getIDCode();
+      if (present.has(idc)) return;
+      ["P", "R"].forEach((role) => {
+        const extra = { id: -1, role, kind: "by", smiles: smi, coeff: 1 };
+        const res = autoBalance(list.concat([extra]));
+        if (res.coeffs) out.push({ name, smiles: smi, role, coeffs: res.coeffs, total: res.coeffs.reduce((a, b) => a + b, 0) });
+      });
+    });
+    return out.sort((a, b) => (a.role === "P" ? 0 : 1) - (b.role === "P" ? 0 : 1) || a.total - b.total).slice(0, 4);
+  }
+
   function elementBalance(list) {
     const tot = { R: {}, P: {} }, ch = { R: 0, P: 0 };
     list.forEach((c) => {
@@ -149,7 +174,7 @@
     const outExcess = rows.reduce((s, r) => s + r.excessKg, 0);
     return { basis: b, bKmol, rows, prodRows, limId, limExtent, main, atomEcon, inPure, inImp, outProd, outExcess };
   }
-  window.PCEReactionTest = { analyze, autoBalance, elementBalance, stoich };
+  window.PCEReactionTest = { analyze, autoBalance, elementBalance, stoich, suggestMissing };
 
   // ---------------------------------------------------------------
   // Resolving input -> SMILES
@@ -482,6 +507,18 @@
 
     mount.addEventListener("click", (e) => {
       const t = e.target;
+      const sg = t.closest("[data-rb-sugg]");
+      if (sg) {
+        const g = lastSugg[+sg.dataset.rbSugg]; if (!g) return;
+        const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles));
+        const nc = { id: nextId++, role: g.role, kind: g.role === "P" ? "by" : "main", label: g.name, smiles: g.smiles, source: "Added to balance", coeff: 1, purity: 100, density: "", status: "ok" };
+        comps.push(nc);
+        ready.concat([nc]).forEach((c, i) => { c.coeff = g.coeffs[i]; c.eq = undefined; });
+        save(); render();
+        $("rb-balance-msg").textContent = `Added ${g.name.toLowerCase()} and balanced with the smallest whole-number coefficients.`;
+        $("rb-balance-msg").className = "rb-msg rb-okm";
+        return;
+      }
       const a = t.closest("[data-rb-add]"); if (a) { add(a.dataset.rbAdd); return; }
       const rm = t.closest("[data-rb-remove]"); if (rm) { comps = comps.filter((c) => c.id !== +rm.dataset.rbRemove); save(); render(); return; }
       const fd = t.closest("[data-rb-find]"); if (fd) { const c = byId(fd.dataset.rbFind); const inp = document.querySelector(`[data-rb-in="${c.id}"]`); c.pending = ""; resolve(c, inp.value); return; }
@@ -501,7 +538,16 @@
         case "rb-balance": {
           const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles));
           const res = autoBalance(ready);
-          if (res.error) { $("rb-balance-msg").textContent = res.error; $("rb-balance-msg").className = "rb-msg rb-err"; return; }
+          if (res.error) {
+            const sug = suggestMissing(ready);
+            const box = $("rb-balance-msg");
+            box.className = "rb-msg rb-err";
+            box.innerHTML = esc(res.error) + (sug.length
+              ? `<div class="rb-sugg"><span>These single additions would balance it \u2014 pick one only if it fits your chemistry:</span>${sug.map((g, i) => `<button type="button" class="pill" data-rb-sugg="${i}">Add ${esc(g.name.toLowerCase())} as ${g.role === "P" ? "by-product" : "reactant"}</button>`).join("")}</div>`
+              : `<div class="rb-sugg"><span>No single common species (water, HCl, CO\u2082, NaCl, methanol\u2026) fixes it \u2014 check each structure and whether more than one component is missing.</span></div>`);
+            lastSugg = sug;
+            return;
+          }
           ready.forEach((c, i) => { c.coeff = res.coeffs[i]; c.eq = undefined; });
           save(); render();
           $("rb-balance-msg").textContent = "Balanced with the smallest whole-number coefficients."; $("rb-balance-msg").className = "rb-msg rb-okm";
