@@ -18,6 +18,16 @@ breadcrumbs:
 <style>
   .rb-intro { color: var(--muted); font-family: var(--f-sans); font-size: 0.9rem; line-height: 1.5; margin: 0 0 16px; }
   .rb-intro b { color: var(--paper); }
+  .rb-import { margin: 0 0 18px; }
+  .rb-import-row { display: flex; gap: 8px; }
+  .rb-import-row input { flex: 1; min-width: 0; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); padding: 9px 10px; font-family: var(--f-mono); font-size: 0.85rem; }
+  .rb-import-row input:focus { outline: none; border-color: var(--brass); }
+  .rb-small b { color: var(--paper); }
+  .rb-card.rb-active { border-color: var(--brass-dim); box-shadow: 0 0 0 1px var(--brass-dim); }
+  .rb-card { position: relative; }
+  .pce-drop-active { outline: 3px dashed var(--brass); outline-offset: -3px; }
+  .rb-card.pce-drop-active::after { content: "Drop .mol / .sdf / .rxn file"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(11,22,34,0.8); color: var(--brass); font-family: var(--f-sans); font-weight: 600; pointer-events: none; }
+  @media (max-width: 600px) { .rb-import-row { flex-wrap: wrap; } .rb-import-row input { flex-basis: 100%; } }
   .rb-cols { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 12px; align-items: start; }
   .rb-arrow { font-size: 2rem; color: var(--brass); text-align: center; padding-top: 44px; }
   .rb-col-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
@@ -107,6 +117,7 @@ breadcrumbs:
   <div class="plate" id="calc-mount"></div>
 </div>
 
+<script src="{{ '/assets/js/structure-paste.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/reaction-builder.js' | relative_url }}"></script>
 
 <div class="container article-body" style="margin-top:24px;">

@@ -182,8 +182,10 @@
         <div class="ms-import-row">
           <textarea id="ms-in" rows="1" spellcheck="false" placeholder="e.g. CC(=O)Oc1ccccc1C(=O)O  or  paracetamol"></textarea>
           <button type="button" class="pill active" id="ms-load">Load</button>
+          <button type="button" class="pill" id="ms-open">Open file</button>
         </div>
         <div id="ms-load-status" class="ms-status"></div>
+        <div class="ms-tip">Tip: copy a structure as SMILES or MOL text (ChemDraw: Edit \u2192 Copy As), then press <b>Ctrl+V</b> anywhere on this page \u2014 or drop a .mol / .sdf / .smi file onto the drawing area.</div>
       </div>
 
       <div id="ms-frag-note" class="ms-note" hidden></div>
@@ -338,14 +340,13 @@
     const raw = $("ms-in").value;
     const text = raw.trim();
     if (!text) { status("Paste SMILES / a molfile or type a name first.", "err"); return; }
-    const OCL = window.OCL;
-    // 1. Molfile
-    if (/M\s+END/.test(raw) || /V2000|V3000/.test(raw)) {
-      try { const m = OCL.Molecule.fromMolfile(raw); if (!m.getAllAtoms()) throw 0; setMolecule(m); status("Loaded molfile.", "ok"); return; }
-      catch (e) { status("Could not read that molfile.", "err"); return; }
-    }
-    // 2. SMILES (single token, no spaces)
-    if (!/\s/.test(text)) {
+    // 1. Molfile / SD file / SMILES / reaction SMILES (shared parser)
+    const P = window.PCEStructPaste;
+    if (P) {
+      const res = P.parseText(raw);
+      if (res) { applyParsed(res); return; }
+      if (/M\s+END/.test(raw) || /V2000|V3000|\$RXN/.test(raw)) { status("Could not read that molfile.", "err"); return; }
+    } else if (!/\s/.test(text)) {
       try { setMolecule(fromSmilesSafe(text)); status("Loaded SMILES.", "ok"); return; } catch (e) { /* fall through to name */ }
     }
     // 3. Name via PubChem
@@ -360,6 +361,18 @@
       if (e && e.status === 404) status(`Not a valid SMILES, and PubChem has no compound named “${text}”.`, "err");
       else status("Not a valid SMILES, and PubChem could not be reached for a name search. Check your connection.", "err");
     }
+  }
+
+  // Result from the shared paste/drop parser
+  function applyParsed(res) {
+    if (res.type === "rxn") {
+      status("That's a reaction, not a single structure \u2014 paste it into the Reaction Builder (Molecules \u2192 Reaction Builder).", "err");
+      return;
+    }
+    const m = res.mol;
+    if (!/Molfile|SD file/.test(res.note)) m.inventCoordinates();
+    setMolecule(m);
+    status(`Loaded: ${res.note}.`, "ok");
   }
 
   async function pubchemLookup() {
@@ -490,6 +503,13 @@
     $("ms-in").addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey && !/\n/.test($("ms-in").value)) { e.preventDefault(); loadFromInput(); }
     });
+    // Paste anywhere / drop files / open file
+    if (window.PCEStructPaste) {
+      const onErr = (msg) => status(msg, "err");
+      window.PCEStructPaste.attach({ dropTarget: document.querySelector(".ms-editor-wrap"), onResult: applyParsed, onError: onErr });
+      const pick = window.PCEStructPaste.filePicker(applyParsed, onErr);
+      $("ms-open").addEventListener("click", pick);
+    } else { $("ms-open").hidden = true; }
     // Grow textarea when a molfile is pasted
     $("ms-in").addEventListener("input", (e) => { e.target.rows = /\n/.test(e.target.value) ? 6 : 1; });
   }

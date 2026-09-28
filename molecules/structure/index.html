@@ -31,6 +31,11 @@ breadcrumbs:
   .ms-import-row { display: flex; gap: 8px; margin-top: 6px; align-items: stretch; }
   .ms-import-row textarea { flex: 1; min-width: 0; padding: 10px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); font-family: var(--f-mono); font-size: 0.9rem; resize: vertical; min-height: 42px; }
   .ms-import-row .pill { padding: 10px 20px; }
+  .ms-tip { font-size: 0.76rem; color: var(--muted); font-family: var(--f-sans); margin-top: 2px; line-height: 1.45; }
+  .ms-tip b { color: var(--paper); }
+  .ms-editor-wrap { position: relative; }
+  .pce-drop-active { outline: 3px dashed var(--brass); outline-offset: -3px; }
+  .pce-drop-active::after { content: "Drop .mol / .sdf / .smi file"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(11,22,34,0.75); color: var(--brass); font-family: var(--f-sans); font-weight: 600; pointer-events: none; }
   .ms-status { font-size: 0.78rem; margin-top: 6px; min-height: 1.2em; font-family: var(--f-sans); }
   .ms-note { margin-top: 14px; padding: 10px 14px; border-left: 3px solid var(--brass); background: var(--bg-deep); color: var(--paper); font-size: 0.85rem; font-family: var(--f-sans); }
   .ms-h { font-family: var(--f-display); color: var(--paper); font-size: 1.15rem; letter-spacing: 0.02em; margin: 28px 0 10px; }
@@ -80,6 +85,7 @@ breadcrumbs:
   <div class="plate" id="calc-mount"></div>
 </div>
 
+<script src="{{ '/assets/js/structure-paste.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/molecule-studio.js' | relative_url }}"></script>
 
 <div class="container article-body" style="margin-top:24px;">

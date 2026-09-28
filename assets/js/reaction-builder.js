@@ -165,30 +165,58 @@
     return { smiles: smi, title: p.Title || name, cid: p.CID };
   }
 
-  async function resolve(c, text) {
-    text = (text || "").trim();
+  async function resolve(c, rawText) {
+    // keep the raw text for the parser: a molfile's first (title) line may be blank
+    const raw = rawText || "";
+    let text = raw.trim();
     if (!text) return;
     c.status = "busy"; c.msg = ""; render();
-    const OCL = window.OCL;
     try {
-      if (/M\s+END/.test(text) || /V2000|V3000/.test(text)) {
-        const m = OCL.Molecule.fromMolfile(text);
-        if (!m.getAllAtoms()) throw new Error("empty");
-        setStructure(c, m.toIsomericSmiles(), "Molfile");
-        return;
-      }
-      if (!/\s/.test(text)) {
-        try { molFromSmiles(text); setStructure(c, text, "SMILES"); if (!c.label) c.label = ""; return; } catch (e) { /* not SMILES: try name */ }
-      }
+      const P = window.PCEStructPaste;
+      const res = P ? P.parseText(raw) : null;
+      if (res) { applyToComp(c, res); return; }
+      if (/M\s+END/.test(text) || /V2000|V3000|\$RXN/.test(text)) throw new Error("Couldn't read that molfile.");
       const p = await pubchemSmilesByName(text);
       if (!c.label) c.label = text;
       setStructure(c, p.smiles, `PubChem CID ${p.cid}`, p.cid);
     } catch (e) {
       c.status = "err";
-      c.msg = e && e.status === 404 ? `PubChem has no compound named “${text}”. Try another name, paste SMILES, or draw it.`
+      c.msg = e && /molfile/.test(e.message || "") ? e.message : e && e.status === 404 ? `PubChem has no compound named “${text}”. Try another name, paste SMILES, or draw it.`
         : `Not a valid SMILES, and PubChem couldn't be reached for a name search. Paste SMILES or draw the structure.`;
       render();
     }
+  }
+
+  // ---- paste / drop / file import ----
+  function applyToComp(c, res) {
+    if (res.type === "rxn") { importReaction(res); return; }
+    let smi = "";
+    try { smi = res.mol.toIsomericSmiles(); } catch (e) { smi = res.mol.toSmiles(); }
+    c.pending = "";
+    setStructure(c, smi, res.note.replace(/^Pasted /, ""));
+  }
+  function importReaction(res) {
+    const hasData = comps.some((c) => c.smiles);
+    if (hasData && !window.confirm("Replace the current reaction with the imported one?")) return;
+    comps = []; nextId = 1;
+    const push = (role, m, i) => {
+      let smi = ""; try { smi = m.toIsomericSmiles(); } catch (e) { smi = m.toSmiles(); }
+      comps.push({ id: nextId++, role, kind: role === "P" && i > 0 ? "by" : "main", label: "", smiles: smi, source: res.note.replace(/^Pasted /, ""), coeff: 1, purity: 100, density: "", status: "ok" });
+    };
+    res.reactants.forEach((m, i) => push("R", m, i));
+    res.products.forEach((m, i) => push("P", m, i));
+    basisId = comps.length ? comps[0].id : null;
+    save(); render();
+    pageMsg(`Imported ${res.reactants.length} reactant(s) and ${res.products.length} product(s) from ${res.note.replace(/^Pasted /, "")}. Check coefficients (or use Auto-balance) and mark by-products.`, "ok");
+  }
+  // Where a single pasted/dropped structure goes: the last card you clicked, else the first empty card, else a new reactant
+  let activeId = null;
+  function targetComp() {
+    return byId(activeId) || comps.find((c) => !c.smiles) || (add("R"), comps[comps.length - 1]);
+  }
+  function pageMsg(text, kind) {
+    const el = $("rb-page-msg"); if (!el) return;
+    el.textContent = text; el.className = "rb-msg " + (kind === "err" ? "rb-err" : kind === "ok" ? "rb-okm" : "");
   }
 
   function setStructure(c, smiles, source, cid) {
@@ -247,7 +275,12 @@
     const R = comps.filter((c) => c.role === "R"), P = comps.filter((c) => c.role === "P");
     $("rb-reactants").innerHTML = R.map(compCard).join("");
     $("rb-products").innerHTML = P.map(compCard).join("");
+    markActive();
     renderResults();
+  }
+
+  function markActive() {
+    document.querySelectorAll(".rb-card").forEach((el) => el.classList.toggle("rb-active", +el.dataset.id === activeId));
   }
 
   function renderResults() {
@@ -402,6 +435,11 @@
     return `
       ${typeof plateHeader === "function" ? plateHeader("PharmaChemE Reaction Builder", "EQUATION — BALANCE — STOICHIOMETRY") : ""}
       <p class="rb-intro">Add each reactant and product one at a time: type a <b>name</b> (looked up on PubChem), paste <b>SMILES</b>, or <b>draw</b> the structure. Give it a label if it has no common name (e.g. KSM-1, Intermediate B).</p>
+      <div class="rb-import">
+        <div class="rb-import-row"><input type="text" id="rb-rxn-in" placeholder="Or import a whole reaction: paste reaction SMILES, e.g. CC(=O)O.OCC>>CCOC(C)=O.O" spellcheck="false"><button type="button" class="pill" id="rb-rxn-go">Import</button><button type="button" class="pill" id="rb-rxn-file">Open file</button></div>
+        <div class="rb-small">Paste shortcuts: press <b>Ctrl+V</b> anywhere on the page with SMILES or MOL text copied (ChemDraw: Edit \u2192 Copy As) \u2014 it goes into the component you last clicked. A reaction SMILES or .rxn file fills the whole reaction. You can also drop a .mol / .sdf / .rxn file onto a component card.</div>
+        <div id="rb-page-msg" class="rb-msg"></div>
+      </div>
       <div class="rb-cols">
         <section><div class="rb-col-head"><h3>Reactants</h3><button type="button" class="pill active" data-rb-add="R">+ Add reactant</button></div><div id="rb-reactants" class="rb-list"></div></section>
         <div class="rb-arrow" aria-hidden="true">→</div>
@@ -496,6 +534,44 @@
       if (t.dataset.rbCoeff || t.dataset.rbKind) render(); else renderResults();
     });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("rb-dialog").hidden) closeDraw(false); });
+
+    // Track the card the user last clicked (target for page-level paste)
+    mount.addEventListener("pointerdown", (e) => { const card = e.target.closest(".rb-card"); if (card) { activeId = +card.dataset.id; markActive(); } });
+    const P = window.PCEStructPaste;
+    if (P) {
+      const onRes = (res) => {
+        if (res.type === "rxn") { importReaction(res); return; }
+        const c = targetComp(); activeId = c.id; applyToComp(c, res); markActive();
+        pageMsg(`${res.note} \u2192 ${c.role === "R" ? "reactant" : "product"} ${comps.filter((x) => x.role === c.role).indexOf(c) + 1}.`, "ok");
+      };
+      P.attach({ onResult: onRes, onError: (m) => pageMsg(m, "err"), canPaste: () => $("rb-dialog").hidden });
+      $("rb-rxn-file").addEventListener("click", P.filePicker(onRes, (m) => pageMsg(m, "err")));
+      const doImport = () => {
+        const t = $("rb-rxn-in").value.trim(); if (!t) return;
+        const res = P.parseText(t);
+        if (res && res.type === "rxn") { importReaction(res); $("rb-rxn-in").value = ""; }
+        else pageMsg(res ? "That's a single structure \u2014 enter it in a component card (or paste it anywhere with a card selected)." : "That isn't a valid reaction SMILES (reactants>>products, components separated by dots).", "err");
+      };
+      $("rb-rxn-go").addEventListener("click", doImport);
+      $("rb-rxn-in").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); doImport(); } });
+      // Drop a file on a specific card
+      mount.addEventListener("dragover", (e) => { const card = e.target.closest(".rb-card"); if (card && e.dataTransfer && [...e.dataTransfer.types].includes("Files")) { e.preventDefault(); card.classList.add("pce-drop-active"); } });
+      mount.addEventListener("dragleave", (e) => { const card = e.target.closest(".rb-card"); if (card && !card.contains(e.relatedTarget)) card.classList.remove("pce-drop-active"); });
+      mount.addEventListener("drop", async (e) => {
+        const card = e.target.closest(".rb-card");
+        if (!card || !e.dataTransfer || !e.dataTransfer.files.length) return;
+        e.preventDefault(); card.classList.remove("pce-drop-active");
+        try { const res = await P.fromFile(e.dataTransfer.files[0]); const c = byId(card.dataset.id); activeId = c.id; applyToComp(c, res); if (res.type !== "rxn") pageMsg(`Loaded ${res.note}.`, "ok"); }
+        catch (err) { pageMsg(err.message, "err"); }
+      });
+      // Multi-line molfile pasted into a single-line name box: read it directly (inputs strip newlines)
+      mount.addEventListener("paste", (e) => {
+        const inp = e.target.closest("[data-rb-in]"); if (!inp) return;
+        const t = e.clipboardData && e.clipboardData.getData("text/plain");
+        if (t && /\n/.test(t.trim())) { e.preventDefault(); resolve(byId(inp.dataset.rbIn), t); }
+        else if (!t && e.clipboardData && [...e.clipboardData.files].some((f) => /^image\//.test(f.type))) { e.preventDefault(); pageMsg(P.IMAGE_MSG, "err"); }
+      });
+    } else { ["rb-rxn-go", "rb-rxn-file"].forEach((id) => { $(id).disabled = true; }); }
   }
 
   window.PCEReactionInit = init;
