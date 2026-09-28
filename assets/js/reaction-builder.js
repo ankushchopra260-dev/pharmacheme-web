@@ -18,6 +18,7 @@
   let yieldPct = 100;
   let drawTarget = null, drawEditor = null;
   let lastSugg = [];
+  let viewMode = "table";
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -159,7 +160,12 @@
       if (extent < limExtent - 1e-12) { limExtent = extent; limId = c.id; }
       rows.push({ c, mw, eq, kmol, pureKg, chargedKg, purity, vol, stoichEq: c.coeff / b.coeff });
     });
-    R.forEach((c) => { const r = rows.find((x) => x.c.id === c.id); r.excessKmol = r.kmol - limExtent * c.coeff; r.excessKg = r.excessKmol * r.mw; });
+    R.forEach((c) => {
+      const r = rows.find((x) => x.c.id === c.id);
+      r.excessKmol = r.kmol - limExtent * c.coeff; r.excessKg = r.excessKmol * r.mw;   // unreacted (vs limiting reagent)
+      r.reqKmol = bKmol * c.coeff / b.coeff;                                           // stoichiometric need vs basis
+      r.diffKmol = r.kmol - r.reqKmol; r.diffKg = r.diffKmol * r.mw;                  // + excess / - less
+    });
     const prodRows = P.map((c) => {
       const mw = an.get(c.id).mw;
       const kmol = limExtent * c.coeff;
@@ -334,26 +340,29 @@
     if (!R.some((c) => c.id === basisId)) basisId = R[0].id;
     const s = stoich(ready, basisId, basisAmt, basisUnit, yieldPct);
     html += `<h3 class="rb-h">Batch stoichiometry</h3>
+      <div class="pill-group rb-view"><button type="button" class="pill${viewMode === "table" ? " active" : ""}" data-rb-view="table">Table view</button><button type="button" class="pill${viewMode === "sheet" ? " active" : ""}" data-rb-view="sheet">Batch sheet view</button><button type="button" class="pill" id="rb-xlsx">Download Excel</button><span id="rb-xlsx-msg" class="rb-small"></span></div>
       <div class="rb-basis">
         <label>Basis reactant <select id="rb-basis">${R.map((c) => `<option value="${c.id}"${c.id === basisId ? " selected" : ""}>${esc(nameOf(c))}</option>`).join("")}</select></label>
         <label>Amount (pure) <input id="rb-amt" type="number" step="any" min="0" value="${basisAmt}"></label>
         <label>Unit <select id="rb-unit"><option value="kg"${basisUnit === "kg" ? " selected" : ""}>kg</option><option value="kmol"${basisUnit === "kmol" ? " selected" : ""}>kmol</option></select></label>
         <label>Main product yield % <input id="rb-yield" type="number" step="any" min="0" max="100" value="${yieldPct}"></label>
       </div>
-      <div class="rb-scroll"><table class="rb-table">
-        <thead><tr><th>Reactant</th><th>MW</th><th>Equiv.</th><th>kmol</th><th>Pure kg</th><th>Purity %</th><th>Charge kg</th><th>Density kg/L</th><th>Volume L</th></tr></thead><tbody>
+      ${viewMode === "sheet" ? sheetHTML(s) : ""}
+      <div class="rb-scroll"${viewMode === "sheet" ? " hidden" : ""}><table class="rb-table">
+        <thead><tr><th>Reactant</th><th>MW</th><th>Equiv.</th><th>kmol</th><th>Pure kg</th><th>kmol required</th><th>Excess/less kmol</th><th>Excess/less kg</th><th>Purity %</th><th>Charge kg</th><th>Density kg/L</th><th>Volume L</th></tr></thead><tbody>
         ${s.rows.map((r) => `<tr class="${r.c.id === s.limId ? "rb-lim" : ""}">
           <td>${esc(nameOf(r.c))}${r.c.id === s.limId ? ` <span class="rb-tag">limiting</span>` : ""}${r.c.id === s.basis.id ? ` <span class="rb-tag rb-tag-b">basis</span>` : ""}</td>
           <td>${f(r.mw, 2)}</td>
           <td>${r.c.id === s.basis.id ? "1.000" : `<input type="number" step="any" min="0" class="rb-cell" data-rb-eq="${r.c.id}" value="${+r.eq.toFixed(4)}">`}</td>
           <td>${f(r.kmol, 4)}</td><td>${f(r.pureKg, 2)}</td>
+          <td>${f(r.reqKmol, 4)}</td>${diffCells(r)}
           <td><input type="number" step="any" min="0" max="100" class="rb-cell" data-rb-purity="${r.c.id}" value="${r.purity}"></td>
           <td><b>${f(r.chargedKg, 2)}</b></td>
           <td><input type="number" step="any" min="0" class="rb-cell" data-rb-density="${r.c.id}" value="${r.c.density || ""}" placeholder="—"></td>
           <td>${r.vol ? f(r.vol, 1) : "—"}</td></tr>`).join("")}
         </tbody></table></div>
-      <div class="rb-small">Equiv. = moles of this reactant per mole of the basis reactant (defaults to the stoichiometric ratio). Limiting reagent = the reactant that runs out first given the equivalents charged.</div>
-      <div class="rb-scroll"><table class="rb-table" style="margin-top:12px;">
+      <div class="rb-small">Equiv. = moles of this reactant per mole of the basis reactant (defaults to the stoichiometric ratio). kmol required = stoichiometric need for the basis amount; Excess/less = charged minus required (negative = less than required). Limiting reagent = the reactant that runs out first given the equivalents charged.</div>
+      <div class="rb-scroll"${viewMode === "sheet" ? " hidden" : ""}><table class="rb-table" style="margin-top:12px;">
         <thead><tr><th>Product</th><th>Type</th><th>MW</th><th>kmol (theor.)</th><th>kg (theor.)</th><th>kg at ${f(yieldPct, 1)}% yield</th></tr></thead><tbody>
         ${s.prodRows.map((r) => `<tr><td>${esc(nameOf(r.c))}</td><td>${r.c.kind === "main" ? "Main product" : "By-product"}</td><td>${f(r.mw, 2)}</td><td>${f(r.kmol, 4)}</td><td>${f(r.kg, 2)}</td><td>${r.actualKg !== null ? `<b>${f(r.actualKg, 2)}</b>` : "—"}</td></tr>`).join("")}
         </tbody></table></div>`;
@@ -365,9 +374,212 @@
       <div class="readout rb-cell-r"><span class="lbl">In — pure reactants</span><span class="val">${f(s.inPure, 2)} kg</span><span class="rb-sub">${s.inImp > 0.005 ? `+ ${f(s.inImp, 2)} kg impurities (from purity %)` : "no impurities entered"}</span></div>
       <div class="readout rb-cell-r"><span class="lbl">Out — products + unreacted excess</span><span class="val">${f(s.outProd + s.outExcess, 2)} kg</span><span class="rb-sub">${f(s.outProd, 2)} kg products + ${f(s.outExcess, 2)} kg excess reactants</span></div>
     </div>
-    <div class="rb-small">The mass balance assumes the limiting reagent is fully converted (before yield losses). In and Out match only when the equation is balanced${eb.ok ? " — difference here: " + f(s.inPure - s.outProd - s.outExcess, 3) + " kg" : ""}.</div>`;
+    <div class="rb-small">The mass balance assumes the limiting reagent is fully converted (before yield losses). In and Out match only when the equation is balanced${eb.ok ? " — difference here: " + f(Math.abs(s.inPure - s.outProd - s.outExcess) < 0.0005 ? 0 : s.inPure - s.outProd - s.outExcess, 3) + " kg" : ""}.</div>`;
     out.innerHTML = html;
   }
+  function diffCells(r) {
+    const cls = Math.abs(r.diffKmol) < 1e-9 ? "" : r.diffKmol > 0 ? "rb-exc" : "rb-less";
+    return `<td class="${cls}">${f(r.diffKmol, 4)}</td><td class="${cls}">${f(r.diffKg, 2)}${r.diffKmol < -1e-9 ? " <span class=\"rb-tag rb-tag-less\">less</span>" : ""}</td>`;
+  }
+
+  // Batch-sheet layout: components across, quantities down (like a plant batch sheet)
+  function sheetHTML(s) {
+    const R = s.rows, P = s.prodRows;
+    const anyPur = R.some((r) => r.purity < 100);
+    const head = R.map((r, i) => `${i ? '<th class="rb-sh-op">+</th>' : ""}<th><span class="rb-sh-co">${esc(r.c.coeff)}</span> ${esc(nameOf(r.c))}</th>`).join("") +
+      `<th class="rb-sh-op">\u2192</th>` +
+      P.map((r, i) => `${i ? '<th class="rb-sh-op">+</th>' : ""}<th><span class="rb-sh-co">${esc(r.c.coeff)}</span> ${esc(nameOf(r.c))}${r.c.kind === "by" ? ' <em>by-product</em>' : ""}</th>`).join("");
+    const row = (label, rf, pf, cls) => `<tr class="${cls || ""}"><td>${label}</td>` +
+      R.map((r, i) => `${i ? "<td></td>" : ""}<td>${rf ? rf(r) : ""}</td>`).join("") + `<td></td>` +
+      P.map((r, i) => `${i ? "<td></td>" : ""}<td>${pf ? pf(r) : ""}</td>`).join("") + `</tr>`;
+    const dc = (r, v, d) => `<span class="${Math.abs(r.diffKmol) < 1e-9 ? "" : r.diffKmol > 0 ? "rb-exc" : "rb-less"}">${f(v, d)}</span>`;
+    return `<div class="rb-scroll"><table class="rb-table rb-sheet">
+      <thead><tr><th></th>${head}</tr></thead><tbody>
+      ${row("MW", (r) => f(r.mw, 3), (r) => f(r.mw, 3))}
+      ${row("Qty (kg)", (r) => `<b>${f(r.pureKg, 2)}</b>`, (r) => `<b>${f(r.kg, 2)}</b>`)}
+      ${row("Kmol", (r) => f(r.kmol, 4), (r) => f(r.kmol, 4))}
+      ${row("M Eq", (r) => f(r.eq, 2), null)}
+      ${anyPur ? row("Purity %", (r) => f(r.purity, 1), null) + row("Charge qty (kg)", (r) => f(r.chargedKg, 2), null) : ""}
+      ${row("&nbsp;", null, null, "rb-sh-gap")}
+      ${row("kmoles required", (r) => f(r.reqKmol, 4), null)}
+      ${row("Excess/less kmol", (r) => dc(r, r.diffKmol, 4), null)}
+      ${row("Excess/less kg", (r) => dc(r, r.diffKg, 2), null)}
+      ${s.main ? row(`Qty at ${f(yieldPct, 1)}% yield (kg)`, null, (r) => (r.actualKg !== null ? `<b>${f(r.actualKg, 2)}</b>` : "")) : ""}
+      </tbody></table></div>
+      <div class="rb-small">Product quantities are theoretical (full conversion of the limiting reagent: ${esc(nameOf(s.rows.find((r) => r.c.id === s.limId).c))}). Excess/less is measured against the stoichiometric need for the basis amount.</div>`;
+  }
+
+  // ---------- Excel export (ExcelJS, loaded on demand) ----------
+  const EXCELJS_URL = "https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js";
+  function loadExcelJS() {
+    if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
+    return new Promise((res, rej) => {
+      const sc = document.createElement("script");
+      sc.src = EXCELJS_URL; sc.async = true;
+      sc.onload = () => (window.ExcelJS ? res(window.ExcelJS) : rej(new Error("ExcelJS missing")));
+      sc.onerror = () => rej(new Error("load failed"));
+      document.head.appendChild(sc);
+    });
+  }
+  function equationPNG() {
+    return new Promise((resolve) => {
+      const svg = equationSVG();
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = img.naturalWidth; c.height = img.naturalHeight;
+        const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(img, 0, 0);
+        resolve({ data: c.toDataURL("image/png"), w: c.width, h: c.height });
+      };
+      img.onerror = () => resolve(null);
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    });
+  }
+  function colName(n) { let s = ""; n++; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; }
+
+  async function downloadExcel() {
+    const msg = $("rb-xlsx-msg");
+    const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles) && c.coeff > 0);
+    const s = stoich(ready, basisId, basisAmt, basisUnit, yieldPct);
+    if (!s) return;
+    msg.textContent = "Preparing Excel\u2026";
+    let ExcelJS;
+    try { ExcelJS = await loadExcelJS(); } catch (e) { msg.textContent = "Couldn't load the Excel library \u2014 check your connection and try again."; return; }
+    const wb = new ExcelJS.Workbook();
+    wb.creator = "PharmaChemE Reaction Builder";
+    const ws = wb.addWorksheet("Batch sheet", { views: [{ showGridLines: false }], pageSetup: { paperSize: 9, orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
+    const R = s.rows, P = s.prodRows;
+    // Column layout: A = labels, then reactants, arrow column, products
+    const colOf = {}; let ci = 1;
+    R.forEach((r) => { colOf[r.c.id] = ci++; });
+    const arrowCol = ci++;
+    P.forEach((r) => { colOf[r.c.id] = ci++; });
+    const lastCol = ci - 1;
+    ws.getColumn(1).width = 26;
+    for (let k = 2; k <= lastCol + 1; k++) ws.getColumn(k).width = 18;
+    ws.getColumn(arrowCol + 1).width = 6;
+    const A = (id) => colName(colOf[id]);          // column letter for a component
+    const thin = { style: "thin", color: { argb: "FF9E9E9E" } };
+
+    // Title
+    const title = (s.main ? nameOf(s.main) : "Reaction") + " \u2014 batch stoichiometry";
+    ws.mergeCells(1, 1, 1, lastCol + 1);
+    Object.assign(ws.getCell(1, 1), { value: title });
+    ws.getCell(1, 1).font = { bold: true, size: 13 };
+    ws.getCell(1, 1).alignment = { horizontal: "center" };
+    ws.getCell(1, 1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFCE4D6" } };
+    ws.getCell(1, 1).border = { top: thin, left: thin, bottom: thin, right: thin };
+
+    // Reaction scheme image
+    let r0 = 3;
+    const png = await equationPNG();
+    if (png) {
+      const id = wb.addImage({ base64: png.data, extension: "png" });
+      const maxW = Math.min(1100, 26 * 7 + lastCol * 18 * 7);
+      const sc = Math.min(1, maxW / png.w);
+      const w = png.w * sc, h = png.h * sc;
+      ws.addImage(id, { tl: { col: 0.2, row: 1.2 }, ext: { width: w, height: h } });
+      const rowsNeeded = Math.ceil(h / 20) + 1;
+      for (let k = 2; k < 2 + rowsNeeded; k++) ws.getRow(k).height = 15;
+      r0 = 2 + rowsNeeded + 1;
+    }
+
+    // Header: coefficient + name
+    const hdr = r0, rowNo = {};
+    const labels = ["Coefficient", "MW", "M Eq", "Qty (kg)", "Kmol", "Purity %", "Charge qty (kg)", "", "kmoles required", "Excess/less kmol", "Excess/less kg", "", "Limiting extent (kmol)", "Unreacted kg", "", "Yield %", "Qty at yield (kg)"];
+    ws.getCell(hdr, 1).value = "";
+    R.concat(P).forEach((r) => {
+      const cell = ws.getCell(hdr, colOf[r.c.id] + 1);
+      cell.value = nameOf(r.c) + (r.c.kind === "by" && r.c.role === "P" ? " (by-product)" : "");
+      cell.font = { bold: true }; cell.alignment = { horizontal: "center", wrapText: true };
+    });
+    ws.getCell(hdr, arrowCol + 1).value = "\u2192"; ws.getCell(hdr, arrowCol + 1).alignment = { horizontal: "center" };
+    ws.getCell(hdr, arrowCol + 1).font = { bold: true, size: 14 };
+    ws.getRow(hdr).height = 32;
+    labels.forEach((l, i) => { rowNo[l || "gap" + i] = hdr + 1 + i; ws.getCell(hdr + 1 + i, 1).value = l; if (l) ws.getCell(hdr + 1 + i, 1).font = { bold: true }; });
+    const RC = (label, id) => `${A(id)}${rowNo[label]}`;   // e.g. "B7"
+    const put = (label, id, v, fmt, input) => {
+      const cell = ws.getCell(rowNo[label], colOf[id] + 1);
+      cell.value = v;
+      if (fmt) cell.numFmt = fmt;
+      cell.alignment = { horizontal: "right" };
+      if (input) { cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFF2CC" } }; cell.font = { color: { argb: "FF1F4E79" } }; }
+    };
+    const b = s.basis, bK = RC("Kmol", b.id), bCo = RC("Coefficient", b.id);
+    // Reactants
+    R.forEach((r) => {
+      const id = r.c.id;
+      put("Coefficient", id, r.c.coeff, "0.###", true);
+      put("MW", id, r.mw, "0.000");
+      if (id === b.id) {
+        put("M Eq", id, 1, "0.00");
+        put("Qty (kg)", id, +r.pureKg.toFixed(4), "0.00", true);
+        put("Kmol", id, { formula: `${RC("Qty (kg)", id)}/${RC("MW", id)}` }, "0.0000");
+      } else {
+        put("M Eq", id, +r.eq.toFixed(4), "0.00", true);
+        put("Kmol", id, { formula: `${bK}*${RC("M Eq", id)}` }, "0.0000");
+        put("Qty (kg)", id, { formula: `${RC("Kmol", id)}*${RC("MW", id)}` }, "0.00");
+      }
+      put("Purity %", id, r.purity, "0.0", true);
+      put("Charge qty (kg)", id, { formula: `${RC("Qty (kg)", id)}/(${RC("Purity %", id)}/100)` }, "0.00");
+      put("kmoles required", id, { formula: `${bK}*${RC("Coefficient", id)}/${bCo}` }, "0.0000");
+      put("Excess/less kmol", id, { formula: `${RC("Kmol", id)}-${RC("kmoles required", id)}` }, "0.0000;[Red]-0.0000");
+      put("Excess/less kg", id, { formula: `${RC("Excess/less kmol", id)}*${RC("MW", id)}` }, "0.00;[Red]-0.00");
+      put("Unreacted kg", id, { formula: `(${RC("Kmol", id)}-$B$${rowNo["Limiting extent (kmol)"]}*${RC("Coefficient", id)})*${RC("MW", id)}` }, "0.00");
+    });
+    // Limiting extent = MIN(kmol / coefficient) over reactants
+    const extCell = ws.getCell(rowNo["Limiting extent (kmol)"], 2);
+    extCell.value = { formula: `MIN(${R.map((r) => `${RC("Kmol", r.c.id)}/${RC("Coefficient", r.c.id)}`).join(",")})` };
+    extCell.numFmt = "0.0000"; extCell.alignment = { horizontal: "right" };
+    const ext = `$B$${rowNo["Limiting extent (kmol)"]}`;
+    // Products
+    P.forEach((r) => {
+      const id = r.c.id;
+      put("Coefficient", id, r.c.coeff, "0.###", true);
+      put("MW", id, r.mw, "0.000");
+      put("Kmol", id, { formula: `${ext}*${RC("Coefficient", id)}` }, "0.0000");
+      put("Qty (kg)", id, { formula: `${RC("Kmol", id)}*${RC("MW", id)}` }, "0.00");
+      if (r.c.kind === "main") {
+        put("Yield %", id, yieldPct, "0.0", true);
+        put("Qty at yield (kg)", id, { formula: `${RC("Qty (kg)", id)}*${RC("Yield %", id)}/100` }, "0.00");
+      }
+    });
+    // Borders on the table block
+    for (let rr = hdr; rr <= hdr + labels.length; rr++) for (let cc = 1; cc <= lastCol + 1; cc++) {
+      const cell = ws.getCell(rr, cc);
+      cell.border = { top: rr === hdr ? thin : undefined, bottom: thin, left: cc === 1 ? thin : undefined, right: cc === lastCol + 1 ? thin : undefined };
+    }
+    // Mass balance
+    let mb = hdr + labels.length + 2;
+    const sumR = R.map((r) => RC("Qty (kg)", r.c.id)).join(",");
+    const sumU = R.map((r) => RC("Unreacted kg", r.c.id)).join(",");
+    const sumP = P.map((r) => RC("Qty (kg)", r.c.id)).join(",");
+    const mbRows = [
+      ["Mass balance (theoretical)", null],
+      ["In \u2014 pure reactants (kg)", `SUM(${sumR})`],
+      ["Out \u2014 products (kg)", `SUM(${sumP})`],
+      ["Out \u2014 unreacted excess (kg)", `SUM(${sumU})`],
+      ["Difference In \u2212 Out (kg)", `B${mb + 1}-B${mb + 2}-B${mb + 3}`],
+    ];
+    mbRows.forEach(([l, fml], i) => {
+      ws.getCell(mb + i, 1).value = l; ws.getCell(mb + i, 1).font = { bold: true };
+      if (fml) { const c = ws.getCell(mb + i, 2); c.value = { formula: fml }; c.numFmt = "0.00"; }
+    });
+    const nt = mb + mbRows.length + 1;
+    ws.getCell(nt, 1).value = "Yellow cells are inputs \u2014 change them and the sheet recalculates. Product quantities assume full conversion of the limiting reagent.";
+    ws.getCell(nt, 1).font = { italic: true, color: { argb: "FF666666" } };
+    ws.getCell(nt + 1, 1).value = `Generated by PharmaChemE Reaction Builder (pharmacheme.in) on ${new Date().toISOString().slice(0, 10)}. Equation: ${ready.filter((c) => c.role === "R").map((c) => (c.coeff !== 1 ? c.coeff + " " : "") + analyze(c.smiles).formula).join(" + ")} \u2192 ${ready.filter((c) => c.role === "P").map((c) => (c.coeff !== 1 ? c.coeff + " " : "") + analyze(c.smiles).formula).join(" + ")}`;
+    ws.getCell(nt + 1, 1).font = { color: { argb: "FF666666" }, size: 9 };
+
+    const buf = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = (s.main ? nameOf(s.main) : "reaction").replace(/[^A-Za-z0-9-]+/g, "_").slice(0, 60) + "_batch_sheet.xlsx";
+    document.body.appendChild(a); a.click(); a.remove();
+    msg.textContent = "";
+  }
+
   function fracDigits(v) { return Math.abs(v - Math.round(v)) < 1e-9 ? 0 : 2; }
 
   // ---------------------------------------------------------------
@@ -406,13 +618,13 @@
   }
 
   function stateObj() {
-    return { v: 1, c: comps.map((c) => ({ r: c.role, k: c.kind, l: c.label, s: c.smiles, o: c.source, i: c.cid, n: c.coeff, e: c.eq, p: c.purity, d: c.density })), b: comps.findIndex((c) => c.id === basisId), a: basisAmt, u: basisUnit, y: yieldPct };
+    return { v: 1, c: comps.map((c) => ({ r: c.role, k: c.kind, l: c.label, s: c.smiles, o: c.source, i: c.cid, n: c.coeff, e: c.eq, p: c.purity, d: c.density })), b: comps.findIndex((c) => c.id === basisId), a: basisAmt, u: basisUnit, y: yieldPct, vm: viewMode };
   }
   function loadState(o) {
     if (!o || !Array.isArray(o.c)) return false;
     comps = o.c.map((x) => ({ id: nextId++, role: x.r === "P" ? "P" : "R", kind: x.k === "by" ? "by" : "main", label: x.l || "", smiles: x.s || "", source: x.o || "", cid: x.i || null, coeff: num(x.n, 1), eq: x.e, purity: num(x.p, 100), density: x.d || "", status: x.s ? "ok" : "" }));
     basisId = comps[o.b] ? comps[o.b].id : null;
-    basisAmt = num(o.a, 100); basisUnit = o.u === "kmol" ? "kmol" : "kg"; yieldPct = num(o.y, 100);
+    basisAmt = num(o.a, 100); basisUnit = o.u === "kmol" ? "kmol" : "kg"; yieldPct = num(o.y, 100); viewMode = o.vm === "sheet" ? "sheet" : "table";
     return true;
   }
   function save() {
@@ -507,6 +719,8 @@
 
     mount.addEventListener("click", (e) => {
       const t = e.target;
+      const vw = t.closest("[data-rb-view]"); if (vw) { viewMode = vw.dataset.rbView; save(); renderResults(); return; }
+      if (t.id === "rb-xlsx") { downloadExcel(); return; }
       const sg = t.closest("[data-rb-sugg]");
       if (sg) {
         const g = lastSugg[+sg.dataset.rbSugg]; if (!g) return;
