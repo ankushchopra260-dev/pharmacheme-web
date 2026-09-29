@@ -12,7 +12,7 @@ const BT_SCENARIOS = [
   {
     tag: "R-102", title: "Cooling not responding as commanded", reactorLabel: "R-102",
     recipe: { product: "Product-B", batch: "1,500 kg", reactor: "R-102", step: "Exothermic hold at temperature", target: "74\u00b0C" },
-    narrative: "R-102 was holding fine, but temperature has drifted up to 88\u00b0C \u2014 the cooling setpoint is already up, but actual flow isn't following.",
+    narrative: "R-102 was holding fine, but temperature has drifted up to 88\u00b0C: the cooling setpoint is already up, but actual flow isn't following.",
     metric: { label: "Batch Temp", unit: "\u00b0C", band: [70, 78] },
     ctrlA: { label: "Cooling Source", states: ["MAIN CW", "CHILLED W."] },
     ctrlB: { label: "Cooling Valve", states: ["NORMAL", "WIDE OPEN"] },
@@ -22,7 +22,7 @@ const BT_SCENARIOS = [
   {
     tag: "R-101", title: "Batch temperature quietly drifting down", reactorLabel: "R-101",
     recipe: { product: "Product-A", batch: "2,000 kg", reactor: "R-101", step: "Reagent addition hold", target: "75\u00b0C" },
-    narrative: "Feed setpoint hasn't changed, but temperature has drifted down to 64\u00b0C \u2014 actual feed flow reads far below setpoint.",
+    narrative: "Feed setpoint hasn't changed, but temperature has drifted down to 64\u00b0C: actual feed flow reads far below setpoint.",
     metric: { label: "Batch Temp", unit: "\u00b0C", band: [72, 78] },
     ctrlA: { label: "Suction Strainer", states: ["BLOCKED", "CLEARED"] },
     ctrlB: { label: "Feed Valve", states: ["NORMAL", "WIDE OPEN"] },
@@ -52,7 +52,7 @@ const BT_SCENARIOS = [
   {
     tag: "R-104", title: "Vessel level rising unexpectedly", reactorLabel: "R-104",
     recipe: { product: "Product-D", batch: "2,200 kg", reactor: "R-104", step: "Gas-evolving addition under agitation", target: "70\u00b0C" },
-    narrative: "Level has climbed faster than the material balance explains \u2014 work out whether that's really liquid before cutting the batch short.",
+    narrative: "Level has climbed faster than the material balance explains. Work out whether that's really liquid before cutting the batch short.",
     metric: { label: "Level (apparent)", unit: "%", band: [45, 76] },
     ctrlA: { label: "Agitator Speed", states: ["NORMAL", "REDUCED"] },
     ctrlB: { label: "Antifoam", states: ["OFF", "ADDED"] },
@@ -72,7 +72,7 @@ const BT_SCENARIOS = [
   {
     tag: "R-104", title: "pH overshooting during neutralization", reactorLabel: "R-104",
     recipe: { product: "Product-D", batch: "2,200 kg", reactor: "R-104", step: "Semi-batch caustic neutralization", target: "pH 7" },
-    narrative: "pH has already passed 7 and is climbing toward 9.4 \u2014 mixing hasn't caught up with the last few additions yet.",
+    narrative: "pH has already passed 7 and is climbing toward 9.4: mixing hasn't caught up with the last few additions yet.",
     metric: { label: "Batch pH", unit: "", band: [6.8, 7.6] },
     ctrlA: { label: "Caustic Valve", states: ["OPEN", "CLOSED"] },
     ctrlB: { label: "Dose Rate", states: ["FULL", "REDUCED"] },
@@ -92,7 +92,7 @@ const BT_SCENARIOS = [
   {
     tag: "CF-1", title: "Centrifuge cake not drying as expected", reactorLabel: "CF-1",
     recipe: { product: "Product-A", batch: "1,200 kg", reactor: "CF-1", step: "Batch centrifugation", target: "Cake moisture <2%" },
-    narrative: "Spin cycle finished on schedule, but the discharged cake still tests wet \u2014 moisture is coming in high.",
+    narrative: "Spin cycle finished on schedule, but the discharged cake still tests wet: moisture is coming in high.",
     metric: { label: "Cake Moisture", unit: "%", band: [0.5, 2.0] },
     ctrlA: { label: "Spin Speed", states: ["NORMAL", "INCREASED"] },
     ctrlB: { label: "Spin Time", states: ["STANDARD", "EXTENDED"] },
@@ -102,7 +102,7 @@ const BT_SCENARIOS = [
   {
     tag: "P-201", title: "Pump discharge pressure dropping off", reactorLabel: "P-201",
     recipe: { product: "Product-B", batch: "1,500 kg", reactor: "P-201", step: "Transfer to day tank", target: "4.5 barg" },
-    narrative: "Discharge pressure has fallen from 4.5 to 1.8 barg over the last few minutes with flow now unsteady \u2014 suction looks suspect.",
+    narrative: "Discharge pressure has fallen from 4.5 to 1.8 barg over the last few minutes with flow now unsteady: suction looks suspect.",
     metric: { label: "Discharge Pressure", unit: " barg", band: [4.0, 5.0] },
     ctrlA: { label: "Suction Valve", states: ["PARTIALLY OPEN", "FULL OPEN"] },
     ctrlB: { label: "Suction Strainer", states: ["FOULED", "CLEARED"] },
@@ -112,7 +112,7 @@ const BT_SCENARIOS = [
   {
     tag: "SR-1", title: "Solvent recovery yield falling short", reactorLabel: "SR-1",
     recipe: { product: "Product-C", batch: "1,800 kg", reactor: "SR-1", step: "Batch solvent recovery", target: ">92% recovery" },
-    narrative: "Recovery is tracking well below the usual yield for this solvent \u2014 condensate collection has slowed even though the still is boiling hard.",
+    narrative: "Recovery is tracking well below the usual yield for this solvent: condensate collection has slowed even though the still is boiling hard.",
     metric: { label: "Recovery Yield", unit: "%", band: [88, 98] },
     ctrlA: { label: "Condenser Cooling", states: ["NORMAL", "INCREASED"] },
     ctrlB: { label: "Reflux / Takeoff Ratio", states: ["AS-SET", "ADJUSTED"] },
@@ -122,7 +122,7 @@ const BT_SCENARIOS = [
   {
     tag: "HX-3", title: "Heat exchanger duty falling off", reactorLabel: "HX-3",
     recipe: { product: "Product-D", batch: "2,200 kg", reactor: "HX-3", step: "Batch cool-down via external HX", target: "Outlet 30\u00b0C in 45 min" },
-    narrative: "This exchanger usually cools the batch in under 45 minutes; today it's barely moving after an hour \u2014 approach temperature has widened a lot.",
+    narrative: "This exchanger usually cools the batch in under 45 minutes; today it's barely moving after an hour: approach temperature has widened a lot.",
     metric: { label: "Outlet Temp", unit: "\u00b0C", band: [28, 34] },
     ctrlA: { label: "CW Flow", states: ["NORMAL", "INCREASED"] },
     ctrlB: { label: "Exchanger Side", states: ["FOULED SIDE", "CLEANED SIDE"] },
@@ -132,7 +132,7 @@ const BT_SCENARIOS = [
   {
     tag: "R-105", title: "Reaction not progressing as expected", reactorLabel: "R-105",
     recipe: { product: "Product-A", batch: "2,000 kg", reactor: "R-105", step: "Reaction hold post-catalyst charge", target: "Exotherm onset within 20 min" },
-    narrative: "Catalyst was charged 25 minutes ago and the batch still hasn't shown the expected exotherm \u2014 temperature is flat.",
+    narrative: "Catalyst was charged 25 minutes ago and the batch still hasn't shown the expected exotherm: temperature is flat.",
     metric: { label: "Temp Rise Rate", unit: "\u00b0C/hr", band: [8, 20] },
     ctrlA: { label: "Agitation", states: ["LOW", "NORMAL"] },
     ctrlB: { label: "Catalyst Charge", states: ["SINGLE DOSE", "RE-DOSED"] },
@@ -152,7 +152,7 @@ const BT_SCENARIOS = [
   {
     tag: "R-106", title: "Jacket showing an uneven hot spot", reactorLabel: "R-106",
     recipe: { product: "Product-C", batch: "1,800 kg", reactor: "R-106", step: "Jacket heating ramp", target: "Uniform ramp to 85\u00b0C" },
-    narrative: "Jacket inlet reads on-spec, but the vessel wall thermocouple near the bottom nozzle is running well above batch temperature \u2014 risk of local scorching.",
+    narrative: "Jacket inlet reads on-spec, but the vessel wall thermocouple near the bottom nozzle is running well above batch temperature: risk of local scorching.",
     metric: { label: "Wall \u0394T", unit: "\u00b0C", band: [0, 8] },
     ctrlA: { label: "Jacket Flow", states: ["LOW", "INCREASED"] },
     ctrlB: { label: "Agitator Speed", states: ["NORMAL", "INCREASED"] },
@@ -162,7 +162,7 @@ const BT_SCENARIOS = [
   {
     tag: "CR-1", title: "Crystallizer not hitting target crystal size", reactorLabel: "CR-1",
     recipe: { product: "Product-A", batch: "2,000 kg", reactor: "CR-1", step: "Controlled cooling crystallization", target: "D50 80\u2013120 microns" },
-    narrative: "Cooling finished on the standard ramp, but the slurry sample shows very fine crystals \u2014 nucleation looks like it ran away early.",
+    narrative: "Cooling finished on the standard ramp, but the slurry sample shows very fine crystals: nucleation looks like it ran away early.",
     metric: { label: "Mean Crystal Size (D50)", unit: " microns", band: [80, 120] },
     ctrlA: { label: "Cooling Rate", states: ["FAST", "SLOW"] },
     ctrlB: { label: "Seeding", states: ["NONE", "SEEDED"] },
@@ -192,7 +192,7 @@ const BT_SCENARIOS = [
   {
     tag: "CW-1", title: "Chilled water supply running warm", reactorLabel: "CW-1",
     recipe: { product: "Plant Utility", batch: "N/A", reactor: "CW-1", step: "Plant chilled water loop", target: "Supply 7\u201310\u00b0C" },
-    narrative: "Several users are complaining of poor cooling \u2014 the chilled water supply header itself is reading warmer than usual.",
+    narrative: "Several users are complaining of poor cooling: the chilled water supply header itself is reading warmer than usual.",
     metric: { label: "CW Supply Temp", unit: "\u00b0C", band: [7, 10] },
     ctrlA: { label: "Chiller Loading", states: ["ONE UNIT", "BOTH UNITS"] },
     ctrlB: { label: "Cooling Tower Fans", states: ["NORMAL", "MAX"] },
@@ -202,7 +202,7 @@ const BT_SCENARIOS = [
   {
     tag: "IA-1", title: "Instrument air header pressure sagging", reactorLabel: "IA-1",
     recipe: { product: "Plant Utility", batch: "N/A", reactor: "IA-1", step: "Plant instrument air supply", target: "6.0\u20137.0 barg" },
-    narrative: "Several control valves are hunting and not reaching full stroke \u2014 the instrument air header pressure has sagged.",
+    narrative: "Several control valves are hunting and not reaching full stroke: the instrument air header pressure has sagged.",
     metric: { label: "IA Header Pressure", unit: " barg", band: [6.0, 7.0] },
     ctrlA: { label: "Standby Compressor", states: ["OFF", "ON"] },
     ctrlB: { label: "Air Dryer", states: ["BYPASSED", "IN SERVICE"] },

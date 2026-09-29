@@ -86,7 +86,7 @@
       pivCols.push(col); r++;
     }
     const free = [...Array(n).keys()].filter((c) => !pivCols.includes(c));
-    if (free.length === 0) return { error: "These components can't be balanced as written — check that no reactant or product is missing." };
+    if (free.length === 0) return { error: "These components can't be balanced as written. Check that no reactant or product is missing." };
     if (free.length > 1) return { error: "More than one independent way to balance this set (it may be two reactions combined). Enter the coefficients manually." };
     const fc = free[0];
     const x = Array(n).fill(null);
@@ -95,7 +95,7 @@
     const lcm = x.reduce((l, v) => (l * v[1]) / gcd(l, v[1]), 1);
     let ints = x.map((v) => (v[0] * lcm) / v[1]);
     if (ints.every((v) => v <= 0)) ints = ints.map((v) => -v);
-    if (!ints.every((v) => v > 0)) return { error: "No balance with all components taking part — one of them may not belong in this reaction." };
+    if (!ints.every((v) => v > 0)) return { error: "No balance with all components taking part. One of them may not belong in this reaction." };
     const g = ints.reduce((a, b) => gcd(a, b));
     return { coeffs: ints.map((v) => v / g) };
   }
@@ -334,7 +334,7 @@
       ${eb.rows.map((r) => { const d = r.right - r.left; return `<tr><td>${esc(r.el)}</td><td>${f(r.left, fracDigits(r.left))}</td><td>${f(r.right, fracDigits(r.right))}</td><td class="${Math.abs(d) < 1e-9 ? "rb-okc" : "rb-badc"}">${Math.abs(d) < 1e-9 ? "✓" : (d > 0 ? "+" : "") + f(d, fracDigits(d))}</td></tr>`; }).join("")}
       ${eb.chargeL || eb.chargeR ? `<tr><td>Charge</td><td>${eb.chargeL}</td><td>${eb.chargeR}</td><td class="${eb.chargeL === eb.chargeR ? "rb-okc" : "rb-badc"}">${eb.chargeL === eb.chargeR ? "✓" : eb.chargeR - eb.chargeL}</td></tr>` : ""}
       </tbody></table></div>
-      ${eb.ok ? "" : `<div class="rb-note">A positive difference means the products have more of that element than the reactants. Check the coefficients, or whether a reactant, product or by-product is missing — or use Auto-balance.</div>`}`;
+      ${eb.ok ? "" : `<div class="rb-note">A positive difference means the products have more of that element than the reactants. Check the coefficients, or whether a reactant, product or by-product is missing, or use Auto-balance.</div>`}`;
 
     // Stoichiometry
     if (!R.some((c) => c.id === basisId)) basisId = R[0].id;
@@ -371,10 +371,10 @@
     const mainCount = P.filter((c) => c.kind === "main").length;
     html += `<h3 class="rb-h">Metrics &amp; theoretical mass balance</h3><div class="rb-grid">
       <div class="readout rb-cell-r"><span class="lbl">Atom economy</span><span class="val">${s.atomEcon !== null ? f(s.atomEcon, 1) + "%" : "—"}</span><span class="rb-sub">${mainCount === 1 ? "main product MW × coeff ÷ Σ reactant MW × coeff" : mainCount === 0 ? "mark one product as the main product" : "uses the first main product"}</span></div>
-      <div class="readout rb-cell-r"><span class="lbl">In — pure reactants</span><span class="val">${f(s.inPure, 2)} kg</span><span class="rb-sub">${s.inImp > 0.005 ? `+ ${f(s.inImp, 2)} kg impurities (from purity %)` : "no impurities entered"}</span></div>
-      <div class="readout rb-cell-r"><span class="lbl">Out — products + unreacted excess</span><span class="val">${f(s.outProd + s.outExcess, 2)} kg</span><span class="rb-sub">${f(s.outProd, 2)} kg products + ${f(s.outExcess, 2)} kg excess reactants</span></div>
+      <div class="readout rb-cell-r"><span class="lbl">In: pure reactants</span><span class="val">${f(s.inPure, 2)} kg</span><span class="rb-sub">${s.inImp > 0.005 ? `+ ${f(s.inImp, 2)} kg impurities (from purity %)` : "no impurities entered"}</span></div>
+      <div class="readout rb-cell-r"><span class="lbl">Out: products + unreacted excess</span><span class="val">${f(s.outProd + s.outExcess, 2)} kg</span><span class="rb-sub">${f(s.outProd, 2)} kg products + ${f(s.outExcess, 2)} kg excess reactants</span></div>
     </div>
-    <div class="rb-small">The mass balance assumes the limiting reagent is fully converted (before yield losses). In and Out match only when the equation is balanced${eb.ok ? " — difference here: " + f(Math.abs(s.inPure - s.outProd - s.outExcess) < 0.0005 ? 0 : s.inPure - s.outProd - s.outExcess, 3) + " kg" : ""}.</div>`;
+    <div class="rb-small">The mass balance assumes the limiting reagent is fully converted (before yield losses). In and Out match only when the equation is balanced${eb.ok ? ", difference here: " + f(Math.abs(s.inPure - s.outProd - s.outExcess) < 0.0005 ? 0 : s.inPure - s.outProd - s.outExcess, 3) + " kg" : ""}.</div>`;
     out.innerHTML = html;
   }
   function diffCells(r) {
@@ -444,7 +444,7 @@
     if (!s) return;
     msg.textContent = "Preparing Excel\u2026";
     let ExcelJS;
-    try { ExcelJS = await loadExcelJS(); } catch (e) { msg.textContent = "Couldn't load the Excel library \u2014 check your connection and try again."; return; }
+    try { ExcelJS = await loadExcelJS(); } catch (e) { msg.textContent = "Couldn't load the Excel library. Check your connection and try again."; return; }
     const wb = new ExcelJS.Workbook();
     wb.creator = "PharmaChemE Reaction Builder";
     const ws = wb.addWorksheet("Batch sheet", { views: [{ showGridLines: false }], pageSetup: { paperSize: 9, orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
@@ -462,7 +462,7 @@
     const thin = { style: "thin", color: { argb: "FF9E9E9E" } };
 
     // Title
-    const title = (s.main ? nameOf(s.main) : "Reaction") + " \u2014 batch stoichiometry";
+    const title = (s.main ? nameOf(s.main) : "Reaction") + ": batch stoichiometry";
     ws.mergeCells(1, 1, 1, lastCol + 1);
     Object.assign(ws.getCell(1, 1), { value: title });
     ws.getCell(1, 1).font = { bold: true, size: 13 };
@@ -556,9 +556,9 @@
     const sumP = P.map((r) => RC("Qty (kg)", r.c.id)).join(",");
     const mbRows = [
       ["Mass balance (theoretical)", null],
-      ["In \u2014 pure reactants (kg)", `SUM(${sumR})`],
-      ["Out \u2014 products (kg)", `SUM(${sumP})`],
-      ["Out \u2014 unreacted excess (kg)", `SUM(${sumU})`],
+      ["In: pure reactants (kg)", `SUM(${sumR})`],
+      ["Out: products (kg)", `SUM(${sumP})`],
+      ["Out: unreacted excess (kg)", `SUM(${sumU})`],
       ["Difference In \u2212 Out (kg)", `B${mb + 1}-B${mb + 2}-B${mb + 3}`],
     ];
     mbRows.forEach(([l, fml], i) => {
@@ -566,7 +566,7 @@
       if (fml) { const c = ws.getCell(mb + i, 2); c.value = { formula: fml }; c.numFmt = "0.00"; }
     });
     const nt = mb + mbRows.length + 1;
-    ws.getCell(nt, 1).value = "Yellow cells are inputs \u2014 change them and the sheet recalculates. Product quantities assume full conversion of the limiting reagent.";
+    ws.getCell(nt, 1).value = "Yellow cells are inputs: change them and the sheet recalculates. Product quantities assume full conversion of the limiting reagent.";
     ws.getCell(nt, 1).font = { italic: true, color: { argb: "FF666666" } };
     ws.getCell(nt + 1, 1).value = `Generated by PharmaChemE Reaction Builder (pharmacheme.in) on ${new Date().toISOString().slice(0, 10)}. Equation: ${ready.filter((c) => c.role === "R").map((c) => (c.coeff !== 1 ? c.coeff + " " : "") + analyze(c.smiles).formula).join(" + ")} \u2192 ${ready.filter((c) => c.role === "P").map((c) => (c.coeff !== 1 ? c.coeff + " " : "") + analyze(c.smiles).formula).join(" + ")}`;
     ws.getCell(nt + 1, 1).font = { color: { argb: "FF666666" }, size: 9 };
@@ -670,11 +670,11 @@
 
   function shell() {
     return `
-      ${typeof plateHeader === "function" ? plateHeader("PharmaChemE Reaction Builder", "EQUATION — BALANCE — STOICHIOMETRY") : ""}
+      ${typeof plateHeader === "function" ? plateHeader("PharmaChemE Reaction Builder", "EQUATION · BALANCE · STOICHIOMETRY") : ""}
       <p class="rb-intro">Add each reactant and product one at a time: type a <b>name</b> (looked up on PubChem), paste <b>SMILES</b>, or <b>draw</b> the structure. Give it a label if it has no common name (e.g. KSM-1, Intermediate B).</p>
       <div class="rb-import">
         <div class="rb-import-row"><input type="text" id="rb-rxn-in" placeholder="Or import a whole reaction: paste reaction SMILES, e.g. CC(=O)O.OCC>>CCOC(C)=O.O" spellcheck="false"><button type="button" class="pill" id="rb-rxn-go">Import</button><button type="button" class="pill" id="rb-rxn-file">Open file</button></div>
-        <div class="rb-small">Paste shortcuts: press <b>Ctrl+V</b> anywhere on the page with SMILES or MOL text copied (ChemDraw: Edit \u2192 Copy As) \u2014 it goes into the component you last clicked. A reaction SMILES or .rxn file fills the whole reaction. You can also drop a .mol / .sdf / .rxn file onto a component card.</div>
+        <div class="rb-small">Paste shortcuts: press <b>Ctrl+V</b> anywhere on the page with SMILES or MOL text copied (ChemDraw: Edit \u2192 Copy As). It goes into the component you last clicked. A reaction SMILES or .rxn file fills the whole reaction. You can also drop a .mol / .sdf / .rxn file onto a component card.</div>
         <div id="rb-page-msg" class="rb-msg"></div>
       </div>
       <div class="rb-cols">
@@ -687,7 +687,7 @@
       <p class="rb-foot">Formulas and molecular weights are calculated from the structures by OpenChemLib in your browser. Names are looked up on PubChem only when you press Find with a name (that sends the name, not your structures). Stoichiometry is theoretical: it does not account for side reactions, solubility or losses beyond the yield % you enter.</p>
       <div id="rb-dialog" class="rb-dialog" hidden role="dialog" aria-modal="true" aria-label="Draw structure">
         <div class="rb-dialog-box">
-          <div class="rb-dialog-head"><b>Draw structure</b><span class="rb-small">Use the tools on the left — same editor as the Structure Builder.</span></div>
+          <div class="rb-dialog-head"><b>Draw structure</b><span class="rb-small">Use the tools on the left, same editor as the Structure Builder.</span></div>
           <div id="rb-draw-editor" class="rb-draw-editor"></div>
           <div class="pill-group" style="justify-content:flex-end; margin-top:10px;"><button type="button" class="pill" id="rb-draw-cancel">Cancel</button><button type="button" class="pill active" id="rb-draw-ok">Use this structure</button></div>
         </div>
@@ -757,8 +757,8 @@
             const box = $("rb-balance-msg");
             box.className = "rb-msg rb-err";
             box.innerHTML = esc(res.error) + (sug.length
-              ? `<div class="rb-sugg"><span>These single additions would balance it \u2014 pick one only if it fits your chemistry:</span>${sug.map((g, i) => `<button type="button" class="pill" data-rb-sugg="${i}">Add ${esc(g.name.toLowerCase())} as ${g.role === "P" ? "by-product" : "reactant"}</button>`).join("")}</div>`
-              : `<div class="rb-sugg"><span>No single common species (water, HCl, CO\u2082, NaCl, methanol\u2026) fixes it \u2014 check each structure and whether more than one component is missing.</span></div>`);
+              ? `<div class="rb-sugg"><span>These single additions would balance it. Pick one only if it fits your chemistry:</span>${sug.map((g, i) => `<button type="button" class="pill" data-rb-sugg="${i}">Add ${esc(g.name.toLowerCase())} as ${g.role === "P" ? "by-product" : "reactant"}</button>`).join("")}</div>`
+              : `<div class="rb-sugg"><span>No single common species (water, HCl, CO\u2082, NaCl, methanol\u2026) fixes it. Check each structure and whether more than one component is missing.</span></div>`);
             lastSugg = sug;
             return;
           }
@@ -810,7 +810,7 @@
         const t = $("rb-rxn-in").value.trim(); if (!t) return;
         const res = P.parseText(t);
         if (res && res.type === "rxn") { importReaction(res); $("rb-rxn-in").value = ""; }
-        else pageMsg(res ? "That's a single structure \u2014 enter it in a component card (or paste it anywhere with a card selected)." : "That isn't a valid reaction SMILES (reactants>>products, components separated by dots).", "err");
+        else pageMsg(res ? "That's a single structure. Enter it in a component card (or paste it anywhere with a card selected)." : "That isn't a valid reaction SMILES (reactants>>products, components separated by dots).", "err");
       };
       $("rb-rxn-go").addEventListener("click", doImport);
       $("rb-rxn-in").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); doImport(); } });

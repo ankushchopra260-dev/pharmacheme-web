@@ -13,7 +13,7 @@ breadcrumbs:
 </div>
 
 <div class="container section" style="padding-top:0;">
-  <p style="color:var(--muted); max-width:680px;">PharmaChemE can develop customized calculation tools, dashboards and digital engineering applications for chemical and pharmaceutical organizations. These are capabilities offered, tailored to your requirement — get in touch to discuss what you need.</p>
+  <p style="color:var(--muted); max-width:680px;">PharmaChemE can develop customized calculation tools, dashboards and digital engineering applications for chemical and pharmaceutical organizations. These are capabilities offered, tailored to your requirement. Get in touch to discuss what you need.</p>
 
   <div class="grid-cards" style="margin-top:24px;">
     <div class="service-card">
@@ -106,7 +106,7 @@ breadcrumbs:
           form.style.display = 'none';
           status.style.color = 'var(--brass)';
           status.style.fontSize = '0.95rem';
-          status.textContent = 'Thanks \u2014 your requirement has been sent. We\u2019ll get back to you by email.';
+          status.textContent = 'Thanks: your requirement has been sent. We\u2019ll get back to you by email.';
         } else {
           return response.json().then(function (data) {
             var msg = (data && data.errors && data.errors.map(function (e2) { return e2.message; }).join(', ')) || 'Something went wrong. Please try again or email pharmacheme.app@gmail.com directly.';
@@ -116,7 +116,7 @@ breadcrumbs:
         }
       }).catch(function () {
         status.style.color = 'var(--rust)';
-        status.textContent = 'Network error \u2014 please try again or email pharmacheme.app@gmail.com directly.';
+        status.textContent = 'Network error: please try again or email pharmacheme.app@gmail.com directly.';
       }).finally(function () {
         btn.disabled = false;
         btn.textContent = 'Submit Requirement';

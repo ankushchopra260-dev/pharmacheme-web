@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Stop the Hazard
-description: "A fast arcade-style process safety game — spot hazards, read live process trends, and decide what needs attention first before risk escalates."
+description: "A fast arcade-style process safety game: spot hazards, read live process trends, and decide what needs attention first before risk escalates."
 breadcrumbs:
   - label: Games
     url: /games/
@@ -42,7 +42,7 @@ breadcrumbs:
 
 <div class="container calc-page-head">
   <p style="font-size:0.85rem; color:var(--muted, #6E8CA8); margin-bottom:4px;">
-    Spot dangers before they escalate. Short rounds, real trends, no color-coded answers — you have to read the situation.
+    Spot dangers before they escalate. Short rounds, real trends, no color-coded answers: you have to read the situation.
   </p>
 </div>
 
@@ -251,7 +251,7 @@ function sceneValve() {
     { id: 'cwlabel', x: 60, y: 195, w: 200, h: 16, hazard: false,
       draw(ctx) {
         ctx.fillStyle = '#5A6B7A'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText('Reactor Utility Valves \u2014 Cooling Step', this.x + 100, this.y + 12);
+        ctx.fillText('Reactor Utility Valves: Cooling Step', this.x + 100, this.y + 12);
       } },
     { id: 'steamvalve', x: 90, y: 220, w: 34, h: 34, hazard: false,
       draw(ctx) {
@@ -278,8 +278,8 @@ function sceneValve() {
 
 const SCENES = { leak: sceneLeak, valve: sceneValve };
 const SCENE_CAPTIONS = {
-  leak: 'A cracked pipe joint was leaking process fluid near R-101. Even a small leak should be reported and isolated immediately \u2014 it can worsen quickly.',
-  valve: 'Steam was correctly closed and Chilled Water was correctly open for this cooling step \u2014 but pressure was still reading high. Correct valve lineup doesn\u2019t guarantee everything downstream is fine; always check the actual readings.',
+  leak: 'A cracked pipe joint was leaking process fluid near R-101. Even a small leak should be reported and isolated immediately; it can worsen quickly.',
+  valve: 'Steam was correctly closed and Chilled Water was correctly open for this cooling step, but pressure was still reading high. Correct valve lineup doesn\u2019t guarantee everything downstream is fine; always check the actual readings.',
 };
 let currentSceneElements = [];
 
@@ -293,7 +293,7 @@ const PRIORITY_SCENARIOS = {
       { id: 'flow', label: 'Cooling Flow', unit: '%', start: 100, rate: -2.4, dir: -1, x: 260, y: 210 },
     ],
     thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
-    explain: 'Pressure was climbing fastest toward its safe limit \u2014 early recognition here prevents escalation.',
+    explain: 'Pressure was climbing fastest toward its safe limit. Early recognition here prevents escalation.',
   },
   B: {
     params: [
@@ -303,7 +303,7 @@ const PRIORITY_SCENARIOS = {
       { id: 'flow', label: 'Cooling Flow', unit: '%', start: 100, rate: -0.3, dir: -1, x: 260, y: 210 },
     ],
     thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
-    explain: 'Temperature was rising fastest toward its limit \u2014 the other readings were barely moving.',
+    explain: 'Temperature was rising fastest toward its limit; the other readings were barely moving.',
   },
 };
 
@@ -361,7 +361,7 @@ function startRound() {
   if (state.roundIndex >= ROUNDS.length) { endGame(); return; }
   const r = ROUNDS[state.roundIndex];
   document.getElementById('round-title').textContent = 'Round ' + (state.roundIndex + 1);
-  document.getElementById('round-sub').textContent = r.type === 'hazard' ? 'Find the hazard' : 'Something is changing \u2014 what needs attention first?';
+  document.getElementById('round-sub').textContent = r.type === 'hazard' ? 'Find the hazard' : 'Something is changing. What needs attention first?';
   if (r.type === 'hazard') {
     document.getElementById('scene').style.display = 'block';
     document.getElementById('priority-game').style.display = 'none';
@@ -546,8 +546,8 @@ function endGame() {
   document.getElementById('bar-alarm').style.width = alarmPct + '%';
   document.getElementById('end-score').textContent = state.score;
   document.getElementById('end-msg').textContent = state.risk < 100
-    ? 'Shift complete \u2014 nice work spotting the danger.'
-    : 'Risk reached critical \u2014 an incident occurred. Review what you missed and try again.';
+    ? 'Shift complete, nice work spotting the danger.'
+    : 'Risk reached critical: an incident occurred. Review what you missed and try again.';
   if (state.risk < 100) sfxWin(); else sfxLose();
   document.getElementById('end-overlay').style.display = 'flex';
 }

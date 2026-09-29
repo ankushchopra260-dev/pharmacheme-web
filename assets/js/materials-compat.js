@@ -11,13 +11,13 @@
   // ---------- Sources ----------
   const SRC = {
     parker: { name: "Parker O-Ring Handbook (ORD 5700), §2.2", url: "https://www.parker.com/content/dam/Parker-com/Literature/O-Ring-Division-Literature/ORD-5700.pdf" },
-    harrington: { name: "Harrington Industrial Plastics — Basic Materials Guide", url: "https://www.hipco.com/resources/basic-materials-guide/" },
-    victrex: { name: "Victrex — A closer PEEK at PEEK", url: "https://www.victrex.com/en/blog/2017/a-closer-peek-at-peek" },
-    dedietrich: { name: "De Dietrich — Questions and answers about glass-lined equipment", url: "https://www.dedietrich.com/en/resources/your-questions-and-our-answers-about-glass-lined-equipment" },
-    ddps: { name: "De Dietrich Process Systems — Types of chemical attack in glass-lined equipment", url: "https://www.ddpsinc.com/en/knowledge/what-are-different-types-of-chemical-attack-that-can-occur-in-glass-lined-equipment" },
-    pfaudler: { name: "Pfaudler — Standard Glass WWG data sheet", url: "https://www.gmmpfaudler.com/uploads/files/F_Pfaudler-Standard-Glass-WWG-616-4E.pdf" },
-    timet: { name: "TIMET — Corrosion Resistance of Titanium", url: "https://www.timet.com/assets/local/documents/technicalmanuals/corrosion.pdf" },
-    ssina: { name: "SSINA — Chloride Stress Corrosion Cracking", url: "https://www.ssina.com/education/corrosion/chloride-stress-corrosion-cracking/" },
+    harrington: { name: "Harrington Industrial Plastics: Basic Materials Guide", url: "https://www.hipco.com/resources/basic-materials-guide/" },
+    victrex: { name: "Victrex: A closer PEEK at PEEK", url: "https://www.victrex.com/en/blog/2017/a-closer-peek-at-peek" },
+    dedietrich: { name: "De Dietrich: Questions and answers about glass-lined equipment", url: "https://www.dedietrich.com/en/resources/your-questions-and-our-answers-about-glass-lined-equipment" },
+    ddps: { name: "De Dietrich Process Systems: Types of chemical attack in glass-lined equipment", url: "https://www.ddpsinc.com/en/knowledge/what-are-different-types-of-chemical-attack-that-can-occur-in-glass-lined-equipment" },
+    pfaudler: { name: "Pfaudler: Standard Glass WWG data sheet", url: "https://www.gmmpfaudler.com/uploads/files/F_Pfaudler-Standard-Glass-WWG-616-4E.pdf" },
+    timet: { name: "TIMET: Corrosion Resistance of Titanium", url: "https://www.timet.com/assets/local/documents/technicalmanuals/corrosion.pdf" },
+    ssina: { name: "SSINA: Chloride Stress Corrosion Cracking", url: "https://www.ssina.com/education/corrosion/chloride-stress-corrosion-cracking/" },
   };
 
   // ---------- Material groups ----------
@@ -55,9 +55,9 @@
     { mats: ["Titanium"], chems: ["Chlorine (Dry)"], src: "timet",
       text: "Dry chlorine can rapidly attack titanium and may even cause ignition if moisture is sufficiently low; about 1% water is generally enough for passivation (TIMET, p.2)." },
     { mats: ["Titanium"], chems: ["Nitric Acid (Concentrated)"], src: "timet",
-      text: "Titanium is not recommended for red fuming nitric acid — a pyrophoric reaction product can form (water < 1.34% and NO₂ > 6%) (TIMET, p.10)." },
+      text: "Titanium is not recommended for red fuming nitric acid: a pyrophoric reaction product can form (water < 1.34% and NO₂ > 6%) (TIMET, p.10)." },
     { mats: ["Glass-Lined Steel"], chems: ["Sodium Hydroxide (20%)", "Sodium Hydroxide (50%)", "Potassium Hydroxide (Caustic)"], src: ["ddps", "pfaudler"],
-      text: "Hot caustic alkalis should be avoided in glass-lined equipment — silica is very soluble in alkali (NaOH, KOH). Pfaudler WWG data restrict higher alkali concentrations to 50 °C." },
+      text: "Hot caustic alkalis should be avoided in glass-lined equipment: silica is very soluble in alkali (NaOH, KOH). Pfaudler WWG data restrict higher alkali concentrations to 50 °C." },
     { mats: ["Glass-Lined Steel"], chems: ["Phosphoric Acid (>40%)"], src: "ddps",
       text: "Phosphoric acid can damage glass lining, especially when concentrated and at elevated temperature." },
     { mats: ["SS316", "SS304"], chems: CHLORIDE_CHEMS, src: "ssina", minTemp: 60,
@@ -114,7 +114,7 @@
   // ---------- Rendering ----------
   function shell() {
     return `
-      ${typeof plateHeader === "function" ? plateHeader("Chemical–Material Compatibility", "REFERENCE STARTING POINT — VERIFY BEFORE MOC") : ""}
+      ${typeof plateHeader === "function" ? plateHeader("Chemical–Material Compatibility", "REFERENCE STARTING POINT · VERIFY BEFORE MOC") : ""}
       <div class="mc-tabs" role="tablist">
         <button type="button" class="pill" data-mc-mode="stream" role="tab">Check a process stream</button>
         <button type="button" class="pill" data-mc-mode="material" role="tab">Look up a material</button>
@@ -139,7 +139,7 @@
         <select id="mc-mat" class="mc-select"></select>
         <div id="mc-mat-results"></div>
       </div>
-      <p class="mc-foot">Ratings are a compiled starting reference, not a substitute for a vendor datasheet or in-house trial — always confirm against your actual concentration, temperature and duty before finalizing MOC. The ratings are not temperature-specific. Temperature limits and warnings are shown only where a source is cited.</p>
+      <p class="mc-foot">Ratings are a compiled starting reference, not a substitute for a vendor datasheet or in-house trial. Always confirm against your actual concentration, temperature and duty before finalizing MOC. The ratings are not temperature-specific. Temperature limits and warnings are shown only where a source is cited.</p>
     `;
   }
 
@@ -170,7 +170,7 @@
     if (ev.overTemp) bits.push(`<span class="mc-why mc-why-bad">${tempC} °C is above the ${ev.lim.c} °C service limit</span>`);
     const perChem = multi ? `<div class="mc-per">${ev.per.map((p) => `<span class="mc-per-item">${esc(p.chem)}: ${chip(p.code)}</span>`).join("")}</div>` : "";
     const warns = ev.warns.map((w) => `<div class="mc-warn">⚠ ${esc(w.text)} <span class="mc-src">Source: ${srcLink(w.src)}</span></div>`).join("");
-    const coupon = ev.verdict === "F" ? `<a class="mc-coupon" href="/calculators/corrosion-coupon-calculator/">Fair — confirm with a coupon test →</a>` : "";
+    const coupon = ev.verdict === "F" ? `<a class="mc-coupon" href="/calculators/corrosion-coupon-calculator/">Fair: confirm with a coupon test →</a>` : "";
     const limTxt = ev.lim ? `<span class="mc-lim" title="${esc(ev.lim.quote)}">max ${ev.lim.c} °C</span>` : "";
     return `<div class="mc-row mc-v-${ev.verdict || "x"}">
       <div class="mc-row-main"><span class="mc-mat">${esc(ev.mat)}</span>${limTxt}<span class="mc-verdict">${verdictChip(ev)}</span></div>
@@ -194,7 +194,7 @@
     summary += suitable.length
       ? `<div class="mc-sum-list">${suitable.map((m) => `<span class="mc-sum-item ${evs[m].verdict === "E" ? "mc-e" : "mc-g"}">${esc(m)}${evs[m].warns.length ? " ⚠" : ""}</span>`).join("")}</div>`
       : `<div class="mc-sum-none">No material in this list is rated Good or better for the whole stream.</div>`;
-    if (withWarn.length) summary += `<div class="mc-sum-note">⚠ = has a specific warning below — read it before selecting.</div>`;
+    if (withWarn.length) summary += `<div class="mc-sum-note">⚠ = has a specific warning below; read it before selecting.</div>`;
     if (tempC !== null) summary += `<div class="mc-sum-note">Metals and ratings are not adjusted for temperature; only the polymer, elastomer and glass-lining service limits are checked.</div>`;
     summary += `</div>`;
 
@@ -204,8 +204,8 @@
 
   function sourcesBlock() {
     return `<details class="mc-sources"><summary>Sources for temperature limits and warnings</summary><ul>
-      ${Object.entries(TEMP_LIMITS).map(([m, l]) => `<li><b>${esc(m)}</b> — max ${l.c} °C: “${esc(l.quote)}”${l.note ? ` (${esc(l.note)})` : ""} — ${srcLink(l.src)}</li>`).join("")}
-      ${WARNINGS.map((w) => `<li><b>${esc(w.mats.join(", "))}</b> with ${esc(w.chems.join(", "))}: ${esc(w.text)} — ${srcLink(w.src)}</li>`).join("")}
+      ${Object.entries(TEMP_LIMITS).map(([m, l]) => `<li><b>${esc(m)}</b>, max ${l.c} °C: “${esc(l.quote)}”${l.note ? ` (${esc(l.note)})` : ""} · ${srcLink(l.src)}</li>`).join("")}
+      ${WARNINGS.map((w) => `<li><b>${esc(w.mats.join(", "))}</b> with ${esc(w.chems.join(", "))}: ${esc(w.text)} · ${srcLink(w.src)}</li>`).join("")}
     </ul></details>`;
   }
 
@@ -216,7 +216,7 @@
     NAMES.forEach((c) => { const r = rating(c, mat); byRating[r || "x"].push(c); });
     const lim = TEMP_LIMITS[mat];
     const warns = WARNINGS.filter((w) => w.mats.includes(mat));
-    let html = lim ? `<div class="mc-mat-lim">Maximum service temperature: <b>${lim.c} °C</b> — “${esc(lim.quote)}”${lim.note ? ` (${esc(lim.note)})` : ""} (${srcLink(lim.src)})</div>` : "";
+    let html = lim ? `<div class="mc-mat-lim">Maximum service temperature: <b>${lim.c} °C</b>, “${esc(lim.quote)}”${lim.note ? ` (${esc(lim.note)})` : ""} (${srcLink(lim.src)})</div>` : "";
     html += ["E", "G", "F", "N"].map((k) => byRating[k].length ? `<div class="mc-mat-block"><div class="mc-mat-head">${chip(k)} <span class="mc-count">${byRating[k].length}</span></div><div class="mc-mat-list">${byRating[k].map((c) => `<span class="mc-mat-chem">${esc(c)}${warns.some((w) => w.chems.includes(c)) ? " ⚠" : ""}</span>`).join("")}</div></div>` : "").join("");
     if (warns.length) html += `<h3 class="mc-h">Warnings for ${esc(mat)}</h3>` + warns.map((w) => `<div class="mc-warn">⚠ <b>${esc(w.chems.join(", "))}:</b> ${esc(w.text)} <span class="mc-src">Source: ${srcLink(w.src)}</span></div>`).join("");
     out.innerHTML = html;

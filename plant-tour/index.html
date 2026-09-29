@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PharmaChemE — Virtual Plant Tour</title>
+<title>PharmaChemE: Virtual Plant Tour</title>
 <meta name="description" content="Explore a virtual pharma plant in 3D with process operations, equipment and safety scenarios.">
 <link rel="canonical" href="https://www.pharmacheme.in/plant-tour/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PharmaChemE">
-<meta property="og:title" content="PharmaChemE — Virtual Plant Tour">
+<meta property="og:title" content="PharmaChemE: Virtual Plant Tour">
 <meta property="og:description" content="Explore a 3D chemical plant, watch a full day of operations, and see what a chemical leak would do with What-If Leak mode.">
 <meta property="og:url" content="https://www.pharmacheme.in/plant-tour/">
 <meta property="og:image" content="https://www.pharmacheme.in/plant-tour/og-image.png">
@@ -488,7 +488,7 @@ body.leak-open #drag-hint { display:none; }
   <button class="mode-btn" data-mode="walk" data-tip="Walk: explore on foot (WASD / arrows, or the on-screen pad)">🚶<span>Walk</span><small>Walk</small></button>
   <button class="mode-btn" data-mode="ops" data-tip="Operations: a full working day in the plant, department by department">🏭<span>Operations</span><small>Ops</small></button>
   <button class="mode-btn" data-mode="leak" data-tip="What-If Leak: model a chemical leak and see the toxic cloud, flammable cloud and fire zones">⚠️<span>What-If Leak</span><small>Leak</small></button>
-  <button id="snd-btn" title="Sound on — click to mute">🔊</button>
+  <button id="snd-btn" title="Sound on: click to mute">🔊</button>
 </div>
 <button id="walk-fab-btn">🚶 Walk Mode</button>
 <button id="anim-fab-btn">🎬 Animate</button>
@@ -534,7 +534,7 @@ const DEPARTMENTS = [
   {
     id: "reactor", name: "Production Building", tag: "Batch Process Area",
     pos: [-9.6, 0, -26.3], color: 0xd97b4a, kind: "reactor",
-    desc: "Where raw materials are charged, heated, and reacted under controlled temperature, pressure, and agitation. Most batch and semi-batch chemistry happens here — this is the heart of the plant.",
+    desc: "Where raw materials are charged, heated, and reacted under controlled temperature, pressure, and agitation. Most batch and semi-batch chemistry happens here: this is the heart of the plant.",
     equipment: ["R-101 Batch Reactor", "Jacket Heating/Cooling System", "Agitator Drive", "Semi-batch Dosing Pumps"],
     hall: { halfWidth: 7, frontZ: 11, backZ: -11, doorHalfWidth: 2.1, height: 11 },
     flowArrows: [[-0.2, 10.2, 7.2]],
@@ -543,7 +543,7 @@ const DEPARTMENTS = [
     areas: [
       {
         id: "plant", name: "Plant", tag: "Batch Production Train",
-        desc: "The complete batch production train — reaction, heat exchange, solid-liquid separation, and drying, all under one roof. Product moves through these in sequence: react, cool, separate solids, then dry.",
+        desc: "The complete batch production train: reaction, heat exchange, solid-liquid separation, and drying, all under one roof. Product moves through these in sequence: react, cool, separate solids, then dry.",
         equipment: [
           {
             id: "r101", name: "R-101", type: "Batch Reactor",
@@ -556,11 +556,11 @@ const DEPARTMENTS = [
           },
           {
             id: "r102", name: "R-102", type: "Semi-Batch Reactor",
-            function: "Semi-batch addition reactions — controlled-rate dosing of a reactive reagent into a bulk charge.",
+            function: "Semi-batch addition reactions: controlled-rate dosing of a reactive reagent into a bulk charge.",
             capacity: "3,000 L", material: "Glass-Lined Steel",
             operatingRange: "Up to 160°C, 2.0 barg",
             instruments: ["TT-102", "PT-102", "LT-102", "FT-102 (Dosing Flow)"],
-            safety: "Glass lining requires impact protection procedures during charging — no metal tools near the vessel wall.",
+            safety: "Glass lining requires impact protection procedures during charging: no metal tools near the vessel wall.",
             documents: ["SOP", "P&ID", "Datasheet"],
           },
           {
@@ -569,12 +569,12 @@ const DEPARTMENTS = [
             capacity: "2,000 L", material: "Hastelloy C276",
             operatingRange: "Up to 140°C, 4.0 barg",
             instruments: ["TT-103", "PT-103", "LT-103", "AT-103"],
-            safety: "Dedicated corrosive-service PPE and ventilation requirements — see area SOP before charging.",
+            safety: "Dedicated corrosive-service PPE and ventilation requirements: see area SOP before charging.",
             documents: ["SOP", "P&ID", "Datasheet"],
           },
           {
             id: "he101", name: "HE-101", type: "Shell & Tube Heat Exchanger",
-            function: "Heats or cools the thermal fluid that circulates through R-101's jacket (supply into the bottom of the jacket, return from the top). The batch itself never passes through the exchanger — it is charged into the reactor from measuring vessel MV-101.",
+            function: "Heats or cools the thermal fluid that circulates through R-101's jacket (supply into the bottom of the jacket, return from the top). The batch itself never passes through the exchanger: it is charged into the reactor from measuring vessel MV-101.",
             capacity: "15 m² heat transfer area", material: "SS316L (shell & tubes)",
             operatingRange: "Up to 150°C, 6 barg (shell side)",
             instruments: ["TT-201 (Jacket Supply)", "TT-202 (Jacket Return)", "PT-201 (Shell Pressure)"],
@@ -592,16 +592,16 @@ const DEPARTMENTS = [
           },
           {
             id: "cf101", name: "CF-101", type: "Basket Centrifuge",
-            function: "Solid-liquid separation of the reaction slurry — separates crystals or precipitate from the mother liquor before drying.",
+            function: "Solid-liquid separation of the reaction slurry: separates crystals or precipitate from the mother liquor before drying.",
             capacity: "500 kg solids/batch", material: "SS316L basket, Hastelloy C276 liner",
             operatingRange: "Up to 1,800 rpm",
             instruments: ["SI-301 (Basket Speed)", "VT-301 (Vibration)", "TT-301"],
-            safety: "Lid interlock — cannot start with the lid open. Vibration trip shuts down automatically on load imbalance.",
+            safety: "Lid interlock: cannot start with the lid open. Vibration trip shuts down automatically on load imbalance.",
             documents: ["SOP", "P&ID", "Datasheet"],
           },
           {
             id: "anfd101", name: "ANFD-101", type: "Agitated Nutsche Filter Dryer",
-            function: "Combines filtration, cake washing, and drying in a single closed vessel — cuts product handling and operator exposure between steps compared to separate filter and dryer equipment.",
+            function: "Combines filtration, cake washing, and drying in a single closed vessel, which cuts product handling and operator exposure between steps compared to separate filter and dryer equipment.",
             capacity: "2,000 L (approx. 1,200 kg dry cake)", material: "Hastelloy C276",
             operatingRange: "Vacuum to 3 barg, jacket up to 120°C",
             instruments: ["PT-401 (Vacuum)", "TT-401 (Jacket)", "TT-402 (Product Bed)", "AT-401 (Agitator Torque)"],
@@ -610,11 +610,11 @@ const DEPARTMENTS = [
           },
           {
             id: "rvd101", name: "RVD-101", type: "Rotary Vacuum Dryer (Double Cone)",
-            function: "Final drying of solids under vacuum after filtration — tumbling action suits products that dry more evenly with gentle mechanical movement than a static bed.",
+            function: "Final drying of solids under vacuum after filtration. Tumbling action suits products that dry more evenly with gentle mechanical movement than a static bed.",
             capacity: "1,000 L", material: "SS316L",
             operatingRange: "Vacuum to 0.9 barg, jacket up to 100°C",
             instruments: ["TT-501 (Jacket)", "PT-501 (Vacuum)", "SI-501 (Rotation Speed)"],
-            safety: "Rotation is interlocked with vacuum confirmation — won't rotate until vacuum is established, to avoid dust release.",
+            safety: "Rotation is interlocked with vacuum confirmation: won't rotate until vacuum is established, to avoid dust release.",
             documents: ["SOP", "P&ID", "Datasheet"],
           },
           {
@@ -631,15 +631,15 @@ const DEPARTMENTS = [
       { id: "feed-area", name: "Feed Preparation", comingSoon: true },
       {
         id: "control-room", name: "Control Room",
-        desc: "The nerve center of the production floor — every reactor, exchanger, and dryer on this floor reports back here. Physically located at the back of the production hall.",
+        desc: "The nerve center of the production floor: every reactor, exchanger, and dryer on this floor reports back here. Physically located at the back of the production hall.",
         equipment: [
           {
             id: "dcs101", name: "DCS-101", type: "Distributed Control System",
-            function: "Central monitoring and control for every instrument on the Plant floor — the operator's single point of oversight for temperature, pressure, level, and agitator loops across R-101/102/103, HE-101, CF-101, ANFD-101, RVD-101, and VTD-101.",
+            function: "Central monitoring and control for every instrument on the Plant floor: the operator's single point of oversight for temperature, pressure, level, and agitator loops across R-101/102/103, HE-101, CF-101, ANFD-101, RVD-101, and VTD-101.",
             capacity: "Up to 200 I/O points (currently ~32 in use)", material: "N/A (control system)",
             operatingRange: "N/A",
             instruments: ["Links all TT/PT/LT/AT/SI tags on the Plant floor"],
-            safety: "Alarm management and interlock logic for every safety trip on the floor run through here — operators should never bypass an active interlock from this console without a documented MOC.",
+            safety: "Alarm management and interlock logic for every safety trip on the floor run through here: operators should never bypass an active interlock from this console without a documented MOC.",
             documents: ["SOP", "Control Narrative", "Alarm Philosophy"],
           },
         ],
@@ -659,7 +659,7 @@ const DEPARTMENTS = [
     areas: [
       {
         id: "distillation-floor", name: "Distillation Floor",
-        desc: "Feed enters the column, vapor rises to the condenser while the reboiler drives separation from the bottom — reflux returns the right fraction back down the column.",
+        desc: "Feed enters the column, vapor rises to the condenser while the reboiler drives separation from the bottom: reflux returns the right fraction back down the column.",
         equipment: [
           {
             id: "d101", name: "D-101", type: "Distillation Column",
@@ -772,12 +772,12 @@ const DEPARTMENTS = [
             capacity: "10 TPH at 17.5 barg", material: "Carbon steel (pressure parts)",
             operatingRange: "Up to 17.5 barg, 208°C saturated",
             instruments: ["PT-801", "LT-801 (Drum Level)", "TT-801 (Flue Gas)"],
-            safety: "Safety valve, low-water cutoff, and flame-failure interlock — statutory inspection required.",
+            safety: "Safety valve, low-water cutoff, and flame-failure interlock. Statutory inspection required.",
             documents: ["SOP", "P&ID", "Datasheet", "Statutory Inspection Certificate"],
           },
           {
             id: "ct101", name: "CT-101", type: "Induced-Draft Cooling Tower",
-            function: "Rejects heat from the cooling-water loop to atmosphere — process condensers and jackets, plus the VAM's absorber/condenser and the brine chiller's condenser.",
+            function: "Rejects heat from the cooling-water loop to atmosphere: process condensers and jackets, plus the VAM's absorber/condenser and the brine chiller's condenser.",
             capacity: "400 m³/h", material: "FRP casing",
             operatingRange: "Approach temperature 4\u20135°C",
             instruments: ["TT-802 (Basin)", "TT-803 (Supply)"],
@@ -786,7 +786,7 @@ const DEPARTMENTS = [
           },
           {
             id: "ac101", name: "AC-101", type: "Screw Air Compressor",
-            function: "Supplies instrument air and plant air — instrument air quality directly affects every pneumatic valve on site.",
+            function: "Supplies instrument air and plant air: instrument air quality directly affects every pneumatic valve on site.",
             capacity: "500 Nm³/h at 7 barg", material: "N/A",
             operatingRange: "7 barg",
             instruments: ["PT-804"],
@@ -822,7 +822,7 @@ const DEPARTMENTS = [
           },
           {
             id: "psa101", name: "PSA-101", type: "PSA Nitrogen Generator (Twin Tower)",
-            function: "Separates nitrogen from compressed air on carbon molecular sieve — two towers alternate between adsorbing and regenerating. Supplies N₂ for reactor blanketing, inerting and pressure transfers.",
+            function: "Separates nitrogen from compressed air on carbon molecular sieve: two towers alternate between adsorbing and regenerating. Supplies N₂ for reactor blanketing, inerting and pressure transfers.",
             capacity: "100 Nm³/h at 99.9 % N₂, 6 barg", material: "Carbon-steel towers, carbon molecular sieve",
             operatingRange: "Feed air 7 barg; product 5–6 barg; O₂ ≤ 0.1 %",
             instruments: ["AT-831 (O₂ Analyser)", "PT-832", "FT-833"],
@@ -831,7 +831,7 @@ const DEPARTMENTS = [
           },
           {
             id: "thf101", name: "THF-101", type: "Thermic Fluid Heater (Vertical Coil)",
-            function: "Heats thermal oil in a fired coil and circulates it to reactor jackets and exchangers that need higher temperatures than the steam header gives — without high pressure.",
+            function: "Heats thermal oil in a fired coil and circulates it to reactor jackets and exchangers that need higher temperatures than the steam header gives, without high pressure.",
             capacity: "6 lakh kcal/h (≈ 700 kW)", material: "Seamless CS coil, synthetic heat-transfer oil",
             operatingRange: "Oil supply up to 280 °C at ~4 barg (circulation pressure only)",
             instruments: ["TT-841 / TT-842 (Oil Out / In)", "FT-843 (Oil Flow)", "LT-844 (Expansion Tank)", "PT-845"],
@@ -869,7 +869,7 @@ const DEPARTMENTS = [
     areas: [
       {
         id: "warehouse-floor", name: "Warehouse Floor",
-        desc: "Raw material comes in one end, finished product goes out the other — everything in between is about not mixing the two up.",
+        desc: "Raw material comes in one end, finished product goes out the other; everything in between is about not mixing the two up.",
         equipment: [
           {
             id: "rk01", name: "RK-01", type: "Pallet Racking (Raw Material)",
@@ -910,13 +910,13 @@ const DEPARTMENTS = [
   {
     id: "qc", name: "QC / QA Laboratory", tag: "Quality Control",
     pos: [9.6, 0, -26.3], color: 0x6fbf73, kind: "lab",
-    desc: "Every batch is tested here before it's released — raw materials on the way in, and finished product on the way out. Nothing ships without QC sign-off.",
+    desc: "Every batch is tested here before it's released: raw materials on the way in, and finished product on the way out. Nothing ships without QC sign-off.",
     equipment: ["HPLC / GC Analysis", "Titration Bench", "Sample Retention Room", "Stability Chambers"],
     hall: { halfWidth: 4.5, frontZ: 8, backZ: -8, doorHalfWidth: 1.6, height: 5.5 },
     areas: [
       {
         id: "qc-lab", name: "QC Lab Floor",
-        desc: "Every batch, in both directions — raw material on the way in, finished product on the way out — gets tested here before it moves.",
+        desc: "Every batch, in both directions (raw material on the way in, finished product on the way out) gets tested here before it moves.",
         equipment: [
           {
             id: "hplc01", name: "HPLC-01", type: "High-Performance Liquid Chromatograph",
@@ -956,7 +956,7 @@ const DEPARTMENTS = [
     ],
   },
   {
-    id: "etp", name: "Effluent Treatment Plant", tag: "ETP — Physico-Chemical, Biological & Tertiary",
+    id: "etp", name: "Effluent Treatment Plant", tag: "ETP: Physico-Chemical, Biological & Tertiary",
     pos: [-2, 0, 30.5], color: 0x5a7d6a, kind: "etp",
     desc: "Treats all the site's effluent so it can be reused. The flow runs from a collection sump and screen through equalisation, pH neutralisation, coagulation and flocculation, and a primary clarifier. Then it goes through activated-sludge aeration and a secondary clarifier, and finally sand and carbon filters. Sludge is dewatered in a filter press and on drying beds. High-TDS streams are segregated at source and go to a multiple effect evaporator and thin film dryer instead, so no liquid leaves the site (zero liquid discharge). Online monitoring (OCEMS) reports to the pollution control board. Open-air, like most real ETPs.",
     equipment: ["Collection Sump & Screen", "Equalization Tank", "Neutralisation & Flocculation", "Primary Clarifier", "Aeration Tank & Blowers", "Secondary Clarifier", "Sand & Carbon Filters", "Treated Water Tank & OCEMS", "MEE & ATFD (Zero Liquid Discharge)", "Filter Press & Drying Beds", "Chemical Dosing", "ETP Lab"],
@@ -1115,7 +1115,7 @@ const DEPARTMENTS = [
   {
     id: "rnd", name: "R&D", tag: "Pilot & Process Development",
     pos: [27.6, 0, 4.9], color: 0x8a6fd1, kind: "rnd",
-    desc: "Pilot-scale experiments, formulation work, and process development ahead of full-scale production — where a new route gets proven out before it ever reaches the main reactors. Walk in to see the team at work: a scientist running a reaction in the fume hood, chemists at the analytical bench and rotary evaporator, and the project lead logging the pilot batch.",
+    desc: "Pilot-scale experiments, formulation work, and process development ahead of full-scale production, where a new route gets proven out before it ever reaches the main reactors. Walk in to see the team at work: a scientist running a reaction in the fume hood, chemists at the analytical bench and rotary evaporator, and the project lead logging the pilot batch.",
     equipment: ["Pilot Reactor (100 L)", "Fume Hood", "Analytical Bench", "Rotary Evaporator"],
     hall: { halfWidth: 4.5, frontZ: 7, backZ: -7, doorHalfWidth: 1.6, height: 5.5, doorAt: 'back' },
     areas: [
@@ -1314,7 +1314,7 @@ const DEPARTMENTS = [
   {
     id: "admin", name: "Admin Building", tag: "Corporate & Support Functions",
     pos: [-18, 0, 21.4], color: 0x5b7a99, kind: "admin",
-    desc: "Houses the site's corporate and support functions — separate from production, but essential to keeping the plant running day to day.",
+    desc: "Houses the site's corporate and support functions, separate from production, but essential to keeping the plant running day to day.",
     equipment: ["HR Office", "Accounts / Finance", "Technical Services", "Procurement", "Management Office"],
     hall: { halfWidth: 5.5, frontZ: 9, backZ: -9, doorHalfWidth: 1.8, height: 6, doorAt: 'back' },
     areas: [
@@ -1330,7 +1330,7 @@ const DEPARTMENTS = [
       },
       {
         id: "techservices", name: "Technical Services",
-        desc: "The engineering bridge between R&D and full-scale production — takes a proven process and makes it work reliably at plant scale.",
+        desc: "The engineering bridge between R&D and full-scale production, which takes a proven process and makes it work reliably at plant scale.",
         functions: ["Process Engineering & Technology Transfer", "Technology Absorption", "Detailed Engineering & Block Flow Diagrams", "Capacity Planning & Costing"],
       },
       {
@@ -4177,11 +4177,11 @@ function collectSearchIndex(){
       dept.areas.forEach(area => {
         if (area.equipment){
           area.equipment.forEach(eq => {
-            idx.push({ label: eq.name, sub: eq.type+' — '+dept.name, deptId: dept.id, areaId: area.id, eqId: eq.id, kind:'equipment' });
+            idx.push({ label: eq.name, sub: eq.type+' · '+dept.name, deptId: dept.id, areaId: area.id, eqId: eq.id, kind:'equipment' });
           });
         } else if (area.functions){
           area.functions.forEach(f => {
-            idx.push({ label: f, sub: area.name+' — '+dept.name, deptId: dept.id, areaId: area.id, kind:'function' });
+            idx.push({ label: f, sub: area.name+' · '+dept.name, deptId: dept.id, areaId: area.id, kind:'function' });
           });
         }
       });
@@ -4189,9 +4189,9 @@ function collectSearchIndex(){
       dept.equipment.forEach(e => idx.push({ label: e, sub: dept.name, deptId: dept.id, kind:'equipment-flat' }));
     }
   });
-  [['R&D Scientist', 'Fume hood — R&D'], ['Process Chemist', 'Pilot reactor & rotary evaporator — R&D'], ['Analytical Chemist', 'Analytical bench — R&D'],
-   ['QC Analyst', 'HPLC / GC / titration — QC Laboratory']].forEach(([label, sub]) => idx.push({ label, sub, deptId: /QC/.test(sub) ? 'qc' : 'rnd', kind:'people' }));
-  PIPE_SERVICES.forEach(s => idx.push({ label: s.name+' line', sub: 'Pipeline — '+[].concat(s.from).map(d => deptById(d).name).join(', ')+' → '+[].concat(s.to).map(d => deptById(d).name).join(', '), deptId: [].concat(s.to)[0], svc: s.id, kind:'pipeline' }));
+  [['R&D Scientist', 'Fume hood, R&D'], ['Process Chemist', 'Pilot reactor & rotary evaporator, R&D'], ['Analytical Chemist', 'Analytical bench, R&D'],
+   ['QC Analyst', 'HPLC / GC / titration, QC Laboratory']].forEach(([label, sub]) => idx.push({ label, sub, deptId: /QC/.test(sub) ? 'qc' : 'rnd', kind:'people' }));
+  PIPE_SERVICES.forEach(s => idx.push({ label: s.name+' line', sub: 'Pipeline: '+[].concat(s.from).map(d => deptById(d).name).join(', ')+' → '+[].concat(s.to).map(d => deptById(d).name).join(', '), deptId: [].concat(s.to)[0], svc: s.id, kind:'pipeline' }));
   return idx;
 }
 const PIPE_SERVICES = [
@@ -4214,9 +4214,9 @@ const PIPE_SERVICES = [
 ];
 // Legend / focus groups: supply and return of one utility trace together
 const PIPE_GROUPS = [
-  { id:'ST',  name:'Steam' }, { id:'CW', name:'Cooling water (supply / return)' }, { id:'CHW', name:'Chilled water — VAM' },
-  { id:'BR',  name:'Brine — chiller' }, { id:'HO', name:'Hot oil — thermic fluid heater' }, { id:'IA', name:'Compressed air' },
-  { id:'N2',  name:'Nitrogen — PSA' }, { id:'PS', name:'Spent solvent to recovery' }, { id:'RS', name:'Recovered solvent' }, { id:'EFF', name:'Effluent to ETP' }, { id:'HTDS', name:'High-TDS effluent → MEE' },
+  { id:'ST',  name:'Steam' }, { id:'CW', name:'Cooling water (supply / return)' }, { id:'CHW', name:'Chilled water, VAM' },
+  { id:'BR',  name:'Brine, chiller' }, { id:'HO', name:'Hot oil, thermic fluid heater' }, { id:'IA', name:'Compressed air' },
+  { id:'N2',  name:'Nitrogen, PSA' }, { id:'PS', name:'Spent solvent to recovery' }, { id:'RS', name:'Recovered solvent' }, { id:'EFF', name:'Effluent to ETP' }, { id:'HTDS', name:'High-TDS effluent → MEE' },
 ];
 function pipeGroupOf(id){ const s = PIPE_SERVICES.find(x => x.id === id); return s ? s.grp : id; }
 const SEARCH_INDEX = collectSearchIndex();
@@ -4247,7 +4247,7 @@ function setupSearch(){
       return aExact - bExact;
     });
     const hits = matches.slice(0,8);
-    results.innerHTML = hits.map((h,i) => `<button class="search-hit" data-i="${i}">${h.label} <span style="color:var(--muted);">— ${h.sub}</span></button>`).join('');
+    results.innerHTML = hits.map((h,i) => `<button class="search-hit" data-i="${i}">${h.label} <span style="color:var(--muted);">: ${h.sub}</span></button>`).join('');
     Array.from(results.children).forEach((btn,i) => {
       btn.addEventListener('click', () => {
         const h = hits[i];
@@ -4388,7 +4388,7 @@ function focusDepartment(id){
     const entry = getEntrancePoint(dept);
     walkPos.x = entry.x; walkPos.z = entry.z; walkYaw = entry.yaw; walkPitch = -0.05;
     activeDept = id;
-    document.getElementById('hud-sub').textContent = dept.name+' — '+dept.tag;
+    document.getElementById('hud-sub').textContent = dept.name+' · '+dept.tag;
     showDeptPanel(dept);
     updateDeptListActive();
     return;
@@ -4399,7 +4399,7 @@ function focusDepartment(id){
     targetRadius = 16; targetPolar = Math.PI/3.4;
     targetAzimuth = Math.atan2(dept.pos[0]-cameraTarget.x, dept.pos[2]-cameraTarget.z) + 0.5;
   }
-  document.getElementById('hud-sub').textContent = dept.name+' — '+dept.tag;
+  document.getElementById('hud-sub').textContent = dept.name+' · '+dept.tag;
   showDeptPanel(dept);
   updateDeptListActive();
 }
@@ -4465,7 +4465,7 @@ function showAreaList(dept, area){
     ${hasEquipment
       ? area.equipment.map((eq,i) => `
           <div class="nav-list-item" data-eq-i="${i}">
-            <div>${eq.name} <span style="color:var(--muted); font-size:11px;">— ${eq.type}</span></div>
+            <div>${eq.name} <span style="color:var(--muted); font-size:11px;">: ${eq.type}</span></div>
             <span class="arrow">›</span>
           </div>`).join('')
       : area.functions.map(f => `<div class="eq-item">${f}</div>`).join('')
@@ -4488,7 +4488,7 @@ function showEquipmentCard(dept, area, eq){
     { label: eq.name },
   ]);
   body.innerHTML = `
-    <h2>${eq.name} — ${eq.type}</h2>
+    <h2>${eq.name}: ${eq.type}</h2>
     <div class="sub">${area.name} · ${dept.name}</div>
     ${plant3DReady && (dept.walkEquipment||[]).some(it => it.eq && it.eq.id === eq.id) ? `<button class="walk-here-btn" id="walk-to-eq-btn">🚶 Walk to ${eq.name}</button>` : ''}
     <div class="eq-card-row"><span class="k">Function</span></div>
@@ -4529,7 +4529,7 @@ function resetView(){
     targetLookAt.set(0,3,0);
     targetRadius = 50; targetPolar = Math.PI/3.2; targetAzimuth = Math.PI/4;
   }
-  document.getElementById('hud-sub').textContent = 'Overview — click a department';
+  document.getElementById('hud-sub').textContent = 'Overview: click a department';
   closeInfo();
   if (typeof updateModeBar === 'function') updateModeBar(true);
   updateDeptListActive();
@@ -4715,7 +4715,7 @@ function updateWalkInteract(){
     if (!nearestEq.isAreaMarker && showEquipTag(eqDept, nearestEq)){ prompt.style.display='none'; return; }
     hideEquipTag();
     prompt.style.display='block';
-    prompt.textContent = 'Press E — View '+(nearestEq.isAreaMarker ? nearestEq.area.name : nearestEq.eq.name);
+    prompt.textContent = 'Press E: View '+(nearestEq.isAreaMarker ? nearestEq.area.name : nearestEq.eq.name);
     return;
   }
   nearestInteractEquip = null;
@@ -4728,7 +4728,7 @@ function updateWalkInteract(){
     if (d < interactRadiusFor(dept) && d < nearestDist){ nearest=dept; nearestDist=d; }
   });
   nearestInteractDept = nearest;
-  if (nearest){ prompt.style.display='block'; prompt.textContent = 'Press E — View '+nearest.name; }
+  if (nearest){ prompt.style.display='block'; prompt.textContent = 'Press E: View '+nearest.name; }
   else { prompt.style.display='none'; }
 }
 // Floating data tag over the nearest machine in Walk mode: name, type and headline data, tap / E for the full card
@@ -4766,18 +4766,18 @@ function tryInteract(){
     if (item.isAreaMarker){
       showAreaList(dept, item.area);
       activeDept = dept.id;
-      document.getElementById('hud-sub').textContent = item.area.name+' — '+dept.name;
+      document.getElementById('hud-sub').textContent = item.area.name+' · '+dept.name;
       return;
     }
     showEquipmentCard(dept, item.area, item.eq);
     activeDept = dept.id;
-    document.getElementById('hud-sub').textContent = item.eq.name+' — '+dept.name;
+    document.getElementById('hud-sub').textContent = item.eq.name+' · '+dept.name;
     return;
   }
   if (!nearestInteractDept) return;
   showDeptPanel(nearestInteractDept);
   activeDept = nearestInteractDept.id;
-  document.getElementById('hud-sub').textContent = nearestInteractDept.name+' — '+nearestInteractDept.tag;
+  document.getElementById('hud-sub').textContent = nearestInteractDept.name+' · '+nearestInteractDept.tag;
 }
 
 function closeSidebar(){
@@ -4833,7 +4833,7 @@ function teleportToEquipment(dept, eqId){
     walkYaw = Math.atan2(-landed.ox, -landed.oz); // face back toward the equipment
   }
   activeDept = dept.id;
-  document.getElementById('hud-sub').textContent = item.eq.name+' — '+dept.name;
+  document.getElementById('hud-sub').textContent = item.eq.name+' · '+dept.name;
   updateWalkInteract();
   return true;
 }
@@ -4856,7 +4856,7 @@ function enterWalkMode(){
   }
   appMode = 'walk';
   updateModeBar(true);
-  document.getElementById('hud-sub').textContent = 'Walk mode — WASD / arrows or the pad to move';
+  document.getElementById('hud-sub').textContent = 'Walk mode: WASD / arrows or the pad to move';
   document.getElementById('walk-crosshair').style.display = 'block';
   document.getElementById('walk-controls').style.display = 'block';
   document.getElementById('drag-hint').style.display = 'none';
@@ -4877,7 +4877,7 @@ function showDragLookNotice(){
   dragLookNoticeShown = true;
   const hintD = document.getElementById('walk-hint-desktop');
   const hintM = document.getElementById('walk-hint-mobile');
-  const msg = '⚠️ Mouse lock isn\u2019t available here — click-and-drag anywhere to look around instead.';
+  const msg = '⚠️ Mouse lock isn\u2019t available here: click-and-drag anywhere to look around instead.';
   if (hintD) hintD.textContent = msg;
   if (hintM) hintM.textContent = msg;
 }
@@ -5698,7 +5698,7 @@ function focusPipeService(id){
   });
   PIPE_FLOW.forEach(f => { f.points.material.size = Math.max(0.2, f.svc.r*2.6) * (pipeFocus === f.svc.grp ? 1.8 : 1); });
   document.querySelectorAll('.pipe-legend-item').forEach(el => el.classList.toggle('active', el.dataset.svc === pipeFocus));
-  if (!pipeFocus){ document.getElementById('hud-sub').textContent = 'Overview — click a department'; return; }
+  if (!pipeFocus){ document.getElementById('hud-sub').textContent = 'Overview: click a department'; return; }
   const nm = d => (deptById(d) || {}).name || d;
   document.getElementById('hud-sub').textContent = PIPE_SERVICES.filter(x => x.grp === id).map(s => s.name + ': ' + [].concat(s.from).map(nm).join(', ') + ' → ' + [].concat(s.to).map(nm).join(', ')).join('  ·  ');
   if (appMode !== 'walk' && !cine.mode){ targetLookAt.set(0, 3, 0); targetRadius = 52; targetPolar = Math.PI/3.3; }
@@ -6178,20 +6178,20 @@ function buildStorySteps(){
   const pumpSpot = { x:-22.9, z:2.5 };        // beside the CW pumps (yard-local 8.7, -2.3)
   const p = PROJECT_SITE;
   return [
-    { id:'gate', title:'Main Gate — arrivals', dur:11, depts:[],
+    { id:'gate', title:'Main Gate: arrivals', dur:11, depts:[],
       text:'Security checks the raw-material truck’s invoice, weighment slip and gate pass. The day shift badges in wearing PPE.',
       shot:{ pos:[5.8,8.0,-49.6], look:[1.9,1.3,-54.2] }, boom:'closed',
       place:[{ actor:'guard', at:{ x:GX+3.3, z:-50.4, yaw:-Math.PI/2 }, show:true }],
       moves:[{ actor:'truck', path:[{ x:GX, z:-73 }, { x:GX, z:-56.6 }], t0:0, t1:0.5, load:true },
              { actor:'workers', path:[{ x:-1.55, z:-67 }, gateIn], t0:0.35, t1:1 }],
       subject:[[GX,1.5,-56.6],[GX+4.7,1.3,-53],[-1.55,1,-53]] },
-    { id:'hr', title:'HR & Admin — manpower', dur:12, depts:['admin'], badges:{ admin:['HR: shift allocated','info'] },
+    { id:'hr', title:'HR & Admin: manpower', dur:12, depts:['admin'], badges:{ admin:['HR: shift allocated','info'] },
       text:'HR/Admin allocates the shift: operators report to Production while the HR officer confirms the muster roll.',
       shot:{ pos:[-9.7,22.0,9.8], look:[-13.8,1.0,-1.5] },
       moves:[{ actor:'workers', path:walkRoute('gate', 'reactor', gateIn), t0:0, t1:1, hideEnd:true },
              { actor:'hr', path:walkRoute('admin', 'reactor'), t0:0.05, t1:1, hideEnd:true }],
       subject:[[-18,1,9.4],[-9.6,1,-12.3]] },
-    { id:'ehs', title:'Fire & Safety — start-of-day checks', dur:12, depts:['ehs'], equip:['fp01','fwt901','ft901','ohc901'], services:[], pipes:['fire-water'], badges:{ ehs:['Permits issued ✓','ok'] },
+    { id:'ehs', title:'Fire & Safety: start-of-day checks', dur:12, depts:['ehs'], equip:['fp01','fwt901','ft901','ohc901'], services:[], pipes:['fire-water'], badges:{ ehs:['Permits issued ✓','ok'] },
       text:'EHS issues the day’s work permits from the OHC office, checks PPE, and test-runs the fire pumps on the ring main. The fire tender’s daily checklist is signed off before the plant starts up.',
       shot:{ pos:[-13.5,11,-4.5], look:[-25.5,0.5,-15.0] },
       moves:[{ actor:'ehs', path:walkRoute('ehs', 'reactor'), t0:0.15, t1:1, hideEnd:true }],
@@ -6200,21 +6200,21 @@ function buildStorySteps(){
       text:'The barrier lifts; the truck follows the roundabout clockwise to the Warehouse loading bay.',
       moves:[{ actor:'truck', path:[{ x:GX, z:-56.6 }].concat(whApron.slice(1)), t0:0, t1:1, load:true }] },
     { id:'rm_unload', title:'Quarantine', dur:9, depts:['warehouse'], badges:{ warehouse:['RM: QUARANTINE','warn'] },
-      text:'Drums are unloaded into the quarantine bay and labelled UNDER TEST — nothing can be used until QA releases it.',
+      text:'Drums are unloaded into the quarantine bay and labelled UNDER TEST: nothing can be used until QA releases it.',
       shot:{ pos:[9,8,4], look:[18,1,12] },
       moves:[{ actor:'truck', path:[whStop, whStop], t0:0, t1:0.6, load:true, loadEnd:false }],
       subject:[[18,1.5,13.4]] },
-    { id:'rm_sample', title:'QC — sampling', dur:13, depts:['qc','warehouse'], badges:{ qc:['Sampling RM','info'] },
+    { id:'rm_sample', title:'QC: sampling', dur:13, depts:['qc','warehouse'], badges:{ qc:['Sampling RM','info'] },
       text:'A QC analyst walks to the Warehouse and draws samples from the quarantined drums.',
       shot:{ pos:[22.5,26.0,2.5], look:[13.8,1.0,-2.5] },
       moves:[{ actor:'qc', path:walkRoute('qc', 'warehouse'), t0:0, t1:0.9 }],
       subject:[[9.6,1,-15.3],[18,1,10.4]] },
-    { id:'rm_test', title:'QC — testing', dur:10, depts:['qc'], equip:['hplc01','gc01'], badges:{ qc:['Testing RM: HPLC / GC','info'] },
+    { id:'rm_test', title:'QC: testing', dur:10, depts:['qc'], equip:['hplc01','gc01'], badges:{ qc:['Testing RM: HPLC / GC','info'] },
       text:'In the lab the sample is tested on HPLC and GC against the specification: assay, impurities, moisture.',
       shot:{ pos:[9.6,3.6,-18.8], look:[9.6,1.2,-24.8] },
       place:[{ actor:'qc', at:{ x:9.6, z:-14.5, yaw:0 }, show:false }],
       subject:[[7.1,1.2,-24.8],[12.1,1.2,-24.8]] },
-    { id:'rm_release', title:'QA — release', dur:12, depts:['qc','warehouse'], badges:{ qc:['QA: RM approved ✓','ok'] },
+    { id:'rm_release', title:'QA: release', dur:12, depts:['qc','warehouse'], badges:{ qc:['QA: RM approved ✓','ok'] },
       badgesAt:{ 0.8:{ warehouse:['RM: APPROVED ✓','ok'] } },
       text:'QA reviews the QC results and releases the lot: the label changes from QUARANTINE to APPROVED. The empty truck leaves.',
       shot:{ pos:[22.5,26.0,2.5], look:[13.8,1.0,-2.5] },
@@ -6229,41 +6229,41 @@ function buildStorySteps(){
       text:'The boiler raises steam; the turbine-generator makes power from it. Cooling tower, VAM (chilled water), brine chiller, thermic fluid heater (hot oil), PSA (nitrogen) and air compressor all send their services over the pipe bridge and rack to Production.',
       shot:{ pos:[-9.5,19.0,-17.5], look:[-30.0,6.0,1.5] },
       subject:[[-31.6,1,4.8],[-22.3,1,1.0],[-41.2,1,1.0],[-34.0,20,-1.4]] },
-    { id:'charge', title:'Reactor floor — charging', dur:12, depts:['reactor'], equip:['mv101','r101'], pipes:['mv101-r101'],
+    { id:'charge', title:'Reactor floor: charging', dur:12, depts:['reactor'], equip:['mv101','r101'], pipes:['mv101-r101'],
       lamp:{ r101:'amber' }, spin:{ r101:1.5 }, level:{ r101:[0.08,0.5] }, badges:{ reactor:['Batch B-101: charging','warn'] },
       text:'R-101 is purged with nitrogen, then solvent runs by gravity from measuring vessel MV-101 into the reactor’s charging nozzle. Solids go in through the manhole under local exhaust. The agitator runs slowly.',
       shot:{ pos:Wp(0.6,7.4,1.4), look:Wp(-4.6,6.2,-3.6) },
       subject:[Wp(-6,7.5,-2.4),Wp(-4,6.5,-5)] },
-    { id:'react', title:'Reactor floor — heating & reaction', dur:13, depts:['reactor'], equip:['r101','he101'], pipes:['he101-r101','r101-he101'],
+    { id:'react', title:'Reactor floor: heating & reaction', dur:13, depts:['reactor'], equip:['r101','he101'], pipes:['he101-r101','r101-he101'],
       lamp:{ r101:'red' }, spin:{ r101:3.5 }, level:{ r101:[0.5,0.75] }, badges:{ reactor:['Batch B-101: reacting','info'] },
-      text:'HE-101 heats the thermal fluid, which circulates through R-101’s jacket — in at the bottom, out at the top. The batch never goes through the exchanger. Vent vapours go to the scrubber.',
+      text:'HE-101 heats the thermal fluid, which circulates through R-101’s jacket: in at the bottom, out at the top. The batch never goes through the exchanger. Vent vapours go to the scrubber.',
       shot:{ pos:Wp(2.0,7.2,0.5), look:Wp(-1.5,5.2,-6) },
       subject:[Wp(-4,6.5,-5)] },
-    { id:'centrifuge', title:'Ground floor — centrifuge', dur:11, depts:['reactor'], equip:['r101','cf101'], pipes:['r101-cf101'],
+    { id:'centrifuge', title:'Ground floor: centrifuge', dur:11, depts:['reactor'], equip:['r101','cf101'], pipes:['r101-cf101'],
       spin:{ r101:1, cf101:9 }, level:{ r101:[0.75,0.08] }, services:['PS'],
       text:'The slurry drops from R-101 through the floor to centrifuge CF-101. Mother liquor goes by pipeline to Distillation for solvent recovery.',
       shot:{ pos:Wp(1.5,3.0,10.2), look:Wp(-2.5,1.6,2) },
       subject:[Wp(-3.8,1.2,1.4)] },
-    { id:'recovery', title:'Distillation — feed & boil-up', dur:12, depts:['distillation'], equip:['t701','p702','d101','e701'], services:['PS','ST'],
+    { id:'recovery', title:'Distillation: feed & boil-up', dur:12, depts:['distillation'], equip:['t701','p702','d101','e701'], services:['PS','ST'],
       pipes:['dist-feed','dist-bottoms','dist-vapour','dist-overhead','svc-PS','svc-ST'], badges:{ distillation:['Recovering solvent','info'] },
       text:'Spent solvent from Production collects in feed tank T-701. Pump P-702 feeds it into the middle of column D-101. Steam boils the bottoms in reboiler E-701, and the vapour goes back into the column and rises up through the trays.',
       shot:{ pos:Wd(-0.4,3.6,7.4), look:Wd(-1.0,2.0,1.5) },
       subject:[Wd(-3.6,1.5,5.6),Wd(-3,1,1),Wd(1.8,2,4)] },
-    { id:'reflux', title:'Distillation — condensing & reflux', dur:13, depts:['distillation'], equip:['e702','v701','p701','v702'], services:['CWS','CWR','RS'],
+    { id:'reflux', title:'Distillation: condensing & reflux', dur:13, depts:['distillation'], equip:['e702','v701','p701','v702'], services:['CWS','CWR','RS'],
       pipes:['dist-overhead','dist-condensate','dist-reflux','dist-distillate','dist-vent','dist-residue','svc-CWS','svc-CWR','svc-RS'], badges:{ distillation:['Recovering solvent','info'] },
       text:'Overhead vapour condenses in E-702 (cooling water) and drains into reflux drum V-701. Pump P-701 sends part of it back to the top of the column as reflux, and the rest to receiver V-702 as recovered solvent, which returns to Production. The vacuum pump holds the vacuum, and residue drains to V-703.',
       shot:{ pos:Wd(-3.4,6.2,-1.0), look:Wd(2.2,4.4,-6.6) },
       subject:[Wd(-2.5,5,-5),Wd(2.5,5,-5),Wd(3.3,4.5,-7)] },
-    { id:'dry', title:'Ground floor — conveying & drying', dur:12, depts:['reactor'], equip:['rvd101','cf101'], spin:{ rvd101:3, cf101:1.5 }, level:{ r101:[0.08,0.08] },
+    { id:'dry', title:'Ground floor: conveying & drying', dur:12, depts:['reactor'], equip:['rvd101','cf101'], spin:{ rvd101:3, cf101:1.5 }, level:{ r101:[0.08,0.08] },
       text:'The centrifuge discharges wet cake onto an inclined cleated belt conveyor, which lifts it into rotary vacuum dryer RVD-101. The dryer then tumbles under vacuum until the product is dry.',
       shot:{ pos:Wp(1.2,3.2,9.8), look:Wp(-3.8,1.4,5.4) },
       subject:[Wp(-3.8,1.5,5.4)] },
-    { id:'fp_sample', title:'QC — final product testing', dur:12, depts:['qc','reactor'], equip:['hplc01'], badges:{ reactor:['FP: UNDER TEST','warn'], qc:['Testing FP','info'] },
+    { id:'fp_sample', title:'QC: final product testing', dur:12, depts:['qc','reactor'], equip:['hplc01'], badges:{ reactor:['FP: UNDER TEST','warn'], qc:['Testing FP','info'] },
       text:'A final-product sample goes from Production to QC for full release testing.',
       shot:{ pos:[8.7,18.0,-8.8], look:[0.0,1.0,-13.8] },
       moves:[{ actor:'qc', path:walkRoute('reactor', 'qc'), t0:0, t1:0.9, hideEnd:true }],
       subject:[[-9.6,1,-12.3],[9.6,1,-15.3]] },
-    { id:'fp_release', title:'QA — batch release', dur:11, depts:['qc','reactor'], badges:{ qc:['CoA issued ✓','ok'] }, badgesAt:{ 0.75:{ reactor:['FP: APPROVED ✓','ok'] } },
+    { id:'fp_release', title:'QA: batch release', dur:11, depts:['qc','reactor'], badges:{ qc:['CoA issued ✓','ok'] }, badgesAt:{ 0.75:{ reactor:['FP: APPROVED ✓','ok'] } },
       text:'QA reviews the batch record and QC results, issues the Certificate of Analysis and releases the batch.',
       shot:{ pos:[8.7,18.0,-8.8], look:[0.0,1.0,-13.8] },
       moves:[{ actor:'qa', path:walkRoute('qc', 'reactor'), t0:0, t1:0.75, hideEnd:true }],
@@ -6271,34 +6271,34 @@ function buildStorySteps(){
     { id:'fg_to_wh', title:'Finished goods → Warehouse', dur:15, depts:['reactor','warehouse'], track:'forklift', badges:{ warehouse:['FG: batch in stock','ok'] },
       text:'Packed drums of the released product go by forklift to the finished-goods bay of the Warehouse.',
       moves:[{ actor:'forklift', path:driveRoute('reactor', 'warehouse'), t0:0, t1:1, load:true, loadEnd:false }] },
-    { id:'dispatch_in', title:'Dispatch — loading', dur:13, depts:['warehouse','admin'], track:'truck', boom:'open', badges:{ admin:['Invoice & e-way bill','info'] },
+    { id:'dispatch_in', title:'Dispatch: loading', dur:13, depts:['warehouse','admin'], track:'truck', boom:'open', badges:{ admin:['Invoice & e-way bill','info'] },
       text:'Accounts raise the invoice and e-way bill; a truck comes in for the customer order and is loaded at the Warehouse.',
       moves:[{ actor:'truck', path:driveRoute('gate', 'warehouse', { stopShort:3.3 }), t0:0, t1:0.85, load:false, loadEnd:true }] },
-    { id:'dispatch_out', title:'Dispatch — sent for sale', dur:15, depts:['warehouse'], track:'truck', boom:'open', badges:{ warehouse:['Dispatched ✓','ok'] },
+    { id:'dispatch_out', title:'Dispatch: sent for sale', dur:15, depts:['warehouse'], track:'truck', boom:'open', badges:{ warehouse:['Dispatched ✓','ok'] },
       text:'With the CoA and invoice on board, the truck leaves through the gate to the customer.',
       moves:[{ actor:'truck', path:truckOut, t0:0, t1:1, load:true, hideEnd:true, reverseFirst:4 }] },
-    { id:'etp', title:'ETP — collection & physico-chemical', dur:13, depts:['etp'], services:['EFF'], equip:['cs901','eq101','nt901','pc901','ds901'],
+    { id:'etp', title:'ETP: collection & physico-chemical', dur:13, depts:['etp'], services:['EFF'], equip:['cs901','eq101','nt901','pc901','ds901'],
       pipes:['etp-inlet','etp-eq','etp-dose','etp-pc'], badges:{ etp:['Treating effluent','info'] },
       text:'Effluent from Production, Distillation, QC and R&D drops into the collection sump through the bar screen and oil trap, and is pumped to equalisation. There its pH is neutralised with lime or acid, and it is coagulated and flocculated with alum and polyelectrolyte. The flocs settle in the tube-settler clarifier.',
       shot:{ pos:[-0.5,9.5,19.5], look:[-7.4,0.8,28.2] },
       subject:[[-7.6,0.5,23.1],[-7.8,1,26.9],[-7.6,1,30.6],[-7.8,1.5,34.4]] },
-    { id:'etp2', title:'ETP — biological, tertiary & sludge', dur:13, depts:['etp'], equip:['ab101','ab102','cl101','tf901','tw901','flp901','sdb901'],
+    { id:'etp2', title:'ETP: biological, tertiary & sludge', dur:13, depts:['etp'], equip:['ab101','ab102','cl101','tf901','tw901','flp901','sdb901'],
       pipes:['etp-bio','etp-ras','etp-air','etp-tert','etp-reuse','etp-sludge'], badges:{ etp:['OCEMS: within limits ✓','ok'] },
       text:'Bacteria in the aeration tank, fed air by the blowers, break down the dissolved organics, and the secondary clarifier returns the sludge to them. Sand and carbon filters polish the water for reuse, while online monitoring reports to the pollution control board. Sludge goes to the filter press and drying beds.',
       shot:{ pos:[10.5,10.5,23.0], look:[1.2,0.8,33.0] },
       subject:[[-2.3,1,34.9],[2.6,1,34.9],[3.0,1.5,30.9],[3.0,1,27.1]] },
-    { id:'zld', title:'ETP — MEE & ATFD (zero liquid discharge)', dur:14, depts:['etp'], equip:['mee901','atfd901'], services:['HTDS','ST','CWS','CWR'],
+    { id:'zld', title:'ETP: MEE & ATFD (zero liquid discharge)', dur:14, depts:['etp'], equip:['mee901','atfd901'], services:['HTDS','ST','CWS','CWR'],
       pipes:['mee-feed','mee-liquor','mee-vapour','mee-condensate','mee-conc'], badges:{ etp:['ZLD: no liquid discharge ✓','ok'] },
       text:'High-TDS streams from Production and Distillation arrive on their own line and are evaporated in the three-effect MEE. Steam heats the first effect, and each effect’s vapour heats the next. The clean condensate goes to the aeration tank, and the concentrate is dried to salt in the ATFD for authorised disposal. No liquid leaves the site.',
       shot:{ pos:[12.0,8.0,15.0], look:[3.6,2.4,23.4] },
       subject:[[3.4,2.5,23.1],[5.95,2,22.0]] },
-    { id:'maint', title:'Maintenance — preventive maintenance', dur:11, depts:['utility'], equip:['pu801'], badges:{ utility:['PM: CW pumps','warn'] },
+    { id:'maint', title:'Maintenance: preventive maintenance', dur:11, depts:['utility'], equip:['pu801'], badges:{ utility:['PM: CW pumps','warn'] },
       text:'The maintenance team, under an EHS permit, carries out scheduled preventive maintenance on the cooling-water pumps.',
       shot:{ pos:[-17.2,5.2,-3.2], look:[-25.2,1.0,1.8] },
       moves:[{ actor:'maint', path:[{ x:WORKSHOP.x-0.4, z:WORKSHOP.z+2.4 }, { x:pumpSpot.x, z:WORKSHOP.z+2.4 }, pumpSpot], t0:0.05, t1:0.6 }],
       subject:[[-22.3,1,1.2],[WORKSHOP.x,1.2,WORKSHOP.z]] },
-    { id:'project', title:'Project team — new block', dur:12, depts:['rnd'], badges:{ rnd:['Scale-up trials','info'] },
-      text:'The project team builds the next block — foundations, steel and crane lifts — while Technical Services scales up the process from R&D.',
+    { id:'project', title:'Project team: new block', dur:12, depts:['rnd'], badges:{ rnd:['Scale-up trials','info'] },
+      text:'The project team builds the next block (foundations, steel and crane lifts) while Technical Services scales up the process from R&D.',
       shot:{ pos:[1,9,25], look:[10.5,2,36.5] },
       place:[{ actor:'maint', at:{ x:pumpSpot.x, z:pumpSpot.z, yaw:0 }, show:false }],
       moves:[{ actor:'proj1', path:[{ x:p.x-0.4, z:p.z-6.4 }, { x:p.x-0.4, z:p.z-4.9 }, { x:p.x-0.6, z:p.z-1.0 }], t0:0.1, t1:0.8 },
@@ -6311,7 +6311,7 @@ function buildStorySteps(){
       moves:[{ actor:'workers', path:walkRoute('reactor', 'ehs').concat([{ x:-19.2, z:-13.6 }, { x:-20.4, z:-16.9 }]), t0:0.05, t1:0.85 }],
       subject:[[-20.6,0.5,-17.5],[-27.6,7.5,-18.9],[-21.9,1.5,-10.9]] },
     { id:'finale', title:'All departments working together', dur:9, depts:['reactor','distillation','utility','warehouse','qc','etp','rnd','ehs','admin'],
-      text:'Security, HR, EHS, Warehouse, QC/QA, Production, Distillation, Utilities, ETP, Maintenance and Projects — one plant, one day.',
+      text:'Security, HR, EHS, Warehouse, QC/QA, Production, Distillation, Utilities, ETP, Maintenance and Projects: one plant, one day.',
       shot:{ pos:[0,44,46], look:[0,0,-2] },
       subject:[[0,0,0]] },
   ];
@@ -6458,7 +6458,7 @@ function setSoundOn(on){
     setTimeout(() => { if (!SOUND.on && SOUND.ctx) SOUND.ctx.suspend(); }, 300);
   }
   const b = document.getElementById('snd-btn');
-  if (b){ b.textContent = on ? '🔊' : '🔇'; b.title = on ? 'Sound on — click to mute' : 'Sound off — click to turn on'; b.classList.toggle('off', !on); }
+  if (b){ b.textContent = on ? '🔊' : '🔇'; b.title = on ? 'Sound on, click to mute' : 'Sound off, click to turn on'; b.classList.toggle('off', !on); }
 }
 function makeVoice(type){
   const c = SOUND.ctx, out = c.createGain(); out.gain.value = 0; out.connect(SOUND.master);
@@ -6695,7 +6695,7 @@ function leakPoolFire(c, pool){
   const Qrad = c.fire.chi*burn*c.fire.dhc;                              // kW
   const dist = q => Math.max(D/2, Math.sqrt(Qrad/(4*Math.PI*q)));
   return { D, H, mpp, burn, Qrad, qAt:(R) => Qrad/(4*Math.PI*Math.max(R, D/2)*Math.max(R, D/2)),
-           zones:[{ q:37.5, r:dist(37.5), label:'37.5 kW/m² — equipment damage, fatal' }, { q:12.5, r:dist(12.5), label:'12.5 kW/m² — wood ignites, 1% fatality in 1 min' }, { q:4, r:dist(4), label:'4 kW/m² — pain in 20 s, 2nd-degree burns' }] };
+           zones:[{ q:37.5, r:dist(37.5), label:'37.5 kW/m² · equipment damage, fatal' }, { q:12.5, r:dist(12.5), label:'12.5 kW/m² · wood ignites, 1% fatality in 1 min' }, { q:4, r:dist(4), label:'4 kW/m² · pain in 20 s, 2nd-degree burns' }] };
 }
 // ---------- whole scenario ----------
 function leakRun(s){
@@ -6732,8 +6732,8 @@ const LEAK_SITES = [
   { id:'whfire', label:'🔥 Warehouse drum-store fire', chem:'toluene', kind:'bldgfire', dept:'warehouse', local:[2.5, 3] },
   { id:'custom', label:'📍 A point you pick on the map', kind:'custom' },
 ];
-const LEAK_HOLES = [[3,'3 mm — pinhole'],[6,'6 mm — valve / fitting'],[10,'10 mm — pump seal / small flange'],[25,'25 mm — flange / nozzle'],[50,'50 mm — broken 2″ line'],[100,'100 mm — full-bore 4″ line']];
-const LEAK_STAB = [['A','A — very unstable (strong sun)'],['B','B — unstable (sunny)'],['C','C — slightly unstable'],['D','D — neutral (overcast / windy)'],['E','E — slightly stable (night)'],['F','F — stable (clear, calm night)']];
+const LEAK_HOLES = [[3,'3 mm, pinhole'],[6,'6 mm, valve / fitting'],[10,'10 mm, pump seal / small flange'],[25,'25 mm, flange / nozzle'],[50,'50 mm, broken 2″ line'],[100,'100 mm, full-bore 4″ line']];
+const LEAK_STAB = [['A','A, very unstable (strong sun)'],['B','B, unstable (sunny)'],['C','C, slightly unstable'],['D','D, neutral (overcast / windy)'],['E','E, slightly stable (night)'],['F','F, stable (clear, calm night)']];
 const LEAK_QUICK = [
   { id:'q-meoh', label:'🧪 Methanol tank leak', site:'tk1001', set:{ holeMM:25, ignited:false, stab:'F', u:1.5, Tc:25, windFrom:45 } },
   { id:'q-tfire', label:'🔥 Tank farm bund fire', site:'tk1003', set:{ holeMM:50, ignited:true, stab:'D', u:3, Tc:32, windFrom:0 } },
@@ -7082,7 +7082,7 @@ function leakResults(){
   if (!bfire) r.tox.slice().reverse().forEach(t => { if (t) z += row(LEAK_ZC.tox[t.level-1], 'AEGL-'+t.level, leakPpmLabel(t.ppm), leakFmtD(t.fp), desc[t.level-1]); });
   if (c.aegl[0] == null && !bfire) z += row('#555', 'AEGL-1', '—', '—', 'Not set for this chemical');
   if (!bfire) r.flam.forEach((f, i) => z += row(i ? LEAK_ZC.hlfl : LEAK_ZC.lfl, f.key, leakPpmLabel(f.ppm), leakFmtD(f.fp), i ? 'Safety margin (pockets)' : 'Flash fire if ignited'));
-  if (r.fire) r.fire.zones.forEach((f, i) => z += row(LEAK_ZC.fire[i], f.q+' kW/m²', 'Pool fire', Math.round(f.r)+' m', f.label.split('—')[1].trim()));
+  if (r.fire) r.fire.zones.forEach((f, i) => z += row(LEAK_ZC.fire[i], f.q+' kW/m²', 'Pool fire', Math.round(f.r)+' m', f.label.split('·')[1].trim()));
   if (!c.lfl && !c.fire) z += `<tr><td colspan="3" class="lk-note">${c.name} is not a practical fire hazard here; the danger is toxic.</td></tr>`;
   else if (r.fire && !bfire) z += `<tr><td colspan="3" class="lk-note">Once the pool is burning, the vapour burns in the fire: the hazards are heat radiation and smoke, not a toxic or flammable cloud.</td></tr>`;
   else if (c.fire && !s.ignited && !bfire) z += `<tr><td colspan="3" class="lk-note">Tick “The pool catches fire” to see the pool-fire zones.</td></tr>`;
@@ -7093,15 +7093,15 @@ function leakResults(){
   const hit = LEAK.aff.filter(a => a.e.sev > 0).sort((a, b) => b.e.sev - a.e.sev || b.e.ppm - a.e.ppm);
   const APs = leakPickAP(), ap = APs[0].e, apSel = APs[0], apOther = APs[1];
   const gt = ROADS && ROADS.gate ? leakExposure([{ x:ROADS.gate.cabin.x, z:ROADS.gate.cabin.z }]) : null;
-  let a = hit.map(x => `<div>${sevIcon(x.e)} <b>${x.d.name}</b> — ${describe(x.e)}</div>`).join('') || '<div>✅ No building is inside a danger zone.</div>';
-  leakAPs().forEach(x => { const e = (x.id === apSel.id ? apSel : apOther).e; a += `<div>${e.sev ? sevIcon(e) : '✅'} <b>Assembly point ${x.id}</b> (${x.where}) — ${e.sev ? describe(e) : 'outside the zones'}${x.id === apSel.id ? ' · <b class="lk-ap-sel">muster here</b>' : ''}</div>`; });
-  if (gt) a += `<div>${gt.sev ? sevIcon(gt) : '✅'} <b>Main gate / security</b> — ${gt.sev ? describe(gt) : 'outside the zones'}</div>`;
+  let a = hit.map(x => `<div>${sevIcon(x.e)} <b>${x.d.name}</b>: ${describe(x.e)}</div>`).join('') || '<div>✅ No building is inside a danger zone.</div>';
+  leakAPs().forEach(x => { const e = (x.id === apSel.id ? apSel : apOther).e; a += `<div>${e.sev ? sevIcon(e) : '✅'} <b>Assembly point ${x.id}</b> (${x.where}): ${e.sev ? describe(e) : 'outside the zones'}${x.id === apSel.id ? ' · <b class="lk-ap-sel">muster here</b>' : ''}</div>`; });
+  if (gt) a += `<div>${gt.sev ? sevIcon(gt) : '✅'} <b>Main gate / security</b>: ${gt.sev ? describe(gt) : 'outside the zones'}</div>`;
   // off-site
   const S = LEAK.S, G = LEAK.G, R = SITE_BOUNDARY_RADIUS + 0.6, sd = S.x*G.d.x + S.z*G.d.z, disc = sd*sd - (S.x*S.x + S.z*S.z - R*R);
   const tB = disc > 0 ? -sd + Math.sqrt(disc) : 0, t2 = r.tox[1];
   let offsite = '';
   if (t2 && t2.fp && t2.fp.xmax > tB) offsite = t2.fp.beyond ? 'more than 10 km' : leakFmtD({ xmax:t2.fp.xmax - tB });
-  if (offsite) a += `<div>🔴 <b>Beyond the boundary wall</b> — the AEGL-2 zone reaches ${offsite} past the site: neighbours and the public must be warned (off-site emergency plan).</div>`;
+  if (offsite) a += `<div>🔴 <b>Beyond the boundary wall</b>: the AEGL-2 zone reaches ${offsite} past the site: neighbours and the public must be warned (off-site emergency plan).</div>`;
   $('lk-aff').innerHTML = a;
   // tips
   const wf = LEAK_DIRS[Math.round(s.windFrom/45) % 8], cw1 = LEAK_DIRS[Math.round((s.windFrom + 90)/45) % 8], cw2 = LEAK_DIRS[Math.round((s.windFrom + 270)/45) % 8];
@@ -7121,7 +7121,7 @@ function leakResults(){
   $('lk-verdict').innerHTML = `<div class="lk-v1">${c.name} · ${leakShort(site)} · wind from ${wf}, ${s.u} m/s, class ${s.stab}</div>
     <div class="lk-v2">${parts.join(' · ')}</div>
     <div class="lk-v3">${hit.length} building${hit.length === 1 ? '' : 's'} affected · Muster at <b class="${ap.sev >= 2 ? 'bad' : ap.sev === 1 ? 'warn' : 'ok'}">${apSel.id}</b>${offsite ? ' · <b class="bad">OFF-SITE</b>' : ''}</div>`;
-  document.getElementById('hud-sub').textContent = (site.kind === 'bldgfire' ? 'What-If Fire — ' : 'What-If Leak — ')+c.name+' at '+leakShort(site);
+  document.getElementById('hud-sub').textContent = (site.kind === 'bldgfire' ? 'What-If Fire: ' : 'What-If Leak: ')+c.name+' at '+leakShort(site);
 }
 // ---------- run ----------
 function leakUpdate(reframe){
@@ -7183,7 +7183,7 @@ function leakExit(silent){
     if (cine.sbRestore && isDesktopLayout()) setSidebarCollapsed(false, false);
     cine.sbRestore = undefined;
     targetLookAt.set(0,3,0); targetRadius = 42; targetPolar = Math.PI/3.2; targetAzimuth = Math.PI/4;
-    document.getElementById('hud-sub').textContent = 'Overview — click a department';
+    document.getElementById('hud-sub').textContent = 'Overview: click a department';
   }
   updateModeBar(true);
 }

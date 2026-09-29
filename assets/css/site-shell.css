@@ -142,7 +142,9 @@ a { color: inherit; text-decoration: none; }
   transition: border-color 0.15s;
 }
 .category-card:hover { border-color: var(--brass); }
-.category-card .icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+.category-card .icon { display: block; width: 34px; height: 34px; margin-bottom: 14px; color: var(--brass); }
+.category-card .icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.category-card:hover .icon { color: #E9C54A; }
 .category-card h3 {
   font-family: var(--f-display); font-weight: 700; font-size: 1.15rem;
   color: var(--paper); margin: 0 0 8px;

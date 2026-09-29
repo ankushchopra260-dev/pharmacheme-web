@@ -554,7 +554,7 @@ function poLoadImage(src) {
 
 function renderPlantOperator() {
   return `
-    ${plateHeader("Plant Operator", "V3 \u2014 FULL BATCH SEQUENCE")}
+    ${plateHeader("Plant Operator", "V3 · FULL BATCH SEQUENCE")}
     <div id="po-hint" style="font-size:0.75rem; color:var(--muted-dim); font-family:var(--f-sans); margin-bottom:6px;">
       Move: WASD / Arrow keys (or tap the floor on touch devices). Press E near equipment to interact.
     </div>
@@ -563,7 +563,7 @@ function renderPlantOperator() {
     </div>
     <div id="po-panel" class="plate" style="display:none; margin-top:16px; background:var(--panel); border:1px solid var(--grid-line); border-radius:4px; padding:20px;"></div>
     <div style="margin-top:16px; background:var(--panel); border:1px solid var(--grid-line); border-radius:4px; padding:20px;">
-      <div class="plate-header"><h2>Batch Instructions</h2><span class="code">API-001 \u2014 R-101</span></div>
+      <div class="plate-header"><h2>Batch Instructions</h2><span class="code">API-001 · R-101</span></div>
       <ul style="list-style:none; padding:0; margin:12px 0 0; font-family:var(--f-mono); font-size:0.85rem; line-height:1.9;">
         <li id="po-step-charge">\u2610 Charge raw material into R-101</li>
         <li id="po-step-heat">\u2610 Heat to ${PO_HOLD_TARGET}\u00b0C</li>

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Materials & Corrosion Compatibility Checker
-description: "Check a whole process stream against 20 materials of construction — SS316, SS304, MS, Hastelloy C276, titanium, glass-lined steel, PTFE, PVDF, PP, PVC, Viton, EPDM and more — with worst-case ratings, temperature limits and sourced warnings."
+description: "Check a whole process stream against 20 materials of construction: SS316, SS304, MS, Hastelloy C276, titanium, glass-lined steel, PTFE, PVDF, PP, PVC, Viton, EPDM and more, with worst-case ratings, temperature limits and sourced warnings."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -97,7 +97,7 @@ breadcrumbs:
 
 <div class="container calc-page-head">
   <h1>Materials &amp; Corrosion Compatibility</h1>
-  <p>Add every chemical in your process stream and see which materials of construction hold up &mdash; each material is rated by its worst case across the stream, with temperature limits and specific warnings. 45 chemicals &times; 20 materials: metals, glass lining, plastics and elastomers.</p>
+  <p>Add every chemical in your process stream and see which materials of construction hold up: each material is rated by its worst case across the stream, with temperature limits and specific warnings. 45 chemicals &times; 20 materials: metals, glass lining, plastics and elastomers.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
@@ -108,8 +108,8 @@ breadcrumbs:
 <div class="container article-body" style="margin-top:24px;">
   <h2>How This Works</h2>
   <p>Ratings are compiled from published manufacturer compatibility references, covering 45 common process chemicals against 20 materials of construction. When you add several chemicals, each material takes the lowest rating it gets for any of them, and the tool shows which chemical is limiting. A material with no rating for one of the chemicals is marked &ldquo;Incomplete data&rdquo; rather than being treated as safe.</p>
-  <p>If you enter an operating temperature, polymers, elastomers and glass lining above their maximum service temperature are flagged. The compatibility ratings themselves are not temperature-specific, and metals are not temperature-checked. Temperature limits and material-specific warnings (for example titanium in dry methanol or dry chlorine, glass lining with hot caustic, and chloride stress corrosion cracking of stainless steel) are shown only where a published source is cited &mdash; see &ldquo;Sources&rdquo; under the results.</p>
-  <p>This is a starting reference, not a substitute for a vendor datasheet or an in-house trial &mdash; always confirm against your specific concentration, temperature and duty before finalizing a material of construction.</p>
+  <p>If you enter an operating temperature, polymers, elastomers and glass lining above their maximum service temperature are flagged. The compatibility ratings themselves are not temperature-specific, and metals are not temperature-checked. Temperature limits and material-specific warnings (for example titanium in dry methanol or dry chlorine, glass lining with hot caustic, and chloride stress corrosion cracking of stainless steel) are shown only where a published source is cited: see &ldquo;Sources&rdquo; under the results.</p>
+  <p>This is a starting reference, not a substitute for a vendor datasheet or an in-house trial. Always confirm against your specific concentration, temperature and duty before finalizing a material of construction.</p>
 
   <div class="related-box">
     <h3>Related Calculators</h3>
