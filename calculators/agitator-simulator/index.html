@@ -3,7 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Agitator comparison simulator</title>
+<title>PharmaChemE — Agitator Comparison Simulator</title>
+<meta name="description" content="Compare two agitator setups side by side: flow pattern, blending and solids lift, with Reynolds number, tip speed and power draw from standard mixing correlations.">
+<link rel="canonical" href="https://www.pharmacheme.in/calculators/agitator-simulator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PharmaChemE">
+<meta property="og:title" content="PharmaChemE — Agitator Comparison Simulator">
+<meta property="og:description" content="Compare two agitator setups side by side: flow pattern, blending and solids lift, with Reynolds number, tip speed and power draw from standard mixing correlations.">
+<meta property="og:url" content="https://www.pharmacheme.in/calculators/agitator-simulator/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
@@ -110,7 +117,7 @@ td.best{font-weight:600}
 </head>
 <body>
 <div class="wrap">
-<nav class="crumb"><a href="https://pharmacheme.in/">PharmaChemE</a> › <a href="https://pharmacheme.in/calculators/">Calculators</a></nav>
+<nav class="crumb"><a href="https://www.pharmacheme.in/">PharmaChemE</a> › <a href="https://www.pharmacheme.in/calculators/">Calculators</a></nav>
 <h1>Agitator comparison simulator</h1>
 <p class="lede">Put two agitation systems in the same vessel and watch how they circulate, blend and lift solids. Engineering numbers come from standard mixing correlations; the animation is a simplified flow model for comparison, not CFD.</p>
 
@@ -129,7 +136,7 @@ td.best{font-weight:600}
  <label>Particle density (kg/m³)<input id="rhos" type="number" min="100" max="8000" step="50" value="2500"></label>
  <label>Solids loading (wt %)<input id="ws" type="number" min="0" max="50" step="1" value="10"></label>
 </div>
-<div class="sub"><span>Liquid height <b id="vol">–</b></span><span>Dished bottom 2:1 elliptical</span><span>Inputs use the same units as the <a href="https://pharmacheme.in/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a></span></div>
+<div class="sub"><span>Liquid height <b id="vol">–</b></span><span>Dished bottom 2:1 elliptical</span><span>Inputs use the same units as the <a href="https://www.pharmacheme.in/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a></span></div>
 </section>
 
 <div class="bar">
@@ -163,11 +170,12 @@ td.best{font-weight:600}
 <details class="corr"><summary>Correlations and assumptions</summary><div id="corrbody"></div></details>
 <div class="link">
  <p><strong>Need the numbers across scales?</strong>The Mixing / Scale-up Calculator compares Re, tip speed, power, P/V and torque for any number of reactors. Enter the same diameter, RM volume, speed and impellers there.</p>
- <div class="acts"><a class="go" href="https://pharmacheme.in/calculators/mixing-scale-up-calculator/">Open Mixing / Scale-up Calculator</a></div>
+ <div class="acts"><a class="go" href="https://www.pharmacheme.in/calculators/mixing-scale-up-calculator/">Open Mixing / Scale-up Calculator</a></div>
 </div>
 <div class="notes">
 <p>Power uses Np–Re curves per impeller class with a baffling correction; by default the turbulent power numbers for the types the Scale-up Calculator lists (Rushton 3/4/5/6-blade, 2- and 4-blade paddles, PBT, anchor, RCI) are the calculator's own values, and the other types use literature values; multi-impeller power is the sum of all stages less 5 %. Blend time θ95 follows Grenville's turbulent and transitional correlations, corrected for liquid height and baffling. Just-suspended speed uses the Zwietering correlation with indicative S-factors. The motor size assumes 85 % drive efficiency plus a 20 % margin.</p>
 <p>The animated field is a reduced-order model: circulation loops placed by impeller type, shrunk at low Reynolds number and weakened without baffles. The model blend time from the dye animation is shown for comparison and will not match the correlation exactly. The crystallisation view is a teaching model: supersaturation from jacket cooling or antisolvent feed is carried by the same flow field, nucleation rises steeply above a metastable limit, crystals grow where supersaturation reaches them, settle by size, and chip when they pass through the impeller zone (more for high-shear impellers and higher tip speed). Use it to compare trends between agitators, not to predict a real CSD. Use all of this for screening, teaching and discussion; confirm critical designs with vendor data, scale-up trials or CFD. Background on the scale-up rules is in <a href="https://www.pharmacheme.in/articles/mixing-scale-up/" target="_blank" rel="noopener">Mixing &amp; Scale-up Calculations Explained</a>.</p>
+<p>Related tools: <a href="https://www.pharmacheme.in/calculators/pump-power-calculator/">Pump Power Calculator</a> · <a href="https://www.pharmacheme.in/calculators/centrifuge-cake-weight-calculator/">Centrifuge Cake Weight Calculator</a> · <a href="https://www.pharmacheme.in/calculators/">all calculators</a>.</p>
 </div>
 </div>
 <script>
