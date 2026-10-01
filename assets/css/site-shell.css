@@ -256,3 +256,15 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 700px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* Tool demo cards: video link + "try the tool" link */
+.video-card--demo { display: flex; flex-direction: column; }
+.video-card--demo .video-card-link { color: inherit; text-decoration: none; display: block; }
+.video-card--demo:hover .video-play { opacity: 1; }
+.video-tool-link {
+  margin: auto 12px 12px; padding: 7px 10px; border: 1px solid var(--brass); border-radius: 4px;
+  color: var(--brass); font-size: 0.8rem; font-weight: 600; text-decoration: none; text-align: center;
+}
+.video-tool-link:hover { background: var(--brass); color: var(--bg-deep); }
+.watch-demo-link { display: inline-block; margin-top: 6px; color: var(--brass); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.watch-demo-link:hover { text-decoration: underline; }
