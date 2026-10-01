@@ -4671,8 +4671,9 @@ function updateWalkMovement(dt){
   let mx=0, mz=0;
   if (keys.w){ mx+=Math.sin(walkYaw); mz+=Math.cos(walkYaw); }
   if (keys.s){ mx-=Math.sin(walkYaw); mz-=Math.cos(walkYaw); }
-  if (keys.a){ mx-=Math.cos(walkYaw); mz+=Math.sin(walkYaw); }
-  if (keys.d){ mx+=Math.cos(walkYaw); mz-=Math.sin(walkYaw); }
+  // strafe: camera looks along (sin yaw, cos yaw), so its right-hand side is (-cos yaw, sin yaw)
+  if (keys.a){ mx+=Math.cos(walkYaw); mz-=Math.sin(walkYaw); }
+  if (keys.d){ mx-=Math.cos(walkYaw); mz+=Math.sin(walkYaw); }
   const len = Math.sqrt(mx*mx+mz*mz);
   if (len > 0.001){
     const speed = keys.shift ? WALK_SPEED_FAST : WALK_SPEED;
