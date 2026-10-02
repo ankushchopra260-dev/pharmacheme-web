@@ -144,3 +144,4 @@
 .ps-tool input:focus-visible, .ps-tool select:focus-visible, #ps-mark:focus-visible, .ps-lesson:focus-visible, .ps-case:focus-visible {
   outline: 2px solid var(--brass); outline-offset: 2px; }
 .ps-tool input[type=range]:focus-visible { outline-offset: 4px; }
+.ps-scope { margin: -4px 0 18px; padding: 8px 12px; border-left: 3px solid var(--grid-line); background: rgba(18,34,52,0.6); font-size: 0.8rem; line-height: 1.5; color: #9FB2C4; border-radius: 0 4px 4px 0; }

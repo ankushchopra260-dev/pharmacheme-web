@@ -310,6 +310,7 @@ const $ = id => document.getElementById(id);
 const root = $('rw-root');
 const store = { get(k, d){ try { const v = localStorage.getItem('rw.'+k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
                 set(k, v){ try { localStorage.setItem('rw.'+k, JSON.stringify(v)); } catch(e){} } };
+const track = (n, p) => { try { if (typeof window.gtag === 'function') window.gtag('event', n, p || {}); } catch(e){} };
 const fmt = (v, d) => (+v).toFixed(d === undefined ? 0 : d);
 const fmtH = h => !isFinite(h) || h > 9999 ? '> 1 year' : h >= 48 ? fmt(h/24, h > 240 ? 0 : 1)+' days' : h >= 1 ? fmt(h, h < 10 ? 1 : 0)+' h' : fmt(h*60)+' min';
 const CLASS_TXT = {
@@ -486,6 +487,7 @@ function fit(c){ const r = c.getBoundingClientRect(), k = Math.min(2, window.dev
   if (c.width !== w || c.height !== h){ c.width = w; c.height = h; } const x = c.getContext('2d'); x.setTransform(k, 0, 0, k, 0, 0); return { x, w:r.width, h:r.height }; }
 function startLevel(i){
   LI = i; LV = RW_LEVELS[i];
+  track('game_started', { game: 'runaway', level: LV.id });
   D = Object.assign({}, LV.def);
   $('rw-pno').textContent = 'REACTION '+(i + 1)+' OF '+RW_LEVELS.length; $('rw-pname').textContent = LV.name;
   $('rw-tp').min = LV.TpMin; $('rw-tp').max = LV.TpMax; $('rw-tp').step = 1; $('rw-tp').value = D.Tp;
@@ -694,7 +696,8 @@ function showResult(){
   const prod = byDesign && survived && end !== 'quenched' && !P.trips && P.effTime && P.effTime <= tgt.time;
   const stars = (survived ? 1 : 0) + (byDesign ? 1 : 0) + (prod ? 1 : 0);
   const prev = progress[LV.id] || 0; if (stars > prev){ progress[LV.id] = stars; store.set('stars', progress); }
-  const TITLE = { safe:['✅ Safe', 'The temperature rose to '+fmt(S.maxT)+' °C and stopped there. TMR<sub>ad</sub> at that temperature is '+fmtH(rwTMR(LV, S.maxT))+', plenty of time to restore cooling.'],
+  track('game_completed', { game: 'runaway', level: LV.id, stars: stars, outcome: end });
+  const TITLE = { safe:['✅ No runaway', 'The temperature rose to '+fmt(S.maxT)+' °C and stopped there. TMR<sub>ad</sub> at that temperature is '+fmtH(rwTMR(LV, S.maxT))+', plenty of time to restore cooling.'],
     reflux:['🌡️ It boiled, and the condenser held', 'The batch reached its boiling point ('+fmt(P.MTT)+' °C). Evaporating solvent took the heat away and the reflux condenser returned it. The boiling barrier worked, this time. Was the condenser really rated for that vapour load?'],
     disc:['💥 Rupture disc burst', 'The batch boiled faster than the condenser could handle (heat release far above its '+LV.condK+' K/h). The pressure rose and the rupture disc burst, venting solvent vapour to the catch pot and scrubber.'],
     runaway:['☠️ Thermal runaway', 'The temperature passed TD24 ('+P.TD24+' °C) and the decomposition took off. In a real plant: a violent gas release, possible vessel rupture.'],

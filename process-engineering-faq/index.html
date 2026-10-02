@@ -2028,7 +2028,7 @@ breadcrumbs:
       $('pc-summary').textContent = 'You went through ' + n + ' card' + (n === 1 ? '' : 's') + ': ' + P.round.k + ' known, ' + P.round.r +
         ' to revise. Your revise list now has ' + rv + ' question' + (rv === 1 ? '' : 's') + '.';
       $('pc-again-rev').hidden = rv === 0;
-      track('ip_practice_complete', { cards: n, known: P.round.k });
+      track('interview_prep_practice_complete', { cards: n, known: P.round.k });
       return;
     }
     card.hidden = false; done.hidden = true;
@@ -2082,7 +2082,7 @@ breadcrumbs:
     });
     $('faq-list').hidden = m !== 'browse';
     $('ip-practice').hidden = m !== 'practice';
-    if (m === 'practice') { buildDeck(false); track('ip_practice_start', { level: S.level, top50: S.top }); }
+    if (m === 'practice') { buildDeck(false); track('interview_prep_practice_start', { level: S.level, top50: S.top }); }
     renderList();
   }
   function syncControls() {

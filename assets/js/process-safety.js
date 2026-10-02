@@ -187,7 +187,7 @@ $$('[data-tool]').forEach(function(t){
   var name = t.getAttribute('data-tool'), used = false;
   var touched = function(){ if (used) return; used = true;
     if (name === 'crit') track('stoessel_interaction', { source: 'process_safety_hub' });
-    else track('process_safety_tool_used', { tool: name, page: pathName }); };
+    else track('calculator_used', { section: 'process_safety', tool: name, page: pathName }); };
   $$('input, select', t).forEach(function(i){ i.addEventListener('input', function(){ run(); touched(); }); i.addEventListener('change', function(){ run(); touched(); }); });
   run();
 });
