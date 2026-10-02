@@ -1,0 +1,51 @@
+---
+layout: default
+title: "Process Safety Worked Exercises"
+description: "Worked exercises on dosing time, DSC interpretation, TMRad / TD24 and fire-case relief sizing, with full solutions."
+breadcrumbs:
+  - label: "Process Safety"
+    url: /process-safety/
+  - label: "Worked exercises"
+    url: /process-safety/exercises/
+---
+
+<link rel="stylesheet" href="/assets/css/process-safety.css">
+<article class="ps-article"><div class="ps-kicker">Process Safety · Worked exercises</div><h1>Worked exercises</h1><p class="ps-intro">Four plant-style problems that combine the lessons. Try them on paper first, then open the solutions. The numbers are invented for teaching.</p>
+<h2>Exercise 1 · Shortest dosing time for a semi-batch reaction</h2>
+<p>A + B → P is to run semi-batch at <b>60 °C</b> in toluene (boiling point 111 °C). In the reaction calorimeter, with 1.2 kg of final reaction mass, B was dosed over 2.5 h and the heat flow stayed roughly constant at <b>35 W</b> during the addition. c′<sub>p</sub> = 1.85 kJ/kg·K. In the plant, the final mass is <b>3,000 kg</b>; the jacket gives U = 250 W/m²·K over A = 5.5 m², with brine at 10 °C. The calorimeter showed a maximum accumulation of <b>25 %</b>; ARC gives T<sub>D24</sub> = 150 °C for the final mass.</p>
+<ol><li>What is the specific heat of reaction and ΔT<sub>ad</sub>?</li><li>What is the shortest dosing time in the plant, with a 20 % cooling margin?</li><li>What are the MTSR and the Stoessel class? What if all of B were charged at once?</li></ol>
+<details class="ps-callout" style="cursor:pointer;"><summary style="font-weight:600;color:var(--brass);">Show the solution</summary><div style="margin-top:10px;">
+<p><b>1.</b> Q<sub>rx</sub> = 35 W × 2.5 h × 3600 s/h = 315 kJ for 1.2 kg, so Q′<sub>rx</sub> = <b>262.5 kJ/kg</b>. ΔT<sub>ad</sub> = 262.5 / 1.85 = <b>142 K</b> (medium severity).</p>
+<p><b>2.</b> Total heat = 262.5 × 3000 = 787.5 MJ. Cooling capacity q<sub>ex</sub> = 250 × 5.5 × (60 − 10) = 68.75 kW; with the 20 % margin, 57.3 kW usable. t<sub>min</sub> = 787,500 / 57.3 = 13,745 s ≈ <b>3.8 h → dose over 4 h</b>.</p>
+<p><b>3.</b> MTSR = 60 + 0.25 × 142 = <b>95 °C</b>. Order: T<sub>p</sub> 60 &lt; MTSR 95 &lt; MTT 111 &lt; T<sub>D24</sub> 150 → <span class="ps-cls c1">1</span> Class 1.<br>All at once: X<sub>acc</sub> = 100 %, MTSR = 60 + 142 = <b>202 °C</b>, above both the boiling point and T<sub>D24</sub>: Class 5. Also, the whole heat would have to be removed at once, far beyond 69 kW. The same chemistry, run as a batch, is not acceptable.</p></div></details>
+<p class="ps-src">Check it with the <a href="/process-safety/cooling-failure-and-runaway/">dosing-time calculator</a> and the <a href="/process-safety/stoessel-criticality-classes/">class calculator</a>.</p>
+
+<h2>Exercise 2 · Reading DSC results</h2>
+<p>An alkylation is to be run at <b>70 °C</b> in a solvent boiling at 150 °C. c′<sub>p</sub> = 1.75 J/g·K. DSC (gold-plated high-pressure crucible, 4 K/min) gives:</p>
+<ul><li>Mixture of both reagents prepared cold: exotherm 60–180 °C, <b>280 J/g</b>, followed by a second exotherm from about 230 °C, <b>850 J/g</b>.</li>
+<li>Final reaction mass: flat up to 220 °C, then <b>850 J/g</b>.</li></ul>
+<ol><li>Interpret the signals. What is the severity of the decomposition?</li><li>The chemists propose an all-in batch heated to 70 °C. What is the worst-case temperature?</li><li>The DSC onset of the decomposition is 230 °C, so “140 K of margin”. Is that enough to approve the batch process?</li></ol>
+<details class="ps-callout" style="cursor:pointer;"><summary style="font-weight:600;color:var(--brass);">Show the solution</summary><div style="margin-top:10px;">
+<p><b>1.</b> The first exotherm is the desired reaction (Q′<sub>rx</sub> = 280 J/g → ΔT<sub>ad,rx</sub> = 160 K). The second, present in both samples, is the decomposition of the reaction mass: ΔT<sub>ad,dc</sub> = 850 / 1.75 ≈ <b>486 K</b>, high severity (and &gt; 500 J/g is close, so check for explosive properties).</p>
+<p><b>2.</b> All-in batch: X<sub>acc</sub> = 1, MTSR = 70 + 160 = <b>230 °C</b>. That is above the boiling point (150 °C) and right at the decomposition. If it is triggered: 70 + 160 + 486 ≈ <b>716 °C</b> in theory, with violent gas and vapour release.</p>
+<p><b>3.</b> No. A DSC onset at 4 K/min is not a safe limit; in a 5 m³ near-adiabatic reactor the decomposition can run away from far lower temperatures. And the MTSR (230 °C) already reaches the onset. Get T<sub>D24</sub> from isothermal DSC or ARC, and redesign as a semi-batch with controlled dosing (see exercise 1).</p></div></details>
+
+<h2>Exercise 3 · TMR<sub>ad</sub> and T<sub>D24</sub> from ARC data</h2>
+<p>An ARC test of the final reaction mass shows a self-heating rate corresponding to <b>0.5 W/kg at 150 °C</b>. From a series of isothermal tests, E<sub>a</sub> = 100 kJ/mol. c′<sub>p</sub> = 1.9 kJ/kg·K. The process gives MTSR = 120 °C, and the solvent boils at 140 °C.</p>
+<ol><li>What is TMR<sub>ad</sub> at 150 °C?</li><li>Estimate T<sub>D24</sub> and T<sub>D8</sub>.</li><li>What is TMR<sub>ad</sub> at the MTSR, and the Stoessel class?</li></ol>
+<details class="ps-callout" style="cursor:pointer;"><summary style="font-weight:600;color:var(--brass);">Show the solution</summary><div style="margin-top:10px;">
+<p><b>1.</b> TMR<sub>ad</sub> = c′<sub>p</sub>·R·T²/(q′·E<sub>a</sub>) = 1900 × 8.314 × 423.15² / (0.5 × 100,000) ≈ 56,600 s ≈ <b>15.7 h</b>.</p>
+<p><b>2.</b> Extrapolating q′ with Arrhenius and solving TMR<sub>ad</sub> = 24 h and 8 h gives <b>T<sub>D24</sub> ≈ 143 °C</b> and <b>T<sub>D8</sub> ≈ 161 °C</b>.</p>
+<p><b>3.</b> At 120 °C, TMR<sub>ad</sub> ≈ <b>119 h</b>: low probability. Order: MTSR 120 &lt; MTT 140 &lt; T<sub>D24</sub> 143: <span class="ps-cls c1">1</span> Class 1, but with only 3 K between boiling point and T<sub>D24</sub>. Any change that raises the boiling point (pressure, a different solvent) would make it Class 2, and a hold at reflux would eat into the margin.</p></div></details>
+<p class="ps-src">Try it in the <a href="/process-safety/cooling-failure-and-runaway/">TMR<sub>ad</sub> calculator</a>: T<sub>0</sub> 150 °C, q′<sub>0</sub> 0.5 W/kg, E<sub>a</sub> 100, c′<sub>p</sub> 1.9.</p>
+
+<h2>Exercise 4 · Fire-case relief for a solvent vessel</h2>
+<p>A vertical receiver (D = 1.8 m, 2:1 elliptical bottom head) holds methanol up to 2.2 m in the shell. It is bare (no fire-proof insulation) and the area has no prompt fire-fighting. The relief valve is set at 3.5 barg. Methanol: λ = 1,100 kJ/kg, M = 32, k ≈ 1.2, relieving temperature about 64 °C (use this simplified value), Z = 0.95.</p>
+<ol><li>Wetted area and heat input?</li><li>Relief rate?</li><li>Required relief area and diameter (21 % overpressure, K<sub>d</sub> 0.975)?</li></ol>
+<details class="ps-callout" style="cursor:pointer;"><summary style="font-weight:600;color:var(--brass);">Show the solution</summary><div style="margin-top:10px;">
+<p><b>1.</b> A<sub>w</sub> = π·D·h + 1.084·D² = π × 1.8 × 2.2 + 1.084 × 1.8² ≈ <b>16.0 m²</b>. Q = 70,900 × 1 × 16.0<sup>0.82</sup> ≈ <b>687 kW</b>.</p>
+<p><b>2.</b> W = 687 kW / 1,100 kJ/kg = 0.625 kg/s ≈ <b>2,250 kg/h</b>.</p>
+<p><b>3.</b> P<sub>1</sub> = 350 × 1.21 + 101.3 ≈ 525 kPa(a). C = 0.03948·√(k·(2/(k+1))<sup>(k+1)/(k−1)</sup>) ≈ 0.0256. A = W/(C·K<sub>d</sub>·P<sub>1</sub>)·√(T·Z/M) ≈ <b>543 mm²</b>, about <b>26 mm</b> diameter: select the next standard orifice (API letter “F”, 198 mm², is too small; “H”, 506 mm², is just short; “J”, 830 mm², fits).</p></div></details>
+<p class="ps-src">Check it with the <a href="/process-safety/emergency-relief-vent-sizing/">relief calculators</a>.</p>
+<div class="ps-pager"><a href="/process-safety/toxic-and-flammable-releases/"><span>← LESSON 9</span>Toxic and flammable releases</a><a href="/process-safety/quiz/" style="text-align:right;"><span>NEXT →</span>Process safety quiz</a></div></article>
+<script src="/assets/js/process-safety.js"></script>

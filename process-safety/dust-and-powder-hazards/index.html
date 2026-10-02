@@ -1,0 +1,46 @@
+---
+layout: default
+title: "Dust and powder hazards"
+description: "Explosion pentagon, MIE, Kst and St classes, resistivity, and the tests that characterise a powder."
+breadcrumbs:
+  - label: "Process Safety"
+    url: /process-safety/
+  - label: "Dust and powder hazards"
+    url: /process-safety/dust-and-powder-hazards/
+---
+
+<link rel="stylesheet" href="/assets/css/process-safety.css">
+<article class="ps-article">
+<div class="ps-kicker">Process Safety · Lesson 7 of 9 · 12 min read</div>
+<h1>Dust and powder hazards</h1>
+<p class="ps-intro">Explosion pentagon, MIE, Kst and St classes, resistivity, and the tests that characterise a powder.</p>
+
+<h2>The explosion pentagon</h2>
+<p>A fire needs fuel, oxygen and an ignition source (the fire triangle). A <b>dust explosion</b> needs two more: the dust must be <b>dispersed</b> as a cloud, and it must be <b>confined</b> (a vessel, dryer, silo, room). Remove any one of the five and there is no explosion. Many secondary explosions come from settled dust thrown into the air by a first, small event, so housekeeping is a safety measure.</p>
+
+<h2>What decides risk: probability and severity</h2>
+<div class="ps-table-wrap"><table class="ps-table">
+<tr><th>Probability of ignition</th><th>Severity if it ignites</th></tr>
+<tr><td><b>MIE</b>: minimum ignition energy (mJ)<br><b>MEC</b>: minimum explosible concentration (g/m³)<br><b>LOC</b>: limiting oxygen concentration (for inerting)<br><b>MIT</b> / <b>LIT</b>: minimum ignition temperature of a cloud / of a 5 mm layer</td>
+<td><b>K<sub>St</sub></b>: dust deflagration index (bar·m/s) = (dP/dt)<sub>max</sub> · V<sup>1/3</sup><br><b>P<sub>max</sub></b>: maximum explosion pressure (bar)<br>St classes: <b>St 1</b> 0–200, <b>St 2</b> 200–300, <b>St 3</b> &gt; 300 bar·m/s</td></tr></table></div>
+
+<h2>Tests that characterise a powder</h2>
+<div class="ps-table-wrap"><table class="ps-table">
+<tr><th>Test</th><th>Answers</th></tr>
+<tr><td>Dust explosion screening (modified Hartmann tube)</td><td>Is the cloud explosible at all? (no burning / burning / explosion)</td></tr>
+<tr><td>Minimum ignition energy</td><td>How easily do sparks and static ignite it?</td></tr>
+<tr><td>MIT (cloud) and LIT (layer)</td><td>Maximum allowed surface temperature of dryers, motors, lights</td></tr>
+<tr><td>Burning behaviour (classes 1–6)</td><td>Does a layer just char, glow, or spread fire rapidly?</td></tr>
+<tr><td>Powder volume resistivity</td><td>Will the bulk powder hold electrostatic charge?</td></tr>
+<tr><td>Impact sensitivity (fall hammer)</td><td>Can a blow make it decompose or detonate? (energetic materials)</td></tr>
+<tr><td>Thermal stability (DSC, oven tests)</td><td>Self-heating in dryers and bulk storage</td></tr></table></div>
+
+<h2>Static electricity: the usual ignition source</h2>
+<p>Powders become charged whenever they flow, slide, are pneumatically conveyed or poured from a bag. Insulating plastics (liners, FIBCs, funnels) and isolated metal parts store that charge until it discharges as a spark. A typical spark from a person is 10–30 mJ; many fine organic powders and almost all flammable vapours ignite below that.</p>
+<div class="ps-callout warn"><b>Hybrid mixtures are the trap.</b><p>Pouring a powder into a reactor that contains flammable solvent vapour creates a hybrid mixture that ignites far more easily than either alone. Charge solids <i>before</i> the solvent, or through an inerted closed system, never by hand into a hot solvent.</p></div>
+<div class="ps-tool" data-tool="mie"><h3>🧮 What does this MIE mean for my plant?</h3><p>Enter the minimum ignition energy and the powder resistivity from the test report.</p><div class="ps-grid">
+<label>MIE (mJ)<input name="mie" type="number" value="8" step="0.5"></label>
+<label>Volume resistivity (Ω·m)<input name="res" type="number" value="1e13"></label></div><div class="ps-out"></div><div class="ps-verdict"></div></div>
+<div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: Which pair of elements turns a fire triangle into an explosion pentagon?</div><div class="opts"><button class="o">A. Heat and pressure</button><button class="o">B. Dispersion and confinement</button><button class="o">C. Humidity and static</button><button class="o">D. Particle size and moisture</button></div><div class="exp">A dust explosion needs the dust dispersed as a cloud and the cloud confined. Removing either (good housekeeping, venting, open areas) prevents the explosion even if the dust can burn.</div></div><div class="ps-mq" data-ans="2"><div class="q">✍️ Check yourself: A powder has K<sub>St</sub> = 240 bar·m/s. Its St class is…</div><div class="opts"><button class="o">A. St 0</button><button class="o">B. St 1</button><button class="o">C. St 2</button><button class="o">D. St 3</button></div><div class="exp">St 1 is up to 200, St 2 is 200–300, St 3 above 300 bar·m/s. K<sub>St</sub> is used to size explosion vents and suppression systems.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>Explosion pentagon: fuel, oxygen, ignition, dispersion, confinement.</li><li>Probability: MIE, MEC, LOC, MIT/LIT. Severity: K<sub>St</sub>, P<sub>max</sub>.</li><li>Static is the common ignition source. Earth and bond, avoid insulating plastics, beware hybrid mixtures with solvent vapour.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="dust-and-powder-hazards">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/scale-up-and-tech-transfer/"><span>← LESSON 6</span>Scale-up and technology transfer</a><a href="/process-safety/emergency-relief-vent-sizing/" style="text-align:right;"><span>LESSON 8 →</span>Emergency relief and vent sizing</a></div>
+</article>
+<script src="/assets/js/process-safety.js"></script>

@@ -1,0 +1,66 @@
+---
+layout: default
+title: "Emergency relief and vent sizing"
+description: "Relief scenarios, vapour, liquid and fire-case sizing, and why runaway relief is two-phase."
+breadcrumbs:
+  - label: "Process Safety"
+    url: /process-safety/
+  - label: "Emergency relief and vent sizing"
+    url: /process-safety/emergency-relief-vent-sizing/
+---
+
+<link rel="stylesheet" href="/assets/css/process-safety.css">
+<article class="ps-article">
+<div class="ps-kicker">Process Safety · Lesson 8 of 9 · 16 min read</div>
+<h1>Emergency relief and vent sizing</h1>
+<p class="ps-intro">Relief scenarios, vapour, liquid and fire-case sizing, and why runaway relief is two-phase.</p>
+
+<h2>First: what is the relief for?</h2>
+<p>A relief device (safety valve or rupture disc) protects the vessel by letting material out before the pressure exceeds what the vessel can take. Sizing starts with the <b>scenario</b>, not the formula. Typical scenarios for a batch reactor:</p>
+<ul><li><b>Blocked outlet / overfilling</b> with a pump or gas supply still running</li>
+<li><b>External fire</b> heating the contents (pool fire under the vessel)</li>
+<li><b>Utility failure</b>: control valve fails open, steam to the jacket, nitrogen regulator fails</li>
+<li><b>Thermal expansion</b> of liquid trapped between closed valves</li>
+<li><b>Runaway reaction</b>: vapour and gas from the reaction and decomposition</li>
+<li><b>Gas evolution</b> from the normal reaction (e.g. HCl, CO<sub>2</sub>) exceeding the vent capacity</li></ul>
+<p>Size for the <b>worst credible</b> scenario; the relevant codes are API 520 (sizing), API 521 (scenarios, depressuring) and API 526 (valve sizes). Relief must discharge to a safe place: a catch tank, scrubber or flare, never into the work area.</p>
+
+<h2>Vapour and gas relief</h2>
+<div class="formula-box">A = W / (C · K<sub>d</sub> · P<sub>1</sub> · K<sub>b</sub> · K<sub>c</sub>) · √(T·Z / M)      [A mm², W kg/h, P<sub>1</sub> kPa abs, T K]<br>C = 0.03948 · √( k · (2/(k+1))<sup>(k+1)/(k−1)</sup> )<small>P<sub>1</sub> = set pressure + overpressure (10 % normally, 21 % for fire) + atmospheric. K<sub>d</sub> ≈ 0.975 for preliminary valve sizing; K<sub>b</sub> corrects for backpressure; K<sub>c</sub> = 0.9 if a rupture disc sits under the valve. k = c<sub>p</sub>/c<sub>v</sub> of the vapour (≈ 1.4 for N₂/air, 1.3 for steam, 1.1–1.2 for organic vapours).</small></div>
+<div class="ps-tool" data-tool="vapour"><h3>🧮 Vapour / gas relief area (API 520, critical flow)</h3><p>Example values: 1,200 kg/h of methanol vapour, valve set at 3 barg.</p><div class="ps-grid">
+<label>Relief rate W (kg/h)<input name="w" type="number" value="1200"></label>
+<label>Set pressure (barg)<input name="pset" type="number" value="3" step="0.1"></label>
+<label>Overpressure (%)<input name="over" type="number" value="10"></label>
+<label>Relieving temperature (°C)<input name="t" type="number" value="64"></label>
+<label>Molecular weight M<input name="m" type="number" value="32"></label>
+<label>k = c<sub>p</sub>/c<sub>v</sub><input name="k" type="number" value="1.2" step="0.01"></label>
+<label>Compressibility Z<input name="z" type="number" value="0.95" step="0.01"></label>
+<label>K<sub>d</sub><input name="kd" type="number" value="0.975" step="0.005"></label>
+<label>K<sub>b</sub><input name="kb" type="number" value="1" step="0.05"></label>
+<label>K<sub>c</sub> (disc under valve: 0.9)<input name="kc" type="number" value="1" step="0.05"></label></div><div class="ps-out"></div><div class="ps-verdict"></div></div>
+
+<h2>Fire case</h2>
+<p>A pool fire under a vessel boils the liquid inside. API 521 estimates the heat input from the <b>wetted area</b> A<sub>w</sub> (the part of the vessel wall in contact with liquid, up to 7.6 m above grade):</p>
+<div class="formula-box">Q = 43,200 · F · A<sub>w</sub><sup>0.82</sup>  W  (prompt fire-fighting and good drainage)<br>Q = 70,900 · F · A<sub>w</sub><sup>0.82</sup>  W  (otherwise)<br>W = Q / λ    (λ = latent heat of vaporisation)<small>F is the environment factor: 1.0 for a bare vessel, lower for fire-proof insulation (e.g. 0.3 for 25 mm, 0.15 for 50 mm, 0.075 for 100 mm of approved insulation). Fire-case relief uses 21 % overpressure.</small></div>
+<div class="ps-tool" data-tool="fire"><h3>🧮 Fire-case relief load</h3><div class="ps-grid">
+<label>Vessel diameter D (m)<input name="d" type="number" value="1.8" step="0.1"></label>
+<label>Liquid height in shell (m)<input name="h" type="number" value="2.2" step="0.1"></label>
+<label>Environment factor F<select name="f"><option value="1">1.0 (bare)</option><option value="0.3">0.3 (25 mm insulation)</option><option value="0.15">0.15 (50 mm)</option><option value="0.075">0.075 (100 mm)</option></select></label>
+<label>Latent heat λ (kJ/kg)<input name="lam" type="number" value="1100"></label>
+<label>Fire-fighting<select name="prompt"><option value="0">No prompt fire-fighting / drainage</option><option value="1">Prompt fire-fighting + drainage</option></select></label></div><div class="ps-out"></div><div class="ps-verdict"></div></div>
+
+<h2>Liquid relief</h2>
+<div class="formula-box">A = 11.78 · Q / (K<sub>d</sub> · K<sub>w</sub> · K<sub>v</sub>) · √( G / (P<sub>1</sub> − P<sub>2</sub>) )      [A mm², Q L/min, P kPa g]<small>K<sub>d</sub> = 0.65 for a certified liquid valve (preliminary), G = specific gravity, P<sub>1</sub> = set pressure + overpressure, P<sub>2</sub> = backpressure.</small></div>
+<div class="ps-tool" data-tool="liquid"><h3>🧮 Liquid relief area</h3><div class="ps-grid">
+<label>Flow (m³/h)<input name="q" type="number" value="20"></label>
+<label>Specific gravity G<input name="sg" type="number" value="0.9" step="0.01"></label>
+<label>Set pressure (barg)<input name="pset" type="number" value="7" step="0.1"></label>
+<label>Overpressure (%)<input name="over" type="number" value="10"></label>
+<label>Backpressure (barg)<input name="pb" type="number" value="0.7" step="0.1"></label></div><div class="ps-out"></div><div class="ps-verdict"></div></div>
+
+<h2>Runaway reactions need two-phase relief</h2>
+<p>When a runaway boils the batch, the vapour bubbles swell the liquid and the vent discharges a <b>foaming two-phase mixture</b>, not clean vapour. Two-phase flow carries far less energy per unit area, so a vent sized with the vapour formula can be <b>several times too small</b>. Runaway relief is sized with the DIERS methods (e.g. Leung’s method) from adiabatic test data: the self-heating rate (dT/dt) at the set pressure, and whether the system is “tempered” (vapour), “gassy” or hybrid. That is specialist work, done from ARC / VSP2-type data.</p>
+<div class="ps-callout warn"><b>T2 Laboratories (2007):</b><p>the reactor’s rupture disc was far too small for a runaway. The reactor burst and the explosion killed four people. See the <a href="/process-safety/case-studies/t2-laboratories-2007/">case study</a>.</p></div>
+<div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: Why is a vent sized with the vapour formula often too small for a runaway reaction?</div><div class="opts"><button class="o">A. Because the runaway produces mostly nitrogen</button><button class="o">B. Because the discharge is a two-phase foaming mixture that carries less energy per unit area</button><button class="o">C. Because K<sub>d</sub> is lower for reactors</button><button class="o">D. Because the set pressure is lower</button></div><div class="exp">Level swell turns the discharge into a two-phase flow. Two-phase venting needs much larger areas. Use DIERS methods with adiabatic calorimetry data.</div></div><div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: Fire case, bare vessel, no prompt fire-fighting, wetted area 15 m². The heat input is about…</div><div class="opts"><button class="o">A. 70 kW</button><button class="o">B. 650 kW</button><button class="o">C. 6.5 MW</button><button class="o">D. 43 kW</button></div><div class="exp">Q = 70,900 × 1 × 15<sup>0.82</sup> ≈ 70,900 × 9.2 ≈ 650 kW. Divide by the latent heat to get the vapour rate.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>Start from the scenario: blocked outlet, fire, utility failure, thermal expansion, runaway, gas evolution.</li><li>Vapour: A ∝ W·√(TZ/M)/(C·K<sub>d</sub>·P<sub>1</sub>). Fire: Q = 43,200 or 70,900·F·A<sub>w</sub><sup>0.82</sup> W. Liquid: A ∝ Q·√(G/ΔP).</li><li>Runaway relief is two-phase: use DIERS methods and adiabatic test data. Never the vapour formula alone.</li><li>Discharge to a safe place: catch tank, scrubber, flare.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="emergency-relief-vent-sizing">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/dust-and-powder-hazards/"><span>← LESSON 7</span>Dust and powder hazards</a><a href="/process-safety/toxic-and-flammable-releases/" style="text-align:right;"><span>LESSON 9 →</span>Toxic and flammable releases</a></div>
+</article>
+<script src="/assets/js/process-safety.js"></script>

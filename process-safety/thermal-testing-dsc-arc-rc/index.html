@@ -1,0 +1,43 @@
+---
+layout: default
+title: "The testing toolkit: DSC, TSU, ARC, RC1"
+description: "What each instrument measures, when to use it, and how to read a DSC thermogram."
+breadcrumbs:
+  - label: "Process Safety"
+    url: /process-safety/
+  - label: "The testing toolkit: DSC, TSU, ARC, RC1"
+    url: /process-safety/thermal-testing-dsc-arc-rc/
+---
+
+<link rel="stylesheet" href="/assets/css/process-safety.css">
+<article class="ps-article">
+<div class="ps-kicker">Process Safety · Lesson 3 of 9 · 14 min read</div>
+<h1>The testing toolkit: DSC, TSU, ARC, RC1</h1>
+<p class="ps-intro">What each instrument measures, when to use it, and how to read a DSC thermogram.</p>
+
+<h2>The questions testing must answer</h2>
+<ul><li>Is every starting material, intermediate, product, mixture and residue <b>stable</b> at the temperature it will see in the plant, including upsets?</li>
+<li>At what temperature do <b>heat</b> and <b>gas</b> generation start <i>on plant scale</i>, and how much energy is involved?</li>
+<li>How is the reaction heat released: instantly with the dosing, or with <b>accumulation</b>?</li>
+<li>Can the plant <b>cooling</b> keep up with the maximum heat release rate?</li></ul>
+
+<h2>The instruments</h2>
+<div class="ps-table-wrap"><table class="ps-table">
+<tr><th>Instrument</th><th>What you get</th><th>Strengths</th><th>Limits</th></tr>
+<tr><td><b>DSC</b><br>Differential scanning calorimetry, a few mg in a sealed, high-pressure (often gold-plated) crucible</td><td>Exotherms and endotherms, their energy (J/g), approximate onset</td><td>Fast, tiny sample, quantitative heat</td><td>Least sensitive, so onsets appear too high; no pressure / gas data; poor for heterogeneous mixtures</td></tr>
+<tr><td><b>TSU</b><br>Thermal screening unit, ~8 mL test cell with pressure transducer</td><td>Onset of exotherm, pressure and gas generation</td><td>Gas data, short tests</td><td>No quantitative heat; still a screening test</td></tr>
+<tr><td><b>ARC</b><br>Accelerating rate calorimeter, “heat-wait-search” adiabatic test</td><td>Adiabatic self-heating rate, pressure, TMR<sub>ad</sub>, kinetics</td><td>Sensitive, close to plant conditions, good for reaction mixtures and all-in batches</td><td>Slow (about 1 day per test), expensive; needs a correction for the thermal inertia of the cell (φ-factor)</td></tr>
+<tr><td><b>Reaction calorimeter (RC1)</b><br>Lab reactor run like the plant process</td><td>Heat release rate vs time, total reaction heat, c<sub>p</sub>, accumulation, gas flow</td><td>Measures the <i>desired</i> reaction under real dosing</td><td>Does not measure decompositions; needs the actual process</td></tr>
+</table></div>
+<p>The usual flow: <b>DSC screening</b> of all materials and mixtures → if an exotherm is close to process conditions, <b>ARC / TSU</b> for the decomposition → <b>reaction calorimetry</b> for the main reaction → combine the results into the cooling-failure scenario (lesson 4) and the Stoessel class (lesson 5). Powders get their own tests (lesson 7).</p>
+
+<h2>Reading a DSC thermogram</h2>
+<ul><li><b>Endotherms</b> (down, or up, depending on the plot convention) are melting, evaporation, solvent loss. Look for the arrow marked <i>exo</i>.</li>
+<li>An <b>exotherm at moderate temperature</b> in a mixture of the reagents is usually the <i>desired reaction</i>. Its area gives Q′<sub>rx</sub>.</li>
+<li>An <b>exotherm at higher temperature</b> is a decomposition. Its area gives Q′<sub>dc</sub> and its severity: ΔT<sub>ad,dc</sub> = Q′<sub>dc</sub> / c′<sub>p</sub>.</li>
+<li>A <b>sharp, symmetrical peak after a flat baseline</b> in an isothermal test is the fingerprint of an <b>autocatalytic</b> decomposition. Do not extrapolate it like a normal reaction.</li>
+<li>Compare thermograms of the <b>right mixtures</b>: final reaction mass, mixture of reagents (worst case of accumulation), and “what if one component is forgotten?”</li></ul>
+<div class="ps-callout warn"><b>The “100 K rule” is not a safety margin.</b><p>Scanning DSC onsets depend on scan rate and sensitivity. A decomposition that shows an onset at 220 °C in DSC can run away from 140 °C or lower in a large insulated vessel. Old rules of thumb (“stay 100 K below the onset”) have failed. Use kinetics: TMR<sub>ad</sub> and TD24, measured or modelled (isothermal DSC series, ARC).</p></div>
+<div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: A DSC of the final reaction mass shows 1,100 J/g of decomposition energy; c′<sub>p</sub> = 1.8 J/g·K. What is the adiabatic temperature rise of the decomposition?</div><div class="opts"><button class="o">A. About 61 K</button><button class="o">B. About 610 K</button><button class="o">C. About 1,980 K</button><button class="o">D. It cannot be calculated from DSC</button></div><div class="exp">ΔT<sub>ad</sub> = Q′ / c′<sub>p</sub> = 1100 / 1.8 ≈ 611 K. That is extreme severity: the mass would vaporise and gas off violently. The next question is probability: how easily is it triggered? (TD24, lesson 4.)</div></div><div class="ps-mq" data-ans="2"><div class="q">✍️ Check yourself: Which test tells you how much of the dosed reagent accumulates during a semi-batch reaction?</div><div class="opts"><button class="o">A. DSC</button><button class="o">B. TSU</button><button class="o">C. Reaction calorimetry (RC1)</button><button class="o">D. Fall hammer test</button></div><div class="exp">The reaction calorimeter measures the heat release rate while you dose. Comparing heat released with reagent fed gives the accumulation over time, which is the key input for MTSR.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>DSC screens everything; TSU adds pressure; ARC gives adiabatic kinetics and TMR<sub>ad</sub>; reaction calorimetry measures the desired reaction and accumulation.</li><li>Severity from energy: ΔT<sub>ad</sub> = Q′ / c′<sub>p</sub>.</li><li>DSC onset temperatures are not safe limits. Use TMR<sub>ad</sub> / TD24.</li><li>Watch for autocatalytic signatures and test the mixtures that matter, including mistakes.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="thermal-testing-dsc-arc-rc">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/high-hazard-process-checklist/"><span>← LESSON 2</span>Spotting a high-hazard process</a><a href="/process-safety/cooling-failure-and-runaway/" style="text-align:right;"><span>LESSON 4 →</span>Cooling failure and thermal runaway</a></div>
+</article>
+<script src="/assets/js/process-safety.js"></script>

@@ -1,0 +1,53 @@
+---
+layout: default
+title: "What is process safety?"
+description: "Key terms, the runaway problem, and the functional groups that warn you a molecule can release energy."
+breadcrumbs:
+  - label: "Process Safety"
+    url: /process-safety/
+  - label: "What is process safety?"
+    url: /process-safety/what-is-process-safety/
+---
+
+<link rel="stylesheet" href="/assets/css/process-safety.css">
+<article class="ps-article">
+<div class="ps-kicker">Process Safety · Lesson 1 of 9 · 12 min read</div>
+<h1>What is process safety?</h1>
+<p class="ps-intro">Key terms, the runaway problem, and the functional groups that warn you a molecule can release energy.</p>
+
+<h2>Process safety is not personal safety</h2>
+<p><b>Personal (occupational) safety</b> is about slips, falls, cuts and PPE: frequent, usually small events that affect one person. <b>Process safety</b> is about keeping hazardous materials and energy <i>inside</i> the equipment: rare events, but when they happen they can kill many people at once, destroy a plant and reach the neighbourhood. A plant can have an excellent lost-time injury record and still be one valve away from disaster. That was true at Bhopal, Flixborough and Buncefield.</p>
+<p>In pharma and fine-chemical plants the largest source of energy is usually not a pressurised gas or a flammable inventory. It is the <b>chemistry itself</b>: an exothermic reaction, or a molecule that can decompose.</p>
+
+<h2>The runaway problem in one picture</h2>
+<p>An exothermic reaction is safe only while heat is removed as fast as it is produced. Heat production rises <b>exponentially</b> with temperature (Arrhenius), while heat removal through the jacket rises only <b>linearly</b> (UA × ΔT). Above a certain temperature, production wins: the batch heats itself, which speeds the reaction, which heats it faster. That positive feedback is a <b>thermal runaway</b>. If the batch reaches a temperature where a decomposition starts, the energy and gas released can be many times larger than the main reaction.</p>
+<div class="formula-box">Heat production:  q<sub>rx</sub> = k<sub>0</sub>·e<sup>−Ea/RT</sup> · V · c · (−ΔH<sub>r</sub>)   (exponential in T)<br>Heat removal:  q<sub>ex</sub> = U · A · (T − T<sub>c</sub>)   (linear in T)</div>
+
+<h2>Terms you will meet in every lesson</h2>
+<div class="ps-table-wrap"><table class="ps-table">
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Exothermic reaction</td><td>Releases heat: the reaction enthalpy ΔH<sub>r</sub> is negative.</td></tr>
+<tr><td>Adiabatic</td><td>No heat exchange with the surroundings. A large, well-insulated reactor with failed cooling is close to adiabatic, so it is the worst case.</td></tr>
+<tr><td>Adiabatic temperature rise, ΔT<sub>ad</sub></td><td>How much the temperature would rise if all the remaining reaction heat stayed in the mass: ΔT<sub>ad</sub> = Q′ / c′<sub>p</sub>.</td></tr>
+<tr><td>Activation energy, E<sub>a</sub></td><td>Sets how strongly the rate rises with temperature. A higher E<sub>a</sub> means a steeper rise once things get hot.</td></tr>
+<tr><td>Runaway</td><td>A thermally unstable system in which temperature and rate keep accelerating, possibly to an explosion.</td></tr>
+<tr><td>Induction time / TMR<sub>ad</sub></td><td>The time, under adiabatic conditions, from a given temperature until the reaction or decomposition reaches its maximum rate. It is the time you have to act.</td></tr>
+<tr><td>Autocatalytic reaction</td><td>A reaction sped up by its own products or intermediates. It can sit quietly for a long time, then accelerate suddenly, so simple “onset temperatures” are misleading.</td></tr>
+<tr><td>SADT</td><td>Self-Accelerating Decomposition Temperature: the lowest ambient temperature at which a packaged substance (e.g. an organic peroxide in its shipping container) runs away within 7 days. It applies only to that package size.</td></tr>
+</table></div>
+
+<h2>Molecules that warn you</h2>
+<p>Some groups of atoms store a lot of energy or release gas when they break down. If one of them is in a starting material, intermediate, product or residue, treat the process as potentially hazardous until thermal testing says otherwise.</p>
+<div class="ps-table-wrap"><table class="ps-table">
+<tr><th>Family</th><th>Examples of energetic groups</th></tr>
+<tr><td>Nitrogen-rich</td><td>Azides (–N<sub>3</sub>), diazo and diazonium compounds, azo (–N=N–), triazenes, tetrazoles and triazoles, hydrazines, N-halo compounds</td></tr>
+<tr><td>Oxygen-rich</td><td>Peroxides and hydroperoxides (–O–O–), peracids, ozonides, epoxides (strained ring)</td></tr>
+<tr><td>Nitrogen + oxygen</td><td>Nitro (–NO<sub>2</sub>), nitrate esters (–ONO<sub>2</sub>), nitrites, nitroso, N-oxides, oximes, hydroxylamine and its salts</td></tr>
+<tr><td>Halogen + oxygen</td><td>Chlorates, perchlorates, hypochlorites, perchloryl compounds</td></tr>
+<tr><td>Unsaturated carbon</td><td>Acetylenes and metal acetylides, allenes, conjugated dienes (polymerisation)</td></tr>
+<tr><td>Metal compounds</td><td>Organometallics and metal hydrides (pyrophoric), heavy-metal salts of energetic anions</td></tr>
+</table></div>
+<p><b>Oxygen balance</b> is a quick indicator. It is the oxygen a molecule has, compared with what it would need to burn its own carbon to CO<sub>2</sub> and hydrogen to H<sub>2</sub>O. The closer to zero, the more the molecule behaves like an explosive: it carries its own oxidant.</p>
+<div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: A plant has gone three years without a lost-time injury. What does that tell you about its process safety?</div><div class="opts"><button class="o">A. That process safety is also excellent</button><button class="o">B. Very little: personal-injury rates do not measure the control of major hazards</button><button class="o">C. That a runaway reaction is impossible</button><button class="o">D. That HAZOP studies are no longer needed</button></div><div class="exp">Personal-injury statistics measure frequent, small events. Major-accident hazards (runaways, releases, explosions) are rare and need their own indicators: safeguard availability, overdue inspections, demands on relief systems, deviations from safe operating limits.</div></div><div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: Why can a cooling system that copes well at normal temperature lose control after a small temperature rise?</div><div class="opts"><button class="o">A. Because U drops at higher temperature</button><button class="o">B. Because heat production rises exponentially with temperature, while heat removal rises only linearly</button><button class="o">C. Because the coolant warms up</button><button class="o">D. Because viscosity increases</button></div><div class="exp">Arrhenius: the rate, and so the heat production, roughly doubles every ~10 K for many reactions. The jacket can only remove heat in proportion to the temperature difference. Past the point where the curves touch, the batch heats itself.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>Process safety is about keeping energy and hazardous material inside the equipment. It is measured differently from personal safety.</li><li>Runaway = exponential heat production beating linear heat removal.</li><li>ΔT<sub>ad</sub>, E<sub>a</sub> and TMR<sub>ad</sub> describe how big, how steep and how fast a runaway is.</li><li>Energetic functional groups (azides, nitro, peroxides, diazo, N–O, acetylenes…) mean: test before you scale up.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="what-is-process-safety">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/"><span>←</span>Process Safety home</a><a href="/process-safety/high-hazard-process-checklist/" style="text-align:right;"><span>LESSON 2 →</span>Spotting a high-hazard process</a></div>
+</article>
+<script src="/assets/js/process-safety.js"></script>

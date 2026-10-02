@@ -1,0 +1,47 @@
+---
+layout: default
+title: "Stoessel criticality classes"
+description: "Four temperatures, five classes, and the safety measures that go with each."
+breadcrumbs:
+  - label: "Process Safety"
+    url: /process-safety/
+  - label: "Stoessel criticality classes"
+    url: /process-safety/stoessel-criticality-classes/
+---
+
+<link rel="stylesheet" href="/assets/css/process-safety.css">
+<article class="ps-article">
+<div class="ps-kicker">Process Safety · Lesson 5 of 9 · 12 min read</div>
+<h1>Stoessel criticality classes</h1>
+<p class="ps-intro">Four temperatures, five classes, and the safety measures that go with each.</p>
+
+<h2>Four temperatures</h2>
+<div class="ps-table-wrap"><table class="ps-table">
+<tr><th>Level</th><th>Meaning</th><th>Where it comes from</th></tr>
+<tr><td><b>T<sub>p</sub></b></td><td>Process temperature when control is lost</td><td>The process design</td></tr>
+<tr><td><b>MTSR</b></td><td>Maximum temperature the synthesis reaction can reach after a cooling failure</td><td>T<sub>p</sub> + X<sub>acc</sub>·ΔT<sub>ad</sub> (reaction calorimetry)</td></tr>
+<tr><td><b>MTT</b></td><td>Maximum technical temperature: boiling point (open system) or the temperature at the relief set pressure (closed system)</td><td>Solvent, reactor design</td></tr>
+<tr><td><b>T<sub>D24</sub></b></td><td>Highest temperature at which the mass is thermally stable for practical purposes (TMR<sub>ad</sub> = 24 h)</td><td>DSC / ARC kinetics</td></tr></table></div>
+
+<h2>Five classes</h2>
+<div class="ps-table-wrap"><table class="ps-table">
+<tr><th>Class</th><th>Order</th><th>What happens after a cooling failure</th><th>Typical measures</th></tr>
+<tr><td><span class="ps-cls c1">1</span></td><td>T<sub>p</sub> &lt; MTSR &lt; MTT &lt; T<sub>D24</sub></td><td>Nothing critical: no boiling, no decomposition. The mass sits at MTSR.</td><td>Normal process control. Thermally safe.</td></tr>
+<tr><td><span class="ps-cls c2">2</span></td><td>T<sub>p</sub> &lt; MTSR &lt; T<sub>D24</sub> &lt; MTT</td><td>Safe at MTSR, but if the mass is held hot for long it could slowly heat up to the decomposition, and boiling would not stop it.</td><td>Avoid long hold times at high temperature; alarm on temperature.</td></tr>
+<tr><td><span class="ps-cls c3">3</span></td><td>T<sub>p</sub> &lt; MTT &lt; MTSR &lt; T<sub>D24</sub></td><td>The batch boils. Evaporative cooling stops the temperature at MTT, <i>if</i> the condenser / vent can take the vapour at that rate.</td><td>Check reflux condenser and vapour line capacity; reliable condenser cooling; emergency cooling as an option.</td></tr>
+<tr><td><span class="ps-cls c4">4</span></td><td>T<sub>p</sub> &lt; MTT &lt; T<sub>D24</sub> &lt; MTSR</td><td>Boiling stops the temperature before T<sub>D24</sub>, but only if it works. If the condenser fails or is too small, the decomposition follows.</td><td>Technical measures to keep the boiling barrier reliable; emergency relief sized for the case.</td></tr>
+<tr><td><span class="ps-cls c5">5</span></td><td>T<sub>D24</sub> &lt; MTSR, with T<sub>D24</sub> &lt; MTT</td><td>The decomposition is triggered before boiling can help.</td><td>Redesign: dosing control, lower accumulation, different temperature or concentration. Otherwise reliable emergency measures (quench, dump, crash cooling) plus relief for the decomposition.</td></tr>
+</table></div>
+<div class="ps-callout"><b>Classes 1–2 are inherently safe; 3–4 rely on equipment; 5 relies on emergency measures.</b><p>The best answer to a high class is almost always to change the process so the class drops, typically by reducing accumulation (feed-controlled dosing at a sufficiently high T<sub>p</sub>), diluting, or choosing a higher-boiling solvent.</p></div>
+
+<div class="ps-tool" data-tool="mtsr"><h3>🧮 Stoessel class calculator</h3><p>Enter your data; the class and severity update as you type.</p><div class="ps-grid">
+<label>Reaction heat Q′<sub>rx</sub> (kJ/kg)<input name="q" type="number" value="300"></label>
+<label>c′<sub>p</sub> (kJ/kg·K)<input name="cp" type="number" value="1.8" step="0.1"></label>
+<label>Process temperature T<sub>p</sub> (°C)<input name="tp" type="number" value="60"></label>
+<label>Max. accumulation X<sub>acc</sub> (%)<input name="acc" type="number" value="30"></label>
+<label>MTT, boiling point (°C)<input name="mtt" type="number" value="111"></label>
+<label>T<sub>D24</sub> (°C)<input name="td24" type="number" value="140"></label></div><div class="ps-out"></div><div class="ps-verdict"></div></div>
+<p>Want to feel the classes rather than calculate them? Play <a href="/games/runaway/">Runaway!</a>: you design four reactions and the cooling always fails at the worst moment.</p>
+<div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: T<sub>p</sub> = 30 °C, MTSR = 95 °C, boiling point 66 °C (THF), T<sub>D24</sub> = 180 °C. Which class, and what protects you?</div><div class="opts"><button class="o">A. Class 1: nothing can happen</button><button class="o">B. Class 3: the batch boils at 66 °C; the condenser must handle the vapour</button><button class="o">C. Class 4: decomposition is certain</button><button class="o">D. Class 5: redesign</button></div><div class="exp">MTT (66) &lt; MTSR (95) &lt; T<sub>D24</sub> (180): Class 3. The boiling barrier works as long as the reflux condenser and vapour line can take the boil-up rate at 66 °C.</div></div><div class="ps-mq" data-ans="2"><div class="q">✍️ Check yourself: Which change usually lowers the class of a semi-batch reaction most effectively?</div><div class="opts"><button class="o">A. Lowering T<sub>p</sub> by 20 K</button><button class="o">B. Making the dosing faster</button><button class="o">C. Reducing accumulation, e.g. dosing at a temperature where the reaction keeps pace with the feed</button><button class="o">D. Using a lower-boiling solvent</button></div><div class="exp">MTSR depends on accumulation. Feed-controlled operation keeps X<sub>acc</sub> small, so MTSR stays close to T<sub>p</sub>. Lower T<sub>p</sub> often <i>increases</i> accumulation, and a lower-boiling solvent lowers MTT.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>Four levels: T<sub>p</sub>, MTSR, MTT, T<sub>D24</sub>. Their order gives the class.</li><li>Class 1–2: inherently safe. Class 3–4: the boiling barrier must be reliable and sized. Class 5: redesign or emergency measures.</li><li>The usual lever is accumulation: feed-controlled dosing, dilution, solvent choice.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="stoessel-criticality-classes">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/cooling-failure-and-runaway/"><span>← LESSON 4</span>Cooling failure and thermal runaway</a><a href="/process-safety/scale-up-and-tech-transfer/" style="text-align:right;"><span>LESSON 6 →</span>Scale-up and technology transfer</a></div>
+</article>
+<script src="/assets/js/process-safety.js"></script>

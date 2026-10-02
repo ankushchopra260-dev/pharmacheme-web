@@ -1,0 +1,58 @@
+---
+layout: default
+title: "Cooling failure and thermal runaway"
+description: "Heat of reaction, \u0394Tad, accumulation, cooling capacity, MTSR and TMRad: the cooling-failure scenario step by step."
+breadcrumbs:
+  - label: "Process Safety"
+    url: /process-safety/
+  - label: "Cooling failure and thermal runaway"
+    url: /process-safety/cooling-failure-and-runaway/
+---
+
+<link rel="stylesheet" href="/assets/css/process-safety.css">
+<article class="ps-article">
+<div class="ps-kicker">Process Safety · Lesson 4 of 9 · 16 min read</div>
+<h1>Cooling failure and thermal runaway</h1>
+<p class="ps-intro">Heat of reaction, ΔTad, accumulation, cooling capacity, MTSR and TMRad: the cooling-failure scenario step by step.</p>
+
+<h2>The scenario</h2>
+<p>The question is always the same: <b>the cooling fails at the worst possible moment. What happens?</b> Answering it in a structured way gives you the four temperatures of the Stoessel diagram.</p>
+<div class="ps-timeline">
+<div><b>1</b>The reaction runs at the process temperature <b>T<sub>p</sub></b>.</div>
+<div><b>2</b>Cooling fails. Dosing stops (it must be interlocked). The <b>unreacted reagent</b> still in the reactor reacts adiabatically and the temperature climbs to the <b>MTSR</b>.</div>
+<div><b>3</b>If the MTSR is high enough, a <b>decomposition</b> or secondary reaction starts. How long that takes is the <b>TMR<sub>ad</sub></b> at the MTSR.</div>
+<div><b>4</b>On the way, the batch may reach its <b>boiling point</b> or relief pressure, the <b>MTT</b>, which can act as a barrier (lesson 5).</div></div>
+
+<h2>1 · How much energy? Heat of reaction and ΔT<sub>ad</sub></h2>
+<div class="formula-box">Q′<sub>rx</sub> = c · (−ΔH<sub>r</sub>) / ρ     [kJ/kg]  (c in mol/m³, ρ in kg/m³)<br>ΔT<sub>ad</sub> = Q′<sub>rx</sub> / c′<sub>p</sub>      [K]<br>c′<sub>p,mix</sub> = Σ m<sub>i</sub>·c′<sub>p,i</sub> / Σ m<sub>i</sub><small>From reaction calorimetry: Q<sub>rx</sub> = ∫ q<sub>rx</sub> dt (the area under the heat-flow curve). For a roughly constant heat flow during dosing, Q<sub>rx</sub> ≈ q<sub>rx</sub> × t<sub>dosing</sub>.</small></div>
+
+<h2>2 · Can the plant cool it? Cooling capacity</h2>
+<div class="formula-box">q<sub>ex</sub> = U · A · (T<sub>r</sub> − T<sub>c</sub>)<small>U is the overall heat-transfer coefficient (typically 100–400 W/m²·K for jacketed vessels with organic batches), A the wetted jacket area (it grows as you dose), T<sub>c</sub> the coolant temperature. Keep the cooling capacity <b>at least 20 % above</b> the maximum heat release rate.</small></div>
+<p>In a semi-batch reaction that keeps pace with the dosing, the heat release rate is roughly the total heat divided by the dosing time. That gives the <b>shortest safe dosing time</b>:</p>
+<div class="formula-box">t<sub>dosing,min</sub> = Q<sub>rx,total</sub> / (q<sub>ex</sub> / 1.2)</div>
+<div class="ps-tool" data-tool="dosing"><h3>🧮 Shortest safe dosing time</h3><p>From the total reaction heat and the reactor’s cooling capacity.</p><div class="ps-grid">
+<label>Reaction heat Q′<sub>rx</sub> (kJ/kg)<input name="q" type="number" value="260"></label>
+<label>Final batch mass (kg)<input name="m" type="number" value="3000"></label>
+<label>U (W/m²·K)<input name="u" type="number" value="250"></label>
+<label>Jacket area A (m²)<input name="a" type="number" value="5.5" step="0.1"></label>
+<label>Reaction temperature T<sub>r</sub> (°C)<input name="tr" type="number" value="60"></label>
+<label>Coolant temperature T<sub>c</sub> (°C)<input name="tc" type="number" value="10"></label>
+<label>Safety margin (%)<input name="margin" type="number" value="20"></label></div><div class="ps-out"></div><div class="ps-verdict"></div></div>
+
+<h2>3 · How hot can it get? Accumulation and MTSR</h2>
+<p>In a <b>batch</b> (all reagents charged, then heated) everything is unreacted at the start: X<sub>acc</sub> = 100 %. In a <b>semi-batch</b> the dosed reagent may react instantly or may pile up. The fraction that has been added but not yet reacted is the <b>accumulation</b>. It is measured in the reaction calorimeter by comparing the heat released with the amount dosed.</p>
+<div class="formula-box">MTSR = T<sub>p</sub> + X<sub>acc,max</sub> · ΔT<sub>ad</sub></div>
+<div class="ps-callout warn"><b>Colder is not automatically safer.</b><p>Lowering T<sub>p</sub> slows the reaction, so more reagent accumulates. Many runaways happened in reactions run “cold for safety”, sometimes with a stopped agitator or a forgotten catalyst, where the reagent sat unreacted and then reacted all at once.</p></div>
+
+<h2>4 · How much time is left? TMR<sub>ad</sub> and TD24</h2>
+<p>For a decomposition with an initial heat release rate q′<sub>0</sub> (W/kg) at temperature T<sub>0</sub>, the adiabatic time to maximum rate is approximately:</p>
+<div class="formula-box">TMR<sub>ad</sub> = c′<sub>p</sub> · R · T<sub>0</sub>² / (q′<sub>0</sub> · E<sub>a</sub>)<br>q′(T) = q′<sub>0</sub> · exp[ (E<sub>a</sub>/R)·(1/T<sub>0</sub> − 1/T) ]<small>Zero-order, adiabatic approximation (T in kelvin). <b>TD24</b> is the temperature at which TMR<sub>ad</sub> = 24 h: below it, a decomposition develops slowly enough to restore control. As a rough rule the heat release rate doubles every 10 K (van ’t Hoff), so TMR<sub>ad</sub> roughly halves.</small></div>
+<div class="ps-tool" data-tool="tmr"><h3>🧮 TMR<sub>ad</sub> and TD24 from one measurement</h3><p>Enter a heat release rate measured at one temperature (isothermal DSC or ARC) and the activation energy.</p><div class="ps-grid">
+<label>Measured at T<sub>0</sub> (°C)<input name="t0" type="number" value="160"></label>
+<label>Heat release rate q′<sub>0</sub> (W/kg)<input name="q0" type="number" value="2" step="0.1"></label>
+<label>Activation energy E<sub>a</sub> (kJ/mol)<input name="ea" type="number" value="100"></label>
+<label>c′<sub>p</sub> (kJ/kg·K)<input name="cp" type="number" value="1.8" step="0.1"></label>
+<label>Check temperature (°C), e.g. MTSR<input name="tx" type="number" value="110"></label></div><div class="ps-out"></div><div class="ps-verdict"></div></div>
+<div class="ps-mq" data-ans="0"><div class="q">✍️ Check yourself: Semi-batch, T<sub>p</sub> = 50 °C, ΔT<sub>ad</sub> = 160 K, maximum accumulation 30 %. What is the MTSR?</div><div class="opts"><button class="o">A. 98 °C</button><button class="o">B. 160 °C</button><button class="o">C. 210 °C</button><button class="o">D. 80 °C</button></div><div class="exp">MTSR = 50 + 0.30 × 160 = 98 °C. Only the unreacted part can heat the batch after the cooling fails.</div></div><div class="ps-mq" data-ans="2"><div class="q">✍️ Check yourself: Cooling capacity is 60 kW and the batch releases 720 MJ in total. With a 20 % margin, the shortest dosing time is about…</div><div class="opts"><button class="o">A. 2 h</button><button class="o">B. 3.3 h</button><button class="o">C. 4 h</button><button class="o">D. 12 h</button></div><div class="exp">Usable capacity = 60 / 1.2 = 50 kW. 720,000 kJ / 50 kW = 14,400 s = 4 h. That is valid only if the reaction keeps pace with the dosing.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>Cooling-failure scenario: T<sub>p</sub> → MTSR (accumulated reagent reacts) → decomposition after TMR<sub>ad</sub>.</li><li>ΔT<sub>ad</sub> = Q′ / c′<sub>p</sub>; MTSR = T<sub>p</sub> + X<sub>acc</sub>·ΔT<sub>ad</sub>.</li><li>Cooling capacity q<sub>ex</sub> = UA(T<sub>r</sub> − T<sub>c</sub>), with a ≥ 20 % margin, sets the shortest dosing time.</li><li>Lower T<sub>p</sub> can mean more accumulation and a higher MTSR.</li><li>TD24 (TMR<sub>ad</sub> = 24 h) is the stability limit to compare the MTSR with.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="cooling-failure-and-runaway">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/thermal-testing-dsc-arc-rc/"><span>← LESSON 3</span>The testing toolkit: DSC, TSU, ARC, RC1</a><a href="/process-safety/stoessel-criticality-classes/" style="text-align:right;"><span>LESSON 5 →</span>Stoessel criticality classes</a></div>
+</article>
+<script src="/assets/js/process-safety.js"></script>
