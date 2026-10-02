@@ -401,10 +401,10 @@ function showSlide(i){
   const S = SLIDES[slideI], el = $('rw-slide');
   el.innerHTML = `<div class="rw-muted rw-disp" style="letter-spacing:0.12em; font-size:13px;">LEARN · ${slideI + 1} / ${SLIDES.length}</div><h3>${S.t}</h3>` +
     (S.try ? `<div class="rw-tryladder"><div class="rw-sl">${S.h}
-      <label>T<sub>p</sub>, process temperature <b id="rw-tv0"></b></label><input type="range" id="rw-t0" min="-10" max="120" value="40">
+      <label>T<sub>p</sub>, process temperature <b id="rw-tv0"></b></label><input type="range" id="rw-t0" min="-10" max="260" value="40">
       <label>MTSR <b id="rw-tv1"></b></label><input type="range" id="rw-t1" min="-10" max="260" value="75">
-      <label>MTT (boiling point) <b id="rw-tv2"></b></label><input type="range" id="rw-t2" min="30" max="220" value="100">
-      <label>TD24 <b id="rw-tv3"></b></label><input type="range" id="rw-t3" min="0" max="260" value="160">
+      <label>MTT (boiling point) <b id="rw-tv2"></b></label><input type="range" id="rw-t2" min="-10" max="260" value="100">
+      <label>TD24 <b id="rw-tv3"></b></label><input type="range" id="rw-t3" min="-10" max="260" value="160">
       <div class="rw-msg" id="rw-tmsg" style="margin-top:12px; line-height:1.5; font-size:14px; padding:10px 12px; border-radius:8px; background:#0B1622;"></div></div>
       <svg class="rw-ladder" id="rw-tsvg" viewBox="0 0 200 330"></svg></div>` : S.h);
   $('rw-dots').innerHTML = SLIDES.map((_, k) => `<i class="${k === slideI ? 'on' : ''}"></i>`).join('');
