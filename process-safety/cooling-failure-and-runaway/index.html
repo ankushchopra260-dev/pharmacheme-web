@@ -28,9 +28,9 @@ breadcrumbs:
 
 <h2>2 · Can the plant cool it? Cooling capacity</h2>
 <div class="formula-box">q<sub>ex</sub> = U · A · (T<sub>r</sub> − T<sub>c</sub>)<small>U is the overall heat-transfer coefficient (typically 100–400 W/m²·K for jacketed vessels with organic batches), A the wetted jacket area (it grows as you dose), T<sub>c</sub> the coolant temperature. Keep the cooling capacity <b>at least 20 % above</b> the maximum heat release rate.</small></div>
-<p>In a semi-batch reaction that keeps pace with the dosing, the heat release rate is roughly the total heat divided by the dosing time. That gives the <b>shortest safe dosing time</b>:</p>
+<p>In a semi-batch reaction that keeps pace with the dosing, the heat release rate is roughly the total heat divided by the dosing time. That gives the <b>shortest dosing time the cooling can handle</b>:</p>
 <div class="formula-box">t<sub>dosing,min</sub> = Q<sub>rx,total</sub> / (q<sub>ex</sub> / 1.2)</div>
-<div class="ps-tool" data-tool="dosing"><h3>🧮 Shortest safe dosing time</h3><p>From the total reaction heat and the reactor’s cooling capacity.</p><div class="ps-grid">
+<div id="tool-dosing" class="ps-tool" data-tool="dosing"><h3>🧮 Shortest dosing time for the available cooling</h3><p>From the total reaction heat and the reactor’s cooling capacity.</p><div class="ps-screen" role="note"><b>Educational screening tool</b> Results are illustrative and depend on the stated assumptions. They are not a substitute for a qualified process-safety assessment, the applicable design code, vendor data, laboratory testing or engineering review.</div><div class="ps-grid">
 <label>Reaction heat Q′<sub>rx</sub> (kJ/kg)<input name="q" type="number" value="260"></label>
 <label>Final batch mass (kg)<input name="m" type="number" value="3000"></label>
 <label>U (W/m²·K)<input name="u" type="number" value="250"></label>
@@ -47,7 +47,7 @@ breadcrumbs:
 <h2>4 · How much time is left? TMR<sub>ad</sub> and TD24</h2>
 <p>For a decomposition with an initial heat release rate q′<sub>0</sub> (W/kg) at temperature T<sub>0</sub>, the adiabatic time to maximum rate is approximately:</p>
 <div class="formula-box">TMR<sub>ad</sub> = c′<sub>p</sub> · R · T<sub>0</sub>² / (q′<sub>0</sub> · E<sub>a</sub>)<br>q′(T) = q′<sub>0</sub> · exp[ (E<sub>a</sub>/R)·(1/T<sub>0</sub> − 1/T) ]<small>Zero-order, adiabatic approximation (T in kelvin). <b>TD24</b> is the temperature at which TMR<sub>ad</sub> = 24 h: below it, a decomposition develops slowly enough to restore control. As a rough rule the heat release rate doubles every 10 K (van ’t Hoff), so TMR<sub>ad</sub> roughly halves.</small></div>
-<div class="ps-tool" data-tool="tmr"><h3>🧮 TMR<sub>ad</sub> and TD24 from one measurement</h3><p>Enter a heat release rate measured at one temperature (isothermal DSC or ARC) and the activation energy.</p><div class="ps-grid">
+<div id="tool-tmr" class="ps-tool" data-tool="tmr"><h3>🧮 TMR<sub>ad</sub> and TD24 from one measurement</h3><p>Enter a heat release rate measured at one temperature (isothermal DSC or ARC) and the activation energy.</p><div class="ps-screen" role="note"><b>Educational screening tool</b> Results are illustrative and depend on the stated assumptions. They are not a substitute for a qualified process-safety assessment, the applicable design code, vendor data, laboratory testing or engineering review.</div><div class="ps-grid">
 <label>Measured at T<sub>0</sub> (°C)<input name="t0" type="number" value="160"></label>
 <label>Heat release rate q′<sub>0</sub> (W/kg)<input name="q0" type="number" value="2" step="0.1"></label>
 <label>Activation energy E<sub>a</sub> (kJ/mol)<input name="ea" type="number" value="100"></label>

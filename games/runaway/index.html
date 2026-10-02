@@ -313,11 +313,11 @@ const store = { get(k, d){ try { const v = localStorage.getItem('rw.'+k); return
 const fmt = (v, d) => (+v).toFixed(d === undefined ? 0 : d);
 const fmtH = h => !isFinite(h) || h > 9999 ? '> 1 year' : h >= 48 ? fmt(h/24, h > 240 ? 0 : 1)+' days' : h >= 1 ? fmt(h, h < 10 ? 1 : 0)+' h' : fmt(h*60)+' min';
 const CLASS_TXT = {
-  1:'Class 1: MTSR stays below the boiling point, and decomposition is far away. Even after a cooling failure nothing dangerous can happen.',
-  2:'Class 2: MTSR stays below TD24, but TD24 is below the boiling point. Safe, as long as the batch is not left sitting hot for a long time.',
-  3:'Class 3: the batch boils. Boiling (evaporative cooling) is your safety barrier, so the condenser or vent must be able to take all that vapour.',
-  4:'Class 4: the batch boils before it reaches TD24, so boiling protects you, but only if the boiling barrier works. If the condenser cannot cope, decomposition follows.',
-  5:'Class 5: MTSR is above TD24 and boiling cannot step in first. A cooling failure can trigger the decomposition. Redesign the process.' };
+  1:'Class 1 (screening result): MTSR stays below the boiling point and TD24, so a cooling failure is not expected to make the batch boil or trigger the decomposition. A lower concern under these assumptions, not proof of safety.',
+  2:'Class 2 (screening result): MTSR stays below TD24, but TD24 is below the boiling point. Low concern only if the batch is not left sitting hot for a long time.',
+  3:'Class 3 (screening result): the batch boils. Boiling (evaporative cooling) is your barrier, so the condenser or vent must be able to take all that vapour.',
+  4:'Class 4 (screening result): the batch boils before it reaches TD24, so boiling protects you, but only if the boiling barrier works. If the condenser cannot cope, decomposition follows.',
+  5:'Class 5 (screening result): MTSR is above TD24 and boiling cannot step in first. A cooling failure can trigger the decomposition. Redesign the process.' };
 let progress = store.get('stars', {});
 
 // ---------- screens ----------
@@ -391,7 +391,7 @@ const SLIDES = [
     <tr><td style="padding:6px 4px;"><span class="rw-cls c3">3</span></td><td>T<sub>p</sub> &lt; MTT &lt; MTSR &lt; TD24</td><td class="rw-muted">boils: condenser must cope</td></tr>
     <tr><td style="padding:6px 4px;"><span class="rw-cls c4">4</span></td><td>T<sub>p</sub> &lt; MTT &lt; TD24 &lt; MTSR</td><td class="rw-muted">boiling must hold it</td></tr>
     <tr><td style="padding:6px 4px;"><span class="rw-cls c5">5</span></td><td>TD24 below MTSR and MTT</td><td class="rw-muted">critical: redesign</td></tr></table>
-    <p class="rw-muted" style="font-size:13.5px;">Classes 1–2 are inherently safe. Classes 3–4 rely on the boiling barrier working. Class 5 needs a different process or reliable emergency measures.</p>` },
+    <p class="rw-muted" style="font-size:13.5px;">Classes 1–2 indicate a lower thermal-escalation concern. Classes 3–4 rely on the boiling barrier working. Class 5 needs a different process or reliable emergency measures.</p>` },
   { t:'Try it: move the temperatures', try:true, h:`<p>Drag the sliders and watch the class change.</p>` },
 ];
 let slideI = 0;
@@ -698,14 +698,14 @@ function showResult(){
     reflux:['🌡️ It boiled, and the condenser held', 'The batch reached its boiling point ('+fmt(P.MTT)+' °C). Evaporating solvent took the heat away and the reflux condenser returned it. The boiling barrier worked, this time. Was the condenser really rated for that vapour load?'],
     disc:['💥 Rupture disc burst', 'The batch boiled faster than the condenser could handle (heat release far above its '+LV.condK+' K/h). The pressure rose and the rupture disc burst, venting solvent vapour to the catch pot and scrubber.'],
     runaway:['☠️ Thermal runaway', 'The temperature passed TD24 ('+P.TD24+' °C) and the decomposition took off. In a real plant: a violent gas release, possible vessel rupture.'],
-    quenched:['🛟 Quenched in time', 'You dumped the batch into the quench tank before the decomposition ran away. The batch is lost, but the plant and the people are safe. Better: a design that never needs the quench.'] }[end];
+    quenched:['🛟 Quenched in time', 'You dumped the batch into the quench tank before the decomposition ran away. The batch is lost, but nobody is hurt and the plant is intact. Better: a design that never needs the quench.'] }[end];
   const lessons = [];
   if (P.lost) lessons.push('<b>Cooling capacity.</b> The heat release rate (ΔT<sub>ad</sub> ÷ dosing time) must stay below what the jacket can remove. Dose more slowly or dilute.');
   if (!P.lost && D.tDose === 0) lessons.push('<b>Batch mode puts 100 % of the energy in the reactor at once</b>, so MTSR = T<sub>p</sub> + ΔT<sub>ad</sub>. Semi-batch dosing lets you control the accumulation.');
   if (!P.lost && P.accMax > 0.35 && D.tDose > 0) lessons.push('<b>Accumulation.</b> '+fmt(P.accMax*100)+' % of the reagent was unreacted when the cooling failed. If the reaction is too slow at T<sub>p</sub>, reagent piles up: a warmer process temperature, or slower dosing, keeps accumulation low.');
   if (P.cls === 3 || P.cls === 4) lessons.push('<b>Boiling as a barrier.</b> In classes 3 and 4 safety depends on the condenser and vent being sized for the vapour load. A higher-boiling solvent, dilution or lower accumulation can bring MTSR below MTT.');
   if (P.cls === 5) lessons.push('<b>Class 5.</b> MTSR is above TD24 and boiling cannot step in first. The TMR<sub>ad</sub> at MTSR ('+fmtH(P.tmrMTSR)+') was the time you had to act.');
-  if (byDesign && !prod && survived) lessons.push('<b>Productivity.</b> Safe, but the batch takes '+(P.effTime ? fmt(P.effTime, 1)+' h' : 'too long')+' per tonne (target '+tgt.time+' h). Find the fastest design that still stays in class ≤ '+tgt.cls+'.');
+  if (byDesign && !prod && survived) lessons.push('<b>Productivity.</b> No runaway, but the batch takes '+(P.effTime ? fmt(P.effTime, 1)+' h' : 'too long')+' per tonne (target '+tgt.time+' h). Find the fastest design that still stays in class ≤ '+tgt.cls+'.');
   if (!lessons.length) lessons.push('Perfect process design: low accumulation, the cooling copes, MTSR far from MTT and TD24, and a productive batch.');
   const last = LI === RW_LEVELS.length - 1;
   $('rw-rcard').innerHTML = `<div class="rw-muted rw-disp" style="letter-spacing:0.12em;">${LV.short.toUpperCase()} · RESULT</div><h2>${TITLE[0]}</h2><p style="line-height:1.55;">${TITLE[1]}</p>

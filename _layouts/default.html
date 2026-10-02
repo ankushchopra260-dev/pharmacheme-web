@@ -26,7 +26,7 @@
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ '/' | absolute_url }}" }
-    {% for crumb in page.breadcrumbs %}, { "@type": "ListItem", "position": {{ forloop.index | plus: 1 }}, "name": "{{ crumb.label }}", "item": "{{ crumb.url | absolute_url }}" }{% endfor %}
+    {% for crumb in page.breadcrumbs %}, { "@type": "ListItem", "position": {{ forloop.index | plus: 1 }}, "name": {{ crumb.label | jsonify }}, "item": "{{ crumb.url | absolute_url }}" }{% endfor %}
   ]
 }
 </script>

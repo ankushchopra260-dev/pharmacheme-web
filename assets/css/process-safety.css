@@ -16,7 +16,7 @@
 .ps-lesson.done .no { background: var(--brass); color: var(--bg-deep); border-color: var(--brass); }
 .ps-lesson h3 { margin: 0 0 4px; font-family: var(--f-display); font-size: 1.08rem; color: var(--paper); }
 .ps-lesson p { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.45; }
-.ps-lesson .meta { font-family: var(--f-mono); font-size: 0.7rem; color: var(--muted-dim); margin-top: 6px; letter-spacing: 0.04em; }
+.ps-lesson .meta { font-family: var(--f-mono); font-size: 0.7rem; color: var(--muted); margin-top: 6px; letter-spacing: 0.04em; }
 .ps-cases { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
 .ps-case { background: var(--panel); border: 1px solid var(--grid-line); border-left: 3px solid var(--rust); border-radius: 4px; padding: 16px 18px; text-decoration: none; transition: border-color 0.15s; display: block; }
 .ps-case:hover { border-color: var(--brass); border-left-color: var(--rust); }
@@ -116,3 +116,31 @@
 .ps-crit svg { width: 100%; max-width: 230px; height: auto; display: block; margin: 0 auto; }
 .ps-crit-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
 @media (max-width: 720px) { .ps-crit { grid-template-columns: 1fr; grid-template-areas: "sl" "svg" "foot"; } .ps-crit svg { max-width: 220px; margin-top: 14px; } }
+
+/* Screening notice at the top of every calculator */
+.ps-screen { margin: 4px 0 14px; padding: 9px 12px; border: 1px solid #5a4a1c; border-left: 3px solid var(--brass); background: rgba(201,162,39,0.08); border-radius: 4px; font-size: 0.8rem; line-height: 1.5; color: #C9D3DC; }
+.ps-screen > b:first-child { display: block; font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brass); margin-bottom: 2px; }
+
+/* Where should I start? */
+.ps-start { padding-top: 26px; }
+.ps-starts { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
+.ps-startcard { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 6px; padding: 14px 16px; }
+.ps-startcard h3 { margin: 0 0 4px; font-size: 1rem; color: var(--paper); }
+.ps-startcard p { margin: 0 0 10px; font-size: 0.84rem; color: #9FB2C4; line-height: 1.5; }
+.ps-steps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.8rem; }
+.ps-steps a { color: var(--brass); border: 1px solid #3a3220; border-radius: 14px; padding: 4px 10px; }
+.ps-steps a:hover { border-color: var(--brass); }
+.ps-steps span { color: var(--muted); }
+@media (max-width: 860px) { .ps-starts { grid-template-columns: 1fr; } }
+/* Toolkit */
+.ps-toolkit td:first-child { white-space: nowrap; font-weight: 600; }
+.ps-toolkit td:first-child a { color: var(--brass); }
+.ps-toolkit td.where { color: var(--muted); white-space: nowrap; font-size: 0.8rem; }
+@media (max-width: 600px) { .ps-toolkit td:first-child { white-space: normal; } }
+
+/* Accessibility */
+.ps-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.ps-article a:focus-visible, .ps-sec a:focus-visible, .ps-hero a:focus-visible, .ps-mq button:focus-visible, #ps-quiz button:focus-visible,
+.ps-tool input:focus-visible, .ps-tool select:focus-visible, #ps-mark:focus-visible, .ps-lesson:focus-visible, .ps-case:focus-visible {
+  outline: 2px solid var(--brass); outline-offset: 2px; }
+.ps-tool input[type=range]:focus-visible { outline-offset: 4px; }
