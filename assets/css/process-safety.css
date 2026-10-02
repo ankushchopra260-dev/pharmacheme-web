@@ -105,3 +105,14 @@
 .ps-timeline div::before { content: ''; position: absolute; left: -22px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--rust); }
 .ps-timeline div b { color: var(--brass); font-family: var(--f-mono); font-size: 0.8rem; margin-right: 6px; }
 @media (max-width: 600px) { .ps-path { grid-template-columns: 1fr; } .ps-article h1 { font-size: 1.7rem; } }
+
+/* Stoessel slider demo (hub) */
+.ps-crit { display: grid; grid-template-columns: 1fr 230px; grid-template-areas: "sl svg" "foot svg"; column-gap: 22px; align-items: start; }
+.ps-crit-sl { grid-area: sl; } .ps-crit svg { grid-area: svg; } .ps-crit-foot { grid-area: foot; }
+.ps-crit label { display: block; font-size: 0.86rem; margin: 10px 0 3px; color: var(--muted); }
+.ps-crit label b { color: var(--paper); }
+.ps-crit input[type=range] { width: 100%; accent-color: #F5B942; }
+.ps-crit-msg { margin-top: 14px; line-height: 1.5; font-size: 0.9rem; padding: 10px 12px; border-radius: 8px; background: var(--bg-deep, #0B1622); border-left: 4px solid #4CD97B; color: var(--paper); }
+.ps-crit svg { width: 100%; max-width: 230px; height: auto; display: block; margin: 0 auto; }
+.ps-crit-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+@media (max-width: 720px) { .ps-crit { grid-template-columns: 1fr; grid-template-areas: "sl" "svg" "foot"; } .ps-crit svg { max-width: 220px; margin-top: 14px; } }

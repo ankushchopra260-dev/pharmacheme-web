@@ -125,6 +125,49 @@ var TOOLS = {
     var vv = $('.ps-verdict', t); vv.className = 'ps-verdict '+lv[0]; vv.textContent = lv[1];
   }
 };
+
+// ---------- Stoessel "move the temperatures" demo ----------
+var CRIT_TXT = {
+  1:'Class 1: MTSR stays below the boiling point, and decomposition is far away. Even after a cooling failure nothing dangerous can happen.',
+  2:'Class 2: MTSR stays below TD24, but TD24 is below the boiling point. Safe, as long as the batch is not left sitting hot for a long time.',
+  3:'Class 3: the batch boils. Boiling (evaporative cooling) is your safety barrier, so the condenser or vent must be able to take all that vapour.',
+  4:'Class 4: the batch boils before it reaches TD24, so boiling protects you, but only if the boiling barrier works. If the condenser cannot cope, decomposition follows.',
+  5:'Class 5: MTSR is above TD24 and boiling cannot step in first. A cooling failure can trigger the decomposition. Redesign the process.' };
+var CRIT_COL = ['', '#4CD97B', '#A6E05A', '#F2C230', '#FF8A3D', '#E5484D'];
+function critClass(Tp, MTSR, MTT, TD24){
+  if (MTSR < MTT) return MTSR < TD24 ? (MTT < TD24 ? 1 : 2) : 5;
+  return MTSR < TD24 ? 3 : (MTT < TD24 ? 4 : 5);
+}
+function critLadder(svg, o){
+  var vals = [o.Tp, o.MTSR, o.MTT, o.TD24];
+  var lo = Math.min.apply(null, vals) - 12, hi = Math.max.apply(null, vals) + 14; if (hi - lo < 60) hi = lo + 60;
+  var y = function(T){ return 312 - (T - lo)/(hi - lo)*262; };
+  var step = (hi - lo) > 160 ? 50 : (hi - lo) > 70 ? 20 : 10, s = '', T, i;
+  s += '<rect x="4" y="4" width="192" height="30" rx="15" fill="'+CRIT_COL[o.cls]+'"/><text x="100" y="24.5" text-anchor="middle" font-size="15" font-weight="700" fill="'+(o.cls === 5 ? '#fff' : '#0B1622')+'" font-family="IBM Plex Sans, sans-serif">CLASS '+o.cls+'</text>';
+  s += '<line x1="40" y1="'+y(hi)+'" x2="40" y2="'+y(lo)+'" stroke="#42586C" stroke-width="1.5"/>';
+  for (T = Math.ceil(lo/step)*step; T <= hi; T += step) s += '<line x1="36" x2="40" y1="'+y(T)+'" y2="'+y(T)+'" stroke="#42586C"/><text x="33" y="'+(y(T)+4)+'" text-anchor="end" font-size="10.5" fill="#8FA6BC" font-family="IBM Plex Mono, monospace">'+T+'</text>';
+  s += '<defs><linearGradient id="ps-crit-g" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5DA9E9"/><stop offset="1" stop-color="#FF8A3D"/></linearGradient></defs>';
+  s += '<rect x="50" y="'+y(o.MTSR)+'" width="16" height="'+Math.max(1, y(o.Tp) - y(o.MTSR))+'" fill="url(#ps-crit-g)" rx="3"/>';
+  var m = [{ k:'Tp', v:o.Tp, c:'#5DA9E9' }, { k:'MTSR', v:o.MTSR, c:'#FF8A3D' }, { k:'MTT', v:o.MTT, c:'#3FC7C7' }, { k:'TD24', v:o.TD24, c:'#E5484D' }];
+  m.forEach(function(a){ a.y = y(a.v); a.ly = a.y; }); m.sort(function(a, b){ return a.y - b.y; });
+  for (i = 1; i < m.length; i++) if (m[i].ly - m[i-1].ly < 26) m[i].ly = m[i-1].ly + 26;
+  var L = m.length - 1; if (m[L].ly > 318) m[L].ly = 318;
+  for (i = L - 1; i >= 0; i--) if (m[i+1].ly - m[i].ly < 26) m[i].ly = m[i+1].ly - 26;
+  m.forEach(function(a){
+    var dash = a.k === 'MTT' || a.k === 'TD24' ? ' stroke-dasharray="5 3"' : '';
+    s += '<line x1="42" x2="104" y1="'+a.y+'" y2="'+a.y+'" stroke="'+a.c+'" stroke-width="2.5"'+dash+'/><path d="M104 '+a.y+' L112 '+a.ly+'" stroke="'+a.c+'" fill="none"/>';
+    s += '<text x="115" y="'+(a.ly - 1)+'" font-size="13" font-weight="700" fill="'+a.c+'" font-family="IBM Plex Sans, sans-serif">'+a.k+'</text><text x="115" y="'+(a.ly + 12)+'" font-size="11.5" fill="#ECE7D8" font-family="IBM Plex Mono, monospace">'+a.v+' °C</text>';
+  });
+  svg.innerHTML = s;
+}
+TOOLS.crit = function(t){
+  var ins = $$('input[data-k]', t), v = ins.map(function(i){ return +i.value; });
+  if (v[1] < v[0]){ v[1] = v[0]; ins[1].value = v[0]; }
+  ins.forEach(function(i, k){ $('[data-v="'+k+'"]', t).textContent = v[k]+' °C'; });
+  var c = critClass(v[0], v[1], v[2], v[3]);
+  critLadder($('svg', t), { Tp:v[0], MTSR:v[1], MTT:v[2], TD24:v[3], cls:c });
+  var msg = $('.ps-crit-msg', t); msg.textContent = CRIT_TXT[c]; msg.style.borderLeftColor = CRIT_COL[c];
+};
 $$('[data-tool]').forEach(function(t){
   var fn = TOOLS[t.getAttribute('data-tool')]; if (!fn) return;
   var run = function(){ try { fn(t); } catch(e){} };
