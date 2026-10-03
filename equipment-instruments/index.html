@@ -16,8 +16,6 @@ structured_data: |
 <div class="ei-wrap ei-intro">
  <h1 class="ei-pt">Process Equipment &amp; Instrumentation</h1>
  <p class="ei-lead">How the equipment and instruments in a pharma or chemical plant actually work. Each card explains the basics, the engineering detail and common mistakes, and many end with a troubleshooting question to test yourself.</p>
- <div class="ei-stats"><a href="#equipment"><b>53</b> equipment</a><a href="#instrumentation"><b>49</b> instruments</a><span><b>15</b> troubleshoot scenarios</span><a href="#labs"><b>3</b> interactive labs</a></div>
- <p class="ei-note" role="note"><b>Educational content.</b> Tags are generic examples, not from any real plant P&amp;ID. Symbols are simplified, ISA 5.1-inspired illustrations. Always follow your plant SOPs, vendor manuals and applicable standards.</p>
 </div>
 
 <div class="ei-hdr">
@@ -25,6 +23,7 @@ structured_data: |
   <div class="ei-seg ei-tabs" role="tablist" aria-label="Section">
    <button class="ei-tab" role="tab" id="tab-eq" aria-selected="true">Equipment</button>
    <button class="ei-tab" role="tab" id="tab-in" aria-selected="false">Instrumentation</button>
+   <button class="ei-tab" role="tab" id="tab-ag" aria-selected="false">Agitators</button>
    <button class="ei-tab" role="tab" id="tab-lab" aria-selected="false">Labs</button>
   </div>
   <div class="ei-srch" id="bar" role="search">
@@ -65,6 +64,53 @@ structured_data: |
   <div class="ei-chips" id="chips-in"></div>
   <div class="ei-count" id="cnt-in"></div>
   <div class="ei-grid" id="grid-in"></div>
+ </section>
+
+ <section id="sec-ag" class="ei-hide">
+  <h2>Agitators</h2>
+  <p class="ei-sub">How each impeller moves liquid, which flow regime it works in, and how to choose one. Tap a card for details.</p>
+
+  <div class="ei-agbox">
+   <h3>Flow regime calculator</h3>
+   <p class="ei-agnote" style="margin-top:0">Enter the impeller, speed and liquid. The Reynolds number tells you whether the flow is laminar, transitional or turbulent.</p>
+   <div class="ei-aggrid">
+    <label>Impeller<select id="ag-imp"></select></label>
+    <label>Speed (rpm)<input id="ag-n" type="number" value="120" min="1" step="1"></label>
+    <label>Impeller diameter D (mm)<input id="ag-d" type="number" value="600" min="10" step="10"></label>
+    <label>Liquid<select id="ag-pre"><option value="">Custom</option><option value="water" selected>Water-like</option><option value="solvent">Light solvent</option><option value="syrup">Syrup (500 cP)</option><option value="paste">Paste (50,000 cP)</option></select></label>
+    <label>Density (kg/m&sup3;)<input id="ag-rho" type="number" value="1000" min="1" step="10"></label>
+    <label>Viscosity (cP = mPa&middot;s)<input id="ag-mu" type="number" value="1" min="0.1" step="0.1"></label>
+    <label>Liquid volume (L, optional)<input id="ag-v" type="number" value="2000" min="0" step="100"></label>
+   </div>
+   <div id="ag-out" aria-live="polite"></div>
+  </div>
+
+  <h3 class="ei-agh">Which agitator for which job?</h3>
+  <div style="overflow-x:auto"><table class="ei-t ei-agguide">
+   <tr><th>Duty</th><th>Usual first choice</th><th>Notes</th></tr>
+   <tr><td>Blending thin liquids</td><td>Hydrofoil, pitched-blade turbine; propeller in small tanks</td><td>Axial flow gives the most turnover per kW.</td></tr>
+   <tr><td>Suspending solids</td><td>Pitched-blade turbine (down-pumping), hydrofoil</td><td>Low off-bottom clearance; check the just-suspended speed (Njs).</td></tr>
+   <tr><td>Dispersing gas</td><td>Rushton or concave-blade (Smith) turbine; gas-inducing impeller for dead-end hydrogenation</td><td>Check gassed power and flooding.</td></tr>
+   <tr><td>Liquid-liquid dispersion</td><td>Rushton or pitched-blade turbine; rotor-stator for fine emulsions</td><td>Droplet size depends on tip speed and power per volume.</td></tr>
+   <tr><td>Heat transfer in viscous batches</td><td>Anchor or gate, often with scrapers</td><td>Wall sweeping renews the film at the jacket.</td></tr>
+   <tr><td>Very viscous blending</td><td>Helical ribbon</td><td>Laminar flow; size the drive for high torque.</td></tr>
+   <tr><td>Powder wetting and dispersion</td><td>Sawtooth disperser, rotor-stator</td><td>Set by tip speed; add a slow agitator for bulk flow.</td></tr>
+   <tr><td>Shear-sensitive crystals or cells</td><td>Hydrofoil or pitched-blade at modest tip speed</td><td>Avoid high-shear impellers.</td></tr>
+   <tr><td>Glass-lined reactors</td><td>Retreat-curve impeller with its baffle</td><td>Glass-lined turbine and pitched-blade versions also exist.</td></tr>
+  </table></div>
+
+  <h3 class="ei-agh">Agitation basics</h3>
+  <div class="ei-agbasics">
+   <div><h4>Flow patterns</h4><p>Radial impellers throw liquid out to the wall in two loops. Axial impellers pump along the shaft in one loop. Close-clearance agitators move liquid around the vessel near the wall.</p></div>
+   <div><h4>Baffles</h4><p>In thin liquids, four wall baffles of about one tenth to one twelfth of the tank diameter stop swirl and vortexing. Close-clearance agitators in viscous, laminar batches usually run without baffles. Glass-lined vessels use one or two finger or beavertail baffles.</p></div>
+   <div><h4>Power</h4><p>Turbulent, baffled: P = Np &times; &rho; &times; N&sup3; &times; D&#8309;. Laminar: P = Kp &times; &mu; &times; N&sup2; &times; D&sup3;. Doubling the speed in turbulent flow needs about eight times the power.</p></div>
+   <div><h4>Scale-up</h4><p>Keep power per volume constant for dispersion and mass transfer, tip speed for shear-sensitive products, and check the just-suspended speed for solids. Blend time usually gets longer at larger scale. Try the <a href="/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a>.</p></div>
+   <div><h4>Clearance and liquid height</h4><p>A single impeller often sits about one third of the tank diameter off the bottom. Tall batches (liquid height well above the tank diameter) usually need two or more impellers on the shaft.</p></div>
+   <div><h4>Compare them live</h4><p>See flow patterns, blending and solids suspension side by side in the <a href="/calculators/agitator-simulator/">Agitator Simulator</a>.</p></div>
+  </div>
+
+  <h3 class="ei-agh">Impeller types</h3>
+  <div class="ei-grid" id="grid-ag"></div>
  </section>
 
  <section id="sec-lab" class="ei-hide"><h2>Interactive labs</h2><div id="lab-body"></div></section>

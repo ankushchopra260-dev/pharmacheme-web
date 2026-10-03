@@ -4,7 +4,7 @@
 var ROOT=document.querySelector('.ei');
 function track(n,p){try{if(typeof window.gtag==='function')window.gtag('event',n,p||{});}catch(e){}}
 function slug(n){return String(n).toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-var TABHASH={eq:'equipment',in:'instrumentation',lab:'labs'};
+var TABHASH={eq:'equipment',in:'instrumentation',lab:'labs',ag:'agitators'};
 function setHash(h){try{history.replaceState(null,'',h?('#'+h):(location.pathname+location.search));}catch(e){}}
 var _tm={};function trackLater(k,n,p){clearTimeout(_tm[k]);_tm[k]=setTimeout(function(){track(n,p);},900);}
 /* ============ SVG helpers ============ */
@@ -1004,6 +1004,7 @@ var RELRULES=[
  [/Pressure Safety Valve|Rupture Disc|Safety Instrumented|Solenoid|On\/Off/,['safe','hazard']]
 ];
 function relFor(type,it){
+  if(type==='ag')return [LK.agit,LK.mix,LK.aMix];
   var keys=[];
   RELRULES.forEach(function(r){if(r[0].test(it.name)){r[1].forEach(function(k){if(keys.indexOf(k)<0)keys.push(k);});}});
   if(TS[it.name]&&keys.indexOf('ts')<0)keys.push('ts');
@@ -1224,15 +1225,17 @@ function tsHtml(it){
   return h;
 }
 
+function AR(t){return t==='eq'?EQ:t==='ag'?AG:IN;}
 function openItem(type,i){
-  var arr=type==='eq'?EQ:IN,it=arr[i];
-  cur={type:type,i:i};track(type==='eq'?'equipment_viewed':'instrument_viewed',{item_name:it.name,category:it.cat});
+  var arr=AR(type),it=arr[i];
+  cur={type:type,i:i};track(type==='eq'?'equipment_viewed':type==='ag'?'agitator_viewed':'instrument_viewed',{item_name:it.name,category:it.cat});
   setHash(slug(it.name));
   var h='<div class="ei-ph"><h2>'+esc(it.name)+'</h2><span class="ei-btnrow"><button class="ei-x" id="xcopy" title="Copy a link to this card">Copy link</button><button class="ei-x" id="xclose">Close</button></span></div>';
   h+='<div class="ei-tag" style="margin-top:4px">'+esc(it.cat)+(it.tag?' | '+esc(it.tag):'')+'</div>';
   var chips=(QF[it.name]||[]).map(function(c){return '<span>'+esc(c)+'</span>';}).join('');
   if(chips)h+='<div class="ei-qf" style="margin-top:6px">'+chips+'</div>';
   if(type==='eq'){h+='<div class="ei-big">'+DIA[it.dia]+'</div>';}
+  else if(type==='ag'){h+='<div class="ei-big">'+agDia(it)+'</div><div class="ei-kv"><b>Flow pattern</b><span>'+esc(it.flow)+'</span><b>Power number</b><span>'+esc(it.np)+'</span><b>Flow regime</b><span>'+esc(it.regime)+'</span><b>Viscosity</b><span>'+esc(it.visc)+'</span><b>Typical D/T</b><span>'+esc(it.dt)+'</span><b>Tip speed</b><span>'+esc(it.tip)+'</span></div>';}
   else{
     h+='<div class="ei-big"><div style="width:190px">'+instSymbol(it)+'</div></div>';
     h+='<div class="ei-kv"><b>Symbol</b><span>'+esc(KIND[it.kind])+' (simplified, ISA 5.1-inspired)</span><b>Tag</b><span>'+esc(it.tag)+' (generic example)</span><b>Reads as</b><span>'+decode(it.tag)+'</span></div>';
@@ -1288,11 +1291,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('ov').cla
 /* level modes: b = beginner, p = professional, t = troubleshoot */
 $('panel').addEventListener('click',function(e){
   var ra=e.target.closest?e.target.closest('.ei-rel a'):null;
-  if(ra){var hr=ra.getAttribute('href')||'';track(/^\/(calculators|articles)\//.test(hr)?'related_calculator_clicked':/^\/(games|plant-tour)\//.test(hr)?'related_game_clicked':'related_tool_clicked',{destination:hr,item_name:cur?(cur.type==='eq'?EQ:IN)[cur.i].name:''});}
+  if(ra){var hr=ra.getAttribute('href')||'';track(/^\/(calculators|articles)\//.test(hr)?'related_calculator_clicked':/^\/(games|plant-tour)\//.test(hr)?'related_game_clicked':'related_tool_clicked',{destination:hr,item_name:cur?AR(cur.type)[cur.i].name:''});}
 
   var o=e.target.closest?e.target.closest('.ei-opt'):null;
   if(o&&cur){
-    var it=(cur.type==='eq'?EQ:IN)[cur.i],s=TS[it.name];if(!s)return;
+    var it=AR(cur.type)[cur.i],s=TS[it.name];if(!s)return;
     if(o.classList.contains('ei-done'))return;
     var k=parseInt(o.getAttribute('data-k'),10),opt=s.o[k],fb=$('fb');
     if(opt[1]){
@@ -1467,17 +1470,20 @@ function showTab(t){
   $('sec-eq').classList.toggle('ei-hide',t!=='eq');
   $('sec-in').classList.toggle('ei-hide',t!=='in');
   $('sec-lab').classList.toggle('ei-hide',t!=='lab');
-  $('bar').classList.toggle('ei-hide',t==='lab');
+  $('sec-ag').classList.toggle('ei-hide',t!=='ag');
+  $('bar').classList.toggle('ei-hide',t==='lab'||t==='ag');
+  $('tab-ag').setAttribute('aria-selected',t==='ag');
   $('tab-eq').setAttribute('aria-selected',t==='eq');
   $('tab-in').setAttribute('aria-selected',t==='in');
   $('tab-lab').setAttribute('aria-selected',t==='lab');
-  if(t==='lab'){renderLab();}else{stopSim();
+  if(t==='lab'){renderLab();}else if(t==='ag'){stopSim();}else{stopSim();
     $('q').placeholder=t==='eq'?'Search equipment or a concept\u2026':'Search instruments or a tag\u2026';
     $('q').value=state.q[t];renderGrid(t);}
 }
 $('tab-eq').addEventListener('click',function(){showTab('eq');setHash('');});
 $('tab-in').addEventListener('click',function(){showTab('in');setHash('instrumentation');});
 $('tab-lab').addEventListener('click',function(){showTab('lab');setHash('labs');});
+$('tab-ag').addEventListener('click',function(){showTab('ag');setHash('agitators');});
 function setQuery(v){
   state.q.eq=state.q['in']=v;renderGrid('eq');renderGrid('in');
   $('qclear').hidden=!v;$('bar').classList.toggle('has-q',!!v);
@@ -1524,17 +1530,205 @@ document.addEventListener('keydown',function(e){
   inp.addEventListener('input',up);up();
 })();
 
+/* ============ Agitators tab ============ */
+var AG=[];
+function A(name,dia,flow,np,npv,regime,visc,dt,tip,one,how,deep,watch,use){
+  AG.push({cat:flow,name:name,dia:dia,flow:flow,np:np,npv:npv,regime:regime,visc:visc,dt:dt,tip:tip,one:one,how:how,deep:deep,watch:watch,use:use});
+}
+A('Rushton Turbine (6-blade Disc)','rushton','Radial','About 5 (baffled, turbulent)',5.0,'Turbulent and transitional','Low (water-like to moderately viscous)','0.25 to 0.4','Moderate',
+ 'A flat disc with six vertical blades that throws liquid straight out to the vessel wall. The classic impeller for gas dispersion.',
+ ['The blades push liquid radially outward as a strong jet.','The jet hits the wall and splits into two circulation loops, one above and one below the impeller.','Gas fed under the disc is broken into fine bubbles by the trailing vortices behind each blade.'],
+ ['Power P = Np x rho x N^3 x D^5, with Np about 5 in a fully baffled tank at Re above about 10,000.','In laminar flow, Np x Re is roughly constant (Kp about 70 for the standard design).','When gas is fed, power falls (often to 40-60% of ungassed power) and the impeller can flood if gas rate is too high for the speed.','Uses a lot of power for the flow it delivers, so it is not efficient for plain blending.'],
+ 'Using it for simple blending or solids suspension wastes power. With several Rushtons on one shaft, the zones between them can mix poorly (compartmentalisation). Flooding when gas rate is too high for the speed.',
+ 'Gas dispersion in fermenters and hydrogenators, liquid-liquid dispersion and extraction, and high-shear blending of thin liquids.');
+A('Pitched-blade Turbine (45 deg, 4-blade)','pbt','Mixed (mainly axial)','About 1.2 to 1.5 (4 blades at 45 deg)',1.27,'Turbulent and transitional','Low to medium','0.3 to 0.5','Moderate',
+ 'Flat blades set at an angle, usually 45 degrees, so the impeller pushes liquid down (or up) as well as outward. The general-purpose workhorse.',
+ ['The angled blades push liquid down towards the vessel bottom (down-pumping mode).','Flow sweeps across the bottom, rises along the walls and returns to the impeller from above.','This single loop suspends solids and turns over the whole batch.'],
+ ['Np about 1.27 for a standard 4-blade 45 deg design in a baffled tank, so it gives more flow per kW than a Rushton.','Down-pumping is normal for solids suspension; up-pumping is sometimes used for surface incorporation or gas.','Off-bottom clearance of about D/2 to T/3 is typical; too high and solids settle at the base.','Zwietering correlation (Njs) is used to find the minimum speed to just suspend solids.'],
+ 'Mounting it the wrong way round (pumping up instead of down). Placing it too high above the bottom for solids duty. Expecting it to disperse gas as well as a radial turbine.',
+ 'Solids suspension, blending, heat transfer in jacketed reactors and crystallisers.');
+A('Hydrofoil (High-efficiency Axial)','hydrofoil','Axial','About 0.3 (geometry dependent)',0.3,'Turbulent','Low (water-like)','0.3 to 0.6','Moderate',
+ 'Wide, twisted, aerofoil-shaped blades that move a lot of liquid with little power and little shear.',
+ ['The aerofoil blades push liquid almost straight down, like a ship propeller.','The strong axial flow sweeps the bottom and rises along the walls.','Because the blade is shaped like a wing, most of the power goes into flow rather than shear.'],
+ ['Very low power number (about 0.3), so it delivers high flow per kW.','Good for blending and solids suspension in large, low-viscosity tanks.','Efficiency falls in viscous liquids; it is designed for turbulent flow.','Low shear makes it suitable for shear-sensitive crystals and cells.'],
+ 'Using it in viscous liquids where its flow pattern breaks down. Using a narrow-blade hydrofoil for gas dispersion, where it floods easily (wide-blade hydrofoils are made for gas duty). Undersizing the diameter to save cost.',
+ 'Large blending tanks, solids suspension, crystallisers and storage tanks with low-viscosity liquids.');
+A('Marine Propeller','propeller','Axial','About 0.3 to 0.4 (3-blade, square pitch)',0.35,'Turbulent','Low','Small, often 0.1 to 0.3','High rotational speed',
+ 'A small three-blade propeller, like a boat propeller, that runs fast and drives a strong axial current.',
+ ['The propeller spins at high speed and drives liquid along the shaft axis.','The jet sets up one large circulation loop through the tank.','It is often mounted off-centre, angled or through the side wall to avoid swirl without baffles.'],
+ ['Power number depends on pitch; about 0.3 to 0.4 for a square-pitch 3-blade propeller in a baffled tank.','Usually direct-driven at high speed in small vessels; side-entry versions are used in large storage tanks.','Off-centre or angled mounting replaces baffles in small portable mixers.','Not suitable for viscous liquids.'],
+ 'Centre mounting without baffles, which gives a vortex and little real mixing. Using it in viscous products. Expecting it to suspend heavy solids in large tanks.',
+ 'Small blending tanks, portable mixers, side-entry mixers on large storage tanks, and dissolving tanks.');
+A('Concave-blade (Smith) Turbine','concave','Radial','About 2.5 to 3.2 ungassed',3.0,'Turbulent','Low','0.3 to 0.4','Moderate',
+ 'Like a Rushton turbine but with curved, hollow blades. It handles much more gas before its power drops.',
+ ['The disc carries six concave (half-pipe) blades.','Liquid is thrown radially outward like a Rushton.','The curved blades reduce the gas cavities behind each blade, so the impeller keeps its power when gassed.'],
+ ['Ungassed power number is lower than a Rushton (roughly 2.5 to 3.2 depending on design).','Gassed power drops much less than a Rushton, so gas handling capacity is higher.','Widely used as the bottom impeller in fermenters and gas-liquid reactors.'],
+ 'Treating it as a blending impeller. Ignoring the gassed power curve when sizing the motor.',
+ 'Gas-liquid reactors, fermenters and hydrogenation where high gas rates must be dispersed.');
+A('Flat-blade Paddle','paddle','Radial and tangential','Depends strongly on blade width and number','',  'Transitional and laminar','Low to medium','0.5 to 0.8','Low',
+ 'Two or four flat vertical blades on a shaft. The simplest agitator, running slowly.',
+ ['The broad blades push liquid around and outward at low speed.','Without baffles, most of the flow is a swirl around the shaft.','Mixing is gentle with little shear.'],
+ ['Simple and cheap; often used where only gentle mixing is needed.','Power number depends strongly on blade width, number and baffling, so use vendor data.','At low liquid levels a paddle near the bottom keeps the batch moving.'],
+ 'Expecting good top-to-bottom mixing in a tall vessel. Running without baffles in thin liquids, which just swirls the batch.',
+ 'Gentle mixing, slurry holding tanks and simple dissolving duties.');
+A('Retreat-curve Impeller (Glass-lined)','retreat','Radial with some axial','Low; depends strongly on baffling','',  'Turbulent and transitional','Low to medium','About 0.5 to 0.6','Moderate',
+ 'A three-blade impeller with curved, swept-back blades, mounted close to the dished bottom. The standard agitator in glass-lined reactors.',
+ ['The swept-back blades push liquid outward and slightly upward from close to the bottom head.','Because it sits low, it keeps mixing even at small batch volumes.','Glass-lined vessels usually have only one or two baffles (finger or beavertail type), so swirl is significant.'],
+ ['Its shape suits glass coating: no sharp edges or welded joints.','Works at low liquid levels because of the low mounting.','Heat transfer and blending depend heavily on the baffle arrangement.','Glass-lined versions of pitched-blade and turbine impellers are also available when more flow or shear is needed.'],
+ 'Running a glass-lined reactor without its baffle, which gives a vortex and poor heat transfer. Thermal shock or impact damage to the glass coating.',
+ 'General reactions, distillation and crystallisation in glass-lined batch reactors.');
+A('Anchor Agitator','anchor','Close-clearance (tangential)','Depends on Reynolds number (laminar)','',  'Laminar and transitional','Medium to high (viscous liquids, creams)','0.9 to 0.98','Low',
+ 'A U-shaped agitator that follows the vessel wall closely. It scrapes the wall to improve heat transfer in viscous batches.',
+ ['The anchor arms sweep close to the vessel wall and bottom.','They move the viscous layer at the wall, which improves heat transfer.','Flow is mostly around the vessel; there is little top-to-bottom mixing.'],
+ ['Used in the laminar region where turbine impellers no longer pump well.','Wall clearance is small, typically a few percent of the diameter, sometimes with scrapers.','Often combined with a faster inner impeller (counter-rotating or coaxial) to improve vertical mixing.','Baffles are usually not needed in laminar flow.'],
+ 'Expecting it to blend a thin liquid well. Poor top-to-bottom mixing in tall batches. Clearance too large, which loses the heat-transfer benefit.',
+ 'Viscous products, creams, ointments, resins and heat-sensitive batches in jacketed vessels.');
+A('Gate (Frame) Agitator','gate','Close-clearance (tangential)','Depends on Reynolds number (laminar)','',  'Laminar and transitional','Medium to high','0.9 to 0.98','Low',
+ 'An anchor with extra horizontal and vertical bars, like a gate. It moves more of the batch than a plain anchor.',
+ ['The outer frame sweeps close to the wall like an anchor.','The cross bars break up the rotating mass and add some vertical movement.','Mixing is gentle and suited to viscous liquids.'],
+ ['Better bulk mixing than a plain anchor at similar speed.','Used in the laminar and low transitional range.','Simple and robust; often used in large slow-speed vessels.'],
+ 'Using it at high speed in thin liquids. Expecting the top-to-bottom turnover of a helical ribbon.',
+ 'Viscous solutions, slurries and gentle mixing in large vessels.');
+A('Helical Ribbon','ribbon','Close-clearance (axial)','Depends on Reynolds number (laminar)','',  'Laminar','High to very high (polymers, pastes)','0.9 to 0.95','Low',
+ 'One or two helical ribbons that wind around the shaft close to the wall. The best choice for very viscous liquids.',
+ ['The ribbon lifts material up along the wall as it turns.','Material returns down near the shaft, giving true top-to-bottom turnover.','This works in the laminar region where other impellers only stir locally.'],
+ ['Gives the shortest blend time in very viscous liquids.','High torque at low speed, so the drive and shaft must be sized for it.','An inner screw is sometimes added to pump down the centre.'],
+ 'Using it for thin liquids. Undersized drive for the torque. Difficult cleaning between batches.',
+ 'Polymers, adhesives, pastes, greases and other very viscous batches.');
+A('Sawtooth (Cowles) Disperser','disperser','High shear (radial)','Low; depends on design','',  'Turbulent near the blade','Low to medium (dispersion base)','About 0.25 to 0.35','High, about 18 to 25 m/s',
+ 'A flat disc with bent teeth around its edge, running very fast. It breaks up powders and agglomerates in a liquid.',
+ ['The disc runs at high tip speed.','Liquid is flung outward and returns above and below the disc, forming a rolling doughnut pattern.','Powder drawn into the vortex is sheared at the teeth and wetted out.'],
+ ['Tip speed (pi x D x N) is the key setting, commonly about 18 to 25 m/s.','The doughnut pattern needs the right disc diameter, height above the bottom and liquid depth.','Little bulk pumping, so a slow anchor or second agitator is often added for large or viscous batches.','Generates heat; long runs can raise batch temperature.'],
+ 'Wrong disc-to-tank ratio or liquid depth, which loses the doughnut flow. Running it as a general blender. Ignoring heat build-up.',
+ 'Powder wetting, pigment and filler dispersion, paints, inks and suspensions.');
+A('Rotor-Stator High-shear Mixer','rotorstator','High shear (radial jets)','Not usually quoted; use vendor data','',  'Turbulent in the shear gap','Low to medium','Small head','Very high in the shear gap',
+ 'A fast rotor spinning inside a slotted stator. Liquid is forced through a narrow gap, giving very high shear.',
+ ['The rotor draws liquid and solids into the head from below.','Material is forced out through the stator slots at high speed.','The intense shear in the gap breaks droplets and agglomerates.'],
+ ['Used for emulsions, fine dispersions and deagglomeration.','Available as batch (top-entry), bottom-entry or inline units.','Bulk circulation in the tank is weak, so a separate agitator is often needed.','Heat input is significant on long runs.'],
+ 'Relying on it for bulk mixing of a large tank. Running it dry or uncovered. Ignoring temperature rise.',
+ 'Creams, emulsions, suspensions, dissolving gums and powders, and particle size reduction in liquids.');
+A('Gas-inducing (Hollow-shaft) Impeller','gasinduce','Radial with gas induction','Depends on design','',  'Turbulent','Low','0.3 to 0.4','High enough to draw gas',
+ 'An impeller on a hollow shaft. Low pressure at the blade tips sucks headspace gas down the shaft and disperses it into the liquid.',
+ ['Holes near the top of the hollow shaft sit in the gas headspace.','At speed, low pressure behind the impeller blades draws gas down the shaft.','The gas leaves at the blade tips as fine bubbles and is recirculated continuously.'],
+ ['Recirculates unreacted gas, which suits dead-end hydrogenation without an external compressor.','Needs a minimum speed and correct submergence before it starts to draw gas.','Gas induction rate depends on speed, submergence and liquid properties; use vendor data.'],
+ 'Running below the onset speed so no gas is drawn. Wrong liquid level, which uncovers or floods the shaft openings.',
+ 'Hydrogenation, oxidation and other gas-liquid reactions in autoclaves.');
+
+/* drawings */
+function agTank(baffles){
+  var s='<path class="ei-st" d="M40 14 V138 q0 20 20 20 H160 q20 0 20 -20 V14"/>'+
+        '<path class="ei-fl" d="M42 34 H178 V138 q0 18 -18 18 H60 q-18 0 -18 -18 Z"/>'+
+        '<rect class="ei-st" x="98" y="2" width="24" height="10" rx="2"/>';
+  if(baffles)s+='<line class="ei-st" x1="46" y1="38" x2="46" y2="146" style="opacity:.45"/><line class="ei-st" x1="174" y1="38" x2="174" y2="146" style="opacity:.45"/>';
+  return s;
+}
+function mir(d){return d.replace(/(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g,function(m,x,y){return (220-parseFloat(x))+' '+y;});}
+function loops(kind,y){
+  var L='';
+  if(kind==='radial'){
+    var up='M92 '+y+' L56 '+y+' Q50 '+y+' 50 '+(y-10)+' L50 46 Q50 40 58 40 L98 40 Q104 40 104 48 L104 '+(y-10);
+    var dn='M92 '+(y+2)+' L56 '+(y+2)+' Q50 '+(y+2)+' 50 '+(y+12)+' L50 136 Q50 148 62 148 L98 148 Q104 148 104 140 L104 '+(y+12);
+    L=arr(up)+arr(dn)+arr(mir(up))+arr(mir(dn));
+  }else if(kind==='axial'){
+    var a='M104 46 L104 140 Q104 148 96 148 L60 148 Q50 148 50 138 L50 48 Q50 40 58 40 L96 40';
+    L=arr(a)+arr(mir(a));
+  }else if(kind==='up'){
+    var b='M96 40 L58 40 Q50 40 50 48 L50 138 Q50 148 60 148 L96 148 Q104 148 104 140 L104 46';
+    b='M58 148 Q50 148 50 138 L50 48 Q50 40 58 40 L96 40 Q104 40 104 48 L104 140 Q104 148 96 148 Z';
+    L=arr('M50 140 L50 48 Q50 40 58 40 L96 40 Q104 40 104 48 L104 138')+arr(mir('M50 140 L50 48 Q50 40 58 40 L96 40 Q104 40 104 48 L104 138'));
+  }else if(kind==='swirl'){
+    L=arr('M60 70 Q110 82 160 70')+arr('M60 104 Q110 116 160 104')+arr('M60 136 Q110 146 160 136');
+  }else if(kind==='doughnut'){
+    var u='M100 '+y+' L70 '+y+' Q60 '+y+' 60 '+(y-12)+' Q60 '+(y-26)+' 80 '+(y-26)+' L100 '+(y-26)+' L100 '+(y-8);
+    var d='M100 '+(y+2)+' L70 '+(y+2)+' Q60 '+(y+2)+' 60 '+(y+14)+' Q60 '+(y+28)+' 80 '+(y+28)+' L100 '+(y+28)+' L100 '+(y+10);
+    L=arr(u)+arr(d)+arr(mir(u))+arr(mir(d));
+  }else if(kind==='jets'){
+    L=arr('M110 150 L110 '+(y+10))+arr('M100 '+y+' L76 '+y)+arr('M120 '+y+' L144 '+y)+arr('M100 '+(y-6)+' L80 '+(y-18))+arr('M120 '+(y-6)+' L140 '+(y-18));
+  }
+  return L;
+}
+function agImp(kind,y){
+  var s='';
+  if(kind==='rushton'){s='<line class="ei-st" x1="90" y1="'+y+'" x2="130" y2="'+y+'"/><rect class="ei-st" x="84" y="'+(y-8)+'" width="8" height="16"/><rect class="ei-st" x="128" y="'+(y-8)+'" width="8" height="16"/><rect class="ei-st" x="106" y="'+(y-8)+'" width="8" height="16" style="opacity:.5"/>';}
+  else if(kind==='concave'){s='<line class="ei-st" x1="90" y1="'+y+'" x2="130" y2="'+y+'"/><path class="ei-st" d="M90 '+(y-8)+' q-8 8 0 16"/><path class="ei-st" d="M130 '+(y-8)+' q8 8 0 16"/>';}
+  else if(kind==='pbt'){s='<line class="ei-st" x1="84" y1="'+(y-7)+'" x2="104" y2="'+(y+7)+'"/><line class="ei-st" x1="136" y1="'+(y-7)+'" x2="116" y2="'+(y+7)+'"/><rect class="ei-st" x="104" y="'+(y-4)+'" width="12" height="8"/>';}
+  else if(kind==='hydrofoil'){s='<path class="ei-st" d="M110 '+y+' Q94 '+(y-6)+' 78 '+(y+4)+' Q94 '+(y+2)+' 110 '+(y+6)+'"/><path class="ei-st" d="M110 '+y+' Q126 '+(y-6)+' 142 '+(y+4)+' Q126 '+(y+2)+' 110 '+(y+6)+'"/>';}
+  else if(kind==='propeller'){s='<ellipse class="ei-st" cx="99" cy="'+y+'" rx="11" ry="4" transform="rotate(-25 99 '+y+')"/><ellipse class="ei-st" cx="121" cy="'+y+'" rx="11" ry="4" transform="rotate(-25 121 '+y+')"/>';}
+  else if(kind==='paddle'){s='<rect class="ei-st" x="74" y="'+(y-10)+'" width="72" height="20" rx="2"/>';}
+  else if(kind==='retreat'){s='<path class="ei-st" d="M110 '+y+' Q90 '+y+' 70 '+(y-10)+'"/><path class="ei-st" d="M110 '+y+' Q130 '+y+' 150 '+(y-10)+'"/>';}
+  else if(kind==='anchor'){s='<path class="ei-st" d="M54 46 V132 q0 18 56 18 q56 0 56 -18 V46" style="stroke-width:3"/>';}
+  else if(kind==='gate'){s='<path class="ei-st" d="M54 46 V132 q0 18 56 18 q56 0 56 -18 V46" style="stroke-width:3"/><line class="ei-st" x1="54" y1="76" x2="166" y2="76"/><line class="ei-st" x1="54" y1="110" x2="166" y2="110"/><line class="ei-st" x1="82" y1="76" x2="82" y2="146"/><line class="ei-st" x1="138" y1="76" x2="138" y2="146"/>';}
+  else if(kind==='ribbon'){s='<path class="ei-st" d="M54 44 C110 52 110 52 166 62 M166 62 C110 72 110 72 54 82 M54 82 C110 92 110 92 166 102 M166 102 C110 112 110 112 54 122 M54 122 C110 132 110 132 166 142" style="stroke-width:3"/>';}
+  else if(kind==='disperser'){var z='M86 '+y;for(var i=0;i<6;i++){z+=' l4 -5 l4 5';}s='<path class="ei-st" d="'+z+'"/>';}
+  else if(kind==='rotorstator'){s='<rect class="ei-st" x="98" y="'+(y-10)+'" width="24" height="20" rx="3"/><line class="ei-st" x1="104" y1="'+(y-10)+'" x2="104" y2="'+(y+10)+'" style="opacity:.6"/><line class="ei-st" x1="110" y1="'+(y-10)+'" x2="110" y2="'+(y+10)+'" style="opacity:.6"/><line class="ei-st" x1="116" y1="'+(y-10)+'" x2="116" y2="'+(y+10)+'" style="opacity:.6"/>';}
+  else if(kind==='gasinduce'){s='<line class="ei-st" x1="90" y1="'+y+'" x2="130" y2="'+y+'"/><rect class="ei-st" x="84" y="'+(y-7)+'" width="8" height="14"/><rect class="ei-st" x="128" y="'+(y-7)+'" width="8" height="14"/>';}
+  return s;
+}
+var AGSPEC={
+ rushton:{y:96,f:'radial',b:1},concave:{y:96,f:'radial',b:1},pbt:{y:110,f:'axial',b:1},hydrofoil:{y:110,f:'axial',b:1},
+ propeller:{y:110,f:'axial',b:1},paddle:{y:110,f:'swirl',b:0},retreat:{y:140,f:'radial',b:1},anchor:{y:150,f:'swirl',b:0},
+ gate:{y:150,f:'swirl',b:0},ribbon:{y:150,f:'up',b:0},disperser:{y:110,f:'doughnut',b:0},rotorstator:{y:126,f:'jets',b:0},gasinduce:{y:110,f:'radial',b:1}
+};
+function agDia(it){
+  var k=it.dia,sp=AGSPEC[k],s=agTank(sp.b);
+  if(k==='gasinduce'){s+='<line class="ei-st" x1="106" y1="12" x2="106" y2="'+sp.y+'"/><line class="ei-st" x1="114" y1="12" x2="114" y2="'+sp.y+'"/>'+arr('M110 20 L110 '+(sp.y-8),1);}
+  else s+='<line class="ei-st" x1="110" y1="12" x2="110" y2="'+sp.y+'"/>';
+  s+=agImp(k,sp.y)+loops(sp.f,sp.y);
+  if(k==='gasinduce')s+='<circle class="ei-st" cx="72" cy="'+(sp.y-14)+'" r="2.5"/><circle class="ei-st" cx="66" cy="'+(sp.y-26)+'" r="2"/><circle class="ei-st" cx="150" cy="'+(sp.y-16)+'" r="2.5"/><circle class="ei-st" cx="156" cy="'+(sp.y-30)+'" r="2"/>';
+  return svg(220,166,s);
+}
+
+function renderAg(){
+  $('grid-ag').innerHTML=AG.map(function(it,i){
+    var chips='<span>'+esc(it.flow)+'</span><span>'+esc(it.regime)+'</span>';
+    return '<button class="ei-card" data-i="'+i+'" data-t="ag"><div class="ei-thumb">'+agDia(it)+'</div><div class="ei-tag">'+esc(it.flow)+' flow</div><h3>'+esc(it.name)+'</h3><div class="ei-qf">'+chips+'</div><p>'+esc(it.one)+'</p></button>';
+  }).join('');
+  var sel=$('ag-imp');
+  if(sel&&!sel.options.length){
+    sel.innerHTML=AG.map(function(it,i){return '<option value="'+i+'">'+esc(it.name)+'</option>';}).join('');
+  }
+}
+/* flow regime calculator */
+function fmtN(v,d){if(!isFinite(v))return '-';return v.toLocaleString('en-IN',{maximumFractionDigits:d===undefined?0:d});}
+function agCalc(){
+  var it=AG[+$('ag-imp').value]||AG[0];
+  var N=+$('ag-n').value,Dm=+$('ag-d').value/1000,rho=+$('ag-rho').value,mu=+$('ag-mu').value/1000,V=+$('ag-v').value/1000;
+  var n=N/60,Re=rho*n*Dm*Dm/mu,tip=Math.PI*Dm*n;
+  var reg=Re<10?['Laminar','lam','Viscous forces dominate. Flow follows the impeller; close-clearance agitators (anchor, gate, ribbon) work best. Power varies with viscosity: P = Kp x mu x N^2 x D^3.']:
+          Re<10000?['Transitional','tra','Both viscous and inertial forces matter. Power number changes with Re, so read Np from the impeller’s Np-Re curve.']:
+          ['Turbulent','tur','Inertial forces dominate. In a baffled tank the power number is roughly constant, so P = Np x rho x N^3 x D^5.'];
+  var out='<div class="ei-agres"><div><span>Reynolds number</span><b>'+fmtN(Re)+'</b></div><div><span>Flow regime</span><b class="ei-reg ei-reg-'+reg[1]+'">'+reg[0]+'</b></div><div><span>Tip speed</span><b>'+fmtN(tip,2)+' m/s</b></div>';
+  var pw='';
+  if(reg[1]==='tur'&&it.npv){var P=it.npv*rho*Math.pow(n,3)*Math.pow(Dm,5);out+='<div><span>Power (Np '+it.npv+')</span><b>'+fmtN(P/1000,2)+' kW</b></div>';if(V>0)out+='<div><span>Power per volume</span><b>'+fmtN(P/1000/V,2)+' kW/m³</b></div>';}
+  else pw='<p class="ei-agnote">Power is shown only for turbulent flow with a known power number. '+(it.npv?'In this regime Np changes with Re.':'This impeller’s power number depends on design and Re.')+' Use the <a href="'+SITE+'/calculators/agitator-simulator/">Agitator Simulator</a> or vendor data.</p>';
+  out+='</div>';
+  var x=Math.max(0,Math.min(100,(Math.log10(Math.max(Re,1))/6)*100));
+  out+='<div class="ei-rebar" aria-hidden="true"><div class="ei-rb-lam">Laminar<br><small>Re &lt; 10</small></div><div class="ei-rb-tra">Transitional<br><small>10 to 10,000</small></div><div class="ei-rb-tur">Turbulent<br><small>Re &gt; 10,000</small></div><i style="left:'+x+'%"></i></div>';
+  out+='<p class="ei-agnote">'+reg[2]+'</p>'+pw;
+  out+='<p class="ei-agnote">This impeller: '+esc(it.regime.toLowerCase())+'; '+esc(it.visc.toLowerCase())+'. Re = rho x N x D^2 / mu, with N in rev/s. Regime limits are approximate and depend on impeller and baffling.</p>';
+  $('ag-out').innerHTML=out;
+}
+var _agT=0;
+['ag-imp','ag-n','ag-d','ag-rho','ag-mu','ag-v'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',function(){agCalc();clearTimeout(_agT);_agT=setTimeout(function(){track('agitator_regime_calculated',{impeller:(AG[+$('ag-imp').value]||{}).name});},1200);});});
+var AGPRESET={'water':[1000,1],'solvent':[790,0.6],'syrup':[1300,500],'paste':[1200,50000]};
+var pre=$('ag-pre');if(pre)pre.addEventListener('change',function(){var p=AGPRESET[this.value];if(p){$('ag-rho').value=p[0];$('ag-mu').value=p[1];agCalc();}});
+$('grid-ag').addEventListener('click',function(e){var c=e.target.closest?e.target.closest('.ei-card'):null;if(c)openItem('ag',+c.getAttribute('data-i'));});
+renderAg();agCalc();
+
 buildChips('eq');buildChips('in');renderGrid('eq');renderGrid('in');showTab('eq');
 function route(){
   var h=decodeURIComponent((location.hash||'').slice(1)).toLowerCase();
   if(!h){return;}
   if(h==='instrumentation'){showTab('in');return;}
   if(h==='labs'){showTab('lab');return;}
+  if(h==='agitators'){showTab('ag');return;}
   if(h==='equipment'){showTab('eq');return;}
   var i=EQ.findIndex(function(x){return slug(x.name)===h;});
   if(i>=0){showTab('eq');openItem('eq',i);return;}
   i=IN.findIndex(function(x){return slug(x.name)===h;});
-  if(i>=0){showTab('in');openItem('in',i);}
+  if(i>=0){showTab('in');openItem('in',i);return;}
+  i=AG.findIndex(function(x){return slug(x.name)===h;});
+  if(i>=0){showTab('ag');openItem('ag',i);}
 }
 route();
 window.addEventListener('hashchange',route);
