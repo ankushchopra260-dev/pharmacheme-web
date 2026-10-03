@@ -1204,7 +1204,11 @@ function renderGrid(type){
     var chips=(QF[it.name]||[]).map(function(c){return '<span>'+esc(c)+'</span>';}).join('');
     return '<button class="ei-card" data-i="'+i+'" data-t="'+type+'"><div class="ei-thumb">'+th+'</div><div class="ei-tag">'+esc(tg)+'</div><h3>'+esc(it.name)+'</h3><div class="ei-qf">'+chips+'</div><p>'+esc(it.one)+'</p></button>';
   }).join('');
-  $(type==='eq'?'cnt-eq':'cnt-in').textContent=ids.length+' of '+arr.length+' shown';
+  var cnt=$(type==='eq'?'cnt-eq':'cnt-in'),q=state.q[type].trim();
+  var txt=q?(ids.length+' match'+(ids.length===1?'':'es')+' for \u201c'+esc(q)+'\u201d'+(state.cat[type]!=='All'?' in '+esc(state.cat[type]):'')):(ids.length+' of '+arr.length+' shown');
+  var other=type==='eq'?'in':'eq',on=q?listFor(other).length:0;
+  cnt.innerHTML='<span>'+txt+'</span>'+(on?'<button type="button" class="ei-xtab" data-go="'+other+'">'+on+' in '+(other==='eq'?'Equipment':'Instrumentation')+' &rarr;</button>':'');
+  if(!ids.length&&q&&state.cat[type]!=='All'){grid.innerHTML='<p style="color:var(--mute)">No matches in this group. <button type="button" class="ei-xtab" data-allcat="'+type+'">Search all groups</button></p>';return;}
   if(!ids.length){grid.innerHTML='<p style="color:var(--mute)">Nothing matches. Try a different word (for example a concept like NPSH or cavitation) or choose All.</p>';}
 }
 function list(arr,tag){return '<'+tag+'>'+arr.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</'+tag+'>';}
@@ -1476,20 +1480,39 @@ function showTab(t){
   $('sec-eq').classList.toggle('ei-hide',t!=='eq');
   $('sec-in').classList.toggle('ei-hide',t!=='in');
   $('sec-lab').classList.toggle('ei-hide',t!=='lab');
-  $('bar').classList.toggle('ei-hide',t==='lab');
+  $('bar').classList.toggle('ei-hide',t==='lab');$('lvbar').classList.toggle('ei-hide',t==='lab');
   $('tab-eq').setAttribute('aria-selected',t==='eq');
   $('tab-in').setAttribute('aria-selected',t==='in');
   $('tab-lab').setAttribute('aria-selected',t==='lab');
   if(t==='lab'){renderLab();}else{stopSim();
-    $('q').placeholder=t==='eq'?'Search equipment, or a concept like NPSH...':'Search instruments, tags or concepts (LT, radar, PSV)...';
-    $('q').value=state.q[t];}
+    $('q').placeholder=t==='eq'?'Search equipment or a concept\u2026':'Search instruments or a tag\u2026';
+    $('q').value=state.q[t];renderGrid(t);}
 }
 $('tab-eq').addEventListener('click',function(){showTab('eq');setHash('');});
 $('tab-in').addEventListener('click',function(){showTab('in');setHash('instrumentation');});
 $('tab-lab').addEventListener('click',function(){showTab('lab');setHash('labs');});
+function setQuery(v){
+  state.q.eq=state.q['in']=v;renderGrid('eq');renderGrid('in');
+  $('qclear').hidden=!v;$('bar').classList.toggle('has-q',!!v);
+}
 $('q').addEventListener('input',function(){
-  var t=state.tab;if(t==='lab')return;state.q[t]=this.value;renderGrid(t);if(this.value.length>1)trackLater('s',t==='eq'?'equipment_search':'instrument_search',{search_term:this.value.toLowerCase().slice(0,40)});
+  var t=state.tab;if(t==='lab')return;setQuery(this.value);
+  if(this.value.length>1)trackLater('s',t==='eq'?'equipment_search':'instrument_search',{search_term:this.value.toLowerCase().slice(0,40)});
 });
+$('q').addEventListener('keydown',function(e){if(e.key==='Escape'&&this.value){e.stopPropagation();this.value='';setQuery('');}});
+$('qclear').addEventListener('click',function(){$('q').value='';setQuery('');$('q').focus();});
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/'||e.ctrlKey||e.metaKey||e.altKey)return;
+  var tg=(e.target.tagName||'').toLowerCase();if(tg==='input'||tg==='textarea'||e.target.isContentEditable)return;
+  if(state.tab==='lab'||$('ov').classList.contains('ei-on'))return;
+  e.preventDefault();$('q').focus();
+});
+['cnt-eq','cnt-in','grid-eq','grid-in'].forEach(function(id){$(id).addEventListener('click',function(e){
+  var go=e.target.closest?e.target.closest('[data-go]'):null;
+  if(go){showTab(go.getAttribute('data-go'));setHash(go.getAttribute('data-go')==='in'?'instrumentation':'');window.scrollTo({top:$('bar').getBoundingClientRect().top+window.scrollY-140});return;}
+  var ac=e.target.closest?e.target.closest('[data-allcat]'):null;
+  if(ac){var t=ac.getAttribute('data-allcat');state.cat[t]='All';buildChips(t);renderGrid(t);}
+});});
 
 /* legend + decoder + letter table */
 (function(){

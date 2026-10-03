@@ -21,22 +21,22 @@ structured_data: |
 </div>
 
 <div class="ei-hdr">
- <div class="ei-wrap">
-  <div class="ei-top">
-   
-   <div class="ei-tabs" role="tablist">
-    <button class="ei-tab" role="tab" id="tab-eq" aria-selected="true">Equipment</button>
-    <button class="ei-tab" role="tab" id="tab-in" aria-selected="false">Instrumentation</button>
-    <button class="ei-tab" role="tab" id="tab-lab" aria-selected="false">Labs</button>
-   </div>
+ <div class="ei-wrap ei-tb">
+  <div class="ei-seg ei-tabs" role="tablist" aria-label="Section">
+   <button class="ei-tab" role="tab" id="tab-eq" aria-selected="true">Equipment</button>
+   <button class="ei-tab" role="tab" id="tab-in" aria-selected="false">Instrumentation</button>
+   <button class="ei-tab" role="tab" id="tab-lab" aria-selected="false">Labs</button>
   </div>
-  <div class="ei-bar" id="bar">
-   <input class="ei-search" id="q" type="search" placeholder="Search equipment..." aria-label="Search">
-   <div class="ei-level" role="group" aria-label="Depth">
-    <button id="lv-b" aria-pressed="true">Beginner</button>
-    <button id="lv-p" aria-pressed="false">Professional</button>
-    <button id="lv-t" aria-pressed="false">Troubleshoot</button>
-   </div>
+  <div class="ei-srch" id="bar" role="search">
+   <svg class="ei-sicon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+   <input class="ei-search" id="q" type="search" placeholder="Search equipment or a concept&hellip;" aria-label="Search" autocomplete="off" spellcheck="false">
+   <kbd class="ei-kbd" aria-hidden="true">/</kbd>
+   <button type="button" class="ei-clear" id="qclear" aria-label="Clear search" hidden>&times;</button>
+  </div>
+  <div class="ei-seg ei-level" id="lvbar" role="group" aria-label="Depth">
+   <button id="lv-b" aria-pressed="true">Beginner</button>
+   <button id="lv-p" aria-pressed="false">Professional</button>
+   <button id="lv-t" aria-pressed="false">Troubleshoot</button>
   </div>
  </div>
 </div>
