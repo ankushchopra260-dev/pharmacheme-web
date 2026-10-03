@@ -1004,6 +1004,7 @@ var RELRULES=[
  [/Pressure Safety Valve|Rupture Disc|Safety Instrumented|Solenoid|On\/Off/,['safe','hazard']]
 ];
 function relFor(type,it){
+  if(type==='ag'&&it.dia==='anfd')return [['ANFD (equipment card)','/equipment-instruments/#agitated-nutsche-filter-dryer-anfd','Card'],LK.filt];
   if(type==='ag')return [LK.agit,LK.mix,LK.aMix];
   var keys=[];
   RELRULES.forEach(function(r){if(r[0].test(it.name)){r[1].forEach(function(k){if(keys.indexOf(k)<0)keys.push(k);});}});
@@ -1613,6 +1614,12 @@ A('Gas-inducing (Hollow-shaft) Impeller','gasinduce','Radial with gas induction'
  ['Recirculates unreacted gas, which suits dead-end hydrogenation without an external compressor.','Needs a minimum speed and correct submergence before it starts to draw gas.','Gas induction rate depends on speed, submergence and liquid properties; use vendor data.'],
  'Running below the onset speed so no gas is drawn. Wrong liquid level, which uncovers or floods the shaft openings.',
  'Hydrogenation, oxidation and other gas-liquid reactions in autoclaves.');
+A('ANFD Agitator (Nutsche Blades)','anfd','Close to the filter bed (cake handling)','Not used; the drive is sized on torque','',  'Slurry and wet cake (not a liquid mixing regime)','Slurry, wet cake and dry powder','Blades reach close to the wall','Slow',
+ 'The agitator inside an Agitated Nutsche Filter Dryer (ANFD). Its blades can be raised and lowered to reslurry, smooth, dry and finally discharge the cake.',
+ ['During filtration the agitator is raised clear of the cake.','For a reslurry wash it is lowered and turned to mix the cake into the wash liquid, then raised while the wash is filtered off.','Turning in the smoothing direction levels the cake and closes cracks, so wash liquid and gas do not bypass.','During drying it turns slowly to break lumps and expose fresh cake to the heated plate and walls.','To discharge, it is lowered step by step and turned in the direction that sweeps the dry cake to the side discharge valve.'],
+ ['Blade height is set hydraulically or mechanically. Cutting into a dense or hard cake is limited by torque, so it is lowered in small steps.','Torque, not power number, is the main design limit. The drive is sized for peak torque when the blades cut into dense or sticky cake.','Reslurry washing usually washes better than displacement washing for cracked or compressible cakes, at the cost of extra filtration time.','Heated agitators and walls speed up drying. Agitation during drying can break fragile crystals, so speed and intermittent stirring are set for each product.','A thin heel of cake usually stays on the filter cloth after discharge and is removed by reslurrying or a heel-removal system.'],
+ 'Lowering too fast into a dense cake and tripping on high torque. Over-stirring fragile crystals during drying, which makes fines and slows the next filtration. Stirring a cracked cake during displacement washing instead of smoothing it first. Stirring the cake while it is in its sticky wet stage, which can form balls and lumps.',
+ 'Isolation of pharma and fine-chemical products where filtration, washing and drying are done in one closed vessel, which also helps contain potent or solvent-wet products.');
 
 /* drawings */
 function agTank(baffles){
@@ -1667,10 +1674,26 @@ function agImp(kind,y){
 var AGSPEC={
  rushton:{y:96,f:'radial',b:1},concave:{y:96,f:'radial',b:1},pbt:{y:110,f:'axial',b:1},hydrofoil:{y:110,f:'axial',b:1},
  propeller:{y:110,f:'axial',b:1},paddle:{y:110,f:'swirl',b:0},retreat:{y:140,f:'radial',b:1},anchor:{y:150,f:'swirl',b:0},
- gate:{y:150,f:'swirl',b:0},ribbon:{y:150,f:'up',b:0},disperser:{y:110,f:'doughnut',b:0},rotorstator:{y:126,f:'jets',b:0},gasinduce:{y:110,f:'radial',b:1}
+ gate:{y:150,f:'swirl',b:0},ribbon:{y:150,f:'up',b:0},disperser:{y:110,f:'doughnut',b:0},rotorstator:{y:126,f:'jets',b:0},gasinduce:{y:110,f:'radial',b:1},anfd:{y:112,f:'none',b:0}
 };
 function agDia(it){
-  var k=it.dia,sp=AGSPEC[k],s=agTank(sp.b);
+  var k=it.dia;
+  if(k==='anfd'){
+    var t='<path class="ei-st" d="M40 14 V132 H180 V14"/><rect class="ei-st" x="98" y="2" width="24" height="10" rx="2"/>'+
+      '<path class="ei-fl" d="M42 60 H178 V118 H42 Z" style="opacity:.14"/>'+
+      '<rect x="42" y="118" width="136" height="13" style="fill:var(--accent);opacity:.45"/>'+
+      '<line class="ei-st" x1="40" y1="132" x2="180" y2="132" stroke-dasharray="4 3"/>'+
+      '<path class="ei-st" d="M50 132 L50 146 H170 L170 132"/>'+
+      '<line class="ei-st" x1="110" y1="12" x2="110" y2="112"/>'+
+      '<path class="ei-st" d="M110 112 L60 108 M110 112 L160 108" style="stroke-width:3"/>'+
+      '<path class="ei-st" d="M66 104 l-8 8 M154 104 l8 8 M86 106 l-6 8 M134 106 l6 8"/>'+
+      '<path class="ei-st" d="M180 120 H200 V128 H180"/>'+
+      arr('M124 40 L124 70')+arr('M132 70 L132 40')+arr('M110 146 L110 164')+arr('M182 124 L212 124')+
+      '<text class="ei-txt" x="138" y="54">raise / lower</text><text class="ei-txt" x="64" y="128" style="fill:var(--bg)">cake</text>'+
+      '<text class="ei-txt" x="116" y="162">filtrate</text><text class="ei-txt" x="184" y="114">out</text>';
+    return svg(220,166,t);
+  }
+  var sp=AGSPEC[k],s=agTank(sp.b);
   if(k==='gasinduce'){s+='<line class="ei-st" x1="106" y1="12" x2="106" y2="'+sp.y+'"/><line class="ei-st" x1="114" y1="12" x2="114" y2="'+sp.y+'"/>'+arr('M110 20 L110 '+(sp.y-8),1);}
   else s+='<line class="ei-st" x1="110" y1="12" x2="110" y2="'+sp.y+'"/>';
   s+=agImp(k,sp.y)+loops(sp.f,sp.y);
