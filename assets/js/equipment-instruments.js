@@ -158,19 +158,19 @@ function E(cat,name,dia,one,how,deep,watch,use){EQ.push({cat:cat,name:name,dia:d
 /* Reactors */
 E('Reactors','Batch Reactor (Glass-lined / SS)','reactor',
  'A closed, stirred vessel. Everything is charged, reacted for a set time, then discharged. It is the workhorse of pharma and agrochemical plants.',
- ['Raw materials are charged through the manhole or charging line.','The agitator mixes the contents while the jacket heats or cools it (steam, chilled brine, thermic fluid).','The reaction proceeds while temperature, pressure and samples are monitored.','At the end point the batch is quenched, then transferred to the next step.'],
- ['Mole balance: dN/dt = r x V. Heat balance: the jacket must remove heat at least as fast as the reaction releases it: Q = U x A x dT.','Heat-transfer area per unit volume falls roughly as 1/D when scaling up, so a reaction that was easy in the lab may be cooling-limited at plant scale.','Impeller choice: anchor or retreat-curve for viscous or glass-lined service, pitched blade for general mixing, Rushton turbine for gas dispersion. Baffles stop vortexing.','Glass lining limits thermal shock and does not tolerate hard solids or strong alkali at temperature. Follow the vendor limits.'],
+ ['Raw materials are charged through the manhole or charging line.','The agitator mixes the contents while the jacket heats or cools it (steam, chilled brine, thermic fluid).','The reaction proceeds while temperature, pressure and samples are monitored.','At the end point the batch is quenched or worked up as needed, then transferred to the next step.'],
+ ['Mole balance: dN/dt = r x V. Heat balance: the jacket must remove heat at least as fast as the reaction releases it: Q = U x A x dT.','Heat-transfer area per unit volume falls roughly as 1/D when scaling up, so a reaction that was easy in the lab may be cooling-limited at plant scale.','Impeller choice: anchor or retreat-curve for viscous or glass-lined service, pitched blade for general mixing, Rushton turbine for gas dispersion. Baffles stop vortexing.','Glass lining has limited thermal-shock resistance and does not tolerate hard solids, HF or strong alkali at temperature. Follow the vendor limits.'],
  'Cooling failure on an exothermic reaction can lead to thermal runaway. Glass lining damage from thermal shock. Mechanical seal leaks.',
  'APIs, intermediates, agrochemical technicals, specialty chemicals.');
 E('Reactors','Semi-batch Reactor','reactor',
  'A batch reactor where one reagent is added slowly over time. Dosing speed controls heat release and selectivity.',
  ['Part of the charge sits in the reactor at the set temperature.','The second reagent is dosed through a pump or addition vessel at a controlled rate.','Cooling removes the heat as fast as the dosing releases it.','After dosing ends there is a hold period to finish the reaction.'],
- ['Heat release rate is set by the dosing rate if the reaction is fast. Dosing-controlled operation is the usual safety strategy.','Accumulation = dosed amount minus reacted amount. If the reaction stalls (cold, catalyst missing) and dosing continues, accumulated reagent can react suddenly.','Stoessel-type criticality assessment uses MTSR (maximum temperature of the synthesis reaction), MTT (maximum technical temperature) and the adiabatic temperature rise to classify risk.'],
+ ['Heat release rate is set by the dosing rate if the reaction is fast. Dosing-controlled operation is the usual safety strategy.','Accumulation = dosed amount minus reacted amount. If the reaction stalls (cold, catalyst missing) and dosing continues, accumulated reagent can react suddenly.','Stoessel criticality classes rank four temperatures: process temperature, MTSR (process temperature plus the adiabatic rise from accumulated reagent), MTT (maximum technical temperature, e.g. boiling point) and TD24 (onset of a dangerous decomposition).'],
  'Dosing into a cold, unreacted mixture builds up unreacted reagent. Agitator failure during dosing is a classic cause of incidents.',
  'Nitrations, chlorinations, Grignard and other exothermic additions.');
 E('Reactors','CSTR (Continuous Stirred-Tank Reactor)','reactor',
  'A well-mixed vessel with continuous feed in and product out at the same rate. Composition inside equals composition at the outlet.',
- ['Feed enters continuously and mixes instantly with the contents.','Reaction occurs at the outlet concentration (the lowest in the system).','Product leaves continuously at the same flow rate.','The system settles to steady state.'],
+ ['Feed enters continuously and mixes instantly with the contents.','Reaction occurs at the outlet concentration (the lowest reactant concentration in the system).','Product leaves continuously at the same flow rate.','The system settles to steady state.'],
  ['Design equation: V = F_A0 x X / (-r_A). Residence time: tau = V / Q.','First-order, constant density: X = k x tau / (1 + k x tau).','For the same conversion a CSTR needs more volume than a PFR for positive-order kinetics, but it gives uniform temperature and easy control.','Several CSTRs in series approach PFR performance.'],
  'Short-circuiting and dead zones from poor mixing. Startup and shutdown transients.',
  'Neutralisations, polymerisation, fermentation, continuous crystallisation.');
@@ -198,14 +198,14 @@ E('Heat Transfer','Shell and Tube Heat Exchanger','hx',
  'A bundle of tubes inside a cylindrical shell. One fluid flows inside the tubes, the other outside, and heat moves through the tube walls.',
  ['Tube-side fluid enters the channel head and flows through the tubes.','Shell-side fluid enters a nozzle and is guided across the tubes by baffles.','Heat flows from the hot fluid through the tube wall to the cold fluid.','Both fluids leave at their own outlets.'],
  ['Duty: Q = m x Cp x dT = U x A x LMTD x F.','LMTD = (dT1 - dT2) / ln(dT1 / dT2). The correction factor F accounts for non-pure counter-current flow, and F below about 0.8 is a warning sign.','Put the fouling, corrosive or high-pressure fluid on the tube side. Baffle spacing balances heat transfer against shell-side pressure drop.','Overall coefficient: 1/U = 1/h_o + R_fo + (wall) + R_fi + 1/h_i (referred to a common area).'],
- 'Fouling reduces U over time. Tube leaks mix the two streams. Thermal expansion needs a floating head or expansion joint.',
+ 'Fouling reduces U over time. Tube leaks mix the two streams. Large shell-to-tube temperature differences need a floating head, U-tubes or an expansion joint.',
  'Heating, cooling and condensing almost everywhere in a plant.');
 E('Heat Transfer','Plate Heat Exchanger','plate',
  'A stack of corrugated metal plates with gaskets. Hot and cold fluids flow in alternate channels and exchange heat across the thin plates.',
  ['Plates are clamped between a fixed and a movable frame.','Gaskets direct fluid A into every other channel and fluid B into the others.','Corrugations create turbulence at low flow rates.','Heat transfers across a thin plate over a large area.'],
  ['High U values (often several times a shell-and-tube) and close temperature approaches are possible.','Limited by gasket temperature and pressure rating. Brazed and welded variants extend the range.','Narrow channels foul or plug with fibres and solids. Use a strainer upstream.'],
- 'Gasket failure and cross-contamination. Plugging by solids. Not for very viscous or particulate fluids.',
- 'Pasteurising, WFI loops, utility heat recovery, clean services.');
+ 'Gasket failure and cross-contamination. Plugging by solids. Standard plates are unsuitable for coarse particulates or extremely viscous fluids unless wide-gap plates are used.',
+ 'Pasteurising, utility heat recovery, clean liquid services (WFI loops normally use double-tubesheet shell-and-tube units).');
 E('Heat Transfer','Jacket, Half-coil and Limpet Coil','reactor',
  'Heat-transfer surfaces welded to the outside of a vessel to heat or cool its contents.',
  ['A utility (steam, brine, hot oil, chilled water) is circulated in the jacket or coil.','Heat passes through the vessel wall to the process side.','Half-coil and limpet designs force the utility along a path at higher velocity.','Utility leaves and returns to its system.'],
@@ -220,13 +220,13 @@ E('Heat Transfer','Condenser','condenser',
  'Reflux and overhead condensers, solvent recovery, vent condensers.');
 E('Heat Transfer','Reboiler','hx',
  'A heat exchanger at the bottom of a column that vaporises liquid to drive the distillation.',
- ['Bottom liquid is drawn from the column.','Steam or hot oil heats it and part of it boils.','The vapour-liquid mixture returns to the column.','Vapour rises up the column as the stripping/boil-up stream.'],
+ ['Bottom liquid is drawn from the column.','Steam or hot oil heats it and part of it boils.','The vapour (or vapour-liquid mixture, in a thermosyphon) returns to the column.','Vapour rises up the column as the stripping/boil-up stream.'],
  ['Types: kettle, thermosyphon (vertical or horizontal), forced circulation.','Thermosyphon driving force comes from the density difference between the liquid leg and the two-phase return line.','Boil-up rate sets reflux and separation. Limit the wall temperature to avoid fouling or product degradation.'],
  'Instability in thermosyphons, fouling, and overheating of heat-sensitive products.',
  'Distillation columns and strippers.');
 E('Heat Transfer','Cooling Tower','cooling',
  'Cools circulating water by letting a small part evaporate into an air stream.',
- ['Hot return water is sprayed or distributed over the fill.','A fan moves air upward through the fill, counter or cross to the water.','Part of the water evaporates, which carries heat away.','Cooled water collects in the basin and is pumped back.'],
+ ['Hot return water is sprayed or distributed over the fill.','A fan (or natural draft) moves air through the fill, upward in counterflow or horizontally in crossflow.','Part of the water evaporates, which carries heat away.','Cooled water collects in the basin and is pumped back.'],
  ['Approach = cold water temperature minus wet-bulb temperature. Range = hot water minus cold water.','Evaporation loss is roughly 1% of circulation per 5-6 degC range. Blowdown controls the cycles of concentration.','Water treatment: scale, corrosion and biological control, including Legionella management.'],
  'Scaling and biofouling, drift losses and fan or gearbox failure.',
  'Plant cooling-water circuits, chiller condenser water.');
@@ -239,12 +239,12 @@ E('Heat Transfer','Chiller (Vapour-compression)','compressor',
 E('Heat Transfer','Steam Boiler (Fire-tube / Water-tube)','boiler',
  'Burns fuel to produce steam for heating and process use.',
  ['Fuel and air burn in the furnace.','Hot flue gases pass through tubes (fire-tube) or around tubes (water-tube).','Feed water absorbs the heat and turns to steam.','Steam passes to the header, and flue gas leaves through the stack.'],
- ['Boiler efficiency can be found by the direct method (steam energy out / fuel energy in) or the indirect (loss) method.','Feed-water quality (TDS, hardness, dissolved O2) protects the tubes. Blowdown removes concentrated solids.','Drum level, flame failure and steam pressure interlocks are critical safety loops.'],
+ ['Boiler efficiency can be found by the direct method (steam flow x (steam enthalpy - feed-water enthalpy) / fuel flow x GCV) or the indirect (loss) method.','Feed-water quality (TDS, hardness, dissolved O2) protects the tubes. Blowdown removes concentrated solids.','Drum level, flame failure and steam pressure interlocks are critical safety loops.'],
  'Low water level, scale on tubes, and carryover. Strictly follow statutory boiler rules.',
  'Plant steam for jackets, tracing, evaporation and distillation.');
 E('Heat Transfer','Thermic Fluid Heater','boiler',
  'Heats a special oil to a high temperature at low pressure for process heating beyond steam limits.',
- ['A burner heats oil flowing through a coil in the furnace.','A circulation pump moves the hot oil to users.','Oil returns, passing through an expansion tank that absorbs thermal expansion.','Temperature is held by firing control.'],
+ ['A burner heats oil flowing through a coil in the furnace.','A circulation pump moves the hot oil to users.','Oil returns to the pump, with an expansion tank connected to the circuit to absorb thermal expansion.','Temperature is held by firing control.'],
  ['Oil can reach 250-320 degC without high pressure, which suits high-temperature reactions.','Oil degrades with overheating and oxidation. Test it regularly.','Keep minimum flow through the coil. Low flow overheats and cokes the tubes.'],
  'Coil coking, oil leaks and fire, water in oil.',
  'High-temperature reactor jackets, dryers, distillation reboilers.');
@@ -262,7 +262,7 @@ E('Heat Transfer','Agitated Thin Film Evaporator (ATFE)','evap',
  'Solvent stripping, residue concentration, high-viscosity products.');
 E('Heat Transfer','Multiple-effect Evaporator (MEE)','evap',
  'A series of evaporators where vapour from one effect heats the next, which saves steam.',
- ['Live steam heats the first effect.','Vapour from effect 1 becomes the heating medium for effect 2, which runs at a lower pressure.','The chain continues through all effects, and the last vapour goes to the condenser.','Concentrated liquor leaves the final effect.'],
+ ['Live steam heats the first effect.','Vapour from effect 1 becomes the heating medium for effect 2, which runs at a lower pressure.','The chain continues through all effects, and the last vapour goes to the condenser.','Concentrated liquor leaves the last effect in forward feed, or the first effect in backward feed.'],
  ['A rough screening rule is a steam economy of about 0.8 x N kg of water evaporated per kg of steam (N = number of effects). Actual economy depends on feed condition, boiling point elevation, heat losses, configuration and operating conditions.','Higher boiling-point elevation reduces usable temperature difference per effect.','Feed arrangements: forward, backward, mixed.'],
  'Scaling and salting, foaming, carryover to the condensate.',
  'ETP concentrate treatment, salt recovery, caustic concentration.');
@@ -277,19 +277,19 @@ E('Separation','Distillation Column (Tray / Packed)','column',
 E('Separation','Liquid-Liquid Separator / Decanter','settle',
  'A vessel where two immiscible liquids settle into layers and are drawn off separately.',
  ['The mixed stream enters and slows down.','The denser liquid sinks and the lighter floats.','The interface level is held by a level controller or an overflow weir.','Each layer leaves through its own outlet.'],
- ['Settling follows Stokes law: velocity is proportional to droplet diameter squared and the density difference.','Interface detection is by a sight glass, conductivity probe or radar.','Emulsions, rag layers and surfactants slow separation.'],
+ ['Settling follows Stokes law: velocity is proportional to droplet diameter squared and the density difference, and inversely proportional to continuous-phase viscosity.','Interface detection is by a sight glass, conductivity probe or radar.','Emulsions, rag layers and surfactants slow separation.'],
  'Poor separation due to emulsion, interface-level error and carryover of one phase.',
  'Work-up after reaction, extraction, washing.');
 E('Separation','Liquid-Liquid Extraction','settle',
  'Uses a solvent to pull a wanted compound from one liquid into another.',
  ['Feed and solvent are mixed so that the solute moves into the solvent.','Phases are allowed to separate.','Extract (solvent plus solute) and raffinate are drawn off.','Repeating with fresh solvent or in a counter-current column improves recovery.'],
- ['Distribution coefficient K = C_solvent / C_feed. Several small extractions beat one large one.','pH adjustment can switch an acid or base between phases.','Counter-current extraction columns and mixer-settlers are used at scale.'],
+ ['Distribution coefficient K = C_extract / C_raffinate, measured at equilibrium. Several small extractions beat one large one.','pH adjustment can switch an acid or base between phases.','Counter-current extraction columns and mixer-settlers are used at scale.'],
  'Emulsions, solvent losses and solvent safety.',
  'Product isolation, impurity removal, wastewater pre-treatment.');
 E('Separation','Absorber / Scrubber','scrubber',
  'A column where a gas stream contacts a liquid that dissolves or reacts with a pollutant.',
  ['Dirty gas enters at the bottom.','Scrubbing liquor (water, caustic, acid) is sprayed from the top over packing.','The pollutant moves into the liquid, sometimes with a chemical reaction.','Clean gas leaves at the top and spent liquor drains from the bottom.'],
- ['Henry law and the L/G ratio decide the required liquid rate.','Packed height = HTU x NTU.','Chemical absorption (e.g. HCl in water, SO2 in caustic, NH3 in acid) makes mass transfer much faster.','Keep liquor pH under control.'],
+ ['Henry law and the L/G ratio decide the required liquid rate.','Packed height = HTU x NTU.','Chemical absorption (e.g. SO2 in caustic, NH3 in acid) or very high solubility (HCl in water) makes mass transfer much faster.','Keep liquor pH under control.'],
  'Liquor depletion, packing blockage, demister carryover and corrosion.',
  'HCl, Cl2, NH3, SO2 and solvent-vapour scrubbing.');
 E('Separation','Crystallizer','tank',
@@ -300,7 +300,7 @@ E('Separation','Crystallizer','tank',
  'API purification, salt production, intermediates.');
 E('Separation','Centrifuge (Basket / Peeler / Decanter)','centrifuge',
  'Spins a slurry at high speed so centrifugal force separates solids from liquid.',
- ['Slurry is fed into a rotating perforated basket lined with filter cloth.','Liquid passes through the cloth, solids stay as a cake.','The cake may be washed and spun dry.','Cake is discharged by a peeler knife, a bottom discharge or manually.'],
+ ['In basket and peeler types, slurry is fed into a rotating perforated basket lined with filter cloth (decanters use a solid bowl and a scroll instead).','Liquid passes through the cloth, solids stay as a cake.','The cake may be washed and spun dry.','Cake is discharged by a peeler knife, a bottom discharge or manually.'],
  ['Centrifugal force in g: G = (omega squared x r) / g.','Cake permeability and cloth resistance set the filtration rate.','Out-of-balance loads need good loading practice. Peeler designs reduce manual exposure.','Decanter centrifuges handle continuous slurries.'],
  'Imbalance and vibration, cloth blinding, solvent vapours (inert with nitrogen).',
  'Isolating crystals and washing solids.');
@@ -318,13 +318,13 @@ E('Separation','Filter Press / Plate and Frame','filter',
  'Carbon removal, ETP sludge, catalyst recovery.');
 E('Separation','Cartridge / Bag / Sparkler Filter','filter',
  'Polishing filters that remove fine particles from a liquid.',
- ['Liquid is pumped through a filter element.','Particles larger than the rating are caught.','Pressure drop rises as the element loads.','The element is replaced or cleaned.'],
- ['Rating can be nominal or absolute. Beta ratio describes capture efficiency.','Change on differential pressure, not on a schedule alone.','Integrity testing (bubble point) is required for sterile filters.'],
+ ['Liquid is pumped through a filter element.','Most particles larger than the rating are caught (almost all for absolute-rated elements).','Pressure drop rises as the element loads.','The element is replaced or cleaned.'],
+ ['Rating can be nominal or absolute. Beta ratio describes capture efficiency.','Change on differential pressure, not on a schedule alone.','Integrity testing (bubble point or diffusion test) is required for sterile filters.'],
  'Element bypass and incorrect seating.',
  'Final clarification, carbon-bed polishing, sterile filtration.');
 E('Separation','Membrane Separation (RO / UF / NF)','membrane',
  'A semi-permeable membrane lets some components through under pressure while holding others back.',
- ['High-pressure feed flows across the membrane surface.','Water (permeate) passes, salts and larger molecules are rejected.','Concentrate (reject) leaves, carrying the rejected materials.','Membranes are cleaned periodically.'],
+ ['High-pressure feed flows across the membrane surface.','Water (permeate) passes. RO rejects most salts, NF rejects divalent ions and small organics, and UF holds back only large molecules and colloids.','Concentrate (reject) leaves, carrying the rejected materials.','Membranes are cleaned periodically.'],
  ['Reverse osmosis pressure must exceed osmotic pressure: pi = i x C x R x T.','Recovery = permeate flow / feed flow. Higher recovery raises scaling risk.','Cross-flow limits fouling. Pre-treatment protects the membrane.'],
  'Scaling, biofouling, chlorine damage to RO membranes.',
  'Purified water, ETP reuse, concentration of solutions.');
@@ -351,7 +351,7 @@ E('Drying','Fluid Bed Dryer (FBD)','fbd',
 E('Drying','Rotocone Vacuum Dryer (RCVD)','blender',
  'A double-cone vessel that rotates under vacuum while heated to dry solids gently.',
  ['Wet cake is charged.','The vessel rotates slowly, and the jacket heats the wall.','Vacuum lowers the boiling point of moisture or solvent.','Vapours go to the condenser and dry product is discharged.'],
- ['Vacuum drying keeps temperature low for heat-sensitive materials.','Tumbling prevents lumps and gives uniform drying.','Condensed solvent is recovered.'],
+ ['Vacuum drying keeps temperature low for heat-sensitive materials.','Tumbling reduces lumps and gives more uniform drying, though sticky cakes can still ball.','Condensed solvent is recovered.'],
  'Filter blinding at the vacuum port, leaks and overheating.',
  'API and intermediate drying, solvent recovery.');
 E('Drying','Spray Dryer','spray',
@@ -371,7 +371,7 @@ E('Solids Handling','Mills (Multi-mill / Pulveriser / Jet Mill)','mill',
 E('Solids Handling','Vibro Sifter','mill',
  'A vibrating sieve that separates particles by size or removes lumps.',
  ['Powder is fed on a mesh deck.','Vibration moves material across the screen.','Fine material falls through, oversize leaves separately.','Both streams are collected.'],
- ['Screening efficiency depends on feed rate, mesh opening and amplitude.','Blinding is reduced by ball or ultrasonic cleaning.','Use ATEX-rated equipment for flammable dust.'],
+ ['Screening efficiency depends on feed rate, mesh opening and amplitude.','Blinding is reduced by ball or ultrasonic cleaning.','Use equipment certified for the hazardous-area zone (ATEX/IECEx) when handling flammable dust.'],
  'Mesh tearing, blinding and dust.',
  'De-lumping, oversize removal and particle grading.');
 E('Solids Handling','Blenders (Ribbon / Double Cone / V)','blender',
@@ -385,7 +385,7 @@ E('Solids Handling','Blenders (Ribbon / Double Cone / V)','blender',
 E('Fluid Movers & Vacuum','Centrifugal Pump','pump',
  'An impeller throws liquid outward and converts that speed into pressure.',
  ['Liquid enters the centre (eye) of the spinning impeller.','Vanes accelerate it outward.','The volute casing slows the flow and converts velocity into pressure.','Liquid leaves through the discharge.'],
- ['Head H = (P2 - P1)/(rho x g). Power P = rho x g x Q x H / eta.','Affinity laws: Q is proportional to N, H to N squared, P to N cubed.','NPSH available must exceed NPSH required, otherwise the pump cavitates.','Operate near best-efficiency point (BEP).'],
+ ['Pressure head H = (P2 - P1)/(rho x g), plus any velocity and elevation differences between the gauges. Power P = rho x g x Q x H / eta.','Affinity laws: Q is proportional to N, H to N squared, P to N cubed.','NPSH available must exceed NPSH required by a safe margin. NPSHr is set at a 3% head drop, so cavitation has already started at NPSHr.','Operate near best-efficiency point (BEP).'],
  'Cavitation, running dry, dead-heading and mechanical seal failure.',
  'Water, solvent and process-liquid transfer.');
 E('Fluid Movers & Vacuum','Diaphragm Pump (AODD)','pump',
@@ -396,7 +396,7 @@ E('Fluid Movers & Vacuum','Diaphragm Pump (AODD)','pump',
  'Drum transfer, slurry, acid and solvent transfer.');
 E('Fluid Movers & Vacuum','Gear Pump (Positive Displacement)','gear',
  'Meshing gears trap fluid between teeth and carry it from suction to discharge.',
- ['Gears rotate in opposite directions.','Fluid is trapped between the teeth and the casing.','It is carried around and squeezed out at the discharge.','Output is nearly proportional to speed.'],
+ ['In an external gear pump, the gears rotate in opposite directions.','Fluid is trapped between the teeth and the casing.','It is carried around and squeezed out at the discharge.','Output is nearly proportional to speed.'],
  ['Flow is nearly independent of pressure, so it needs a relief valve.','Good for viscous liquids and metering.','Wear increases slip, especially with abrasive fluids.'],
  'Dead-heading without relief, dry running and wear.',
  'Viscous liquids, oils, polymer transfer.');
@@ -423,7 +423,7 @@ E('Fluid Movers & Vacuum','Agitators and Impellers','agit',
  ['A motor drives the shaft through a gearbox.','The impeller creates flow (axial or radial).','Baffles break swirl so the liquid mixes top to bottom.','Mixing time and shear depend on speed and impeller type.'],
  ['Power: P = Np x rho x N cubed x D to the fifth. Np depends on impeller type and Reynolds number.','Axial impellers (pitched blade, hydrofoil) give flow, radial (Rushton) give shear.','Scale-up uses constant tip speed, power per volume or mixing time, depending on the goal.'],
  'Vortexing, seal failure and shaft deflection.',
- 'Every reactor, crystalliser and mixing tank.');
+ 'Stirred reactors, crystallisers and mixing tanks.');
 E('Fluid Movers & Vacuum','Air Compressor (Screw / Reciprocating)','compressor',
  'Raises air pressure for instruments, pneumatic tools and process air.',
  ['Air is drawn in and filtered.','Screw rotors or pistons compress it.','Aftercooler and separator remove heat and moisture.','A dryer and receiver supply clean, dry air.'],
@@ -441,19 +441,19 @@ E('Fluid Movers & Vacuum','Roots Blower','compressor',
 E('Storage & Safety','Atmospheric Storage Tank','tank',
  'A vertical tank holding liquids at near-atmospheric pressure.',
  ['Liquid enters through the inlet nozzle.','The level rises. A vent allows air out.','Level gauge and high-level switch monitor the inventory.','Liquid leaves through the outlet or pump suction.'],
- ['Fixed-roof, floating-roof or cone-roof designs. Flammable liquids need venting, flame arrestors and nitrogen blanketing in many cases.','Breathing losses depend on temperature and filling.','Dyked bund area holds spills.'],
+ ['Fixed-roof (cone or dome) or floating-roof designs. Flammable liquids need venting, flame arrestors and nitrogen blanketing in many cases.','Breathing losses depend on temperature and filling.','Dyked bund area holds spills.'],
  'Overfilling, vacuum collapse and static ignition.',
  'Raw material, solvent and product storage.');
 E('Storage & Safety','Pressure Vessel / Receiver','tank',
  'A closed vessel designed to hold gas or liquid under pressure.',
  ['Fluid is fed to the vessel.','Pressure builds up to the operating value.','A relief device protects against over-pressure.','Fluid leaves under controlled conditions.'],
- ['Design pressure sits above maximum operating pressure with a margin set by the code (e.g. ASME VIII, IS 2825).','Thickness depends on pressure, diameter and allowable stress.','Hydrotest and periodic inspection are statutory.'],
+ ['Design pressure sits above maximum operating pressure with a practical margin (often about 10%), and the vessel is designed to a code such as ASME VIII or IS 2825.','Thickness depends on pressure, diameter and allowable stress.','A pressure test at fabrication is required by the code, and periodic inspection is statutory in many jurisdictions (e.g. Factories Act rules in India).'],
  'Corrosion under insulation, relief valve failure and fatigue.',
  'Air receivers, reflux drums, process receivers.');
 E('Storage & Safety','Flame Arrestor and Breather Valve','tank',
  'Protect tanks from vacuum or over-pressure and stop a flame from travelling into them.',
- ['Normal breathing passes through the breather valve.','Pressure or vacuum beyond set limits opens the valve.','A flame arrestor element absorbs the heat of any flame front.','The flame is quenched and does not reach the tank.'],
- ['Set pressure and vacuum are defined from the tank design limits.','Arrestor elements can foul. Check pressure drop and inspect regularly.','Not a substitute for a proper relief device.'],
+ ['Normal breathing passes through the breather valve.','Pressure or vacuum beyond set limits opens the valve.','A flame arrestor element absorbs the heat of a flame front it is rated for (gas group, deflagration or detonation, burn time).','The flame is quenched and does not reach the tank.'],
+ ['Set pressure and vacuum are defined from the tank design limits.','Arrestor elements can foul. Check pressure drop and inspect regularly.','Size for normal breathing only. Fire-case emergency venting needs a separate emergency vent.'],
  'Blocked elements, frozen or stuck pallets.',
  'Solvent storage tanks and vent lines.');
 
@@ -475,12 +475,12 @@ E('Utilities & ETP','DM Plant (Ion Exchange)','adsorb',
  ['Raw water passes through the cation bed, where cations are exchanged for H+.','It then passes through the anion bed, where anions are exchanged for OH-.','H+ and OH- combine to give water.','Exhausted beds are regenerated with acid and caustic.'],
  ['Capacity is measured in equivalents or kg as CaCO3 between regenerations.','Conductivity or silica at the outlet signals exhaustion.','Mixed-bed polishers give high purity.'],
  'Resin fouling and incomplete regeneration.',
- 'Boiler feed, process water and cooling-water makeup.');
+ 'Boiler feed, process water and closed-loop cooling systems.');
 E('Utilities & ETP','ETP Clarifier / Primary Settling','settle',
  'Settles suspended solids from wastewater before further treatment.',
  ['Wastewater enters the centre well.','Flocculated solids settle by gravity.','A scraper moves sludge to the hopper.','Clear water overflows the weir.'],
- ['Design is based on surface overflow rate (m3/m2/day).','Coagulant and flocculant doses are set by jar tests.','Sludge is thickened and dewatered.'],
- 'Sludge bulking and short-circuiting.',
+ ['Design is based mainly on surface overflow rate (m3/m2/day), checked against detention time and weir loading.','Coagulant and flocculant doses are set by jar tests.','Sludge is thickened and dewatered.'],
+ 'Septic or rising sludge, sludge carryover and short-circuiting.',
  'Effluent treatment plants.');
 E('Utilities & ETP','Activated Sludge (Aeration) Tank','aerate',
  'Bacteria in an aerated tank consume dissolved organic pollutants.',
@@ -506,13 +506,13 @@ I('Temperature','Thermocouple','TE','101','field','',
 I('Temperature','RTD (Pt100)','TE','102','field','',
  'A platinum wire whose electrical resistance rises in a very predictable way as it gets hotter.',
  ['A small current is passed through the platinum element.','Resistance changes with temperature (100 ohm at 0 degC for Pt100).','The transmitter measures the resistance.','It converts the resistance to temperature.'],
- ['Pt100 changes by roughly 0.385 ohm per degC on average near 0-100 degC (the slope is not exactly constant over the whole range). Above 0 degC: R = R0 x (1 + A x T + B x T squared), with A = 3.9083e-3 and B = -5.775e-7.','3-wire and 4-wire connections cancel lead-wire resistance. A 2-wire connection adds error.','Class A tolerance is +/-(0.15 + 0.002 x |T|) degC. Stable and accurate, typically used from -200 to about 600 degC.','Excitation current must be small to avoid self-heating.'],
+ ['Pt100 changes by roughly 0.385 ohm per degC on average near 0-100 degC (the slope is not exactly constant over the whole range). Above 0 degC: R = R0 x (1 + A x T + B x T squared), with A = 3.9083e-3 and B = -5.775e-7.','3-wire connections compensate for lead resistance (if leads are equal); 4-wire connections eliminate it. A 2-wire connection adds error.','Class A tolerance is +/-(0.15 + 0.002 x |T|) degC, valid only over a limited range (wire-wound -100 to 450 degC). Pt100s are typically used from -200 to about 600 degC.','Excitation current must be small to avoid self-heating.'],
  'Self-heating, lead-resistance errors on 2-wire sensors, moisture in the head, and vibration damage.',
  'TE-102 > TT-102 > TIC-102 (DCS) > TV-102',
  'Reactor and jacket temperature, product temperature, utilities.');
 I('Temperature','Temperature Transmitter','TT','103','field','',
  'Converts the weak signal from a thermocouple or RTD into a standard 4-20 mA (or digital) signal for the control system.',
- ['The sensor signal enters the transmitter, usually in the connection head or on a DIN rail.','The transmitter linearises it and corrects for cold junction.','It outputs 4-20 mA, often with a HART digital signal on top.','The control system reads it as a temperature.'],
+ ['The sensor signal enters the transmitter, usually in the connection head or on a DIN rail.','The transmitter linearises it and, for thermocouples, corrects for cold junction.','It outputs 4-20 mA, often with a HART digital signal on top.','The control system reads it as a temperature.'],
  ['4 mA = bottom of the range, 20 mA = top of the range. A live zero lets the system detect a broken wire.','NAMUR NE 43 commonly uses 3.8-20.5 mA as the normal and saturation range, with transmitter failure signalled at about 3.6 mA or below, or 21.0 mA or above. Exact behaviour depends on the device configuration.','Smart transmitters can be re-ranged and diagnosed remotely.'],
  'Wrong sensor type or range configured, and ambient temperature effects on head-mounted units.',
  'TE-103 > TT-103 > TIC-103 (DCS)',
@@ -534,7 +534,7 @@ I('Temperature','Thermowell','TW','105','field','',
 I('Temperature','Temperature Switch','TSH','106','field','',
  'Changes an electrical contact when temperature crosses a set value, used for alarm or trip.',
  ['A sensor measures temperature.','At the set value the switch snaps over.','A contact signals the alarm or interlock.','It resets after the temperature falls past the deadband.'],
- ['Independent switches protect against failure of the control loop, since a transmitter shares the same sensor.','HH or LL versions are used for trips and H or L for alarms.','Set the trip well within the design limit and verify during proof tests.'],
+ ['An independent switch with its own sensor protects against failure of the control loop, because the control transmitter and its sensor could fail together.','HH or LL versions are used for trips and H or L for alarms.','Set the trip well within the design limit and verify during proof tests.'],
  'Drift, setpoint tampering and no regular proof test.',
  'TSH-106 > alarm / shutdown logic',
  'High-temperature trips on heaters, reactors and bearings.');
@@ -543,14 +543,14 @@ I('Temperature','Temperature Switch','TSH','106','field','',
 I('Pressure','Bourdon Pressure Gauge','PI','201','field','',
  'A local dial gauge. A curved tube tries to straighten as pressure rises and moves the pointer.',
  ['Process pressure enters a curved, flattened tube.','The tube straightens slightly.','A linkage and gear turn the pointer.','The scale shows the pressure.'],
- ['Pick a range so normal pressure sits in the middle of the scale (about 25-75%).','Liquid-filled cases damp vibration. Accuracy classes such as 1.6, 1.0 and 0.5 are defined in EN 837.','Use a diaphragm seal for viscous, crystallising or corrosive media.','Include a blow-out back for safety.'],
+ ['Pick a range so normal pressure sits in the middle of the scale (about 25-75%).','Liquid-filled cases damp vibration. Accuracy classes such as 0.6, 1.0 and 1.6 are defined in EN 837-1.','Use a diaphragm seal for viscous, crystallising or corrosive media.','For gas, high-pressure or hazardous service, use a safety-pattern gauge with a solid front and blow-out back (EN 837-1 S3).'],
  'Over-range damage, pulsation, blocked socket and wrong material for the fluid.',
  'PI-201 (local reading only)',
  'Pumps, compressors, receivers, steam and air lines.');
 I('Pressure','Pressure Transmitter','PT','202','field','',
  'Measures pressure and sends it as a 4-20 mA signal to the control system.',
  ['Process pressure bends a thin sensing diaphragm.','A capacitive or strain-gauge element converts the movement to an electrical signal.','The electronics send 4-20 mA (with HART).','The DCS shows the pressure.'],
- ['Types: gauge, absolute, vacuum and sealed gauge. Choose by reference pressure.','Zero and span trims correct drift. Mount position changes the zero for liquid-filled lines.','Use a three-valve or five-valve manifold for isolation and zeroing.','Impulse lines should slope and be protected against freezing and plugging.'],
+ ['Types: gauge, absolute, vacuum and sealed gauge. Choose by reference pressure.','Zero and span trims correct drift. Mount position changes the zero for liquid-filled lines.','Use a two-valve (block and bleed) manifold for isolation, venting and zeroing.','Impulse lines should slope and be protected against freezing and plugging.'],
  'Plugged impulse lines, zero shift, and over-pressure damage.',
  'PT-202 > PIC-202 (DCS) > PV-202',
  'Reactors, columns, vacuum systems, utility headers.');
@@ -564,7 +564,7 @@ I('Pressure','Differential Pressure Transmitter','PDT','203','field','',
 I('Pressure','Diaphragm (Chemical) Seal','PI','204','field','',
  'A flexible metal diaphragm that keeps the process away from the gauge or transmitter and passes pressure through a fill fluid.',
  ['Process presses on the seal diaphragm.','Pressure is passed to the instrument by a fill fluid in a capillary or direct mount.','The instrument senses the pressure.','Process never enters the instrument.'],
- ['Needed for viscous, corrosive, crystallising, hygienic or hot services.','Fill-fluid expansion with temperature and long capillaries add error and slow the response.','Select diaphragm material (Hastelloy, tantalum, PTFE) for the chemical.'],
+ ['Often used for viscous, corrosive, crystallising, hygienic or hot services.','Fill-fluid expansion with temperature and long capillaries add error and slow the response.','Select diaphragm material (Hastelloy, tantalum, PTFE) for the chemical.'],
  'Fill-fluid leaks, temperature errors and diaphragm damage.',
  'PI-204 with seal (local reading)',
  'Slurries, sticky products, reactors with aggressive fluids.');
@@ -601,7 +601,7 @@ I('Level','Radar Level Transmitter (Non-contact)','LT','303','field','',
 I('Level','Guided Wave Radar (GWR)','LT','304','field','',
  'Sends radar pulses along a probe (rod or cable) dipped into the liquid and detects the reflection at the surface.',
  ['A pulse travels down the probe.','Part reflects where the liquid starts.','Time of flight gives the distance.','Level (and sometimes the interface of two liquids) is calculated.'],
- ['Works well in narrow chambers, bridles and tanks with internals.','Can measure the interface between oil and water.','Probe coating and build-up shift the signal. Choose a coaxial probe for dirty or low-dielectric products.'],
+ ['Works well in narrow chambers, bridles and tanks with internals.','Can measure the interface between oil and water.','Probe coating and build-up shift the signal. Choose a coaxial probe for clean, low-dielectric products; use a single rod or cable probe for dirty or coating products.'],
  'Product build-up, probe touching the wall and agitator contact.',
  'LT-304 > LIC-304 (DCS)',
  'Side chambers, small vessels, interface measurement.');
@@ -629,7 +629,7 @@ I('Level','Float / Displacer Level Transmitter','LT','307','field','',
 I('Level','Level Switch (Vibrating Fork)','LSH','308','field','',
  'A tuning fork that vibrates freely in air and is damped when covered by liquid, so it signals the level has been reached.',
  ['A piezo element vibrates the fork.','In air it vibrates at full frequency.','When liquid covers it, frequency and amplitude change.','The electronics switch an output contact.'],
- ['Independent high-level protection (LSHH) prevents overfilling and is often part of the safety function.','Not affected by density, foam or pressure for most liquids.','Proof test by lifting from the product or using the test function.'],
+ ['Independent high-level protection (LSHH) prevents overfilling and is often part of the safety function.','Largely unaffected by foam, bubbles or pressure, but the liquid must be above the minimum density (typically about 0.5-0.7 g/cm3).','Proof test by lifting from the product or using the test function.'],
  'Build-up on the fork and mounting in a dead leg.',
  'LSH-308 > alarm / pump trip',
  'Overfill protection, dry-run protection, sump control.');
@@ -645,13 +645,13 @@ I('Level','Weighing System (Load Cell)','WT','309','field','',
 I('Flow','Orifice Plate with DP Transmitter','FE','401','field','orifice',
  'A plate with a hole narrows the flow and the pressure drop across it tells you the flow rate.',
  ['Fluid is forced through the hole in the plate.','Velocity rises and pressure falls just after the plate.','A DP transmitter measures the pressure difference.','Flow is calculated from the square root of that difference.'],
- ['Q = Cd x A x sqrt(2 x DP / rho) / sqrt(1 - beta to the fourth), where beta is the hole diameter divided by the pipe diameter.','Rangeability is limited to about 3:1 because DP varies as flow squared. Use a square-root extractor or the DCS to linearise.','Needs straight pipe before and after the plate (often 10-20 D upstream, 5 D downstream depending on beta and fittings).','Permanent pressure loss is significant, and the sharp edge wears.'],
+ ['Q = Cd x A x sqrt(2 x DP / rho) / sqrt(1 - beta to the fourth), where beta is the hole diameter divided by the pipe diameter.','Rangeability is typically about 3:1 to 4:1 (more with smart transmitters) because DP varies as flow squared. Use a square-root extractor or the DCS to linearise.','Needs straight pipe before and after the plate (often 15-45 D upstream and 6-8 D downstream per ISO 5167-2, depending on beta and fittings).','Permanent pressure loss is significant, and the sharp edge wears.'],
  'Worn edge, plugged taps, wrong orientation and liquid or gas in the impulse lines.',
  'FE-401 > FT-401 > FIC-401 (DCS) > FV-401',
  'Utility lines, steam, solvents and general process flows.');
 I('Flow','Rotameter (Variable Area)','FI','402','field','',
  'A float rises in a tapered tube as flow increases. The float height shows the flow rate.',
- ['Fluid enters at the bottom of a vertical tapered tube.','Flow lifts the float until the upward force equals its weight.','The ring area around the float grows with height.','The float position is read on the scale.'],
+ ['Fluid enters at the bottom of a vertical tapered tube.','Flow lifts the float until drag plus buoyancy balance its weight.','The ring area around the float grows with height.','The float position is read on the scale.'],
  ['It is an area flowmeter: at constant pressure drop, flow is proportional to the annular area.','Scale is calibrated for a given fluid density and viscosity.','Metal-tube versions with magnetic coupling suit hot, hazardous or opaque fluids.'],
  'Dirty tube, wrong fluid for the scale and pulsating flow.',
  'FI-402 (local reading, optional switch)',
@@ -666,9 +666,9 @@ I('Flow','Magnetic Flowmeter','FT','403','field','',
 I('Flow','Coriolis Flowmeter','FT','404','field','',
  'Measures true mass flow (and density) by vibrating tubes that twist slightly when fluid flows through them.',
  ['Tubes are vibrated at their natural frequency.','Moving fluid makes the tubes twist.','Sensors detect the phase shift between two points.','The twist is proportional to mass flow, and the frequency gives density.'],
- ['High-end Coriolis meters can reach roughly +/-0.1-0.2% of reading under specified conditions. They are largely insensitive to the upstream velocity profile, but fluid properties, entrained gas, installation and meter design still affect performance.','Excellent for batching and dosing and for custody transfer.','Entrained gas bubbles upset the signal. Pressure drop and cost are higher than other meters.','Install away from strong vibration.'],
+ ['High-end Coriolis meters can reach roughly +/-0.1-0.2% of reading under specified conditions. They are largely insensitive to the upstream velocity profile, but fluid properties, entrained gas, installation and meter design still affect performance.','Excellent for batching and dosing and for custody transfer.','Entrained gas bubbles upset the signal. Pressure drop and cost are usually higher than for most other meters.','Install away from strong vibration.'],
  'Gas slugs, vibration, and zero drift after installation stress.',
- 'FT-404 > FQI-404 (totaliser) > charge valve',
+ 'FT-404 > FQIC-404 (batch totaliser) > charge valve',
  'Batch charging, dosing, high-value liquids.');
 I('Flow','Vortex Flowmeter','FT','405','field','',
  'A blunt bar in the pipe sheds swirls (vortices) whose frequency tells you the flow velocity.',
@@ -720,7 +720,7 @@ I('Analytical','Dissolved Oxygen (DO) Probe','AT','503','field','',
  ['Optical probes need no electrolyte and drift less than membrane sensors.','Aeration tanks are often run at about 1.5-2 mg/L DO for good treatment without wasting power.','Solubility falls as temperature and salinity rise.'],
  'Biofilm on the sensor and calibration drift.',
  'AT-503 > AIC-503 (DCS) > blower speed',
- 'ETP aeration tanks, fermenters and boiler feed water.');
+ 'ETP aeration tanks, fermenters and (with trace ppb sensors) boiler feed water.');
 I('Analytical','Turbidity Analyser','AT','504','field','',
  'Measures how cloudy a liquid is from the light scattered by suspended particles.',
  ['A light beam passes through the sample.','Particles scatter the light.','A detector at 90 degrees measures the scattered light.','The result is given in NTU.'],
@@ -745,7 +745,7 @@ I('Analytical','Combustible Gas (LEL) Detector','AT','506','field','',
 I('Analytical','Oxygen Analyser','AT','507','field','',
  'Measures the oxygen content in a gas stream, usually to prove that an inert atmosphere is safe.',
  ['A gas sample reaches the sensor (paramagnetic, zirconia or electrochemical).','The sensor signal depends on oxygen concentration.','The transmitter converts it to % O2 or ppm.','It alarms or trips if oxygen is above a set limit.'],
- ['Keep oxygen below the limiting oxygen concentration (LOC) of the solvent, with a safety margin, during nitrogen blanketing or inerting.','Many organic solvents have an LOC of about 8-11% O2 in nitrogen.','Calibrate with air (20.9%) and a zero gas.'],
+ ['Keep oxygen below the limiting oxygen concentration (LOC) of the solvent, with a safety margin, during nitrogen blanketing or inerting.','Many organic solvents have an LOC of about 10-12% O2 in nitrogen; hydrogen and some others are much lower, so always check the actual LOC.','Calibrate with air (20.9%) and a zero gas.'],
  'Sample line leaks and sensor ageing.',
  'AT-507 > AIC-507 (DCS) > nitrogen valve',
  'Dryer inerting, reactor and tank blanketing.');
@@ -759,7 +759,7 @@ I('Analytical','Density Meter','DT','508','field','',
 
 /* Final Control & Safety */
 I('Final Control & Safety','Control Valve','FV','601','field','valve',
- 'A pneumatic valve that opens or closes to change the flow, driven by a signal from the controller.',
+ 'A valve, usually air-operated, that opens or closes to change the flow, driven by a signal from the controller.',
  ['The controller sends a signal (4-20 mA through an I/P or positioner).','Air pressure moves the actuator.','The stem moves the plug in the valve body.','The opening changes, and so does the flow.'],
  ['Sizing: Q = Cv x sqrt(DP / SG) for liquids (Q in US gpm, DP in psi). Choose Cv so the valve works at about 20-80% travel.','Inherent characteristics: linear, equal percentage, quick opening. Installed characteristic depends on the system.','Select fail action for a safe state: fail-open (FO), fail-closed (FC) or fail-in-place (FL).','Cavitation and flashing damage trim and body.'],
  'Oversizing, stiction, cavitation, leaking seats and a wrong fail action.',
@@ -795,31 +795,31 @@ I('Final Control & Safety','On/Off (Shutdown) Valve','XV','605','field','onoff',
  'Feed isolation, steam isolation and emergency shutdown.');
 I('Final Control & Safety','Pressure Safety Valve (PSV)','PSV','606','field','psv',
  'A spring-loaded valve that opens by itself at a set pressure to protect equipment from over-pressure, then closes again.',
- ['Normal pressure keeps the disc closed with the spring.','At set pressure the force on the disc exceeds the spring force.','The valve pops open and discharges to a safe place.','When pressure falls below the reseat pressure it closes.'],
- ['Sizing follows API 520/526 and local codes. For the applicable ASME/API cases, typical maximum accumulation is 10% for a single-device non-fire case and 21% for an external-fire case. Other configurations and codes can differ.','Types: conventional, balanced-bellows (for back pressure) and pilot-operated.','High inlet pressure loss (above about 3% of set pressure) or high back pressure can cause chatter.','Test and calibrate at set intervals. Do not isolate it from the equipment it protects.'],
+ ['Normal pressure keeps the disc closed with the spring.','At set pressure the force on the disc exceeds the spring force.','In gas service the valve pops open (liquid valves open more gradually) and discharges to a safe place.','When pressure falls below the reseat pressure it closes.'],
+ ['Relief loads follow API 521, orifice sizing follows API 520 Part I, and standard valve sizes come from API 526, together with local codes. For the applicable ASME/API cases, typical maximum accumulation is 10% for a single-device non-fire case and 21% for an external-fire case. Other configurations and codes can differ.','Types: conventional, balanced-bellows (for back pressure) and pilot-operated.','High inlet pressure loss (above about 3% of set pressure) or high back pressure can cause chatter.','Test and calibrate at set intervals. Never leave the equipment unprotected; any block valves at the PSV must be full-bore and car-sealed or locked open under strict administrative control.'],
  'Chatter, fouling, seat leakage and blocked discharge or inlet.',
  'PSV-606 > flare / catch tank / safe location',
  'Reactors, boilers, receivers, columns and pressure vessels.');
 I('Final Control & Safety','Rupture Disc','PSE','607','field','disc',
  'A thin metal disc that bursts at a set pressure to open a full relief path. It is used once and replaced.',
  ['Normal pressure acts on the disc.','At the burst pressure the disc ruptures.','A large opening gives rapid relief.','The disc must be replaced after burst.'],
- ['Gives tight sealing before burst and very fast response, so it is useful against runaway reactions.','Often fitted under a PSV to protect it from corrosive or fouling process, with a pressure gauge between them.','Operating pressure should usually be no more than about 80-90% of burst pressure, depending on the disc type.','Pressure cycling causes fatigue.'],
+ ['Gives tight sealing before burst and very fast response, so it is useful against runaway reactions.','Often fitted under a PSV to protect it from corrosive or fouling process, with a pressure gauge between them.','Maximum operating pressure depends on disc type: about 70% of burst for plain forward-acting discs, 80-90% for scored forward-acting, and up to 90-95% for reverse-acting; follow the manufacturer.','Pressure cycling causes fatigue.'],
  'Fatigue failure, wrong orientation and vacuum cycles without a support.',
  'PSE-607 > vent / catch tank',
  'Reactors, process vessels and PSV protection.');
 I('Final Control & Safety','PID Controller (DCS Loop)','FIC','608','dcs','',
  'The control-system function that compares the measurement with the setpoint and moves the valve to remove the difference.',
  ['The transmitter signal is compared with the setpoint (error = SP - PV).','The controller calculates an output with its PID algorithm.','The output goes to the control valve.','The process responds and the loop repeats.'],
- ['u = Kp x (e + (1/Ti) x integral of e dt + Td x de/dt).','Flow loops are fast, so use PI. Temperature loops are slow, so use PID. Level loops often use P or PI with a gap to smooth flow changes.','Set controller action (direct or reverse) correctly. Use anti-windup, auto/manual and cascade modes where useful.','Noise with derivative action needs filtering.'],
+ ['u = Kp x (e + (1/Ti) x integral of e dt + Td x de/dt).','Flow loops are fast and usually use PI. Slow temperature loops often benefit from PID. Level loops often use P or PI with a gap to smooth flow changes.','Set controller action (direct or reverse) correctly. Use anti-windup, auto/manual and cascade modes where useful.','Noise with derivative action needs filtering.'],
  'Wrong action, poor tuning, integral windup and noisy measurement.',
  'FT-608 > FIC-608 (DCS) > FY-608 > FV-608',
  'All continuous control loops.');
-I('Final Control & Safety','Safety Instrumented Function (Interlock)','SIS','609','plc','',
+I('Final Control & Safety','Safety Instrumented Function (Interlock)','UY','609','plc','',
  'An independent safety system that detects a dangerous condition and forces the process to a safe state.',
  ['A sensor detects a hazardous condition (for example high-high pressure).','A logic solver (safety PLC) evaluates it.','The logic solver trips the final element (shutdown valve, motor trip).','The process goes to a safe state and stays there until reset.'],
  ['IEC 61511 defines SIL levels. In low-demand mode: SIL 1 has an average PFD of 1e-2 to 1e-1, SIL 2 has 1e-3 to 1e-2, and SIL 3 has 1e-4 to 1e-3.','Sensor, logic solver and final element all count in the reliability calculation.','Provide the required independence from the basic process control system and address common-cause and dependent failures as required by the safety lifecycle and risk assessment. Proof-test it at the defined interval.','Bypasses need a strict permit.'],
  'Untested trips, bypassed interlocks and common-cause failures.',
- 'PT-609 > SIS logic solver > XV-609 closes',
+ 'PT-609 > UY-609 (SIS logic solver) > XV-609 closes',
  'Reactor trips, furnace safety and overfill protection.');
 
 /* Monitoring & Position */
@@ -844,19 +844,19 @@ I('Monitoring & Position','Position Transmitter / Limit Switch','ZT','703','fiel
  'Linkage wear, switch misalignment and water ingress.',
  'ZT-703 > ZI-703 (DCS)',
  'Control valves, shutdown valves and dampers.');
-I('Monitoring & Position','Motor Current Transmitter','II','704','field','',
+I('Monitoring & Position','Motor Current Transmitter','IT','704','field','',
  'Measures the current drawn by a motor, which shows the load on the pump or agitator.',
  ['A current transformer or shunt measures the motor current.','The transmitter converts it to 4-20 mA.','The DCS shows the load.','Low or high current gives an alarm.'],
- ['Low current on a pump suggests dry running or a closed suction. High current suggests blockage, high viscosity or a mechanical fault.','Agitator current changes with viscosity during a reaction, which can be used as an end-point or safety clue.','Compare with the nameplate full-load current.'],
+ ['Low current on a centrifugal pump suggests dry running, a closed suction or a closed discharge. High current suggests runout (excess flow), higher density or viscosity, or a mechanical fault.','Agitator current changes with viscosity during a reaction, which can be used as an end-point or safety clue.','Compare with the nameplate full-load current.'],
  'Wrong CT ratio and VFD harmonics.',
- 'II-704 > IAL-704 (low) / IAH-704 (high)',
+ 'IT-704 > II-704 (DCS) > IAL-704 (low) / IAH-704 (high)',
  'Pumps, agitators, centrifuges and compressors.');
 
 /* ============ APP LOGIC ============ */
 var $=function(id){return document.getElementById(id);};
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 var KIND={field:'Field mounted',room:'Control room / main panel',aux:'Auxiliary / local panel',dcs:'DCS (shared display and control)',plc:'PLC / safety logic',comp:'Computer function'};
-var FIRST={A:'Analysis',D:'Density',F:'Flow',H:'Hand (manual)',I:'Current (electrical)',L:'Level',P:'Pressure / vacuum',S:'Speed / frequency',T:'Temperature',V:'Vibration',W:'Weight / force',X:'Unclassified',Z:'Position'};
+var FIRST={A:'Analysis',D:'Density',F:'Flow',H:'Hand (manual)',I:'Current (electrical)',L:'Level',P:'Pressure / vacuum',S:'Speed / frequency',T:'Temperature',U:'Multivariable',V:'Vibration',W:'Weight / force',X:'Unclassified',Z:'Position'};
 var MOD={D:'Differential',F:'Ratio',Q:'Totalise',K:'Rate of change',J:'Scan'};
 var FUNC={I:'Indicator',R:'Recorder',C:'Controller',T:'Transmitter',E:'Primary element',V:'Valve',S:'Switch',H:'High',L:'Low',A:'Alarm',Y:'Relay / convert / compute',G:'Glass / gauge',W:'Well / probe',Z:'Driver / actuator'};
 
@@ -1019,7 +1019,7 @@ var TS={
     ['Open the discharge valve fully',false,'More flow raises NPSH required and usually makes cavitation worse.'],
     ['Replace the impeller',false,'That is a late step. Rule out suction problems first, since they are quick to check.'],
     ['Motor winding temperature',false,'Not related to noise and head loss at this stage.']],
- n:'If the suction side is clear, compare tank level, liquid temperature (vapour pressure) and suction losses with the NPSH required on the pump curve. Throttling the discharge slightly moves the pump back toward its best-efficiency point while you fix the cause.'},
+ n:'If the suction side is clear, compare tank level, liquid temperature (vapour pressure) and suction losses with the NPSH required on the pump curve. Throttling the discharge slightly reduces flow, which lowers NPSH required and suction losses, and can ease cavitation while you fix the cause.'},
 'Batch Reactor (Glass-lined / SS)':{q:'During an exothermic addition the reactor temperature is rising above setpoint even though jacket cooling is at maximum. If the addition feed is the controllable heat-release source, what action should be considered immediately under the site emergency procedure?',
  o:[['Stop or isolate the addition, as the approved emergency procedure specifies',true,'The reaction is releasing more heat than the jacket can remove. If the addition drives the heat release, stopping or isolating it limits further heat generation. The right response always depends on the hazard assessment and the approved procedure for your process.'],
     ['Switch off the agitator',false,'Stopping mixing can create hot spots and accumulation of unreacted material. Do not stop it blindly.'],
@@ -1053,12 +1053,12 @@ var TS={
  n:'Check bed depth, distributor plate condition and filter bag pressure drop. Consider pre-conditioning or breaking up lumps and reducing the load.'},
 'Liquid-ring Vacuum Pump':{q:'Vacuum on a distillation system has worsened and the pump sounds like gravel. Seal liquid temperature has risen. What do you check first?',
  o:[['Seal-liquid temperature and flow (cooler and make-up)',true,'The ultimate vacuum is limited by the vapour pressure of the sealing liquid. Warm seal liquid cuts vacuum and causes cavitation.'],
-    ['Change the lubricating oil',false,'A liquid-ring pump does not work with an oil-lubricated compression chamber like this.'],
+    ['Change the lubricating oil',false,'The compression chamber is sealed by the service liquid; bearing lubricating oil does not explain these symptoms.'],
     ['Increase the process feed rate',false,'This adds load and does not fix the vacuum.'],
     ['Replace the motor',false,'Not indicated by these symptoms.']],
  n:'Restore seal-liquid cooling, then do a pressure-rise test on the system to check for air leaks.'},
 'Cooling Tower':{q:'Cold-water temperature rises on a hot, humid afternoon. The fan runs normally. What explains it first?',
- o:[['Wet-bulb temperature has risen, so the achievable cold-water temperature rises too',true,'Cold-water temperature cannot go below wet-bulb. On humid days, approach limits performance.'],
+ o:[['Wet-bulb temperature has risen, so the achievable cold-water temperature rises too',true,'Cold-water temperature cannot go below wet-bulb. On humid days the higher wet-bulb raises cold-water temperature even at the same approach.'],
     ['Blowdown is too low',false,'Blowdown affects water quality over time, not an afternoon temperature change.'],
     ['Pump impeller is too large',false,'Unrelated to the daily change.']],
  n:'Compare the approach (cold-water minus wet-bulb) with design. If the approach has grown too, check fill fouling, water distribution, airflow and fan pitch.'},
@@ -1093,13 +1093,13 @@ var TS={
     ['Cable is too cold',false,'Cable temperature effect is part of lead resistance, not a separate cause here.']],
  n:'Use a 3-wire or 4-wire connection, or a transmitter mounted at the sensor, to cancel lead-wire resistance.'},
 'Orifice Plate with DP Transmitter':{q:'Flow reading suddenly drops to zero, but pump and downstream indications show that flow exists. The DP transmitter shows zero DP. What do you check first?',
- o:[['The three-valve manifold (equalising valve left open) and blocked impulse lines',true,'An open equalising valve or blocked taps will give zero DP although flow continues.'],
+ o:[['The three-valve manifold (equalising valve left open) and blocked impulse lines',true,'An open equalising valve gives zero DP; blocked taps trap pressure so the reading freezes, drifts or reads low although flow continues.'],
     ['The orifice plate has disappeared',false,'Possible but much less likely than a manifold or tap problem.'],
     ['The control valve actuator',false,'A control valve does not make the DP transmitter read zero.'],
     ['The DCS display brightness',false,'Not relevant.']],
  n:'Check manifold valve positions, then blow or flush the impulse lines. Verify that taps are clear before suspecting the plate.'},
 'Pressure Transmitter':{q:'A pressure transmitter reads 0.3 bar higher than the local gauge even when the vessel is vented to atmosphere. What do you check?',
- o:[['Zero trim (zero shift) with the vessel vented',true,'A zero offset at known atmospheric pressure points to a zero error that can be trimmed.'],
+ o:[['Zero trim (zero shift) with the vessel vented',true,'A steady offset at atmospheric pressure is a zero error, but first rule out liquid head in the impulse line, an absolute-type transmitter or a wrong range before trimming it.'],
     ['The span of the instrument only',false,'Span affects the error at high pressure, not at zero.'],
     ['The gauge is the reference',false,'Both could be wrong. Use a calibrated reference.'],
     ['Wiring colours',false,'Wiring colours do not cause a steady offset.']],
@@ -1120,10 +1120,10 @@ var CMP=[
  rows:[['Suitable fluids','Clean liquid, gas, steam','Conductive liquids','Liquids and gases','Steam, gas, clean liquids'],['Typical accuracy (approx.)','About 1-2% of span','About 0.5% of reading','About 0.1-0.2% of reading','About 1% of reading'],['Pressure loss','Moderate to high','Very low','Moderate','Moderate'],['Key limitation','Rangeability about 3:1, edge wear','Needs conductive liquid, full pipe','Gas slugs, cost','Low-flow cut-off, vibration']],
  choose:['Orifice: low cost and widely understood.','Magnetic: acids, caustic, slurries and effluent.','Coriolis: batching and dosing where mass accuracy matters.','Vortex: steam and gas lines.']},
 {id:'hx',title:'Heat exchangers',cols:['Shell and tube','Plate','Jacket / coil'],open:['Shell and Tube Heat Exchanger','Plate Heat Exchanger','Jacket, Half-coil and Limpet Coil'],
- rows:[['Heat-transfer performance','Good','Very good (high U)','Moderate'],['Pressure and temperature limits','High','Limited by gaskets (brazed or welded units go higher)','Set by the vessel and jacket design'],['Fouling tolerance','Moderate, cleanable','Low (narrow channels)','Process side cleaned with the vessel'],['Typical use','Utility heating, cooling and condensing','Clean services, heat recovery','Heating or cooling a stirred vessel']],
+ rows:[['Heat-transfer performance','Good','Very good (high U)','Moderate'],['Pressure and temperature limits','High','Limited by gaskets (brazed or welded units go higher)','Set by the vessel and jacket design'],['Fouling tolerance','Moderate, cleanable','Good for fine fouling; poor with particles or fibres (narrow channels)','Process side cleaned with the vessel'],['Typical use','Utility heating, cooling and condensing','Clean services, heat recovery','Heating or cooling a stirred vessel']],
  choose:['Shell and tube: high pressure, fouling services, condensing.','Plate: clean fluids needing close temperature approach.','Jacket or coil: temperature control of a reactor or receiver.']},
 {id:'vac',title:'Vacuum sources',cols:['Liquid ring','Dry screw','Steam ejector'],open:['Liquid-ring Vacuum Pump','Dry Screw Vacuum Pump','Steam Ejector'],
- rows:[['Condensable vapours','Handled well','Must stay above dew point inside the pump','Handled with intercondensers'],['Process contamination','Gas contacts the sealing liquid','None (dry)','Steam mixes with the gas'],['Effluent','Seal-liquid effluent unless recirculated','Little','Steam condensate'],['Utilities','Seal liquid, power','Power, cooling','High-pressure steam, cooling water'],['Moving parts','Yes','Yes','None']],
+ rows:[['Condensable vapours','Handled well','Must stay above dew point inside the pump','Handled with intercondensers'],['Process contamination','Gas contacts the sealing liquid','None (dry)','Steam mixes with the gas'],['Effluent','Seal-liquid effluent unless recirculated','Little','Steam condensate'],['Utilities','Seal liquid, power','Power, cooling','Motive steam, cooling water'],['Moving parts','Yes','Yes','None']],
  choose:['Liquid ring: robust, wet vapours, lower capital cost.','Dry screw: solvent recovery and clean effluent.','Steam ejector: deep vacuum where steam is available and maintenance must be minimal.']}
 ];
 
@@ -1138,9 +1138,9 @@ var FLOWS=[
  {t:'Packing',role:'Dry, tested powder is packed.',eq:null}]},
 {id:'b',title:'Effluent treatment',note:'Illustrative generic sequence. Real ETPs vary with the effluent.',nodes:[
  {t:'Equalisation tank',role:'Evens out flow and load before treatment.',eq:'Atmospheric Storage Tank'},
- {t:'Primary clarifier',role:'Settles suspended solids and treated sludge.',eq:'ETP Clarifier'},
- {t:'Aeration tank',role:'Bacteria consume dissolved organic pollutants.',eq:'Activated Sludge'},
- {t:'Membrane unit',role:'Polishes the treated water for reuse.',eq:'Membrane'},
+ {t:'Primary clarifier',role:'Settles suspended solids and chemical sludge from primary treatment.',eq:'ETP Clarifier'},
+ {t:'Aeration tank',role:'Bacteria consume dissolved organic pollutants; a secondary clarifier then settles the biomass and returns sludge to the tank.',eq:'Activated Sludge'},
+ {t:'Membrane unit',role:'After clarification and filtration, polishes the treated water for reuse.',eq:'Membrane'},
  {t:'Multiple-effect evaporator',role:'Concentrates the reject stream to reduce its volume.',eq:'Multiple-effect'}]}
 ];
 
@@ -1218,7 +1218,7 @@ function isSafetyCritical(it){return it.cat==='Final Control & Safety'||/Pressur
 function tsHtml(it){
   var s=TS[it.name];
   if(!s){return '<h4>Troubleshoot</h4><p style="color:var(--mute)">No scenario for this item yet. Scenarios are being added item by item. Meanwhile, see Common mistakes above.</p>';}
-  var h='<h4>Troubleshoot</h4><p><b>'+esc(s.q)+'</b></p><div id="opts">';
+  var h='<h4>Test yourself: troubleshoot</h4><p><b>'+esc(s.q)+'</b></p><div id="opts">';
   s.o.forEach(function(o,k){h+='<button class="ei-opt" data-k="'+k+'">'+esc(o[0])+'</button>';});
   h+='</div><div class="ei-fb" id="fb" aria-live="polite"></div>';
   return h;
@@ -1242,16 +1242,15 @@ function openItem(type,i){
   h+='<h4>How it works</h4>'+list(it.how,'ol');
   h+='<h4>Where it is used</h4><p>'+esc(it.use)+'</p>';
   h+='<h4>Common mistakes</h4>'+list(sentences(it.watch),'ul');
+  var tn=isSafetyCritical(it)
+    ?'<b>Safety-critical item.</b> Do not use this page to size, set, test or modify protective devices or safety functions. '
+    :'';
+  h+='<h4>Engineering detail</h4>'+list(it.deep,'ul')+'<div class="ei-techn">'+tn+'<b>Technical note:</b> values shown are educational or general guidance. Actual equipment selection, operating limits, relief design and safety functions must follow applicable codes, vendor data, plant procedures and project-specific engineering.</div>';
+  if(TS[it.name])h+='<div class="ei-tsbox">'+tsHtml(it)+'</div>';
   var rl=relFor(type,it);
   if(rl.length){
     h+='<h4>Related PharmaChemE tools</h4><div class="ei-rel">'+rl.map(function(k){return '<a href="'+SITE+k[1]+'">'+esc(k[0])+' <small>'+k[2]+'</small></a>';}).join('')+'</div>';
   }
-  h+='<div class="ei-beg">Want equations and selection points, or want to test your troubleshooting? <span class="ei-btnrow"><button class="ei-x" data-lv="pro">Professional detail</button> <button class="ei-x" data-lv="ts">Troubleshoot</button></span></div>';
-  var tn=isSafetyCritical(it)
-    ?'<b>Safety-critical item.</b> Do not use this page to size, set, test or modify protective devices or safety functions. '
-    :'';
-  h+='<div class="ei-pro"><h4>Go deeper</h4>'+list(it.deep,'ul')+'<div class="ei-techn">'+tn+'<b>Technical note:</b> values shown are educational or general guidance. Actual equipment selection, operating limits, relief design and safety functions must follow applicable codes, vendor data, plant procedures and project-specific engineering.</div><p class="ei-btnrow"><button class="ei-x" data-lv="ts">Troubleshoot</button> <button class="ei-x" data-lv="beg">Back to beginner view</button></p></div>';
-  h+='<div class="ei-tsx">'+tsHtml(it)+'<p class="ei-btnrow" style="margin-top:14px"><button class="ei-x" data-lv="pro">Professional detail</button> <button class="ei-x" data-lv="beg">Back to beginner view</button></p></div>';
   $('panel').innerHTML=h;
   var ov=$('ov');ov.classList.add('ei-on');ov.setAttribute('aria-hidden','false');
   lastFocus=document.activeElement;
@@ -1287,22 +1286,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('ov').cla
 });
 
 /* level modes: b = beginner, p = professional, t = troubleshoot */
-function setMode(m){if(m==='p')track('professional_detail_opened',{item_name:cur?(cur.type==='eq'?EQ:IN)[cur.i].name:''});if(m==='t')track('troubleshooter_started',{item_name:cur?(cur.type==='eq'?EQ:IN)[cur.i].name:''});
-  document.body.classList.toggle('ei-lvl-pro',m==='p');
-  document.body.classList.toggle('ei-lvl-ts',m==='t');
-  $('lv-b').setAttribute('aria-pressed',m==='b'?'true':'false');
-  $('lv-p').setAttribute('aria-pressed',m==='p'?'true':'false');
-  $('lv-t').setAttribute('aria-pressed',m==='t'?'true':'false');
-}
-$('lv-b').addEventListener('click',function(){setMode('b');});
-$('lv-p').addEventListener('click',function(){setMode('p');});
-$('lv-t').addEventListener('click',function(){setMode('t');});
 $('panel').addEventListener('click',function(e){
   var ra=e.target.closest?e.target.closest('.ei-rel a'):null;
   if(ra){var hr=ra.getAttribute('href')||'';track(/^\/(calculators|articles)\//.test(hr)?'related_calculator_clicked':/^\/(games|plant-tour)\//.test(hr)?'related_game_clicked':'related_tool_clicked',{destination:hr,item_name:cur?(cur.type==='eq'?EQ:IN)[cur.i].name:''});}
 
-  var b=e.target.closest?e.target.closest('[data-lv]'):null;
-  if(b){var v=b.getAttribute('data-lv');setMode(v==='pro'?'p':v==='ts'?'t':'b');return;}
   var o=e.target.closest?e.target.closest('.ei-opt'):null;
   if(o&&cur){
     var it=(cur.type==='eq'?EQ:IN)[cur.i],s=TS[it.name];if(!s)return;
@@ -1480,7 +1467,7 @@ function showTab(t){
   $('sec-eq').classList.toggle('ei-hide',t!=='eq');
   $('sec-in').classList.toggle('ei-hide',t!=='in');
   $('sec-lab').classList.toggle('ei-hide',t!=='lab');
-  $('bar').classList.toggle('ei-hide',t==='lab');$('lvbar').classList.toggle('ei-hide',t==='lab');
+  $('bar').classList.toggle('ei-hide',t==='lab');
   $('tab-eq').setAttribute('aria-selected',t==='eq');
   $('tab-in').setAttribute('aria-selected',t==='in');
   $('tab-lab').setAttribute('aria-selected',t==='lab');
