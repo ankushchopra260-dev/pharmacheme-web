@@ -12,7 +12,7 @@
 .ei details>summary{color:var(--ink)}
 .ei code{font-family:var(--f-mono);color:var(--accent)}
 .ei a{color:inherit}
-.ei .ei-ov{z-index:200}
+
 .ei .ei-pt{line-height:1.2}
 @media (max-width:700px){.ei .ei-hdr{position:static}}
 .ei .ei-sim svg{max-width:760px;display:block}
@@ -55,7 +55,7 @@
 @keyframes ei-dash{to{stroke-dashoffset:-22}}
 @media (prefers-reduced-motion:reduce){.ei-flow{animation:none}}
 .ei .ei-txt{fill:currentColor;font:600 11px system-ui,sans-serif}
-.ei .ei-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:16px}
+.ei .ei-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:16px}
 .ei .ei-ov.ei-on{display:flex}
 .ei .ei-panel{background:var(--card);border-radius:16px;max-width:760px;width:100%;margin:auto;padding:18px;border:1px solid var(--line)}
 .ei .ei-ph{display:flex;gap:10px;align-items:flex-start}
@@ -130,3 +130,13 @@
 .ei .ei-rdrow{display:none;flex-wrap:wrap;gap:4px 14px;font-size:14px;font-weight:600;margin:8px 0}
 @media (max-width:600px){.ei-rdrow{display:flex}.ei #rdAct,.ei #rdPV,.ei #rdU,.ei #rdAl{display:none}}
 @media (max-width:520px){.ei-pt{font-size:24px}.ei .ei-tabs{margin-left:0;width:100%}.ei .ei-tab{flex:1}}
+/* Intro above the sticky toolbar */
+.ei .ei-intro{padding-top:22px;padding-bottom:18px}
+.ei .ei-intro .ei-pt{margin:0 0 8px}
+.ei .ei-lead{max-width:780px;margin:0 0 14px;color:#C9D3DC;font-size:1rem;line-height:1.6}
+.ei .ei-stats{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.ei .ei-stats a,.ei .ei-stats span{display:inline-flex;align-items:baseline;gap:6px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.84rem;color:var(--mute);text-decoration:none}
+.ei .ei-stats a:hover{border-color:var(--accent);color:var(--ink)}
+.ei .ei-stats b{font-family:var(--f-mono);color:var(--accent);font-size:.95rem}
+.ei .ei-note{margin:0;font-size:.8rem;line-height:1.5;color:var(--mute);border-left:3px solid var(--line);padding:4px 0 4px 10px;max-width:900px}
+.ei .ei-ph .ei-btnrow{display:flex;gap:6px;flex-wrap:wrap}

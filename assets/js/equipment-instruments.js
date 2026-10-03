@@ -3,6 +3,9 @@
 
 var ROOT=document.querySelector('.ei');
 function track(n,p){try{if(typeof window.gtag==='function')window.gtag('event',n,p||{});}catch(e){}}
+function slug(n){return String(n).toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+var TABHASH={eq:'equipment',in:'instrumentation',lab:'labs'};
+function setHash(h){try{history.replaceState(null,'',h?('#'+h):(location.pathname+location.search));}catch(e){}}
 var _tm={};function trackLater(k,n,p){clearTimeout(_tm[k]);_tm[k]=setTimeout(function(){track(n,p);},900);}
 /* ============ SVG helpers ============ */
 function svg(w,h,inner){return '<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">'+inner+'</svg>';}
@@ -1220,7 +1223,8 @@ function tsHtml(it){
 function openItem(type,i){
   var arr=type==='eq'?EQ:IN,it=arr[i];
   cur={type:type,i:i};track(type==='eq'?'equipment_viewed':'instrument_viewed',{item_name:it.name,category:it.cat});
-  var h='<div class="ei-ph"><h2>'+esc(it.name)+'</h2><button class="ei-x" id="xclose">Close</button></div>';
+  setHash(slug(it.name));
+  var h='<div class="ei-ph"><h2>'+esc(it.name)+'</h2><span class="ei-btnrow"><button class="ei-x" id="xcopy" title="Copy a link to this card">Copy link</button><button class="ei-x" id="xclose">Close</button></span></div>';
   h+='<div class="ei-tag" style="margin-top:4px">'+esc(it.cat)+(it.tag?' | '+esc(it.tag):'')+'</div>';
   var chips=(QF[it.name]||[]).map(function(c){return '<span>'+esc(c)+'</span>';}).join('');
   if(chips)h+='<div class="ei-qf" style="margin-top:6px">'+chips+'</div>';
@@ -1249,10 +1253,15 @@ function openItem(type,i){
   lastFocus=document.activeElement;
   $('xclose').focus();
   $('xclose').addEventListener('click',closeItem);
+  $('xcopy').addEventListener('click',function(){var b=this,u=location.href;
+    var done=function(){b.textContent='Link copied';setTimeout(function(){b.textContent='Copy link';},1600);};
+    try{navigator.clipboard.writeText(u).then(done,function(){window.prompt('Copy this link:',u);});}catch(e){window.prompt('Copy this link:',u);}
+    track('equipment_link_copied',{item_name:it.name});});
   ov.scrollTop=0;
 }
 function closeItem(){
   var ov=$('ov');ov.classList.remove('ei-on');ov.setAttribute('aria-hidden','true');
+  setHash(state.tab==='eq'?'':TABHASH[state.tab]);
   if(lastFocus&&lastFocus.focus){lastFocus.focus();}
 }
 $('ov').addEventListener('click',function(e){if(e.target===$('ov'))closeItem();});
@@ -1475,9 +1484,9 @@ function showTab(t){
     $('q').placeholder=t==='eq'?'Search equipment, or a concept like NPSH...':'Search instruments, tags or concepts (LT, radar, PSV)...';
     $('q').value=state.q[t];}
 }
-$('tab-eq').addEventListener('click',function(){showTab('eq');});
-$('tab-in').addEventListener('click',function(){showTab('in');});
-$('tab-lab').addEventListener('click',function(){showTab('lab');});
+$('tab-eq').addEventListener('click',function(){showTab('eq');setHash('');});
+$('tab-in').addEventListener('click',function(){showTab('in');setHash('instrumentation');});
+$('tab-lab').addEventListener('click',function(){showTab('lab');setHash('labs');});
 $('q').addEventListener('input',function(){
   var t=state.tab;if(t==='lab')return;state.q[t]=this.value;renderGrid(t);if(this.value.length>1)trackLater('s',t==='eq'?'equipment_search':'instrument_search',{search_term:this.value.toLowerCase().slice(0,40)});
 });
@@ -1506,5 +1515,18 @@ $('q').addEventListener('input',function(){
 })();
 
 buildChips('eq');buildChips('in');renderGrid('eq');renderGrid('in');showTab('eq');
+function route(){
+  var h=decodeURIComponent((location.hash||'').slice(1)).toLowerCase();
+  if(!h){return;}
+  if(h==='instrumentation'){showTab('in');return;}
+  if(h==='labs'){showTab('lab');return;}
+  if(h==='equipment'){showTab('eq');return;}
+  var i=EQ.findIndex(function(x){return slug(x.name)===h;});
+  if(i>=0){showTab('eq');openItem('eq',i);return;}
+  i=IN.findIndex(function(x){return slug(x.name)===h;});
+  if(i>=0){showTab('in');openItem('in',i);}
+}
+route();
+window.addEventListener('hashchange',route);
 
 })();
