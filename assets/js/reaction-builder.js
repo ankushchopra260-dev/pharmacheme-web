@@ -618,7 +618,7 @@
   }
 
   function stateObj() {
-    return { v: 1, c: comps.map((c) => ({ r: c.role, k: c.kind, l: c.label, s: c.smiles, o: c.source, i: c.cid, n: c.coeff, e: c.eq, p: c.purity, d: c.density })), b: comps.findIndex((c) => c.id === basisId), a: basisAmt, u: basisUnit, y: yieldPct, vm: viewMode };
+    return { v: 1, c: comps.map((c) => ({ r: c.role, k: c.kind, l: c.label, s: c.smiles, o: c.source, i: c.cid, n: c.coeff, e: c.eq, p: c.purity, d: c.density })), b: comps.findIndex((c) => c.id === basisId), a: basisAmt, u: basisUnit, y: yieldPct, vm: viewMode, t: Date.now() };
   }
   function loadState(o) {
     if (!o || !Array.isArray(o.c)) return false;
@@ -630,6 +630,22 @@
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(stateObj())); } catch (e) { /* ignore */ }
   }
+  // Notice shown when the page restores a reaction saved in this browser
+  function showSavedNote(ts) {
+    const el = $("rb-saved-note"); if (!el) return;
+    const when = ts ? new Date(ts).toLocaleString(undefined, { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+    el.innerHTML = `<span>Restored your last reaction${when ? `, saved in this browser on <b>${esc(when)}</b>` : " saved in this browser"}. It is stored only on this device \u2014 not on the website.</span><button type="button" class="pill" id="rb-forget">Clear saved reaction</button>`;
+    el.hidden = false;
+  }
+  function forgetSaved() {
+    comps = []; nextId = 1; basisId = null; basisAmt = 100; basisUnit = "kg"; yieldPct = 100;
+    add("R"); add("R"); add("P"); add("P");
+    try { localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ }
+    const el = $("rb-saved-note");
+    el.innerHTML = `<span>Saved reaction cleared from this browser.</span>`;
+    setTimeout(() => { el.hidden = true; }, 2500);
+  }
+
   function shareURL() {
     return location.origin + location.pathname + "#r=" + encodeURIComponent(JSON.stringify(stateObj()));
   }
@@ -671,6 +687,7 @@
   function shell() {
     return `
       ${typeof plateHeader === "function" ? plateHeader("PharmaChemE Reaction Builder", "EQUATION — BALANCE — STOICHIOMETRY") : ""}
+      <div id="rb-saved-note" class="rb-saved" hidden></div>
       <p class="rb-intro">Add each reactant and product one at a time: type a <b>name</b> (looked up on PubChem), paste <b>SMILES</b>, or <b>draw</b> the structure. Give it a label if it has no common name (e.g. KSM-1, Intermediate B).</p>
       <div class="rb-import">
         <div class="rb-import-row"><input type="text" id="rb-rxn-in" placeholder="Or import a whole reaction: paste reaction SMILES, e.g. CC(=O)O.OCC>>CCOC(C)=O.O" spellcheck="false"><button type="button" class="pill" id="rb-rxn-go">Import</button><button type="button" class="pill" id="rb-rxn-file">Open file</button></div>
@@ -713,7 +730,13 @@
 
     let loaded = false;
     try { const m = location.hash.match(/^#r=(.*)$/); if (m) loaded = loadState(JSON.parse(decodeURIComponent(m[1]))); } catch (e) { /* ignore */ }
-    if (!loaded) { try { loaded = loadState(JSON.parse(localStorage.getItem(STORE_KEY))); } catch (e) { /* ignore */ } }
+    if (!loaded) {
+      try {
+        const o = JSON.parse(localStorage.getItem(STORE_KEY));
+        loaded = loadState(o);
+        if (loaded && comps.some((c) => c.smiles)) showSavedNote(o.t);
+      } catch (e) { /* ignore */ }
+    }
     if (!loaded || !comps.length) { comps = []; add("R"); add("R"); add("P"); add("P"); }
     render();
 
@@ -739,7 +762,8 @@
       const dr = t.closest("[data-rb-draw]"); if (dr) { openDraw(byId(dr.dataset.rbDraw)); return; }
       switch (t.id) {
         case "rb-example": loadExample(); break;
-        case "rb-reset": comps = []; nextId = 1; add("R"); add("R"); add("P"); add("P"); break;
+        case "rb-reset": comps = []; nextId = 1; add("R"); add("R"); add("P"); add("P"); try { localStorage.removeItem(STORE_KEY); } catch (e2) { /* ignore */ } break;
+        case "rb-forget": forgetSaved(); break;
         case "rb-draw-ok": closeDraw(true); break;
         case "rb-draw-cancel": closeDraw(false); break;
         case "rb-print": window.print(); break;

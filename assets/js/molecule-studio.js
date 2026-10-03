@@ -29,7 +29,13 @@
   const num = (v, d) => (v === null || v === undefined || !isFinite(v) ? "—" : Number(v).toFixed(d));
   const store = {
     get() { try { return localStorage.getItem(STORE_KEY); } catch (e) { return null; } },
-    set(v) { try { v ? localStorage.setItem(STORE_KEY, v) : localStorage.removeItem(STORE_KEY); } catch (e) { /* private mode */ } },
+    set(v) {
+      try {
+        if (v) { localStorage.setItem(STORE_KEY, v); localStorage.setItem(STORE_KEY + "-t", String(Date.now())); }
+        else { localStorage.removeItem(STORE_KEY); localStorage.removeItem(STORE_KEY + "-t"); }
+      } catch (e) { /* private mode */ }
+    },
+    time() { try { return +localStorage.getItem(STORE_KEY + "-t") || null; } catch (e) { return null; } },
   };
 
   // ---------------------------------------------------------------
@@ -157,6 +163,7 @@
         <div class="pill-group">${ex}</div>
       </div>
 
+      <div id="ms-saved-note" class="ms-saved" hidden></div>
       <div class="ms-editor-wrap">
         <div id="ms-editor" class="ms-editor" aria-label="Structure drawing area"></div>
       </div>
@@ -482,7 +489,17 @@
     // Restore last drawing on this device
     const saved = store.get();
     if (saved) {
-      try { const m = window.OCL.Molecule.fromIDCode(saved.split(" ")[0], saved.split(" ")[1] || true); if (m.getAllAtoms()) editor.setMolecule(m); } catch (e) { store.set(""); }
+      try {
+        const ts = store.time();
+        const m = window.OCL.Molecule.fromIDCode(saved.split(" ")[0], saved.split(" ")[1] || true);
+        if (m.getAllAtoms()) {
+          editor.setMolecule(m);
+          const when = ts ? new Date(ts).toLocaleString(undefined, { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+          const note = $("ms-saved-note");
+          note.innerHTML = `<span>Restored your last structure${when ? `, saved in this browser on <b>${esc(when)}</b>` : " saved in this browser"}. It is stored only on this device \u2014 not on the website.</span><button type="button" class="pill" id="ms-forget">Clear saved structure</button>`;
+          note.hidden = false;
+        }
+      } catch (e) { store.set(""); }
     }
     onEditorChange();
 
@@ -493,6 +510,14 @@
       if (cp) { copyText(cp.dataset.msCopy, cp); return; }
       switch (e.target.id) {
         case "ms-clear": editor.clearAll(); onEditorChange(); status(""); break;
+        case "ms-forget": {
+          editor.clearAll(); onEditorChange();
+          setTimeout(() => store.set(""), 200);   // after the debounced save of the now-empty canvas
+          const note = $("ms-saved-note");
+          note.innerHTML = "<span>Saved structure cleared from this browser.</span>";
+          setTimeout(() => { note.hidden = true; }, 2500);
+          break;
+        }
         case "ms-load": loadFromInput(); break;
         case "ms-pubchem-btn": pubchemLookup(); break;
         case "ms-dl-png": exportPNG(); break;
