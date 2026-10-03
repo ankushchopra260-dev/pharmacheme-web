@@ -1154,6 +1154,10 @@ function typeOf(name){return findNameIdx(EQ,name)>=0?'eq':'in';}
 var state={tab:'eq',cat:{eq:'All','in':'All'},q:{eq:'','in':''},lab:'cmp'};
 var lastFocus=null,cur=null,simTimer=null;
 
+/* items listed under more than one group */
+var ALSO={'Agitated Nutsche Filter Dryer (ANFD)':['Drying']};
+function inCat(it,c){return it.cat===c||(ALSO[it.name]||[]).indexOf(c)>=0;}
+function catLabel(it){return [it.cat].concat(ALSO[it.name]||[]).join(' / ');}
 function cats(arr){var c=['All'];arr.forEach(function(x){if(c.indexOf(x.cat)<0)c.push(x.cat);});return c;}
 function buildChips(type){
   var arr=type==='eq'?EQ:IN, box=$(type==='eq'?'chips-eq':'chips-in'), c0=state.cat[type];
@@ -1188,7 +1192,7 @@ function listFor(type){
   var arr=type==='eq'?EQ:IN,c=state.cat[type],q=state.q[type].toLowerCase().trim(),res=[];
   var words=q?q.split(/\s+/):[];
   arr.forEach(function(it,i){
-    if(c!=='All'&&it.cat!==c)return;
+    if(c!=='All'&&!inCat(it,c))return;
     var s=1;
     if(words.length){s=scoreItem(it,words);if(!s)return;}
     res.push({i:i,s:s});
@@ -1202,7 +1206,7 @@ function renderGrid(type){
   grid.innerHTML=ids.map(function(i){
     var it=arr[i];
     var th=type==='eq'?DIA[it.dia]:instSymbol(it);
-    var tg=type==='eq'?it.cat:(it.cat+' | '+it.tag);
+    var tg=type==='eq'?catLabel(it):(it.cat+' | '+it.tag);
     var chips=(QF[it.name]||[]).map(function(c){return '<span>'+esc(c)+'</span>';}).join('');
     return '<button class="ei-card" data-i="'+i+'" data-t="'+type+'"><div class="ei-thumb">'+th+'</div><div class="ei-tag">'+esc(tg)+'</div><h3>'+esc(it.name)+'</h3><div class="ei-qf">'+chips+'</div><p>'+esc(it.one)+'</p></button>';
   }).join('');
@@ -1232,7 +1236,7 @@ function openItem(type,i){
   cur={type:type,i:i};track(type==='eq'?'equipment_viewed':type==='ag'?'agitator_viewed':'instrument_viewed',{item_name:it.name,category:it.cat});
   setHash(slug(it.name));
   var h='<div class="ei-ph"><h2>'+esc(it.name)+'</h2><span class="ei-btnrow"><button class="ei-x" id="xcopy" title="Copy a link to this card">Copy link</button><button class="ei-x" id="xclose">Close</button></span></div>';
-  h+='<div class="ei-tag" style="margin-top:4px">'+esc(it.cat)+(it.tag?' | '+esc(it.tag):'')+'</div>';
+  h+='<div class="ei-tag" style="margin-top:4px">'+esc(catLabel(it))+(it.tag?' | '+esc(it.tag):'')+'</div>';
   var chips=(QF[it.name]||[]).map(function(c){return '<span>'+esc(c)+'</span>';}).join('');
   if(chips)h+='<div class="ei-qf" style="margin-top:6px">'+chips+'</div>';
   if(type==='eq'){h+='<div class="ei-big">'+DIA[it.dia]+'</div>';}
