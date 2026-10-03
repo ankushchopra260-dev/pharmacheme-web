@@ -70,20 +70,10 @@ structured_data: |
   <h2>Agitators</h2>
   <p class="ei-sub">How each impeller moves liquid, which flow regime it works in, and how to choose one. Tap a card for details.</p>
 
-  <div class="ei-agbox">
-   <h3>Flow regime calculator</h3>
-   <p class="ei-agnote" style="margin-top:0">Enter the impeller, speed and liquid. The Reynolds number tells you whether the flow is laminar, transitional or turbulent.</p>
-   <div class="ei-aggrid">
-    <label>Impeller<select id="ag-imp"></select></label>
-    <label>Speed (rpm)<input id="ag-n" type="number" value="120" min="1" step="1"></label>
-    <label>Impeller diameter D (mm)<input id="ag-d" type="number" value="600" min="10" step="10"></label>
-    <label>Liquid<select id="ag-pre"><option value="">Custom</option><option value="water" selected>Water-like</option><option value="solvent">Light solvent</option><option value="syrup">Syrup (500 cP)</option><option value="paste">Paste (50,000 cP)</option></select></label>
-    <label>Density (kg/m&sup3;)<input id="ag-rho" type="number" value="1000" min="1" step="10"></label>
-    <label>Viscosity (cP = mPa&middot;s)<input id="ag-mu" type="number" value="1" min="0.1" step="0.1"></label>
-    <label>Liquid volume (L, optional)<input id="ag-v" type="number" value="2000" min="0" step="100"></label>
-   </div>
-   <div id="ag-out" aria-live="polite"></div>
-  </div>
+  <h3 class="ei-agh" style="margin-top:14px">Impeller types</h3>
+  <div class="ei-grid" id="grid-ag"></div>
+
+
 
   <h3 class="ei-agh">Which agitator for which job?</h3>
   <div style="overflow-x:auto"><table class="ei-t ei-agguide">
@@ -109,8 +99,21 @@ structured_data: |
    <div><h4>Compare them live</h4><p>See flow patterns, blending and solids suspension side by side in the <a href="/calculators/agitator-simulator/">Agitator Simulator</a>.</p></div>
   </div>
 
-  <h3 class="ei-agh">Impeller types</h3>
-  <div class="ei-grid" id="grid-ag"></div>
+  <h3 class="ei-agh">Flow regime calculator</h3>
+  <div class="ei-agbox">
+      <p class="ei-agnote" style="margin-top:0">Enter the impeller, speed and liquid. The Reynolds number tells you whether the flow is laminar, transitional or turbulent.</p>
+   <div class="ei-aggrid">
+    <label>Impeller<select id="ag-imp"></select></label>
+    <label>Speed (rpm)<input id="ag-n" type="number" value="120" min="1" step="1"></label>
+    <label>Impeller diameter D (mm)<input id="ag-d" type="number" value="600" min="10" step="10"></label>
+    <label>Liquid<select id="ag-pre"><option value="">Custom</option><option value="water" selected>Water-like</option><option value="solvent">Light solvent</option><option value="syrup">Syrup (500 cP)</option><option value="paste">Paste (50,000 cP)</option></select></label>
+    <label>Density (kg/m&sup3;)<input id="ag-rho" type="number" value="1000" min="1" step="10"></label>
+    <label>Viscosity (cP = mPa&middot;s)<input id="ag-mu" type="number" value="1" min="0.1" step="0.1"></label>
+    <label>Liquid volume (L, optional)<input id="ag-v" type="number" value="2000" min="0" step="100"></label>
+   </div>
+   <div id="ag-out" aria-live="polite"></div>
+  </div>
+
  </section>
 
  <section id="sec-lab" class="ei-hide"><h2>Interactive labs</h2><div id="lab-body"></div></section>
