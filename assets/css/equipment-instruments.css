@@ -1,0 +1,132 @@
+/* PharmaChemE - Process Equipment & Instrumentation (scoped under .ei) */
+.ei{
+  --bg:var(--bg-deep);--card:var(--panel);--ink:var(--paper);--mute:#93A9BD;--line:#2A4A6A;
+  --accent:var(--brass);--accent2:#4CC0DF;--chip:var(--panel-raised);--ok:#5FD09A;--warn:#FF9A6B;
+  color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.55;padding-bottom:40px;
+}
+.ei h1,.ei h2,.ei h3,.ei h4{font-family:var(--f-display);letter-spacing:.02em}
+.ei .ei-panel h4,.ei .ei-lh{font-family:var(--f-mono)}
+.ei button{font-family:inherit}
+.ei .ei-wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.ei .ei-hdr .ei-top{padding:12px 0}
+.ei details>summary{color:var(--ink)}
+.ei code{font-family:var(--f-mono);color:var(--accent)}
+.ei a{color:inherit}
+.ei .ei-ov{z-index:200}
+.ei .ei-pt{line-height:1.2}
+@media (max-width:700px){.ei .ei-hdr{position:static}}
+.ei .ei-sim svg{max-width:760px;display:block}
+.ei,.ei *{box-sizing:border-box}
+
+.ei .ei-wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.ei .ei-hdr{position:sticky;top:64px;z-index:40;background:var(--card);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
+.ei .ei-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0}
+
+.ei .ei-tabs{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.ei .ei-tab{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:8px 14px;border-radius:999px;font-weight:600;cursor:pointer;font-size:14px}
+.ei .ei-tab[aria-selected="true"]{background:var(--accent);color:#0B1622;border-color:var(--accent)}
+.ei .ei-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:0 0 10px}
+.ei .ei-search{flex:1 1 220px;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:15px}
+.ei .ei-level{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ei .ei-level button{border:0;background:var(--chip);color:var(--ink);padding:9px 12px;font-size:13px;cursor:pointer;font-weight:600}
+.ei .ei-level button[aria-pressed="true"]{background:var(--accent2);color:#0B1622}
+.ei .ei-banner{background:var(--chip);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:14px 0;color:var(--mute);font-size:14px}
+.ei .ei-sub{color:var(--mute);margin:0 0 12px}
+.ei .ei-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.ei .ei-chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:999px;font-size:13px;cursor:pointer}
+.ei .ei-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#0B1622}
+.ei .ei-count{color:var(--mute);font-size:13px;margin-bottom:8px}
+.ei .ei-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;padding-bottom:40px}
+.ei .ei-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:8px;text-align:left;color:var(--ink);font:inherit}
+.ei .ei-card:hover,.ei .ei-card:focus-visible{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+.ei .ei-thumb{height:110px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ei .ei-thumb svg{height:100%;width:auto;max-width:100%}
+.ei .ei-card h3{margin:0;font-size:16px}
+.ei .ei-card p{margin:0;color:var(--mute);font-size:13.5px}
+.ei .ei-tag{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--accent);font-weight:700}
+.ei svg{color:var(--ink)}
+.ei .ei-st{stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ei .ei-fl{fill:var(--accent);opacity:.25}
+.ei .ei-ac{stroke:var(--accent)}
+.ei .ei-hot{stroke:var(--accent2)}
+.ei .ei-fillhot{fill:var(--accent2);opacity:.3}
+.ei .ei-flow{stroke:var(--accent);stroke-width:2.2;fill:none;stroke-dasharray:6 5;animation:ei-dash 1.1s linear infinite;stroke-linecap:round}
+.ei .ei-flowhot{stroke:var(--accent2)}
+@keyframes ei-dash{to{stroke-dashoffset:-22}}
+@media (prefers-reduced-motion:reduce){.ei-flow{animation:none}}
+.ei .ei-txt{fill:currentColor;font:600 11px system-ui,sans-serif}
+.ei .ei-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:16px}
+.ei .ei-ov.ei-on{display:flex}
+.ei .ei-panel{background:var(--card);border-radius:16px;max-width:760px;width:100%;margin:auto;padding:18px;border:1px solid var(--line)}
+.ei .ei-ph{display:flex;gap:10px;align-items:flex-start}
+.ei .ei-ph h2{margin:0;font-size:22px;flex:1}
+.ei .ei-x{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:10px;padding:6px 12px;cursor:pointer;font-size:14px}
+.ei .ei-big{background:var(--bg);border-radius:12px;padding:10px;margin:12px 0;display:flex;justify-content:center}
+.ei .ei-big svg{width:100%;max-width:420px;height:auto}
+.ei .ei-panel h4{margin:16px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--accent)}
+.ei .ei-panel p{margin:6px 0}
+.ei .ei-panel ol,.ei .ei-panel ul{margin:6px 0;padding-left:22px}
+.ei .ei-panel li{margin:4px 0}
+.ei .ei-pro{display:none}
+.ei.ei-lvl-pro .ei-pro{display:block}
+.ei .ei-beg{display:block;color:var(--mute);font-size:13.5px;border:1px dashed var(--line);border-radius:10px;padding:8px 12px;margin-top:14px}
+.ei.ei-lvl-pro .ei-beg,.ei.ei-lvl-ts .ei-beg{display:none}
+.ei .ei-tsx{display:none}
+.ei.ei-lvl-ts .ei-tsx{display:block}
+.ei .ei-watch{border-left:4px solid var(--warn);background:var(--bg);padding:8px 12px;border-radius:0 10px 10px 0}
+.ei .ei-loop{font-family:ui-monospace,Consolas,monospace;font-size:13px;background:var(--bg);padding:8px 10px;border-radius:8px;overflow-x:auto;white-space:nowrap}
+.ei .ei-kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px}
+.ei .ei-kv b{color:var(--mute);font-weight:600}
+.ei .ei-isa{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.ei .ei-isa summary{cursor:pointer;font-weight:700}
+.ei .ei-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:12px 0}
+.ei .ei-lg{background:var(--bg);border-radius:10px;padding:8px;text-align:center;font-size:12.5px;color:var(--mute)}
+.ei .ei-lg svg{width:70px;height:70px}
+.ei table.ei-t{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:8px}
+.ei table.ei-t th,.ei table.ei-t td{border:1px solid var(--line);padding:5px 8px;text-align:left}
+.ei table.ei-t th{background:var(--chip)}
+.ei .ei-dec{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.ei .ei-dec input{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:600 15px ui-monospace,Consolas,monospace;text-transform:uppercase;width:150px}
+.ei .ei-decout{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px;min-height:42px}
+.ei .ei-foot{color:var(--mute);font-size:13px;padding:20px 0 40px;border-top:1px solid var(--line)}
+.ei .ei-hide{display:none!important}
+.ei .ei-pt{font-size:28px;margin:18px 0 4px}
+.ei .ei-main section h2{font-size:22px;margin:18px 0 4px}
+.ei .ei-qf{display:flex;flex-wrap:wrap;gap:4px}
+.ei .ei-qf span{background:var(--chip);border-radius:999px;padding:1px 8px;font-size:11.5px;color:var(--mute)}
+.ei .ei-rel{display:flex;flex-wrap:wrap;gap:6px}
+.ei .ei-rel a{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--accent);text-decoration:none;background:var(--card)}
+.ei .ei-rel a:hover,.ei .ei-rel a:focus-visible{border-color:var(--accent);outline:none}
+.ei .ei-rel small{color:var(--mute);font-size:11px}
+.ei .ei-btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.ei .ei-beg .ei-btnrow{display:inline-flex;margin:0 0 0 6px}
+.ei .ei-techn{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 12px;margin:12px 0;font-size:13px;color:var(--mute)}
+.ei .ei-opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14.5px;cursor:pointer}
+.ei .ei-opt:hover{border-color:var(--accent)}
+.ei .ei-opt.ei-ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--bg))}
+.ei .ei-opt.ei-bad{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 12%,var(--bg));opacity:.8}
+.ei .ei-opt.ei-done{cursor:default}
+.ei .ei-fb{margin-top:10px;border-radius:10px;padding:10px 12px;font-size:14.5px;background:var(--bg)}
+.ei .ei-fb.ei-good{border-left:4px solid var(--ok)}
+.ei .ei-fb.ei-bad{border-left:4px solid var(--warn)}
+.ei table.ei-cmp th:first-child,.ei table.ei-cmp td:first-child{white-space:nowrap}
+.ei table.ei-cmp td{min-width:120px}
+.ei .ei-lh{margin:16px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--accent)}
+.ei .ei-pflow{display:flex;flex-direction:column;align-items:stretch;max-width:520px;margin:12px 0}
+.ei .ei-node{display:block;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--ink);font:inherit}
+.ei button.ei-node{cursor:pointer}
+.ei button.ei-node:hover{border-color:var(--accent)}
+.ei .ei-node b{display:block}
+.ei .ei-node span{display:block;color:var(--mute);font-size:13.5px}
+.ei .ei-node em{display:block;color:var(--accent);font-size:12px;font-style:normal;margin-top:2px}
+.ei .ei-node.ei-plain{background:var(--bg);border-style:dashed}
+.ei .ei-down{text-align:center;color:var(--accent);font-size:20px;line-height:1.2;padding:2px 0}
+.ei .ei-sim svg{width:100%;height:auto;background:var(--bg);border-radius:12px}
+.ei .ei-simctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}
+.ei .ei-simctl label{font-size:13.5px;display:block}
+.ei .ei-simctl input[type=range]{width:100%}
+.ei .ei-chart{width:100%;height:auto;background:var(--bg);border-radius:12px;margin-top:10px;color:var(--ink)}
+.ei .ei-legendline{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;margin:6px 0}
+.ei .ei-rdrow{display:none;flex-wrap:wrap;gap:4px 14px;font-size:14px;font-weight:600;margin:8px 0}
+@media (max-width:600px){.ei-rdrow{display:flex}.ei #rdAct,.ei #rdPV,.ei #rdU,.ei #rdAl{display:none}}
+@media (max-width:520px){.ei-pt{font-size:24px}.ei .ei-tabs{margin-left:0;width:100%}.ei .ei-tab{flex:1}}
