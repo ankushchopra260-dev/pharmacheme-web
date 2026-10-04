@@ -344,7 +344,7 @@ E('Drying','Tray Dryer','fbd',
  'APIs, intermediates and heat-sensitive solids.');
 E('Drying','Fluid Bed Dryer (FBD)','fbd',
  'Hot air blown up through a bed of powder lifts it so the particles behave like a boiling liquid, drying it quickly.',
- ['Wet material is loaded in the bowl.','Hot air flows upward through the bed and fluidises it.','Excellent contact dries the solids rapidly.','Fines are held by the filter bags and shaken back.'],
+ ['Wet material is loaded in the bowl.','Hot air flows upward through the bed and fluidises it.','Close contact between air and particles dries the solids rapidly.','Fines are held by the filter bags and shaken back.'],
  ['Fluidisation starts at minimum fluidisation velocity, which can be estimated from Ergun.','Excellent heat and mass transfer, with short drying times.','Static electricity with solvents needs inerting, grounding and explosion protection.'],
  'Channelling, filter-bag blinding, static and dust explosions.',
  'Granules, powders, pharma formulation.');
@@ -365,7 +365,7 @@ E('Drying','Spray Dryer','spray',
 E('Solids Handling','Mills (Multi-mill / Pulveriser / Jet Mill)','mill',
  'Reduce particle size by impact, shear or compression.',
  ['Material is fed to the milling chamber.','Rotating hammers, blades or fluid jets break the particles.','A screen or classifier limits the maximum size.','Ground powder is collected.'],
- ['Energy relationships (Rittinger, Kick, Bond) relate size reduction to energy.','Jet mills use gas energy and give very fine, low-contamination powders.','Dust control and explosion protection are essential.'],
+ ['Energy relationships (Rittinger, Kick, Bond) relate size reduction to energy.','Jet mills use gas energy and give very fine, low-contamination powders.','Dust control and explosion protection are a must.'],
  'Heat build-up, dust explosion and cross-contamination.',
  'API micronisation, spices, agrochemical formulation.');
 E('Solids Handling','Vibro Sifter','mill',
@@ -775,7 +775,7 @@ I('Final Control & Safety','Valve Positioner','ZC','602','field','valve',
 I('Final Control & Safety','I/P Converter','FY','603','field','',
  'Converts an electrical 4-20 mA signal into a proportional air pressure (3-15 psi or 0.2-1 bar).',
  ['The 4-20 mA signal drives a small coil.','A nozzle-flapper mechanism changes air pressure.','Output air pressure follows the current.','The pneumatic signal positions the actuator.'],
- ['Letter Y marks a relay or converting function.','Clean, dry, regulated instrument air is essential.','Modern positioners often include the I/P function.'],
+ ['Letter Y marks a relay or converting function.','The instrument air must be clean, dry and regulated.','Modern positioners often include the I/P function.'],
  'Blocked nozzle from dirty air and supply pressure that is too low.',
  'FIC-603 > FY-603 (I/P) > FV-603',
  'Older control valves and pneumatic dampers.');
@@ -1126,7 +1126,7 @@ var CMP=[
  choose:['Shell and tube: high pressure, fouling services, condensing.','Plate: clean fluids needing close temperature approach.','Jacket or coil: temperature control of a reactor or receiver.']},
 {id:'vac',title:'Vacuum sources',cols:['Liquid ring','Dry screw','Steam ejector'],open:['Liquid-ring Vacuum Pump','Dry Screw Vacuum Pump','Steam Ejector'],
  rows:[['Condensable vapours','Handled well','Must stay above dew point inside the pump','Handled with intercondensers'],['Process contamination','Gas contacts the sealing liquid','None (dry)','Steam mixes with the gas'],['Effluent','Seal-liquid effluent unless recirculated','Little','Steam condensate'],['Utilities','Seal liquid, power','Power, cooling','Motive steam, cooling water'],['Moving parts','Yes','Yes','None']],
- choose:['Liquid ring: robust, wet vapours, lower capital cost.','Dry screw: solvent recovery and clean effluent.','Steam ejector: deep vacuum where steam is available and maintenance must be minimal.']}
+ choose:['Liquid ring: rugged, copes with wet vapours, lower capital cost.','Dry screw: solvent recovery and clean effluent.','Steam ejector: deep vacuum where steam is available and maintenance must be minimal.']}
 ];
 
 var FLOWS=[
@@ -1591,7 +1591,7 @@ A('Anchor Agitator','anchor','Close-clearance (tangential)','Depends on Reynolds
 A('Gate (Frame) Agitator','gate','Close-clearance (tangential)','Depends on Reynolds number (laminar)','',  'Laminar and transitional','Medium to high','0.9 to 0.98','Low',
  'An anchor with extra horizontal and vertical bars, like a gate. It moves more of the batch than a plain anchor.',
  ['The outer frame sweeps close to the wall like an anchor.','The cross bars break up the rotating mass and add some vertical movement.','Mixing is gentle and suited to viscous liquids.'],
- ['Better bulk mixing than a plain anchor at similar speed.','Used in the laminar and low transitional range.','Simple and robust; often used in large slow-speed vessels.'],
+ ['Better bulk mixing than a plain anchor at similar speed.','Used in the laminar and low transitional range.','Simple and rugged; often used in large slow-speed vessels.'],
  'Using it at high speed in thin liquids. Expecting the top-to-bottom turnover of a helical ribbon.',
  'Viscous solutions, slurries and gentle mixing in large vessels.');
 A('Helical Ribbon','ribbon','Close-clearance (axial)','Depends on Reynolds number (laminar)','',  'Laminar','High to very high (polymers, pastes)','0.9 to 0.95','Low',

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Pump Power Calculator
-description: "Calculate theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies."
+description: "Pump power calculator: hydraulic power, shaft power and motor power from flow, head, density and pump and motor efficiencies."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -36,7 +36,7 @@ breadcrumbs:
   <p>Enter the flow rate, total developed head, fluid density, and the pump and motor efficiencies from the datasheet or field test. The calculator returns hydraulic, shaft, and motor power together so you can size a motor with adequate margin.</p>
 
   <h2>Engineering Notes &amp; Assumptions</h2>
-  <p>This is a steady-state power estimate — it doesn't account for startup transients, NPSH-limited operation, or a pump running away from its best-efficiency point. Always cross-check against the pump curve and motor nameplate rating, and apply your site's standard safety margin (commonly 10&ndash;20%) on top of the calculated motor power.</p>
+  <p>This is a steady-state power estimate. It doesn't account for startup transients, NPSH-limited operation, or a pump running away from its best-efficiency point. Always cross-check against the pump curve and motor nameplate rating, and apply your site's standard safety margin (commonly 10&ndash;20%) on top of the calculated motor power.</p>
 
   <div class="related-box">
     <h3>Related Article</h3>

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Custom Engineering Tools & Solutions
-description: "Need a calculation, dashboard or digital tool tailored to your process? We can build it."
+description: "Need a calculation, dashboard or digital tool made for your process? We can build it."
 breadcrumbs:
   - label: Custom Solutions
     url: /custom-solutions/
@@ -9,36 +9,36 @@ breadcrumbs:
 
 <div class="container calc-page-head">
   <h1>Custom Engineering Tools &amp; Solutions</h1>
-  <p>Need a calculation, dashboard or digital tool tailored to your process? We can build it.</p>
+  <p>Need a calculation, dashboard or digital tool made for your process? We can build it.</p>
 </div>
 
 <div class="container section" style="padding-top:0;">
-  <p style="color:var(--muted); max-width:680px;">PharmaChemE can develop customized calculation tools, dashboards and digital engineering applications for chemical and pharmaceutical organizations. These are capabilities offered, tailored to your requirement — get in touch to discuss what you need.</p>
+  <p style="color:var(--muted); max-width:680px;">PharmaChemE can build calculation tools, dashboards and digital engineering applications for chemical and pharmaceutical companies. These are services on offer, scoped to what you need. Get in touch to discuss your requirement.</p>
 
   <div class="grid-cards" style="margin-top:24px;">
     <div class="service-card">
       <h3>Custom Calculators</h3>
-      <p>Convert your existing engineering calculations into a simple digital tool.</p>
+      <p>Your existing engineering calculation, turned into a simple digital tool.</p>
     </div>
     <div class="service-card">
       <h3>Custom Dashboards</h3>
-      <p>Turn production and engineering data into practical dashboards.</p>
+      <p>Production and engineering data laid out as dashboards you can read at a glance.</p>
     </div>
     <div class="service-card">
       <h3>Process Tools</h3>
-      <p>Develop company-specific process and equipment calculation tools.</p>
+      <p>Process and equipment calculation tools written for your company.</p>
     </div>
     <div class="service-card">
       <h3>Excel to Digital</h3>
-      <p>Convert complex Excel-based engineering calculations into user-friendly web or mobile tools.</p>
+      <p>Complex Excel-based engineering calculations, rebuilt as easy-to-use web or mobile tools.</p>
     </div>
     <div class="service-card">
       <h3>Training &amp; Simulation</h3>
-      <p>Create interactive engineering training and troubleshooting applications.</p>
+      <p>Interactive apps for engineering training and troubleshooting practice.</p>
     </div>
     <div class="service-card">
       <h3>Digitalization</h3>
-      <p>Digitalize existing engineering calculations currently trapped in spreadsheets or paper logs.</p>
+      <p>Calculations still stuck in spreadsheets or paper logs, moved into a digital tool.</p>
     </div>
   </div>
 </div>
@@ -106,7 +106,7 @@ breadcrumbs:
           form.style.display = 'none';
           status.style.color = 'var(--brass)';
           status.style.fontSize = '0.95rem';
-          status.textContent = 'Thanks \u2014 your requirement has been sent. We\u2019ll get back to you by email.';
+          status.textContent = 'Thanks, your requirement has been sent. We\u2019ll get back to you by email.';
         } else {
           return response.json().then(function (data) {
             var msg = (data && data.errors && data.errors.map(function (e2) { return e2.message; }).join(', ')) || 'Something went wrong. Please try again or email pharmacheme.app@gmail.com directly.';
@@ -116,7 +116,7 @@ breadcrumbs:
         }
       }).catch(function () {
         status.style.color = 'var(--rust)';
-        status.textContent = 'Network error \u2014 please try again or email pharmacheme.app@gmail.com directly.';
+        status.textContent = 'Network error. Please try again or email pharmacheme.app@gmail.com directly.';
       }).finally(function () {
         btn.disabled = false;
         btn.textContent = 'Submit Requirement';

@@ -128,15 +128,15 @@ const CHEM_COMPAT_NAMES = Object.keys(CHEM_COMPAT).sort();
 
 // ============ TAB DEFINITIONS ============
 const TABS = [
-  { id: "solvent-recovery", label: "Solvent Recovery", desc: "Batch vacuum distillation design — boiling point, heat load, recovery time, condenser sizing, vacuum pump capacity.", render: renderSolventRecovery, init: initSolventRecovery },
-  { id: "scale-up", label: "Mixing / Scale-up", desc: "Reactor geometry, agitation, Reynolds number, tip speed, Power, P/V, torque — compare across plants or scales.", render: renderScaleUp, init: initScaleUp },
+  { id: "solvent-recovery", label: "Solvent Recovery", desc: "Batch vacuum distillation: boiling point, heat load, recovery time, condenser sizing and vacuum pump capacity.", render: renderSolventRecovery, init: initSolventRecovery },
+  { id: "scale-up", label: "Mixing / Scale-up", desc: "Put reactors from different plants or scales next to each other. Geometry, agitation, Reynolds number, tip speed, power, P/V and torque.", render: renderScaleUp, init: initScaleUp },
   { id: "coupon-study", label: "Corrosion Coupon", desc: "Weight-loss corrosion rate (mpy) from coupon exposure data, with Excellent/Good/Satisfactory rating.", render: renderCouponStudy, init: initCouponStudy },
-  { id: "filtration-eval", label: "Filtration Evaluation", desc: "B\u00fcchner filtration trial \u2014 specific cake resistance and flux, with a Good/Moderate/Slow verdict.", render: renderFiltrationEvaluation, init: initFiltrationEvaluation },
+  { id: "filtration-eval", label: "Filtration Evaluation", desc: "Specific cake resistance and flux from a B\u00fcchner filtration trial. Gives a Good/Moderate/Slow verdict.", render: renderFiltrationEvaluation, init: initFiltrationEvaluation },
   { id: "centrifuge", label: "Centrifuge Cake Weight", desc: "Basket centrifuge cake weight and G-force from basket geometry, cake thickness, and bulk density.", render: renderCentrifuge, init: initCentrifuge },
   { id: "pump-power", label: "Pump Power Rating", desc: "Theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies.", render: renderPumpPower, init: initPumpPower },
-  { id: "materials-compat", label: "Materials & Corrosion", desc: "Chemical-to-material compatibility reference \u2014 pick a process fluid, see ratings across SS316, Hastelloy, PTFE, common plastics, and elastomers.", render: renderMaterialsCompat, init: initMaterialsCompat },
-  { id: "mol-builder", label: "Structure Builder", desc: "Draw a 2D structure (atoms, bonds, ring and functional-group templates) and get molecular formula, weight, atom/bond counts, and SMILES both ways \u2014 chemistry computed by OpenChemLib.", render: renderMolBuilder, init: initMolBuilder },
-  { id: "batch-troubleshoot", label: "Batch Troubleshooter", desc: "Click-through operator game \u2014 flip valves and equipment states on a live reactor panel until the reading settles into the green band.", render: renderBatchTroubleshooter, init: initBatchTroubleshooter },
+  { id: "materials-compat", label: "Materials & Corrosion", desc: "Chemical-to-material compatibility reference. Pick a process fluid and see ratings for SS316, Hastelloy, PTFE, common plastics and elastomers.", render: renderMaterialsCompat, init: initMaterialsCompat },
+  { id: "mol-builder", label: "Structure Builder", desc: "Draw a 2D structure (atoms, bonds, ring and functional-group templates) and get molecular formula, weight, atom/bond counts, and SMILES both ways. The chemistry is computed by OpenChemLib.", render: renderMolBuilder, init: initMolBuilder },
+  { id: "batch-troubleshoot", label: "Batch Troubleshooter", desc: "Operator game. Flip valves and equipment on a live reactor panel until the reading settles back into the green band.", render: renderBatchTroubleshooter, init: initBatchTroubleshooter },
 ];
 
 
@@ -777,7 +777,7 @@ function mbToolHintText() {
 
 function renderMolBuilder() {
   return `
-    ${plateHeader("PharmaChemE Structure Builder", "OPENCHEMLIB-POWERED \u2014 FORMULA, MW, SMILES")}
+    ${plateHeader("PharmaChemE Structure Builder", "OPENCHEMLIB · FORMULA, MW, SMILES")}
     <div id="mb-toolbar" style="margin-bottom:6px;">${mbToolbarHTML()}</div>
     <div id="mb-hint" style="font-size:0.72rem; color:var(--muted-dim); font-family:var(--f-sans); margin-bottom:4px; min-height:1.2em;">${mbToolHintText()}</div>
     <div id="mb-warning" style="font-size:0.75rem; color:var(--rust); font-family:var(--f-sans); font-weight:600; min-height:1.2em; opacity:0; transition:opacity 0.2s;"></div>
@@ -804,7 +804,7 @@ function renderMolBuilder() {
       <div id="mb-import-status" style="font-size:0.75rem; margin-top:4px; min-height:1.2em;"></div>
     </div>
     <p style="font-size:0.75rem; color:var(--muted-dim); font-family:var(--f-sans); margin-top:16px;">
-      Chemistry (formula, molecular weight, valence, implicit hydrogens, SMILES parsing and generation) is computed by OpenChemLib, an established open-source cheminformatics library \u2014 not a hand-built parser. This editor covers common organic structures with standard valences (C, N, O, S, P, F, Cl, Br, I) plus the NO\u2082 group's formal charges; it does not model expanded sulfur/phosphorus valence states, additional stereochemistry, or ring fusion onto an existing atom. Drawing a bond that would exceed an atom's normal valence is blocked with a warning. Undo/Redo covers every drawing action for this session (cleared on Clear or on leaving the tab).
+      Chemistry (formula, molecular weight, valence, implicit hydrogens, SMILES parsing and generation) is computed by OpenChemLib, an established open-source cheminformatics library, not a hand-built parser. This editor covers common organic structures with standard valences (C, N, O, S, P, F, Cl, Br, I) plus the NO\u2082 group's formal charges; it does not model expanded sulfur/phosphorus valence states, additional stereochemistry, or ring fusion onto an existing atom. Drawing a bond that would exceed an atom's normal valence is blocked with a warning. Undo/Redo covers every drawing action for this session (cleared on Clear or on leaving the tab).
     </p>
   `;
 }
@@ -925,10 +925,10 @@ function computeHeatLoadRecovery(cfg) {
 
     if (hwJacketDT < 0) {
       hwStatus = "invalid";
-      hwMessage = "HW temperature is below the solvent boiling point \u2014 invalid heating condition.";
+      hwMessage = "HW temperature is below the solvent boiling point. Invalid heating condition.";
     } else if (hwJacketDT < HW_MIN_DRIVING_FORCE) {
       hwStatus = "warning";
-      hwMessage = "Very low temperature driving force \u2014 review feasibility.";
+      hwMessage = "Very low temperature driving force. Review feasibility.";
     } else {
       hwStatus = "ok";
       hwMessage = "Heating condition acceptable.";
@@ -1045,7 +1045,7 @@ const VP_DEFAULTS = {
 };
 
 const SR_SUB_TOOLS = [
-  { id: "boiling", label: "Boiling Point at Vacuum", desc: "Antoine equation \u2014 boiling point of a solvent at any applied vacuum." },
+  { id: "boiling", label: "Boiling Point at Vacuum", desc: "Boiling point of a solvent at any applied vacuum, from the Antoine equation." },
   { id: "heatload", label: "Heat Load & Recovery Time", desc: "Reactor geometry, solvent, and heating utility \u2192 total heat load and theoretical recovery time." },
   { id: "condenser", label: "Condenser Sizing", desc: "Solvent, quantity distilled, and a known recovery time \u2192 condenser duty and area." },
   { id: "vacuumpump", label: "Vacuum Pump Capacity", desc: "Leakage, evaporation, and evacuation load \u2192 required vacuum pump capacity." },
@@ -1105,14 +1105,14 @@ const SR_FIELD_DEFS = {
       { label: "Overall heat transfer coefficient, U (kcal/m\u00b2\u00b7hr\u00b7\u00b0C)", field: "u", type: "input" },
       { label: "Jacket area basis", field: "jacketAreaBasis", type: "select", options: ["Calculated", "User Entered"] },
       { label: "Assumed straight length (m)", field: "jacketLength", type: "input", calcAreaOnly: true },
-      { label: "Jacket area \u2014 user entered (m\u00b2)", field: "jacketAreaManual", type: "input", manualAreaOnly: true },
+      { label: "Jacket area, user entered (m\u00b2)", field: "jacketAreaManual", type: "input", manualAreaOnly: true },
       { label: "FFE required", field: "ffeRequired", type: "select", options: ["YES", "NO"] },
       { label: "Proposed FFE area (m\u00b2)", field: "ffeArea", type: "input" },
       { label: "Solvent", field: "solvent", type: "solvent" },
       { label: "Vacuum applied (torr)", field: "vacuum", type: "input" },
       { label: "Qty. to be distilled (L)", field: "qtyDistilled", type: "input" },
       { label: "Initial mass temperature (\u00b0C)", field: "initialTemp", type: "input" },
-      { label: "Density (kg/m\u00b3) \u2014 auto/manual", field: "density", type: "input" },
+      { label: "Density (kg/m\u00b3), auto/manual", field: "density", type: "input" },
       { label: "Specific heat, Cp (kcal/kg.C)", field: "cp", type: "input" },
       { label: "Latent heat (kcal/kg)", field: "latent", type: "input" },
       { label: "Heating utility type", field: "heatingType", type: "select", options: ["Hot Water", "Steam"] },
@@ -1136,8 +1136,8 @@ const SR_FIELD_DEFS = {
         return `<span style="color:${color};">${m.hwMessage}</span>`;
       }],
       ["Total heat load", (m) => `${fmt(m.Qtotal)} Kcal`],
-      ["Heat available \u2014 utility", (m) => `${fmt(m.Q_avail)} Kcal/hr`],
-      ["Heat transferable \u2014 jacket", (m) => `${fmt(m.Q_jacket)} Kcal/hr`],
+      ["Heat available (utility)", (m) => `${fmt(m.Q_avail)} Kcal/hr`],
+      ["Heat transferable (jacket)", (m) => `${fmt(m.Q_jacket)} Kcal/hr`],
       ["Recovery time", (m) => `<span style="color:${!isFinite(m.recoveryTime) || m.recoveryTime <= 0 ? "var(--rust)" : "var(--brass)"}">${fmt(m.recoveryTime)} Hr</span>`],
     ],
   },
@@ -1148,7 +1148,7 @@ const SR_FIELD_DEFS = {
       { label: "Vacuum applied (torr)", field: "vacuum", type: "input" },
       { label: "Qty. to be distilled (L)", field: "qtyDistilled", type: "input" },
       { label: "Recovery time (hr)", field: "recoveryTime", type: "input" },
-      { label: "Density (kg/m\u00b3) \u2014 auto/manual", field: "density", type: "input" },
+      { label: "Density (kg/m\u00b3), auto/manual", field: "density", type: "input" },
       { label: "Latent heat (kcal/kg)", field: "latent", type: "input" },
       { label: "HX type", field: "hxType", type: "select", options: Object.keys(HX_TYPES) },
       { label: "Utility", field: "condUtility", type: "select", options: Object.keys(COND_UTILITIES) },
@@ -1172,8 +1172,8 @@ const SR_FIELD_DEFS = {
       { label: "Reactor capacity (L)", field: "capacity", type: "input" },
       { label: "Qty. to be distilled (L)", field: "qtyDistilled", type: "input" },
       { label: "Recovery time (hr)", field: "recoveryTime", type: "input" },
-      { label: "Density (kg/m\u00b3) \u2014 auto/manual", field: "density", type: "input" },
-      { label: "Molecular weight \u2014 auto/manual", field: "mw", type: "input" },
+      { label: "Density (kg/m\u00b3), auto/manual", field: "density", type: "input" },
+      { label: "Molecular weight, auto/manual", field: "mw", type: "input" },
       { label: "Process nozzles on reactor", field: "nozzleCount", type: "input" },
       { label: "Avg. nozzle size (in)", field: "nozzleSize", type: "input" },
       { label: "Gaskets, 3\"", field: "gasket3in", type: "input" },
@@ -1186,8 +1186,8 @@ const SR_FIELD_DEFS = {
     ],
     resultRows: [
       ["Boiling point at vacuum", (m) => `${fmt(m.Tb)} \u00b0C`],
-      ["Pump cap. \u2014 leakage/evac", (m) => `${fmt(Math.max(m.pumpLeakage, m.pumpEvacuation))} m\u00b3/hr`],
-      ["Pump cap. \u2014 evaporation load", (m) => `${fmt(m.pumpEvaporation)} m\u00b3/hr`],
+      ["Pump cap. (leakage/evac)", (m) => `${fmt(Math.max(m.pumpLeakage, m.pumpEvacuation))} m\u00b3/hr`],
+      ["Pump cap. (evaporation load)", (m) => `${fmt(m.pumpEvaporation)} m\u00b3/hr`],
       ["Vacuum pump capacity", (m) => isFinite(m.totalPumpCap) ? `${fmt(m.totalPumpCap)} m\u00b3/hr` : "N/A (atmospheric)"],
     ],
   },
@@ -1195,14 +1195,14 @@ const SR_FIELD_DEFS = {
 
 function srBoilingOptionsHtml() {
   const bpCases = srCases.boiling;
-  const opts = bpCases.map((c, i) => `<option value="${i}">${c.label} \u2014 ${c.solvent} @ ${c.vacuum} torr</option>`).join("");
+  const opts = bpCases.map((c, i) => `<option value="${i}">${c.label}: ${c.solvent} @ ${c.vacuum} torr</option>`).join("");
   return `<option value="">\u2199 Pull from Boiling Point\u2026</option>${opts}`;
 }
 
 function srHeatLoadOptionsHtml() {
   const hlCases = srCases.heatload;
   const metrics = hlCases.map(computeHeatLoadRecovery);
-  const opts = hlCases.map((c, i) => `<option value="${i}">${c.label} \u2014 ${fmt(metrics[i].recoveryTime)} hr</option>`).join("");
+  const opts = hlCases.map((c, i) => `<option value="${i}">${c.label} (${fmt(metrics[i].recoveryTime)} hr)</option>`).join("");
   return `<option value="">\u2199 Pull from Heat Load\u2026</option>${opts}`;
 }
 
@@ -1647,12 +1647,12 @@ const SCALEUP_INPUT_ROWS = [
   { label: "Viscosity of fluid (cP)", field: "viscosityCp", type: "input" },
   { section: "Agitation" },
   { label: "RPM", field: "rpm", type: "input" },
-  { label: "Impeller type — Bottom", field: "typeBottom", type: "select" },
-  { label: "Impeller dia — Bottom (mm)", field: "dBottom", type: "input" },
-  { label: "Impeller type — Middle", field: "typeMiddle", type: "select" },
-  { label: "Impeller dia — Middle (mm)", field: "dMiddle", type: "input" },
-  { label: "Impeller type — Top", field: "typeTop", type: "select" },
-  { label: "Impeller dia — Top (mm)", field: "dTop", type: "input" },
+  { label: "Impeller type, bottom", field: "typeBottom", type: "select" },
+  { label: "Impeller dia, bottom (mm)", field: "dBottom", type: "input" },
+  { label: "Impeller type, middle", field: "typeMiddle", type: "select" },
+  { label: "Impeller dia, middle (mm)", field: "dMiddle", type: "input" },
+  { label: "Impeller type, top", field: "typeTop", type: "select" },
+  { label: "Impeller dia, top (mm)", field: "dTop", type: "input" },
 ];
 
 function renderScaleUp() {
@@ -1660,7 +1660,7 @@ function renderScaleUp() {
     ${plateHeader("Mixing / Scale-up Comparison", "P/V · TIP SPEED · Re · TORQUE")}
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
       <p style="font-size:0.75rem; color:var(--muted); font-family:var(--f-sans); max-width:60%;">
-        Compare plants, scales, or pilot-to-commercial side by side. Scroll right for more columns.
+        Add a column per reactor: another plant, another scale, or pilot vs commercial. Scroll right for more columns.
       </p>
       <button id="su-add-reactor" class="pill" style="background:var(--brass); color:var(--bg-deep); border-color:var(--brass);">+ Add reactor</button>
     </div>
@@ -1668,7 +1668,7 @@ function renderScaleUp() {
       <table id="su-table" class="comparison-table" style="border-collapse:collapse; width:100%;"></table>
     </div>
     <p style="font-size:0.7rem; color:var(--muted-dim); font-family:var(--f-sans); margin-top:16px;">
-      For scale-up, match P/V, tip speed, Re, or Torque/V (per your chosen criterion) across columns rather than expecting every row to match — no single basis holds all parameters constant simultaneously.
+      For scale-up, match P/V, tip speed, Re, or Torque/V (per your chosen criterion) across columns rather than expecting every row to match. No single basis holds all parameters constant at once.
     </p>
   `;
 }
@@ -1849,7 +1849,7 @@ function renderCouponStudy() {
     ${plateHeader("Corrosion Coupon Study", "WEIGHT-LOSS METHOD, MPY")}
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
       <p style="font-size:0.75rem; color:var(--muted); font-family:var(--f-sans); max-width:60%;">
-        Compare coupons across materials, products, or conditions side by side.
+        One column per coupon. Use it to compare materials, products or exposure conditions.
       </p>
       <button id="cp-add-coupon" class="pill" style="background:var(--brass); color:var(--bg-deep); border-color:var(--brass);">+ Add coupon</button>
     </div>
@@ -2040,7 +2040,7 @@ function renderFiltrationEvaluation() {
     ${plateHeader("Filtration Evaluation", "B\u00dcCHNER TRIAL, t/V vs V")}
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
       <p style="font-size:0.75rem; color:var(--muted); font-family:var(--f-sans); max-width:60%;">
-        Compare filtration trials \u2014 different slurries, products, or conditions \u2014 side by side.
+        Put filtration trials next to each other: different slurries, products or conditions.
       </p>
       <button id="ft-add-trial" class="pill" style="background:var(--brass); color:var(--bg-deep); border-color:var(--brass);">+ Add trial</button>
     </div>
@@ -2084,7 +2084,7 @@ function ftRenderStructure() {
 
   html += suSectionRow("Time vs Filtrate Volume (5+ readings recommended)", n);
   for (let rIdx = 0; rIdx < N_READINGS; rIdx++) {
-    html += "<tr>" + suThCell(`Reading ${rIdx + 1} \u2014 min / mL`, true);
+    html += "<tr>" + suThCell(`Reading ${rIdx + 1} (min / mL)`, true);
     filtrationTrials.forEach((r, i) => {
       html += suTdCell(`<div style="display:flex; gap:4px;">
         <input type="number" data-ft-reading="${rIdx}" data-ft-key="time" data-ft-idx="${i}" value="${r.readings[rIdx].time}" placeholder="min" style="width:50%; padding:6px 8px; font-size:0.85rem; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line); font-family:var(--f-mono);">
@@ -2202,8 +2202,8 @@ const CENTRIFUGE_DEFAULTS = {
 };
 
 let centrifugeCases = [
-  { label: "60\" \u2014 After Filtration", ...CENTRIFUGE_DEFAULTS },
-  { label: "60\" \u2014 After Washing", ...CENTRIFUGE_DEFAULTS },
+  { label: "60\" After Filtration", ...CENTRIFUGE_DEFAULTS },
+  { label: "60\" After Washing", ...CENTRIFUGE_DEFAULTS },
 ];
 
 const CENTRIFUGE_INPUT_ROWS = [
@@ -2355,7 +2355,7 @@ function renderPumpPower() {
     ${plateHeader("Pump Power Rating", "Q \u00b7 \u0394P \u00b7 \u03b7(pump) \u00b7 \u03b7(motor)")}
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
       <p style="font-size:0.75rem; color:var(--muted); font-family:var(--f-sans); max-width:60%;">
-        Compare pump/motor sizing across services or duty points side by side.
+        Size pump and motor for several services or duty points at once.
       </p>
       <button id="pp-add-pump" class="pill" style="background:var(--brass); color:var(--bg-deep); border-color:var(--brass);">+ Add pump</button>
     </div>
@@ -2515,7 +2515,7 @@ function initPumpPower() {
 // ---------- Chemical-Material Compatibility ----------
 function renderMaterialsCompat() {
   return `
-    ${plateHeader("Chemical\u2013Material Compatibility", "REFERENCE STARTING POINT \u2014 VERIFY BEFORE MOC")}
+    ${plateHeader("Chemical\u2013Material Compatibility", "REFERENCE STARTING POINT · VERIFY BEFORE MOC")}
     <div style="margin-bottom:16px;">
       ${selectHTML("mc-chem", "Chemical / Process Fluid", CHEM_COMPAT_NAMES, CHEM_COMPAT_NAMES[0])}
     </div>
@@ -2523,7 +2523,7 @@ function renderMaterialsCompat() {
       <table id="mc-table" style="border-collapse:collapse; width:100%;"></table>
     </div>
     <p style="font-size:0.75rem; color:var(--muted-dim); font-family:var(--f-sans); margin-top:16px;">
-      Ratings are a compiled starting reference, not a substitute for a vendor datasheet or in-house trial \u2014 always confirm against your actual concentration, temperature, and duty before finalizing MOC. Chloride-bearing streams need a separate pitting/SCC review even where stainless is rated Good.
+      Ratings are a compiled starting reference, not a substitute for a vendor datasheet or in-house trial. Always confirm against your actual concentration, temperature and duty before finalizing MOC. Chloride-bearing streams need a separate pitting/SCC review even where stainless is rated Good.
     </p>
   `;
 }
@@ -2630,7 +2630,7 @@ function btShowStart() {
   if (!root) return;
   root.innerHTML = `
     <p style="font-family:var(--f-sans); color:var(--muted); font-size:0.85rem; line-height:1.6;">
-      You're running a batch/semi-batch reactor suite. Each round drops a live upset on the panel \u2014 no diagnosis given.
+      You're running a batch/semi-batch reactor suite. Each round drops a live upset on the panel. Nobody tells you the diagnosis.
       Click the control stations either side of the vessel to change valve and equipment states until the reading settles into the green band.
     </p>
     <button class="pill active" id="bt-start-btn" style="margin-top:8px;">Start Shift</button>
@@ -2651,7 +2651,7 @@ function btShowAlarm() {
       <span style="font-family:var(--f-sans); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">Round ${btState.idx + 1} of ${btState.order.length}</span>
       <span style="font-family:var(--f-sans); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);">Score ${btState.score}${btState.streak >= 2 ? `<span class="bt-streak">\u{1F525} x${btState.streak}</span>` : ""}</span>
     </div>
-    <div class="bt-alarm">\u26A0 ALARM \u2014 ${sc.tag} \u2014 ${sc.title.toUpperCase()}</div>
+    <div class="bt-alarm">\u26A0 ALARM · ${sc.tag} · ${sc.title.toUpperCase()}</div>
     <button class="pill active" id="bt-ack-btn">Go to Panel</button>
   `;
   qs("bt-ack-btn").addEventListener("click", btShowScenario);
@@ -2725,7 +2725,7 @@ function btResolveRound(sc) {
     <div class="readout" style="margin-top:12px; text-align:left;">
       <span class="lbl" style="color:var(--brass);">STABILIZED &nbsp;(+${pts} pts)</span>
       <span class="sub" style="display:block; font-size:0.8rem; margin-top:6px; color:var(--paper); text-transform:none; letter-spacing:normal;">
-        Settled in ${btRound.clicks} click${btRound.clicks === 1 ? "" : "s"}${btRound.sawDangerous ? " \u2014 but you passed through a dangerous configuration along the way." : "."}
+        Settled in ${btRound.clicks} click${btRound.clicks === 1 ? "" : "s"}${btRound.sawDangerous ? ", but you passed through a dangerous configuration on the way." : "."}
       </span>
     </div>
     <button class="pill active" id="bt-continue-btn" style="margin-top:12px;">${btState.idx + 1 >= btState.order.length ? "See Shift Summary" : "Next Alarm"}</button>
@@ -2767,7 +2767,7 @@ function btShowSummary() {
         <div class="readout"><span class="lbl">Best Streak</span><span class="val">${btState.bestStreak}</span></div>
       </div>
       ${badges.length ? `<div style="margin-top:16px;">${badges.map((b) => `<span class="bt-badge-chip">${b}</span>`).join("")}</div>` : ""}
-      <p style="font-family:var(--f-sans); color:var(--muted-dim); font-size:0.8rem; margin-top:18px;">Fewer clicks and clean diagnosis score highest \u2014 passing through a dangerous configuration always costs you, even if you land on the fix eventually.</p>
+      <p style="font-family:var(--f-sans); color:var(--muted-dim); font-size:0.8rem; margin-top:18px;">Fewer clicks and a clean diagnosis score highest. Passing through a dangerous configuration always costs you, even if you land on the fix in the end.</p>
       <button class="pill active" id="bt-restart-btn" style="margin-top:10px;">Run Another Shift</button>
     </div>
   `;
@@ -2776,7 +2776,7 @@ function btShowSummary() {
 
 function renderBatchTroubleshooter() {
   return `
-    ${plateHeader("Batch Operator Troubleshooter", "OPERATIONAL EXCELLENCE \u2014 TRAINING SIM")}
+    ${plateHeader("Batch Operator Troubleshooter", "OPERATIONAL EXCELLENCE · TRAINING SIM")}
     <div id="bt-root"></div>
   `;
 }

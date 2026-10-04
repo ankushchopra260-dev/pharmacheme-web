@@ -16,8 +16,8 @@ var caseM = pathName.match(/case-studies\/([^\/]+)/);
 if (caseM) track('process_safety_case_open', { case_study: caseM[1] });
 else if (/process-safety\/exercises/.test(pathName)) track('process_safety_exercise_open', {});
 
-function f(v, d){ if (!isFinite(v)) return '—'; return Number(v).toLocaleString('en-IN', { maximumFractionDigits: d === undefined ? 0 : d, minimumFractionDigits: 0 }); }
-function fH(h){ if (!isFinite(h) || h <= 0) return '—'; if (h > 24*365) return '> 1 year'; if (h >= 48) return f(h/24, 1)+' days'; if (h >= 1) return f(h, 1)+' h'; return f(h*60, 0)+' min'; }
+function f(v, d){ if (!isFinite(v)) return 'n/a'; return Number(v).toLocaleString('en-IN', { maximumFractionDigits: d === undefined ? 0 : d, minimumFractionDigits: 0 }); }
+function fH(h){ if (!isFinite(h) || h <= 0) return 'n/a'; if (h > 24*365) return '> 1 year'; if (h >= 48) return f(h/24, 1)+' days'; if (h >= 1) return f(h, 1)+' h'; return f(h*60, 0)+' min'; }
 function num(el){ var v = parseFloat(el.value); return isFinite(v) ? v : NaN; }
 function cell(lab, val, cls){ return '<div class="'+(cls || '')+'">'+lab+'<b>'+val+'</b></div>'; }
 
@@ -200,7 +200,7 @@ if (qz){
   var show = function(){
     if (i >= order.length){ var best = Math.max(score, store.get('quiz', 0)); store.set('quiz', best);
       track('process_safety_quiz_complete', { score: score, total: order.length }); announce('Quiz complete. Score '+score+' of '+order.length+'.');
-      qz.innerHTML = '<div class="ps-quiz-bar"><i style="width:100%"></i></div><div class="ps-quiz-score">'+score+' / '+order.length+'</div><p>'+(score >= order.length*0.85 ? 'Excellent: you have the essentials of process safety.' : score >= order.length*0.6 ? 'Good. Revisit the lessons behind the questions you missed.' : 'Work through the lessons, then try again.')+
+      qz.innerHTML = '<div class="ps-quiz-bar"><i style="width:100%"></i></div><div class="ps-quiz-score">'+score+' / '+order.length+'</div><p>'+(score >= order.length*0.85 ? 'Very good: you have the basics of process safety down.' : score >= order.length*0.6 ? 'Good. Revisit the lessons behind the questions you missed.' : 'Work through the lessons, then try again.')+
         '</p><p class="ps-src">Best score in this browser: '+best+' / '+order.length+'</p><div class="ps-done"><button class="btn btn-primary" id="ps-qagain">↺ Try again</button><a class="btn btn-outline" href="../">Back to Process Safety</a></div>';
       $('#ps-qagain').addEventListener('click', function(){ i = 0; score = 0; started = false; show(); }); return; }
     var q = Q[order[i]];

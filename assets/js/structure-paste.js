@@ -9,7 +9,7 @@
   "use strict";
 
   const TEXT_EXT = /\.(mol|sdf|sd|mdl|rxn|smi|smiles|txt|cml)$/i;
-  const IMAGE_MSG = "That's an image. Structures can't be read from pictures here — paste SMILES or a molfile instead. In ChemDraw: Edit → Copy As → SMILES (or MOL Text). In Marvin: Edit → Copy As → SMILES.";
+  const IMAGE_MSG = "That's an image. Structures can't be read from pictures here. Paste SMILES or a molfile instead. In ChemDraw: Edit → Copy As → SMILES (or MOL Text). In Marvin: Edit → Copy As → SMILES.";
   const CDX_MSG = "ChemDraw .cdx/.cdxml files can't be read here. In ChemDraw use File → Save As → MDL Molfile (*.mol), or Edit → Copy As → SMILES, then paste.";
 
   // Split one side of a reaction SMILES into molecules. Dots separate
@@ -54,7 +54,7 @@
       const records = text.split(/^\$\$\$\$\s*$/m).filter((s) => /M\s+END/.test(s));
       try {
         const m = OCL.Molecule.fromMolfile(records[0] || text);
-        if (m.getAllAtoms()) return { type: "mol", mol: m, note: records.length > 1 ? `SD file — first of ${records.length} structures loaded` : "Molfile" };
+        if (m.getAllAtoms()) return { type: "mol", mol: m, note: records.length > 1 ? `SD file: first of ${records.length} structures loaded` : "Molfile" };
       } catch (e) { /* fall through */ }
       return null;
     }
@@ -84,7 +84,7 @@
       if (!TEXT_EXT.test(file.name) && file.type && !/^text\//.test(file.type) && file.type !== "chemical/x-mdl-molfile") {
         return reject(new Error(`Can't read “${file.name}”. Use a .mol, .sdf, .rxn or .smi file.`));
       }
-      if (file.size > 5 * 1024 * 1024) return reject(new Error("That file is larger than 5 MB — use a single-structure .mol or .sdf file."));
+      if (file.size > 5 * 1024 * 1024) return reject(new Error("That file is larger than 5 MB. Use a single-structure .mol or .sdf file."));
       const fr = new FileReader();
       fr.onload = () => resolve(String(fr.result));
       fr.onerror = () => reject(new Error("Couldn't read that file."));

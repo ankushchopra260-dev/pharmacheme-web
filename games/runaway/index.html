@@ -137,7 +137,7 @@ breadcrumbs:
   <div class="rw-hero">
     <div class="rw-muted rw-disp" style="letter-spacing:0.2em; font-size:14px;">PROCESS SAFETY GAME</div>
     <h2>RUNAWAY<span>!</span></h2>
-    <p>The cooling will fail. It always does, at the worst moment. Learn the Stoessel criticality diagram, then design four real-world-style reactions so that when the cooling goes, nothing else does.</p>
+    <p>The cooling will fail. It always does, at the worst moment. Learn the Stoessel criticality diagram, then design four reactions, modelled on real reaction types, so that when the cooling goes, nothing else does.</p>
   </div>
   <div class="rw-steps">
     <div class="rw-card rw-step" data-go="learn"><span class="tick" id="rw-tick-learn"></span><div class="n">STEP 1 · 3 MIN</div><h3>Learn</h3><p>ΔTad, MTSR, MTT, TD24 and the five criticality classes, with a diagram you can play with.</p></div>
@@ -381,7 +381,7 @@ const SLIDES = [
     <p>⚠️ <b>Colder is not always safer.</b> At a lower T<sub>p</sub> the reaction is slower, reagent piles up, and MTSR can end up <i>higher</i>.</p>` },
   { t:'MTT: the technical limit', h:`<p><b>MTT</b> (Maximum Technical Temperature) is the temperature the equipment will not go past.</p>
     <ul><li>Open reactor at atmospheric pressure: the <b>boiling point</b> of the reaction mass.</li><li>Closed reactor: the temperature at which the pressure reaches the relief valve or rupture disc set pressure.</li></ul>
-    <p>When the batch reaches its boiling point, the heat goes into evaporating solvent instead of raising the temperature. That <b>evaporative cooling</b> can be a powerful safety barrier, <b>but only if</b> the reflux condenser (or vent) can take all the vapour. If not, the pressure rises and the rupture disc bursts.</p>` },
+    <p>When the batch reaches its boiling point, the heat goes into evaporating solvent instead of raising the temperature. That <b>evaporative cooling</b> can be a strong safety barrier, <b>but only if</b> the reflux condenser (or vent) can take all the vapour. If not, the pressure rises and the rupture disc bursts.</p>` },
   { t:'TD24 and TMR<sub>ad</sub>: the decomposition clock', h:`<p>Many reaction masses can <b>decompose</b> at higher temperatures, often far more violently than the main reaction, sometimes with gas.</p>
     <p><b>TMR<sub>ad</sub></b> (Time to Maximum Rate under adiabatic conditions) is how long you have, at a given temperature, before a decomposition runs away. It gets shorter <b>exponentially</b> as the temperature rises (Arrhenius).</p>
     <div class="rw-eq">TMR<sub>ad</sub> = c<sub>p</sub> R T² / (q × E<sub>a</sub>)</div>

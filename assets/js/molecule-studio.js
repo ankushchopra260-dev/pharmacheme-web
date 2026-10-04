@@ -156,7 +156,7 @@
   function renderShell() {
     const ex = EXAMPLES.map(([name, s]) => `<button type="button" class="pill" data-ms-example="${esc(s)}">${esc(name)}</button>`).join("");
     return `
-      ${typeof plateHeader === "function" ? plateHeader("PharmaChemE Structure Builder", "OPENCHEMLIB EDITOR — FORMULA, MW, PROPERTIES") : ""}
+      ${typeof plateHeader === "function" ? plateHeader("PharmaChemE Structure Builder", "OPENCHEMLIB EDITOR: FORMULA, MW, PROPERTIES") : ""}
 
       <div class="ms-toolbar">
         <span class="ms-lbl">Examples</span>
@@ -185,14 +185,14 @@
       </div>
 
       <div class="ms-import">
-        <label class="field" for="ms-in"><span class="lbl">Load a structure — paste SMILES, a molfile, or type a compound name</span></label>
+        <label class="field" for="ms-in"><span class="lbl">Load a structure: paste SMILES or a molfile, or type a compound name</span></label>
         <div class="ms-import-row">
           <textarea id="ms-in" rows="1" spellcheck="false" placeholder="e.g. CC(=O)Oc1ccccc1C(=O)O  or  paracetamol"></textarea>
           <button type="button" class="pill active" id="ms-load">Load</button>
           <button type="button" class="pill" id="ms-open">Open file</button>
         </div>
         <div id="ms-load-status" class="ms-status"></div>
-        <div class="ms-tip">Tip: copy a structure as SMILES or MOL text (ChemDraw: Edit \u2192 Copy As), then press <b>Ctrl+V</b> anywhere on this page \u2014 or drop a .mol / .sdf / .smi file onto the drawing area.</div>
+        <div class="ms-tip">Tip: copy a structure as SMILES or MOL text (ChemDraw: Edit \u2192 Copy As), then press <b>Ctrl+V</b> anywhere on this page. You can also drop a .mol / .sdf / .smi file onto the drawing area.</div>
       </div>
 
       <div id="ms-frag-note" class="ms-note" hidden></div>
@@ -235,7 +235,7 @@
 
       <h3 class="ms-h">Names &amp; identifiers (PubChem)</h3>
       <div class="ms-pubchem">
-        <p class="ms-small">IUPAC name, InChI and InChIKey come from PubChem. Pressing the button sends this structure's SMILES to PubChem (NIH) — don't use it for confidential structures.</p>
+        <p class="ms-small">IUPAC name, InChI and InChIKey come from PubChem. Pressing the button sends this structure's SMILES to PubChem (NIH), so don't use it for confidential structures.</p>
         <button type="button" class="pill" id="ms-pubchem-btn">Look up on PubChem</button>
         <div id="ms-pubchem-out" class="ms-pubchem-out"></div>
       </div>
@@ -373,7 +373,7 @@
   // Result from the shared paste/drop parser
   function applyParsed(res) {
     if (res.type === "rxn") {
-      status("That's a reaction, not a single structure \u2014 paste it into the Reaction Builder (Molecules \u2192 Reaction Builder).", "err");
+      status("That's a reaction, not a single structure. Paste it into the Reaction Builder (Molecules \u2192 Reaction Builder).", "err");
       return;
     }
     const m = res.mol;
@@ -401,7 +401,7 @@
         <a class="ms-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/${p.CID}" target="_blank" rel="noopener">Open PubChem CID ${p.CID} →</a>`;
     } catch (e) {
       out.innerHTML = e && e.status === 404
-        ? `<p class="ms-small">PubChem has no record of this exact structure — it may be new or unusual. (InChI isn't generated locally.)</p>`
+        ? `<p class="ms-small">PubChem has no record of this exact structure. It may be new or unusual. (InChI isn't generated locally.)</p>`
         : `<p class="ms-small" style="color:var(--rust)">Couldn't reach PubChem. Check your connection and try again.</p>`;
     }
   }
@@ -446,7 +446,7 @@
       ctx.drawImage(img, 0, 0, c.width, c.height);
       c.toBlob((b) => b && download(fileBase() + ".png", b), "image/png");
     };
-    img.onerror = () => status("PNG export failed in this browser — try SVG.", "err");
+    img.onerror = () => status("PNG export failed in this browser. Try SVG.", "err");
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   }
   function exportMol() {
@@ -460,7 +460,7 @@
     try {
       await navigator.clipboard.writeText(text);
       const old = btn.textContent; btn.textContent = "Copied"; setTimeout(() => { btn.textContent = old; }, 1200);
-    } catch (e) { status("Couldn't access the clipboard — select the text and copy it manually.", "err"); }
+    } catch (e) { status("Couldn't access the clipboard. Select the text and copy it by hand.", "err"); }
   }
 
   // ---------- Init ----------
@@ -496,7 +496,7 @@
           editor.setMolecule(m);
           const when = ts ? new Date(ts).toLocaleString(undefined, { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
           const note = $("ms-saved-note");
-          note.innerHTML = `<span>Restored your last structure${when ? `, saved in this browser on <b>${esc(when)}</b>` : " saved in this browser"}. It is stored only on this device \u2014 not on the website.</span><button type="button" class="pill" id="ms-forget">Clear saved structure</button>`;
+          note.innerHTML = `<span>Restored your last structure${when ? `, saved in this browser on <b>${esc(when)}</b>` : " saved in this browser"}. It is stored only on this device, not on the website.</span><button type="button" class="pill" id="ms-forget">Clear saved structure</button>`;
           note.hidden = false;
         }
       } catch (e) { store.set(""); }

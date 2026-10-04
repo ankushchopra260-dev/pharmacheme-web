@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Filtration Evaluation Calculator
-description: "Büchner filtration trial — specific cake resistance and flux, with a Good/Moderate/Slow verdict."
+description: "Filtration calculator for Büchner trials: specific cake resistance and flux from your filtrate volume vs time data, with a Good/Moderate/Slow verdict."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -17,7 +17,7 @@ breadcrumbs:
 
 <div class="container calc-page-head">
   <h1>Filtration Evaluation Calculator</h1>
-  <p>Turn a bench-scale Büchner filtration trial into specific cake resistance and flux, with a practical Good / Moderate / Slow read on filterability.</p>
+  <p>Turn a bench-scale Büchner filtration trial into specific cake resistance and flux, with a plain Good / Moderate / Slow read on filterability.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
@@ -28,7 +28,7 @@ breadcrumbs:
   <p>Run a small Büchner or Nutsche trial at a known vacuum/pressure, record filtrate volume against time, and enter the trial data along with filter area and slurry concentration. The tool fits the standard cake-filtration relationship to estimate specific cake resistance and expected flux.</p>
 
   <h2>Engineering Notes &amp; Assumptions</h2>
-  <p>Bench-scale trials don't always scale linearly to production filters — cake compressibility, medium fouling, and pressure differences between bench and plant equipment can all shift the real result. Use this as a first-pass filterability screen, and confirm with a larger trial before committing to production filter sizing.</p>
+  <p>Bench-scale trials don't always scale linearly to production filters. Cake compressibility, medium fouling, and pressure differences between bench and plant equipment can all shift the real result. Use this as a first-pass filterability screen, and confirm with a larger trial before committing to production filter sizing.</p>
 
   <div class="related-box">
     <h3>Related Article</h3>

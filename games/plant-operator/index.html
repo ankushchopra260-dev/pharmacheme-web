@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Plant Operator
-description: "Operate a multi-floor pharmaceutical plant as a real shift operator — walk the floor, inspect equipment, diagnose deviations, and run a batch from reactor to final product."
+description: "Take a shift as operator on a multi-floor pharma plant. Walk the floors, check equipment, find deviations and run a batch from the reactor to final product."
 breadcrumbs:
   - label: Games
     url: /games/
@@ -67,7 +67,7 @@ breadcrumbs:
 
 <div class="wrap" style="max-width:1040px; margin:0 auto; padding:24px 16px 8px;">
   <p style="font-size:0.85rem; color:var(--muted, #6E8CA8); margin-bottom:4px;">
-    A full shift-operator simulation: walk a 3-floor plant, inspect reactors and condensers, diagnose real deviations, delegate to operators, and run a batch through to final product.
+    A shift-operator simulation. Walk a 3-floor plant, check reactors and condensers, find what is actually wrong, hand jobs to the floor operators and take a batch through to final product.
   </p>
 </div>
 
@@ -77,7 +77,7 @@ breadcrumbs:
 <div id="start-overlay">
   <div class="card">
     <h1>PHARMACHEM<span>E</span> PLANT OPERATOR</h1>
-    <p>Mission 1 &mdash; Plant Familiarization &amp; First Batch Step</p>
+    <p>Mission 1: Plant Familiarization &amp; First Batch Step</p>
     <p class="bignum">SHIFT START 08:00 &middot; BATCH B-241 &middot; PRODUCT API-X</p>
     <p>Mission: <b>Prepare R-103 for reaction.</b> Walk the plant with Arrow keys/WASD, climb stairs with Up/Down near them, press E to interact. On mobile, use the on-screen controls.</p>
     <button class="startbtn" id="start-btn">START SHIFT</button>
@@ -603,7 +603,7 @@ function drawFloorScene() {
   promptTarget = near;
   const promptEl = document.getElementById('prompt');
   if (near && camera.current() === 'plant') {
-    const label = near.kind === 'operator' ? 'Press E \u2014 Talk to ' + near.ref.label : 'Press E \u2014 Inspect ' + near.ref.label;
+    const label = near.kind === 'operator' ? 'Press E: Talk to ' + near.ref.label : 'Press E: Inspect ' + near.ref.label;
     promptEl.textContent = label;
     promptEl.style.display = 'block';
     const screenX = (near.ref.x - camX);
@@ -762,14 +762,14 @@ function checkInterruptions() {
     process_.interruption.r105 = true;
     score.stability -= 40;
     comms.say('1F OPERATOR', '\u26a0 R-105 condenser has failed to maintain flow. Production interruption logged.');
-    showInterruptBanner('\u26a0 PRODUCTION INTERRUPTION \u2014 R-105 condenser failed. Attend immediately.');
+    showInterruptBanner('\u26a0 PRODUCTION INTERRUPTION: R-105 condenser failed. Attend immediately.');
     refreshCommsPanel(); refreshHUD();
   }
   if (process_.interruption.r201 === 'pending') {
     process_.interruption.r201 = true;
     score.stability -= 50;
-    comms.say('2F OPERATOR', '\u26a0\u26a0 R-201 pressure exceeded the safe limit. Automatic relief has activated. This is now a production interruption \u2014 please attend R-201.');
-    showInterruptBanner('\u26a0\u26a0 PRODUCTION INTERRUPTION \u2014 R-201 pressure relief activated. Attend immediately.');
+    comms.say('2F OPERATOR', '\u26a0\u26a0 R-201 pressure exceeded the safe limit. Automatic relief has activated. This is now a production interruption. Please attend R-201.');
+    showInterruptBanner('\u26a0\u26a0 PRODUCTION INTERRUPTION: R-201 pressure relief activated. Attend immediately.');
     refreshCommsPanel(); refreshHUD();
   }
 }
@@ -802,7 +802,7 @@ function refreshHUD() {
   document.getElementById('hud-score').textContent = score.total;
   const active = getActivePriorities();
   if (active.length > 0) {
-    document.getElementById('hud-mission').textContent = active.length + ' active issue' + (active.length > 1 ? 's' : '') + ' \u2014 top priority: ' + active[0].label;
+    document.getElementById('hud-mission').textContent = active.length + ' active issue' + (active.length > 1 ? 's' : '') + '. Top priority: ' + active[0].label;
   } else {
     document.getElementById('hud-mission').textContent = tasks.currentLabel();
   }
@@ -820,7 +820,7 @@ function refreshTaskPanel() {
   const active = getActivePriorities();
   if (active.length > 0) {
     const h = document.createElement('li');
-    h.textContent = 'ACTIVE PRIORITIES \u2014 you decide the order:';
+    h.textContent = 'ACTIVE PRIORITIES (you decide the order):';
     h.style.color = '#6E8CA8'; h.style.fontWeight = '700'; h.style.marginBottom = '2px';
     ul.appendChild(h);
     for (const p of active) {
@@ -882,7 +882,7 @@ function openReactorView(eq) {
   const origin = equipmentScreenOrigin(eq);
   camera.push('equipment', origin.x, origin.y);
   const r = process_.reactors[eq.id];
-  document.getElementById('eq-title').textContent = eq.label + ' \u2014 Reactor Inspection';
+  document.getElementById('eq-title').textContent = eq.label + ': Reactor Inspection';
   document.getElementById('eq-code').textContent = 'BATCH B-241';
   document.getElementById('eq-box-label').textContent = 'REACTOR\n' + eq.label;
   document.getElementById('eq-box-condenser').textContent = eq.cond;
@@ -963,11 +963,11 @@ document.getElementById('btn-open-vent').addEventListener('click', () => {
   checkAllInvestigationsResolved();
 });
 document.getElementById('btn-increase-cooling').addEventListener('click', () => {
-  document.getElementById('eq-msg').innerHTML = '<span class="msg-bad">No effect \u2014 temperature is already normal. This is a pressure issue, not a heat issue.</span>';
+  document.getElementById('eq-msg').innerHTML = '<span class="msg-bad">No effect. Temperature is already normal. This is a pressure issue, not a heat issue.</span>';
   score.stability -= 10; refreshHUD();
 });
 document.getElementById('btn-check-relief').addEventListener('click', () => {
-  document.getElementById('eq-msg').innerHTML = '<span class="msg-bad">Relief valve is set correctly \u2014 the rising trend itself still needs addressing.</span>';
+  document.getElementById('eq-msg').innerHTML = '<span class="msg-bad">Relief valve is set correctly. The rising trend itself still needs sorting out.</span>';
 });
 document.getElementById('btn-ignore-pressure').addEventListener('click', () => {
   score.stability -= 20; refreshHUD();
@@ -1024,14 +1024,14 @@ document.getElementById('btn-open-valve').addEventListener('click', () => {
   checkAllInvestigationsResolved();
 });
 document.getElementById('btn-inspect-supply').addEventListener('click', () => {
-  setCompMsg('Cooling-water supply header is normal \u2014 the restriction is local to this valve.', false);
+  setCompMsg('Cooling-water supply header is normal. The restriction is at this valve.', false);
 });
 document.getElementById('btn-check-again').addEventListener('click', () => {
   setCompMsg('Readings unchanged. Nothing has been corrected yet.', false);
 });
 document.getElementById('btn-ignore').addEventListener('click', () => {
   score.stability -= 20; refreshHUD();
-  setCompMsg('\u26a0 Condenser performance continues to deteriorate. This will affect reaction temperature control.', false);
+  setCompMsg('\u26a0 Condenser performance is still getting worse. This will upset reaction temperature control.', false);
 });
 document.getElementById('btn-component-back').addEventListener('click', () => { camera.pop(); });
 
@@ -1062,13 +1062,13 @@ document.getElementById('btn-start-centrifuge').addEventListener('click', () => 
 document.getElementById('btn-reduce-speed').addEventListener('click', () => {
   process_.reduceCentrifugeSpeed();
   score.diagnosis += 20;
-  document.getElementById('cf-msg').innerHTML = '<span class="msg-good">Speed reduced \u2014 vibration returns to normal. Cycle will take a little longer.</span>';
+  document.getElementById('cf-msg').innerHTML = '<span class="msg-good">Speed reduced. Vibration is back to normal. Cycle will take a little longer.</span>';
   refreshHUD(); refreshCentrifugeView();
 });
 document.getElementById('btn-continue-centrifuge').addEventListener('click', () => {
   process_.continueCentrifuge();
   score.stability -= 10;
-  document.getElementById('cf-msg').innerHTML = '<span class="msg-bad">Continuing at current speed \u2014 vibration remains elevated for the rest of the cycle.</span>';
+  document.getElementById('cf-msg').innerHTML = '<span class="msg-bad">Continuing at current speed. Vibration stays high for the rest of the cycle.</span>';
   refreshHUD(); refreshCentrifugeView();
 });
 document.getElementById('btn-discharge-centrifuge').addEventListener('click', () => {
@@ -1076,7 +1076,7 @@ document.getElementById('btn-discharge-centrifuge').addEventListener('click', ()
   score.stability += 20;
   sfxSuccess();
   refreshTaskPanel(); refreshHUD();
-  document.getElementById('cf-msg').innerHTML = '<span class="msg-good">Wet cake discharged \u2014 ready for Dryer-01.</span>';
+  document.getElementById('cf-msg').innerHTML = '<span class="msg-good">Wet cake discharged and ready for Dryer-01.</span>';
   checkMissionComplete();
 });
 document.getElementById('btn-centrifuge-back').addEventListener('click', () => { camera.pop(); });
@@ -1113,7 +1113,7 @@ document.getElementById('btn-complete-dryer').addEventListener('click', () => {
   score.stability += 20;
   sfxSuccess();
   refreshTaskPanel(); refreshHUD();
-  document.getElementById('dr-msg').innerHTML = '<span class="msg-good">Batch B-241 complete \u2014 final product ready.</span>';
+  document.getElementById('dr-msg').innerHTML = '<span class="msg-good">Batch B-241 complete. Final product ready.</span>';
   checkMissionComplete();
 });
 document.getElementById('btn-dryer-back').addEventListener('click', () => { camera.pop(); });
@@ -1135,10 +1135,10 @@ function triggerMultiEvent() {
   alarms.raise('r105-cond', 'R-105 condenser performance decreasing', 'high');
   alarms.raise('r201-pressure', 'R-201 pressure trending upward', 'critical');
   refreshAlarmPanel();
-  showInterruptBanner('\u26a0 MULTIPLE EVENTS \u2014 R-105 condenser declining, R-201 pressure rising, Centrifuge-01 ready. You decide the order.');
+  showInterruptBanner('\u26a0 MULTIPLE EVENTS: R-105 condenser declining, R-201 pressure rising, Centrifuge-01 ready. You decide the order.');
   comms.say('GROUND OPERATOR', 'Centrifuge-01 is ready for transfer.');
-  comms.say('1F OPERATOR', 'R-105 condenser performance is dropping \u2014 talk to me if you want me to check it.');
-  comms.say('2F OPERATOR', 'R-201 pressure trend requires attention \u2014 talk to me if you want me to check it.');
+  comms.say('1F OPERATOR', 'R-105 condenser performance is dropping. Talk to me if you want me to check it.');
+  comms.say('2F OPERATOR', 'R-201 pressure is trending up. Talk to me if you want me to check it.');
   refreshCommsPanel();
 }
 
@@ -1171,7 +1171,7 @@ function handleInteract() {
       if (process_.centrifuge.state === 'complete') openDryerView(eq);
       else { comms.say('YOU', 'Nothing ready for ' + eq.label + ' yet.'); refreshCommsPanel(); }
     } else {
-      comms.say('YOU', eq.label + ' is quiet right now \u2014 not part of this mission yet.');
+      comms.say('YOU', eq.label + ' is quiet right now. Not part of this mission yet.');
       refreshCommsPanel();
     }
   } else if (promptTarget.kind === 'operator') {
@@ -1195,7 +1195,7 @@ function handleInteract() {
             comms.say('YOU', 'Continue monitoring and report the trend.');
             setTimeout(() => {
               if (!process_.reactors['R-201'].pressureFixed) {
-                comms.say(op.label, 'Pressure continues to rise \u2014 recommend you attend R-201 directly.');
+                comms.say(op.label, 'Pressure is still rising. Better you come to R-201 yourself.');
                 refreshCommsPanel();
               }
             }, 2500);
@@ -1211,7 +1211,7 @@ function handleInteract() {
             comms.say('YOU', 'Check R-105 condenser locally.');
             setTimeout(() => {
               process_.delegation105.reported = true;
-              comms.say(op.label, 'Confirmed \u2014 cooling water flow is low, valve reading ' + process_.condensers['COND-105'].valve + '% open.');
+              comms.say(op.label, 'Confirmed. Cooling water flow is low, valve reading ' + process_.condensers['COND-105'].valve + '% open.');
               refreshCommsPanel();
             }, 1200);
             refreshCommsPanel();
@@ -1221,7 +1221,7 @@ function handleInteract() {
             comms.say('YOU', 'Continue monitoring and report the trend.');
             setTimeout(() => {
               if (!process_.condensers['COND-105'].playerFixed) {
-                comms.say(op.label, 'Performance keeps dropping \u2014 recommend you attend R-105 directly.');
+                comms.say(op.label, 'Performance is still dropping. Better you come to R-105 yourself.');
                 refreshCommsPanel();
               }
             }, 2500);
@@ -1319,7 +1319,7 @@ function showEndScreen() {
   document.getElementById('rt-stars').textContent = '\u2605'.repeat(r.stars) + '\u2606'.repeat(5 - r.stars);
   document.getElementById('rt-title').textContent = '"' + r.title + '"';
   document.getElementById('end-summary').textContent =
-    'Mission 1 complete. You prepared R-103, diagnosed and corrected a cooling-water restriction, and handled competing priorities across R-105 and R-201 while running the batch through to final product.';
+    'Mission 1 complete. You prepared R-103, found and cleared a cooling-water restriction, and juggled R-105 and R-201 while taking the batch through to final product.';
   document.getElementById('end-overlay').style.display = 'flex';
 }
 document.getElementById('start-btn').addEventListener('click', () => {

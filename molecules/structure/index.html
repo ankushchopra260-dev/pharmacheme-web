@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Molecule Structure Builder
-description: "Free online chemical structure drawing tool: draw or load a molecule (SMILES, molfile or name) and get molecular formula, molecular weight, exact mass, degree of unsaturation, cLogP, TPSA, Lipinski and Veber checks, and PNG/SVG/molfile export."
+description: "Free structure drawing tool in the browser. Draw or load a molecule (SMILES, molfile or name) and get molecular formula, molecular weight, exact mass, degree of unsaturation, cLogP, TPSA, Lipinski and Veber checks, and PNG/SVG/molfile export."
 needs_calculators: true
 needs_ocl: true
 calc_init: |
@@ -83,7 +83,7 @@ breadcrumbs:
 
 <div class="container calc-page-head">
   <h1>Molecule Structure Builder</h1>
-  <p>Draw a structure (or load it from SMILES, a molfile or a compound name) and get formula, molecular weight, exact mass, degree of unsaturation, cLogP, TPSA and drug-likeness checks &mdash; then export it as PNG, SVG or molfile.</p>
+  <p>Draw a structure (or load it from SMILES, a molfile or a compound name) and get formula, molecular weight, exact mass, degree of unsaturation, cLogP, TPSA and drug-likeness checks. Export it as PNG, SVG or molfile.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
@@ -94,11 +94,11 @@ breadcrumbs:
 
 <div class="container article-body" style="margin-top:24px;">
   <h2>What's Reliable Here</h2>
-  <p>Drawing, formula, molecular weight, exact (monoisotopic) mass, SMILES and molfile output are handled by OpenChemLib, an established open-source cheminformatics library, running entirely in your browser. Degree of unsaturation is computed from the atom counts for neutral structures with normal valences. cLogP, logS and TPSA are OpenChemLib's calculated estimates &mdash; good for screening and comparing structures, not a substitute for measured data.</p>
+  <p>Drawing, formula, molecular weight, exact (monoisotopic) mass, SMILES and molfile output are handled by OpenChemLib, an established open-source cheminformatics library, running entirely in your browser. Degree of unsaturation is computed from the atom counts for neutral structures with normal valences. cLogP, logS and TPSA are OpenChemLib's calculated estimates. They are fine for screening and comparing structures, not a substitute for measured data.</p>
   <p>Lipinski's rule of 5 counts H-bond donors as NH/OH groups and acceptors as N and O atoms; one violation is conventionally still considered acceptable. Veber's rules (rotatable bonds &le; 10, TPSA &le; 140 &Aring;&sup2;) are a complementary oral-bioavailability check.</p>
 
   <h2>Known Limitations</h2>
-  <p>IUPAC names, InChI and InChIKey are not generated locally &mdash; they come from PubChem, and only when you press the lookup button (which sends the structure's SMILES to PubChem). Loading by compound name also uses PubChem. Structures you draw are remembered only in this browser, on this device.</p>
+  <p>IUPAC names, InChI and InChIKey are not generated locally. They come from PubChem, and only when you press the lookup button (which sends the structure's SMILES to PubChem). Loading by compound name also uses PubChem. Structures you draw are remembered only in this browser, on this device.</p>
 
   <div class="related-box">
     <h3>Related</h3>

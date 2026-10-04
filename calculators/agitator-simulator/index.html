@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PharmaChemE — Agitator Comparison Simulator</title>
+<title>Agitator Comparison Simulator | PharmaChemE</title>
 <meta name="description" content="Compare two agitator setups side by side: flow pattern, blending and solids lift, with Reynolds number, tip speed and power draw from standard mixing correlations.">
 <link rel="canonical" href="https://www.pharmacheme.in/calculators/agitator-simulator/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PharmaChemE">
-<meta property="og:title" content="PharmaChemE — Agitator Comparison Simulator">
+<meta property="og:title" content="Agitator Comparison Simulator | PharmaChemE">
 <meta property="og:description" content="Compare two agitator setups side by side: flow pattern, blending and solids lift, with Reynolds number, tip speed and power draw from standard mixing correlations.">
 <meta property="og:url" content="https://www.pharmacheme.in/calculators/agitator-simulator/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -233,7 +233,7 @@ function calc(p,sys,Nrpm){
  const g=geom(p.T,p.HT),rho=p.rho,mu=p.mu/1000,nu=mu/rho,N=Nrpm/60,warn=[];
  const st=stagesOf(sys,g);
  const act=st.filter(s=>s.zi<g.H-0.02*g.T);
- if(!act.length)return{ok:false,warn:["Impeller is above the liquid level — raise H/T or lower the clearance."],g,st:[]};
+ if(!act.length)return{ok:false,warn:["Impeller is above the liquid level. Raise H/T or lower the clearance."],g,st:[]};
  if(act.length<st.length)warn.push(st.length-act.length>1?"Upper impellers are above the liquid surface and do no work.":"Top impeller is above the liquid surface and does no work.");
  const pw=stagePower(p,act,N,true);let P=pw.P,Q=pw.Q;
  const V=liquidVolume(g),lo=act[0],Re=lo.Re;
@@ -251,7 +251,7 @@ function calc(p,sys,Nrpm){
  // solids
  r.solids=null;
  if(p.ws>0){const drho=p.rhos-rho;
-  if(drho<=0){warn.push("Solids are lighter than the liquid — floating-solids drawdown is not modelled.");}
+  if(drho<=0){warn.push("Solids are lighter than the liquid. Floating-solids drawdown is not modelled.");}
   else{// Zwietering's X is 100 x (mass of solids / mass of liquid), e.g. 10 wt% slurry -> X = 11.1
    const X=100*p.ws/(100-p.ws),dp=p.dp*1e-6;
    const cr=Math.min(3,Math.max(0.5,(lo.zi/g.T)/lo.imp.CT));
@@ -262,16 +262,16 @@ function calc(p,sys,Nrpm){
    const state=ratio<0.8?"Settled bed":ratio<1?"Partly suspended, fillets":ratio<1.6?"Just off-bottom":"Well suspended";
    r.solids={Njs:NjsR,ratio,state,X,vt:vt(dp,drho,rho,mu),Pjs:stagePower(p,act,Njs,false).P};}}
  // warnings
- if(lo.D/2>rAt(g,lo.zi+(lo.imp.flow==='close'?0.05*g.T:0))*1.001&&lo.imp.flow!=='close')warn.push("Lower impeller tips clash with the dished bottom — increase clearance or reduce D/T.");
+ if(lo.D/2>rAt(g,lo.zi+(lo.imp.flow==='close'?0.05*g.T:0))*1.001&&lo.imp.flow!=='close')warn.push("Lower impeller tips clash with the dished bottom. Increase clearance or reduce D/T.");
  if(p.baffle==='none'&&Re>2000&&lo.imp.flow!=='close')warn.push("Unbaffled: expect solid-body swirl and a central vortex; power and top-to-bottom flow drop sharply.");
- if(act.length===1&&g.H/g.T>1.3&&lo.imp.flow!=='close')warn.push("Liquid is tall for one impeller (H/T > 1.3) — a second stage would cut blend time.");
- act.slice(1).forEach(s=>{if(s.imp.bottom)warn.push(s.imp.name+" is a bottom (close-clearance) agitator — as an upper impeller it is shown for comparison only.");});
- if(lo.imp.ribbon&&act.length>1)warn.push("Helical ribbon normally runs alone — extra impellers are unusual.");
+ if(act.length===1&&g.H/g.T>1.3&&lo.imp.flow!=='close')warn.push("Liquid is tall for one impeller (H/T > 1.3). A second stage would cut blend time.");
+ act.slice(1).forEach(s=>{if(s.imp.bottom)warn.push(s.imp.name+" is a bottom (close-clearance) agitator. As an upper impeller it is shown for comparison only.");});
+ if(lo.imp.ribbon&&act.length>1)warn.push("Helical ribbon normally runs alone. Extra impellers are unusual.");
  const top=act[act.length-1];
- if(g.H-top.zi<0.5*top.D&&top.imp.flow!=='close')warn.push("Top impeller is close to the surface — risk of air entrainment.");
+ if(g.H-top.zi<0.5*top.D&&top.imp.flow!=='close')warn.push("Top impeller is close to the surface: risk of air entrainment.");
  if(Re<100&&lo.imp.flow!=='close')warn.push("Low Reynolds number: this impeller only moves liquid near its blades. Consider an anchor or helical ribbon.");
  if(lo.imp.flow==='close'&&Re>5000)warn.push(lo.imp.name+" at high Re: mostly swirl, little top-to-bottom turnover.");
- if(Utip>8)warn.push("Tip speed above 8 m/s — check shear sensitivity and mechanical limits.");
+ if(Utip>8)warn.push("Tip speed above 8 m/s. Check shear sensitivity and mechanical limits.");
  return r;
 }
 function solveN(p,sys,target,kind){
@@ -764,7 +764,7 @@ function status(pn){const el=pn.q('.status');if(!pn.f){el.textContent='';return;
  if(view==='flow')el.textContent=`Streaks follow the circulation loops in the vessel's vertical plane. Peak loop velocity ${sig(pn.f.Uvis)} m/s.`;
  else if(view==='dye'){el.textContent=`Tracer added at the surface. Time ${fmt(sim.t,1)} s, variation ${fmt((sim.cv||0)*100,0)} %. Dye model reaches 95 % mixed at ${sim.t95!==null?fmt(sim.t95,1)+' s':'…'}; the correlation gives ${fmt(r.theta,1)} s.`;if(sim.t95!==null)pn.anim.t95=sim.t95;}
  else if(view==='cryst'){const s=pn.sim;if(!s.sg){el.textContent='';return;}const pr=Math.min(100,s.ct/CRY.tB*100);
-  el.textContent=pr<100?`${CR.mode==='cool'?'Cooling':'Adding antisolvent'}: ${fmt(pr,0)} % of the batch. Supersaturation now peaks at ${(s.sigPk||0).toFixed(2)}; crystals growing.`:`Batch complete. Remaining supersaturation is being consumed by growth${s.ct>=CRY.tB+80?' — finished':''}.`;
+  el.textContent=pr<100?`${CR.mode==='cool'?'Cooling':'Adding antisolvent'}: ${fmt(pr,0)} % of the batch. Supersaturation now peaks at ${(s.sigPk||0).toFixed(2)}; crystals growing.`:`Batch complete. Remaining supersaturation is being consumed by growth${s.ct>=CRY.tB+80?', finished':''}.`;
   if((pn.cryTick=(pn.cryTick||0)+1)%10===1)drawCSD(pn);if(s.ct>=CRY.tB+80&&!pn.anim.cry){const S=s.crystStats();if(S.n)pn.anim.cry=S;}return;}
  else{if(!r.solids){el.textContent=P.ws>0?'Particles are lighter than the liquid, so suspension is not simulated.':'Set a solids loading above zero to simulate suspension.';return;}
   const st=sim.pa.length?sim.solidsStats():{off:0,cloud:0};if((pn.solT||0)>15)pn.anim.off=st.off;el.textContent=`${fmt(st.off*100,0)} % of particles off the bottom, cloud height about ${fmt(st.cloud,2)} H. Correlation: ${r.solids.state.toLowerCase()}.`;}
