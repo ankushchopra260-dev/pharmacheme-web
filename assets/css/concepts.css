@@ -1,79 +1,50 @@
-/* Interview Prep: concepts in motion */
-.cm { color: var(--paper); font-family: var(--f-sans); }
-.cm-wrap { max-width: 1040px; margin: 0 auto; padding: 28px 20px 64px; }
-.cm h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.02; margin: 0 0 10px; }
-.cm-lede { color: #A9BCCD; font-size: 1.02rem; line-height: 1.6; margin: 0 0 22px; max-width: 64ch; }
+/* Concepts in motion: animated sketch + live graph, embedded in Interview Prep answers */
+.cm-embed { margin: 16px 0 6px; }
+.cm-in { background: #070F18; border: 1px solid #1D3752; border-radius: 8px; padding: 16px 16px 14px; color: #ECE7D8; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+.cm-k { margin: 0 0 2px; text-align: center; font-size: .78rem; color: #6E8CA8; letter-spacing: .02em; }
+.cm-in .cm-t { font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; color: #C9A227; font-size: clamp(1.6rem, 4.6vw, 2.3rem); line-height: 1.02; text-align: center; margin: 0 0 8px; letter-spacing: .01em; text-wrap: balance; }
+.cm-in .cm-eq { text-align: center; margin: 0 0 3px; font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: clamp(.92rem, 2.2vw, 1.08rem); color: #ECE7D8; line-height: 1.4; text-wrap: balance; }
+.cm-in .cm-eq2 { text-align: center; margin: 0 0 14px; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: clamp(.86rem, 2vw, .98rem); color: #8FB8E8; line-height: 1.45; text-wrap: balance; }
+.cm-in sub, .cm-in sup { font-size: .7em; }
 
-.cm-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 22px; }
-.cm-tab {
-  font: 600 .9rem var(--f-sans); color: #A9BCCD; background: var(--panel);
-  border: 1px solid var(--grid-line); border-radius: 999px; padding: 9px 16px; cursor: pointer;
-}
-.cm-tab:hover { color: var(--paper); border-color: var(--muted); }
-.cm-tab[aria-selected="true"] { background: var(--brass); border-color: var(--brass); color: var(--bg-deep); }
-.cm-tab:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
-
-.cm-c { background: #070F18; border: 1px solid var(--grid-line); border-radius: 8px; padding: 26px 24px 24px; }
-.cm-c + .cm-c { margin-top: 22px; }
-.cm-js .cm-c + .cm-c { margin-top: 0; }
-.cm-c[hidden] { display: none; }
-
-.cm-t { font-family: var(--f-display); font-weight: 800; color: var(--brass); font-size: clamp(2.1rem, 6vw, 3.4rem); line-height: 1; text-align: center; margin: 0 0 12px; letter-spacing: .01em; }
-.cm-eq { text-align: center; margin: 0 0 4px; font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: clamp(1.05rem, 2.6vw, 1.35rem); color: var(--paper); }
-.cm-eq2 { text-align: center; margin: 0 0 20px; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: clamp(.98rem, 2.3vw, 1.15rem); color: #8FB8E8; }
-.cm-eq2 sub, .cm-eq2 sup { font-size: .7em; }
-
-.cm-stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 18px; align-items: stretch; }
+.cm-stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 14px; align-items: stretch; }
 .cm-box { position: relative; min-width: 0; }
-.cm-box canvas { display: block; width: 100%; height: 100%; }
-.cm-anim { aspect-ratio: 1 / 1; max-height: 380px; margin: 0 auto; width: 100%; }
-.cm-plot { min-height: 300px; }
-.cm-plot canvas { position: absolute; inset: 0; }
-.cm-cap { text-align: center; color: var(--muted); font-style: italic; font-size: .88rem; margin: 6px 0 0; }
+.cm-box canvas { display: block; width: 100%; }
+.cm-anim { aspect-ratio: 1 / 1; height: auto; max-height: 300px; margin: 0 auto; }
+.cm-plot { min-height: 280px; }
+.cm-plot canvas { position: absolute; inset: 0; height: 100%; }
+.cm-cap { text-align: center; color: #6E8CA8; font-style: italic; font-size: .82rem; margin: 4px 0 0; line-height: 1.4; }
 
 .cm-read {
-  position: absolute; right: 10px; top: 10px; background: rgba(7, 15, 24, .88);
-  border: 1px solid #2C4C6C; border-radius: 6px; padding: 8px 12px;
-  font: 500 .92rem/1.5 var(--f-mono); color: var(--paper); font-variant-numeric: tabular-nums;
+  position: absolute; right: 10px; top: 10px; background: rgba(7, 15, 24, .9);
+  border: 1px solid #2C4C6C; border-radius: 6px; padding: 7px 10px;
+  font: 500 .84rem/1.5 'IBM Plex Mono', monospace; color: #ECE7D8; font-variant-numeric: tabular-nums;
   white-space: pre; pointer-events: none;
 }
-.cm-read.br { top: auto; bottom: 58px; right: 24px; }
-.cm-read.tl { right: auto; left: 66px; top: 22px; }
-.cm-read.bl { right: auto; top: auto; left: 66px; bottom: 58px; }
-.cm-read b { color: var(--brass); font-weight: 600; }
+.cm-read b { color: #C9A227; font-weight: 600; }
+.cm-read.br { top: auto; bottom: 54px; right: 22px; }
+.cm-read.tl { right: auto; left: 66px; top: 20px; }
+.cm-read.bl { right: auto; top: auto; left: 66px; bottom: 54px; }
 
-.cm-ctl { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px 14px; align-items: center; margin: 18px 0 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--grid-line); border-radius: 6px; }
-.cm-ctl label { font-weight: 600; font-size: .92rem; white-space: nowrap; }
-.cm-ctl input[type=range] { width: 100%; accent-color: var(--brass); }
-.cm-ctl input[type=range]:focus-visible { outline: 2px solid var(--brass); outline-offset: 4px; }
-.cm-play { font: 600 .85rem var(--f-sans); color: var(--paper); background: transparent; border: 1px solid var(--grid-line); border-radius: 4px; padding: 7px 14px; cursor: pointer; min-width: 74px; }
-.cm-play:hover { border-color: var(--brass); color: var(--brass); }
-.cm-play:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.cm-ctl { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; margin: 12px 0 0; padding: 10px 12px; background: #122234; border: 1px solid #1D3752; border-radius: 6px; }
+.cm-ctl label { font-weight: 600; font-size: .86rem; white-space: nowrap; color: #ECE7D8; }
+.cm-ctl input[type=range] { width: 100%; accent-color: #C9A227; }
+.cm-ctl input[type=range]:focus-visible { outline: 2px solid #C9A227; outline-offset: 4px; }
+.cm-play { font: 600 .8rem 'IBM Plex Sans', system-ui, sans-serif; color: #ECE7D8; background: transparent; border: 1px solid #1D3752; border-radius: 4px; padding: 6px 12px; cursor: pointer; min-width: 66px; }
+.cm-play:hover { border-color: #C9A227; color: #C9A227; }
+.cm-play:focus-visible { outline: 2px solid #C9A227; outline-offset: 2px; }
+.cm-note { margin: 10px 2px 0; color: #A9BCCD; font-size: .86rem; line-height: 1.55; }
 
-.cm-text { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 28px; margin: 22px 0 0; }
-.cm-text h3 { font-family: var(--f-display); font-weight: 800; font-size: 1.3rem; margin: 0 0 6px; color: var(--paper); letter-spacing: .02em; }
-.cm-text p { color: #B9C8D6; line-height: 1.6; margin: 0 0 10px; font-size: .96rem; }
-.cm-say { border-left: 3px solid var(--brass); padding-left: 14px; }
-.cm-say p { color: var(--paper); }
-.cm-text ul { margin: 0; padding: 0; list-style: none; }
-.cm-text li + li { margin-top: 6px; }
-.cm-text a { color: var(--brass); }
-.cm-text a:hover { color: var(--paper); }
-
-.cm-more { margin-top: 26px; color: #A9BCCD; font-size: .95rem; }
-.cm-more a { color: var(--brass); }
-
-@media (max-width: 800px) {
-  .cm-stage, .cm-text { grid-template-columns: 1fr; }
-  .cm-anim { max-height: 320px; }
+@media (max-width: 760px) {
+  .cm-stage { grid-template-columns: 1fr; }
+  .cm-anim { max-height: 280px; }
   .cm-plot { min-height: 0; }
-  .cm-plot canvas { position: relative; height: 270px; }
+  .cm-plot canvas { position: relative; height: 250px; }
   .cm-read { position: static; margin: 8px 0 0; display: block; }
 }
 @media (max-width: 520px) {
-  .cm-wrap { padding: 20px 16px 48px; }
-  .cm-c { padding: 20px 12px 16px; }
+  .cm-in { padding: 14px 10px 12px; }
   .cm-ctl { grid-template-columns: 1fr auto; }
-  .cm-ctl label { grid-column: 1 / -1; }
-  .cm-read { font-size: .8rem; padding: 6px 9px; }
+  .cm-ctl label { grid-column: 1 / -1; white-space: normal; }
+  .cm-read { font-size: .78rem; }
 }
