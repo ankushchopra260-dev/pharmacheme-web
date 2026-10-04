@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Mixing & Scale-up Calculations Explained
-description: "Reynolds number, tip speed, power draw, and P/V for reactor mixing scale-up, with formula and worked example."
+title: "Mixing Scale-up Rules from Lab to Plant: Tip Speed, P/V & Reynolds"
+description: "Agitator scale-up rules for a mixing tank from lab to production: constant tip speed, P/V and Reynolds number, with the RPM formula and a worked example."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -10,19 +10,32 @@ breadcrumbs:
 structured_data: |
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Mixing & Scale-up Calculations Explained",
-    "description": "Reynolds number, tip speed, power draw, and P/V for reactor mixing scale-up.",
-    "author": { "@type": "Person", "name": "Ankush Chopra" },
-    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Mixing Scale-up Rules from Lab to Plant: Tip Speed, P/V & Reynolds",
+        "description": "Agitator scale-up rules from lab to production, with the RPM scaling formula and a worked example.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" },
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "What are the main mixing scale-up rules?", "acceptedAnswer": { "@type": "Answer", "text": "For geometrically similar vessels, N2 = N1 x (D1/D2)^n. Constant tip speed uses n = 1, constant power per volume (P/V) uses n = 2/3 in the turbulent regime, and constant Reynolds number uses n = 2." } },
+          { "@type": "Question", "name": "Which scale-up rule should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Constant tip speed for shear-sensitive products such as crystals, constant P/V when blending, heat transfer or mass transfer matter most. Constant Reynolds number is rarely practical at large scale-up ratios." } }
+        ]
+      }
+    ]
   }
 ---
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>Mixing &amp; Scale-up Calculations Explained</h1>
+  <h1>Mixing Scale-up Rules from Lab to Plant</h1>
   <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
 
   <p>Scaling a mixing process from lab to pilot to plant is trickier than it looks because there's no single "correct" way to do it. Constant tip speed, constant power-per-volume (P/V) and constant Reynolds number are different, mutually exclusive scale-up rules. Which one matters depends on your process.</p>
+
+  <p>Want to run your own numbers? Try the <a href="/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a>.</p>
 
   <h2>The Core Numbers</h2>
   <div class="formula-box">
@@ -33,13 +46,31 @@ structured_data: |
   </div>
   <p>Where N is impeller rotational speed (rev/s), D is impeller diameter, &rho; and &mu; are fluid density and viscosity, and N<sub>p</sub> is the power number (a dimensionless constant depending on impeller type and Reynolds regime).</p>
 
+  <h2>Scale-up Rules at a Glance</h2>
+  <p>For geometrically similar vessels (same D/T, same impeller type, same baffling), every common rule reduces to one formula for the plant agitator speed:</p>
+  <div class="formula-box">
+    N<sub>2</sub> = N<sub>1</sub> &times; (D<sub>1</sub> / D<sub>2</sub>)<sup>n</sup>
+  </div>
+  <div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;">
+    <thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Scale-up rule</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">n</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Use it when</th></tr></thead>
+    <tbody>
+      <tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Constant tip speed</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Shear matters: crystals, flocs, fragile solids</td></tr>
+      <tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Constant P/V (turbulent)</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">2/3</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Blending, heat transfer, gas&ndash;liquid or liquid&ndash;liquid dispersion</td></tr>
+      <tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Constant Reynolds number</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">2</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Rarely practical; gives a very low plant RPM</td></tr>
+    </tbody>
+  </table></div>
+
   <h2>Worked Example</h2>
   <p>A lab reactor with a 0.1 m impeller running at 300 rpm (5 rev/s) needs to scale to a plant vessel with a 1.0 m impeller. Scaling on <strong>constant tip speed</strong>:</p>
   <div class="formula-box">
     Tip speed (lab) = &pi; &times; 0.1 &times; 5 &asymp; 1.57 m/s<br>
     N (plant) = Tip speed / (&pi; &times; D) = 1.57 / (&pi; &times; 1.0) &asymp; 0.5 rev/s (30 rpm)
   </div>
-  <p>Scaling the same jump on <strong>constant P/V</strong> instead would call for a much higher plant RPM than 30, since P/V scales with N&sup3;D&sup2;. The two rules diverge sharply, so picking the right one for your chemistry matters more than the arithmetic.</p>
+  <p>Scaling the same jump on <strong>constant P/V</strong> instead (P/V scales with N&sup3;D&sup2; in the turbulent regime, so n = 2/3):</p>
+  <div class="formula-box">
+    N (plant) = 300 &times; (0.1 / 1.0)<sup>2/3</sup> &asymp; 300 &times; 0.215 &asymp; 65 rpm
+  </div>
+  <p>And on <strong>constant Reynolds number</strong> (n = 2): N = 300 &times; (0.1)&sup2; = 3 rpm, which is far too slow to mix a plant vessel. The same lab result gives 3, 30 or 65 rpm depending on the rule, so picking the right one for your chemistry matters more than the arithmetic. At constant P/V the total power also rises with the volume, about 1,000 times here for a tenfold jump in impeller diameter.</p>
 
   <h2>In the Plant</h2>
   <p>Constant tip speed suits shear-sensitive systems (crystals you don't want to break, some biological materials). Constant P/V suits systems where bulk blend time and heat/mass transfer matter more than shear. Constant Reynolds number is rarely workable at large scale-up ratios since it typically demands an unrealistically low large-vessel RPM.</p>
@@ -47,8 +78,17 @@ structured_data: |
   <h2>Common Mistakes</h2>
   <p>Applying one scale-up rule "by default" without checking whether it actually protects the thing that matters for that specific product; comparing power numbers between different impeller types as if they were interchangeable; and forgetting that geometric similarity (same D/T ratio, same baffling) is an assumption behind all of these formulas. If the plant vessel's geometry doesn't match the lab vessel's, none of these scale-up rules apply cleanly.</p>
 
+  <h2>Frequently Asked Questions</h2>
+  <h3>What are the main mixing scale-up rules?</h3>
+  <p>For geometrically similar vessels, N<sub>2</sub> = N<sub>1</sub> &times; (D<sub>1</sub>/D<sub>2</sub>)<sup>n</sup>, with n = 1 for constant tip speed, n = 2/3 for constant P/V (turbulent) and n = 2 for constant Reynolds number.</p>
+  <h3>Which scale-up rule should I use?</h3>
+  <p>Constant tip speed when shear damages the product, constant P/V when blending, heat transfer or mass transfer control the result. If you are unsure, calculate both and check what each one does to the property you care about.</p>
+
   <div class="related-box">
     <h3>Try the Calculator</h3>
     <a href="/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a>
+    <a href="/calculators/agitator-simulator/">Agitator Simulator</a>
+    <h3>Related Articles</h3>
+    <a href="/articles/heat-load-calculation/">How to Calculate Heat Load &amp; Recovery Time</a>
   </div>
 </div>
