@@ -1,7 +1,7 @@
 ---
 layout: default
-title: How to Calculate Pump Power
-description: "Pump power calculation explained: hydraulic power, shaft power and motor sizing, with the formula, a worked example and common mistakes."
+title: "Pump Power Calculation: Formula, Worked Examples & Motor kW"
+description: "Pump power calculation step by step: hydraulic power, shaft power and motor kW from flow and head. Two worked examples, the Q×H/367 shortcut and a free pump power calculator."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -10,19 +10,34 @@ breadcrumbs:
 structured_data: |
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "How to Calculate Pump Power",
-    "description": "Pump power calculation explained: hydraulic power, shaft power and motor sizing.",
-    "author": { "@type": "Person", "name": "Ankush Chopra" },
-    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Pump Power Calculation: Formula, Worked Examples & Motor kW",
+        "description": "Pump power calculation step by step: hydraulic power, shaft power and motor kW from flow and head, with worked examples.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" },
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "What is the formula for pump power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = density (kg/m3) x 9.81 x flow (m3/s) x total head (m) / 1000. Divide by pump efficiency to get shaft power, and by motor efficiency to get motor input power." } },
+          { "@type": "Question", "name": "What is the quick formula for pump power in kW from m3/h?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = Q (m3/h) x H (m) x SG / 367, where SG is specific gravity. For 50 m3/h of water at 30 m head this gives about 4.1 kW." } },
+          { "@type": "Question", "name": "What is the difference between hydraulic power and shaft power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power is the energy actually given to the fluid. Shaft power (brake power) is what the pump draws at its shaft, which is higher because of pump losses: shaft power = hydraulic power / pump efficiency." } },
+          { "@type": "Question", "name": "How do I convert pressure to head for a pump calculation?", "acceptedAnswer": { "@type": "Answer", "text": "Head (m) = pressure difference (Pa) / (density x 9.81). For example, 1 bar (100,000 Pa) of water is about 10.2 m of head." } }
+        ]
+      }
+    ]
   }
 ---
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>How to Calculate Pump Power</h1>
+  <h1>Pump Power Calculation: Formula and Worked Examples</h1>
   <p class="article-meta">Chemical Engineering &middot; Engineering Calculations</p>
 
   <p>Sizing a pump motor comes down to three numbers stacked on top of each other: the power the fluid itself needs (hydraulic power), the power the pump has to draw at the shaft to deliver that (shaft power), and the power the motor has to supply to turn that shaft (motor power). Each step loses a bit to inefficiency, which is why a pump moving water at a modest flow and head can still need a noticeably larger motor than the "theoretical" number suggests.</p>
+
+  <p><strong>Short on time?</strong> Use the free <a href="/calculators/pump-power-calculator/">Pump Power Calculator</a>. Enter flow, head, density and efficiencies and it returns hydraulic, shaft and motor power.</p>
 
   <h2>The Formula</h2>
   <div class="formula-box">
@@ -31,6 +46,13 @@ structured_data: |
     Motor power (kW) = Shaft power / &eta;<sub>motor</sub>
   </div>
   <p>Where &rho; is fluid density (kg/m&sup3;), g is 9.81 m/s&sup2;, Q is flow rate (m&sup3;/s), H is total developed head (m), and &eta;<sub>pump</sub> / &eta;<sub>motor</sub> are the pump and motor efficiencies as fractions (e.g. 0.65 for 65%).</p>
+
+  <h2>Quick Formula: Pump Power from m&sup3;/h</h2>
+  <p>On the plant floor, flow is usually read in m&sup3;/h, not m&sup3;/s. Folding the constants together gives a shortcut that is easy to remember:</p>
+  <div class="formula-box">
+    Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367
+  </div>
+  <p>SG is the specific gravity of the liquid (1.0 for water). The 367 comes from 3,600 &times; 1,000 / (1,000 &times; 9.81). To get kW in horsepower, divide by 0.7457 (1 hp = 0.7457 kW).</p>
 
   <h2>Variables and Units</h2>
   <p>Total head H isn't just the static lift. It's static lift plus friction losses in the piping plus any pressure the destination vessel is already holding, all converted to an equivalent height of fluid. Getting H wrong (usually by forgetting friction losses) is the single most common source of an undersized pump.</p>
@@ -42,7 +64,22 @@ structured_data: |
     Shaft power = 4.09 / 0.65 &asymp; 6.29 kW<br>
     Motor power = 6.29 / 0.92 &asymp; 6.84 kW
   </div>
-  <p>In practice you'd round up to the next standard motor frame size above 6.84 kW (commonly a 7.5 kW motor) rather than specifying the exact calculated value, to leave margin for wear and off-curve operation.</p>
+  <p>In practice you'd round up to the next standard motor frame size above 6.84 kW (commonly a 7.5 kW motor) rather than specifying the exact calculated value, to leave margin for wear and off-curve operation. The quick formula gives the same hydraulic power: 50 &times; 30 &times; 1.0 / 367 &asymp; 4.09 kW.</p>
+
+  <h2>Worked Example 2: Solvent into a Pressurised Vessel</h2>
+  <p>Now a case closer to a pharma plant: a solvent with density 870 kg/m&sup3; (SG 0.87) is transferred at 20 m&sup3;/hr into a receiver held at 2 bar(g). The static lift is 12 m and the line friction loss is 5 m. Pump efficiency is 60% and motor efficiency 90%.</p>
+  <p>First, convert the receiver pressure to head of <em>this</em> liquid:</p>
+  <div class="formula-box">
+    Pressure head = &Delta;P / (&rho; &times; g) = 200,000 / (870 &times; 9.81) &asymp; 23.4 m<br>
+    Total head H = 12 + 5 + 23.4 &asymp; 40.4 m
+  </div>
+  <p>Then the power:</p>
+  <div class="formula-box">
+    Hydraulic power = 20 &times; 40.4 &times; 0.87 / 367 &asymp; 1.92 kW<br>
+    Shaft power = 1.92 / 0.60 &asymp; 3.20 kW<br>
+    Motor power = 3.20 / 0.90 &asymp; 3.55 kW &rarr; select a 4 kW motor
+  </div>
+  <p>Notice that the receiver pressure is more than half of the total head here. Leave it out and the motor would be undersized by more than half.</p>
 
   <h2>In the Plant</h2>
   <p>Pump efficiency isn't constant. It peaks at the best-efficiency point (BEP) on the pump curve and drops off the further you run from it. A pump selected purely on this formula using catalog efficiency, but actually operated well off its BEP, will draw more real power than this calculation predicts.</p>
@@ -50,10 +87,21 @@ structured_data: |
   <h2>Common Mistakes</h2>
   <p>Using static head alone and skipping friction losses; using density from a different fluid than the one actually being pumped; and applying a single "safety factor" on top of an already-conservative efficiency estimate, which can lead to an oversized motor running inefficiently at partial load.</p>
 
+  <h2>Frequently Asked Questions</h2>
+  <h3>What is the formula for pump power?</h3>
+  <p>Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 1,000, with &rho; in kg/m&sup3;, Q in m&sup3;/s and H in m. Divide by pump efficiency for shaft power and by motor efficiency for motor input power.</p>
+  <h3>What is the quick formula for pump power in kW from m&sup3;/h?</h3>
+  <p>Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367. For 50 m&sup3;/h of water at 30 m head this is about 4.1 kW.</p>
+  <h3>What is the difference between hydraulic power and shaft power?</h3>
+  <p>Hydraulic power is the energy actually given to the fluid. Shaft power (also called brake power) is what the pump draws at its shaft. It is always higher because of losses inside the pump: shaft power = hydraulic power / pump efficiency.</p>
+  <h3>How do I convert pressure to head?</h3>
+  <p>Head (m) = &Delta;P (Pa) / (&rho; &times; 9.81). For water, 1 bar is about 10.2 m of head. For a lighter liquid the same pressure is more metres of head, which is why the density matters.</p>
+
   <div class="related-box">
     <h3>Try the Calculator</h3>
     <a href="/calculators/pump-power-calculator/">Pump Power Calculator</a>
     <h3>Related Articles</h3>
     <a href="/articles/solvent-recovery-calculation/">Solvent Recovery Calculation Explained</a>
+    <a href="/articles/heat-load-calculation/">How to Calculate Heat Load &amp; Recovery Time</a>
   </div>
 </div>
