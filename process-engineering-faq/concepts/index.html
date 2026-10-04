@@ -1,0 +1,157 @@
+---
+layout: default
+title: "Process Concepts in Motion"
+description: "Animated explainers for four interview favourites: boiling point under vacuum, pump affinity laws, Reynolds number and Boyle's law. Move the slider and watch the equipment and graph change."
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Concepts in motion
+    url: /process-engineering-faq/concepts/
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/concepts.css' | relative_url }}">
+
+<div class="cm">
+<div class="cm-wrap">
+  <h1>Concepts in motion</h1>
+  <p class="cm-lede">Four ideas that come up in almost every process engineering interview. Move the slider and watch the equipment and the graph change together, then read the answer you would give.</p>
+
+  <div class="cm-tabs" role="tablist" aria-label="Concepts">
+    <button type="button" class="cm-tab" role="tab" id="t-vacuum" aria-controls="vacuum" data-c="vacuum">Boiling under vacuum</button>
+    <button type="button" class="cm-tab" role="tab" id="t-affinity" aria-controls="affinity" data-c="affinity">Pump affinity laws</button>
+    <button type="button" class="cm-tab" role="tab" id="t-reynolds" aria-controls="reynolds" data-c="reynolds">Reynolds number</button>
+    <button type="button" class="cm-tab" role="tab" id="t-boyle" aria-controls="boyle" data-c="boyle">Boyle's law</button>
+  </div>
+
+  <!-- 1. Boiling under vacuum -->
+  <section class="cm-c" id="vacuum" role="tabpanel" aria-labelledby="t-vacuum" data-c="vacuum">
+    <h2 class="cm-t">Boiling Under Vacuum</h2>
+    <p class="cm-eq">Lower pressure &times; Same liquid = Lower boiling point</p>
+    <p class="cm-eq2">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; (Antoine, toluene)</p>
+    <div class="cm-stage">
+      <div class="cm-box"><canvas class="cm-anim" role="img" aria-label="Still with a vacuum gauge and thermometer. Lower pressure gives a lower boiling temperature."></canvas><p class="cm-cap">Toluene boiling in a still under vacuum</p></div>
+      <div class="cm-box cm-plot"><canvas role="img" aria-label="Graph of toluene boiling point against pressure"></canvas><div class="cm-read br" aria-live="polite"></div></div>
+    </div>
+    <div class="cm-ctl">
+      <label for="s-vacuum">Pressure above the liquid</label>
+      <input type="range" id="s-vacuum" min="20" max="1013" step="1" value="1013">
+      <button type="button" class="cm-play">Pause</button>
+    </div>
+    <div class="cm-text">
+      <div class="cm-say">
+        <h3>Say it in an interview</h3>
+        <p>A liquid boils when its vapour pressure equals the pressure above it. Pull a vacuum and that pressure falls, so the liquid boils at a lower temperature. That's why solvents are recovered under vacuum: less heat, less damage to a heat-sensitive product, and hot water or low-pressure steam is enough.</p>
+      </div>
+      <div>
+        <h3>On the plant</h3>
+        <p>Toluene boils at about 111&nbsp;&deg;C at atmosphere and about 52&nbsp;&deg;C at 100&nbsp;mmHg. Distilling it off a heat-sensitive product at that vacuum keeps the batch below 60&nbsp;&deg;C.</p>
+        <p>Go too deep and the condenser can't keep up: the vapour boils colder than the coolant can condense it, and solvent goes out through the vacuum pump.</p>
+        <ul>
+          <li><a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent boiling point under vacuum calculator</a></li>
+          <li><a href="{{ '/equipment-instruments/#liquid-ring-vacuum-pump' | relative_url }}">How a liquid ring vacuum pump works</a></li>
+          <li><a href="{{ '/process-engineering-faq/#q-what-is-boiling-point-and-how-does-pressure' | relative_url }}">Related interview question</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Pump affinity laws -->
+  <section class="cm-c" id="affinity" role="tabpanel" aria-labelledby="t-affinity" data-c="affinity">
+    <h2 class="cm-t">Pump Affinity Laws</h2>
+    <p class="cm-eq">Flow &prop; N &nbsp;&nbsp; Head &prop; N&sup2; &nbsp;&nbsp; Power &prop; N&sup3;</p>
+    <p class="cm-eq2">Q<sub>2</sub>/Q<sub>1</sub> = N<sub>2</sub>/N<sub>1</sub> &nbsp;&nbsp; H<sub>2</sub>/H<sub>1</sub> = (N<sub>2</sub>/N<sub>1</sub>)<sup>2</sup> &nbsp;&nbsp; P<sub>2</sub>/P<sub>1</sub> = (N<sub>2</sub>/N<sub>1</sub>)<sup>3</sup></p>
+    <div class="cm-stage">
+      <div class="cm-box"><canvas class="cm-anim" role="img" aria-label="Centrifugal pump on a speed drive lifting water up a column"></canvas><p class="cm-cap">Centrifugal pump on a VFD, rated 1450 rpm</p></div>
+      <div class="cm-box cm-plot"><canvas role="img" aria-label="Graph of flow, head and power as a percentage of rated against pump speed"></canvas><div class="cm-read tl" aria-live="polite"></div></div>
+    </div>
+    <div class="cm-ctl">
+      <label for="s-affinity">Pump speed</label>
+      <input type="range" id="s-affinity" min="500" max="1450" step="5" value="1450">
+      <button type="button" class="cm-play">Pause</button>
+    </div>
+    <div class="cm-text">
+      <div class="cm-say">
+        <h3>Say it in an interview</h3>
+        <p>For the same pump at a different speed, flow changes with speed, head with speed squared and power with speed cubed. A small cut in speed gives a big cut in power: at 80% speed the pump needs only about 51% of the power.</p>
+      </div>
+      <div>
+        <h3>On the plant</h3>
+        <p>A pump throttled on its discharge valve burns energy across the valve. A VFD that slows the pump to the flow you need saves most of it. Trimming the impeller follows roughly the same laws, with diameter in place of speed.</p>
+        <p>The laws hold best on friction-only systems. With a large static head, slowing the pump cuts flow much faster, and below a certain speed it delivers nothing.</p>
+        <ul>
+          <li><a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a></li>
+          <li><a href="{{ '/equipment-instruments/#centrifugal-pump' | relative_url }}">How a centrifugal pump works</a></li>
+          <li><a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation, worked examples</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Reynolds number -->
+  <section class="cm-c" id="reynolds" role="tabpanel" aria-labelledby="t-reynolds" data-c="reynolds">
+    <h2 class="cm-t">Reynolds Number</h2>
+    <p class="cm-eq">Density &times; Velocity &times; Diameter / Viscosity</p>
+    <p class="cm-eq2">Re = &rho;vD / &mu; &nbsp;&nbsp; laminar &lt; 2300 &lt; transitional &lt; 4000 &lt; turbulent</p>
+    <div class="cm-stage">
+      <div class="cm-box"><canvas class="cm-anim" role="img" aria-label="Water in a pipe with a dye streak and velocity profile, changing from smooth to turbulent"></canvas><p class="cm-cap">Water at 20 &deg;C in a 50 mm pipe</p></div>
+      <div class="cm-box cm-plot"><canvas role="img" aria-label="Friction factor against Reynolds number on log scales"></canvas><div class="cm-read bl" aria-live="polite"></div></div>
+    </div>
+    <div class="cm-ctl">
+      <label for="s-reynolds">Velocity in the pipe</label>
+      <input type="range" id="s-reynolds" min="0" max="1000" step="1" value="0">
+      <button type="button" class="cm-play">Pause</button>
+    </div>
+    <div class="cm-text">
+      <div class="cm-say">
+        <h3>Say it in an interview</h3>
+        <p>Re = &rho;vD/&mu; tells you whether flow is laminar or turbulent. In a pipe, below about 2300 the fluid moves in smooth layers; above about 4000 eddies mix it across the pipe. Turbulent flow transfers heat and mixes far better, which is why exchangers are designed for it, but it costs more pressure drop.</p>
+      </div>
+      <div>
+        <h3>On the plant</h3>
+        <p>Water at 1&nbsp;m/s in a 50&nbsp;mm line gives Re &asymp; 50,000, well turbulent. A 500&nbsp;cP oil at the same speed gives Re &asymp; 90: laminar, with a much lower heat transfer coefficient in its exchanger.</p>
+        <p>Watch the velocity profile: parabolic when laminar, nearly flat when turbulent.</p>
+        <ul>
+          <li><a href="{{ '/equipment-instruments/#agitators' | relative_url }}">Flow regime in a stirred vessel (impeller Reynolds number)</a></li>
+          <li><a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing and scale-up calculator</a></li>
+          <li><a href="{{ '/equipment-instruments/#shell-and-tube-heat-exchanger' | relative_url }}">How a shell and tube exchanger works</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Boyle's law -->
+  <section class="cm-c" id="boyle" role="tabpanel" aria-labelledby="t-boyle" data-c="boyle">
+    <h2 class="cm-t">Boyle's Law</h2>
+    <p class="cm-eq">Pressure &times; Volume = Constant</p>
+    <p class="cm-eq2">PV = k &nbsp;&hArr;&nbsp; P &prop; 1/V &nbsp;&nbsp; (T constant, P absolute)</p>
+    <div class="cm-stage">
+      <div class="cm-box"><canvas class="cm-anim" role="img" aria-label="Gas molecules in a cylinder with a piston. Less volume means more hits on the walls."></canvas><p class="cm-cap">Nitrogen at constant temperature</p></div>
+      <div class="cm-box cm-plot"><canvas role="img" aria-label="Graph of pressure against volume showing PV equals constant"></canvas><div class="cm-read" aria-live="polite"></div></div>
+    </div>
+    <div class="cm-ctl">
+      <label for="s-boyle">Gas volume</label>
+      <input type="range" id="s-boyle" min="2.5" max="10" step="0.05" value="10">
+      <button type="button" class="cm-play">Pause</button>
+    </div>
+    <div class="cm-text">
+      <div class="cm-say">
+        <h3>Say it in an interview</h3>
+        <p>For a fixed amount of gas at constant temperature, P&#8321;V&#8321; = P&#8322;V&#8322;. Squeeze it to half the volume and the pressure doubles, because the same molecules hit the walls twice as often. Always use absolute pressure: bar(a), not bar(g).</p>
+      </div>
+      <div>
+        <h3>On the plant</h3>
+        <p>Pressure purging with nitrogen: take a vessel from 1 to 4&nbsp;bar(a) and vent back to 1&nbsp;bar(a). Each cycle cuts the oxygen to a quarter, 21% to 5.25% to about 1.3%. Do the same sum in gauge pressure and you get the wrong number of cycles.</p>
+        <ul>
+          <li><a href="{{ '/equipment-instruments/#nitrogen-generator-psa' | relative_url }}">How a PSA nitrogen generator works</a></li>
+          <li><a href="{{ '/equipment-instruments/#pressure-transmitter' | relative_url }}">Gauge and absolute pressure transmitters</a></li>
+          <li><a href="{{ '/process-safety/' | relative_url }}">Process safety course</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <p class="cm-more">Ready for more? <a href="{{ '/process-engineering-faq/' | relative_url }}">Practise the full list of interview questions</a> with flashcards and a Top 50.</p>
+</div>
+</div>
+
+<script src="{{ '/assets/js/concepts.js' | relative_url }}" defer></script>

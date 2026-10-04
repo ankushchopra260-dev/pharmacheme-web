@@ -17,6 +17,10 @@ breadcrumbs:
 #ip-root .ip-steps { list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0; margin: 0 0 20px; }
 #ip-root .ip-steps li { counter-increment: s; background: var(--panel, #122234); border: 1px solid var(--grid-line, #1D3752); border-radius: 8px; padding: 12px 12px 12px 44px; position: relative; font-size: .8rem; line-height: 1.45; color: #9FB2C4; }
 #ip-root .ip-steps li::before { content: counter(s); position: absolute; left: 12px; top: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--brass, #C9A227); color: #0B1622; font: 700 .78rem/22px var(--f-mono, monospace); text-align: center; }
+#ip-root .ip-concepts { display: block; margin: -6px 0 20px; padding: 12px 14px; border: 1px solid var(--grid-line, #1D3752); border-left: 3px solid var(--brass, #C9A227); border-radius: 8px; background: #070F18; color: #9FB2C4; text-decoration: none; font-size: .85rem; line-height: 1.45; }
+#ip-root .ip-concepts b { display: block; color: var(--brass, #C9A227); font-size: .95rem; margin-bottom: 2px; }
+#ip-root .ip-concepts:hover { border-color: var(--brass, #C9A227); }
+#ip-root .ip-concepts:focus-visible { outline: 2px solid var(--brass, #C9A227); outline-offset: 2px; }
 #ip-root .ip-steps b { display: block; color: var(--paper, #ECE7D8); font-size: .88rem; margin-bottom: 2px; }
 #ip-root .ip-modes { display: inline-flex; border: 1px solid var(--grid-line, #1D3752); border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
 #ip-root .mode-btn { background: transparent; border: 0; color: var(--muted, #6E8CA8); padding: 9px 18px; font: 600 .88rem var(--f-sans, sans-serif); cursor: pointer; }
@@ -117,6 +121,8 @@ breadcrumbs:
     <li><b>Practise with flashcards</b><span>Answer in your head, reveal, then mark &ldquo;knew it&rdquo; or &ldquo;revise&rdquo;.</span></li>
     <li><b>Try the linked tool</b><span>Each answer links to a calculator, lesson or game on the same topic.</span></li>
   </ol>
+
+  <a class="ip-concepts" href="{{ '/process-engineering-faq/concepts/' | relative_url }}"><b>Concepts in motion</b><span>Watch boiling under vacuum, pump affinity laws, Reynolds number and Boyle's law change as you move a slider.</span></a>
 
   <noscript><p>This page lists 142 process engineering interview questions and answers below. Enable JavaScript for search, filters and practice mode.</p></noscript>
 
