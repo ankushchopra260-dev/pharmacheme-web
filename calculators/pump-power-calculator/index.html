@@ -1,7 +1,28 @@
 ---
 layout: default
-title: Pump Power Calculator
-description: "Pump power calculator: hydraulic power, shaft power and motor power from flow, head, density and pump and motor efficiencies."
+title: "Pump Power Calculator: Hydraulic, Shaft & Motor kW"
+description: "Free pump power calculator. Enter flow, head, density and efficiencies to get hydraulic power, shaft power and motor kW, with the formula and a worked example."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Pump Power Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "How do you calculate pump power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = density x 9.81 x flow (m3/s) x head (m) / 1000. Shaft power = hydraulic power / pump efficiency. Motor power = shaft power / motor efficiency." } },
+          { "@type": "Question", "name": "What motor size do I need for my pump?", "acceptedAnswer": { "@type": "Answer", "text": "Calculate the motor input power from flow, head and efficiencies, then pick the next standard motor rating above it. For 50 m3/h of water at 30 m head with 65% pump and 92% motor efficiency, motor power is about 6.8 kW, so a 7.5 kW motor is the usual choice." } }
+        ]
+      }
+    ]
+  }
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -17,7 +38,7 @@ breadcrumbs:
 
 <div class="container calc-page-head">
   <h1>Pump Power Calculator</h1>
-  <p>Theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies.</p>
+  <p>Theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies. New to this? Read the step-by-step <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">pump power calculation guide</a>.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
@@ -32,11 +53,28 @@ breadcrumbs:
   </div>
   <p>Where ρ is fluid density (kg/m&sup3;), g is 9.81 m/s&sup2;, Q is flow rate (m&sup3;/s), H is total head (m), and η<sub>pump</sub> / η<sub>motor</sub> are the pump and motor efficiencies as fractions.</p>
 
+  <p>Quick version for flow in m&sup3;/h: <strong>Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367</strong>.</p>
+
   <h2>How to Use</h2>
   <p>Enter the flow rate, total developed head, fluid density, and the pump and motor efficiencies from the datasheet or field test. The calculator returns hydraulic, shaft, and motor power together so you can size a motor with adequate margin.</p>
 
+  <h2>Worked Example</h2>
+  <p>Water (1,000 kg/m&sup3;) at 50 m&sup3;/hr against 30 m total head, pump efficiency 65%, motor efficiency 92%:</p>
+  <div class="formula-box">
+    Hydraulic power = 50 &times; 30 &times; 1.0 / 367 &asymp; 4.09 kW<br>
+    Shaft power = 4.09 / 0.65 &asymp; 6.29 kW<br>
+    Motor power = 6.29 / 0.92 &asymp; 6.84 kW &rarr; 7.5 kW motor
+  </div>
+  <p>If the receiving vessel is under pressure, add it to the head first: head (m) = &Delta;P (Pa) / (&rho; &times; 9.81). The <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">full article</a> has a second example with a pressurised receiver.</p>
+
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>This is a steady-state power estimate. It doesn't account for startup transients, NPSH-limited operation, or a pump running away from its best-efficiency point. Always cross-check against the pump curve and motor nameplate rating, and apply your site's standard safety margin (commonly 10&ndash;20%) on top of the calculated motor power.</p>
+
+  <h2>Frequently Asked Questions</h2>
+  <h3>How do you calculate pump power?</h3>
+  <p>Hydraulic power (kW) = &rho; &times; 9.81 &times; Q (m&sup3;/s) &times; H (m) / 1,000. Shaft power = hydraulic power / pump efficiency. Motor power = shaft power / motor efficiency.</p>
+  <h3>What motor size do I need for my pump?</h3>
+  <p>Work out the motor input power, then pick the next standard motor rating above it. In the example above, 6.84 kW becomes a 7.5 kW motor.</p>
 
   <div class="related-box">
     <h3>Related Article</h3>

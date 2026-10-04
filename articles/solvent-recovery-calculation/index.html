@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Solvent Recovery Calculation Explained
-description: "How boiling point at vacuum, heat load, and recovery time are calculated for batch solvent recovery, with a worked example."
+title: "Solvent Recovery Calculation: Boiling Point Under Vacuum, Heat Load & Time"
+description: "Find a solvent's boiling point under vacuum with the Antoine equation, then the heat duty and recovery time for a batch. Step-by-step toluene example plus a free calculator."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -10,19 +10,33 @@ breadcrumbs:
 structured_data: |
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Solvent Recovery Calculation Explained",
-    "description": "How boiling point at vacuum, heat load, and recovery time are calculated for batch solvent recovery.",
-    "author": { "@type": "Person", "name": "Ankush Chopra" },
-    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Solvent Recovery Calculation: Boiling Point Under Vacuum, Heat Load & Time",
+        "description": "Boiling point at vacuum, heat load and recovery time for batch solvent recovery, with a toluene worked example.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" },
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "How do you calculate the boiling point of a solvent under vacuum?", "acceptedAnswer": { "@type": "Answer", "text": "Rearrange the Antoine equation: Tb = B / (A - log10 P) - C, with P in mmHg and the A, B, C coefficients for that solvent. For toluene at 100 mmHg this gives about 52 C, against 110.6 C at atmospheric pressure." } },
+          { "@type": "Question", "name": "How do you calculate heat load for solvent recovery?", "acceptedAnswer": { "@type": "Answer", "text": "Heat duty (kW) = vaporisation rate (kg/s) x latent heat (kJ/kg). Recovering toluene at 500 kg/h with a latent heat of about 360 kJ/kg needs roughly 50 kW, before sensible heat and losses." } },
+          { "@type": "Question", "name": "Is mmHg the same as mbar?", "acceptedAnswer": { "@type": "Answer", "text": "No. 1 mmHg is about 1.333 mbar. Entering mbar into an Antoine equation fitted in mmHg gives the wrong boiling point." } }
+        ]
+      }
+    ]
   }
 ---
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>Solvent Recovery Calculation Explained</h1>
+  <h1>Solvent Recovery Calculation: Boiling Point Under Vacuum, Heat Load and Time</h1>
   <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
 
   <p>Batch solvent recovery under vacuum comes down to one question repeated at every step: at what temperature does this solvent boil at this pressure, and how much heat does it take to get there and keep it boiling? Everything else (condenser sizing, vacuum pump capacity, recovery time) follows from that.</p>
+
+  <p><strong>Need a number now?</strong> The free <a href="/calculators/solvent-recovery-calculator/">Solvent Recovery Calculator</a> finds the boiling point under vacuum for thousands of solvents, plus heat load, condenser size and vacuum pump capacity.</p>
 
   <h2>Boiling Point at Vacuum: the Antoine Equation</h2>
   <div class="formula-box">
@@ -43,15 +57,35 @@ structured_data: |
   <h2>Heat Load &amp; Recovery Time</h2>
   <p>Once you know the boiling temperature, the heat duty to sustain boiling is governed by the solvent's latent heat of vaporization and the target vapor rate: Duty (kW) = mass vaporization rate (kg/s) &times; latent heat (kJ/kg). Recovery time then follows from total solvent mass to be recovered divided by that vaporization rate, adjusted for the available heating duty from the jacket or coil.</p>
 
+  <h2>Worked Example: Heat Load and Recovery Time</h2>
+  <p>Continuing with toluene: say 2,000 kg has to be stripped at a steady 500 kg/hr. Toluene's latent heat is about 360 kJ/kg near its normal boiling point (use the value at your actual recovery temperature for design).</p>
+  <div class="formula-box">
+    Vapor rate = 500 / 3,600 &asymp; 0.139 kg/s<br>
+    Heat duty = 0.139 &times; 360 &asymp; 50 kW<br>
+    Recovery time = 2,000 / 500 = 4 hours
+  </div>
+  <p>This is the boiling duty alone. Add the sensible heat to bring the batch up to 52&deg;C and an allowance for heat losses. If the jacket can only supply, say, 35 kW, the vapor rate drops in proportion and the recovery takes longer than 4 hours. The condenser has to remove the same ~50 kW, which is the starting point for sizing it.</p>
+
   <h2>In the Plant</h2>
   <p>Antoine coefficients are only valid over the temperature/pressure range they were fitted to. Extrapolating far outside that range (very deep vacuum, or temperatures near a solvent's critical point) can give a boiling point that looks plausible but is wrong. Always check the returned value against a known reference point (like the normal boiling point) before using it to size equipment.</p>
 
   <h2>Common Mistakes</h2>
   <p>Mixing up mmHg and mbar (a factor of ~1.33 apart) when entering the vacuum level; using latent heat measured at atmospheric pressure without adjusting for the actual recovery temperature; and forgetting that mixed-solvent systems don't follow a single Antoine curve at all. A binary or multi-component mix needs a real VLE calculation, not this single-compound shortcut.</p>
 
+  <h2>Frequently Asked Questions</h2>
+  <h3>How do you calculate the boiling point of a solvent under vacuum?</h3>
+  <p>Rearrange the Antoine equation: T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C, with P in mmHg and the A, B, C coefficients for that solvent. For toluene at 100 mmHg this gives about 52&deg;C.</p>
+  <h3>How do you calculate heat load for solvent recovery?</h3>
+  <p>Heat duty (kW) = vaporisation rate (kg/s) &times; latent heat (kJ/kg). In the example above, 500 kg/hr of toluene needs roughly 50 kW before sensible heat and losses.</p>
+  <h3>Is mmHg the same as mbar?</h3>
+  <p>No. 1 mmHg &asymp; 1.333 mbar. Check which unit your Antoine coefficients were fitted in before entering the vacuum level.</p>
+
   <div class="related-box">
     <h3>Try the Calculators</h3>
     <a href="/calculators/solvent-recovery-calculator/">Solvent Recovery Calculator</a>
     <a href="/calculators/heat-load-calculator/">Heat Load &amp; Recovery Calculator</a>
+    <h3>Related Articles</h3>
+    <a href="/articles/heat-load-calculation/">How to Calculate Heat Load &amp; Recovery Time</a>
+    <a href="/articles/pump-power-calculation/">Pump Power Calculation</a>
   </div>
 </div>

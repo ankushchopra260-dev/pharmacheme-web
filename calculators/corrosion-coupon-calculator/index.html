@@ -1,7 +1,16 @@
 ---
 layout: default
-title: Corrosion Coupon Calculator
-description: "Weight-loss corrosion rate (mpy) from coupon exposure data, with an Excellent/Good/Satisfactory rating."
+title: "Corrosion Coupon Calculator: Corrosion Rate in mpy & mm/y"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How is corrosion rate calculated from a coupon?", "acceptedAnswer": { "@type": "Answer", "text": "Corrosion rate (mpy) = 534 x W / (D x A x T), with weight loss W in mg, density D in g/cm3, area A in square inches and time T in hours (ASTM G1 weight-loss method)." } },
+      { "@type": "Question", "name": "How do I convert mpy to mm/y?", "acceptedAnswer": { "@type": "Answer", "text": "Multiply by 0.0254. 5 mpy is 0.127 mm/y." } }
+    ]
+  }
+description: "Free corrosion coupon calculator: corrosion rate in mils per year (mpy) from coupon weight loss, density, area and exposure time (ASTM G1), with a worked example."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -30,8 +39,22 @@ breadcrumbs:
   </div>
   <p>Where W is weight loss (mg), D is metal density (g/cm&sup3;), A is exposed area (in&sup2;), and T is exposure time (hours). This is the standard ASTM G1 weight-loss formula.</p>
 
+  <p>To report in mm per year: 1 mpy = 0.0254 mm/y.</p>
+
+  <h2>Worked Example</h2>
+  <p>A carbon steel coupon (density 7.86 g/cm&sup3;) with 2.0 in&sup2; exposed area loses 25 mg over 30 days (720 hours):</p>
+  <div class="formula-box">
+    Corrosion rate = (534 &times; 25) / (7.86 &times; 2.0 &times; 720) &asymp; 1.18 mpy &asymp; 0.030 mm/y
+  </div>
+
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>This assumes uniform general corrosion. It won't capture localized attack like pitting or crevice corrosion, which can be far more damaging than the average weight-loss rate suggests. Always inspect the coupon visually for pitting alongside the calculated rate.</p>
+
+  <h2>Frequently Asked Questions</h2>
+  <h3>How is corrosion rate calculated from a coupon?</h3>
+  <p>Weigh the cleaned coupon before and after exposure, then use corrosion rate (mpy) = 534 &times; W / (D &times; A &times; T), with W in mg, D in g/cm&sup3;, A in in&sup2; and T in hours.</p>
+  <h3>How do I convert mpy to mm/y?</h3>
+  <p>Multiply by 0.0254. For example, 5 mpy is 0.127 mm/y.</p>
 
   <div class="related-box">
     <h3>Related Calculators</h3>
