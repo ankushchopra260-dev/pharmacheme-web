@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Solvent Recovery Calculator
-description: "Solvent recovery calculator for batch vacuum distillation: boiling point at vacuum, heat load and recovery time, condenser sizing and vacuum pump capacity."
+title: "Solvent Boiling Point Under Vacuum Calculator & Solvent Recovery"
+description: "Free calculator for solvent boiling point under vacuum (Antoine equation, ~4,979 compounds), plus heat load, recovery time, condenser sizing and vacuum pump capacity for batch recovery."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -16,7 +16,7 @@ breadcrumbs:
 
 <div class="container calc-page-head">
   <h1>Solvent Recovery Calculator</h1>
-  <p>Batch vacuum distillation design, drawing on an embedded ~4,979-compound solvent database with Antoine coefficients.</p>
+  <p>Find a solvent's boiling point under vacuum, then size the batch recovery: heat load, recovery time, condenser and vacuum pump. Uses an embedded ~4,979-compound database of Antoine coefficients. See the <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">worked example with toluene</a>.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="panels"></div>
@@ -31,6 +31,9 @@ breadcrumbs:
     <li><strong>Condenser Sizing</strong>: duty and area estimate for the recovery condenser.</li>
     <li><strong>Vacuum Pump Capacity</strong>: required pump capacity for the vacuum level and vapor load.</li>
   </ul>
+
+  <h2>Example</h2>
+  <p>Toluene (A = 6.95087, B = 1342.31, C = 219.187, P in mmHg) at 100 mmHg: T<sub>b</sub> = 1342.31 / (6.95087 &minus; 2.0) &minus; 219.187 &asymp; 52&deg;C, against 110.6&deg;C at 760 mmHg.</p>
 
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>Antoine coefficients are compound-specific and only valid over the temperature/pressure range they were fitted to. Very high vacuum or near-critical conditions can fall outside that range. Always sanity-check the returned boiling point against a known reference point for the solvent before using it for equipment sizing.</p>
