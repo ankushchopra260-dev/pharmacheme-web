@@ -9,3 +9,9 @@ plugins:
 
 exclude:
   - README.md
+
+defaults:
+  - scope:
+      path: "PCCPL-LALRU"
+    values:
+      sitemap: false
