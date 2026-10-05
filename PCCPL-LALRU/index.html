@@ -33,6 +33,8 @@ button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .side h2 { margin: 10px 12px 0; font: 800 17px "Big Shoulders Display", "Arial Narrow", sans-serif; }
 .info { position: fixed; right: 12px; top: 64px; width: 300px; background: #0E1B29f2; border: 1px solid var(--line); border-top: 3px solid var(--brass); border-radius: 10px; padding: 14px 16px; z-index: 4; display: none; }
 .info.on { display: block; }
+.home-btn { font: 700 13px system-ui, sans-serif; color: #0B1622; background: var(--brass); border: 1px solid var(--brass); border-radius: 6px; padding: 7px 11px; text-decoration: none; pointer-events: auto; }
+.home-btn:hover { filter: brightness(1.08); }
 .info h3 { margin: 0 0 2px; font: 800 22px/1.1 "Big Shoulders Display", "Arial Narrow", sans-serif; }
 .info .no { color: var(--brass); font: 600 12px ui-monospace, monospace; }
 .info dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 10px 0 0; font-size: 13px; }
@@ -81,6 +83,7 @@ body.walking .whint { display: block; } body.walking .hint, body.walking .legend
 <div class="bar">
   <div><h1>Punjab Chemicals, Lalru <span class="tag">Internal draft</span></h1><small>Site layout tour, built from the site layout plan. Positions and heights are approximate.</small></div>
   <div class="btns">
+    <a class="home-btn" href="https://www.pharmacheme.in/" title="Visit PharmaChemE">Visit PharmaChemE</a>
     <button type="button" id="b-tour">Start tour</button>
     <button type="button" id="b-walk" aria-pressed="false">Walk</button>
     <button type="button" id="b-list" aria-pressed="true">Buildings</button>
