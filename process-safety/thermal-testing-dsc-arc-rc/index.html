@@ -10,6 +10,7 @@ breadcrumbs:
 ---
 
 <link rel="stylesheet" href="/assets/css/process-safety.css">
+<link rel="stylesheet" href="{{ '/assets/css/concepts.css' | relative_url }}">
 <article class="ps-article">
 <div class="ps-kicker">Process Safety · Lesson 3 of 9 · 14 min read</div>
 <h1>The testing toolkit: DSC, TSU, ARC, RC1</h1>
@@ -30,6 +31,12 @@ breadcrumbs:
 <tr><td><b>ARC</b><br>Accelerating rate calorimeter, “heat-wait-search” adiabatic test</td><td>Adiabatic self-heating rate, pressure, TMR<sub>ad</sub>, kinetics</td><td>Sensitive, close to plant conditions, good for reaction mixtures and all-in batches</td><td>Slow (about 1 day per test), expensive; needs a correction for the thermal inertia of the cell (φ-factor)</td></tr>
 <tr><td><b>Reaction calorimeter (RC1)</b><br>Lab reactor run like the plant process</td><td>Heat release rate vs time, total reaction heat, c<sub>p</sub>, accumulation, gas flow</td><td>Measures the <i>desired</i> reaction under real dosing</td><td>Does not measure decompositions; needs the actual process</td></tr>
 </table></div>
+<h2>Each instrument in motion</h2>
+<p>Drag the slider, or press Play, to watch what each test measures.</p>
+<div class="cm-embed" data-concept="dsc"></div>
+<div class="cm-embed" data-concept="tsu"></div>
+<div class="cm-embed" data-concept="arc"></div>
+<div class="cm-embed" data-concept="rc"></div>
 <p>The usual flow: <b>DSC screening</b> of all materials and mixtures → if an exotherm is close to process conditions, <b>ARC / TSU</b> for the decomposition → <b>reaction calorimetry</b> for the main reaction → combine the results into the cooling-failure scenario (lesson 4) and the Stoessel class (lesson 5). Powders get their own tests (lesson 7).</p>
 
 <h2>Reading a DSC thermogram</h2>
@@ -42,3 +49,5 @@ breadcrumbs:
 <div class="ps-mq" data-ans="1"><div class="q">✍️ Check yourself: A DSC of the final reaction mass shows 1,100 J/g of decomposition energy; c′<sub>p</sub> = 1.8 J/g·K. What is the adiabatic temperature rise of the decomposition?</div><div class="opts"><button class="o">A. About 61 K</button><button class="o">B. About 610 K</button><button class="o">C. About 1,980 K</button><button class="o">D. It cannot be calculated from DSC</button></div><div class="exp">ΔT<sub>ad</sub> = Q′ / c′<sub>p</sub> = 1100 / 1.8 ≈ 611 K. That is extreme severity: the mass would vaporise and gas off violently. The next question is probability: how easily is it triggered? (TD24, lesson 4.)</div></div><div class="ps-mq" data-ans="2"><div class="q">✍️ Check yourself: Which test tells you how much of the dosed reagent accumulates during a semi-batch reaction?</div><div class="opts"><button class="o">A. DSC</button><button class="o">B. TSU</button><button class="o">C. Reaction calorimetry (RC1)</button><button class="o">D. Fall hammer test</button></div><div class="exp">The reaction calorimeter measures the heat release rate while you dose. Comparing heat released with reagent fed gives the accumulation over time, and that number goes straight into the MTSR.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>DSC screens everything; TSU adds pressure; ARC gives adiabatic kinetics and TMR<sub>ad</sub>; reaction calorimetry measures the desired reaction and accumulation.</li><li>Severity from energy: ΔT<sub>ad</sub> = Q′ / c′<sub>p</sub>.</li><li>DSC onset temperatures are not safe limits. Use TMR<sub>ad</sub> / TD24.</li><li>Watch for autocatalytic signatures and test the mixtures that matter, including mistakes.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="thermal-testing-dsc-arc-rc">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/high-hazard-process-checklist/"><span>← LESSON 2</span>Spotting a high-hazard process</a><a href="/process-safety/cooling-failure-and-runaway/" style="text-align:right;"><span>LESSON 4 →</span>Cooling failure and thermal runaway</a></div>
 </article>
 <script src="/assets/js/process-safety.js"></script>
+<script src="{{ '/assets/js/concepts.js' | relative_url }}"></script>
+<script>PCM.mountIn(document);</script>

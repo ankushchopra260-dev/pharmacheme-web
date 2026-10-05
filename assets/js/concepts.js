@@ -1714,3 +1714,247 @@
     note: 'Also check the stretch on the inside diameter (keep under about 5%) and that the elastomer suits the fluid and temperature: the wrong rubber swells, hardens or dissolves however well it fits.'
   });
 })();
+(function () {
+  var H = PCM._h, C = H.C, fmt = H.fmt, lg = H.lg, clamp = H.clamp, def = H.def, sig = H.sig;
+  function gauss(x, m, s) { return Math.exp(-0.5 * (x - m) * (x - m) / (s * s)); }
+  function interp(arr, x, key) { /* arr sorted by x[0] */
+    if (x <= arr[0][0]) return arr[0][key]; var n = arr.length; if (x >= arr[n - 1][0]) return arr[n - 1][key];
+    var lo = 0, hi = n - 1; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (arr[m][0] <= x) lo = m; else hi = m; }
+    var t = (x - arr[lo][0]) / (arr[hi][0] - arr[lo][0]); return arr[lo][key] + (arr[hi][key] - arr[lo][key]) * t;
+  }
+  function flame(K, x, y, s, t) { /* small heater glow */
+    for (var i = 0; i < 3; i++) { var a = .35 + .25 * Math.sin(t * 9 + i * 2); K.fi('rgba(240,138,60,' + a.toFixed(2) + ')').circ(x + (i - 1) * s * .7, y, s * (.5 + .2 * Math.sin(t * 7 + i)), true); }
+  }
+
+  /* ---------- DSC: heat flow vs temperature ---------- */
+  var RATE = 5 / 60; /* 5 K/min in K/s */
+  function dscQ(T) { /* W/g, exo positive */
+    var melt = -0.55 * gauss(T, 118, 3.2);
+    var x = T - 228, dec = x <= 0 ? 0 : 1.9 * Math.pow(x / 34, 2.2) * Math.exp(-Math.pow(x / 34, 2.2) + 1) * (x < 0 ? 0 : 1);
+    return melt + dec;
+  }
+  var DSC = []; (function () { var a = 0, m = 0; for (var T = 30; T <= 350.01; T += .5) { var q = dscQ(T); if (q > 0) a += q * .5 / RATE; else m += -q * .5 / RATE; DSC.push([T, q, a, m]); } })();
+  var DSC_TOT = DSC[DSC.length - 1][2], DSC_MELT = DSC[DSC.length - 1][3];
+  var DSC_ON = (function () { for (var i = 0; i < DSC.length; i++) if (DSC[i][0] > 200 && DSC[i][1] > 0.05) return DSC[i][0]; return 240; })();
+  def('dsc', {
+    t: 'DSC: Differential Scanning Calorimetry', eq: 'A few mg of sample and an empty reference are heated side by side; the heat-flow difference shows melting and exotherms',
+    eq2: 'Q&prime; = &int; q dt (J/g) &nbsp; &Delta;T<sub>ad</sub> = Q&prime; / c&prime;<sub>p</sub>',
+    cap: 'Sealed high-pressure crucibles on a furnace, scanned at 5 K/min', alt: 'DSC furnace with sample and reference crucibles',
+    sl: { label: 'Furnace temperature (°C)', min: 30, max: 350, step: .5, v: 30, sweep: [30, 350] }, rp: 'tl', period: 14,
+    anim: function (ctx, w, h, dt, T, st) {
+      var K = H.kit(ctx, w, h); st.t = (st.t || 0) + dt; var q = dscQ(T), hot = clamp((T - 30) / 320, 0, 1);
+      /* furnace */
+      K.fi('rgb(' + Math.round(40 + 150 * hot) + ',' + Math.round(40 + 30 * hot) + ',' + Math.round(50 - 20 * hot) + ')').rect(14, 40, 72, 34, true);
+      K.st(C.paper, 2).rect(14, 40, 72, 34); K.st(C.paper, 2).ln(14, 40, 30, 24, 70, 24, 86, 40);
+      K.tx('furnace', 50, 82, { c: C.muted, sz: 3.2 });
+      /* crucibles on sensors */
+      [[34, 'sample', true], [66, 'reference', false]].forEach(function (c) {
+        var x = c[0], glow = c[2] ? clamp(q / 1.6, 0, 1) : 0, cool = c[2] ? clamp(-q / .5, 0, 1) : 0;
+        K.st(C.steel, 2).ln(x - 8, 62, x + 8, 62); K.st(C.steel, 1.5).ln(x, 62, x, 74);
+        K.fi(glow > .05 ? 'rgba(255,' + Math.round(200 - 140 * glow) + ',60,' + (.4 + .6 * glow).toFixed(2) + ')' : cool > .05 ? 'rgba(143,184,232,' + (.4 + .6 * cool).toFixed(2) + ')' : '#C8B27A').rect(x - 5, 52, 10, 9, true);
+        K.st(C.paper, 1.5).rect(x - 5, 52, 10, 9); K.st(C.paper, 1.5).ln(x - 6, 52, x + 6, 52);
+        if (c[2]) K.fi(C.dark).circ(x, 57, 1.6, true);
+        K.tx(c[1], x, 48, { c: C.paper, sz: 3.2 });
+        if (glow > .1) for (var i = 0; i < 4; i++) { var a = st.t * 3 + i * 1.6; K.st('rgba(255,180,90,' + (glow * .7).toFixed(2) + ')', 1.4).ln(x, 50, x + Math.cos(a) * 6, 44 - Math.abs(Math.sin(a)) * 6); }
+      });
+      K.tx(fmt(T, 0) + ' °C', 50, 16, { mono: 1, c: C.paper, sz: 5 });
+      var lab = q > 0.05 ? (T < DSC_ON + 15 ? 'exotherm starting' : 'EXOTHERM: decomposition') : q < -0.05 ? 'endotherm: melting' : 'baseline';
+      K.tx(lab, 50, 94, { c: q > .05 ? C.red : q < -.05 ? C.blue : C.green, wt: 700, sz: 4 });
+    },
+    graph: function (T) {
+      return {
+        x0: 30, x1: 350, y0: -0.8, y1: 2.2, xt: [50, 100, 150, 200, 250, 300, 350], yt: [-0.5, 0, 0.5, 1, 1.5, 2], xl: 'Temperature  (°C)', yl: 'Heat flow, exo up  (W/g)',
+        hl: [{ y: 0, c: C.dim }], vl: [{ x: DSC_ON, c: C.red, label: 'onset ≈ ' + fmt(DSC_ON, 0) + ' °C', ty: 20 }],
+        under: function (ctx, sx, sy) { ctx.beginPath(); ctx.moveTo(sx(DSC_ON), sy(0)); DSC.forEach(function (p) { if (p[0] >= DSC_ON && p[0] <= T) ctx.lineTo(sx(p[0]), sy(p[1])); }); ctx.lineTo(sx(Math.max(DSC_ON, T)), sy(0)); ctx.closePath(); ctx.fillStyle = 'rgba(240,138,60,.28)'; ctx.fill(); },
+        curves: [{ f: dscQ, c: C.orange, n: 400, label: 'decomposition', lx: 306, ly: 0.42, al: 'center' }, { f: dscQ, from: 100, to: 135, c: C.blue, n: 80, label: 'melting', lx: 126, ly: -0.62, dy: 4 }],
+        points: function () { return [{ x: T, y: dscQ(T) }]; }
+      };
+    },
+    read: function (T) { return 'T     = <b>' + fmt(T, 0) + '</b> °C\nq     = <b>' + fmt(Math.abs(dscQ(T)) < .005 ? 0 : dscQ(T), 2) + '</b> W/g\nexo   = <b>' + fmt(interp(DSC, T, 2), 0) + '</b> J/g\n(total ' + fmt(DSC_TOT, 0) + ' J/g)'; },
+    note: 'The peak area is the energy: here about ' + fmt(DSC_TOT, 0) + ' J/g, so with c′p ≈ 1.8 J/g·K the adiabatic rise would be about ' + fmt(DSC_TOT / 1.8, 0) + ' K. DSC is a quick screen. Its onset depends on scan rate and is far above the temperature at which a big insulated vessel can start to self-heat.'
+  });
+
+  /* ---------- TSU: pressure and gas ---------- */
+  function pVap(T) { return Math.exp(11.0 - 3800 / (T + 273.15)) * 1.01325 * 1.2; } /* bar, solvent-like */
+  var TSU_ON = 190;
+  function pGas(T) { var x = T - TSU_ON; return x <= 0 ? 0 : 0.05 * x * x * (1 + x / 40); }
+  function pTot(T) { return Math.min(120, pVap(T) + pGas(T)); }
+  def('tsu', {
+    t: 'TSU: Thermal Screening Unit', eq: 'About 8 mL of sample in a closed test cell with a pressure transducer, heated in a ramp',
+    eq2: 'P<sub>total</sub> = P<sub>vapour</sub> + P<sub>gas</sub> &nbsp;&mdash;&nbsp; gas left after cooling = non-condensable',
+    cap: 'Spherical test cell in an oven, pressure line to a transducer', alt: 'TSU test cell with pressure gauge',
+    sl: { label: 'Oven temperature (°C)', min: 30, max: 260, step: .5, v: 30, sweep: [30, 260] }, rp: 'tl', period: 12,
+    anim: function (ctx, w, h, dt, T, st) {
+      var K = H.kit(ctx, w, h); st.t = (st.t || 0) + dt; var P = pTot(T), g = pGas(T), hot = clamp((T - 30) / 230, 0, 1);
+      K.st(C.steel, 2).rect(10, 36, 54, 52); K.fi('rgba(' + Math.round(60 + 140 * hot) + ',40,30,.35)').rect(10, 36, 54, 52, true);
+      K.tx('oven', 37, 94, { c: C.muted, sz: 3.2 });
+      /* cell */
+      K.fi(g > .5 ? '#7A3B2A' : C.liquid).circ(37, 64, 13, true); K.st(C.paper, 2).circ(37, 64, 13);
+      var sw = H.swarm(st, 'b', 18, [27, 54, 47, 74]);
+      if (g > .2) sw.list.forEach(function (p) { p.y -= dt * (8 + g * .3); if (p.y < 52) { p.y = 74; p.x = 28 + Math.random() * 18; } K.st('rgba(236,231,216,.8)', 1).circ(p.x, p.y, .7 + Math.min(1.5, g / 40)); });
+      /* line to gauge */
+      K.st(C.paper, 2).ln(37, 51, 37, 22, 74, 22, 74, 34);
+      var r = 14, ang = Math.PI * (0.8 + 1.4 * clamp(P / 120, 0, 1));
+      K.st(C.paper, 2).circ(74, 46, r); K.fi(C.dark).circ(74, 46, r - 1, true);
+      for (var i = 0; i <= 6; i++) { var a = Math.PI * (0.8 + 1.4 * i / 6); K.st(C.muted, 1).ln(74 + Math.cos(a) * (r - 3), 46 + Math.sin(a) * (r - 3), 74 + Math.cos(a) * (r - 1), 46 + Math.sin(a) * (r - 1)); }
+      K.st(P > 60 ? C.red : C.brass, 2.2).ln(74, 46, 74 + Math.cos(ang) * (r - 3), 46 + Math.sin(ang) * (r - 3));
+      K.tx(fmt(P, 1) + ' bar', 74, 69, { mono: 1, c: P > 60 ? C.red : C.paper, sz: 4 });
+      K.tx(fmt(T, 0) + ' °C', 37, 30, { mono: 1, c: C.paper, sz: 4 });
+      K.tx(g > 1 ? 'GAS GENERATION' : 'vapour pressure only', 50, 10, { c: g > 1 ? C.red : C.green, wt: 700, sz: 4 });
+    },
+    graph: function (T) {
+      return {
+        x0: 30, x1: 260, y0: 0, y1: 120, xt: [50, 100, 150, 200, 250], yt: [0, 20, 40, 60, 80, 100, 120], xl: 'Sample temperature  (°C)', yl: 'Pressure  (bar)',
+        vl: [{ x: TSU_ON, c: C.red, label: 'gas onset', ty: 20 }],
+        curves: [{ f: pVap, c: C.blue, dash: [6, 5], label: 'solvent vapour', lx: 200, ly: pVap(200), dy: 18, al: 'left' }, { f: pTot, c: C.orange, n: 300, label: 'measured', lx: 236, ly: pTot(236), al: 'right', dx: -6 }],
+        points: function () { return [{ x: T, y: pTot(T) }]; }
+      };
+    },
+    read: function (T) { return 'T     = <b>' + fmt(T, 0) + '</b> °C\nP     = <b>' + fmt(pTot(T), 1) + '</b> bar\nvapour  ' + fmt(pVap(T), 1) + ' bar\ngas     <b>' + fmt(Math.min(120, pTot(T)) - Math.min(pVap(T), pTot(T)), 1) + '</b> bar'; },
+    note: 'Below the onset the pressure just follows the solvent’s vapour pressure. Where the measured line leaves the dashed curve, the sample is making gas. That gas is what the relief system has to vent, and DSC cannot see it.'
+  });
+
+  /* ---------- ARC: heat-wait-search ---------- */
+  var ARC = (function () {
+    var out = [], T = 100, t = 0, mode = 'heat', step = 5, conv = 0, A = 5.3e8, E = 120000, R = 8.314, dTad = 260, phi = 1.4, detect = 0.02 / 60, dt = 5, found = false;
+    function k(T) { return A * Math.exp(-E / (R * (T + 273.15))); }
+    while (t < 26 * 3600 && T < 360) {
+      var rate = k(T) * (1 - conv) * dTad / phi; /* K/s adiabatic self heat (phi corrected) */
+      if (!found) {
+        /* heat 5 K in 4 min, wait 15 min, search 10 min */
+        var seg = [['heat', 240], ['wait', 900], ['search', 600]];
+        for (var s = 0; s < 3 && !found; s++) {
+          var len = seg[s][1];
+          for (var u = 0; u < len; u += dt) {
+            var r2 = k(T) * (1 - conv) * dTad / phi; conv += k(T) * (1 - conv) * dt;
+            if (seg[s][0] === 'heat') T += step * dt / 240; else T += r2 * dt;
+            t += dt; out.push([t / 3600, T, seg[s][0], r2 * 60]);
+            if (seg[s][0] === 'search' && r2 > detect) { found = true; break; }
+          }
+        }
+      } else {
+        var r3 = k(T) * (1 - conv) * dTad / phi, ddt = r3 > .02 ? .5 : dt;
+        conv = Math.min(1, conv + k(T) * (1 - conv) * ddt); T += r3 * ddt; t += ddt; out.push([t / 3600, T, 'exotherm', r3 * 60]);
+        if (conv > .999) break;
+      }
+    }
+    return out;
+  })();
+  var ARC_DET = (function () { for (var i = 0; i < ARC.length; i++) if (ARC[i][2] === 'exotherm') return ARC[i]; return ARC[ARC.length - 1]; })();
+  var ARC_END = ARC[ARC.length - 1][0];
+  function arcAt(t) { var lo = 0, hi = ARC.length - 1; if (t <= ARC[0][0]) return ARC[0]; if (t >= ARC[hi][0]) return ARC[hi]; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (ARC[m][0] <= t) lo = m; else hi = m; } return ARC[lo]; }
+  def('arc', {
+    t: 'ARC: Accelerating Rate Calorimeter', eq: 'Heat, wait, search: step the temperature until the sample heats itself, then keep the surroundings at the same temperature so no heat is lost',
+    eq2: 'self-heating detected at &gt; 0.02 K/min &nbsp; &Delta;T<sub>ad,true</sub> = &phi; &middot; &Delta;T<sub>measured</sub>',
+    cap: 'Sample bomb inside guard heaters that track its temperature', alt: 'ARC bomb inside a heated block',
+    sl: { label: 'Test time (h)', min: 0, max: Math.ceil(ARC_END * 10) / 10, step: .01, v: 0, sweep: [0, ARC_END] }, rp: 'tl', period: 18,
+    anim: function (ctx, w, h, dt, tt, st) {
+      var K = H.kit(ctx, w, h); st.t = (st.t || 0) + dt; var p = arcAt(tt), T = p[1], mode = p[2], hot = clamp((T - 60) / 250, 0, 1);
+      K.st(C.steel, 3).rect(16, 26, 68, 58); K.fi('#14202C').rect(16, 26, 68, 58, true);
+      /* guard heaters */
+      var on = mode === 'heat' || mode === 'exotherm';
+      [[20, 30, 60, 5], [20, 75, 60, 5], [20, 35, 5, 40], [75, 35, 5, 40]].forEach(function (z) { K.fi(on ? 'rgba(240,138,60,' + (.45 + .35 * Math.sin(st.t * 6)).toFixed(2) + ')' : '#3A2A22').rect(z[0], z[1], z[2], z[3], true); });
+      K.fi('rgb(' + Math.round(70 + 180 * hot) + ',' + Math.round(80 - 30 * hot) + ',' + Math.round(110 - 80 * hot) + ')').circ(50, 55, 11, true); K.st(C.paper, 2).circ(50, 55, 11);
+      K.st(C.paper, 1.6).ln(50, 44, 50, 18, 70, 18); K.tx('pressure', 72, 19.5, { c: C.muted, al: 'left', sz: 3 });
+      K.st(C.brass, 1.4).ln(61, 55, 74, 55);
+      K.tx(fmt(T, 1) + ' °C', 50, 57, { mono: 1, c: C.paper, sz: 4 });
+      var col = { heat: C.orange, wait: C.muted, search: C.blue, exotherm: C.red }[mode];
+      K.tx(mode === 'exotherm' ? 'EXOTHERM: adiabatic tracking' : mode.toUpperCase(), 50, 94, { c: col, wt: 700, sz: 4.4 });
+      ['HEAT', 'WAIT', 'SEARCH'].forEach(function (m, i) { var a = mode === m.toLowerCase(); K.fi(a ? col : '#22313F').rect(22 + i * 19, 8, 17, 6, true); K.tx(m, 30.5 + i * 19, 12.6, { c: a ? C.bg : C.muted, sz: 2.8, wt: 700 }); });
+    },
+    graph: function (tt) {
+      return {
+        x0: 0, x1: Math.ceil(ARC_END), y0: 80, y1: 380, xt: (function () { var a = [], s = ARC_END > 12 ? 4 : 2; for (var v = 0; v <= Math.ceil(ARC_END); v += s) a.push(v); return a; })(), yt: [100, 150, 200, 250, 300, 350], xl: 'Time  (h)', yl: 'Sample temperature  (°C)',
+        vl: [{ x: ARC_DET[0], c: C.red, label: 'exotherm found at ' + fmt(ARC_DET[1], 0) + ' °C', ty: 130 }],
+        curves: [{ pts: ARC.filter(function (p, i) { return i % 6 === 0 || p[2] === 'exotherm'; }).map(function (p) { return [p[0], p[1]]; }), c: C.orange, lw: 2.2 }],
+        points: function () { var p = arcAt(tt); return [{ x: p[0], y: p[1] }]; }
+      };
+    },
+    read: function (tt) { var p = arcAt(tt); return 'mode = <b>' + p[2] + '</b>\nT    = <b>' + fmt(p[1], 1) + '</b> °C\nrate = <b>' + sig(Math.max(p[3], 0), 2) + '</b> K/min'; },
+    note: 'The staircase is heat-wait-search. Once the sample warms itself faster than 0.02 K/min, the guard heaters follow it, so no heat leaks away: just like the centre of a large, poorly cooled vessel. The steep climb gives the adiabatic rise, the self-heat rate and the TMRad. The thick bomb absorbs some heat, so results are scaled by the φ-factor.'
+  });
+
+  /* ---------- RC1: reaction calorimetry and accumulation ---------- */
+  var RC = (function () { /* semi-batch: B dosed over 120 min, A in excess, r = k*nB */
+    var out = [], nB = 0, fed = 0, reacted = 0, k = 0.035, F = 1 / 120, dH = 4200; /* total heat kJ */
+    for (var t = 0; t <= 240; t += .25) { var f = t < 120 ? F : 0; var r = k * nB; nB += (f - r) * .25; fed += f * .25; reacted += r * .25; out.push([t, r * dH / 60 * 1000, fed, reacted, nB, f > 0 ? F * dH / 60 * 1000 : 0]); }
+    return out; /* [t min, qr W, fed frac, reacted frac, accumulated frac, dosing-equivalent heat W] */
+  })();
+  var RC_MAX = (function () { var m = 0, tm = 0; RC.forEach(function (p) { if (p[4] > m) { m = p[4]; tm = p[0]; } }); return [m, tm]; })();
+  def('rc', {
+    t: 'RC1: Reaction Calorimetry and Accumulation', eq: 'Run the real process in a jacketed lab reactor; the jacket heat balance gives the heat release rate as you dose B (shaded: dosing)',
+    eq2: 'q<sub>r</sub> = UA (T<sub>r</sub> &minus; T<sub>j</sub>) + m c<sub>p</sub> dT<sub>r</sub>/dt &nbsp; accumulation = fed &minus; reacted',
+    cap: 'Isothermal semi-batch: reagent B dosed over 2 h into A', alt: 'Lab reaction calorimeter with dosing',
+    sl: { label: 'Time (min)', min: 0, max: 240, step: .5, v: 0, sweep: [0, 240] }, rp: '', period: 16,
+    anim: function (ctx, w, h, dt, t, st) {
+      var K = H.kit(ctx, w, h); st.t = (st.t || 0) + dt; var q = interp(RC, t, 1), fed = interp(RC, t, 2), acc = interp(RC, t, 4), dosing = t < 120;
+      var Tr = 40, Tj = Tr - q / 40;
+      /* jacket and glass vessel */
+      K.fi('rgba(143,184,232,' + (.15 + clamp(q / 600, 0, .5)).toFixed(2) + ')').rect(20, 34, 60, 54, true);
+      K.st(C.blue, 2).ln(20, 34, 20, 88, 80, 88, 80, 34);
+      K.fi('rgba(31,74,115,.85)').rect(26, 40 + (1 - (.5 + .5 * fed)) * 38, 48, 44 - (1 - (.5 + .5 * fed)) * 38, true);
+      K.st(C.paper, 2).ln(26, 30, 26, 84, 74, 84, 74, 30);
+      H.impeller(K, 50, 74, 12, st.t * 8);
+      /* dosing burette */
+      K.st(C.paper, 1.6).rect(62, 6, 8, 20); K.fi(C.orange).rect(62, 6 + 20 * fed, 8, 20 * (1 - fed), true);
+      K.st(C.paper, 1.4).ln(66, 26, 66, 34);
+      if (dosing) { var y = 34 + ((st.t * 40) % 14); K.fi(C.orange).circ(66, y, 1.2, true); }
+      K.tx('B', 66, 4.5, { c: C.orange, sz: 3.4, wt: 700 });
+      /* probes */
+      K.st(C.brass, 1.6).ln(36, 22, 36, 60); K.tx('Tr ' + fmt(Tr, 1) + ' °C', 30, 18, { mono: 1, c: C.paper, sz: 3.2, al: 'left' });
+      K.tx('Tj ' + fmt(Tj, 1) + ' °C', 50, 95, { mono: 1, c: C.blue, sz: 3.4 });
+      /* accumulation bar */
+      K.st(C.paper, 1.2).rect(86, 34, 6, 50); K.fi(acc > .15 ? C.red : C.brass).rect(86, 34 + 50 * (1 - clamp(acc / .4, 0, 1)), 6, 50 * clamp(acc / .4, 0, 1), true);
+      K.tx('accum.', 89, 31, { c: C.muted, sz: 2.8 });
+    },
+    graph: function (t) {
+      return {
+        x0: 0, x1: 240, y0: 0, y1: 900, xt: [0, 30, 60, 90, 120, 150, 180, 210, 240], yt: [0, 200, 400, 600, 800], xl: 'Time  (min)', yl: 'Heat release rate  (W)',
+        bands: [{ from: 0, to: 120, fill: 'rgba(240,138,60,.07)' }], vl: [{ x: 120, c: C.dim }],
+        under: function (ctx, sx, sy) { ctx.beginPath(); ctx.moveTo(sx(0), sy(0)); RC.forEach(function (p) { if (p[0] <= t) ctx.lineTo(sx(p[0]), sy(p[1])); }); ctx.lineTo(sx(t), sy(0)); ctx.closePath(); ctx.fillStyle = 'rgba(240,138,60,.25)'; ctx.fill(); },
+        curves: [{ pts: RC.map(function (p) { return [p[0], p[5]]; }), c: C.blue, dash: [6, 5], label: 'if B reacted instantly', lx: 4, ly: RC[1][5], dy: -10 }, { pts: RC.map(function (p) { return [p[0], p[1]]; }), c: C.orange, label: 'measured qr', lx: 150, ly: interp(RC, 150, 1), dy: -10 }],
+        points: function () { return [{ x: t, y: interp(RC, t, 1) }]; }
+      };
+    },
+    read: function (t) { return 'fed       <b>' + fmt(interp(RC, t, 2) * 100, 0) + '</b> %\nreacted   <b>' + fmt(interp(RC, t, 3) * 100, 0) + '</b> %\naccumul.  <b>' + fmt(interp(RC, t, 4) * 100, 0) + '</b> %\nqr        <b>' + fmt(interp(RC, t, 1), 0) + '</b> W'; },
+    note: 'If B reacted the moment it went in, the heat would follow the dashed line. It lags, so unreacted B builds up: here up to about ' + fmt(RC_MAX[0] * 100, 0) + ' % at ' + fmt(RC_MAX[1], 0) + ' min. If cooling fails at that moment, all of it can still react. That is what sets the MTSR.'
+  });
+
+  /* ---------- TMRad and TD24 ---------- */
+  var TMR = { A: 9.66e9, E: 125000, R: 8.314, Q: 900000, cp: 1800 }; /* J/kg, J/kg K */
+  function tmrH(T) { var Tk = T + 273.15, q = TMR.Q * TMR.A * Math.exp(-TMR.E / (TMR.R * Tk)); return TMR.cp * TMR.R * Tk * Tk / (q * TMR.E) / 3600; }
+  function tAt(hrs) { var lo = 40, hi = 300; for (var i = 0; i < 60; i++) { var m = (lo + hi) / 2; if (tmrH(m) > hrs) lo = m; else hi = m; } return (lo + hi) / 2; }
+  var TD24 = tAt(24), TD8 = tAt(8);
+  def('tmr', {
+    t: 'TMRad and TD24: How Much Time Is Left?', eq: 'Time to maximum rate under adiabatic conditions falls exponentially as the start temperature rises',
+    eq2: 'TMR<sub>ad</sub> = c&prime;<sub>p</sub> R T<sub>0</sub>&sup2; / (q&prime;(T<sub>0</sub>) E) &nbsp; TD24 = temperature where TMR<sub>ad</sub> = 24 h',
+    cap: 'An insulated batch held at the start temperature after cooling is lost', alt: 'Clock counting down to runaway',
+    sl: { label: 'Start temperature (°C)', min: 60, max: 200, step: .5, v: 80, sweep: [70, 190] }, rp: '', period: 14,
+    anim: function (ctx, w, h, dt, T, st) {
+      var K = H.kit(ctx, w, h), hrs = tmrH(T), danger = hrs < 8, warn = hrs < 24;
+      st.t = (st.t || 0) + dt;
+      var col = danger ? C.red : warn ? C.orange : C.green;
+      K.st(col, 3).circ(50, 46, 28); K.fi(C.dark).circ(50, 46, 26.5, true);
+      var frac = clamp(hrs / 48, 0, 1); /* clock face: 48 h full */
+      K.fi(col === C.green ? 'rgba(95,191,138,.25)' : col === C.orange ? 'rgba(240,138,60,.3)' : 'rgba(255,107,107,.35)');
+      ctx.beginPath(); ctx.moveTo(K.X(50), K.Y(46)); ctx.arc(K.X(50), K.Y(46), 26 * K.u, -Math.PI / 2, -Math.PI / 2 + frac * 6.2832); ctx.closePath(); ctx.fill();
+      for (var i = 0; i < 12; i++) { var a = i / 12 * 6.2832; K.st(C.muted, 1).ln(50 + Math.cos(a) * 23, 46 + Math.sin(a) * 23, 50 + Math.cos(a) * 26, 46 + Math.sin(a) * 26); }
+      var sa = -Math.PI / 2 + st.t * (danger ? 4 : warn ? 1.5 : .5); K.st(C.paper, 2).ln(50, 46, 50 + Math.cos(sa) * 20, 46 + Math.sin(sa) * 20);
+      K.tx(hrs > 999 ? '> 999 h' : hrs < 1 ? fmt(hrs * 60, 0) + ' min' : fmt(hrs, hrs < 10 ? 1 : 0) + ' h', 50, 49, { mono: 1, c: C.paper, sz: 6 });
+      K.tx('TMRad', 50, 39, { c: C.muted, sz: 3.4 });
+      K.tx('start ' + fmt(T, 0) + ' °C', 50, 85, { c: C.paper, sz: 4 });
+      K.tx(danger ? 'high probability' : warn ? 'medium probability' : 'low probability', 50, 94, { c: col, wt: 700, sz: 4.2 });
+    },
+    graph: function (T) {
+      return {
+        x0: 60, x1: 200, y0: 0.1, y1: 10000, logy: true, xt: [60, 80, 100, 120, 140, 160, 180, 200], yt: [0.1, 1, 8, 24, 100, 1000, 10000], fy: function (v) { return v >= 1 ? fmt(v, 0) : v; }, xl: 'Start temperature  (°C)', yl: 'TMRad  (h, log)',
+        hl: [{ y: 24, c: C.orange, label: '24 h', al: 'r' }, { y: 8, c: C.red, label: '8 h', al: 'r' }],
+        vl: [{ x: TD24, c: C.orange, label: 'TD24 ≈ ' + fmt(TD24, 0) + ' °C', ty: 100 }],
+        curves: [{ f: tmrH, c: C.blue, n: 200 }],
+        points: function () { return [{ x: T, y: tmrH(T) }]; }
+      };
+    },
+    read: function (T) { var hrs = tmrH(T); return 'T0     = <b>' + fmt(T, 0) + '</b> °C\nTMRad  = <b>' + (hrs > 9999 ? '>9999' : sig(hrs, 3)) + '</b> h\nTD24   = ' + fmt(TD24, 0) + ' °C'; },
+    note: 'Every ten degrees or so cuts the time to runaway roughly in half. TD24, about ' + fmt(TD24, 0) + ' °C here, is a common reference: above it, a batch that loses cooling could reach maximum rate within a day. Values like these come from ARC or isothermal DSC kinetics, not from a single DSC onset.'
+  });
+})();

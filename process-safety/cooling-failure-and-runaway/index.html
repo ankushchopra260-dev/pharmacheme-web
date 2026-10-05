@@ -10,6 +10,7 @@ breadcrumbs:
 ---
 
 <link rel="stylesheet" href="/assets/css/process-safety.css">
+<link rel="stylesheet" href="{{ '/assets/css/concepts.css' | relative_url }}">
 <article class="ps-article">
 <div class="ps-kicker">Process Safety · Lesson 4 of 9 · 16 min read</div>
 <h1>Cooling failure and thermal runaway</h1>
@@ -47,7 +48,9 @@ breadcrumbs:
 
 <h2>4 · How much time is left? TMR<sub>ad</sub> and TD24</h2>
 <p>For a decomposition with an initial heat release rate q′<sub>0</sub> (W/kg) at temperature T<sub>0</sub>, the adiabatic time to maximum rate is approximately:</p>
+
 <div class="formula-box">TMR<sub>ad</sub> = c′<sub>p</sub> · R · T<sub>0</sub>² / (q′<sub>0</sub> · E<sub>a</sub>)<br>q′(T) = q′<sub>0</sub> · exp[ (E<sub>a</sub>/R)·(1/T<sub>0</sub> − 1/T) ]<small>Zero-order, adiabatic approximation (T in kelvin). <b>TD24</b> is the temperature at which TMR<sub>ad</sub> = 24 h: below it, a decomposition develops slowly enough to restore control. As a rough rule the heat release rate doubles every 10 K (van ’t Hoff), so TMR<sub>ad</sub> roughly halves.</small></div>
+<div class="cm-embed" data-concept="tmr"></div>
 <div id="tool-tmr" class="ps-tool" data-tool="tmr"><h3>🧮 TMR<sub>ad</sub> and TD24 from one measurement</h3><p>Enter a heat release rate measured at one temperature (isothermal DSC or ARC) and the activation energy.</p><div class="ps-screen" role="note"><b>Educational screening tool</b> Results are illustrative and depend on the stated assumptions. They are not a substitute for a qualified process-safety assessment, the applicable design code, vendor data, laboratory testing or engineering review.</div><div class="ps-grid">
 <label>Measured at T<sub>0</sub> (°C)<input name="t0" type="number" value="160"></label>
 <label>Heat release rate q′<sub>0</sub> (W/kg)<input name="q0" type="number" value="2" step="0.1"></label>
@@ -57,3 +60,5 @@ breadcrumbs:
 <div class="ps-mq" data-ans="0"><div class="q">✍️ Check yourself: Semi-batch, T<sub>p</sub> = 50 °C, ΔT<sub>ad</sub> = 160 K, maximum accumulation 30 %. What is the MTSR?</div><div class="opts"><button class="o">A. 98 °C</button><button class="o">B. 160 °C</button><button class="o">C. 210 °C</button><button class="o">D. 80 °C</button></div><div class="exp">MTSR = 50 + 0.30 × 160 = 98 °C. Only the unreacted part can heat the batch after the cooling fails.</div></div><div class="ps-mq" data-ans="2"><div class="q">✍️ Check yourself: Cooling capacity is 60 kW and the batch releases 720 MJ in total. With a 20 % margin, the shortest dosing time is about…</div><div class="opts"><button class="o">A. 2 h</button><button class="o">B. 3.3 h</button><button class="o">C. 4 h</button><button class="o">D. 12 h</button></div><div class="exp">Usable capacity = 60 / 1.2 = 50 kW. 720,000 kJ / 50 kW = 14,400 s = 4 h. That is valid only if the reaction keeps pace with the dosing.</div></div><div class="ps-take"><h3>Key takeaways</h3><ul><li>Cooling-failure scenario: T<sub>p</sub> → MTSR (accumulated reagent reacts) → decomposition after TMR<sub>ad</sub>.</li><li>ΔT<sub>ad</sub> = Q′ / c′<sub>p</sub>; MTSR = T<sub>p</sub> + X<sub>acc</sub>·ΔT<sub>ad</sub>.</li><li>Cooling capacity q<sub>ex</sub> = UA(T<sub>r</sub> − T<sub>c</sub>), with a ≥ 20 % margin, sets the shortest dosing time.</li><li>Lower T<sub>p</sub> can mean more accumulation and a higher MTSR.</li><li>TD24 (TMR<sub>ad</sub> = 24 h) is the stability limit to compare the MTSR with.</li></ul></div><div class="ps-done"><button class="btn btn-outline btn-sm" id="ps-mark" data-lesson="cooling-failure-and-runaway">Mark this lesson as completed</button><span class="ok" id="ps-mark-ok"></span></div><div class="ps-pager"><a href="/process-safety/thermal-testing-dsc-arc-rc/"><span>← LESSON 3</span>The testing toolkit: DSC, TSU, ARC, RC1</a><a href="/process-safety/stoessel-criticality-classes/" style="text-align:right;"><span>LESSON 5 →</span>Stoessel criticality classes</a></div>
 </article>
 <script src="/assets/js/process-safety.js"></script>
+<script src="{{ '/assets/js/concepts.js' | relative_url }}"></script>
+<script>PCM.mountIn(document);</script>
