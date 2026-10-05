@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /PCCPL-LALRU/
 
 Sitemap: https://www.pharmacheme.in/sitemap.xml
