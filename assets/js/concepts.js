@@ -2016,3 +2016,257 @@
     ]
   });
 })();
+/* "How to read this graph" steps for the concepts that do not carry their own.
+   Each step: t (text), and one highlight on the graph in graph units: x:[a,b] band, y:[a,b] band, or pt:[x,y]; v = slider value to show. */
+(function () {
+  var L = PCM.LIB;
+  var HOW = {
+    vacuum: [
+      { t: '<b>Axes.</b> Pressure above the liquid along the bottom (1013 mbar is normal air pressure, right edge). Boiling point up the side.', y: [0, 10], v: 1013 },
+      { t: '<b>Right end = atmospheric.</b> At 1013 mbar toluene boils at about 110.6 °C, the dashed line.', pt: [1013, 110.6], v: 1013 },
+      { t: '<b>Moving left = pulling vacuum.</b> Lower pressure, lower boiling point. The curve gets steep at the left: the last few hundred mbar give the biggest drop.', x: [20, 250], v: 120 },
+      { t: '<b>Use it.</b> Pick the temperature your product can stand, go across to the curve and down: that is the vacuum you need.', x: [100, 400], v: 300 }
+    ],
+    steam: [
+      { t: '<b>Axes.</b> Steam gauge pressure along the bottom, the temperature of saturated steam up the side.', y: [90, 100], v: 0 },
+      { t: '<b>0 bar g = 100 °C.</b> Steam at atmospheric pressure condenses at 100 °C.', pt: [0, 100], v: 0 },
+      { t: '<b>Each step in pressure gives less extra temperature.</b> The curve flattens: going from 3 to 6 bar g adds less than 0 to 3 bar g did.', x: [6, 12], v: 9 },
+      { t: '<b>Use it.</b> Read your jacket steam pressure along the bottom and up to the curve to find the heating temperature you actually get.', x: [2.5, 3.5], v: 3 }
+    ],
+    boyle: [
+      { t: '<b>Axes.</b> Gas volume along the bottom, absolute pressure up the side. Temperature stays constant.', y: [0, .3], v: 10 },
+      { t: '<b>Halve the volume, double the pressure.</b> Every point on the curve has the same P × V.', x: [4.5, 5.5], v: 5 },
+      { t: '<b>The curve rises steeply at small volume.</b> The last bit of compression costs the most pressure.', x: [2, 3.5], v: 2.8 }
+    ],
+    cylinder: [
+      { t: '<b>Axes.</b> Cylinder temperature along the bottom, gas pressure up the side.', y: [150, 155], v: 15 },
+      { t: '<b>Fill point.</b> Filled to 200 bar at 15 °C, the dashed line.', pt: [15, 200], v: 15 },
+      { t: '<b>Straight line.</b> Pressure rises in proportion to absolute temperature (K). A cylinder left in the sun at 50 °C is well above its fill pressure.', x: [40, 60], v: 50 }
+    ],
+    cryo: [
+      { t: '<b>Axes.</b> Litres of liquid nitrogen spilled along the bottom, oxygen in the room air up the side.', y: [20.5, 21.5], v: 0 },
+      { t: '<b>Starts at 20.9 %.</b> Normal air. Every litre of liquid boils to about 700 litres of gas that pushes air out.', x: [0, 5], v: 2 },
+      { t: '<b>Red band = oxygen deficient.</b> Below 19.5 % you need to leave. You cannot smell or feel it happening.', y: [10, 19.5], v: 30 }
+    ],
+    reynolds: [
+      { t: '<b>Axes.</b> Reynolds number along the bottom, friction factor up the side. Both are log scales: each grid step is ×10.', y: [.01, .015], v: 300 },
+      { t: '<b>Laminar region (Re &lt; 2300).</b> Smooth layers. Friction falls along the straight line f = 64/Re.', x: [100, 2300], v: 30 },
+      { t: '<b>Transition (2300 to 4000).</b> Unpredictable; flow switches between laminar and turbulent.', x: [2300, 4000], v: 415 },
+      { t: '<b>Turbulent (Re &gt; 4000).</b> Eddies mix the flow. Friction levels off and depends on pipe roughness.', x: [4000, 200000], v: 800 }
+    ],
+    dp: [
+      { t: '<b>Axes.</b> Flow rate along the bottom, pressure drop for every 100 m of pipe up the side.', y: [0, .2], v: 5 },
+      { t: '<b>Curves bend upwards.</b> Pressure drop goes roughly with flow squared: double the flow, about four times the drop.', x: [10, 20], v: 15 },
+      { t: '<b>Compare the two lines.</b> At the same flow the 40 mm line sits far above 50 mm: a slightly bigger pipe cuts the drop sharply.', x: [7, 9], v: 8 }
+    ],
+    affinity: [
+      { t: '<b>Axes.</b> Pump speed along the bottom, each quantity as a % of its value at full speed (right edge).', y: [0, 5], v: 1450 },
+      { t: '<b>Flow ∝ N.</b> The straight line: 80 % speed gives 80 % flow.', x: [1100, 1200], v: 1160 },
+      { t: '<b>Head ∝ N² and power ∝ N³.</b> Those curves drop faster. At 80 % speed power is only about half: why VFDs save energy.', x: [700, 1000], v: 870 }
+    ],
+    pdpump: [
+      { t: '<b>Axes.</b> Discharge pressure along the bottom, flow up the side.', y: [0, 1], v: 1 },
+      { t: '<b>PD pump: almost flat.</b> Flow barely falls as pressure rises; a worn pump slips back a little more. Never close its discharge: pressure climbs until something gives.', x: [0, 8], v: 6 },
+      { t: '<b>Centrifugal: falls away.</b> Flow drops steeply as pressure rises and reaches zero at shut-off head.', x: [3, 6], v: 4 }
+    ],
+    tank: [
+      { t: '<b>Axes.</b> Level as % of the diameter along the bottom, contents as % of full up the side.', y: [0, 3], v: 50 },
+      { t: '<b>Vertical tank: straight line.</b> Same cross-section all the way up, so level and volume go together.', x: [20, 80], v: 30 },
+      { t: '<b>Horizontal drum: S-curve.</b> Little volume near the bottom and top, a lot through the middle. Never read a horizontal drum level as % volume.', x: [0, 15], v: 10 }
+    ],
+    distill: [
+      { t: '<b>Axes.</b> Light component in the liquid along the bottom, in the vapour above it up the side.', y: [0, .04], v: 2.5 },
+      { t: '<b>Diagonal y = x.</b> Where vapour equals liquid, so no separation happens.', x: [.45, .55], v: 2.5 },
+      { t: '<b>The equilibrium curve bulges above the diagonal.</b> The further it bulges, the higher the relative volatility and the fewer stages you need.', x: [.1, .5], v: 4.5 },
+      { t: '<b>The steps.</b> Each step between the curve and diagonal is one ideal stage.', x: [.5, .95], v: 1.6 }
+    ],
+    azeo: [
+      { t: '<b>Axes.</b> Ethanol in the liquid and in the vapour, zoomed in near pure ethanol.', y: [.6, .62], v: 1013 },
+      { t: '<b>Where the curve meets y = x is the azeotrope.</b> Vapour has the same composition as the liquid, so the column stops separating.', x: [.86, .92], v: 1013 },
+      { t: '<b>Lower pressure moves it.</b> Pull vacuum and the crossing shifts toward pure ethanol.', x: [.92, 1], v: 150 }
+    ],
+    azeodry: [
+      { t: '<b>Axes.</b> Water removed so far along the bottom, vapour temperature at the top of the column up the side.', y: [75, 77], v: 0 },
+      { t: '<b>Flat at 84 °C.</b> While water is left, toluene and water boil off together as the azeotrope.', x: [0, 80], v: 40 },
+      { t: '<b>Jump to 110.6 °C = dry.</b> When the water is gone, only toluene boils. Watch the vapour temperature, not the clock.', x: [90, 100], v: 98 }
+    ],
+    filter: [
+      { t: '<b>Axes.</b> How hard the cake is to filter through (specific resistance) along the bottom, time to filter 1 m³ up the side. Both log scales.', y: [100, 200], v: 8 },
+      { t: '<b>Coloured bands.</b> Rough grading from good to very slow. Each step to the right is ten times the resistance.', x: [1e7, 1e9], v: 8.5 },
+      { t: '<b>Very slow end.</b> Fine or soft crystals. Filtration time rises in proportion, so the fix is usually in the crystallisation, not the filter.', x: [1e10, 1e11], v: 10.5 }
+    ],
+    drying: [
+      { t: '<b>Axes.</b> Drying time along the bottom, moisture (loss on drying) up the side.', y: [0, 1], v: 2 },
+      { t: '<b>Steep first part.</b> Constant-rate drying: free surface water leaves quickly.', x: [0, 4], v: 2 },
+      { t: '<b>Long tail.</b> Falling-rate drying: water has to come from inside the cake. A deeper cake stretches this tail out.', x: [8, 36], v: 20 },
+      { t: '<b>Target line.</b> Read where each curve crosses the 1 % line to get the drying time.', y: [.6, 1.4], v: 10 }
+    ],
+    fluid: [
+      { t: '<b>Axes.</b> Gas velocity through the bed along the bottom, pressure drop across the bed up the side.', y: [0, 1], v: 0 },
+      { t: '<b>Rising line = packed bed.</b> Gas squeezes through still particles; pressure drop grows with velocity.', x: [0, 1.85], v: 1 },
+      { t: '<b>Flat line = fluidised.</b> Once drop equals bed weight per area, the bed lifts and the drop stops rising. That point is U<sub>mf</sub>.', x: [1.85, 8], v: 4 }
+    ],
+    centrifuge: [
+      { t: '<b>Axes.</b> Basket speed along the bottom, G-force at the wall up the side.', y: [0, 40], v: 600 },
+      { t: '<b>G ∝ N².</b> The curve bends upward: double the speed, four times the G-force.', x: [1000, 1500], v: 1200 }
+    ],
+    settle: [
+      { t: '<b>Axes.</b> Particle size along the bottom, settling speed up the side. Both log scales.', y: [.001, .003], v: 1.3 },
+      { t: '<b>Straight lines.</b> Speed goes with size squared (Stokes): halve the size, a quarter of the speed.', x: [1, 10], v: .5 },
+      { t: '<b>Upper line = centrifuge.</b> The same particle at 1000 G settles 1000 times faster.', y: [10, 1000], v: 1.6 }
+    ],
+    absorb: [
+      { t: '<b>Axes.</b> Absorption factor A = L/mG along the bottom, % of solute removed up the side.', y: [0, 3], v: 1 },
+      { t: '<b>A below 1.</b> Not enough liquid: removal levels off no matter how tall the column.', x: [.2, 1], v: .6 },
+      { t: '<b>A above 1.</b> More liquid than the gas needs: removal climbs toward 100 %. 1.2 to 2 is a usual design range.', x: [1.2, 2], v: 1.6 }
+    ],
+    extract: [
+      { t: '<b>Axes.</b> How many washes the same total solvent is split into, product still left in the feed up the side.', y: [0, .5], v: 1 },
+      { t: '<b>One big wash.</b> Leaves the most behind.', x: [.9, 1.3], v: 1 },
+      { t: '<b>Several small washes.</b> Each removes a fraction of what is left, so splitting the solvent beats one wash. The gain fades after 3 or 4.', x: [3, 6], v: 4 }
+    ],
+    size: [
+      { t: '<b>Axes.</b> Final particle size along the bottom (log scale, finer to the left), energy per tonne up the side.', y: [0, .6], v: 2.5 },
+      { t: '<b>Coarse end.</b> A multimill does it with little energy.', x: [300, 2000], v: 3 },
+      { t: '<b>Fine end.</b> Energy rises fast as the product gets finer: why jet milling is costly.', x: [10, 50], v: 1.3 }
+    ],
+    area: [
+      { t: '<b>Axes.</b> Batch volume along the bottom, jacket area per m³ of batch up the side. Both log scales.', y: [1, 1.5], v: -2.5 },
+      { t: '<b>Falling line.</b> Area grows with D², volume with D³, so every step up in size has less cooling area per tonne.', x: [.01, 10], v: 0 },
+      { t: '<b>Lab vs plant.</b> A 1 L flask has many times the cooling area per litre of a 10 m³ reactor: an exotherm the flask handles easily can run away in the plant.', x: [5, 20], v: 1.1 }
+    ],
+    runaway: [
+      { t: '<b>Axes.</b> Reactor temperature along the bottom, heat rate up the side.', y: [0, 1], v: 30 },
+      { t: '<b>Orange curve = heat generated.</b> It climbs exponentially with temperature.', x: [70, 100], v: 30 },
+      { t: '<b>Blue line = heat removed by the jacket.</b> Straight, starting at the coolant temperature. Higher coolant slides it right.', x: [20, 50], v: 40 },
+      { t: '<b>Where they cross = stable point.</b> If the line only touches or misses the curve, there is no balance: runaway.', x: [35, 60], v: 52 }
+    ],
+    lmtd: [
+      { t: '<b>Axes.</b> Position along the condenser, temperature up the side.', y: [10, 12], v: 30 },
+      { t: '<b>Flat line = condensing vapour.</b> Stays at 60 °C the whole way.', y: [58, 62], v: 30 },
+      { t: '<b>Rising line = cooling water.</b> Warms as it picks up heat. The gap between the two lines is the driving force; LMTD is its log mean.', x: [.6, 1], v: 40 }
+    ],
+    chiller: [
+      { t: '<b>Axes.</b> Outside air temperature along the bottom, cooling capacity as % of rating up the side.', y: [60, 62], v: 35 },
+      { t: '<b>Rating point.</b> Nameplate capacity is quoted at 35 °C.', pt: [35, 100], v: 35 },
+      { t: '<b>Hot days.</b> Above it capacity falls. Size for your summer peak, not the rating.', x: [40, 48], v: 45 }
+    ],
+    freeze: [
+      { t: '<b>Axes.</b> Concentration in water along the bottom, freezing point up the side (down = colder).', y: [-2, 0], v: 0 },
+      { t: '<b>Supply line −15 °C.</b> Your coolant must freeze well below this.', y: [-16, -14], v: 20 },
+      { t: '<b>Read across.</b> Where each curve crosses the line gives the minimum concentration; add a margin of 5 to 10 K.', x: [25, 35], v: 30 }
+    ],
+    cstr: [
+      { t: '<b>Axes.</b> Residence time along the bottom, conversion up the side.', y: [0, 2], v: 10 },
+      { t: '<b>Upper curve = tube or batch.</b> Every bit of liquid spends the same time reacting.', x: [5, 20], v: 10 },
+      { t: '<b>Lower curve = stirred tank (CSTR).</b> Fresh feed mixes with product at once, so it needs much more time for the same conversion.', x: [30, 60], v: 40 }
+    ],
+    series: [
+      { t: '<b>Axes.</b> Reaction time along the bottom, fraction of starting A in each form up the side. A → B → C.', y: [0, .02], v: 0 },
+      { t: '<b>A falls.</b> Conversion rises as A is used up.', x: [0, 5], v: 3 },
+      { t: '<b>B rises then falls.</b> The wanted product peaks, then turns into C. The dashed line is the best time to stop.', x: [7, 11.5], v: 9.2 },
+      { t: '<b>C keeps rising.</b> Running longer only makes impurity.', x: [30, 60], v: 45 }
+    ],
+    cryst: [
+      { t: '<b>Axes.</b> Temperature along the bottom, dissolved concentration up the side.', y: [0, 1], v: 70 },
+      { t: '<b>Solubility curve.</b> Below it nothing crystallises.', x: [40, 70], v: 70 },
+      { t: '<b>Between the curves = metastable zone.</b> Supersaturated but stable: seed here for good crystals.', x: [30, 45], v: 38 },
+      { t: '<b>Past the upper limit.</b> Spontaneous nucleation, a shower of fines.', x: [5, 20], v: 12 }
+    ],
+    dissolve: [
+      { t: '<b>Axes.</b> NaOH added per litre along the bottom, temperature rise up the side.', y: [0, 2], v: 0 },
+      { t: '<b>Rising line.</b> Each gram releases heat. Add slowly and cool.', x: [100, 250], v: 200 },
+      { t: '<b>Dashed line.</b> From 25 °C, enough NaOH can boil the water and spatter caustic.', y: [72, 78], v: 380 }
+    ],
+    blend: [
+      { t: '<b>Axes.</b> Vessel volume along the bottom (log scale), time to blend up the side.', y: [0, 1], v: -3 },
+      { t: '<b>Rising curve.</b> At the same power per volume, bigger tanks take longer to mix.', x: [1, 20], v: 1 },
+      { t: '<b>Why it matters.</b> A fast addition that is fine in the lab may sit unmixed in the plant, causing hot spots or side products.', x: [.001, .01], v: -2.5 }
+    ],
+    scaleup: [
+      { t: '<b>Axes.</b> How much bigger the plant agitator is along the bottom, the speed it needs up the side (both log).', y: [2, 3], v: 0 },
+      { t: '<b>Each line keeps one thing the same.</b> Blend time, tip speed, power per volume or Reynolds number.', x: [1, 2], v: .2 },
+      { t: '<b>They spread apart.</b> At larger scale the rules disagree; you cannot keep everything. Choose by what limits your process.', x: [5, 10], v: .9 }
+    ],
+    gasliq: [
+      { t: '<b>Axes.</b> Agitator speed along the bottom, hydrogen uptake as % of what the chemistry could do up the side.', y: [0, 2], v: 200 },
+      { t: '<b>Left band = mass-transfer limited.</b> Gas cannot dissolve fast enough; more stirring helps a lot.', x: [100, 640], v: 400 },
+      { t: '<b>Right band = kinetic.</b> The reaction itself is the limit; more stirring adds little.', x: [645, 900], v: 800 }
+    ],
+    rinse: [
+      { t: '<b>Axes.</b> Number of rinses along the bottom, residue left up the side on a log scale (each grid step is ÷10).', y: [.1, .3], v: 0 },
+      { t: '<b>Straight steps down.</b> Each rinse removes the same fraction of what is left.', x: [1, 3], v: 2 },
+      { t: '<b>10 ppm line.</b> Count the rinses needed to get below it.', y: [8, 12], v: 4 }
+    ],
+    pka: [
+      { t: '<b>Axes.</b> pH along the bottom, % of the acid in its ionised form up the side.', y: [0, 2], v: 3 },
+      { t: '<b>pH = pKa → 50 %.</b> Half ionised.', pt: [4.76, 50], v: 4.76 },
+      { t: '<b>Buffer range.</b> Within ±1 pH of pKa, from about 10 % to 90 %. Outside it, nearly all one form.', x: [3.76, 5.76], v: 5.2 }
+    ],
+    phprobe: [
+      { t: '<b>Axes.</b> Solution pH along the bottom, probe signal in mV up the side. pH 7 gives 0 mV.', y: [-20, 20], v: 100 },
+      { t: '<b>Ideal slope.</b> 59.16 mV per pH unit at 25 °C.', x: [2, 12], v: 100 },
+      { t: '<b>Worn probe.</b> A flatter line. Below about 90 % slope, clean or replace it.', x: [9, 12], v: 82 }
+    ],
+    rtd: [
+      { t: '<b>Axes.</b> Temperature along the bottom, Pt100 resistance up the side.', y: [90, 95], v: 100 },
+      { t: '<b>100 Ω at 0 °C</b>, rising about 0.385 Ω per °C: nearly a straight line.', pt: [0, 100], v: 0 },
+      { t: '<b>Read across.</b> Measure the resistance, go across to the line and down to the temperature.', x: [90, 110], v: 100 }
+    ],
+    ma420: [
+      { t: '<b>Axes.</b> Measured value as % of range along the bottom, loop current up the side.', y: [3.6, 4.4], v: 50 },
+      { t: '<b>4 mA = 0 %, 20 mA = 100 %.</b> A straight line between them.', x: [0, 100], v: 50 },
+      { t: '<b>Red bands = fault.</b> Below 3.6 mA (broken wire) or above 21 mA. A live zero at 4 mA tells "empty" from "dead".', y: [0, 3.6], v: 0 }
+    ],
+    pid: [
+      { t: '<b>Axes.</b> Time after a setpoint change, process value up the side. The dashed line is the setpoint.', y: [.95, 1.05], v: 1 },
+      { t: '<b>Overshoot.</b> How far the response goes past the setpoint. Higher gain, more overshoot.', y: [1.05, 1.6], v: 3.5 },
+      { t: '<b>Settling.</b> How fast it stops oscillating and stays near the setpoint.', x: [50, 100], v: 1.5 }
+    ],
+    motor: [
+      { t: '<b>Axes.</b> Load as % of rated along the bottom, current drawn up the side.', y: [0, 1], v: 75 },
+      { t: '<b>Nameplate line.</b> Full-load current. Run continuously above it and the windings overheat.', y: [27, 29], v: 100 },
+      { t: '<b>Low load.</b> Current does not fall to zero: magnetising current remains.', x: [0, 20], v: 10 }
+    ],
+    wire: [
+      { t: '<b>Axes.</b> Cable size along the bottom, voltage drop over the run up the side.', y: [0, .3], v: 2 },
+      { t: '<b>5 % line.</b> Common limit for voltage drop.', y: [4.6, 5.4], v: 1 },
+      { t: '<b>Pick the first size below the line.</b> Then check it also carries the current without overheating.', x: [2.5, 6.5], v: 3 }
+    ],
+    dew: [
+      { t: '<b>Axes.</b> Relative humidity at 30 °C along the bottom, dew point up the side.', y: [-10, -8], v: 40 },
+      { t: '<b>Pipe surface line.</b> A cold pipe at 15 °C.', y: [14, 16], v: 40 },
+      { t: '<b>Dew point above the line = condensation.</b> Moisture forms on the pipe: insulate or dehumidify.', x: [45, 100], v: 70 }
+    ],
+    leak: [
+      { t: '<b>Axes.</b> Time after starting the pump, vessel pressure up the side (log scale).', y: [900, 1100], v: 0 },
+      { t: '<b>Steady fall.</b> The pump removes air faster than it leaks in.', x: [0, 150], v: 0 },
+      { t: '<b>Levels off.</b> A tight vessel stops at the pump limit; a leaky one stops higher. Close the valve and watch the rate of rise to size the leak.', x: [200, 320], v: 1500 }
+    ],
+    compressor: [
+      { t: '<b>Axes.</b> Discharge pressure along the bottom, power per m³/min of air up the side.', y: [0, .3], v: 7 },
+      { t: '<b>Rising curve.</b> Every extra bar costs about 6 to 7 % more power. Run at the lowest pressure the users need.', x: [7, 10], v: 9 }
+    ],
+    flam: [
+      { t: '<b>Axes.</b> Liquid temperature along the bottom, vapour in the headspace up the side.', y: [0, .4], v: 0 },
+      { t: '<b>Band = flammable range.</b> Between the lower and upper limits the headspace can ignite.', y: [1.1, 7.1], v: 15 },
+      { t: '<b>Flash point.</b> Where the vapour first reaches the lower limit. Above it, keep sources of ignition away or inert the vessel.', pt: [4, 1.1], v: 4 }
+    ],
+    corrosion: [
+      { t: '<b>Axes.</b> Process temperature along the bottom, corrosion rate up the side (log scale).', y: [.5, .7], v: 25 },
+      { t: '<b>Coloured bands.</b> Grading from excellent to unsatisfactory.', y: [20, 50], v: 60 },
+      { t: '<b>Temperature drives it.</b> A material fine at room temperature can be unsuitable when hot.', x: [70, 100], v: 90 }
+    ],
+    galvanic: [
+      { t: '<b>Axes.</b> Area of the noble metal compared with the less noble one, relative attack on the less noble metal. Both log.', y: [1, 1.5], v: 0 },
+      { t: '<b>Small anode, big cathode.</b> To the right, the attack concentrates on the small part: steel bolts in a stainless plate fail fast.', x: [10, 100], v: 1.7 },
+      { t: '<b>Big anode, small cathode.</b> To the left the effect is mild.', x: [.1, 1], v: -.6 }
+    ],
+    oring: [
+      { t: '<b>Axes.</b> Groove depth along the bottom, squeeze on the O-ring up the side.', y: [0, 1], v: 2.7 },
+      { t: '<b>Band = typical static range.</b> About 15 to 30 % squeeze.', y: [15, 30], v: 2.7 },
+      { t: '<b>Too deep or too shallow.</b> Too little squeeze leaks; too much cracks or extrudes the seal.', x: [3.1, 3.5], v: 3.3 }
+    ]
+  };
+  Object.keys(HOW).forEach(function (k) { if (L[k] && !L[k].how) L[k].how = HOW[k]; });
+})();
