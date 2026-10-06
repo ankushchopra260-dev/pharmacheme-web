@@ -117,6 +117,15 @@
       ctx.fillStyle = cu.c; ctx.font = 'italic 600 13.5px Georgia, serif'; ctx.textAlign = cu.al || 'left'; ctx.fillText(cu.label, sx(lx) + (cu.dx || 0), Y);
     });
     if (g.over) g.over(ctx, sx, sy, x, A);
+    if (g.hiStep) { var hs = g.hiStep; ctx.save(); ctx.beginPath(); ctx.rect(L, T, pw, ph); ctx.clip();
+      ctx.fillStyle = 'rgba(201,162,39,.16)'; ctx.strokeStyle = C.brass; ctx.lineWidth = 2; ctx.setLineDash([6, 4]);
+      if (hs.x) { var a1 = sx(hs.x[0]), z1 = sx(hs.x[1]); ctx.fillRect(a1, T, z1 - a1, ph); ctx.strokeRect(a1, T + 1, z1 - a1, ph - 2); }
+      if (hs.y) { var ya1 = sy(hs.y[1]), yb1 = sy(hs.y[0]); ctx.fillRect(L, ya1, pw, yb1 - ya1); ctx.strokeRect(L + 1, ya1, pw - 2, yb1 - ya1); }
+      if (hs.pt) { ctx.setLineDash([]); ctx.beginPath(); ctx.arc(sx(hs.pt[0]), sy(hs.pt[1]), 16, 0, 7); ctx.stroke(); }
+      ctx.restore(); ctx.setLineDash([]);
+      if (hs.n) { var bx = hs.pt ? sx(hs.pt[0]) : hs.x ? (sx(hs.x[0]) + sx(hs.x[1])) / 2 : L + pw / 2, by = hs.pt ? sy(hs.pt[1]) - 26 : hs.y ? sy((hs.y[0] + hs.y[1]) / 2) : T + ph / 2;
+        bx = Math.max(L + 12, Math.min(L + pw - 12, bx)); by = Math.max(T + 12, Math.min(T + ph - 12, by));
+        ctx.beginPath(); ctx.arc(bx, by, 11, 0, 7); ctx.fillStyle = C.brass; ctx.fill(); ctx.fillStyle = C.bg; ctx.font = '700 12px ' + SANS; ctx.textAlign = 'center'; ctx.fillText(hs.n, bx, by + 4); } }
     (g.points ? g.points(x) : []).forEach(function (p) {
       if (!isFinite(p.y) || !isFinite(p.x)) return;
       var X = sx(p.x), Y = sy(p.y); if (X < L - 2 || X > L + pw + 2 || Y < T - 2 || Y > T + ph + 2) return;
@@ -150,6 +159,8 @@
       '<div class="cm-box cm-plot"><canvas role="img" aria-label="Graph: ' + esc(d.t) + '"></canvas><div class="cm-read ' + (d.rp || '') + '" aria-live="polite"></div></div></div>' +
       '<div class="cm-ctl"><label for="' + sid + '">' + d.sl.label + '</label><input type="range" id="' + sid + '" min="' + d.sl.min + '" max="' + d.sl.max + '" step="' + (d.sl.step || 'any') + '" value="' + d.sl.v + '"><button type="button" class="cm-play">Pause</button></div>' +
       (d.note ? '<p class="cm-note">' + d.note + '</p>' : '') +
+      (d.how ? '<div class="cm-how"><button type="button" class="cm-how-t" aria-expanded="false">How to read this graph</button><ol class="cm-how-l" hidden>' +
+        d.how.map(function (h, i) { return '<li><button type="button" data-i="' + i + '"><span class="n">' + (i + 1) + '</span><span>' + h.t + '</span></button></li>'; }).join('') + '</ol></div>' : '') +
       '</div>';
     var cvs = el.querySelectorAll('canvas');
     var I = { el: el, d: d, id: id, ca: cvs[0], cg: cvs[1], ro: el.querySelector('.cm-read'), sl: el.querySelector('input'), btn: el.querySelector('.cm-play'),
@@ -162,6 +173,17 @@
       I.playing = false; I.btn.textContent = 'Play'; I.dirty = true;
       if (!I.touched) { I.touched = true; track('concept_slider', { concept: id }); }
     });
+    var hw = el.querySelector('.cm-how');
+    if (hw) {
+      var tg = hw.querySelector('.cm-how-t'), ol = hw.querySelector('.cm-how-l');
+      tg.addEventListener('click', function () { var o = ol.hidden; ol.hidden = !o; tg.setAttribute('aria-expanded', String(o)); if (!o) { I.hi = null; I.dirty = true; hw.querySelectorAll('li button').forEach(function (b) { b.removeAttribute('aria-pressed'); }); } else track('concept_howto', { concept: id }); });
+      hw.querySelectorAll('li button').forEach(function (b) { b.addEventListener('click', function () {
+        var h = d.how[+b.getAttribute('data-i')], same = I.hi === h;
+        hw.querySelectorAll('li button').forEach(function (x) { x.removeAttribute('aria-pressed'); });
+        I.hi = same ? null : h; if (!same) b.setAttribute('aria-pressed', 'true');
+        if (I.hi && h.v != null) { I.playing = false; I.btn.textContent = 'Play'; I.sl.value = h.v; }
+        I.dirty = true; }); });
+    }
     I.btn.addEventListener('click', function () {
       I.playing = !I.playing; I.btn.textContent = I.playing ? 'Pause' : 'Play';
       if (I.playing) { var t = clamp((+I.sl.value - sw[0]) / (sw[1] - sw[0]), 0, 1); I.phase = Math.acos(1 - 2 * t) / Math.PI * 0.5; }
@@ -181,7 +203,7 @@
     var fa = fit(I.ca);
     d.anim(fa.ctx, fa.w, fa.h, RM ? 0 : dt, x, I.st);
     if (I.dirty || I.playing || d.liveGraph) {
-      var g = typeof d.graph === 'function' ? d.graph(x, I.st) : d.graph;
+      var g = typeof d.graph === 'function' ? d.graph(x, I.st) : d.graph; if (I.hi) { g = Object.assign({}, g); g.hiStep = Object.assign({ n: d.how.indexOf(I.hi) + 1 }, I.hi); }
       plot(I.cg, g, x); I.ro.innerHTML = d.read(x, I.st); I.dirty = false;
     }
   }
@@ -1771,7 +1793,15 @@
       };
     },
     read: function (T) { return 'T     = <b>' + fmt(T, 0) + '</b> °C\nq     = <b>' + fmt(Math.abs(dscQ(T)) < .005 ? 0 : dscQ(T), 2) + '</b> W/g\nexo   = <b>' + fmt(interp(DSC, T, 2), 0) + '</b> J/g\n(total ' + fmt(DSC_TOT, 0) + ' J/g)'; },
-    note: 'The peak area is the energy: here about ' + fmt(DSC_TOT, 0) + ' J/g, so with c′p ≈ 1.8 J/g·K the adiabatic rise would be about ' + fmt(DSC_TOT / 1.8, 0) + ' K. DSC is a quick screen. Its onset depends on scan rate and is far above the temperature at which a big insulated vessel can start to self-heat.'
+    note: 'The peak area is the energy: here about ' + fmt(DSC_TOT, 0) + ' J/g, so with c′p ≈ 1.8 J/g·K the adiabatic rise would be about ' + fmt(DSC_TOT / 1.8, 0) + ' K. DSC is a quick screen. Its onset depends on scan rate and is far above the temperature at which a big insulated vessel can start to self-heat.',
+    how: [
+      { t: '<b>Axes.</b> Temperature runs left to right as the furnace heats at a steady rate. Up is heat <i>given out</i> by the sample (exo up); down is heat <i>taken in</i>. Always check the “exo” arrow on a real thermogram: some instruments plot it the other way.', y: [-0.1, 0.1], v: 60 },
+      { t: '<b>Flat baseline.</b> Nothing is happening: the sample and the empty reference take the same heat.', x: [35, 100], v: 80 },
+      { t: '<b>Dip = endotherm.</b> A sharp dip with a flat baseline either side is melting (or a solvent boiling off). It is not a safety concern by itself.', x: [105, 132], v: 118 },
+      { t: '<b>Where it lifts off = onset.</b> The first rise above the baseline marks the onset, here about ' + fmt(DSC_ON, 0) + ' °C. It is only an apparent onset: a slower scan or a bigger sample would show it lower.', pt: [DSC_ON, 0], v: DSC_ON },
+      { t: '<b>Peak height = how fast.</b> The higher and sharper the peak, the faster the heat comes out. A tall narrow peak is more violent than a low broad one with the same area.', pt: [260, dscQ(260)], v: 260 },
+      { t: '<b>Area = how much.</b> The shaded area under the peak, divided by the scan rate, is the energy in J/g (' + fmt(DSC_TOT, 0) + ' J/g here). Divide by c′p to get ΔTad: above about 200 K is high severity.', x: [DSC_ON, 330], v: 330 }
+    ]
   });
 
   /* ---------- TSU: pressure and gas ---------- */
@@ -1811,7 +1841,14 @@
       };
     },
     read: function (T) { return 'T     = <b>' + fmt(T, 0) + '</b> °C\nP     = <b>' + fmt(pTot(T), 1) + '</b> bar\nvapour  ' + fmt(pVap(T), 1) + ' bar\ngas     <b>' + fmt(Math.min(120, pTot(T)) - Math.min(pVap(T), pTot(T)), 1) + '</b> bar'; },
-    note: 'Below the onset the pressure just follows the solvent’s vapour pressure. Where the measured line leaves the dashed curve, the sample is making gas. That gas is what the relief system has to vent, and DSC cannot see it.'
+    note: 'Below the onset the pressure just follows the solvent’s vapour pressure. Where the measured line leaves the dashed curve, the sample is making gas. That gas is what the relief system has to vent, and DSC cannot see it.',
+    how: [
+      { t: '<b>Axes.</b> Sample temperature along the bottom, pressure in the closed cell up the side.', y: [0, 10], v: 60 },
+      { t: '<b>Dashed curve = solvent vapour pressure.</b> This is what a stable liquid would show. Pressure from boiling alone comes back down when you cool the cell.', x: [60, 185], v: 150 },
+      { t: '<b>Where the lines part = gas onset.</b> The measured line leaves the dashed curve at about ' + TSU_ON + ' °C: the sample has started making gas.', pt: [TSU_ON, pTot(TSU_ON)], v: TSU_ON },
+      { t: '<b>The steep part = gas generation rate.</b> The steeper the rise, the faster gas is produced, and the bigger the relief vent must be.', x: [195, 225], v: 215 },
+      { t: '<b>After the test, cool it down.</b> Pressure that stays high when the cell is back at room temperature is non-condensable gas (CO₂, N₂ and so on). It is the gas the relief system must handle.', x: [30, 40], v: 30 }
+    ]
   });
 
   /* ---------- ARC: heat-wait-search ---------- */
@@ -1871,7 +1908,14 @@
       };
     },
     read: function (tt) { var p = arcAt(tt); return 'mode = <b>' + p[2] + '</b>\nT    = <b>' + fmt(p[1], 1) + '</b> °C\nrate = <b>' + sig(Math.max(p[3], 0), 2) + '</b> K/min'; },
-    note: 'The staircase is heat-wait-search. Once the sample warms itself faster than 0.02 K/min, the guard heaters follow it, so no heat leaks away: just like the centre of a large, poorly cooled vessel. The steep climb gives the adiabatic rise, the self-heat rate and the TMRad. The thick bomb absorbs some heat, so results are scaled by the φ-factor.'
+    note: 'The staircase is heat-wait-search. Once the sample warms itself faster than 0.02 K/min, the guard heaters follow it, so no heat leaks away: just like the centre of a large, poorly cooled vessel. The steep climb gives the adiabatic rise, the self-heat rate and the TMRad. The thick bomb absorbs some heat, so results are scaled by the φ-factor.',
+    how: [
+      { t: '<b>Axes.</b> Test time along the bottom (a run takes most of a day), sample temperature up the side.', y: [90, 110], v: 0.2 },
+      { t: '<b>The staircase = heat-wait-search.</b> Each step is a 5 K heat, a wait to settle, then a search for self-heating. Flat treads mean nothing found yet.', x: [0, ARC_DET[0]], v: ARC_DET[0] * .5 },
+      { t: '<b>The red line = exotherm detected.</b> The first search where the sample warms itself faster than 0.02 K/min, here at about ' + fmt(ARC_DET[1], 0) + ' °C. That is a far more sensitive onset than DSC gives.', pt: [ARC_DET[0], ARC_DET[1]], v: ARC_DET[0] + .02 },
+      { t: '<b>The slow curve = adiabatic self-heating.</b> No heat is lost, so the sample warms itself, slowly at first. Its slope is the self-heat rate.', x: [ARC_DET[0], ARC_END - 1.2], v: ARC_END - 2 },
+      { t: '<b>The near-vertical part = maximum rate.</b> The time from any point on the curve to this spike is the TMRad at that temperature. The total rise, multiplied by φ, is the true ΔTad.', x: [ARC_END - 1, ARC_END], v: ARC_END - .05 }
+    ]
   });
 
   /* ---------- RC1: reaction calorimetry and accumulation ---------- */
@@ -1917,7 +1961,14 @@
       };
     },
     read: function (t) { return 'fed       <b>' + fmt(interp(RC, t, 2) * 100, 0) + '</b> %\nreacted   <b>' + fmt(interp(RC, t, 3) * 100, 0) + '</b> %\naccumul.  <b>' + fmt(interp(RC, t, 4) * 100, 0) + '</b> %\nqr        <b>' + fmt(interp(RC, t, 1), 0) + '</b> W'; },
-    note: 'If B reacted the moment it went in, the heat would follow the dashed line. It lags, so unreacted B builds up: here up to about ' + fmt(RC_MAX[0] * 100, 0) + ' % at ' + fmt(RC_MAX[1], 0) + ' min. If cooling fails at that moment, all of it can still react. That is what sets the MTSR.'
+    note: 'If B reacted the moment it went in, the heat would follow the dashed line. It lags, so unreacted B builds up: here up to about ' + fmt(RC_MAX[0] * 100, 0) + ' % at ' + fmt(RC_MAX[1], 0) + ' min. If cooling fails at that moment, all of it can still react. That is what sets the MTSR.',
+    how: [
+      { t: '<b>Axes.</b> Time along the bottom, heat release rate (watts) up the side. The shaded band is the time B is being dosed.', x: [0, 120], v: 10 },
+      { t: '<b>Dashed line = dosing-controlled.</b> If B reacted the instant it went in, heat would come out exactly as fast as you dose it, and stop when dosing stops.', y: [560, 610], v: 30 },
+      { t: '<b>Orange curve = measured qr.</b> It rises slowly because B takes time to react. The gap between the dashed line and the curve is B building up unreacted.', x: [0, 60], v: 45 },
+      { t: '<b>After dosing stops, the tail.</b> Heat still comes out for over an hour: that is the accumulated B reacting. A long tail means high accumulation.', x: [120, 240], v: 150 },
+      { t: '<b>Area under the curve = total heat.</b> The shaded area up to now is the heat released so far; the total area is the heat of reaction. Fed minus reacted, at the end of dosing, is the worst-case accumulation for the MTSR.', pt: [120, interp(RC, 120, 1)], v: 120 }
+    ]
   });
 
   /* ---------- TMRad and TD24 ---------- */
@@ -1955,6 +2006,13 @@
       };
     },
     read: function (T) { var hrs = tmrH(T); return 'T0     = <b>' + fmt(T, 0) + '</b> °C\nTMRad  = <b>' + (hrs > 9999 ? '>9999' : sig(hrs, 3)) + '</b> h\nTD24   = ' + fmt(TD24, 0) + ' °C'; },
-    note: 'Every ten degrees or so cuts the time to runaway roughly in half. TD24, about ' + fmt(TD24, 0) + ' °C here, is a common reference: above it, a batch that loses cooling could reach maximum rate within a day. Values like these come from ARC or isothermal DSC kinetics, not from a single DSC onset.'
+    note: 'Every ten degrees or so cuts the time to runaway roughly in half. TD24, about ' + fmt(TD24, 0) + ' °C here, is a common reference: above it, a batch that loses cooling could reach maximum rate within a day. Values like these come from ARC or isothermal DSC kinetics, not from a single DSC onset.',
+    how: [
+      { t: '<b>Axes.</b> Start temperature along the bottom; time to maximum rate up the side on a <i>log</i> scale, so each grid line is ten times the one below.', y: [1000, 10000], v: 70 },
+      { t: '<b>A straight-ish falling line.</b> On a log scale the exponential drop looks almost straight. Every ~10 °C hotter roughly halves the time.', x: [80, 160], v: 110 },
+      { t: '<b>24 h line → TD24.</b> Where the curve crosses 24 h gives TD24, about ' + fmt(TD24, 0) + ' °C here. Keep the highest temperature a batch can reach after cooling fails (MTSR) below it.', pt: [TD24, 24], v: TD24 },
+      { t: '<b>8 h line.</b> Below 8 h there is little time to act after a cooling failure: high probability of runaway.', pt: [TD8, 8], v: TD8 },
+      { t: '<b>Reading a value.</b> Go up from your temperature to the curve, then across to the time. Above 24 h is usually low probability; 8 to 24 h medium; below 8 h high.', y: [0.1, 8], v: 165 }
+    ]
   });
 })();
