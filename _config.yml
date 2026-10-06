@@ -10,8 +10,24 @@ plugins:
 exclude:
   - README.md
 
+collections:
+  articles:
+    output: true
+    permalink: /articles/:name/
+
 defaults:
   - scope:
       path: "PCCPL-LALRU"
+    values:
+      sitemap: false
+  - scope:
+      type: articles
+    values:
+      layout: article
+      breadcrumbs:
+        - label: Articles
+          url: /articles/
+  - scope:
+      path: "admin"
     values:
       sitemap: false

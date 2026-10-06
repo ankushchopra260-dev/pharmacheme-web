@@ -1,0 +1,54 @@
+# Site editor for www.pharmacheme.in (Sveltia CMS). Open /admin/ and sign in.
+backend:
+  name: github
+  repo: ankushchopra260-dev/pharmacheme-web
+  branch: main
+  commit_messages:
+    create: "Add article: {{slug}}"
+    update: "Edit article: {{slug}}"
+    delete: "Delete article: {{slug}}"
+    uploadMedia: "Upload {{path}}"
+
+site_url: https://www.pharmacheme.in
+display_url: https://www.pharmacheme.in
+logo_url: /assets/img/guide-face.webp
+
+media_folder: assets/img/articles
+public_folder: /assets/img/articles
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: articles
+    label: Articles
+    label_singular: Article
+    description: New articles appear at the top of the Articles page.
+    folder: _articles
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    preview_path: "articles/{{slug}}/"
+    summary: "{{title}} ({{date | date('D MMM YYYY')}})"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Short summary (shown on the Articles page and in Google), widget: text }
+      - { name: date, label: Date, widget: datetime, time_format: false, date_format: "D MMM YYYY", format: "YYYY-MM-DD" }
+      - { name: category, label: Category, widget: select, default: Process Engineering, options: [Process Engineering, Equipment, Process Safety, Heat Transfer, Separation, Utilities, Instrumentation, Pharma, Career] }
+      - { name: image, label: Cover image, widget: image, required: false }
+      - { name: image_alt, label: Cover image description, widget: string, required: false }
+      - { name: body, label: Article, widget: markdown }
+      - { name: calculator_name, label: Related calculator name, widget: string, required: false }
+      - { name: calculator_url, label: Related calculator link (e.g. /calculators/pump-power-calculator/), widget: string, required: false }
+      - name: related
+        label: Related articles
+        widget: list
+        required: false
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: url, label: Link (e.g. /articles/mixing-scale-up/), widget: string }
+      - { name: published, label: Show on the site (switch off to keep as a draft), widget: boolean, default: true }
