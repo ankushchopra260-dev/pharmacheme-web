@@ -1,0 +1,18 @@
+---
+layout: default
+---
+{%- comment -%} Articles written in the site editor (/admin/). {%- endcomment -%}
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>{{ page.title }}</h1>
+  <p class="article-meta">{% if page.category %}{{ page.category }} &middot; {% endif %}{{ page.date | date: "%-d %B %Y" }}</p>
+  {% if page.image %}<img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title }}" style="width:100%;height:auto;border-radius:8px;margin:0 0 24px;">{% endif %}
+  {{ content }}
+  {% if page.calculator_url or page.related %}
+  <div class="related-box">
+    {% if page.calculator_url %}<h3>Try the Calculator</h3>
+    <a href="{{ page.calculator_url | relative_url }}">{{ page.calculator_name | default: "Open the calculator" }}</a>{% endif %}
+    {% if page.related %}<h3>Related Articles</h3>
+    {% for r in page.related %}<a href="{{ r.url | relative_url }}">{{ r.title }}</a>{% endfor %}{% endif %}
+  </div>
+  {% endif %}
+</div>

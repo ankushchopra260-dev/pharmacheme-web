@@ -13,6 +13,14 @@ breadcrumbs:
 </div>
 <div class="container section" style="padding-top:0;">
   <div class="grid-cards">
+    {%- assign new_articles = site.articles | sort: "date" | reverse -%}
+    {%- for a in new_articles %}
+    <div class="tool-card">
+      <h3>{{ a.title }}</h3>
+      <p>{{ a.description }}</p>
+      <a href="{{ a.url | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    {%- endfor %}
     <div class="tool-card">
       <h3>How to Calculate Pump Power</h3>
       <p>Hydraulic power, shaft power, and motor sizing, with a full worked example.</p>
