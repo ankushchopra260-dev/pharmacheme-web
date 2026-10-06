@@ -38,6 +38,7 @@
 .cm-how-t { font: 600 .86rem 'IBM Plex Sans', system-ui, sans-serif; color: #C9A227; background: none; border: 1px solid #2C4C6C; border-radius: 4px; padding: 7px 12px; cursor: pointer; }
 .cm-how-t::before { content: '+ '; } .cm-how-t[aria-expanded="true"]::before { content: '– '; }
 .cm-how-t:hover, .cm-how-t:focus-visible { border-color: #C9A227; outline: none; }
+.cm-how-l[hidden] { display: none; }
 .cm-how-l { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
 .cm-how-l button { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; width: 100%; text-align: left; background: #0E1B29; border: 1px solid #16283C; border-radius: 6px; padding: 8px 10px; color: #D5DEE6; font: 400 .86rem/1.5 'IBM Plex Sans', system-ui, sans-serif; cursor: pointer; }
 .cm-how-l button:hover { border-color: #2C4C6C; }
