@@ -52,6 +52,20 @@ button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .info .x { position: absolute; top: 8px; right: 8px; padding: 2px 8px; }
 .cap { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); max-width: min(560px, calc(100% - 24px)); background: #0E1B29f2; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; z-index: 4; display: none; text-align: center; }
 .cap.on { display: block; }
+.flash { position: fixed; left: 50%; top: 66px; transform: translateX(-50%); z-index: 7; background: #C9A227; color: #0B1622; font: 600 13px system-ui, sans-serif; padding: 8px 12px; border-radius: 8px; display: none; max-width: calc(100% - 24px); text-align: center; }
+.flash.on { display: block; }
+#b-edit[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
+.edit { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; max-height: 52vh; overflow-y: auto; }
+.edit .eh { margin: 0 0 6px; color: var(--brass); font-weight: 700; font-size: 13px; }
+.ef { display: grid; grid-template-columns: 96px 1fr; gap: 8px; align-items: center; margin: 0 0 6px; font-size: 12px; color: var(--muted); }
+.ef input, .ef select { min-width: 0; padding: 6px 8px; border-radius: 6px; border: 1px solid #2C4C6C; background: var(--panel); color: var(--paper); font: 500 14px system-ui, sans-serif; }
+.erow { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; } .erow button { flex: 1; padding: 6px 8px; font-size: 12px; }
+.erow .go { margin-top: 0; width: auto; }
+.ent, .enote { font-size: 12px; color: var(--muted); margin: 4px 0; }
+.wt { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); width: min(560px, calc(100% - 24px)); background: #0E1B29f2; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; z-index: 6; display: none; text-align: center; }
+body.wtour .wt { display: block; } body.wtour .whint, body.wtour .joy { display: none !important; }
+.wt h4 { margin: 0 0 4px; font: 800 20px "Big Shoulders Display", "Arial Narrow", sans-serif; color: var(--brass); } .wt p { margin: 0 0 8px; color: #C9D6E2; } .wt .row { display: flex; gap: 8px; justify-content: center; }
+#b-wtour[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
 .cap h4 { margin: 0 0 4px; font: 800 20px "Big Shoulders Display", "Arial Narrow", sans-serif; color: var(--brass); }
 .cap p { margin: 0 0 8px; color: #C9D6E2; }
 .cap .row { display: flex; gap: 8px; justify-content: center; }
@@ -60,6 +74,7 @@ button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .hint { position: fixed; left: 50%; top: 70px; transform: translateX(-50%); color: var(--muted); font-size: 12px; z-index: 3; pointer-events: none; text-align: center; }
 .lbl { position: fixed; left: 0; top: 0; pointer-events: none; font: 600 11px system-ui, sans-serif; color: #0B1622; background: #ECE7D8e6; padding: 1px 5px; border-radius: 3px; white-space: nowrap; transform: translate(-50%, -100%); z-index: 2; }
 .lbl.new { background: #F2B8AEe6; }
+.lbl.prop { outline: 1.5px dashed #1F6FD1; }
 .lbl.ap { background: #0B8A43; color: #fff; }
 .lbl.eq { background: #DCEBF7f0; color: #0B2A44; font: 600 10.5px system-ui, sans-serif; }
 .inside { position: fixed; left: 50%; top: 64px; transform: translateX(-50%); z-index: 4; display: none; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; background: #0E1B29f2; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; max-width: calc(100% - 640px); }
@@ -91,11 +106,13 @@ body.walking .whint { display: block; } body.walking .hint, body.walking .legend
 <body>
 <canvas id="c"></canvas>
 <div class="bar">
-  <div><h1>Punjab Chemicals, Lalru <span class="tag">Internal draft</span></h1><small>Site layout tour, built from the site layout plan. Positions and heights are approximate.</small></div>
+  <div><h1>Punjab Chemicals, Lalru</h1><small>Site layout tour, built from the site layout plan. Positions and heights are approximate.</small></div>
   <div class="btns">
     <a class="home-btn" href="https://www.pharmacheme.in/" title="Visit PharmaChemE">Visit PharmaChemE</a>
-    <button type="button" id="b-tour">Start tour</button>
+    <button type="button" id="b-tour" hidden>Start tour</button>
+    <button type="button" id="b-edit" aria-pressed="false">Edit</button>
     <button type="button" id="b-walk" aria-pressed="false">Walk</button>
+    <button type="button" id="b-wtour" aria-pressed="false">Walking tour</button>
     <button type="button" id="b-list" aria-pressed="true">Buildings</button>
     <button type="button" id="b-lbl" aria-pressed="true">Labels</button>
     <button type="button" id="b-fit">Whole site</button>
@@ -106,7 +123,9 @@ body.walking .whint { display: block; } body.walking .hint, body.walking .legend
 <section class="info" id="info" aria-live="polite"><button type="button" class="x" id="info-x" aria-label="Close">×</button><div id="info-body"></div></section>
 <section class="cap" id="cap" aria-live="polite"><h4 id="cap-t"></h4><p id="cap-p"></p><div class="row"><button type="button" id="cap-prev">Back</button><button type="button" id="cap-next">Next</button><button type="button" id="cap-end">End tour</button></div></section>
 <div class="legend" id="legend"></div>
+<div class="flash" id="flash" role="status"></div>
 <section class="inside" id="inside" aria-label="Inside the building"><b id="in-name"></b><div class="in-floors" id="in-floors"></div><button type="button" id="in-exit">Leave building</button></section>
+<section class="wt" id="wt" aria-live="polite"><h4 id="wt-t"></h4><p id="wt-p"></p><div class="row"><button type="button" id="wt-pause">Pause</button><button type="button" id="wt-next">Next stop</button><button type="button" id="wt-end">End walk</button></div></section>
 <div class="joy" id="joy" aria-hidden="true"><div class="knob" id="knob"></div></div>
 <div class="whint" id="whint">Drag to look around. Move with W A S D or the arrow keys. Hold Shift to go faster.</div>
 <div class="hint" id="hint">Drag to turn, scroll or pinch to zoom. To move the layout: click once then press and drag, or right-drag, or use the arrow keys, or two fingers. Tap a building for details.</div>
@@ -586,8 +605,8 @@ const SITE = {
 "w": 22.0,
 "d": 16.3,
 "a": 0,
-"cat": "util",
-"h": 6,
+"cat": "roundtank",
+"h": 4,
 "st": "ok",
 "note": ""
 },
@@ -787,77 +806,32 @@ const SITE = {
 "note": ""
 },
 {
-"no": "31",
-"name": "Encon furnace",
-"c": [
--120.9,
--168.5
-],
-"w": 7.6,
-"d": 6.8,
-"a": 0,
-"cat": "util",
-"h": 6,
-"st": "ok",
-"note": ""
-},
-{
-"no": "63",
-"name": "ETP collection tank",
-"c": [
--123.6,
--213.0
-],
-"w": 6,
-"d": 6,
-"a": 45,
-"cat": "etp",
-"h": 4,
-"st": "ok",
-"note": ""
-},
-{
-"no": "60",
-"name": "ETP pond",
-"c": [
--143.9,
--232.8
-],
-"w": 25,
-"d": 30.5,
-"a": 45,
-"cat": "pond",
-"h": 0.5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "60",
-"name": "Low TDS pond",
-"c": [
--80.8,
--173.5
-],
-"w": 65,
-"d": 32,
-"a": 45,
-"cat": "pond",
-"h": 0.5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "61",
+"no": "EQ",
 "name": "Equalization tank",
 "c": [
--165.9,
--252.0
+-166.3,
+-251.9
 ],
-"w": 24,
-"d": 15,
-"a": 37,
+"w": 25,
+"d": 20,
+"a": 45,
 "cat": "etp",
 "h": 5,
+"st": "ok",
+"note": ""
+},
+{
+"no": "62",
+"name": "Domestic sewerage tank",
+"c": [
+-155.3,
+-188.6
+],
+"w": 8.7,
+"d": 8.8,
+"a": 45,
+"cat": "etp",
+"h": 3,
 "st": "ok",
 "note": ""
 },
@@ -874,6 +848,21 @@ const SITE = {
 "cat": "etp",
 "h": 1.5,
 "st": "new",
+"note": ""
+},
+{
+"no": "HY",
+"name": "Open husk storage yard",
+"c": [
+-291.5,
+-215.9
+],
+"w": 43.1,
+"d": 22.0,
+"a": 0,
+"cat": "husk",
+"h": 5,
+"st": "ok",
 "note": ""
 },
 {
@@ -952,122 +941,317 @@ const SITE = {
 "note": ""
 },
 {
-"no": "55",
-"name": "Solvent storage",
+"no": "U-1",
+"name": "Admin / QC / OHC (G+2)",
 "c": [
--48.8,
--130.9
-],
-"w": 11.2,
-"d": 8.5,
-"a": 45,
-"cat": "tank",
-"h": 5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "23",
-"name": "Shed",
-"c": [
--41.0,
--123.6
-],
-"w": 9,
-"d": 7,
-"a": 45,
-"cat": "store",
-"h": 5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "78",
-"name": "Storage sheds 03 & 04",
-"c": [
--33.3,
--115.4
-],
-"w": 21.5,
-"d": 11.1,
-"a": 45,
-"cat": "store",
-"h": 7,
-"st": "new",
-"note": ""
-},
-{
-"no": "77",
-"name": "Finished goods storage shed 02",
-"c": [
--56.1,
--112.2
-],
-"w": 18.7,
-"d": 3.5,
-"a": -40,
-"cat": "store",
-"h": 6,
-"st": "new",
-"note": ""
-},
-{
-"no": "76",
-"name": "Finished goods storage shed 01",
-"c": [
--49.6,
--105.7
-],
-"w": 18.7,
-"d": 6.8,
-"a": -40,
-"cat": "store",
-"h": 6,
-"st": "new",
-"note": ""
-},
-{
-"no": "53",
-"name": "Solvent storage yard",
-"c": [
--20.3,
--108.1
-],
-"w": 15,
-"d": 15,
-"a": 45,
-"cat": "tankyard",
-"h": 5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "42",
-"name": "Solvent storage yard",
-"c": [
--0.8,
--91.1
+16.9,
+-67.6
 ],
 "w": 20,
-"d": 23.3,
+"d": 45,
+"a": 45,
+"cat": "admin",
+"h": 12,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-2",
+"name": "RM / FG warehouse (G+1)",
+"c": [
+-7.1,
+-85.1
+],
+"w": 20,
+"d": 35,
+"a": 45,
+"cat": "store",
+"h": 9,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-3",
+"name": "Tank farm (B), solvents",
+"c": [
+-13.7,
+-103.9
+],
+"w": 16,
+"d": 17.5,
 "a": 45,
 "cat": "tankyard",
+"h": 6,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-4",
+"name": "Tank farm (C), RM",
+"c": [
+-26.0,
+-91.6
+],
+"w": 16,
+"d": 17.5,
+"a": 45,
+"cat": "tankyard",
+"h": 6,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-5",
+"name": "Tank farm area (underground tanks), tanker bay",
+"c": [
+-42.7,
+-114.0
+],
+"w": 20,
+"d": 45,
+"a": 45,
+"cat": "ugtank",
+"h": 0.6,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-5G",
+"name": "Tanker unloading gantry",
+"c": [
+-53.7,
+-103.1
+],
+"w": 14,
+"d": 9,
+"a": 45,
+"cat": "gantry",
+"h": 7,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-6",
+"name": "Process Plant-1 (G+3)",
+"c": [
+-67.8,
+-139.1
+],
+"w": 16,
+"d": 45,
+"a": 45,
+"cat": "prod",
+"h": 18,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-6A",
+"name": "Intermediate tank farm (Plant-1)",
+"c": [
+-76.0,
+-147.3
+],
+"w": 5,
+"d": 40,
+"a": 45,
+"cat": "tankyard",
+"h": 5,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-6B",
+"name": "Intermediate tank farm (Plant-1)",
+"c": [
+-59.7,
+-131.0
+],
+"w": 5,
+"d": 40,
+"a": 45,
+"cat": "tankyard",
+"h": 5,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-7",
+"name": "Process Plant-2 (G+3)",
+"c": [
+-98.0,
+-169.3
+],
+"w": 16,
+"d": 45,
+"a": 45,
+"cat": "prod",
+"h": 18,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-7A",
+"name": "Intermediate tank farm (Plant-2)",
+"c": [
+-106.1,
+-177.5
+],
+"w": 5,
+"d": 40,
+"a": 45,
+"cat": "tankyard",
+"h": 5,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-7B",
+"name": "Intermediate tank farm (Plant-2)",
+"c": [
+-89.9,
+-161.2
+],
+"w": 5,
+"d": 40,
+"a": 45,
+"cat": "tankyard",
+"h": 5,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-8",
+"name": "Utility block: sub station, MCC, DG, control room, fire hydrant (G+2)",
+"c": [
+-123.8,
+-199.0
+],
+"w": 21,
+"d": 50,
+"a": 45,
+"cat": "util",
+"h": 12,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-9",
+"name": "ETP (proposed)",
+"c": [
+-152.2,
+-234.4
+],
+"w": 14,
+"d": 24,
+"a": 45,
+"cat": "etp",
+"h": 4,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-11",
+"name": "Thermopack",
+"c": [
+-142.8,
+-222.2
+],
+"w": 11,
+"d": 11,
+"a": 0,
+"cat": "util",
+"h": 7,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-12",
+"name": "Incinerator",
+"c": [
+-130.5,
+-233.5
+],
+"w": 11,
+"d": 11,
+"a": 0,
+"cat": "util",
+"h": 6,
+"st": "prop",
+"note": ""
+},
+{
+"no": "U-12C",
+"name": "Incinerator stack",
+"c": [
+-127.3,
+-237.2
+],
+"w": 1.2,
+"d": 1.2,
+"a": 0,
+"cat": "chimney",
+"h": 22,
+"st": "prop",
+"note": ""
+},
+{
+"no": "PR1",
+"name": "Pipe rack",
+"c": [
+-159.3,
+-100.0
+],
+"w": 104.1,
+"d": 2.3,
+"a": 0,
+"cat": "rack",
 "h": 6,
 "st": "ok",
 "note": ""
 },
 {
-"no": "40",
-"name": "Solvent storage yard",
+"no": "PR2",
+"name": "Pipe rack",
 "c": [
-21.1,
--69.9
+-211.8,
+-117.1
 ],
-"w": 28.5,
-"d": 22,
-"a": 45,
-"cat": "tankyard",
+"w": 2.4,
+"d": 94.3,
+"a": 0,
+"cat": "rack",
 "h": 6,
+"st": "ok",
+"note": ""
+},
+{
+"no": "PR3",
+"name": "Pipe rack",
+"c": [
+-107.3,
+-74.0
+],
+"w": 65.0,
+"d": 2.3,
+"a": 0,
+"cat": "rack",
+"h": 6,
+"st": "ok",
+"note": ""
+},
+{
+"no": "OHT",
+"name": "Overhead water tank",
+"c": [
+22.8,
+-5.7
+],
+"w": 6,
+"d": 6,
+"a": 0,
+"cat": "ohtank",
+"h": 16,
 "st": "ok",
 "note": ""
 },
@@ -1163,7 +1347,7 @@ const SITE = {
 },
 {
 "no": "GM",
-"name": "Main gate (material & workers entry)",
+"name": "Gate-02, Unit-II gate",
 "c": [
 0.0,
 0.0
@@ -1178,7 +1362,7 @@ const SITE = {
 },
 {
 "no": "GW",
-"name": "West gate",
+"name": "Gate-01, Unit-I gate (material & workers entry)",
 "c": [
 -217.1,
 0.7
@@ -1240,59 +1424,14 @@ const SITE = {
 "no": "4",
 "name": "Clinic",
 "c": [
--204.2,
--19.3
+-206.3,
+-18.7
 ],
-"w": 6.8,
-"d": 9.4,
+"w": 12.7,
+"d": 16.3,
 "a": 0,
 "cat": "admin",
-"h": 7,
-"st": "ok",
-"note": ""
-},
-{
-"no": "38",
-"name": "Tea point",
-"c": [
--198.8,
--22.0
-],
-"w": 4.1,
-"d": 4.9,
-"a": 0,
-"cat": "admin",
-"h": 3.5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "21",
-"name": "Rooms",
-"c": [
--193.5,
--17.9
-],
-"w": 6.5,
-"d": 6.5,
-"a": 0,
-"cat": "admin",
-"h": 3.5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "25",
-"name": "Cycle parking",
-"c": [
--187.8,
--19.5
-],
-"w": 4.9,
-"d": 9.8,
-"a": 0,
-"cat": "park",
-"h": 3,
+"h": 5,
 "st": "ok",
 "note": ""
 },
@@ -1312,29 +1451,14 @@ const SITE = {
 "note": ""
 },
 {
-"no": "22",
-"name": "Meter room",
-"c": [
--192.7,
--9.3
-],
-"w": 3.3,
-"d": 4.1,
-"a": 0,
-"cat": "util",
-"h": 3,
-"st": "ok",
-"note": ""
-},
-{
 "no": "28",
 "name": "Security room",
 "c": [
--211.8,
--3.8
+-209.3,
+-4.9
 ],
-"w": 5.7,
-"d": 2.8,
+"w": 8.1,
+"d": 5.2,
 "a": 0,
 "cat": "admin",
 "h": 3.5,
@@ -1353,21 +1477,6 @@ const SITE = {
 "a": 0,
 "cat": "temple",
 "h": 5,
-"st": "ok",
-"note": ""
-},
-{
-"no": "27",
-"name": "Sodium metaoxide room",
-"c": [
-50.4,
-11.4
-],
-"w": 7,
-"d": 7,
-"a": 45,
-"cat": "store",
-"h": 4,
 "st": "ok",
 "note": ""
 }
@@ -1428,16 +1537,8 @@ const SITE = {
 -34.1
 ],
 [
--9.8,
+-17.9,
 -34.1
-],
-[
-0.0,
--29.3
-],
-[
-0.0,
--1.0
 ]
 ],
 "w": 6,
@@ -1469,28 +1570,6 @@ const SITE = {
 ]
 ],
 "w": 4,
-"k": "int"
-},
-{
-"p": [
-[
--152.8,
--166.5
-],
-[
--143.9,
--162.6
-],
-[
--11.4,
--42.3
-],
-[
-0.0,
--29.3
-]
-],
-"w": 8,
 "k": "int"
 },
 {
@@ -1543,7 +1622,35 @@ const SITE = {
 ],
 [
 -105.7,
--50.4
+-34.1
+]
+],
+"w": 4,
+"k": "int"
+},
+{
+"p": [
+[
+-148.0,
+-34.1
+],
+[
+-148.0,
+-95.9
+]
+],
+"w": 5,
+"k": "int"
+},
+{
+"p": [
+[
+-148.0,
+-69.1
+],
+[
+-105.7,
+-69.1
 ]
 ],
 "w": 4,
@@ -1565,6 +1672,96 @@ const SITE = {
 ]
 ],
 "w": 4,
+"k": "int"
+},
+{
+"p": [
+[
+-131.7,
+-163.4
+],
+[
+-20.0,
+-51.7
+],
+[
+19.6,
+-91.3
+],
+[
+-92.1,
+-203.0
+],
+[
+-131.7,
+-163.4
+]
+],
+"w": 6,
+"k": "int"
+},
+{
+"p": [
+[
+-102.7,
+-134.4
+],
+[
+-63.1,
+-174.0
+]
+],
+"w": 6,
+"k": "int"
+},
+{
+"p": [
+[
+-73.6,
+-105.3
+],
+[
+-34.0,
+-144.9
+]
+],
+"w": 6,
+"k": "int"
+},
+{
+"p": [
+[
+-52.1,
+-83.8
+],
+[
+-12.5,
+-123.4
+]
+],
+"w": 6,
+"k": "int"
+},
+{
+"p": [
+[
+0.0,
+-1.0
+],
+[
+0.0,
+-29.3
+],
+[
+-11.4,
+-42.3
+],
+[
+-20.0,
+-51.7
+]
+],
+"w": 8,
 "k": "int"
 }
 ],
@@ -1681,28 +1878,42 @@ const SITE = {
 ],
 [
 [
--65.0,
--139.8
+-136.6,
+-164.1
 ],
 [
--32.5,
--139.8
+-19.2,
+-46.7
 ],
 [
-32.5,
--71.5
+24.6,
+-90.6
 ],
 [
-22.8,
--50.4
-],
-[
--26.0,
--42.3
+-92.8,
+-207.9
 ]
 ]
 ],
 "green": [
+[
+[
+-112.2,
+-228.1
+],
+[
+41.2,
+-74.7
+],
+[
+44.1,
+-77.6
+],
+[
+-109.3,
+-231.0
+]
+],
 [
 [
 -318.7,
@@ -1753,25 +1964,331 @@ const SITE = {
 ]
 ],
 "gate": [
-0.0,
-0.0
+-217.1,
+0.7
 ],
 "gates": [
-{
-"p": [
-0.0,
-0.0
-],
-"w": 8,
-"name": "Main gate"
-},
 {
 "p": [
 -217.1,
 0.7
 ],
 "w": 7,
-"name": "West gate"
+"name": "Gate-01",
+"label": "UNIT-I"
+},
+{
+"p": [
+0.0,
+0.0
+],
+"w": 8,
+"name": "Gate-02",
+"label": "UNIT-II"
+}
+],
+"fences": [
+[
+[
+-109.4,
+-230.9
+],
+[
+-158.9,
+-181.4
+],
+[
+-11.8,
+-34.4
+],
+[
+-11.9,
+1.0
+]
+]
+],
+"walktour": [
+{
+"p": [
+[
+-217.1,
+7.3
+]
+],
+"t": "Gate-01, Unit-I",
+"s": "You are at Gate-01, the Unit-I gate. Material and workers come in here, past the security room and the clinic.",
+"look": "28"
+},
+{
+"p": [
+[
+-217.1,
+-32.5
+],
+[
+-211.4,
+-34.1
+],
+[
+-175.6,
+-34.1
+]
+],
+"t": "Car parking and production office",
+"s": "Car parking, the safety office and the garden, with the production office and Technical Services beyond.",
+"look": "83"
+},
+{
+"p": [
+[
+-104.1,
+-34.1
+]
+],
+"t": "Godowns and workshop",
+"s": "The workshop and store, and the raw material and finished product godowns face the 20 ft road. Trucks unload at the raw material godown.",
+"look": "2"
+},
+{
+"p": [
+[
+-105.7,
+-50.4
+],
+[
+-105.7,
+-66.7
+]
+],
+"t": "B3 and B5",
+"s": "B3 on the left and the three-floor B5 on the right. Filtration and drying sit on the ground floor of every production block.",
+"look": "5"
+},
+{
+"p": [
+[
+-105.7,
+-69.1
+],
+[
+-123.6,
+-69.1
+]
+],
+"t": "B8 and B9",
+"s": "The four-floor B8 and B9. The pipe rack above the road carries steam, water and solvents.",
+"look": "69"
+},
+{
+"p": [
+[
+-148.0,
+-69.1
+],
+[
+-148.0,
+-87.8
+]
+],
+"t": "B6 and the SRP",
+"s": "B6 and the open SRP structure with its four distillation columns. B1A, B1B and B2 are behind you.",
+"look": "73"
+},
+{
+"p": [
+[
+-148.0,
+-95.9
+],
+[
+-213.0,
+-95.9
+]
+],
+"t": "Utilities",
+"s": "The electrical sub station, the utility blocks and the water treatment plant.",
+"look": "9"
+},
+{
+"p": [
+[
+-217.1,
+-95.9
+],
+[
+-217.1,
+-136.6
+]
+],
+"t": "QC and R&D",
+"s": "The QC laboratory, with R&D on the first floor, the canteen and the administrative block are to the west.",
+"look": "12"
+},
+{
+"p": [
+[
+-217.1,
+-164.2
+],
+[
+-175.6,
+-164.2
+]
+],
+"t": "Water storage and cooling towers",
+"s": "The round water storage tank and pump house, with the cooling towers beyond.",
+"look": "19"
+},
+{
+"p": [
+[
+-217.1,
+-166.5
+],
+[
+-221.1,
+-168.8
+],
+[
+-221.1,
+-193.5
+]
+],
+"t": "Boiler house and husk yard",
+"s": "The boiler house and its chimney. Rice husk for the boiler is stored in the open yard behind it.",
+"look": "75"
+},
+{
+"p": [
+[
+-221.1,
+-227.6
+],
+[
+-206.5,
+-240.7
+]
+],
+"t": "ETP and MEE",
+"s": "Effluent goes through the equalization tank, the ETP and the MEE. A new ETP section, thermopack and incinerator are proposed beside it.",
+"look": "EQ"
+},
+{
+"p": [
+[
+-221.1,
+-227.6
+],
+[
+-221.1,
+-168.8
+],
+[
+-217.1,
+-166.5
+],
+[
+-217.1,
+7.3
+]
+],
+"t": "Leaving Unit-I",
+"s": "Back out through Gate-01. Unit-II has its own gate, Gate-02, further along the road.",
+"look": "GW"
+},
+{
+"p": [
+[
+-188.6,
+6.2
+],
+[
+0.0,
+5.4
+],
+[
+0.0,
+7.3
+]
+],
+"t": "Gate-02, Unit-II",
+"s": "Gate-02 is the entrance to Unit-II, with the security office beside it. A fence separates Unit-II from Unit-I.",
+"look": "74"
+},
+{
+"p": [
+[
+0.0,
+-29.3
+],
+[
+-11.4,
+-42.3
+],
+[
+-20.0,
+-51.7
+],
+[
+-50.6,
+-85.2
+]
+],
+"t": "Tank farms and tanker bay",
+"s": "The underground tank farm with the tanker unloading gantry. Solvent and RM tank farms are behind you.",
+"look": "U-5G"
+},
+{
+"p": [
+[
+-72.1,
+-106.7
+]
+],
+"t": "Process Plant-1",
+"s": "Process Plant-1, ground plus three floors, with intermediate tank farms on both sides and cooling towers on the terrace. Filtration and drying are on the ground floor.",
+"look": "U-6"
+},
+{
+"p": [
+[
+-101.3,
+-135.8
+]
+],
+"t": "Process Plant-2",
+"s": "Process Plant-2, the same layout as Plant-1.",
+"look": "U-7"
+},
+{
+"p": [
+[
+-130.3,
+-164.8
+]
+],
+"t": "Utility block",
+"s": "The Unit-II utility block: sub station, MCC, DG, control room and fire hydrant pumps.",
+"look": "U-8"
+},
+{
+"p": [
+[
+-92.1,
+-203.0
+],
+[
+19.6,
+-91.3
+],
+[
+-17.1,
+-54.5
+]
+],
+"t": "RM/FG warehouse and admin",
+"s": "The RM/FG warehouse and, at the end of the road, the Unit-II admin, QC and OHC block. That completes the walk.",
+"look": "U-1"
 }
 ]
 };
@@ -1782,9 +2299,10 @@ const CAT = {
   store: { n: 'Stores and godowns', c: 0xC9A227 }, tank: { n: 'Tanks', c: 0xB8C2CC }, tankyard: { n: 'Solvent tank yards', c: 0x9C7CC9 },
   etp: { n: 'ETP and effluent', c: 0x5FBF8A }, pond: { n: 'Ponds', c: 0x3E7CB8 }, open: { n: 'Open areas', c: 0x7A8C99 },
   park: { n: 'Parking', c: 0x55606B }, chimney: { n: 'Chimney', c: 0x9AA7B4 }, temple: { n: 'Temple', c: 0xF0A040 },
-  gate: { n: 'Sliding gate', c: 0xC9A227 }, garden: { n: 'Garden', c: 0x6FAE4E }, frame: { n: 'Open structure', c: 0xB7B1A4 }, assembly: { n: 'Emergency assembly point', c: 0x7DBB57 }
+  gate: { n: 'Sliding gate', c: 0xC9A227 }, garden: { n: 'Garden', c: 0x6FAE4E }, frame: { n: 'Open structure', c: 0xB7B1A4 }, assembly: { n: 'Emergency assembly point', c: 0x7DBB57 },
+  husk: { n: 'Husk yard', c: 0xD9BE8C }, ugtank: { n: 'Underground tank farm', c: 0xB9B5AA }, gantry: { n: 'Tanker unloading gantry', c: 0x6E7A84 }, roundtank: { n: 'Water storage', c: 0x6FA8DC }, rack: { n: 'Pipe rack', c: 0x6E7A84 }, drums: { n: 'Drum storage', c: 0x1F5FBF }, ohtank: { n: 'Overhead water tank', c: 0xBFC4C9 }
 };
-const STATUS = { ok: 'Shown as approved (yellow) on the drawing', new: 'Shown as revised, to be approved (red) on the drawing' };
+const STATUS = { ok: 'Shown as approved (yellow) on the drawing', new: 'Shown as revised, to be approved (red) on the drawing', prop: 'Proposed Unit-II (Site layout Unit-II drawing)', photo: 'Added from the drone photo (not on the layout plan)' };
 
 /* ---------- renderer, scene, camera ---------- */
 const cvs = document.getElementById('c');
@@ -1825,6 +2343,19 @@ SITE.paved.forEach(p => flat(p, 0xB3B0A6, 0.08));
       const w = new THREE.Mesh(new THREE.BoxGeometry(len, 2.2, 0.35), wm); w.position.set(a[0] + dx * mid, 1.1, a[1] + dz * mid); w.rotation.y = -Math.atan2(dz, dx); w.castShadow = true; scene.add(w); });
   }
 })();
+/* fence between Unit-I and Unit-II: posts every 3 m with chain-link panels */
+(function () {
+  const c = document.createElement('canvas'); c.width = c.height = 32; const x = c.getContext('2d'); x.strokeStyle = '#2F6B3A'; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(0, 0); x.lineTo(32, 32); x.moveTo(32, 0); x.lineTo(0, 32); x.stroke();
+  const tex = new THREE.CanvasTexture(c); tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  const pm = mat(0x2F6B3A);
+  (SITE.fences || []).forEach(f => { for (let i = 0; i < f.length - 1; i++) { const a = f[i], b = f[i + 1], dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz);
+    const t = tex.clone(); t.needsUpdate = true; t.repeat.set(L / .6, 2.4 / .6);
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(L, 2.4), new THREE.MeshLambertMaterial({ map: t, transparent: true, side: THREE.DoubleSide, alphaTest: .3 }));
+    p.position.set((a[0] + b[0]) / 2, 1.2, (a[1] + b[1]) / 2); p.rotation.y = -Math.atan2(dz, dx); scene.add(p);
+    const n = Math.max(1, Math.round(L / 3)); for (let k = 0; k <= n; k++) { const q = new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, 2.6, 6), pm); q.position.set(a[0] + dx * k / n, 1.3, a[1] + dz * k / n); scene.add(q); }
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(.04, .04, L, 6), pm); top.rotation.z = Math.PI / 2; top.rotation.y = -Math.atan2(dz, dx); top.position.set(p.position.x, 2.45, p.position.z); scene.add(top); } });
+})();
 /* roads */
 SITE.roads.forEach(r => {
   const m = mat(r.k !== 'int' ? 0x4A4F55 : 0x5E646B);
@@ -1846,7 +2377,11 @@ function floorsTex(color, floors) {
 const pickables = [], byKey = {};
 const group = new THREE.Group(); scene.add(group);
 function addLabelAnchor(obj, b, h) { obj.userData.b = b; obj.userData.top = h; }
-SITE.buildings.forEach((b, idx) => {
+/* ---------- edits saved in this browser (Edit button) ---------- */
+const EDK = 'pccpl-lalru-edits'; let EDITS = {}; try { EDITS = JSON.parse(localStorage.getItem(EDK) || '{}') || {}; } catch (e) { EDITS = {}; }
+function saveEdits() { try { localStorage.setItem(EDK, JSON.stringify(EDITS)); } catch (e) {} }
+SITE.buildings.forEach(b => { if (b.no === '69') b.ct = 1; const e = EDITS[b.no]; if (e) Object.assign(b, e); });
+function buildOne(b, idx) {
   const C = CAT[b.cat] || CAT.open, col = b.st === 'new' && b.cat !== 'pond' ? new THREE.Color(C.c).lerp(new THREE.Color(0xC0503E), 0.35).getHex() : C.c;
   const g = new THREE.Group(); g.position.set(b.c[0], 0, b.c[1]); g.rotation.y = -b.a * Math.PI / 180;
   let top = b.h;
@@ -1904,6 +2439,74 @@ SITE.buildings.forEach((b, idx) => {
     board.position.set(0, 3.6, 0); board.castShadow = true; g.add(board);
     [-1.5, 1.5].forEach(o => { const p = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, 3.6, 8), mat(0x777E86)); p.position.set(o, 1.8, 0); g.add(p); });
     top = 5.2;
+  } else if (b.cat === 'ugtank') {
+    /* underground tank farm: raised concrete deck with manholes, fill points and gooseneck vents */
+    const deck = new THREE.Mesh(new THREE.BoxGeometry(b.w, .5, b.d), mat(0xB9B5AA)); deck.position.y = .25; deck.receiveShadow = true; g.add(deck);
+    const kerb = new THREE.Mesh(new THREE.BoxGeometry(b.w + .6, .3, b.d + .6), mat(0xE0B000)); kerb.position.y = .1; g.add(kerb);
+    const mh = new THREE.CylinderGeometry(.45, .45, .12, 18), dk = mat(0x3B4148), vent = mat(0xD9DEE3);
+    for (let i = 0; i < 2; i++) for (let j = 0; j < 4; j++) { const x = -b.w / 4 + i * b.w / 2, z = -b.d * .05 + j * b.d * .14;
+      const m1 = new THREE.Mesh(mh, dk); m1.position.set(x, .56, z); g.add(m1);
+      const p = new THREE.Mesh(new THREE.CylinderGeometry(.07, .07, 2.6, 8), vent); p.position.set(x + 1.2, 1.8, z); g.add(p);
+      const gn = new THREE.Mesh(new THREE.TorusGeometry(.18, .07, 6, 10, Math.PI), vent); gn.position.set(x + 1.38, 3.1, z); g.add(gn);
+      const fp = new THREE.Mesh(new THREE.BoxGeometry(.4, .7, .4), mat(0x2E7D4F)); fp.position.set(x - 1.1, .85, z); g.add(fp); }
+    top = 3.5;
+  } else if (b.cat === 'gantry') {
+    /* tanker unloading gantry: canopy on four columns, raised walkway on one side, stair, and two swing arms */
+    const st = mat(0x6E7A84), yel = mat(0xE0B000), H = b.h;
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(q => { const c = new THREE.Mesh(new THREE.BoxGeometry(.4, H, .4), st); c.position.set(q[0] * (b.w / 2 - .3), H / 2, q[1] * (b.d / 2 - .3)); c.castShadow = true; g.add(c); });
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(b.w + 1, .25, b.d + 1), mat(0x3E8ED0)); roof.position.y = H; roof.castShadow = true; g.add(roof);
+    const wk = new THREE.Mesh(new THREE.BoxGeometry(b.w - 1, .2, 1.2), mat(0x8A9097)); wk.position.set(0, 3.6, b.d / 2 - 1.6); g.add(wk);
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(b.w - 1, .06, .06), yel); rail.position.set(0, 4.7, b.d / 2 - 1); g.add(rail);
+    for (let x = -b.w / 2 + .5; x <= b.w / 2 - .5; x += 1.5) { const p = new THREE.Mesh(new THREE.BoxGeometry(.06, 1.1, .06), yel); p.position.set(x, 4.15, b.d / 2 - 1); g.add(p); }
+    for (let i = 0; i < 10; i++) { const t = new THREE.Mesh(new THREE.BoxGeometry(1, .08, .3), mat(0x8A9097)); t.position.set(b.w / 2 + .3 + i * .3, 3.5 - i * .35, b.d / 2 - 1.6); g.add(t); }
+    [-2.5, 2.5].forEach(x => { const arm = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, 3.2, 8), mat(0xC9CDD1)); arm.rotation.x = Math.PI / 2 - .35; arm.position.set(x, 4.4, b.d / 2 - 3); g.add(arm);
+      const dp = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, 1.4, 8), mat(0xC9CDD1)); dp.position.set(x, 3.6, b.d / 2 - 4.5); g.add(dp); });
+    top = H + .6;
+  } else if (b.cat === 'husk') {
+    /* open rice-husk yard: sandy pad with heaped mounds, a small shed and a belt conveyor towards the boiler */
+    const pad = new THREE.Mesh(new THREE.BoxGeometry(b.w, .2, b.d), mat(0xCDB68A)); pad.position.y = .12; pad.receiveShadow = true; g.add(pad);
+    const hm = new THREE.MeshLambertMaterial({ color: 0xD9BE8C });
+    [[-.3, -.2, 1], [.15, .1, .8], [.35, -.25, .6], [-.1, .3, .7]].forEach(q => { const r = Math.min(b.w, b.d) * .28 * q[2]; const mnd = new THREE.Mesh(new THREE.SphereGeometry(r, 18, 8, 0, Math.PI * 2, 0, Math.PI / 2), hm); mnd.scale.y = b.h / r; mnd.position.set(q[0] * b.w, 0, q[1] * b.d); mnd.castShadow = true; mnd.receiveShadow = true; g.add(mnd); });
+    const sh = new THREE.Mesh(new THREE.BoxGeometry(6, 3.5, 4), mat(0x3E8ED0)); sh.position.set(b.w / 2 - 4, 1.75, b.d / 2 - 3); sh.castShadow = true; g.add(sh);
+    const conv = new THREE.Mesh(new THREE.BoxGeometry(1, .5, b.d * .7), mat(0x5A5F63)); conv.position.set(b.w / 2 - 1, 3, 0); conv.rotation.x = -.12; conv.castShadow = true; g.add(conv);
+    top = b.h + 1;
+  } else if (b.cat === 'roundtank') {
+    /* round water storage tank with a centre walkway, and the pump house beside it */
+    const r = Math.min(b.w, b.d) * .42, cx = -b.w / 2 + r + 1.5;
+    const lawn = new THREE.Mesh(new THREE.BoxGeometry(b.w, .2, b.d), mat(0x76B451)); lawn.position.y = .1; lawn.receiveShadow = true; g.add(lawn);
+    const wall = new THREE.Mesh(new THREE.CylinderGeometry(r, r, b.h, 40, 1, true), new THREE.MeshLambertMaterial({ color: 0xE6E2D8, side: THREE.DoubleSide })); wall.position.set(cx, b.h / 2, 0); wall.castShadow = true; g.add(wall);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(r, .3, 6, 40), mat(0xF2EFE8)); rim.rotation.x = Math.PI / 2; rim.position.set(cx, b.h, 0); g.add(rim);
+    const water = new THREE.Mesh(new THREE.CircleGeometry(r - .2, 40), new THREE.MeshPhongMaterial({ color: 0x3E8C6A, shininess: 90 })); water.rotation.x = -Math.PI / 2; water.position.set(cx, b.h - .5, 0); g.add(water);
+    [0, Math.PI / 2].forEach(a => { const w = new THREE.Mesh(new THREE.BoxGeometry(2 * r, .25, .8), mat(0x8A9097)); w.rotation.y = a; w.position.set(cx, b.h + .1, 0); g.add(w); });
+    const ph = new THREE.Mesh(new THREE.BoxGeometry(b.w - 2 * r - 4, 4.2, b.d * .55), mat(0xE8E3D6)); ph.position.set(cx + r + (b.w - 2 * r - 4) / 2 + 1.5, 2.1, 0); ph.castShadow = true; g.add(ph);
+    top = b.h + 1.5;
+  } else if (b.cat === 'rack') {
+    /* elevated pipe rack: portal frames every 6 m carrying a bundle of pipes */
+    const along = b.w >= b.d, Lr = along ? b.w : b.d, Wr = along ? b.d : b.w, st = mat(0x6E7A84);
+    const n = Math.max(2, Math.round(Lr / 6));
+    for (let i = 0; i <= n; i++) { const p = -Lr / 2 + i * Lr / n;
+      [-1, 1].forEach(sd => { const c = new THREE.Mesh(new THREE.BoxGeometry(.35, b.h, .35), st); c.position.set(along ? p : sd * (Wr / 2 - .2), b.h / 2, along ? sd * (Wr / 2 - .2) : p); c.castShadow = true; g.add(c); });
+      const bm = new THREE.Mesh(new THREE.BoxGeometry(along ? .35 : Wr, .35, along ? Wr : .35), st); bm.position.set(along ? p : 0, b.h, along ? 0 : p); g.add(bm); }
+    const pc = [0xC9CDD1, 0x2E7D4F, 0x3E7CB8, 0xC9A227, 0xB0B6BB, 0x8E3B2E];
+    pc.forEach((c, i) => { const d = -Wr / 2 + .5 + i * (Wr - 1) / (pc.length - 1), pr = i % 3 === 0 ? .22 : .14;
+      const pp = new THREE.Mesh(new THREE.CylinderGeometry(pr, pr, Lr, 8), mat(c)); pp.rotation[along ? 'z' : 'x'] = Math.PI / 2; pp.position.set(along ? 0 : d, b.h + .2 + pr, along ? d : 0); pp.castShadow = true; g.add(pp); });
+    top = b.h + 1;
+  } else if (b.cat === 'drums') {
+    /* palletised blue HDPE drums */
+    const pad = new THREE.Mesh(new THREE.BoxGeometry(b.w, .15, b.d), mat(0xA9A79F)); pad.position.y = .08; g.add(pad);
+    const dg = new THREE.CylinderGeometry(.29, .29, .9, 12), dm = new THREE.MeshPhongMaterial({ color: 0x1F5FBF, shininess: 50 }), wg = new THREE.MeshPhongMaterial({ color: 0xEDEDED, shininess: 40 });
+    for (let x = -b.w / 2 + .6; x < b.w / 2 - .4; x += .66) for (let z = -b.d / 2 + .6; z < b.d / 2 - .4; z += .66) { if (Math.abs(x) % 4 < .7 || Math.abs(z) % 4 < .7) continue;
+      const d = new THREE.Mesh(dg, (Math.abs(x * 7 + z * 3) % 9) < 1 ? wg : dm); d.position.set(x, .6, z); g.add(d); }
+    top = 2.5;
+  } else if (b.cat === 'ohtank') {
+    /* overhead water tank on a framed tower */
+    const st = mat(0xBFC4C9), H = b.h - 4;
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(q => { const c = new THREE.Mesh(new THREE.CylinderGeometry(.25, .3, H, 8), st); c.position.set(q[0] * b.w * .35, H / 2, q[1] * b.d * .35); c.castShadow = true; g.add(c); });
+    for (let y = 3; y < H; y += 4) { const ring = new THREE.Mesh(new THREE.BoxGeometry(b.w * .72, .25, b.d * .72), new THREE.MeshLambertMaterial({ color: 0xBFC4C9, transparent: true, opacity: .0 })); ring.position.y = y; g.add(ring);
+      [[0, -1, b.w * .7, .2], [0, 1, b.w * .7, .2], [-1, 0, .2, b.d * .7], [1, 0, .2, b.d * .7]].forEach(q => { const bm = new THREE.Mesh(new THREE.BoxGeometry(q[2], .2, q[3]), st); bm.position.set(q[0] * b.w * .35, y, q[1] * b.d * .35); g.add(bm); }); }
+    const tk = new THREE.Mesh(new THREE.CylinderGeometry(b.w / 2, b.w / 2, 4, 28), new THREE.MeshPhongMaterial({ color: 0xF1F1EC, shininess: 40 })); tk.position.y = H + 2; tk.castShadow = true; g.add(tk);
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(b.w / 2 + .1, 1, 28), mat(0xE2E2DA)); cone.position.y = H + 4.5; g.add(cone);
+    top = b.h + 1;
   } else if (b.cat === 'open' || b.cat === 'park') {
     const s = new THREE.Mesh(new THREE.BoxGeometry(b.w, 0.3, b.d), mat(b.cat === 'park' ? 0x6A7178 : 0x9AA49A)); s.position.y = .2; s.receiveShadow = true; g.add(s);
     if (b.h > 1) { const roof = new THREE.Mesh(new THREE.BoxGeometry(b.w, 0.3, b.d), new THREE.MeshLambertMaterial({ color: 0xC9CDD1, transparent: true, opacity: .55 })); roof.position.y = b.h; g.add(roof);
@@ -1922,12 +2525,21 @@ SITE.buildings.forEach((b, idx) => {
     } else {
       const box = new THREE.Mesh(new THREE.BoxGeometry(b.w, b.h, b.d), mats); box.position.y = b.h / 2; box.castShadow = true; box.receiveShadow = true; g.add(box);
       const par = new THREE.Mesh(new THREE.BoxGeometry(b.w + .3, .6, b.d + .3), mat(new THREE.Color(col).lerp(new THREE.Color(0x000000), .15).getHex())); par.position.y = b.h + .1; g.add(par);
+      if (/process plant/i.test(b.name) || b.ct) { /* cooling tower cells on the terrace, at one end of the long side */
+        const lx = b.w >= b.d, cw = (lx ? b.d : b.w) * .8, cd = 9, ct = new THREE.Mesh(new THREE.BoxGeometry(lx ? cd : cw, 3.2, lx ? cw : cd), mat(0x7FA9C9)), off = (lx ? b.w : b.d) / 2 - cd / 2 - 1.5;
+        ct.position.set(lx ? off : 0, b.h + 1.7, lx ? 0 : off); ct.castShadow = true; g.add(ct);
+        for (let i = 0; i < 2; i++) { const f = new THREE.Mesh(new THREE.CylinderGeometry(Math.min(2, cw * .3), Math.min(2, cw * .3), 1, 18), mat(0x44515D)), o = (lx ? b.w : b.d) / 2 - 1.5 - cd / 4 - i * cd / 2; f.position.set(lx ? o : 0, b.h + 3.8, lx ? 0 : o); g.add(f); FANS.push(f); }
+        top = b.h + 4.8; }
     }
-    top = b.h + .8;
+    top = Math.max(top === b.h ? 0 : top, b.h + .8);
   }
+  if (b.st === 'prop' && b.cat !== 'chimney') { /* dashed blue outline marks proposed Unit-II blocks */
+    const hh = Math.max(1, b.cat === 'tankyard' ? 1.2 : b.h), e = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(b.w + .4, hh, b.d + .4)), new THREE.LineDashedMaterial({ color: 0x1F6FD1, dashSize: 1.6, gapSize: 1 }));
+    e.position.y = hh / 2; e.computeLineDistances(); g.add(e); }
   g.traverse(o => { if (o.isMesh) { o.userData.key = idx; pickables.push(o); } });
   g.userData = { b, top, key: idx }; byKey[idx] = g; group.add(g);
-});
+}
+SITE.buildings.forEach(buildOne);
 
 /* trees on green areas */
 (function () {
@@ -1936,6 +2548,7 @@ SITE.buildings.forEach((b, idx) => {
   let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
   SITE.green.forEach(poly => { const px = poly.map(p => p[0]), pz = poly.map(p => p[1]);
     for (let n = 0; n < 140; n++) { const p = [Math.min(...px) + rnd() * (Math.max(...px) - Math.min(...px)), Math.min(...pz) + rnd() * (Math.max(...pz) - Math.min(...pz))]; if (!inside(p, poly)) continue;
+      if (SITE.roads.some(r => r.p.some((a, i) => { if (!i) return false; const c = r.p[i - 1], dx = a[0] - c[0], dz = a[1] - c[1], L2 = dx * dx + dz * dz || 1; let t = ((p[0] - c[0]) * dx + (p[1] - c[1]) * dz) / L2; t = Math.max(0, Math.min(1, t)); return Math.hypot(c[0] + dx * t - p[0], c[1] + dz * t - p[1]) < r.w / 2 + 3; }))) continue;
       if (SITE.buildings.some(b => (b.cat === 'assembly' || b.cat === 'garden') && Math.abs(p[0] - b.c[0]) < b.w / 2 + 2.5 && Math.abs(p[1] - b.c[1]) < b.d / 2 + 2.5)) continue;
       const t = new THREE.Mesh(geo, tm); t.position.set(p[0], 3.6, p[1]); t.castShadow = true; scene.add(t); const s = new THREE.Mesh(tg, trunk); s.position.set(p[0], 1.2, p[1]); scene.add(s); } });
 })();
@@ -1945,16 +2558,17 @@ SITE.buildings.forEach((b, idx) => {
 
 /* ---------- labels ---------- */
 const lblBox = document.getElementById('labels'); let showLbl = true; const labels = [];
-const LBL = { '12': 'QC lab / R&D', '83': 'Production office / Technical Services' };
-function lblText(b) { return LBL[b.no] || short(b.name); }
-SITE.buildings.forEach((b, i) => { if (b.cat === 'open' && !/open area/i.test(b.name) && b.w * b.d < 300) return; const d = document.createElement('div'); d.className = 'lbl' + (b.cat === 'assembly' ? ' ap' : b.st === 'new' ? ' new' : ''); d.textContent = lblText(b); d.title = b.name; lblBox.appendChild(d); labels.push([d, i, b.w * b.d]); });
+const LBL = { '12': 'QC lab / R&D', '83': 'Production office / Technical Services', 'U-8': 'Utility block (Unit-II)', 'U-1': 'Admin / QC / OHC', 'U-5': 'Tank farm area', 'U-9': 'ETP (new)' };
+function lblText(b) { return b.lbl || LBL[b.no] || short(b.name); }
+SITE.buildings.forEach((b, i) => { if (b.cat === 'open' && !/open area/i.test(b.name) && b.w * b.d < 300) return; if (/^U-\d+[ABC]$/.test(b.no) || b.cat === 'rack' || b.cat === 'drums') return; const d = document.createElement('div'); d.className = 'lbl' + (b.cat === 'assembly' ? ' ap' : b.st === 'new' ? ' new' : b.st === 'prop' ? ' prop' : ''); d.textContent = lblText(b); d.title = b.name; lblBox.appendChild(d); labels.push([d, i, b.w * b.d]); });
 labels.sort((a, b) => b[2] - a[2]); /* bigger buildings win when labels collide */
 const v3 = new THREE.Vector3(), extraLabels = [];
+function b0(i) { const b = SITE.buildings[i]; return Math.max(b.w, b.d) / 2 + 12; }
 function placeLabels() {
   const W = cvs.clientWidth, H = cvs.clientHeight, placed = [];
   labels.forEach(([d, i]) => {
     const g = byKey[i]; v3.set(g.position.x, g.userData.top + 1, g.position.z).project(camera);
-    let vis = showLbl && g.visible && !(walk.on && inId) && v3.z < 1 && Math.abs(v3.x) < 1.05 && Math.abs(v3.y) < 1.05;
+    let vis = showLbl && g.visible && !(walk.on && inId) && !(walk.on && Math.hypot(g.position.x - walk.x, g.position.z - walk.z) > Math.max(b0(i), 28)) && v3.z < 1 && Math.abs(v3.x) < 1.05 && Math.abs(v3.y) < 1.05;
     if (vis) {
       const x = (v3.x + 1) / 2 * W, y = (1 - v3.y) / 2 * H, w = d.offsetWidth || d.textContent.length * 6.5 + 10, h = 16;
       const r = [x - w / 2 - 2, y - h - 2, x + w / 2 + 2, y + 2];
@@ -2030,21 +2644,67 @@ function hitObj(e) { const r = cvs.getBoundingClientRect(); ndc.set((e.clientX -
 function hit(e) { const o = hitObj(e); return o && o.userData.key !== undefined ? o.userData.key : null; }
 function tint(key, on) { const g = byKey[key]; if (!g) return; g.traverse(o => { if (o.isMesh && o.material) [].concat(o.material).forEach(m => { if (m.emissive) m.emissive.setHex(on ? 0x3a2c00 : 0); }); }); }
 function hover(e) { if (e.pointerType === 'touch') return; const k = hit(e); if (k === hovered) return; if (hovered !== null && hovered !== selected) tint(hovered, false); hovered = k; if (k !== null) tint(k, true); cvs.style.cursor = k !== null ? 'pointer' : 'grab'; }
-function pick(e) { const o = hitObj(e); if (!o) return; if (o.userData.eq) selectEq(o.userData.eq); else if (o.userData.key !== undefined) select(o.userData.key, false); }
+function pick(e) { if (entryFor !== null) { setEntryAt(e); return; } const o = hitObj(e); if (!o) return; if (o.userData.eq) selectEq(o.userData.eq); else if (o.userData.key !== undefined) { const b = SITE.buildings[o.userData.key]; if (insideOf[b.no] && !inId && !editOn) { goInside(insideOf[b.no]); select(o.userData.key, false); } else select(o.userData.key, false); } }
 function select(k, fly) {
   if (selected !== null) tint(selected, false); selected = k; tint(k, true);
   const b = SITE.buildings[k], C = CAT[b.cat] || CAT.open;
   document.getElementById('info-body').innerHTML = '<p class="no">No. ' + esc(b.no) + '</p><h3>' + esc(b.name) + '</h3><dl>' +
-    '<dt>Type</dt><dd>' + C.n + '</dd>' +
+    '<dt>Type</dt><dd>' + C.n + '</dd>' + (b.lbl ? '<dt>Label</dt><dd>' + esc(b.lbl) + '</dd>' : '') +
     (['pond', 'open', 'park', 'garden', 'assembly', 'gate'].includes(b.cat) ? '' : '<dt>Height</dt><dd>about ' + Math.round(b.h) + ' m (model)</dd>') +
     '<dt>Footprint</dt><dd>' + b.w.toFixed(1) + ' × ' + b.d.toFixed(1) + ' m</dd>' +
-    '<dt>Drawing</dt><dd>' + (['garden', 'assembly', 'gate'].includes(b.cat) ? 'Added to the tour (not on the layout plan)' : STATUS[b.st]) + '</dd></dl>' +
+    '<dt>Drawing</dt><dd>' + (b.note ? esc(b.note) : ['garden', 'assembly', 'gate'].includes(b.cat) ? 'Added to the tour (not on the layout plan)' : ['rack', 'drums', 'ohtank'].includes(b.cat) ? STATUS.photo : STATUS[b.st]) + '</dd></dl>' +
     (insideOf[b.no] ? '<button type="button" class="go" id="go-in">Go inside ' + esc(INSIDE[insideOf[b.no]].lab ? 'QC & R&D' : insideOf[b.no]) + ' (' + INSIDE[insideOf[b.no]].floors.length + ' floors)</button>' : '');
-  if (insideOf[b.no]) document.getElementById('go-in').onclick = () => goInside(insideOf[b.no]);
+  if (insideOf[b.no]) document.getElementById('go-in').onclick = () => { goInside(insideOf[b.no]); select(k, false); };
+  if (inId && insideOf[b.no] === inId) { const gi = document.getElementById('go-in'); if (gi) gi.remove(); }
+  if (editOn) editForm(k);
   document.getElementById('info').classList.add('on');
   document.querySelectorAll('#list button').forEach(x => x.classList.toggle('on', +x.dataset.k === k));
   if (fly) { siteMode = false; const g = byKey[k]; flyTo([g.position.x, 0, g.position.z], Math.max(55, Math.max(b.w, b.d) * 2.4), yaw, 0.7); }
 }
+/* ---------- editor: labels, details and entry points ---------- */
+let editOn = false, entryFor = null; const ENT = {};
+const TYPES = Object.keys(CAT);
+function editForm(k) {
+  const b = SITE.buildings[k], f = (id, lab, v, t) => '<label class="ef"><span>' + lab + '</span><input id="' + id + '" type="' + (t || 'text') + '" value="' + esc(v == null ? '' : v) + '"' + (t === 'number' ? ' step="0.1" min="0"' : '') + '></label>';
+  const html = '<div class="edit"><p class="eh">Edit No. ' + esc(b.no) + '</p>' + f('e-lbl', 'Label on view', lblText(b)) + f('e-name', 'Name', b.name) +
+    '<label class="ef"><span>Type</span><select id="e-cat">' + TYPES.map(t => '<option value="' + t + '"' + (t === b.cat ? ' selected' : '') + '>' + CAT[t].n + '</option>').join('') + '</select></label>' +
+    f('e-h', 'Height (m)', b.h, 'number') + f('e-w', 'Width (m)', b.w, 'number') + f('e-d', 'Depth (m)', b.d, 'number') +
+    f('e-note', 'Drawing', b.note || (STATUS[b.st] || '')) +
+    '<p class="ent">' + (b.entry ? 'Entry point set' : 'No entry point yet') + '</p>' +
+    '<div class="erow"><button type="button" id="e-save" class="go">Save</button><button type="button" id="e-entry">' + (b.entry ? 'Move entry point' : 'Set entry point') + '</button><button type="button" id="e-reset">Reset</button></div>' +
+    '<div class="erow"><button type="button" id="e-exp">Export edits</button><button type="button" id="e-imp">Import</button><button type="button" id="e-clr">Clear all</button></div>' +
+    '<p class="enote">Edits are saved in this browser. Export them and send the file to have them added to the shared tour.</p></div>';
+  document.getElementById('info-body').insertAdjacentHTML('beforeend', html);
+  const v = id => document.getElementById(id).value;
+  document.getElementById('e-save').onclick = () => {
+    const e = { lbl: v('e-lbl').trim(), name: v('e-name').trim() || b.name, cat: v('e-cat'), h: Math.max(.1, +v('e-h') || b.h), w: Math.max(.5, +v('e-w') || b.w), d: Math.max(.5, +v('e-d') || b.d), note: v('e-note').trim() };
+    if (e.lbl === short(e.name) || e.lbl === (LBL[b.no] || '')) delete e.lbl;
+    if (e.note === (STATUS[b.st] || '')) delete e.note;
+    if (b.entry) e.entry = b.entry; delete b.lbl; delete b.note; Object.assign(b, e); EDITS[b.no] = e; saveEdits(); rebuild(k); select(k, false); flash('Saved');
+  };
+  document.getElementById('e-entry').onclick = () => { entryFor = k; flash('Click the ground at the entrance of ' + (lblText(b)) + '. Press Esc to cancel.', 1); };
+  document.getElementById('e-reset').onclick = () => { delete EDITS[b.no]; saveEdits(); location.reload(); };
+  document.getElementById('e-exp').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(EDITS, null, 1)], { type: 'application/json' })); a.download = 'pccpl-lalru-edits.json'; document.body.appendChild(a); a.click(); a.remove(); };
+  document.getElementById('e-imp').onclick = () => { const i = document.createElement('input'); i.type = 'file'; i.accept = '.json,application/json'; i.onchange = () => { const r = new FileReader(); r.onload = () => { try { EDITS = Object.assign(EDITS, JSON.parse(r.result)); saveEdits(); location.reload(); } catch (err) { flash('That file is not an edits file'); } }; r.readAsText(i.files[0]); }; i.click(); };
+  document.getElementById('e-clr').onclick = () => { if (confirm('Remove all your edits in this browser?')) { EDITS = {}; saveEdits(); location.reload(); } };
+}
+function rebuild(k) { const old = byKey[k]; if (old) { group.remove(old); old.traverse(o => { const i = pickables.indexOf(o); if (i >= 0) pickables.splice(i, 1); }); }
+  buildOne(SITE.buildings[k], k); const L = labels.find(q => q[1] === k); if (L) { L[0].textContent = lblText(SITE.buildings[k]); L[0].title = SITE.buildings[k].name; } entryMark(k); }
+function entryMark(k) { const b = SITE.buildings[k]; if (ENT[k]) { scene.remove(ENT[k]); delete ENT[k]; } if (!b.entry) return;
+  const g = new THREE.Group(), gm = mat(0x1F9D55); g.position.set(b.entry[0], 0, b.entry[1]); g.rotation.y = Math.atan2(b.c[0] - b.entry[0], b.c[1] - b.entry[1]);
+  [-1, 1].forEach(s => { const p = new THREE.Mesh(new THREE.BoxGeometry(.2, 2.6, .2), gm); p.position.set(s * .9, 1.3, 0); g.add(p); });
+  const t = new THREE.Mesh(new THREE.BoxGeometry(2, .25, .2), gm); t.position.y = 2.6; g.add(t);
+  const ar = new THREE.Mesh(new THREE.ConeGeometry(.5, 1, 4), gm); ar.rotation.x = Math.PI / 2; ar.position.set(0, .15, -1.2); ar.scale.y = .25; g.add(ar);
+  scene.add(g); ENT[k] = g; }
+SITE.buildings.forEach((b, k) => entryMark(k));
+function setEntryAt(e) { const r = cvs.getBoundingClientRect(); ndc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ndc, camera);
+  const p = new THREE.Vector3(); if (!ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), p)) return;
+  const k = entryFor, b = SITE.buildings[k]; entryFor = null; b.entry = [+p.x.toFixed(2), +p.z.toFixed(2)];
+  EDITS[b.no] = Object.assign(EDITS[b.no] || {}, { entry: b.entry }); saveEdits(); entryMark(k); select(k, false); flash('Entry point saved for ' + lblText(b)); }
+let flashT = 0; function flash(t, keep) { const f = document.getElementById('flash'); f.textContent = t; f.classList.add('on'); clearTimeout(flashT); if (!keep) flashT = setTimeout(() => f.classList.remove('on'), 2600); }
+addEventListener('keydown', e => { if (e.key === 'Escape' && entryFor !== null) { entryFor = null; document.getElementById('flash').classList.remove('on'); } });
+document.getElementById('b-edit').onclick = () => { editOn = !editOn; const bt = document.getElementById('b-edit'); bt.setAttribute('aria-pressed', String(editOn)); bt.textContent = editOn ? 'Done editing' : 'Edit';
+  flash(editOn ? 'Edit mode: click a building or pick it from the list to change its label, details or entry point.' : 'Edit mode off'); if (selected !== null) select(selected, false); };
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 document.getElementById('info-x').onclick = () => { document.getElementById('info').classList.remove('on'); if (selected !== null) tint(selected, false); selected = null; };
 
@@ -2074,20 +2734,20 @@ document.getElementById('b-top').onclick = () => { if (walk.on) stopWalk(); whol
 document.getElementById('b-fit').onclick = () => { if (walk.on) stopWalk(); if (inId) exitInside(); wholeSite(); };
 
 /* legend */
-document.getElementById('legend').innerHTML = ['prod', 'util', 'store', 'admin', 'tankyard', 'etp', 'pond', 'tank'].map(k => '<span><i style="background:#' + new THREE.Color(CAT[k].c).getHexString() + '"></i>' + CAT[k].n + '</span>').join('') + '<span><i style="background:#F2B8AE"></i>Revised (red on drawing)</span>';
+document.getElementById('legend').innerHTML = ['prod', 'util', 'store', 'admin', 'tankyard', 'etp', 'pond', 'tank'].map(k => '<span><i style="background:#' + new THREE.Color(CAT[k].c).getHexString() + '"></i>' + CAT[k].n + '</span>').join('') + '<span><i style="background:#F2B8AE"></i>Revised (red on drawing)</span><span><i style="background:#EAF1F8;outline:2px dashed #1F6FD1;outline-offset:-2px"></i>Proposed Unit-II</span>';
 
 /* ---------- guided tour ---------- */
 function at(no) { const i = SITE.buildings.findIndex(b => b.no === no); return i < 0 ? null : byKey[i]; }
 const STOPS = [
-  { t: 'Main entrance', p: 'Visitors arrive from the link road. The security office stands at the gate, with the finished product and raw material godowns along the front.', no: '74', d: 120, y: 0.3, pi: 0.45 },
+  { t: 'Gate-01, Unit-I', p: 'Gate-01 is the Unit-I gate, with the security room and the clinic beside it. Gate-02, further east, is the Unit-II gate.', no: '28', d: 120, y: 0.3, pi: 0.45 },
   { t: 'Godowns and workshop', p: 'Finished product godown, raw material godown and the workshop and store face the 20 ft road.', no: '2', d: 160, y: 0.2, pi: 0.6 },
   { t: 'Admin, QC and R&D', p: 'The administrative block, the QC laboratory with R&D on its first floor, and the canteen sit on the west side of the 6 m road, with the car parking, clinic and safety office at the front.', no: '12', d: 200, y: 0.9, pi: 0.7 },
   { t: 'Production block', p: 'B1A, B1B, B2, B3 and the three-floor B5 along the front, with the four-floor B6, B8 and B9 behind them. The SRP sits beside B6, and B4, the pilot plant, is to the west.', no: '24', d: 220, y: 0.5, pi: 0.65 },
-  { t: 'Utilities', p: 'Electrical sub station, the utility blocks (9 and 10), the water treatment plant, and the water storage and pump house to the north.', no: '9', d: 170, y: -0.4, pi: 0.6 },
+  { t: 'Utilities', p: 'Electrical sub station, the utility blocks (9 and 10), the water treatment plant, the round water storage tank and pump house to the north, and the pipe racks that carry steam, water and solvents to the plants.', no: '9', d: 170, y: -0.4, pi: 0.6 },
   { t: 'Cooling towers', p: 'Six cooling towers serve the plants, most on raised platforms.', no: '54', d: 140, y: -0.2, pi: 0.7 },
-  { t: 'Boiler house and ash yard', p: 'The boiler house, its chimney and the boiler ash yard sit at the north-west corner.', no: '75', d: 130, y: 1.2, pi: 0.55 },
-  { t: 'ETP, MEE and ponds', p: 'Effluent goes through the equalization tank (61), the ETP and the MEE. The ETP pond and the low TDS pond (60) lie along the north-east side.', no: '61', d: 260, y: -0.6, pi: 0.8 },
-  { t: 'Unit II solvent yards', p: 'Unit II holds the solvent storage yards and the finished goods and storage sheds.', no: '42', d: 200, y: -0.9, pi: 0.65 },
+  { t: 'Boiler house and husk yard', p: 'The boiler house, its chimney, the open husk storage yard and the boiler ash yard sit at the north-west corner.', no: '75', d: 130, y: 1.2, pi: 0.55 },
+  { t: 'ETP and MEE', p: 'Effluent goes through the equalization tank, the ETP and the MEE. The Unit-II drawing adds a new ETP section, a new boiler, a thermopack and an incinerator beside the equalization tank.', no: 'EQ', d: 230, y: -0.6, pi: 0.8 },
+  { t: 'Proposed Unit-II', p: 'The north-east strip is laid out for Unit-II: two G+3 process plants with intermediate tank farms, a tank farm area with a tanker bay, solvent and RM tank farms, an RM/FG warehouse, an admin/QC/OHC block and a utility block, all ringed by a 6 m road. Proposed blocks have a dashed blue outline.', no: 'U-6', d: 260, y: -0.9, pi: 0.7 },
   { t: 'Whole site', p: 'That completes the walk round. Tap any building for details, or search the list.', no: null, d: 560, y: 0.6, pi: 0.95 }
 ];
 let si = -1; const cap = document.getElementById('cap');
@@ -2095,7 +2755,7 @@ function capOffset(on) { capOn = on; updOffset(); }
 function stop(i) { capOffset(true); si = Math.max(0, Math.min(STOPS.length - 1, i)); const s = STOPS[si]; const g = s.no ? at(s.no) : null;
   document.getElementById('cap-t').textContent = (si + 1) + ' / ' + STOPS.length + '  ' + s.t; document.getElementById('cap-p').textContent = s.p; cap.classList.add('on');
   flyTo(g ? [g.position.x, 0, g.position.z] : [CX, 0, CZ], s.d, s.y, s.pi); document.getElementById('cap-next').textContent = si === STOPS.length - 1 ? 'Finish' : 'Next'; }
-document.getElementById('b-tour').onclick = () => { if (walk.on) stopWalk(); if (inId) exitInside(); document.getElementById('info').classList.remove('on'); if (innerWidth < 760) toggleSide(false); stop(0); };
+document.getElementById('b-tour').onclick = () => { if (WT.on) stopWT(); else if (walk.on) stopWalk(); if (inId) exitInside(); document.getElementById('info').classList.remove('on'); if (innerWidth < 760) toggleSide(false); stop(0); };
 document.getElementById('cap-next').onclick = () => { if (si >= STOPS.length - 1) { cap.classList.remove('on'); capOffset(false); } else stop(si + 1); };
 document.getElementById('cap-prev').onclick = () => stop(si - 1);
 document.getElementById('cap-end').onclick = () => { cap.classList.remove('on'); capOffset(false); };
@@ -2127,7 +2787,48 @@ const INSIDE = {
 "floors": [
 {
 "level": 0,
-"items": [],
+"items": [
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 3.5,
+"v": 20.5,
+"r": 0.8,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 10.5,
+"v": 20.5,
+"r": 1.0,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 25.0,
+"v": 20.5,
+"r": 0.9,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Vacuum dryer (RCVD)",
+"k": "rvd",
+"u": 32.0,
+"v": 20.5,
+"r": 0.7,
+"cut": false,
+"add": true
+}
+],
 "cuts": [],
 "src": "b1/l0.pdf"
 },
@@ -3190,6 +3891,36 @@ const INSIDE = {
 "v": 10.97,
 "r": 0,
 "cut": false
+},
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 16.0,
+"v": 10.2,
+"r": 0.8,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 10.0,
+"v": 1.8,
+"r": 1.0,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 19.0,
+"v": 10.2,
+"r": 0.9,
+"cut": false,
+"add": true
 }
 ],
 "cuts": [],
@@ -3779,6 +4510,26 @@ const INSIDE = {
 "cut": false,
 "d": "Reaction Vessel",
 "c": "1.0KL"
+},
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 3.0,
+"v": 5.7,
+"r": 0.8,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 9.5,
+"v": 5.7,
+"r": 1.0,
+"cut": false,
+"add": true
 }
 ],
 "cuts": [],
@@ -4415,6 +5166,36 @@ const INSIDE = {
 "v": 12.6,
 "r": 0.5,
 "cut": false
+},
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 28.5,
+"v": 11.5,
+"r": 0.8,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 14.5,
+"v": 1.8,
+"r": 1.0,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 27.5,
+"v": 1.8,
+"r": 0.9,
+"cut": false,
+"add": true
 }
 ],
 "cuts": [],
@@ -5599,6 +6380,46 @@ const INSIDE = {
 "v": 14.05,
 "r": 0,
 "cut": false
+},
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 10.5,
+"v": 11.35,
+"r": 0.8,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 16.0,
+"v": 11.35,
+"r": 1.0,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 19.5,
+"v": 1.8,
+"r": 0.9,
+"cut": false,
+"add": true
+},
+{
+"tag": "",
+"name": "Vacuum dryer (RCVD)",
+"k": "rvd",
+"u": 5.5,
+"v": 11.35,
+"r": 0.7,
+"cut": false,
+"add": true
 }
 ],
 "cuts": [],
@@ -6546,11 +7367,2187 @@ const INSIDE = {
 "cuts": []
 }
 ]
+},
+"B2": {
+"no": [
+"24"
+],
+"origin": [
+-174.0,
+-65.0
+],
+"rot": 0,
+"W": 13.0,
+"L": 15.4,
+"roof": 12,
+"parts": [
+[
+0,
+15.4
+]
+],
+"floors": [
+{
+"level": 0,
+"items": [
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 2.2,
+"v": 1.9,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "Mother liquor tank",
+"k": "t",
+"u": 2.2,
+"v": 11.4,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 5.800000000000001,
+"v": 1.9,
+"r": 1.0,
+"cut": false
+},
+{
+"tag": "",
+"name": "ANFD",
+"k": "anfd",
+"u": 9.4,
+"v": 1.9,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 9.4,
+"v": 11.4,
+"r": 0.6,
+"cut": false
+}
+],
+"cuts": []
+},
+{
+"level": 4.5,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.2,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 2.2,
+"v": 11.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 9.4,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 9.4,
+"v": 11.0,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.2,
+2.6,
+2.6
+],
+[
+9.4,
+2.6,
+2.6
+]
+]
+},
+{
+"level": 9.0,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.2,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 2.2,
+"v": 11.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 5.800000000000001,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 5.800000000000001,
+"v": 11.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 9.4,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 9.4,
+"v": 11.0,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.2,
+2.6,
+2.6
+],
+[
+5.800000000000001,
+2.6,
+2.6
+],
+[
+9.4,
+2.6,
+2.6
+]
+]
+}
+],
+"generic": true,
+"title": "B2"
+},
+"B4": {
+"no": [
+"11"
+],
+"origin": [
+-249.6,
+-143.45
+],
+"rot": 0,
+"W": 10.9,
+"L": 22.8,
+"roof": 10,
+"parts": [
+[
+0,
+22.8
+]
+],
+"floors": [
+{
+"level": 0,
+"items": [
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 2.2,
+"v": 1.9,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "Mother liquor tank",
+"k": "t",
+"u": 2.2,
+"v": 9.3,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 5.800000000000001,
+"v": 1.9,
+"r": 1.0,
+"cut": false
+},
+{
+"tag": "",
+"name": "ANFD",
+"k": "anfd",
+"u": 9.4,
+"v": 1.9,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 9.4,
+"v": 9.3,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 13.0,
+"v": 1.9,
+"r": 0.9,
+"cut": false
+},
+{
+"tag": "",
+"name": "Vacuum dryer (RCVD)",
+"k": "rvd",
+"u": 16.6,
+"v": 1.9,
+"r": 0.7,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 16.6,
+"v": 9.3,
+"r": 0.6,
+"cut": false
+}
+],
+"cuts": []
+},
+{
+"level": 4.5,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.2,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 2.2,
+"v": 8.9,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 9.4,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 9.4,
+"v": 8.9,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 16.6,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 16.6,
+"v": 8.9,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.2,
+2.6,
+2.6
+],
+[
+9.4,
+2.6,
+2.6
+],
+[
+16.6,
+2.6,
+2.6
+]
+]
+}
+],
+"generic": true,
+"title": "B4 (pilot plant)"
+},
+"B5": {
+"no": [
+"68"
+],
+"origin": [
+-97.9,
+-63.75
+],
+"rot": 0,
+"W": 11.7,
+"L": 26.0,
+"roof": 13,
+"parts": [
+[
+0,
+26.0
+]
+],
+"floors": [
+{
+"level": 0,
+"items": [
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 2.2,
+"v": 1.9,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "Mother liquor tank",
+"k": "t",
+"u": 2.2,
+"v": 10.1,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 5.800000000000001,
+"v": 1.9,
+"r": 1.0,
+"cut": false
+},
+{
+"tag": "",
+"name": "ANFD",
+"k": "anfd",
+"u": 9.4,
+"v": 1.9,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 9.4,
+"v": 10.1,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 13.0,
+"v": 1.9,
+"r": 0.9,
+"cut": false
+},
+{
+"tag": "",
+"name": "Vacuum dryer (RCVD)",
+"k": "rvd",
+"u": 16.6,
+"v": 1.9,
+"r": 0.7,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 16.6,
+"v": 10.1,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Fluid bed dryer",
+"k": "fbd",
+"u": 20.2,
+"v": 1.9,
+"r": 0.8,
+"cut": false
+}
+],
+"cuts": []
+},
+{
+"level": 4.5,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.2,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 2.2,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 9.4,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 9.4,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 16.6,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 16.6,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.2,
+2.6,
+2.6
+],
+[
+9.4,
+2.6,
+2.6
+],
+[
+16.6,
+2.6,
+2.6
+]
+]
+},
+{
+"level": 9.0,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.2,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 2.2,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 5.800000000000001,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 5.800000000000001,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 9.4,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 9.4,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 13.0,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 13.0,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 16.6,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 16.6,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 20.2,
+"v": 2.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 20.2,
+"v": 9.7,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.2,
+2.6,
+2.6
+],
+[
+5.800000000000001,
+2.6,
+2.6
+],
+[
+9.4,
+2.6,
+2.6
+],
+[
+13.0,
+2.6,
+2.6
+],
+[
+16.6,
+2.6,
+2.6
+],
+[
+20.2,
+2.6,
+2.6
+]
+]
+}
+],
+"generic": true,
+"title": "B5"
+},
+"PP1": {
+"no": [
+"U-6"
+],
+"origin": [
+-57.55,
+-160.67
+],
+"rot": 45,
+"W": 45,
+"L": 16,
+"roof": 18,
+"parts": [
+[
+0,
+16
+]
+],
+"floors": [
+{
+"level": 0,
+"items": [
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 1.9,
+"v": 2.2,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "Mother liquor tank",
+"k": "t",
+"u": 14.4,
+"v": 2.2,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 1.9,
+"v": 5.800000000000001,
+"r": 1.0,
+"cut": false
+},
+{
+"tag": "",
+"name": "ANFD",
+"k": "anfd",
+"u": 1.9,
+"v": 9.4,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 9.4,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 1.9,
+"v": 13.0,
+"r": 0.9,
+"cut": false
+},
+{
+"tag": "",
+"name": "Vacuum dryer (RCVD)",
+"k": "rvd",
+"u": 1.9,
+"v": 16.6,
+"r": 0.7,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 16.6,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Fluid bed dryer",
+"k": "fbd",
+"u": 1.9,
+"v": 20.2,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "cf",
+"u": 1.9,
+"v": 23.8,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 23.8,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "anfd",
+"u": 1.9,
+"v": 27.4,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "cf",
+"u": 1.9,
+"v": 31.0,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 31.0,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "nf",
+"u": 1.9,
+"v": 34.6,
+"r": 1.0,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "anfd",
+"u": 1.9,
+"v": 38.2,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 38.2,
+"r": 0.6,
+"cut": false
+}
+],
+"cuts": []
+},
+{
+"level": 4.5,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.6,
+"v": 2.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 14.0,
+"v": 2.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 9.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 9.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 16.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 16.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 23.8,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 23.8,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 31.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 31.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 38.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 38.2,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.6,
+2.2,
+2.6
+],
+[
+2.6,
+9.4,
+2.6
+],
+[
+2.6,
+16.6,
+2.6
+],
+[
+2.6,
+23.8,
+2.6
+],
+[
+2.6,
+31.0,
+2.6
+],
+[
+2.6,
+38.2,
+2.6
+]
+]
+},
+{
+"level": 9.0,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.6,
+"v": 2.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 14.0,
+"v": 2.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 5.800000000000001,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 5.800000000000001,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 9.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 9.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 13.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 13.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 16.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 16.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 20.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 20.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 23.8,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 23.8,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 27.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 27.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 31.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 31.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 34.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 34.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 38.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 38.2,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.6,
+2.2,
+2.6
+],
+[
+2.6,
+5.800000000000001,
+2.6
+],
+[
+2.6,
+9.4,
+2.6
+],
+[
+2.6,
+13.0,
+2.6
+],
+[
+2.6,
+16.6,
+2.6
+],
+[
+2.6,
+20.2,
+2.6
+],
+[
+2.6,
+23.8,
+2.6
+],
+[
+2.6,
+27.4,
+2.6
+],
+[
+2.6,
+31.0,
+2.6
+],
+[
+2.6,
+34.6,
+2.6
+],
+[
+2.6,
+38.2,
+2.6
+]
+]
+},
+{
+"level": 13.5,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.6,
+"v": 2.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 14.0,
+"v": 2.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 9.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 9.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 16.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 16.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 23.8,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 23.8,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 31.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 31.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 38.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 38.2,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.6,
+2.2,
+2.6
+],
+[
+2.6,
+9.4,
+2.6
+],
+[
+2.6,
+16.6,
+2.6
+],
+[
+2.6,
+23.8,
+2.6
+],
+[
+2.6,
+31.0,
+2.6
+],
+[
+2.6,
+38.2,
+2.6
+]
+]
+}
+],
+"generic": true,
+"title": "Process Plant-1"
+},
+"PP2": {
+"no": [
+"U-7"
+],
+"origin": [
+-87.75,
+-190.87
+],
+"rot": 45,
+"W": 45,
+"L": 16,
+"roof": 18,
+"parts": [
+[
+0,
+16
+]
+],
+"floors": [
+{
+"level": 0,
+"items": [
+{
+"tag": "",
+"name": "Centrifuge",
+"k": "cf",
+"u": 1.9,
+"v": 2.2,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "Mother liquor tank",
+"k": "t",
+"u": 14.4,
+"v": 2.2,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Nutsche filter",
+"k": "nf",
+"u": 1.9,
+"v": 5.800000000000001,
+"r": 1.0,
+"cut": false
+},
+{
+"tag": "",
+"name": "ANFD",
+"k": "anfd",
+"u": 1.9,
+"v": 9.4,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 9.4,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Tray dryer",
+"k": "tray",
+"u": 1.9,
+"v": 13.0,
+"r": 0.9,
+"cut": false
+},
+{
+"tag": "",
+"name": "Vacuum dryer (RCVD)",
+"k": "rvd",
+"u": 1.9,
+"v": 16.6,
+"r": 0.7,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 16.6,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "Fluid bed dryer",
+"k": "fbd",
+"u": 1.9,
+"v": 20.2,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "cf",
+"u": 1.9,
+"v": 23.8,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 23.8,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "anfd",
+"u": 1.9,
+"v": 27.4,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "cf",
+"u": 1.9,
+"v": 31.0,
+"r": 0.8,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 31.0,
+"r": 0.6,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "nf",
+"u": 1.9,
+"v": 34.6,
+"r": 1.0,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "anfd",
+"u": 1.9,
+"v": 38.2,
+"r": 1.1,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "t",
+"u": 14.4,
+"v": 38.2,
+"r": 0.6,
+"cut": false
+}
+],
+"cuts": []
+},
+{
+"level": 4.5,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.6,
+"v": 2.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 14.0,
+"v": 2.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 9.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 9.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 16.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 16.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 23.8,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 23.8,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 31.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 31.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 38.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 38.2,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.6,
+2.2,
+2.6
+],
+[
+2.6,
+9.4,
+2.6
+],
+[
+2.6,
+16.6,
+2.6
+],
+[
+2.6,
+23.8,
+2.6
+],
+[
+2.6,
+31.0,
+2.6
+],
+[
+2.6,
+38.2,
+2.6
+]
+]
+},
+{
+"level": 9.0,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.6,
+"v": 2.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 14.0,
+"v": 2.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 5.800000000000001,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 5.800000000000001,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 9.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 9.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 13.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 13.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 16.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 16.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 20.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 20.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 23.8,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 23.8,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 27.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 27.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 31.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 31.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 34.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 34.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 38.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 38.2,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.6,
+2.2,
+2.6
+],
+[
+2.6,
+5.800000000000001,
+2.6
+],
+[
+2.6,
+9.4,
+2.6
+],
+[
+2.6,
+13.0,
+2.6
+],
+[
+2.6,
+16.6,
+2.6
+],
+[
+2.6,
+20.2,
+2.6
+],
+[
+2.6,
+23.8,
+2.6
+],
+[
+2.6,
+27.4,
+2.6
+],
+[
+2.6,
+31.0,
+2.6
+],
+[
+2.6,
+34.6,
+2.6
+],
+[
+2.6,
+38.2,
+2.6
+]
+]
+},
+{
+"level": 13.5,
+"items": [
+{
+"tag": "",
+"name": "Reactor",
+"k": "r",
+"u": 2.6,
+"v": 2.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "Receiver",
+"k": "rc",
+"u": 14.0,
+"v": 2.2,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 9.4,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 9.4,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 16.6,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 16.6,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 23.8,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 23.8,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 31.0,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 31.0,
+"r": 0.5,
+"cut": false
+},
+{
+"tag": "",
+"name": "",
+"k": "r",
+"u": 2.6,
+"v": 38.2,
+"r": 1.0,
+"cut": true
+},
+{
+"tag": "",
+"name": "",
+"k": "rc",
+"u": 14.0,
+"v": 38.2,
+"r": 0.5,
+"cut": false
+}
+],
+"cuts": [
+[
+2.6,
+2.2,
+2.6
+],
+[
+2.6,
+9.4,
+2.6
+],
+[
+2.6,
+16.6,
+2.6
+],
+[
+2.6,
+23.8,
+2.6
+],
+[
+2.6,
+31.0,
+2.6
+],
+[
+2.6,
+38.2,
+2.6
+]
+]
+}
+],
+"generic": true,
+"title": "Process Plant-2"
 }
 };
+function inW(B, u, v) { if (!B.rot) return [B.origin[0] + u, B.origin[1] + v]; const a = B.rot * Math.PI / 180, c = Math.cos(a), s = Math.sin(a); return [B.origin[0] + u * c - v * s, B.origin[1] + u * s + v * c]; }
 const insideOf = {}; Object.entries(INSIDE).forEach(([id, b]) => b.no.forEach(n => { insideOf[n] = id; }));
-const KIND = { r: 'Reactor', rc: 'Receiver', t: 'Tank', he: 'Heat exchanger', cf: 'Centrifuge', anfd: 'ANFD (filter dryer)', td: 'Dryer', sep: 'Separator', rvd: 'Vacuum dryer', mm: 'Multimill', sft: 'Sifter', bl: 'Blender', fp: 'Equipment', v: 'Vessel', eq: 'Equipment' };
-const EQC = { r: 0x2F6496, rc: 0xA9CCE0, t: 0xDCE1E6, he: 0xAEB7BF, cf: 0x8C98A3, anfd: 0x6F8296, td: 0x9AA4AE, sep: 0xB7D0E0, rvd: 0x7F8C99, mm: 0x9AA4AE, sft: 0x9AA4AE, bl: 0x9AA4AE, fp: 0x9AA4AE, v: 0xCDD3D8, eq: 0xCDD3D8 };
+const KIND = { nf: 'Nutsche filter', tray: 'Tray dryer', fbd: 'Fluid bed dryer', r: 'Reactor', rc: 'Receiver', t: 'Tank', he: 'Heat exchanger', cf: 'Centrifuge', anfd: 'ANFD (filter dryer)', td: 'Dryer', sep: 'Separator', rvd: 'Vacuum dryer', mm: 'Multimill', sft: 'Sifter', bl: 'Blender', fp: 'Equipment', v: 'Vessel', eq: 'Equipment' };
+const EQC = { nf: 0x8C98A3, tray: 0xB7BEC5, fbd: 0xA9B3BC, r: 0x2F6496, rc: 0xA9CCE0, t: 0xDCE1E6, he: 0xAEB7BF, cf: 0x8C98A3, anfd: 0x6F8296, td: 0x9AA4AE, sep: 0xB7D0E0, rvd: 0x7F8C99, mm: 0x9AA4AE, sft: 0x9AA4AE, bl: 0x9AA4AE, fp: 0x9AA4AE, v: 0xCDD3D8, eq: 0xCDD3D8 };
 let inId = null, inGrp = null, inFloor = 0, inAll = false; const inFloorsG = [], inLabels = [], inObs = [];
 const inBox = document.getElementById('inside'), inBtns = document.getElementById('in-floors');
 function lvlName(l, i) { const B = INSIDE[inId]; if (B && B.names) return B.names[i]; return i === 0 ? 'Ground' : l + ' m'; }
@@ -6598,6 +9595,25 @@ function equip(it, lev, bid) {
   } else if (k === 'cf') {
     const b = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.9, 24), M(col)); b.position.y = lev + 0.45; g.add(b);
     const c = new THREE.Mesh(new THREE.ConeGeometry(r * .9, .5, 24), M(0xB4BCC4)); c.position.y = lev + 1.15; g.add(c); top = lev + 1.5;
+  } else if (k === 'nf') {
+    const b = new THREE.Mesh(new THREE.CylinderGeometry(r, r, .9, 24), M(col)); b.position.y = lev + 1.25; g.add(b);
+    const d = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 8, 0, Math.PI * 2, 0, Math.PI / 2), M(col)); d.scale.y = .3; d.position.y = lev + 1.7; g.add(d);
+    const bt = d.clone(); bt.rotation.x = Math.PI; bt.position.y = lev + .8; g.add(bt);
+    [0, 1, 2, 3].forEach(i => { const a = i * Math.PI / 2 + .6, l = new THREE.Mesh(new THREE.BoxGeometry(.1, .8, .1), M(0x5E666E)); l.position.set(Math.cos(a) * r * .8, lev + .4, Math.sin(a) * r * .8); g.add(l); });
+    top = lev + 2.2;
+  } else if (k === 'tray') {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(1.6, 2, 1.3), M(col)); b.position.y = lev + 1; g.add(b);
+    [-.4, .4].forEach(x => { const dr = new THREE.Mesh(new THREE.BoxGeometry(.75, 1.8, .05), M(0xD5DADF)); dr.position.set(x, lev + 1, .68); g.add(dr); const h = new THREE.Mesh(new THREE.BoxGeometry(.05, .3, .08), M(0x3B4148)); h.position.set(x + (x < 0 ? .3 : -.3), lev + 1, .72); g.add(h); });
+    const fan = new THREE.Mesh(new THREE.CylinderGeometry(.25, .25, .3, 14), M(0x2E7D4F)); fan.position.set(0, lev + 2.15, 0); g.add(fan); top = lev + 2.5; r = .9;
+  } else if (k === 'fbd') {
+    const cone = new THREE.Mesh(new THREE.CylinderGeometry(.75, .4, 1, 20), M(col)); cone.position.y = lev + 1.2; g.add(cone);
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(.75, .75, 1.6, 20), M(col)); body.position.y = lev + 2.5; g.add(body);
+    const tro = new THREE.Mesh(new THREE.CylinderGeometry(.42, .42, .5, 18), M(0xD5DADF)); tro.position.y = lev + .45; g.add(tro);
+    const duct = new THREE.Mesh(new THREE.BoxGeometry(.5, .5, 1.6), M(0x8A9097)); duct.position.set(0, lev + 3.1, -1); g.add(duct); top = lev + 3.4; r = .8;
+  } else if (k === 'rvd') {
+    const b = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 2.6, 22), M(col)); b.rotation.z = Math.PI / 2; b.position.y = lev + r + .5; g.add(b);
+    [-1.1, 1.1].forEach(x => { const s = new THREE.Mesh(new THREE.BoxGeometry(.2, r + .5, .5), M(0x5E666E)); s.position.set(x, lev + (r + .5) / 2, 0); g.add(s); });
+    const mo = new THREE.Mesh(new THREE.CylinderGeometry(.2, .2, .5, 12), M(0x2E7D4F)); mo.rotation.z = Math.PI / 2; mo.position.set(1.6, lev + r + .5, 0); g.add(mo); top = lev + 2 * r + .7;
   } else if (k === 'eq' && !it.r) {
     const b = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), M(col)); b.position.y = lev + .6; g.add(b); top = lev + 1.3;
   } else {
@@ -6613,7 +9629,7 @@ function equip(it, lev, bid) {
       const mo = new THREE.Mesh(new THREE.CylinderGeometry(.2, .2, .55, 14), M(0x2E7D4F)); mo.position.y = top + .7; g.add(mo); top += 1;
     }
   }
-  g.position.set(INSIDE[bid].origin[0] + it.u, 0, INSIDE[bid].origin[1] + it.v);
+  const wp = inW(INSIDE[bid], it.u, it.v); g.position.set(wp[0], 0, wp[1]);
   g.traverse(o => { if (o.isMesh) { o.userData.eq = { it, lev, bid }; pickables.push(o); } });
   return [g, top];
 }
@@ -6630,11 +9646,11 @@ function goInside(id) {
   B.floors.forEach((f, fi) => {
     const g = new THREE.Group(); g.userData.level = f.level; const obs = []; inObs.push(obs);
     const slab = slabMesh(B.parts, B.W, fi === 0 ? [] : f.cuts, f.level, fi === 0 ? 0xA9A79F : 0xC9C5BB, 1);
-    slab.position.set(ox, 0, oz); g.add(slab); g.userData.slab = slab;
+    slab.position.set(ox, 0, oz); slab.rotation.y = -(B.rot || 0) * Math.PI / 180; g.add(slab); g.userData.slab = slab;
     const nx = Math.max(2, Math.round((B.parts[B.parts.length - 1][1]) / 5)), hgt = lv[fi + 1] - f.level;
     B.parts.forEach(([u0, u1]) => { const n = Math.max(1, Math.round((u1 - u0) / 5));
       for (let i = 0; i <= n; i++) for (const v of [0.2, B.W - 0.2].concat(B.W > 10 ? [B.W / 2] : [])) {
-        const c = new THREE.Mesh(new THREE.BoxGeometry(.4, hgt, .4), mat(0xB7B1A4)); c.position.set(ox + u0 + (u1 - u0) * i / n, f.level + hgt / 2, oz + v); g.add(c); obs.push([c.position.x, c.position.z, .35]); } });
+        const c = new THREE.Mesh(new THREE.BoxGeometry(.4, hgt, .4), mat(0xB7B1A4)); const cq = inW(B, u0 + (u1 - u0) * i / n, v); c.position.set(cq[0], f.level + hgt / 2, cq[1]); c.rotation.y = -(B.rot || 0) * Math.PI / 180; g.add(c); obs.push([c.position.x, c.position.z, .35]); } });
     f.items.forEach(it => { const [m, top] = equip(it, f.level, id); g.add(m); obs.push([m.position.x, m.position.z, (it.r || (it.k === 'he' ? .35 : .55)) + .1]);
       const d = document.createElement('div'); d.className = 'lbl eq'; d.textContent = it.tag || it.name || ''; if (!d.textContent) return;
       lblBox.appendChild(d); inLabels.push([d, new THREE.Vector3(m.position.x, top + .3, m.position.z), fi]); });
@@ -6643,7 +9659,7 @@ function goInside(id) {
   addOperators(B, B.floors, inFloorsG);
   inBtns.innerHTML = B.floors.map((f, i) => '<button type="button" data-f="' + i + '">' + lvlName(f.level, i) + '</button>').join('') + '<button type="button" data-f="all">All floors</button>';
   inBtns.querySelectorAll('button').forEach(b => b.onclick = () => showFloor(b.dataset.f === 'all' ? 'all' : +b.dataset.f, true));
-  document.getElementById('in-name').textContent = (B.lab ? 'QC & R&D' : id) + ' inside';
+  document.getElementById('in-name').textContent = (B.lab ? 'QC & R&D' : B.title || id) + ' inside' + (B.generic ? ' (typical layout, no floor drawing yet)' : '');
   inBox.classList.add('on'); document.body.classList.add('in-bldg');
   document.getElementById('info').classList.remove('on');
   showFloor(0, true);
@@ -6655,10 +9671,10 @@ function showFloor(f, flyCam) {
   inBtns.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === String(f))));
   const lev = B.floors[inFloor].level;
   if (walk.on) { walk.y = lev; return; }
-  if (flyCam) flyTo([B.origin[0] + B.L / 2, lev, B.origin[1] + B.W / 2], Math.max(28, B.L * (innerWidth < innerHeight ? 2.1 : 1.15)), yaw, 0.82);
+  const cc = inW(B, B.L / 2, B.W / 2); if (flyCam) flyTo([cc[0], lev, cc[1]], Math.max(28, B.L * (innerWidth < innerHeight ? 2.1 : 1.15)), yaw, 0.82);
 }
 function exitInside() { clearInside(); inId = null; inBox.classList.remove('on'); document.body.classList.remove('in-bldg'); if (walk.on) walk.y = 0; }
-document.getElementById('in-exit').onclick = () => { const B = INSIDE[inId]; exitInside(); if (!walk.on) flyTo([B.origin[0] + B.L / 2, 0, B.origin[1] + B.W / 2], Math.max(60, B.L * 2.2), yaw, 0.7); };
+document.getElementById('in-exit').onclick = () => { const B = INSIDE[inId]; exitInside(); const cc = inW(B, B.L / 2, B.W / 2); if (!walk.on) flyTo([cc[0], 0, cc[1]], Math.max(60, B.L * 2.2), yaw, 0.7); };
 function placeInLabels() {
   const W = cvs.clientWidth, H = cvs.clientHeight, placed = [];
   inLabels.forEach(([d, p, fi]) => {
@@ -6677,7 +9693,7 @@ function selectEq(e) {
     '<dt>Type</dt><dd>' + esc(it.d || KIND[it.k] || 'Equipment') + '</dd>' + (it.c ? '<dt>Capacity</dt><dd>' + esc(it.c) + '</dd>' : '') +
     (it.r ? '<dt>Size</dt><dd>about ' + (it.r * 2).toFixed(1) + ' m diameter on the drawing</dd>' : '') +
     (it.cut ? '<dt>Mounting</dt><dd>Sits in a floor cut-out</dd>' : '') +
-    '<dt>Tag</dt><dd>' + (it.tag ? 'From the floor drawing (may be an older tag)' : 'No tag on the drawing') + '</dd></dl>';
+    '<dt>Tag</dt><dd>' + (it.tag ? 'From the floor drawing (may be an older tag)' : it.add ? 'Added to show filtration and drying (not from the drawing)' : B.generic ? 'Typical layout, not from a drawing' : 'No tag on the drawing') + '</dd></dl>';
   document.getElementById('info').classList.add('on');
 }
 
@@ -6687,7 +9703,7 @@ const walk = { on: false, x: 0, z: 0, y: 0, yaw: 0, pitch: 0, keys: new Set(), j
 const wBtn = document.getElementById('b-walk'), joy = document.getElementById('joy'), knob = document.getElementById('knob');
 function startWalk() {
   stopFly(); walk.on = true; document.body.classList.add('walking'); wBtn.textContent = 'Stop walking'; wBtn.setAttribute('aria-pressed', 'true');
-  if (inId) { const B = INSIDE[inId]; walk.x = B.origin[0] + B.parts[0][0] + 1.0; walk.z = B.origin[1] + B.W / 2 + 1.3; walk.y = B.floors[inFloor].level; walk.yaw = -Math.PI / 2; }
+  if (inId) { const B = INSIDE[inId], eb = SITE.buildings.find(x => B.no.includes(x.no) && x.entry), sp = eb ? eb.entry : inW(B, B.parts[0][0] + 1.0, B.W / 2 + 1.3); walk.x = sp[0]; walk.z = sp[1]; walk.y = B.floors[inFloor].level; walk.yaw = -Math.PI / 2 - (B.rot || 0) * Math.PI / 180; if (eb) walk.yaw = Math.atan2(-(eb.c[0] - sp[0]), -(eb.c[1] - sp[1])); }
   else { /* always start outside the main gate, facing in */ walk.x = SITE.gate[0] + 1.5; walk.z = SITE.gate[1] + 9; walk.y = 0; walk.yaw = 0; }
   if (!side.classList.contains('closed')) toggleSide(false);
   walk.pitch = -0.05; camera.near = 0.1; camera.updateProjectionMatrix(); capOffset(false); cap.classList.remove('on');
@@ -6697,8 +9713,8 @@ function stopWalk() {
   walk.on = false; document.body.classList.remove('walking'); wBtn.textContent = 'Walk'; wBtn.setAttribute('aria-pressed', 'false');
   camera.near = 1; camera.updateProjectionMatrix(); target.set(walk.x, walk.y, walk.z); dist = 45; yaw = walk.yaw + Math.PI; pitch = 0.7; applyCam();
 }
-wBtn.onclick = () => walk.on ? stopWalk() : startWalk();
-addEventListener('keydown', e => { if (!walk.on || e.target.tagName === 'INPUT') return; const k = e.key.toLowerCase(); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'shift', 'q', 'e'].includes(k)) { walk.keys.add(k); e.preventDefault(); } if (k === 'escape') stopWalk(); });
+wBtn.onclick = () => { if (WT.on) { stopWT(); return; } walk.on ? stopWalk() : startWalk(); };
+addEventListener('keydown', e => { if (!walk.on || e.target.tagName === 'INPUT') return; const k = e.key.toLowerCase(); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'shift', 'q', 'e'].includes(k)) { walk.keys.add(k); e.preventDefault(); } if (k === 'escape') { if (WT.on) stopWT(); else stopWalk(); } });
 addEventListener('keyup', e => walk.keys.delete(e.key.toLowerCase()));
 addEventListener('blur', () => walk.keys.clear());
 let joyId = null;
@@ -6707,7 +9723,38 @@ joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) joyMove(e)
 const joyEnd = e => { if (e.pointerId !== joyId) return; joyId = null; walk.joy = [0, 0]; knob.style.transform = ''; };
 joy.addEventListener('pointerup', joyEnd); joy.addEventListener('pointercancel', joyEnd);
 function joyMove(e) { const r = joy.getBoundingClientRect(), R = r.width / 2; let dx = e.clientX - r.left - R, dy = e.clientY - r.top - R; const l = Math.hypot(dx, dy); if (l > R) { dx *= R / l; dy *= R / l; } walk.joy = [dx / R, dy / R]; knob.style.transform = 'translate(' + dx + 'px,' + dy + 'px)'; }
+/* ---------- guided walking tour: Unit-I, then out of Gate-01 and in through Gate-02 to Unit-II ---------- */
+const WT = { on: false, i: 0, leg: null, s: 0, mode: 'move', t: 0, paused: false, look: 0 };
+const wtEl = document.getElementById('wt'), wtBtn = document.getElementById('b-wtour');
+function wtCap(t, p) { document.getElementById('wt-t').textContent = t; document.getElementById('wt-p').textContent = p; }
+function wtLeg(pts) { WT.leg = pathOf([[walk.x, walk.z]].concat(pts), 0); WT.s = 0; WT.mode = 'move'; }
+function startWT() {
+  const T = SITE.walktour; if (!T || !T.length) return; if (walk.on) stopWalk(); if (inId) exitInside(); cap.classList.remove('on'); if (typeof si !== 'undefined') si = -1;
+  startWalk(); camera.fov = 72; camera.updateProjectionMatrix(); WT.on = true; WT.i = 0; WT.paused = false; document.body.classList.add('wtour'); wtBtn.setAttribute('aria-pressed', 'true'); wtBtn.textContent = 'End walking tour';
+  const p0 = T[0].p[0]; walk.x = p0[0]; walk.z = p0[1] + 1; wtLeg(T[0].p); wtCap('Walking tour', 'Starting at Gate-01. The walk covers Unit-I first, then goes out on the road to Gate-02 and through Unit-II.');
+  document.getElementById('wt-pause').textContent = 'Pause';
+}
+function stopWT() { if (!WT.on) return; WT.on = false; camera.fov = 45; camera.updateProjectionMatrix(); document.body.classList.remove('wtour'); wtBtn.setAttribute('aria-pressed', 'false'); wtBtn.textContent = 'Walking tour'; stopWalk(); }
+function wtArrive() { const T = SITE.walktour[WT.i]; WT.mode = 'stop'; WT.t = 8; wtCap((WT.i + 1) + ' of ' + SITE.walktour.length + '  ' + T.t, T.s);
+  const b = SITE.buildings.find(x => x.no === T.look); WT.look = b ? Math.atan2(-(b.c[0] - walk.x), -(b.c[1] - walk.z)) : walk.yaw; WT.pitch = b ? Math.min(.55, Math.atan2(Math.max(2, b.h * .6), Math.hypot(b.c[0] - walk.x, b.c[1] - walk.z) + 1)) : 0; }
+function wtNext() { WT.i++; if (WT.i >= SITE.walktour.length) { WT.mode = 'done'; wtCap('End of the walk', 'That completes the walking tour of Unit-I and Unit-II. Press End walk to return to the site view, or Walk to explore on your own.'); return; }
+  wtLeg(SITE.walktour[WT.i].p); document.getElementById('wt-t').textContent = 'Walking to ' + SITE.walktour[WT.i].t; }
+function turnTo(a, b, k) { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * Math.min(1, k); }
+function stepWT(dt) {
+  if (!WT.paused) {
+    if (WT.mode === 'move') { const L = WT.leg; WT.s = Math.min(L.len, WT.s + 6 * dt); const [x, z] = at2(L, WT.s), ah = at2(L, Math.min(L.len, WT.s + 4));
+      walk.x = x; walk.z = z; if (Math.hypot(ah[0] - x, ah[1] - z) > .3) walk.yaw = turnTo(walk.yaw, Math.atan2(-(ah[0] - x), -(ah[1] - z)), dt * 3.5); walk.pitch += (-.02 - walk.pitch) * Math.min(1, dt * 2);
+      if (WT.s >= L.len - .01) wtArrive(); }
+    else if (WT.mode === 'stop') { walk.yaw = turnTo(walk.yaw, WT.look, dt * 2.5); walk.pitch += (WT.pitch - walk.pitch) * Math.min(1, dt * 2); WT.t -= dt; if (WT.t <= 0) wtNext(); }
+  }
+}
+wtBtn.onclick = () => WT.on ? stopWT() : startWT();
+document.getElementById('wt-end').onclick = stopWT;
+document.getElementById('wt-pause').onclick = e => { WT.paused = !WT.paused; e.target.textContent = WT.paused ? 'Resume' : 'Pause'; };
+document.getElementById('wt-next').onclick = () => { if (WT.mode === 'move') { WT.s = WT.leg.len; const [x, z] = at2(WT.leg, WT.s); walk.x = x; walk.z = z; wtArrive(); } else if (WT.mode === 'stop') WT.t = 0; };
 function stepWalk(dt) {
+  if (WT.on) { stepWT(dt); const fx0 = -Math.sin(walk.yaw), fz0 = -Math.cos(walk.yaw), eye0 = walk.y + 1.7; camera.position.set(walk.x, eye0, walk.z);
+    camera.lookAt(walk.x + fx0 * Math.cos(walk.pitch), eye0 + Math.sin(walk.pitch), walk.z + fz0 * Math.cos(walk.pitch)); return; }
   const K = walk.keys; let f = 0, s = 0;
   if (K.has('w') || K.has('arrowup')) f += 1; if (K.has('s') || K.has('arrowdown')) f -= 1;
   if (K.has('d')) s += 1; if (K.has('a')) s -= 1;
@@ -6782,10 +9829,10 @@ function addOperators(B, floors, groups) {
   ops.forEach(o => o.g.parent && o.g.parent.remove(o.g)); ops.length = 0;
   let seed = 5; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
   floors.forEach((f, fi) => { const it = f.items.filter(x => x.r > .3); if (it.length < 2) return;
-    if (B.lab) it.slice(0, 4).forEach((a, i) => { const w = person(2); w.position.set(B.origin[0] + a.u, f.level, B.origin[1] + a.v + (a.v < B.W / 2 ? 1.1 : -1.1)); w.rotation.y = a.v < B.W / 2 ? Math.PI : 0; groups[fi].add(w); ops.push({ g: w, still: true, phase: i }); });
+    if (B.lab) it.slice(0, 4).forEach((a, i) => { const w = person(2); const wq = inW(B, a.u, a.v + (a.v < B.W / 2 ? 1.1 : -1.1)); w.position.set(wq[0], f.level, wq[1]); w.rotation.y = a.v < B.W / 2 ? Math.PI : 0; groups[fi].add(w); ops.push({ g: w, still: true, phase: i }); });
     for (let k = 0; k < Math.min(3, Math.ceil(it.length / 6)); k++) {
       const a = it[Math.floor(rnd() * it.length)], b = it[Math.floor(rnd() * it.length)]; if (a === b) continue;
-      const pa = [B.origin[0] + a.u + a.r + .7, B.origin[1] + a.v], pb = [B.origin[0] + b.u + b.r + .7, B.origin[1] + b.v];
+      const pa = inW(B, a.u + a.r + .7, a.v), pb = inW(B, b.u + b.r + .7, b.v);
       const g = person(B.lab ? 2 : k + fi); groups[fi].add(g); g.position.y = f.level;
       ops.push({ g, path: pathOf([pa, pb], 0), s: 0, v: .9, dir: 1, walker: true, phase: rnd() * 6, pause: 0, y: f.level, inside: true });
     } });
@@ -6848,36 +9895,22 @@ function carModel(o) {
 const flowTex = (function () { const c = document.createElement('canvas'); c.width = 64; c.height = 8; const x = c.getContext('2d'); x.fillStyle = '#1C1C1C'; x.fillRect(0, 0, 64, 8); x.fillStyle = '#F2B705'; x.fillRect(0, 0, 14, 8); x.fillRect(32, 0, 14, 8);
   const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(10, 1); return t; })();
 (function () {
-  const k = SITE.buildings.findIndex(b => b.no === '42'); if (k < 0) return; const yard = byKey[k], b = SITE.buildings[k];
-  yard.updateMatrixWorld(true);
-  const tanks = []; yard.children.forEach(o => { if (o.isMesh && o.geometry.type === 'CylinderGeometry' && o.position.y > 1) { const p = new THREE.Vector3(); o.getWorldPosition(p); tanks.push([p, o.geometry.parameters.radiusTop]); } });
-  if (!tanks.length) return;
-  /* park on the nearest point of the internal road, alongside the yard */
-  let best = null; SITE.roads.forEach(r => { for (let i = 1; i < r.p.length; i++) { const a = r.p[i - 1], c = r.p[i], dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1;
-    let t = ((b.c[0] - a[0]) * dx + (b.c[1] - a[1]) * dz) / L2; t = Math.max(0, Math.min(1, t)); const x = a[0] + dx * t, z = a[1] + dz * t, d = Math.hypot(x - b.c[0], z - b.c[1]);
-    if (!best || d < best.d) best = { d, x, z, h: Math.atan2(dx, dz), w: r.w }; } });
-  /* stand the tanker just outside the yard wall, on the side facing the road, parallel to the road */
-  const ux = (best.x - b.c[0]) / (best.d || 1), uz = (best.z - b.c[1]) / (best.d || 1), off = Math.min(best.d, Math.max(b.w, b.d) / 2 + 4.5);
-  const tk = vehicle('tanker'); tk.position.set(b.c[0] + ux * off, 0, b.c[1] + uz * off); tk.rotation.y = best.h; scene.add(tk);
-  /* nearest tank to the tanker */
-  tanks.sort((a, c) => a[0].distanceTo(tk.position) - c[0].distanceTo(tk.position)); const [tp, tr] = tanks[0];
-  tk.updateMatrixWorld(true); const outlet = new THREE.Vector3(0, .9, -4.4).applyMatrix4(tk.matrixWorld);
-  const inlet = new THREE.Vector3(tp.x, .9, tp.z).add(new THREE.Vector3(tk.position.x - tp.x, 0, tk.position.z - tp.z).normalize().multiplyScalar(tr + .1));
-  /* small transfer pump skid half way */
+  const gb = SITE.buildings.find(b => b.no === 'U-5G'), yb = SITE.buildings.find(b => b.no === 'U-5'); if (!gb || !yb) return;
+  const a = gb.a * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a), W = (lx, lz) => [gb.c[0] + lx * ca - lz * sa, gb.c[1] + lx * sa + lz * ca];
+  /* tanker parked under the gantry, along the long side, next to the walkway */
+  const tp = W(0, gb.d / 2 - 4.6), tk = vehicle('tanker'); tk.position.set(tp[0], 0, tp[1]); tk.rotation.y = Math.atan2(ca, sa); scene.add(tk);
+  tk.updateMatrixWorld(true);
+  const outlet = new THREE.Vector3(0, .9, -4.4).applyMatrix4(tk.matrixWorld);
+  /* fill point on the underground tank deck */
+  const fp = W(-gb.w / 2 + 2, gb.d / 2 + 3), inlet = new THREE.Vector3(fp[0], .9, fp[1]);
   const mid = outlet.clone().lerp(inlet, .5); mid.y = 0;
   const skid = new THREE.Mesh(new THREE.BoxGeometry(1.2, .25, .8), mat(0x56606A)); skid.position.set(mid.x, .15, mid.z); scene.add(skid);
   const pump = new THREE.Mesh(new THREE.CylinderGeometry(.22, .22, .7, 12), mat(0x2E7D4F)); pump.rotation.z = Math.PI / 2; pump.position.set(mid.x, .55, mid.z); scene.add(pump);
-  const curve = new THREE.CatmullRomCurve3([outlet, new THREE.Vector3((outlet.x + mid.x) / 2, .25, (outlet.z + mid.z) / 2), new THREE.Vector3(mid.x, .55, mid.z), new THREE.Vector3((mid.x + inlet.x) / 2, .3, (mid.z + inlet.z) / 2), inlet]);
+  const curve = new THREE.CatmullRomCurve3([outlet, new THREE.Vector3((outlet.x + mid.x) / 2, .25, (outlet.z + mid.z) / 2), new THREE.Vector3(mid.x, .55, mid.z), new THREE.Vector3((mid.x + inlet.x) / 2, .4, (mid.z + inlet.z) / 2), inlet]);
   const hose = new THREE.Mesh(new THREE.TubeGeometry(curve, 48, .09, 8, false), new THREE.MeshLambertMaterial({ map: flowTex })); hose.castShadow = true; scene.add(hose);
-  /* earthing cable (green-yellow) and an operator watching the transfer */
-  const earth = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(0, .6, 1.2).applyMatrix4(tk.matrixWorld), new THREE.Vector3(mid.x, .05, mid.z).add(new THREE.Vector3(1.2, 0, 0)), new THREE.Vector3(mid.x + 1.6, .6, mid.z)]), 20, .03, 6, false), mat(0x7CB342)); scene.add(earth);
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(.05, .05, 1.2, 6), mat(0x7CB342)); pole.position.set(mid.x + 1.6, .6, mid.z); scene.add(pole);
-  const op = person(1); op.position.set(mid.x + 1.4, 0, mid.z - 1.2); op.lookAt(mid.x, 0, mid.z); scene.add(op); people.push({ g: op, still: true, phase: 1 });
-  /* cones around the tanker */
+  const op = person(1); const wp = W(1, gb.d / 2 - 1.6); op.position.set(wp[0], 3.7, wp[1]); op.lookAt(tp[0], 3.7, tp[1]); scene.add(op); people.push({ g: op, still: true, phase: 1 });
+  const op2 = person(2); op2.position.set(mid.x + 1.2, 0, mid.z + 1); op2.lookAt(mid.x, 0, mid.z); scene.add(op2); people.push({ g: op2, still: true, phase: 2 });
   [[-1.8, 6], [1.8, 6], [-1.8, -6], [1.8, -6]].forEach(q => { const c = new THREE.Mesh(new THREE.ConeGeometry(.25, .7, 10), mat(0xF2711C)); c.position.set(q[0], .35, q[1]); tk.add(c); });
-  /* label */
-  const d = document.createElement('div'); d.className = 'lbl'; d.textContent = 'Tanker unloading'; lblBox.appendChild(d);
-  const lp = new THREE.Vector3(tk.position.x, 5, tk.position.z); extraLabels.push([d, lp]);
 })();
 
 /* ---------- bikes in the bike parking, parked along the road ---------- */
@@ -6921,7 +9954,22 @@ const GATES = [];
     for (let x = -fw / 2; x <= fw / 2 + .01; x += .35) { const bar = new THREE.Mesh(new THREE.BoxGeometry(.05, fh - .3, .05), (Math.round(x / .35) % 6 === 0) ? yel : blk); bar.position.set(x, .35 + (fh - .35) / 2, 0); leaf.add(bar); }
     [-fw / 2 + .3, fw / 2 - .3].forEach(x => { const w = new THREE.Mesh(new THREE.CylinderGeometry(.14, .14, .08, 10), blk); w.rotation.x = Math.PI / 2; w.position.set(x, .22, 0); leaf.add(w); });
     leaf.traverse(o => { if (o.isMesh) o.castShadow = true; });
-    /* boom-style sign above */
+    /* signboard outside the gate, facing the road */
+    if (gt.label) { const c2 = document.createElement('canvas'); c2.width = 768; c2.height = 288; const y = c2.getContext('2d');
+      y.fillStyle = '#F4F1E6'; y.fillRect(0, 0, 768, 288); y.fillStyle = '#0B3D6E'; y.fillRect(0, 0, 768, 70); y.fillStyle = '#E0B000'; y.fillRect(0, 270, 768, 18);
+      y.fillStyle = '#fff'; y.textAlign = 'center'; y.font = 'bold 34px Arial'; y.fillText('PUNJAB CHEMICALS & CROP PROTECTION LTD', 384, 48);
+      y.fillStyle = '#0B3D6E'; y.font = 'bold 130px Arial'; y.fillText(gt.label, 384, 205); y.font = 'bold 30px Arial'; y.fillStyle = '#5A6570'; y.fillText(gt.name.toUpperCase() + '  ·  LALRU', 384, 254);
+      const t2 = new THREE.CanvasTexture(c2), fm = mat(0x0B3D6E), face = new THREE.MeshLambertMaterial({ map: t2 });
+      const sb2 = new THREE.Group(); sb2.position.set(gt.w / 2 + 5.5, 0, -.8); root.add(sb2);
+      const bd = new THREE.Mesh(new THREE.BoxGeometry(6.4, 2.4, .2), [fm, fm, fm, fm, fm, face]); bd.position.y = 2.6; bd.castShadow = true; sb2.add(bd);
+      [-2.6, 2.6].forEach(x => { const p = new THREE.Mesh(new THREE.BoxGeometry(.18, 2.6, .18), mat(0x5E6B78)); p.position.set(x, 1.3, .12); sb2.add(p); }); }
+    /* name board over the gate */
+    if (gt.label) { const c = document.createElement('canvas'); c.width = 512; c.height = 128; const x = c.getContext('2d');
+      x.fillStyle = '#0B3D6E'; x.fillRect(0, 0, 512, 128); x.strokeStyle = '#E0B000'; x.lineWidth = 8; x.strokeRect(6, 6, 500, 116);
+      x.fillStyle = '#fff'; x.textAlign = 'center'; x.font = 'bold 66px Arial'; x.fillText(gt.label, 256, 78); x.font = 'bold 22px Arial'; x.fillStyle = '#E0B000'; x.fillText(gt.name.toUpperCase(), 256, 108);
+      const tex = new THREE.CanvasTexture(c), tb = new THREE.CanvasTexture(c), bw = gt.w + 2, sm = new THREE.MeshLambertMaterial({ map: tex }); tb.wrapS = THREE.RepeatWrapping; tb.repeat.x = -1; const sb = new THREE.MeshLambertMaterial({ map: tb });
+      const board = new THREE.Mesh(new THREE.BoxGeometry(bw, bw / 4, .2), [mat(0x0B3D6E), mat(0x0B3D6E), mat(0x0B3D6E), mat(0x0B3D6E), sm, sm]); board.position.set(0, 5.6, 0); board.castShadow = true; root.add(board);
+      [-1, 1].forEach(s => { const p = new THREE.Mesh(new THREE.BoxGeometry(.3, 5.6 - bw / 8, .3), mat(0x5E6B78)); p.position.set(s * (bw / 2 - .2), (5.6 - bw / 8) / 2, 0); root.add(p); }); }
     GATES.push({ gt, root, leaf, open: 0, c: new THREE.Vector3(gt.p[0], 0, gt.p[1]), ux: best.ux, uz: best.uz });
   });
 })();
@@ -6994,7 +10042,7 @@ function fireTender() {
   /* raw-material truck: outside road -> main gate -> raw material godown dock, unloads, goes back */
   const rm = SITE.buildings.find(b => b.no === '2');
   if (rm) { const dockX = rm.c[0], dockZ = rm.c[1] - rm.d / 2 - 4.5;
-    const pts = [M(3420, 2421), M(3110, 2321), M(3060, 2321), M(3060, 2290), M(3060, 2130), M(3020, 2090), [dockX + 14, M(0, 2090)[1]], [dockX, M(0, 2090)[1]], [dockX, dockZ]];
+    const pts = [M(1350, 2390), M(1520, 2328), M(1725, 2324), M(1725, 2290), M(1725, 2110), M(1748, 2090), [dockX - 14, M(0, 2090)[1]], [dockX, M(0, 2090)[1]], [dockX, dockZ]];
     const tr = addVehicle('truck', pts, { v: 4, lane: 0, endPause: [20, 45] }); tr.s = tr.path.len - .01; placeVeh(tr); /* starts at the dock, unloading */
     /* forklift shuttling pallets from the dock into the godown door */
     const door = [dockX + 2, rm.c[1] - rm.d / 2 + .5], dock = [dockX + 2, dockZ - 1];
@@ -7005,11 +10053,11 @@ function fireTender() {
     [[-4.5, -1.5], [6, -2.5]].forEach((q, i) => { const w = person(i + 1); w.position.set(dockX + q[0], 0, rm.c[1] - rm.d / 2 + q[1]); w.rotation.y = Math.PI; scene.add(w); people.push({ g: w, still: true, phase: i }); }); }
   /* workers walking in through the main gate */
   [[0, 0], [1, 9], [2, 18]].forEach(([i, lag]) => { const g = person(i); scene.add(g);
-    people.push({ g, path: pathOf([M(3250, 2335), M(3075, 2324), M(3068, 2300), M(3068, 2140), M(2980, 2105), M(2700, 2105)], 0), s: 0, v: 1.2, dir: 1, walker: true, phase: i, pause: lag, gateUser: true }); });
+    people.push({ g, path: pathOf([M(1450, 2345), M(1712, 2333), M(1716, 2300), M(1716, 2112), M(1760, 2104), M(2300, 2104)], 0), s: 0, v: 1.2, dir: 1, walker: true, phase: i, pause: lag, gateUser: true }); });
   /* staff car through the west gate to the car parking */
   addVehicle('car2', [M(1350, 2390), M(1520, 2328), M(1725, 2324), M(1725, 2300), M(1725, 2100), M(1750, 2090), M(1960, 2090)], { v: 5, lane: 0, endPause: [25, 35] });
   /* fire tender on standby beside the security office */
-  const ft = addVehicle('fire', [M(2987, 2215), M(2987, 2245)], { v: 0, lane: 0 }); ft.parked = true;
+  const ft = addVehicle('fire', [M(3110, 2200), M(3110, 2232)], { v: 0, lane: 0 }); ft.parked = true;
 })();
 
 /* ---------- fire equipment ---------- */
