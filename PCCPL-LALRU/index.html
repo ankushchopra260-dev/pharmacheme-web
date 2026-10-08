@@ -41,7 +41,7 @@ button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .side-tab { position: fixed; left: 12px; top: 64px; z-index: 4; display: none; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: #0E1B29f2; color: var(--paper); font: 700 14px system-ui, sans-serif; }
 .side.closed ~ .side-tab { display: block; }
 .side h2 { margin: 10px 12px 0; font: 800 17px "Big Shoulders Display", "Arial Narrow", sans-serif; }
-.info { position: fixed; right: 12px; top: 64px; width: 300px; background: #0E1B29f2; border: 1px solid var(--line); border-top: 3px solid var(--brass); border-radius: 10px; padding: 14px 16px; z-index: 4; display: none; }
+.info { position: fixed; right: 12px; top: 64px; width: 300px; max-height: calc(100vh - 80px); overflow-y: auto; background: #0E1B29f2; border: 1px solid var(--line); border-top: 3px solid var(--brass); border-radius: 10px; padding: 14px 16px; z-index: 6; display: none; }
 .info.on { display: block; }
 .home-btn { font: 700 13px system-ui, sans-serif; color: #0B1622; background: var(--brass); border: 1px solid var(--brass); border-radius: 6px; padding: 7px 11px; text-decoration: none; pointer-events: auto; }
 .home-btn:hover { filter: brightness(1.08); }
@@ -49,15 +49,17 @@ button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .info .no { color: var(--brass); font: 600 12px ui-monospace, monospace; }
 .info dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 10px 0 0; font-size: 13px; }
 .info dt { color: var(--muted); } .info dd { margin: 0; }
+.info .pl { margin: 0; padding-left: 16px; } .info .pl li { margin: 0; }
 .info .x { position: absolute; top: 8px; right: 8px; padding: 2px 8px; }
 .cap { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); max-width: min(560px, calc(100% - 24px)); background: #0E1B29f2; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; z-index: 4; display: none; text-align: center; }
 .cap.on { display: block; }
 .flash { position: fixed; left: 50%; top: 66px; transform: translateX(-50%); z-index: 7; background: #C9A227; color: #0B1622; font: 600 13px system-ui, sans-serif; padding: 8px 12px; border-radius: 8px; display: none; max-width: calc(100% - 24px); text-align: center; }
 .flash.on { display: block; }
 #b-edit[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
-.edit { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; max-height: 52vh; overflow-y: auto; }
+.edit { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
 .edit .eh { margin: 0 0 6px; color: var(--brass); font-weight: 700; font-size: 13px; }
-.ef { display: grid; grid-template-columns: 96px 1fr; gap: 8px; align-items: center; margin: 0 0 6px; font-size: 12px; color: var(--muted); }
+.ef { display: grid; grid-template-columns: 96px 1fr; gap: 8px; align-items: start; margin: 0 0 6px; font-size: 12px; color: var(--muted); }
+.ef textarea { min-width: 0; padding: 6px 8px; border-radius: 6px; border: 1px solid #2C4C6C; background: var(--panel); color: var(--paper); font: 500 14px system-ui, sans-serif; resize: vertical; }
 .ef input, .ef select { min-width: 0; padding: 6px 8px; border-radius: 6px; border: 1px solid #2C4C6C; background: var(--panel); color: var(--paper); font: 500 14px system-ui, sans-serif; }
 .erow { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; } .erow button { flex: 1; padding: 6px 8px; font-size: 12px; }
 .erow .go { margin-top: 0; width: auto; }
@@ -65,7 +67,7 @@ button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .wt { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); width: min(560px, calc(100% - 24px)); background: #0E1B29f2; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; z-index: 6; display: none; text-align: center; }
 body.wtour .wt { display: block; } body.wtour .whint, body.wtour .joy { display: none !important; }
 .wt h4 { margin: 0 0 4px; font: 800 20px "Big Shoulders Display", "Arial Narrow", sans-serif; color: var(--brass); } .wt p { margin: 0 0 8px; color: #C9D6E2; } .wt .row { display: flex; gap: 8px; justify-content: center; }
-#b-wtour[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
+.wtb[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
 .cap h4 { margin: 0 0 4px; font: 800 20px "Big Shoulders Display", "Arial Narrow", sans-serif; color: var(--brass); }
 .cap p { margin: 0 0 8px; color: #C9D6E2; }
 .cap .row { display: flex; gap: 8px; justify-content: center; }
@@ -111,8 +113,9 @@ body.walking .whint { display: block; } body.walking .hint, body.walking .legend
     <a class="home-btn" href="https://www.pharmacheme.in/" title="Visit PharmaChemE">Visit PharmaChemE</a>
     <button type="button" id="b-tour" hidden>Start tour</button>
     <button type="button" id="b-edit" aria-pressed="false">Edit</button>
-    <button type="button" id="b-walk" aria-pressed="false">Walk</button>
-    <button type="button" id="b-wtour" aria-pressed="false">Walking tour</button>
+    <button type="button" id="b-walk" aria-pressed="false" hidden>Walk</button>
+    <button type="button" id="b-wt1" class="wtb" aria-pressed="false">Unit-I tour</button>
+    <button type="button" id="b-wt2" class="wtb" aria-pressed="false">Unit-II tour</button>
     <button type="button" id="b-list" aria-pressed="true">Buildings</button>
     <button type="button" id="b-lbl" aria-pressed="true">Labels</button>
     <button type="button" id="b-fit">Whole site</button>
@@ -155,7 +158,7 @@ const SITE = {
 "w": 22.8,
 "d": 10.9,
 "a": 0,
-"cat": "prod",
+"cat": "agro",
 "h": 10,
 "st": "ok",
 "note": ""
@@ -173,7 +176,8 @@ const SITE = {
 "cat": "admin",
 "h": 8,
 "st": "ok",
-"note": ""
+"note": "",
+"incharge": "Mr. Atul Garg (QC)"
 },
 {
 "no": "13",
@@ -203,7 +207,49 @@ const SITE = {
 "cat": "admin",
 "h": 8,
 "st": "ok",
-"note": ""
+"note": "",
+"staff": [
+[
+"CEO",
+"Mr. Vinod Gupta"
+],
+[
+"Site Head",
+"Mr. Mahesh Shukla"
+],
+[
+"HR",
+"Mr. Yash Vardhan Tripathi"
+],
+[
+"Engineering Head",
+"Mr. Shirish Mishra"
+],
+[
+"Technical Services Head",
+"Mr. Sasanka Raha"
+],
+[
+"QA",
+"Mr. Krishan Singh"
+],
+[
+"Marketing",
+"Mrs. Diksha Jain"
+],
+[
+"Accounts",
+"Mr. Manoj Agnihotri"
+],
+[
+"IT",
+"Mr. Rahul Bhandari"
+],
+[
+"Purchase",
+"Mr. Sanjeev Jena"
+]
+]
 },
 {
 "no": "8",
@@ -365,10 +411,17 @@ const SITE = {
 "w": 19.3,
 "d": 7.5,
 "a": 0,
-"cat": "prod",
+"cat": "agro",
 "h": 18,
 "st": "new",
-"note": ""
+"note": "",
+"products": [
+"AANS",
+"MPD IP-01",
+"DMP",
+"SA"
+],
+"incharge": "Mr. Rajesh Rooshan"
 },
 {
 "no": "69",
@@ -380,10 +433,15 @@ const SITE = {
 "w": 33.3,
 "d": 13.3,
 "a": 0,
-"cat": "prod",
+"cat": "agro",
 "h": 18,
 "st": "new",
-"note": ""
+"note": "",
+"products": [
+"Azoxy (Step-03)",
+"MND Stage-01"
+],
+"incharge": "Mr. Khawar"
 },
 {
 "no": "70",
@@ -395,10 +453,15 @@ const SITE = {
 "w": 31.4,
 "d": 13.2,
 "a": 0,
-"cat": "prod",
+"cat": "agro",
 "h": 18,
 "st": "new",
-"note": ""
+"note": "",
+"products": [
+"PSF (Stage-04 & 05)",
+"MPD IP-04 Stage-01"
+],
+"incharge": "Mr. Amrik Singh / Mr. Amrit Singh"
 },
 {
 "no": "49",
@@ -440,10 +503,14 @@ const SITE = {
 "w": 8.0,
 "d": 22.3,
 "a": 0,
-"cat": "prod",
+"cat": "agro",
 "h": 12,
 "st": "new",
-"note": ""
+"note": "",
+"products": [
+"Azoxy (Step-01 & 02)"
+],
+"incharge": "Mr. Khawar"
 },
 {
 "no": "6",
@@ -455,10 +522,16 @@ const SITE = {
 "w": 27.4,
 "d": 22.3,
 "a": 0,
-"cat": "prod",
+"cat": "api",
 "h": 14,
 "st": "ok",
-"note": ""
+"note": "",
+"products": [
+"PMMB",
+"PMMBCN",
+"Albendazol"
+],
+"incharge": "Mr. Mithlesh Kumar"
 },
 {
 "no": "24",
@@ -470,10 +543,14 @@ const SITE = {
 "w": 15.4,
 "d": 13.0,
 "a": 0,
-"cat": "prod",
+"cat": "api",
 "h": 12,
 "st": "ok",
-"note": ""
+"note": "",
+"products": [
+"PSF (Stage-08, 09 & 10)"
+],
+"incharge": "Mr. Pradeep Kumar"
 },
 {
 "no": "5",
@@ -485,10 +562,18 @@ const SITE = {
 "w": 30.0,
 "d": 12.0,
 "a": 0,
-"cat": "prod",
+"cat": "api",
 "h": 14,
 "st": "ok",
-"note": ""
+"note": "",
+"products": [
+"M6MN",
+"KTS",
+"PTPDC",
+"PPA",
+"DTV"
+],
+"incharge": "Mr. Binod Dixit"
 },
 {
 "no": "68",
@@ -500,10 +585,19 @@ const SITE = {
 "w": 26.0,
 "d": 11.7,
 "a": 0,
-"cat": "prod",
+"cat": "api",
 "h": 13,
 "st": "new",
-"note": ""
+"note": "",
+"products": [
+"MPD IP-04 Stage-02",
+"MND Stage-02",
+"3-MP",
+"3-MPA",
+"PG",
+"MA"
+],
+"incharge": "Mr. Amrik Singh / Mr. Amrit Singh"
 },
 {
 "no": "80",
@@ -773,7 +867,8 @@ const SITE = {
 "cat": "etp",
 "h": 14,
 "st": "new",
-"note": ""
+"note": "",
+"incharge": "Mr. Mohinder Kumar (ETP)"
 },
 {
 "no": "84",
@@ -788,7 +883,8 @@ const SITE = {
 "cat": "etp",
 "h": 8,
 "st": "new",
-"note": ""
+"note": "",
+"incharge": "Mr. Mohinder Kumar (ETP)"
 },
 {
 "no": "59",
@@ -818,7 +914,8 @@ const SITE = {
 "cat": "etp",
 "h": 5,
 "st": "ok",
-"note": ""
+"note": "",
+"incharge": "Mr. Mohinder Kumar (ETP)"
 },
 {
 "no": "62",
@@ -1040,7 +1137,7 @@ const SITE = {
 "w": 16,
 "d": 45,
 "a": 45,
-"cat": "prod",
+"cat": "agro",
 "h": 18,
 "st": "prop",
 "note": ""
@@ -1085,7 +1182,7 @@ const SITE = {
 "w": 16,
 "d": 45,
 "a": 45,
-"cat": "prod",
+"cat": "agro",
 "h": 18,
 "st": "prop",
 "note": ""
@@ -1148,7 +1245,8 @@ const SITE = {
 "cat": "etp",
 "h": 4,
 "st": "prop",
-"note": ""
+"note": "",
+"incharge": "Mr. Mohinder Kumar (ETP)"
 },
 {
 "no": "U-11",
@@ -1268,7 +1366,25 @@ const SITE = {
 "cat": "admin",
 "h": 7,
 "st": "new",
-"note": ""
+"note": "",
+"staff": [
+[
+"Production Head",
+"Mr. Laxman Bist"
+],
+[
+"Production Head",
+"Mr. Brijendra Singh"
+],
+[
+"Production Head",
+"Mr. Atul Vatsgotri"
+],
+[
+"Technical Services",
+"Mr. Ankush Chopra"
+]
+]
 },
 {
 "no": "3",
@@ -1283,7 +1399,8 @@ const SITE = {
 "cat": "store",
 "h": 8,
 "st": "ok",
-"note": ""
+"note": "",
+"incharge": "Mr. Pankaj Kumar / Mr. Baljinder (Store)"
 },
 {
 "no": "2",
@@ -1298,7 +1415,8 @@ const SITE = {
 "cat": "store",
 "h": 9,
 "st": "ok",
-"note": ""
+"note": "",
+"incharge": "Mr. Pankaj Kumar / Mr. Baljinder (Store)"
 },
 {
 "no": "1",
@@ -1313,7 +1431,8 @@ const SITE = {
 "cat": "store",
 "h": 9,
 "st": "ok",
-"note": ""
+"note": "",
+"incharge": "Mr. Pankaj Kumar / Mr. Baljinder (Store)"
 },
 {
 "no": "G1",
@@ -1448,7 +1567,8 @@ const SITE = {
 "cat": "admin",
 "h": 3.5,
 "st": "ok",
-"note": ""
+"note": "",
+"incharge": "Mr. Satyendra Singh"
 },
 {
 "no": "28",
@@ -2007,7 +2127,7 @@ const SITE = {
 ]
 ]
 ],
-"walktour": [
+"walktour1": [
 {
 "p": [
 [
@@ -2192,20 +2312,14 @@ const SITE = {
 7.3
 ]
 ],
-"t": "Leaving Unit-I",
-"s": "Back out through Gate-01. Unit-II has its own gate, Gate-02, further along the road.",
+"t": "Back at Gate-01",
+"s": "That completes the Unit-I walk. Unit-II has its own gate, Gate-02, further along the road: try the Unit-II tour.",
 "look": "GW"
-},
+}
+],
+"walktour2": [
 {
 "p": [
-[
--188.6,
-6.2
-],
-[
-0.0,
-5.4
-],
 [
 0.0,
 7.3
@@ -2295,7 +2409,7 @@ const SITE = {
 (function () {
 const FANS = [];
 const CAT = {
-  prod: { n: 'Production plant', c: 0xD9894E }, util: { n: 'Utilities', c: 0x6FA8DC }, admin: { n: 'Admin and amenities', c: 0xE8DFC8 },
+  prod: { n: 'Production plant', c: 0xD9894E }, api: { n: 'API plant', c: 0xE0893A }, agro: { n: 'Agro plant', c: 0xC0607A }, util: { n: 'Utilities', c: 0x6FA8DC }, admin: { n: 'Admin and amenities', c: 0xE8DFC8 },
   store: { n: 'Stores and godowns', c: 0xC9A227 }, tank: { n: 'Tanks', c: 0xB8C2CC }, tankyard: { n: 'Solvent tank yards', c: 0x9C7CC9 },
   etp: { n: 'ETP and effluent', c: 0x5FBF8A }, pond: { n: 'Ponds', c: 0x3E7CB8 }, open: { n: 'Open areas', c: 0x7A8C99 },
   park: { n: 'Parking', c: 0x55606B }, chimney: { n: 'Chimney', c: 0x9AA7B4 }, temple: { n: 'Temple', c: 0xF0A040 },
@@ -2382,7 +2496,7 @@ const EDK = 'pccpl-lalru-edits'; let EDITS = {}; try { EDITS = JSON.parse(localS
 function saveEdits() { try { localStorage.setItem(EDK, JSON.stringify(EDITS)); } catch (e) {} }
 SITE.buildings.forEach(b => { if (b.no === '69') b.ct = 1; const e = EDITS[b.no]; if (e) Object.assign(b, e); });
 function buildOne(b, idx) {
-  const C = CAT[b.cat] || CAT.open, col = b.st === 'new' && b.cat !== 'pond' ? new THREE.Color(C.c).lerp(new THREE.Color(0xC0503E), 0.35).getHex() : C.c;
+  const C = CAT[b.cat] || CAT.open, col = C.c;
   const g = new THREE.Group(); g.position.set(b.c[0], 0, b.c[1]); g.rotation.y = -b.a * Math.PI / 180;
   let top = b.h;
   if (b.cat === 'pond') {
@@ -2560,7 +2674,7 @@ SITE.buildings.forEach(buildOne);
 const lblBox = document.getElementById('labels'); let showLbl = true; const labels = [];
 const LBL = { '12': 'QC lab / R&D', '83': 'Production office / Technical Services', 'U-8': 'Utility block (Unit-II)', 'U-1': 'Admin / QC / OHC', 'U-5': 'Tank farm area', 'U-9': 'ETP (new)' };
 function lblText(b) { return b.lbl || LBL[b.no] || short(b.name); }
-SITE.buildings.forEach((b, i) => { if (b.cat === 'open' && !/open area/i.test(b.name) && b.w * b.d < 300) return; if (/^U-\d+[ABC]$/.test(b.no) || b.cat === 'rack' || b.cat === 'drums') return; const d = document.createElement('div'); d.className = 'lbl' + (b.cat === 'assembly' ? ' ap' : b.st === 'new' ? ' new' : b.st === 'prop' ? ' prop' : ''); d.textContent = lblText(b); d.title = b.name; lblBox.appendChild(d); labels.push([d, i, b.w * b.d]); });
+SITE.buildings.forEach((b, i) => { if (b.cat === 'open' && !/open area/i.test(b.name) && b.w * b.d < 300) return; if (/^U-\d+[ABC]$/.test(b.no) || b.cat === 'rack' || b.cat === 'drums') return; const d = document.createElement('div'); d.className = 'lbl' + (b.cat === 'assembly' ? ' ap' : b.st === 'prop' ? ' prop' : ''); d.textContent = lblText(b); d.title = b.name; lblBox.appendChild(d); labels.push([d, i, b.w * b.d]); });
 labels.sort((a, b) => b[2] - a[2]); /* bigger buildings win when labels collide */
 const v3 = new THREE.Vector3(), extraLabels = [];
 function b0(i) { const b = SITE.buildings[i]; return Math.max(b.w, b.d) / 2 + 12; }
@@ -2648,11 +2762,14 @@ function pick(e) { if (entryFor !== null) { setEntryAt(e); return; } const o = h
 function select(k, fly) {
   if (selected !== null) tint(selected, false); selected = k; tint(k, true);
   const b = SITE.buildings[k], C = CAT[b.cat] || CAT.open;
+  const list = a => '<ul class="pl">' + a.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>';
   document.getElementById('info-body').innerHTML = '<p class="no">No. ' + esc(b.no) + '</p><h3>' + esc(b.name) + '</h3><dl>' +
-    '<dt>Type</dt><dd>' + C.n + '</dd>' + (b.lbl ? '<dt>Label</dt><dd>' + esc(b.lbl) + '</dd>' : '') +
-    (['pond', 'open', 'park', 'garden', 'assembly', 'gate'].includes(b.cat) ? '' : '<dt>Height</dt><dd>about ' + Math.round(b.h) + ' m (model)</dd>') +
-    '<dt>Footprint</dt><dd>' + b.w.toFixed(1) + ' × ' + b.d.toFixed(1) + ' m</dd>' +
-    '<dt>Drawing</dt><dd>' + (b.note ? esc(b.note) : ['garden', 'assembly', 'gate'].includes(b.cat) ? 'Added to the tour (not on the layout plan)' : ['rack', 'drums', 'ohtank'].includes(b.cat) ? STATUS.photo : STATUS[b.st]) + '</dd></dl>' +
+    '<dt>Type</dt><dd>' + esc(b.tlabel || C.n) + (b.st === 'prop' ? ' (proposed)' : '') + '</dd>' +
+    (b.products && b.products.length ? '<dt>Products</dt><dd>' + list(b.products) + '</dd>' : '') +
+    (b.incharge ? '<dt>' + (b.products && b.products.length ? 'Product in-charge' : 'In-charge') + '</dt><dd>' + esc(b.incharge) + '</dd>' : '') +
+    (b.staff && b.staff.length ? b.staff.map(r => '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>').join('') : '') +
+    (['pond', 'open', 'park', 'garden', 'assembly', 'gate'].includes(b.cat) ? '' : '<dt>Height</dt><dd>about ' + Math.round(b.h) + ' m</dd>') +
+    '<dt>Footprint</dt><dd>' + b.w.toFixed(1) + ' × ' + b.d.toFixed(1) + ' m</dd></dl>' +
     (insideOf[b.no] ? '<button type="button" class="go" id="go-in">Go inside ' + esc(INSIDE[insideOf[b.no]].lab ? 'QC & R&D' : insideOf[b.no]) + ' (' + INSIDE[insideOf[b.no]].floors.length + ' floors)</button>' : '');
   if (insideOf[b.no]) document.getElementById('go-in').onclick = () => { goInside(insideOf[b.no]); select(k, false); };
   if (inId && insideOf[b.no] === inId) { const gi = document.getElementById('go-in'); if (gi) gi.remove(); }
@@ -2666,10 +2783,14 @@ let editOn = false, entryFor = null; const ENT = {};
 const TYPES = Object.keys(CAT);
 function editForm(k) {
   const b = SITE.buildings[k], f = (id, lab, v, t) => '<label class="ef"><span>' + lab + '</span><input id="' + id + '" type="' + (t || 'text') + '" value="' + esc(v == null ? '' : v) + '"' + (t === 'number' ? ' step="0.1" min="0"' : '') + '></label>';
+  const ta = (id, lab, v, ph) => '<label class="ef"><span>' + lab + '</span><textarea id="' + id + '" rows="3" placeholder="' + esc(ph || '') + '">' + esc(v || '') + '</textarea></label>';
+  const types = [...new Set(['API plant', 'Agro plant'].concat(TYPES.map(t => CAT[t].n)).concat(Object.values(EDITS).map(e => e && e.tlabel).filter(Boolean)))];
   const html = '<div class="edit"><p class="eh">Edit No. ' + esc(b.no) + '</p>' + f('e-lbl', 'Label on view', lblText(b)) + f('e-name', 'Name', b.name) +
-    '<label class="ef"><span>Type</span><select id="e-cat">' + TYPES.map(t => '<option value="' + t + '"' + (t === b.cat ? ' selected' : '') + '>' + CAT[t].n + '</option>').join('') + '</select></label>' +
+    '<label class="ef"><span>Type</span><input id="e-type" list="e-types" value="' + esc(b.tlabel || (CAT[b.cat] || CAT.open).n) + '" placeholder="Pick or type a new type"></label><datalist id="e-types">' + types.map(t => '<option value="' + esc(t) + '">').join('') + '</datalist>' +
+    '<label class="ef"><span>Colour / shape</span><select id="e-cat">' + TYPES.map(t => '<option value="' + t + '"' + (t === b.cat ? ' selected' : '') + '>' + CAT[t].n + '</option>').join('') + '</select></label>' +
+    ta('e-prod', 'Products', (b.products || []).join('\n'), 'One product per line') + f('e-inc', 'In-charge', b.incharge || '') +
+    ta('e-staff', 'People', (b.staff || []).map(r => r[0] + ': ' + r[1]).join('\n'), 'Role: Name, one per line') +
     f('e-h', 'Height (m)', b.h, 'number') + f('e-w', 'Width (m)', b.w, 'number') + f('e-d', 'Depth (m)', b.d, 'number') +
-    f('e-note', 'Drawing', b.note || (STATUS[b.st] || '')) +
     '<p class="ent">' + (b.entry ? 'Entry point set' : 'No entry point yet') + '</p>' +
     '<div class="erow"><button type="button" id="e-save" class="go">Save</button><button type="button" id="e-entry">' + (b.entry ? 'Move entry point' : 'Set entry point') + '</button><button type="button" id="e-reset">Reset</button></div>' +
     '<div class="erow"><button type="button" id="e-exp">Export edits</button><button type="button" id="e-imp">Import</button><button type="button" id="e-clr">Clear all</button></div>' +
@@ -2677,10 +2798,13 @@ function editForm(k) {
   document.getElementById('info-body').insertAdjacentHTML('beforeend', html);
   const v = id => document.getElementById(id).value;
   document.getElementById('e-save').onclick = () => {
-    const e = { lbl: v('e-lbl').trim(), name: v('e-name').trim() || b.name, cat: v('e-cat'), h: Math.max(.1, +v('e-h') || b.h), w: Math.max(.5, +v('e-w') || b.w), d: Math.max(.5, +v('e-d') || b.d), note: v('e-note').trim() };
+    const lines = id => v(id).split('\n').map(x => x.trim()).filter(Boolean);
+    const e = { lbl: v('e-lbl').trim(), name: v('e-name').trim() || b.name, cat: v('e-cat'), h: Math.max(.1, +v('e-h') || b.h), w: Math.max(.5, +v('e-w') || b.w), d: Math.max(.5, +v('e-d') || b.d),
+      products: lines('e-prod'), incharge: v('e-inc').trim(), staff: lines('e-staff').map(x => { const i = x.indexOf(':'); return i > 0 ? [x.slice(0, i).trim(), x.slice(i + 1).trim()] : ['', x]; }) };
+    const ty = v('e-type').trim(), known = TYPES.find(t => CAT[t].n.toLowerCase() === ty.toLowerCase());
+    if (known && e.cat === b.cat) e.cat = known; if (ty && !(known && known === e.cat)) e.tlabel = ty;
     if (e.lbl === short(e.name) || e.lbl === (LBL[b.no] || '')) delete e.lbl;
-    if (e.note === (STATUS[b.st] || '')) delete e.note;
-    if (b.entry) e.entry = b.entry; delete b.lbl; delete b.note; Object.assign(b, e); EDITS[b.no] = e; saveEdits(); rebuild(k); select(k, false); flash('Saved');
+    if (b.entry) e.entry = b.entry; delete b.lbl; delete b.tlabel; Object.assign(b, e); EDITS[b.no] = e; saveEdits(); rebuild(k); select(k, false); flash('Saved');
   };
   document.getElementById('e-entry').onclick = () => { entryFor = k; flash('Click the ground at the entrance of ' + (lblText(b)) + '. Press Esc to cancel.', 1); };
   document.getElementById('e-reset').onclick = () => { delete EDITS[b.no]; saveEdits(); location.reload(); };
@@ -2734,7 +2858,7 @@ document.getElementById('b-top').onclick = () => { if (walk.on) stopWalk(); whol
 document.getElementById('b-fit').onclick = () => { if (walk.on) stopWalk(); if (inId) exitInside(); wholeSite(); };
 
 /* legend */
-document.getElementById('legend').innerHTML = ['prod', 'util', 'store', 'admin', 'tankyard', 'etp', 'pond', 'tank'].map(k => '<span><i style="background:#' + new THREE.Color(CAT[k].c).getHexString() + '"></i>' + CAT[k].n + '</span>').join('') + '<span><i style="background:#F2B8AE"></i>Revised (red on drawing)</span><span><i style="background:#EAF1F8;outline:2px dashed #1F6FD1;outline-offset:-2px"></i>Proposed Unit-II</span>';
+document.getElementById('legend').innerHTML = ['api', 'agro', 'util', 'store', 'admin', 'tankyard', 'etp', 'pond', 'tank'].map(k => '<span><i style="background:#' + new THREE.Color(CAT[k].c).getHexString() + '"></i>' + CAT[k].n + '</span>').join('') + '<span><i style="background:#E0893A;outline:2px dashed #1F6FD1;outline-offset:-2px"></i>Proposed Unit-II</span>';
 
 /* ---------- guided tour ---------- */
 function at(no) { const i = SITE.buildings.findIndex(b => b.no === no); return i < 0 ? null : byKey[i]; }
@@ -9545,6 +9669,8 @@ const INSIDE = {
 }
 };
 function inW(B, u, v) { if (!B.rot) return [B.origin[0] + u, B.origin[1] + v]; const a = B.rot * Math.PI / 180, c = Math.cos(a), s = Math.sin(a); return [B.origin[0] + u * c - v * s, B.origin[1] + u * s + v * c]; }
+/* equipment names edited in this browser */
+(function () { const q = (typeof EDITS !== 'undefined' && EDITS.__eq) || {}; Object.entries(q).forEach(([k, v]) => { const [bid, fi, ii] = k.split('|'), B = INSIDE[bid], it = B && B.floors[+fi] && B.floors[+fi].items[+ii]; if (it) Object.assign(it, v); }); })();
 const insideOf = {}; Object.entries(INSIDE).forEach(([id, b]) => b.no.forEach(n => { insideOf[n] = id; }));
 const KIND = { nf: 'Nutsche filter', tray: 'Tray dryer', fbd: 'Fluid bed dryer', r: 'Reactor', rc: 'Receiver', t: 'Tank', he: 'Heat exchanger', cf: 'Centrifuge', anfd: 'ANFD (filter dryer)', td: 'Dryer', sep: 'Separator', rvd: 'Vacuum dryer', mm: 'Multimill', sft: 'Sifter', bl: 'Blender', fp: 'Equipment', v: 'Vessel', eq: 'Equipment' };
 const EQC = { nf: 0x8C98A3, tray: 0xB7BEC5, fbd: 0xA9B3BC, r: 0x2F6496, rc: 0xA9CCE0, t: 0xDCE1E6, he: 0xAEB7BF, cf: 0x8C98A3, anfd: 0x6F8296, td: 0x9AA4AE, sep: 0xB7D0E0, rvd: 0x7F8C99, mm: 0x9AA4AE, sft: 0x9AA4AE, bl: 0x9AA4AE, fp: 0x9AA4AE, v: 0xCDD3D8, eq: 0xCDD3D8 };
@@ -9688,17 +9814,25 @@ function placeInLabels() {
 }
 function selectEq(e) {
   const { it, lev, bid } = e, B = INSIDE[bid];
-  const fi = B.floors.findIndex(f => f.level === lev);
-  document.getElementById('info-body').innerHTML = '<p class="no">' + esc(bid) + ' · ' + esc(lvlName(lev, fi)) + '</p><h3>' + esc(it.tag || it.name || KIND[it.k]) + '</h3><dl>' +
+  const fi = B.floors.findIndex(f => f.level === lev), ii = B.floors[fi].items.indexOf(it);
+  document.getElementById('info-body').innerHTML = '<p class="no">' + esc(B.title || (B.lab ? 'QC & R&D' : bid)) + ' · ' + esc(lvlName(lev, fi)) + '</p><h3>' + esc(it.tag || it.name || KIND[it.k]) + '</h3><dl>' +
     '<dt>Type</dt><dd>' + esc(it.d || KIND[it.k] || 'Equipment') + '</dd>' + (it.c ? '<dt>Capacity</dt><dd>' + esc(it.c) + '</dd>' : '') +
-    (it.r ? '<dt>Size</dt><dd>about ' + (it.r * 2).toFixed(1) + ' m diameter on the drawing</dd>' : '') +
-    (it.cut ? '<dt>Mounting</dt><dd>Sits in a floor cut-out</dd>' : '') +
-    '<dt>Tag</dt><dd>' + (it.tag ? 'From the floor drawing (may be an older tag)' : it.add ? 'Added to show filtration and drying (not from the drawing)' : B.generic ? 'Typical layout, not from a drawing' : 'No tag on the drawing') + '</dd></dl>';
+    (it.r ? '<dt>Size</dt><dd>about ' + (it.r * 2).toFixed(1) + ' m diameter</dd>' : '') +
+    (it.cut ? '<dt>Mounting</dt><dd>Sits in a floor cut-out</dd>' : '') + '</dl>';
+  if (editOn) {
+    const f = (id, lab, v, ph) => '<label class="ef"><span>' + lab + '</span><input id="' + id + '" value="' + esc(v || '') + '" placeholder="' + esc(ph || '') + '"></label>';
+    document.getElementById('info-body').insertAdjacentHTML('beforeend', '<div class="edit"><p class="eh">Edit this equipment</p>' + f('q-name', 'Name / tag', it.tag || it.name, KIND[it.k]) + f('q-type', 'Type', it.d || KIND[it.k]) + f('q-cap', 'Capacity', it.c, 'e.g. 5 KL') +
+      '<div class="erow"><button type="button" id="q-save" class="go">Save</button><button type="button" id="q-reset">Reset</button></div><p class="enote">Saved in this browser. Use Export edits on any building to share them.</p></div>');
+    const key = bid + '|' + fi + '|' + ii, v = id => document.getElementById(id).value.trim();
+    document.getElementById('q-save').onclick = () => { const ch = { tag: v('q-name'), name: '', d: v('q-type'), c: v('q-cap') }; EDITS.__eq = EDITS.__eq || {}; EDITS.__eq[key] = ch; saveEdits(); Object.assign(it, ch); reEnter(fi); selectEq(e); flash('Saved'); };
+    document.getElementById('q-reset').onclick = () => { if (EDITS.__eq) delete EDITS.__eq[key]; saveEdits(); location.reload(); };
+  }
   document.getElementById('info').classList.add('on');
 }
+function reEnter(fi) { const all = inAll, id = inId; goInside(id); showFloor(all ? 'all' : fi, false); }
 
 /* ---------- walk mode ---------- */
-const SOLID = { prod: 1, util: 1, admin: 1, store: 1, tank: 1, chimney: 1, temple: 1 };
+const SOLID = { api: 1, agro: 1, prod: 1, util: 1, admin: 1, store: 1, tank: 1, chimney: 1, temple: 1 };
 const walk = { on: false, x: 0, z: 0, y: 0, yaw: 0, pitch: 0, keys: new Set(), joy: [0, 0] };
 const wBtn = document.getElementById('b-walk'), joy = document.getElementById('joy'), knob = document.getElementById('knob');
 function startWalk() {
@@ -9725,20 +9859,21 @@ joy.addEventListener('pointerup', joyEnd); joy.addEventListener('pointercancel',
 function joyMove(e) { const r = joy.getBoundingClientRect(), R = r.width / 2; let dx = e.clientX - r.left - R, dy = e.clientY - r.top - R; const l = Math.hypot(dx, dy); if (l > R) { dx *= R / l; dy *= R / l; } walk.joy = [dx / R, dy / R]; knob.style.transform = 'translate(' + dx + 'px,' + dy + 'px)'; }
 /* ---------- guided walking tour: Unit-I, then out of Gate-01 and in through Gate-02 to Unit-II ---------- */
 const WT = { on: false, i: 0, leg: null, s: 0, mode: 'move', t: 0, paused: false, look: 0 };
-const wtEl = document.getElementById('wt'), wtBtn = document.getElementById('b-wtour');
+const wtEl = document.getElementById('wt'), wtB = [document.getElementById('b-wt1'), document.getElementById('b-wt2')]; let TOUR = [], TU = 0;
 function wtCap(t, p) { document.getElementById('wt-t').textContent = t; document.getElementById('wt-p').textContent = p; }
 function wtLeg(pts) { WT.leg = pathOf([[walk.x, walk.z]].concat(pts), 0); WT.s = 0; WT.mode = 'move'; }
-function startWT() {
-  const T = SITE.walktour; if (!T || !T.length) return; if (walk.on) stopWalk(); if (inId) exitInside(); cap.classList.remove('on'); if (typeof si !== 'undefined') si = -1;
-  startWalk(); camera.fov = 72; camera.updateProjectionMatrix(); WT.on = true; WT.i = 0; WT.paused = false; document.body.classList.add('wtour'); wtBtn.setAttribute('aria-pressed', 'true'); wtBtn.textContent = 'End walking tour';
-  const p0 = T[0].p[0]; walk.x = p0[0]; walk.z = p0[1] + 1; wtLeg(T[0].p); wtCap('Walking tour', 'Starting at Gate-01. The walk covers Unit-I first, then goes out on the road to Gate-02 and through Unit-II.');
+function startWT(u) {
+  const T = u === 2 ? SITE.walktour2 : SITE.walktour1; if (!T || !T.length) return; if (WT.on) stopWT(); if (walk.on) stopWalk(); if (inId) exitInside(); cap.classList.remove('on'); if (typeof si !== 'undefined') si = -1;
+  TOUR = T; TU = u; startWalk(); camera.fov = 72; camera.updateProjectionMatrix(); WT.on = true; WT.i = 0; WT.paused = false; document.body.classList.add('wtour');
+  wtB.forEach((b, i) => { b.setAttribute('aria-pressed', String(i + 1 === u)); b.textContent = i + 1 === u ? 'End tour' : (i ? 'Unit-II tour' : 'Unit-I tour'); });
+  const p0 = T[0].p[0]; walk.x = p0[0]; walk.z = p0[1] + 1; wtLeg(T[0].p); wtCap(u === 2 ? 'Unit-II walking tour' : 'Unit-I walking tour', u === 2 ? 'Starting at Gate-02, the Unit-II gate.' : 'Starting at Gate-01, the Unit-I gate.');
   document.getElementById('wt-pause').textContent = 'Pause';
 }
-function stopWT() { if (!WT.on) return; WT.on = false; camera.fov = 45; camera.updateProjectionMatrix(); document.body.classList.remove('wtour'); wtBtn.setAttribute('aria-pressed', 'false'); wtBtn.textContent = 'Walking tour'; stopWalk(); }
-function wtArrive() { const T = SITE.walktour[WT.i]; WT.mode = 'stop'; WT.t = 8; wtCap((WT.i + 1) + ' of ' + SITE.walktour.length + '  ' + T.t, T.s);
+function stopWT() { if (!WT.on) return; WT.on = false; camera.fov = 45; camera.updateProjectionMatrix(); document.body.classList.remove('wtour'); wtB.forEach((b, i) => { b.setAttribute('aria-pressed', 'false'); b.textContent = i ? 'Unit-II tour' : 'Unit-I tour'; }); stopWalk(); }
+function wtArrive() { const T = TOUR[WT.i]; WT.mode = 'stop'; WT.t = 8; wtCap((WT.i + 1) + ' of ' + TOUR.length + '  ' + T.t, T.s);
   const b = SITE.buildings.find(x => x.no === T.look); WT.look = b ? Math.atan2(-(b.c[0] - walk.x), -(b.c[1] - walk.z)) : walk.yaw; WT.pitch = b ? Math.min(.55, Math.atan2(Math.max(2, b.h * .6), Math.hypot(b.c[0] - walk.x, b.c[1] - walk.z) + 1)) : 0; }
-function wtNext() { WT.i++; if (WT.i >= SITE.walktour.length) { WT.mode = 'done'; wtCap('End of the walk', 'That completes the walking tour of Unit-I and Unit-II. Press End walk to return to the site view, or Walk to explore on your own.'); return; }
-  wtLeg(SITE.walktour[WT.i].p); document.getElementById('wt-t').textContent = 'Walking to ' + SITE.walktour[WT.i].t; }
+function wtNext() { WT.i++; if (WT.i >= TOUR.length) { WT.mode = 'done'; wtCap('End of the walk', 'That completes the ' + (TU === 2 ? 'Unit-II' : 'Unit-I') + ' walking tour. Press End walk to return to the site view' + (TU === 2 ? '.' : ', or start the Unit-II tour.')); return; }
+  wtLeg(TOUR[WT.i].p); document.getElementById('wt-t').textContent = 'Walking to ' + TOUR[WT.i].t; }
 function turnTo(a, b, k) { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * Math.min(1, k); }
 function stepWT(dt) {
   if (!WT.paused) {
@@ -9748,7 +9883,7 @@ function stepWT(dt) {
     else if (WT.mode === 'stop') { walk.yaw = turnTo(walk.yaw, WT.look, dt * 2.5); walk.pitch += (WT.pitch - walk.pitch) * Math.min(1, dt * 2); WT.t -= dt; if (WT.t <= 0) wtNext(); }
   }
 }
-wtBtn.onclick = () => WT.on ? stopWT() : startWT();
+wtB.forEach((b, i) => b.onclick = () => WT.on && TU === i + 1 ? stopWT() : startWT(i + 1));
 document.getElementById('wt-end').onclick = stopWT;
 document.getElementById('wt-pause').onclick = e => { WT.paused = !WT.paused; e.target.textContent = WT.paused ? 'Resume' : 'Pause'; };
 document.getElementById('wt-next').onclick = () => { if (WT.mode === 'move') { WT.s = WT.leg.len; const [x, z] = at2(WT.leg, WT.s); walk.x = x; walk.z = z; wtArrive(); } else if (WT.mode === 'stop') WT.t = 0; };
@@ -10075,7 +10210,7 @@ function fireTender() {
   /* fire-water monitors at the corners of the solvent yards, extinguishers at production and store buildings */
   SITE.buildings.forEach(b => {
     if (b.cat === 'tankyard') [[-1, -1], [1, 1]].forEach(q => { const a = b.a * Math.PI / 180, lx = q[0] * (b.w / 2 + 2), lz = q[1] * (b.d / 2 + 2); monitor(b.c[0] + lx * Math.cos(a) - lz * Math.sin(a), b.c[1] + lx * Math.sin(a) + lz * Math.cos(a)); });
-    if ((b.cat === 'prod' || b.cat === 'store' || b.cat === 'util') && !b.a && b.w > 8) [-1, 1].forEach(s => extinguisher(b.c[0] + s * (b.w / 2 - 1), b.c[1] + b.d / 2 + .6));
+    if ((b.cat === 'prod' || b.cat === 'api' || b.cat === 'agro' || b.cat === 'store' || b.cat === 'util') && !b.a && b.w > 8) [-1, 1].forEach(s => extinguisher(b.c[0] + s * (b.w / 2 - 1), b.c[1] + b.d / 2 + .6));
   });
 })();
 
@@ -10106,7 +10241,7 @@ addEventListener('resize', resize); resize(); dist = 520; target.set(CX, 0, CZ);
 let last = 0; function loop(ts) { const raw = last ? Math.min(.5, (ts - last) / 1000) : 0, dt = Math.min(.05, raw); last = ts; if (walk.on) stepWalk(dt); else stepFly(raw); stepPeople(dt, ts / 1000); renderer.render(scene, camera); placeLabels(); placeInLabels(); placeExtra(); flowTex.offset.x -= dt * 1.5; requestAnimationFrame(loop); }
 requestAnimationFrame(loop);
 setTimeout(() => { const h = document.getElementById('hint'); h.style.transition = 'opacity 1s'; h.style.opacity = 0; }, 7000);
-window.__dbg = () => [dist, target.toArray(), !!fly]; window.__tour = { setYaw: y => { yaw = y; applyCam(); }, stop, select, byKey, SITE, goInside, showFloor, startWalk, stopWalk, walk, exitInside, selectEq };
+window.__dbg = () => [dist, target.toArray(), !!fly]; window.__tour = { INSIDE, setYaw: y => { yaw = y; applyCam(); }, stop, select, byKey, SITE, goInside, showFloor, startWalk, stopWalk, walk, exitInside, selectEq };
 })();
 </script>
 </body>
