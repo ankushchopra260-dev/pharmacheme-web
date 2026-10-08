@@ -53,6 +53,22 @@ button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 .info .x { position: absolute; top: 8px; right: 8px; padding: 2px 8px; }
 .cap { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); max-width: min(560px, calc(100% - 24px)); background: #0E1B29f2; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; z-index: 4; display: none; text-align: center; }
 .cap.on { display: block; }
+.lbl.flow { display: none; } .legend .flo { display: none; } body.flows .legend .flo { display: inline; } body.flows .lbl.flow { display: block; background: #0E1B29e6; color: #ECE7D8; }
+#b-flow[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
+.pfd { position: fixed; inset: 64px 12px 12px 12px; z-index: 8; background: #0B1622f7; border: 1px solid var(--line); border-top: 3px solid var(--brass); border-radius: 10px; display: none; flex-direction: column; }
+.pfd.on { display: flex; }
+.pfd-hd { display: flex; gap: 8px; align-items: center; padding: 10px; border-bottom: 1px solid var(--line); flex-wrap: wrap; } .pfd-hd .sp { flex: 1; }
+.pfd-tabs { display: flex; gap: 6px; } .pfd-tabs [aria-selected="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
+.pfd-body { overflow: auto; padding: 10px 12px 16px; }
+.pfd-svg { overflow-x: auto; background: #0E1B29; border: 1px solid var(--line); border-radius: 8px; }
+.pfd-svg svg { display: block; }
+.pfd-svg .sec { fill: #ECE7D8; font: 700 13px system-ui, sans-serif; }
+.pfd-svg .nd rect { fill: #16324A; stroke: #4C7CA6; stroke-width: 1.4; } .pfd-svg .nd { cursor: pointer; } .pfd-svg .nd:hover rect, .pfd-svg .nd:focus rect { stroke: var(--brass); stroke-width: 2.4; } .pfd-svg .nd:focus { outline: none; }
+.pfd-svg .nt { fill: #ECE7D8; font: 700 13px system-ui, sans-serif; } .pfd-svg .ns { fill: #9FB6CC; font: 500 11px system-ui, sans-serif; } .pfd-svg .fl { fill: #F2C230; font: 600 11px system-ui, sans-serif; }
+.pfd-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); margin: 8px 2px; } .pfd-key i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 6px; } .pfd-key i.d { height: 0; border-top: 2px dashed; }
+.pfd h4 { margin: 12px 0 6px; color: var(--brass); font: 700 14px system-ui, sans-serif; }
+.pfd-tw { overflow-x: auto; } .pfd table { border-collapse: collapse; font-size: 12.5px; min-width: 640px; } .pfd th { background: #16283C; color: var(--muted); text-align: left; padding: 6px 8px; font-weight: 600; } .pfd td { padding: 5px 8px; border-bottom: 1px solid #1A2E44; } .pfd td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.pfd-note { font-size: 12.5px; color: var(--muted); }
 .flash { position: fixed; left: 50%; top: 66px; transform: translateX(-50%); z-index: 7; background: #C9A227; color: #0B1622; font: 600 13px system-ui, sans-serif; padding: 8px 12px; border-radius: 8px; display: none; max-width: calc(100% - 24px); text-align: center; }
 .flash.on { display: block; }
 #b-edit[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
@@ -114,6 +130,7 @@ body.walking .whint { display: block; } body.walking .hint, body.walking .legend
     <button type="button" id="b-tour" hidden>Start tour</button>
     <button type="button" id="b-edit" aria-pressed="false">Edit</button>
     <button type="button" id="b-walk" aria-pressed="false" hidden>Walk</button>
+    <button type="button" id="b-flow" aria-pressed="false">ETP &amp; STP</button>
     <button type="button" id="b-wt1" class="wtb" aria-pressed="false">Unit-I tour</button>
     <button type="button" id="b-wt2" class="wtb" aria-pressed="false">Unit-II tour</button>
     <button type="button" id="b-list" aria-pressed="true">Buildings</button>
@@ -126,6 +143,8 @@ body.walking .whint { display: block; } body.walking .hint, body.walking .legend
 <section class="info" id="info" aria-live="polite"><button type="button" class="x" id="info-x" aria-label="Close">×</button><div id="info-body"></div></section>
 <section class="cap" id="cap" aria-live="polite"><h4 id="cap-t"></h4><p id="cap-p"></p><div class="row"><button type="button" id="cap-prev">Back</button><button type="button" id="cap-next">Next</button><button type="button" id="cap-end">End tour</button></div></section>
 <div class="legend" id="legend"></div>
+<section class="pfd" id="pfd" role="dialog" aria-label="ETP and STP flow"><div class="pfd-hd"><div class="pfd-tabs" role="tablist"><button type="button" role="tab" data-pfd="etp">ETP flow</button><button type="button" role="tab" data-pfd="stp">STP flow</button></div>
+<span class="sp"></span><button type="button" id="pfd-x">See lines on layout</button><button type="button" id="pfd-hide">Close and hide lines</button></div><div class="pfd-body" id="pfd-body"></div></section>
 <div class="flash" id="flash" role="status"></div>
 <section class="inside" id="inside" aria-label="Inside the building"><b id="in-name"></b><div class="in-floors" id="in-floors"></div><button type="button" id="in-exit">Leave building</button></section>
 <section class="wt" id="wt" aria-live="polite"><h4 id="wt-t"></h4><p id="wt-p"></p><div class="row"><button type="button" id="wt-pause">Pause</button><button type="button" id="wt-next">Next stop</button><button type="button" id="wt-end">End walk</button></div></section>
@@ -328,7 +347,7 @@ const SITE = {
 },
 {
 "no": "46",
-"name": "Effluent pit",
+"name": "Effluent pit No. 3 (B3)",
 "c": [
 -112.4,
 -120.6
@@ -479,8 +498,8 @@ const SITE = {
 "note": ""
 },
 {
-"no": "46",
-"name": "Effluent pit (near B1B)",
+"no": "46A",
+"name": "Effluent pit No. 1 (B1, B2, B6, SRP)",
 "c": [
 -160.6,
 -71.1
@@ -919,7 +938,7 @@ const SITE = {
 },
 {
 "no": "62",
-"name": "Domestic sewerage tank",
+"name": "STP (sewage treatment plant)",
 "c": [
 -155.3,
 -188.6
@@ -2404,6 +2423,482 @@ const SITE = {
 "s": "The RM/FG warehouse and, at the end of the road, the Unit-II admin, QC and OHC block. That completes the walk.",
 "look": "U-1"
 }
+],
+"flows": [
+{
+"k": "eff",
+"t": "B1A / B1B effluent",
+"p": [
+[
+-191.9,
+-65.0
+],
+[
+-191.9,
+-68.3
+],
+[
+-160.7,
+-68.3
+],
+[
+-160.7,
+-71.2
+]
+]
+},
+{
+"k": "eff",
+"t": "B2 effluent",
+"p": [
+[
+-166.3,
+-65.0
+],
+[
+-166.3,
+-68.3
+]
+]
+},
+{
+"k": "eff",
+"t": "B6 effluent",
+"p": [
+[
+-156.1,
+-84.4
+],
+[
+-156.1,
+-71.2
+],
+[
+-156.9,
+-71.2
+]
+]
+},
+{
+"k": "eff",
+"t": "SRP effluent",
+"p": [
+[
+-182.6,
+-81.3
+],
+[
+-182.6,
+-74.8
+],
+[
+-162.6,
+-74.8
+],
+[
+-162.6,
+-73.2
+]
+]
+},
+{
+"k": "eff",
+"t": "B3 effluent",
+"p": [
+[
+-126.5,
+-63.7
+],
+[
+-126.5,
+-66.7
+],
+[
+-105.7,
+-66.7
+],
+[
+-105.7,
+-117.9
+],
+[
+-109.6,
+-117.9
+]
+]
+},
+{
+"k": "eff",
+"t": "B5 effluent",
+"p": [
+[
+-84.9,
+-63.7
+],
+[
+-84.9,
+-66.7
+],
+[
+-105.7,
+-66.7
+]
+]
+},
+{
+"k": "eff",
+"t": "B9 effluent",
+"p": [
+[
+-86.8,
+-93.8
+],
+[
+-86.8,
+-97.6
+],
+[
+-105.7,
+-97.6
+]
+]
+},
+{
+"k": "eff",
+"t": "B8 effluent",
+"p": [
+[
+-124.1,
+-93.8
+],
+[
+-124.1,
+-97.6
+],
+[
+-105.7,
+-97.6
+]
+]
+},
+{
+"k": "eff",
+"t": "Pit No. 1 to main pit",
+"p": [
+[
+-156.9,
+-71.2
+],
+[
+-148.0,
+-71.2
+],
+[
+-148.0,
+-97.6
+],
+[
+-213.8,
+-97.6
+],
+[
+-213.8,
+-164.2
+],
+[
+-218.7,
+-167.5
+],
+[
+-218.7,
+-227.6
+],
+[
+-200.0,
+-245.5
+],
+[
+-166.3,
+-245.5
+],
+[
+-166.3,
+-251.9
+]
+]
+},
+{
+"k": "eff",
+"t": "Pit No. 3 + B8/B9/B5 to ETP, ~80-85 KLD",
+"p": [
+[
+-112.4,
+-123.3
+],
+[
+-112.4,
+-135.0
+],
+[
+-211.4,
+-135.0
+],
+[
+-211.4,
+-164.2
+],
+[
+-216.3,
+-166.7
+],
+[
+-216.3,
+-226.8
+],
+[
+-198.4,
+-243.9
+],
+[
+-167.9,
+-243.9
+],
+[
+-167.9,
+-250.0
+]
+]
+},
+{
+"k": "etp",
+"t": "To MEE ~90 KLD",
+"p": [
+[
+-166.3,
+-251.9
+],
+[
+-166.3,
+-227.6
+],
+[
+-185.9,
+-222.3
+]
+]
+},
+{
+"k": "treated",
+"t": "RO permeate to boiler ~65 KLD",
+"p": [
+[
+-198.9,
+-221.1
+],
+[
+-222.8,
+-221.1
+],
+[
+-222.8,
+-183.4
+],
+[
+-270.2,
+-183.4
+]
+]
+},
+{
+"k": "stp",
+"t": "Main gate",
+"p": [
+[
+-209.3,
+-7.5
+],
+[
+-209.3,
+-30.9
+]
+]
+},
+{
+"k": "stp",
+"t": "Maintenance",
+"p": [
+[
+-99.5,
+-27.2
+],
+[
+-99.5,
+-30.9
+]
+]
+},
+{
+"k": "stp",
+"t": "Production office",
+"p": [
+[
+-125.2,
+-27.2
+],
+[
+-125.2,
+-30.9
+]
+]
+},
+{
+"k": "stp",
+"t": "Safety office",
+"p": [
+[
+-179.3,
+-22.8
+],
+[
+-179.3,
+-30.9
+]
+]
+},
+{
+"k": "stp",
+"t": "Sewer main to STP, ~25 KLD",
+"p": [
+[
+-99.5,
+-30.9
+],
+[
+-213.8,
+-30.9
+],
+[
+-213.8,
+-162.6
+],
+[
+-154.8,
+-162.6
+],
+[
+-154.8,
+-186.2
+]
+]
+},
+{
+"k": "stp",
+"t": "Canteen",
+"p": [
+[
+-226.8,
+-82.1
+],
+[
+-213.8,
+-82.1
+]
+]
+},
+{
+"k": "stp",
+"t": "R&D",
+"p": [
+[
+-235.0,
+-103.7
+],
+[
+-213.8,
+-103.7
+]
+]
+},
+{
+"k": "stp",
+"t": "Park",
+"p": [
+[
+-165.5,
+-28.5
+],
+[
+-165.5,
+-30.9
+]
+]
+},
+{
+"k": "stp",
+"t": "Utility",
+"p": [
+[
+-155.9,
+-126.8
+],
+[
+-155.9,
+-162.6
+]
+]
+},
+{
+"k": "treated",
+"t": "STP treated water to garden ~12 KLD",
+"p": [
+[
+-152.8,
+-188.6
+],
+[
+-146.3,
+-188.6
+],
+[
+-146.3,
+-164.2
+],
+[
+-146.3,
+-95.9
+],
+[
+-146.3,
+-34.1
+],
+[
+-143.3,
+-26.3
+]
+]
+},
+{
+"k": "stp",
+"t": "STP to SBR holding tank (ETP) ~10 KLD",
+"p": [
+[
+-155.3,
+-191.1
+],
+[
+-155.3,
+-201.6
+],
+[
+-164.3,
+-201.6
+],
+[
+-164.3,
+-249.5
+]
+]
+}
 ]
 };
 (function () {
@@ -2692,7 +3187,7 @@ function placeLabels() {
     d.style.display = vis ? 'block' : 'none';
   });
 }
-function placeExtra() { const W = cvs.clientWidth, H = cvs.clientHeight; extraLabels.forEach(([d, p]) => { v3.copy(p).project(camera); const vis = showLbl && v3.z < 1 && Math.abs(v3.x) < 1.05 && Math.abs(v3.y) < 1.05 && camera.position.distanceTo(p) < 260;
+function placeExtra() { const W = cvs.clientWidth, H = cvs.clientHeight; extraLabels.forEach(([d, p]) => { v3.copy(p).project(camera); const vis = showLbl && (!d.classList.contains('flow') || flowGrp.visible) && v3.z < 1 && Math.abs(v3.x) < 1.05 && Math.abs(v3.y) < 1.05 && camera.position.distanceTo(p) < 260;
   d.style.display = vis ? 'block' : 'none'; if (vis) { d.style.left = ((v3.x + 1) / 2 * W) + 'px'; d.style.top = ((1 - v3.y) / 2 * H) + 'px'; } }); }
 function short(n) { return n.replace(/\s*\(.*?\)/g, ''); }
 
@@ -10233,12 +10728,125 @@ function stepAmbient(dt, t) {
   if (WELD.length) { const on = Math.sin(t * 23) * Math.sin(t * 7.3) > .2 && (t % 6) < 4; WELD[0].visible = on; WELD[1].intensity = on ? 1.6 : 0; }
 }
 
+/* ---------- ETP and STP: process flow diagrams + animated flow lines on the layout ---------- */
+const FLOWCOL = { eff: 0xE07A2E, etp: 0xC9A227, stp: 0x8A5A3B, treated: 0x3FB37F };
+const flowGrp = new THREE.Group(); flowGrp.visible = false; scene.add(flowGrp);
+const flowTexs = [];
+(function () {
+  function stripe(col) { const c = document.createElement('canvas'); c.width = 64; c.height = 8; const x = c.getContext('2d'); x.fillStyle = '#' + new THREE.Color(col).getHexString(); x.fillRect(0, 0, 64, 8);
+    x.fillStyle = 'rgba(255,255,255,.75)'; x.fillRect(0, 0, 10, 8); x.fillRect(32, 0, 10, 8); const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; }
+  (SITE.flows || []).forEach(f => {
+    const H = f.k === 'stp' ? 1.2 : 5.5, pts = f.p.map(p => new THREE.Vector3(p[0], H, p[1]));
+    const path = new THREE.CurvePath(); for (let i = 1; i < pts.length; i++) path.add(new THREE.LineCurve3(pts[i - 1], pts[i]));
+    let L = 0; for (let i = 1; i < pts.length; i++) L += pts[i].distanceTo(pts[i - 1]); if (L < .5) return;
+    const tex = stripe(FLOWCOL[f.k] || 0xffffff); tex.repeat.set(L / 3, 1); flowTexs.push(tex);
+    const r = /main|Pit No|to ETP|Sewer|MEE|boiler|garden|SBR/.test(f.t) ? .55 : .35;
+    const tube = new THREE.Mesh(new THREE.TubeGeometry(path, Math.max(8, pts.length * 12), r, 8, false), new THREE.MeshLambertMaterial({ map: tex, emissive: FLOWCOL[f.k] || 0, emissiveIntensity: .25 }));
+    flowGrp.add(tube);
+    // supports every ~8 m for the raised lines
+    if (H > 2) for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i], n = Math.floor(a.distanceTo(b) / 8); for (let k = 1; k < n; k++) { const q = a.clone().lerp(b, k / n); const p = new THREE.Mesh(new THREE.CylinderGeometry(.08, .08, H, 5), mat(0x6E7A84)); p.position.set(q.x, H / 2, q.z); flowGrp.add(p); } }
+    // label at the longest segment's middle, only for the named main lines
+    if (/KLD|Pit|effluent/i.test(f.t)) { let bi = 1, bl = 0; for (let i = 1; i < pts.length; i++) { const d = pts[i].distanceTo(pts[i - 1]); if (d > bl) { bl = d; bi = i; } }
+      const mid = pts[bi - 1].clone().lerp(pts[bi], .5); mid.y += 1.6; const d = document.createElement('div'); d.className = 'lbl flow'; d.textContent = f.t; d.style.borderLeft = '4px solid #' + new THREE.Color(FLOWCOL[f.k]).getHexString(); lblBox.appendChild(d); extraLabels.push([d, mid]); }
+  });
+})();
+function stepFlows(dt) { if (flowGrp.visible) flowTexs.forEach(t => { t.offset.x -= dt * 0.9; }); }
+
+/* process flow diagrams (SVG) built from the ETP / STP flow sheets */
+const PFD = {
+  etp: {
+    w: 2480, h: 700, sections: [[0, 590, 'Pre-treatment'], [600, 1100, 'MEE (100 KLD + 60 KLD)'], [1110, 1470, 'ATFD'], [1480, 1930, 'Biological treatment'], [1940, 2480, 'RO / UF filtration']],
+    nodes: [
+      ['p1', 'Pit No. 1', 'B1, B2, B6, SRP', 30, 50, 130, '46A'], ['p3', 'Pit No. 3', 'B3', 175, 50, 90, '46'], ['p589', 'B8 / B9 / B5', 'direct line', 230, 140, 130, '69'],
+      ['mp', 'Main pit', '50 KL', 30, 140, 130, 'EQ'], ['eq', 'Equalisation tanks', '120 + 60 + 60 / 120 + 120 + 120 KL', 30, 240, 330, 'EQ'],
+      ['pt', 'Pre-treatment', '~95-100 KLD; lime, coagulant, poly', 395, 240, 190, 'EQ'], ['pto', 'Pre-treatment outlet tank', '10 KL', 425, 345, 160, 'EQ'],
+      ['shp', 'Sludge holding pit', '~15 KL', 40, 345, 170, 'EQ'], ['fp', 'Filter press & screw press', 'solid sludge ~300-350 kg/day', 40, 440, 200, 'EQ'],
+      ['mrp', 'MEE return pit', 'filtrate ~10-13 KLD', 40, 540, 170, 'EQ'], ['mf', 'MEE feed tank', '2 KL', 435, 470, 150, '72'],
+      ['m100', '100 KLD MEE', '4 effects + TVR, steam 3.5-4 kg/cm²', 630, 120, 220, '72'], ['m60', '60 KLD MEE', '3 effects + TVR, steam 6 kg/cm²', 630, 450, 220, '72'],
+      ['c20', 'Condensate tank', '20 KL', 900, 60, 160, '72'], ['ct', 'Cooling towers', '450 TR + 100 TR', 900, 150, 160, '54'], ['af', 'ATFD feed tank', '800 L', 900, 330, 160, '72'],
+      ['ao', 'ATFD (old)', '8 m², sludge ~3 MT/day', 1140, 270, 170, '72'], ['an', 'ATFD (new)', '35 m², sludge ~5 MT/day', 1140, 380, 170, '72'], ['ac', 'ATFD condensate tank', '15 KL, used for ATFD cleaning', 1130, 500, 200, '72'],
+      ['aer', 'New aeration tank', '120 KL', 1140, 60, 170, 'EQ'], ['tw', 'Treated water storage', '120 KL', 1140, 150, 170, 'EQ'],
+      ['sf', 'SBR feed tank', '40 KL', 1500, 560, 150, 'EQ'], ['s1', 'SBR-01', '45 KL', 1500, 60, 120, 'EQ'], ['s2', 'SBR-02', '45 KL', 1640, 60, 120, 'EQ'],
+      ['mff', 'MGF / ACF feed tank', '40 KL', 1500, 200, 170, 'EQ'], ['mgf', 'MGF', 'backwash ~3 KLD', 1700, 200, 110, 'EQ'], ['acf', 'ACF', 'backwash ~3 KLD', 1820, 200, 100, 'EQ'],
+      ['bw', 'Backwash pit', '100 L', 1720, 360, 140, 'EQ'], ['uff', 'UF feed tank', '20 KL', 1960, 200, 130, 'EQ'], ['bag', 'Bag filters 1 & 2', '', 1960, 60, 150, 'EQ'],
+      ['uf', 'UF plant', 'design 150 KLD', 2140, 60, 150, 'EQ'], ['rf', 'RO feed tank', '20 KL', 2140, 200, 150, 'EQ'], ['ro', 'RO plant', 'design 120 KLD', 2140, 330, 150, 'EQ'],
+      ['rp', 'RO permeate tank', '25 KL, to boiler ~65 KLD', 2310, 330, 160, '75'], ['rr', 'RO reject tank', '25 KL', 2140, 470, 150, 'EQ']
+    ],
+    edges: [
+      ['p1', 'mp', ''], ['p3', 'p589', ''], ['p589', 'eq', ''], ['mp', 'eq', '~80-85 KLD'], ['eq', 'pt', ''], ['pt', 'shp', '8-10 KLD', 'sl', 'v'], ['shp', 'fp', '', 'sl'],
+      ['fp', 'mrp', '~10-13 KLD'], ['mrp', 'eq', '', '', 'left'], ['pt', 'pto', ''], ['pto', 'mf', '~90 KLD'], ['rr', 'mf', 'RO reject 10-15 KLD', '', 'bottom'], ['mf', 'm100', '~75 KL/day'], ['mf', 'm60', '~30 KL/day'],
+      ['m100', 'c20', '~60 KLD', 'cd'], ['ct', 'm100', '', 'cd'], ['m100', 'af', '~15 KLD'], ['m60', 'af', '~6-8 KLD'], ['af', 'ao', '~8-10 KLD'], ['af', 'an', '~22-24 KLD'],
+      ['ao', 'ac', '~5-6 KLD', 'cd'], ['an', 'ac', '~15-18 KLD', 'cd'], ['c20', 'aer', '', 'cd'], ['aer', 'tw', '', 'cd'], ['tw', 'sf', '~60 KLD', 'cd'], ['m60', 'sf', '~20 KLD condensate', 'cd'],
+      ['sf', 's1', '~90-95 KLD'], ['s1', 's2', ''], ['s2', 'mff', '~86-91 KLD'], ['mff', 'mgf', '~83-88 KLD'], ['mgf', 'acf', ''], ['acf', 'uff', '~80-85 KLD'], ['uff', 'bag', ''], ['bag', 'uf', ''],
+      ['uf', 'rf', 'permeate ~80 KLD'], ['rf', 'ro', ''], ['ro', 'rp', '~65 KLD', 'tr'], ['ro', 'rr', 'reject ~15 KLD'], ['mgf', 'bw', '', 'bw'], ['acf', 'bw', '', 'bw'], ['uf', 'bw', '~5 KLD', 'bw'], ['bw', 'sf', '~10-15 KLD', 'bw']
+    ],
+    table: { title: 'ETP quality (data as on 06-03-26)', head: ['Stream', 'Qty', 'COD design', 'COD actual', 'TDS design', 'TDS actual', 'pH design', 'pH actual'], rows: [
+      ['Main pit (50 KL)', '~80-85 KLD', '30000', '42000', '-', '40000', '-', '7.0-9.0'], ['Pre-treatment inlet', '~95-100 KLD', '30000', '45000', '-', '40000', '-', '7.0-9.0'],
+      ['Pre-treatment outlet', '~90 KLD', '30000', '38000', '-', '40000', '-', '7.5-8.5'], ['100 KL MEE process condensate', '~75 KL/day', '3500', '8500-11000', '-', '1500', '-', '7.5-8.5'],
+      ['60 KL MEE process condensate', '~30 KL/day', '3500', '4200-5200', '-', '600', '-', '7.5-8.5'], ['SBR-1 feed', '~90-95 KLD', '3500', '4200-5000', '-', '2500', '~7.0-8.5', '7.8'],
+      ['SBR-2 feed', '', '3500', '3500', '-', '2500', '~7.0-8.5', '7.8'], ['UF feed', '~80-85 KLD', '<250', '700-1200', '<2100', '2500', '~7.0-8.5', '7-8.5'],
+      ['UF outlet', '~80 KLD', '<250', '600-950', '<2100', '2500', '~7.0-8.5', '7-8.5'], ['RO permeate', '~65 KLD', '<250', '190-350', '400', '<200', '~7.0-8.5', '6.9'],
+      ['RO reject (to MEE feed)', '~15 KLD', '-', '3500-7000', '-', '5000-15000', '-', '7.6']],
+      note: 'In the 3rd calandria a vacuum leak is observed; vapour separator and heat exchanger replacement are planned.' }
+  },
+  stp: {
+    w: 1500, h: 520, sections: [[0, 230, 'Sources'], [240, 1100, 'Biological treatment'], [1110, 1500, 'Filtration and reuse']],
+    nodes: [
+      ['u', 'Utility', '', 20, 40, 170, '9'], ['pk', 'Park', '', 20, 95, 170, '26'], ['rd', 'R&D', '', 20, 150, 170, '12'], ['cn', 'Canteen', '', 20, 205, 170, '13'],
+      ['so', 'Safety office', '', 20, 260, 170, '20'], ['po', 'Production office', '', 20, 315, 170, '83'], ['mt', 'Maintenance', '', 20, 370, 170, '3'], ['mg', 'Main gate', '', 20, 425, 170, '28'],
+      ['stp', 'STP main chamber', '50 KL', 270, 60, 170, '62'], ['b1', 'MBBR 1', '', 490, 60, 120, '62'], ['b2', 'MBBR 2', '', 630, 60, 120, '62'], ['ts', 'Tube settler', '', 770, 60, 130, '62'],
+      ['cw', 'Clear water', '', 920, 60, 130, '62'], ['fp', 'Filter press', 'solid sludge ~20 kg/quarter', 760, 230, 200, '62'], ['ff', 'Filter feed tank', '~25 KL', 1130, 60, 160, '62'],
+      ['mgf', 'MGF', '1 KL/h', 1130, 170, 160, '62'], ['acf', 'ACF', '1 KL/h', 1130, 280, 160, '62'], ['gd', 'Garden', '~12 KLD', 1320, 250, 170, 'G1'], ['sb', 'To ETP SBR holding tank', '~10 KLD', 1320, 340, 170, 'EQ']
+    ],
+    edges: [['u', 'stp', '25 KLD'], ['pk', 'stp', ''], ['rd', 'stp', ''], ['cn', 'stp', ''], ['so', 'stp', ''], ['po', 'stp', ''], ['mt', 'stp', ''], ['mg', 'stp', ''],
+      ['stp', 'b1', ''], ['b1', 'b2', ''], ['b2', 'ts', ''], ['ts', 'cw', ''], ['ts', 'fp', 'sludge', 'sl'], ['fp', 'stp', 'liquid waste', 'bw', 'bottom'], ['cw', 'ff', ''], ['ff', 'mgf', ''], ['mgf', 'acf', ''],
+      ['acf', 'gd', '', 'tr'], ['acf', 'sb', ''], ['mgf', 'stp', 'backwash ~3 KLD', 'bw', 'bottom2']],
+    table: { title: 'STP quality', head: ['Stream', 'COD actual', 'TDS actual', 'pH actual'], rows: [['STP inlet', '800', '1100', '7.5'], ['STP outlet', '200', '1100', '7.5']] }
+  }
+};
+function pfdSVG(key) {
+  const P = PFD[key], N = {}, NH = 46; P.nodes.forEach(n => N[n[0]] = { id: n[0], t: n[1], s: n[2], x: n[3], y: n[4], w: n[5], h: n[2] ? NH : 34, go: n[6] });
+  const ECOL = { '': '#ECE7D8', sl: '#C08A55', cd: '#4CC0DF', bw: '#8DA4BA', tr: '#5FD09A' };
+  let svg = '<svg viewBox="0 0 ' + P.w + ' ' + P.h + '" width="' + P.w + '" height="' + P.h + '" role="img" aria-label="' + key.toUpperCase() + ' process flow diagram"><defs>' +
+    Object.entries(ECOL).map(([k, c]) => '<marker id="ah' + key + k + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="' + c + '"/></marker>').join('') + '</defs>';
+  P.sections.forEach(s => { svg += '<rect x="' + s[0] + '" y="4" width="' + (s[1] - s[0]) + '" height="22" rx="4" fill="#16324A"/><text x="' + (s[0] + s[1]) / 2 + '" y="20" text-anchor="middle" class="sec">' + esc(s[2]) + '</text>'; });
+  P.edges.forEach(e => { const a = N[e[0]], b = N[e[1]]; if (!a || !b) return; const k = e[3] || '', col = ECOL[k];
+    let p; const ax = a.x + a.w / 2, ay = a.y + a.h / 2, bx = b.x + b.w / 2, by = b.y + b.h / 2, how = e[4];
+    if (how === 'v') p = [[a.x + 8, a.y + a.h], [a.x + 8, by], [b.x + b.w, by]];
+    else if (how === 'left') p = [[a.x, ay], [a.x - 22, ay], [a.x - 22, b.y + b.h - 10], [b.x, b.y + b.h - 10]];
+    else if (how === 'bottom2') p = [[a.x, ay], [a.x - 20, ay], [a.x - 20, P.h - 40], [bx + 40, P.h - 40], [bx + 40, b.y + b.h]];
+    else if (how === 'bottom') p = [[ax, a.y + a.h], [ax, P.h - 14], [bx, P.h - 14], [bx, b.y + b.h]];
+    else if (b.x >= a.x + a.w - 5) { const x1 = a.x + a.w, x2 = b.x, mx = (x1 + x2) / 2; p = [[x1, ay], [mx, ay], [mx, by], [x2, by]]; }
+    else if (b.x + b.w <= a.x + 5) { const x1 = a.x, x2 = b.x + b.w, mx = (x1 + x2) / 2; p = [[x1, ay], [mx, ay], [mx, by], [x2, by]]; }
+    else if (b.y > a.y) { const y1 = a.y + a.h, y2 = b.y, my = (y1 + y2) / 2, cx = Math.max(a.x, b.x) + (Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) / 2; p = [[cx, y1], [cx, y2]]; }
+    else { const y1 = a.y, y2 = b.y + b.h, cx = Math.max(a.x, b.x) + (Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) / 2; p = [[cx, y1], [cx, y2]]; }
+    svg += '<polyline points="' + p.map(q => q.join(',')).join(' ') + '" fill="none" stroke="' + col + '" stroke-width="2"' + (k === 'bw' || k === 'sl' ? ' stroke-dasharray="6 4"' : '') + ' marker-end="url(#ah' + key + k + ')"/>';
+    if (e[2]) { const i = Math.floor((p.length - 1) / 2), q = [(p[i][0] + p[i + 1][0]) / 2, (p[i][1] + p[i + 1][1]) / 2]; svg += '<text x="' + (q[0] + 4) + '" y="' + (q[1] - 5) + '" class="fl">' + esc(e[2]) + '</text>'; } });
+  P.nodes.forEach(n => { const o = N[n[0]]; svg += '<g class="nd" data-go="' + esc(o.go || '') + '" tabindex="0" role="button" aria-label="' + esc(o.t + ', show on layout') + '"><rect x="' + o.x + '" y="' + o.y + '" width="' + o.w + '" height="' + o.h + '" rx="5"/>' +
+    '<text x="' + (o.x + o.w / 2) + '" y="' + (o.y + (o.s ? 19 : 22)) + '" text-anchor="middle" class="nt">' + esc(o.t) + '</text>' + (o.s ? '<text x="' + (o.x + o.w / 2) + '" y="' + (o.y + 36) + '" text-anchor="middle" class="ns">' + esc(o.s) + '</text>' : '') + '</g>'; });
+  return svg + '</svg>';
+}
+function pfdTable(key) { const T = PFD[key].table; return '<h4>' + esc(T.title) + '</h4><div class="pfd-tw"><table><thead><tr>' + T.head.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +
+  T.rows.map(r => '<tr>' + r.map((c, i) => '<td' + (i ? ' class="n"' : '') + '>' + esc(c) + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>' + (T.note ? '<p class="pfd-note">' + esc(T.note) + '</p>' : ''); }
+const pfd = document.getElementById('pfd'), pfdBody = document.getElementById('pfd-body'); let pfdTab = 'etp';
+function showPFD(tab) { pfdTab = tab || pfdTab; document.querySelectorAll('#pfd [data-pfd]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.pfd === pfdTab)));
+  pfdBody.innerHTML = '<div class="pfd-svg">' + pfdSVG(pfdTab) + '</div>' + '<div class="pfd-key"><span><i style="background:#ECE7D8"></i>Effluent / process</span><span><i style="background:#4CC0DF"></i>Condensate</span><span><i style="background:#5FD09A"></i>Treated water</span><span><i class="d" style="border-color:#C08A55"></i>Sludge</span><span><i class="d" style="border-color:#8DA4BA"></i>Backwash / return</span><span>Click a unit to see it on the layout.</span></div>' + pfdTable(pfdTab);
+  pfdBody.querySelectorAll('.nd').forEach(g => { const go = () => { const k = SITE.buildings.findIndex(b => b.no === g.dataset.go); if (k < 0) return; pfd.classList.remove('on'); if (inId) exitInside(); select(k, true); };
+    g.onclick = go; g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }; });
+  pfd.classList.add('on'); }
+function setFlows(on) { flowGrp.visible = on; document.body.classList.toggle('flows', on); const b = document.getElementById('b-flow'); b.setAttribute('aria-pressed', String(on)); }
+document.getElementById('b-flow').onclick = () => { if (pfd.classList.contains('on')) { pfd.classList.remove('on'); return; } setFlows(true); showPFD(); if (WT.on) stopWT(); };
+document.querySelectorAll('#pfd [data-pfd]').forEach(b => b.onclick = () => showPFD(b.dataset.pfd));
+document.getElementById('pfd-x').onclick = () => { pfd.classList.remove('on'); };
+document.getElementById('pfd-hide').onclick = () => { pfd.classList.remove('on'); setFlows(false); };
+document.getElementById('legend').insertAdjacentHTML('beforeend', [['Effluent to ETP', FLOWCOL.eff], ['ETP internal', FLOWCOL.etp], ['Sewage to STP', FLOWCOL.stp], ['Treated water', FLOWCOL.treated]].map(q => '<span class="flo"><i style="background:#' + new THREE.Color(q[1]).getHexString() + '"></i>' + q[0] + '</span>').join(''));
+
 addEventListener('keydown', e => { if (walk.on || e.target.tagName === 'INPUT') return; const k = e.key, s = 40;
   const m = { ArrowLeft: [s, 0], ArrowRight: [-s, 0], ArrowUp: [0, s], ArrowDown: [0, -s] }[k]; if (!m) return; e.preventDefault(); stopFly(); pan(m[0], m[1]); applyCam(); });
 /* ---------- loop ---------- */
 function resize() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); cvs.style.width = w + 'px'; cvs.style.height = h + 'px'; camera.aspect = w / h; updOffset(); camera.updateProjectionMatrix(); }
 addEventListener('resize', resize); resize(); dist = 520; target.set(CX, 0, CZ); applyCam();
-let last = 0; function loop(ts) { const raw = last ? Math.min(.5, (ts - last) / 1000) : 0, dt = Math.min(.05, raw); last = ts; if (walk.on) stepWalk(dt); else stepFly(raw); stepPeople(dt, ts / 1000); renderer.render(scene, camera); placeLabels(); placeInLabels(); placeExtra(); flowTex.offset.x -= dt * 1.5; requestAnimationFrame(loop); }
+let last = 0; function loop(ts) { const raw = last ? Math.min(.5, (ts - last) / 1000) : 0, dt = Math.min(.05, raw); last = ts; if (walk.on) stepWalk(dt); else stepFly(raw); stepPeople(dt, ts / 1000); renderer.render(scene, camera); placeLabels(); placeInLabels(); placeExtra(); stepFlows(dt); flowTex.offset.x -= dt * 1.5; requestAnimationFrame(loop); }
 requestAnimationFrame(loop);
 setTimeout(() => { const h = document.getElementById('hint'); h.style.transition = 'opacity 1s'; h.style.opacity = 0; }, 7000);
 window.__dbg = () => [dist, target.toArray(), !!fly]; window.__tour = { INSIDE, setYaw: y => { yaw = y; applyCam(); }, stop, select, byKey, SITE, goInside, showFloor, startWalk, stopWalk, walk, exitInside, selectEq };
