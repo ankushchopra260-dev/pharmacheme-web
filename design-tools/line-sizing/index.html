@@ -1,0 +1,62 @@
+---
+layout: default
+title: "Line Sizing Calculator: Pipe Size for Water, Steam, Air, N₂ and Solvents"
+description: "Free pipe line sizing calculator. Pick the fluid, enter the flow and get the right pipe size (NB and inches) with velocity and pressure drop, for cooling water, steam, compressed air, nitrogen, solvents and process liquids."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebApplication", "name": "Line Sizing Calculator", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you size a pipe line?", "acceptedAnswer": { "@type": "Answer", "text": "Take the smallest standard pipe size that keeps the velocity and the pressure drop per 100 m within the usual limits for that fluid: about 1 to 2.5 m/s and 0.4 bar/100 m for water, 15 to 30 m/s and 0.3 bar/100 m for steam, up to 10 m/s and 0.1 bar/100 m for compressed air." } },
+        { "@type": "Question", "name": "What pipe size for 50 m3/h of cooling water?", "acceptedAnswer": { "@type": "Answer", "text": "100 NB (4 inch) Schedule 40 carries 50 m3/h at about 1.6 m/s with roughly 0.25 bar pressure drop per 100 m, which is within the usual limits." } }
+      ] }
+    ]
+  }
+breadcrumbs:
+  - label: Design Tools
+    url: /design-tools/
+  - label: "Line Sizing Calculator"
+    url: /design-tools/line-sizing/
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}">
+
+<div class="container st-head">
+  <h1>Line Sizing Calculator</h1>
+  <p>Pick what flows, enter the flow, and read the pipe size.</p>
+</div>
+<div class="container">
+  <div class="ls" id="ls-app"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>How the size is chosen</h2>
+  <p>The calculator tries every standard size from 15 NB upward and picks the smallest one that keeps both the velocity and the pressure drop per 100 m within the usual limits for that fluid. Pipe inside diameters are from ASME B36.10M and B36.19M.</p>
+  <div class="formula-box">
+    v = Q / A &nbsp;&nbsp; ΔP = f × (L / D) × ρv² / 2<br>
+    f from the Churchill equation (laminar, transition and turbulent flow)
+  </div>
+  <table>
+    <thead><tr><th>Fluid</th><th>Velocity (m/s)</th><th>Max ΔP (bar/100 m)</th></tr></thead>
+    <tbody>
+      <tr><td>Cooling, process and chilled water</td><td>1.0 – 2.5</td><td>0.4</td></tr>
+      <tr><td>Solvents and process liquids</td><td>1.0 – 2.5</td><td>0.4</td></tr>
+      <tr><td>Pumped condensate</td><td>0.5 – 1.5</td><td>0.3</td></tr>
+      <tr><td>Saturated steam</td><td>10 – 30</td><td>0.3</td></tr>
+      <tr><td>Compressed air</td><td>3 – 10</td><td>0.1</td></tr>
+      <tr><td>Nitrogen</td><td>3 – 15</td><td>0.15</td></tr>
+    </tbody>
+  </table>
+  <h2>Good to know</h2>
+  <ul>
+    <li><strong>Pump suction lines</strong> are usually one size larger than the discharge, at about 1 m/s, to protect the pump from cavitation.</li>
+    <li><strong>Steam and gases:</strong> enter the line pressure; the gas is lighter at low pressure, so the same flow needs a bigger pipe.</li>
+    <li><strong>Viscous liquids:</strong> choose <em>Solvent or process liquid</em> and set the density and viscosity under More options.</li>
+  </ul>
+  <p style="color:var(--muted);font-size:.92rem;">Results are estimates for planning and checking. Final line sizes should follow your design basis.</p>
+</div>
+
+<script src="{{ '/assets/js/line-network-engine.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/line-size.js' | relative_url }}"></script>

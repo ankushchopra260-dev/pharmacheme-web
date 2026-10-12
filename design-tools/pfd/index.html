@@ -1,0 +1,35 @@
+---
+layout: default
+title: "PFD Drawing Tool: Free Online Process Flow Diagram Maker"
+description: "Draw a process flow diagram in your browser with equipment symbols, numbered streams and a stream table. Start from a template, connect items with a click and download the drawing."
+breadcrumbs:
+  - label: Design Tools
+    url: /design-tools/
+  - label: "PFD Drawing Tool"
+    url: /design-tools/pfd/
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}">
+
+<div class="container st-head">
+  <h1>PFD Drawing Tool</h1>
+  <p>Pick equipment, click to place it, and press Connect to join two items. Each line becomes a numbered stream.</p>
+</div>
+<div style="padding:0 12px;">
+  <div id="sd-app" data-kind="pfd"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>How to draw a PFD</h2>
+  <ol>
+    <li><strong>Start.</strong> Pick a blank sheet or a ready setup. Templates bring only the process lines; utilities stay on the P&amp;ID.</li>
+    <li><strong>Place equipment</strong> from the panel on the left, then press <em>Connect</em> and click two items to join them with a stream.</li>
+    <li><strong>Fill in the streams.</strong> Click a line to enter its fluid, mass flow, phase, temperature and pressure. The stream table under the drawing updates as you type.</li>
+    <li><strong>Download</strong> the diagram with its stream table as an image.</li>
+  </ol>
+  <p>A PFD shows what the process does: the main equipment, the process streams and their flows. The <a href="/design-tools/pid/">P&amp;ID tool</a> adds the valves, instruments and utility lines.</p>
+</div>
+
+<script src="{{ '/assets/js/line-network-engine.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/line-network-symbols.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/sheet-draw.js' | relative_url }}"></script>

@@ -5,6 +5,7 @@
     <ul class="site-nav-links" id="navLinks">
       <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>Home</a></li>
       <li><a href="{{ '/calculators/' | relative_url }}"{% if page.url contains '/calculators/' %} class="active"{% endif %}>Calculators</a></li>
+      <li><a href="{{ '/design-tools/' | relative_url }}"{% if page.url contains '/design-tools/' %} class="active"{% endif %}>Design Tools</a></li>
       <li><a href="{{ '/games/' | relative_url }}"{% if page.url contains '/games/' %} class="active"{% endif %}>Games</a></li>
       <li><a href="{{ '/molecules/' | relative_url }}"{% if page.url contains '/molecules/' %} class="active"{% endif %}>Molecules</a></li>
       <li><a href="{{ '/articles/' | relative_url }}"{% if page.url contains '/articles/' %} class="active"{% endif %}>Articles</a></li>
