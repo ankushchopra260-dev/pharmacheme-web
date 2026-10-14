@@ -914,8 +914,18 @@ function computeHeatLoadRecovery(cfg) {
   const capL = num(cfg.capacity);
   const V_m3 = capL / 1000;
   const L = num(cfg.jacketLength);
-  const D = Math.sqrt((4 * V_m3) / (Math.PI * L));
-  const jacketAreaCalc = Math.PI * D * L;
+  // Vessel = straight shell L + 2:1 elliptical bottom dish (volume pi D3/24, area 1.084 D2); the jacket covers the dish and the shell.
+  const shellVol = (d) => (Math.PI / 4) * d * d * L + (Math.PI / 24) * d * d * d;
+  let dLo = 0.05, dHi = 20; for (let i = 0; i < 80; i++) { const m = (dLo + dHi) / 2; if (shellVol(m) > V_m3) dHi = m; else dLo = m; }
+  const D = (dLo + dHi) / 2, dishVol = (Math.PI / 24) * D * D * D, dishArea = 1.084 * D * D;
+  // Wetted (heat-transfer) area for a liquid volume v in m3: dish wetted in proportion, then the shell up to the liquid level, capped at the jacket height.
+  const wetted = (v) => { if (!(v > 0)) return 0; if (v <= dishVol) return dishArea * Math.pow(v / dishVol, 2 / 3);
+    const h = Math.min(L, (v - dishVol) / ((Math.PI / 4) * D * D)); return dishArea + Math.PI * D * h; };
+  const occ = cfg.occupancy === "" || cfg.occupancy == null ? 100 : num(cfg.occupancy);
+  const volStart = V_m3 * occ / 100, volEnd = volStart - num(cfg.qtyDistilled) / 1000;
+  const areaStart = wetted(volStart), areaEnd = wetted(Math.max(0, volEnd));
+  const occWarn = volEnd < 0 ? "More is distilled than the reactor holds at this occupancy." : occ > 100 ? "Occupancy above 100 %." : "";
+  const jacketAreaCalc = (areaStart + areaEnd) / 2; // average wetted area over the distillation
   const jacketArea = cfg.jacketAreaBasis === "User Entered" ? num(cfg.jacketAreaManual) : jacketAreaCalc;
   const ffeA = cfg.ffeRequired === "YES" ? num(cfg.ffeArea) : 0;
   const effectiveArea = jacketArea + ffeA;
@@ -969,10 +979,10 @@ function computeHeatLoadRecovery(cfg) {
 
   const Q_effective = Math.min(Q_avail, Q_jacket);
   const Q_actual = Q_effective * (1 - num(cfg.jacketLossPct) / 100);
-  const recoveryTime = Qtotal / Q_actual;
+  const recoveryTime = cfg.jacketAreaBasis !== "User Entered" && volEnd < 0 ? NaN : Qtotal / Q_actual;
 
   return {
-    Tb, jacketArea, jacketAreaCalc, ffeA, effectiveArea, Qtotal, Q_avail, Q_jacket, recoveryTime,
+    Tb, D, areaStart, areaEnd, occWarn, jacketArea, jacketAreaCalc, ffeA, effectiveArea, Qtotal, Q_avail, Q_jacket, recoveryTime,
     hwAvailDT, hwMean, hwJacketDT, hwStatus, hwMessage,
   };
 }
@@ -1047,7 +1057,7 @@ function computeVacuumPumpOnly(cfg) {
 // -- Sub-tool configs --
 const BP_DEFAULTS = { solvent: "MDC", vacuum: "760" };
 const HL_DEFAULTS = {
-  capacity: "7000", moc: "SS", u: String(REACTOR_MOC.SS), jacketLength: "2.4",
+  capacity: "7000", occupancy: "80", moc: "SS", u: String(REACTOR_MOC.SS), jacketLength: "2.4",
   jacketAreaBasis: "Calculated", jacketAreaManual: "",
   ffeRequired: "NO", ffeArea: "12",
   solvent: "MDC", vacuum: "760", qtyDistilled: "3600", initialTemp: "20",
@@ -1130,6 +1140,7 @@ const SR_FIELD_DEFS = {
       { label: "Overall heat transfer coefficient, U (kcal/m\u00b2\u00b7hr\u00b7\u00b0C)", field: "u", type: "input" },
       { label: "Jacket area basis", field: "jacketAreaBasis", type: "select", options: ["Calculated", "User Entered"] },
       { label: "Assumed straight length (m)", field: "jacketLength", type: "input", calcAreaOnly: true },
+      { label: "Reactor occupancy at start (%)", field: "occupancy", type: "input", calcAreaOnly: true },
       { label: "Jacket area, user entered (m\u00b2)", field: "jacketAreaManual", type: "input", manualAreaOnly: true },
       { label: "FFE required", field: "ffeRequired", type: "select", options: ["YES", "NO"] },
       { label: "Proposed FFE area (m\u00b2)", field: "ffeArea", type: "input" },
@@ -1151,6 +1162,7 @@ const SR_FIELD_DEFS = {
     ],
     resultRows: [
       ["Boiling point at vacuum", (m) => `${fmt(m.Tb)} \u00b0C`],
+      ["Wetted jacket area (calculated)", (m) => m.occWarn ? `<span style="color:var(--rust);">${m.occWarn}</span>` : `${fmt(m.areaStart)} \u2192 ${fmt(m.areaEnd)} m\u00b2<div style="color:var(--muted); font-size:0.7rem;">At start \u2192 at end of distillation (vessel ID ${fmt(m.D)} m); the average is used</div>`],
       ["Effective jacket area", (m) => `${fmt(m.effectiveArea)} m\u00b2<div style="color:var(--muted); font-size:0.7rem;">Jacket ${fmt(m.jacketArea)} + FFE ${fmt(m.ffeA)}</div>`],
       ["HW available \u0394T (calculated)", (m) => m.hwAvailDT === null ? "N/A (Steam)" : `${fmt(m.hwAvailDT)} \u00b0C`],
       ["HW mean temperature (calculated)", (m) => m.hwMean === null ? "N/A (Steam)" : `${fmt(m.hwMean)} \u00b0C`],
