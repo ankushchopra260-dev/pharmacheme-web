@@ -133,7 +133,7 @@ var TOOLS = {
       v < 25 ? ['warn', 'Sensitive: consider electrostatic discharges from the dust cloud and from bulk powder. Earth plant and personnel.'] :
       v < 100 ? ['warn', 'Moderate: earthing of personnel advised in addition to plant earthing.'] :
       v < 500 ? ['good', 'Low-moderate: plant earthing and bonding advised.'] : ['good', 'Low sensitivity to ignition: plant earthing as normal good practice.'];
-    var rr = r <= 1e6 ? 'conductive: charge drains away if earthed' : r < 1e12 ? 'static dissipative' : 'highly resistive: holds charge, even on earthed metal';
+    var rr = r <= 1e6 ? 'conductive: charge drains away if earthed' : r <= 1e10 ? 'static dissipative' : 'highly resistive: holds charge, even on earthed metal';
     $('.ps-out', t).innerHTML = cell('MIE', f(v, 1)+' mJ', lv[0]) + cell('Powder resistivity', r.toExponential(0)+' Ω·m') + cell('Powder behaviour', rr);
     var vv = $('.ps-verdict', t); vv.className = 'ps-verdict '+lv[0]; vv.textContent = lv[1]+' Screening guide only: confirm with measured MIE data and a site-specific assessment.';
   }
