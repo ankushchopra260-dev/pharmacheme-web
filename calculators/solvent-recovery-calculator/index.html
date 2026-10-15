@@ -35,6 +35,33 @@ breadcrumbs:
   <h2>Example</h2>
   <p>Toluene (A = 6.95087, B = 1342.31, C = 219.187, P in mmHg) at 100 mmHg: T<sub>b</sub> = 1342.31 / (6.95087 &minus; 2.0) &minus; 219.187 &asymp; 52&deg;C, against 110.6&deg;C at 760 mmHg.</p>
 
+  <h2>Condenser and Vacuum Pump Formulas</h2>
+  <div class="formula-box">
+    Condenser duty Q = (volume distilled / time) &times; density &times; &lambda;<br>
+    LMTD = (&Delta;T<sub>1</sub> &minus; &Delta;T<sub>2</sub>) / ln(&Delta;T<sub>1</sub>/&Delta;T<sub>2</sub>), with &Delta;T = T<sub>b</sub> &minus; utility temperature at each end<br>
+    Condenser area = Q / (U &times; LMTD) &times; (1 + design margin)<br>
+    Evacuation capacity = (V / t) &times; ln(760 / P)
+  </div>
+  <p>U comes from the condenser type and material: about 260 kcal/m&sup2;&middot;h&middot;&deg;C for an SS shell-and-tube condenser, 110 for a glass coil and 700 or more for a plate condenser. You can overwrite it with your vendor&rsquo;s figure.</p>
+
+  <h2>Worked Example: Condenser</h2>
+  <p>2,000 L of toluene is recovered in 5 h at 100 mmHg (T<sub>b</sub> = 51.9 &deg;C) with cooling water from 32 to 37 &deg;C in an SS316 shell-and-tube condenser.</p>
+  <div class="formula-box">
+    Q = 2,000 / 5 &times; 0.867 &times; 86 &asymp; 29,800 kcal/h<br>
+    LMTD = (19.9 &minus; 14.9) / ln(19.9 / 14.9) &asymp; 17.3 &deg;C<br>
+    Area = 29,800 / (262 &times; 17.3) &times; 1.2 &asymp; 7.9 m&sup2;<br>
+    Cooling water = 29,800 / 5 / 995 &asymp; 6.0 m&sup3;/h
+  </div>
+
+  <h2>Frequently Asked Questions</h2>
+  <h3>How much does vacuum lower the boiling point?</h3>
+  <p>A lot: toluene boils at 110.6 &deg;C at atmospheric pressure but at about 52 &deg;C at 100 mmHg, which lets you recover it with hot water instead of steam.</p>
+  <h3>Why does my condenser area come out blank?</h3>
+  <p>At deep vacuum the vapour can condense below the cooling water outlet temperature, so it cannot condense at all. Use chilled water or brine, or less vacuum.</p>
+  <h3>How is the vacuum pump sized?</h3>
+  <p>The tool adds the capacity needed to remove the evaporated solvent that escapes the condenser to the larger of the evacuation load and the air leakage through nozzles, gaskets and valves.</p>
+  <p>For the step-by-step method, read the <a href="/articles/solvent-recovery-calculation/">solvent recovery calculation guide</a>.</p>
+
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>Antoine coefficients are compound-specific and only valid over the temperature/pressure range they were fitted to. Very high vacuum or near-critical conditions can fall outside that range. Always sanity-check the returned boiling point against a known reference point for the solvent before using it for equipment sizing.</p>
 

@@ -27,6 +27,34 @@ breadcrumbs:
   <h2>How to Use</h2>
   <p>Run a small Büchner or Nutsche trial at a known vacuum/pressure, record filtrate volume against time, and enter the trial data along with filter area and slurry concentration. The tool fits the standard cake-filtration relationship to estimate specific cake resistance and expected flux.</p>
 
+  <h2>The Formulas</h2>
+  <p>For cake filtration at constant pressure, Ruth&rsquo;s equation links time and filtrate volume:</p>
+  <div class="formula-box">
+    t / V = (&mu; &alpha; c / 2A&sup2;&Delta;P) &times; V + &mu; R<sub>m</sub> / (A &Delta;P)<br>
+    &alpha; = 2 A&sup2; &Delta;P &times; slope / (&mu; c)<br>
+    Flux = filtrate volume / (A &times; time)
+  </div>
+  <p>Plot t/V against V from your trial readings; the straight line&rsquo;s slope gives the specific cake resistance &alpha; (m/kg). Here A is the filter area, &Delta;P the applied vacuum or pressure, &mu; the filtrate viscosity and c the mass of dry solids per volume of filtrate. The intercept gives the cloth resistance R<sub>m</sub>.</p>
+
+  <h2>Worked Example</h2>
+  <p>A 5 cm B&uuml;chner (A = 0.00196 m&sup2;) at 500 mmHg vacuum (66,660 Pa) filters a slurry with c = 46 kg/m&sup3; and filtrate viscosity 0.3 cP. The t/V against V readings give a slope of 2.77 &times; 10<sup>10</sup> s/m<sup>6</sup>.</p>
+  <div class="formula-box">
+    &alpha; = 2 &times; 0.00196&sup2; &times; 66,660 &times; 2.77 &times; 10<sup>10</sup> / (0.0003 &times; 46)<br>
+    &alpha; &asymp; 1.0 &times; 10<sup>12</sup> m/kg: just above 10<sup>12</sup>, a very slow-filtering cake
+  </div>
+  <p>650 mL collected in 20 minutes is a flux of 0.65 / (0.00196 &times; 20) &asymp; 16.6 L/m&sup2;&middot;min.</p>
+
+  <h2>How to Read the Result</h2>
+<div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;"><thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Specific cake resistance &alpha; (m/kg)</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Filterability</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Typical solids</th></tr></thead><tbody><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">below 10<sup>10</sup></td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Good, fast</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Coarse, well-grown crystals</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">10<sup>10</sup> to 10<sup>11</sup></td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Moderate</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Medium crystals, some fines</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">10<sup>11</sup> to 10<sup>12</sup></td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Slow</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Fine or needle-shaped crystals</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">above 10<sup>12</sup></td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Very slow</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Very fine, gelatinous or compressible solids</td></tr></tbody></table></div>
+  <h2>Frequently Asked Questions</h2>
+  <h3>How many readings do I need?</h3>
+  <p>At least five, spread over the whole filtration. Leave out the first minute or two, before the cake has formed, if those points sit off the straight line.</p>
+  <h3>Can I scale this up to a Nutsche filter or ANFD?</h3>
+  <p>Yes, as a first estimate: use the same &alpha;, c and &mu; with the plant filter area and pressure in Ruth&rsquo;s equation. Compressible cakes give a higher &alpha; at higher pressure, so test at the plant pressure if you can.</p>
+  <h3>What makes a cake filter slowly?</h3>
+  <p>Fine particles, a wide size spread and compressible solids. Crystallisation changes (slower cooling, seeding, ageing) usually help more than a bigger filter.</p>
+  <p>For the full method, read <a href="/articles/filtration-calculation/">how to calculate filtration performance</a>.</p>
+
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>Bench-scale trials don't always scale linearly to production filters. Cake compressibility, medium fouling, and pressure differences between bench and plant equipment can all shift the real result. Use this as a first-pass filterability screen, and confirm with a larger trial before committing to production filter sizing.</p>
 

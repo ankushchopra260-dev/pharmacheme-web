@@ -31,6 +31,36 @@ breadcrumbs:
   </div>
   <p>Where r is basket radius (cm) and N is rotational speed (rpm). Cake volume comes from the annular geometry defined by basket radius and cake thickness.</p>
 
+  <h2>How the Cake Weight Is Worked Out</h2>
+  <p>In a basket centrifuge the cake forms a ring against the basket wall. Its inner diameter is the basket diameter less twice the cake thickness, and its height is the basket height:</p>
+  <div class="formula-box">
+    D<sub>a</sub> = D<sub>b</sub> &minus; 2t<br>
+    Cake volume V = (&pi;/4) &times; (D<sub>b</sub>&sup2; &minus; D<sub>a</sub>&sup2;) &times; H<br>
+    Cake weight W = V &times; bulk density<br>
+    Maximum cake thickness = (D<sub>b</sub> &minus; lip diameter) / 2
+  </div>
+
+  <h2>Worked Example</h2>
+  <p>A 60&Prime; basket (D<sub>b</sub> = 1.5 m, H = 0.6 m) is loaded to a 160 mm cake of bulk density 600 kg/m&sup3; and spun at 800 rpm.</p>
+  <div class="formula-box">
+    D<sub>a</sub> = 1.5 &minus; 2 &times; 0.16 = 1.18 m<br>
+    V = 0.785 &times; (1.5&sup2; &minus; 1.18&sup2;) &times; 0.6 = 0.404 m&sup3;<br>
+    W = 0.404 &times; 600 &asymp; 243 kg of wet cake per load<br>
+    G = 1.118 &times; 10<sup>&minus;5</sup> &times; 75 cm &times; 800&sup2; &asymp; 537 G
+  </div>
+  <p>Divide the batch&rsquo;s total wet cake by this figure to get the number of loads, and check the cake is not thicker than the lip allows; the calculator flags it if it is.</p>
+
+  <h2>Typical Values</h2>
+<div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;"><thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Item</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Typical range</th></tr></thead><tbody><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Wet cake bulk density</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">500 to 900 kg/m&sup3; (measure it from a discharged cake)</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Cake thickness</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">100 to 200 mm for most crystalline products</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">G-force, basket and peeler centrifuges</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">400 to 1,200 G</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Common basket sizes</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">36&Prime;, 48&Prime;, 60&Prime; (0.9, 1.2, 1.5 m)</td></tr></tbody></table></div>
+  <h2>Frequently Asked Questions</h2>
+  <h3>How do I calculate the G-force of a centrifuge?</h3>
+  <p>G = 1.118 &times; 10<sup>&minus;5</sup> &times; r (cm) &times; N&sup2; (rpm), with r the basket radius. A 1.5 m basket at 800 rpm gives about 537 G.</p>
+  <h3>How many loads will my batch take?</h3>
+  <p>Divide the total wet cake mass of the batch by the cake weight per load. If the answer is not a whole number, round up, or adjust the cake thickness so the loads come out even.</p>
+  <h3>Why does bulk density matter so much?</h3>
+  <p>The cake weight scales directly with it. A loose, poorly washed cake can be 30 % lighter than a well spun one, so take the value from your own product.</p>
+  <p>For the full method, read the <a href="/articles/centrifuge-cake-weight/">centrifuge cake weight and G-force guide</a>.</p>
+
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>Bulk density of a centrifuged cake depends heavily on particle shape, size distribution, and how well the cake has been de-liquored. A value taken from a different batch or product can be misleading. Use a bulk density measured from an actual discharged cake wherever possible.</p>
 

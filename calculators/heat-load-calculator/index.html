@@ -28,6 +28,37 @@ breadcrumbs:
   <h2>What This Calculates</h2>
   <p>Given the batch volume, solvent properties, and available heat duty, this estimates how long a batch will take to recover and the heat load required to hit a target recovery time.</p>
 
+  <h2>The Formulas</h2>
+  <div class="formula-box">
+    Heat load Q = m &times; C<sub>p</sub> &times; (T<sub>b</sub> &minus; T<sub>1</sub>) + m &times; &lambda;<br>
+    Jacket duty = U &times; A &times; &Delta;T<br>
+    Hot water supply = flow &times; (T<sub>supply</sub> &minus; T<sub>return</sub>)<br>
+    Recovery time = Q / (smaller of jacket duty and supply &times; (1 &minus; losses))
+  </div>
+  <p>m is the mass distilled, C<sub>p</sub> its specific heat, T<sub>b</sub> the boiling point at your vacuum, T<sub>1</sub> the starting temperature and &lambda; the latent heat. The jacket area is the wetted area: the dished bottom plus the shell up to the liquid level, set by the reactor occupancy and averaged as the level falls.</p>
+
+  <h2>Worked Example</h2>
+  <p>A 7,000 L SS reactor, 80 % full, distils 3,600 L of MDC at atmospheric pressure (T<sub>b</sub> = 39.8 &deg;C) from 20 &deg;C, using hot water at 90/80 &deg;C and 6 m&sup3;/h.</p>
+  <div class="formula-box">
+    m = 3,600 &times; 1.33 = 4,788 kg<br>
+    Q = 4,788 &times; (0.289 &times; 19.8 + 79) &asymp; 405,600 kcal<br>
+    Wetted area: 14.2 m&sup2; at the start, 6.3 m&sup2; at the end, 10.2 m&sup2; average<br>
+    Jacket duty = 200 &times; 10.2 &times; (85 &minus; 39.8) &asymp; 92,500 kcal/h; hot water supply = 6,000 &times; 10 = 60,000 kcal/h<br>
+    Recovery time = 405,600 / (60,000 &times; 0.95) &asymp; 7.1 h
+  </div>
+  <p>Here the hot water supply, not the jacket, is the limit: a higher flow or hotter water would shorten the batch.</p>
+
+  <h2>Typical U Values</h2>
+<div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;"><thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Reactor</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">U (kcal/m&sup2;&middot;h&middot;&deg;C)</th></tr></thead><tbody><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">SS reactor, steam or hot water jacket</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">200 to 300</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Glass-lined reactor</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">150 to 250</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Jacketed reactor with viscous mass</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">80 to 150</td></tr></tbody></table></div>
+  <h2>Frequently Asked Questions</h2>
+  <h3>Why does reactor occupancy change the recovery time?</h3>
+  <p>Only the wall in contact with liquid transfers heat. As solvent distils off the level drops and the wetted area shrinks, so a part-full reactor heats more slowly.</p>
+  <h3>Hot water or steam?</h3>
+  <p>The calculator suggests hot water when the boiling point is below 95 &deg;C. Steam gives a larger temperature difference and a faster recovery, but risks overheating sensitive material.</p>
+  <h3>How do I shorten the recovery?</h3>
+  <p>Raise whichever term is the limit: more hot water flow or a hotter supply when the supply is short, or more area (higher occupancy, an external heat exchanger or FFE) when the jacket is short.</p>
+  <p>For the method step by step, read <a href="/articles/heat-load-calculation/">heat load and recovery time</a>.</p>
+
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>This is a lumped, steady-heat-duty estimate. It doesn't model the changing boil-up rate as composition shifts during a real multi-component recovery, or heat losses from the vessel. Treat it as a sizing starting point, not a substitute for a rigorous batch distillation simulation on a critical separation.</p>
 

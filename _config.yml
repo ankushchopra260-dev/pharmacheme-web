@@ -21,6 +21,14 @@ defaults:
     values:
       sitemap: false
   - scope:
+      path: "get-test"
+    values:
+      sitemap: false
+  - scope:
+      path: "admin"
+    values:
+      sitemap: false
+  - scope:
       type: articles
     values:
       layout: article

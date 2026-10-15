@@ -27,6 +27,36 @@ breadcrumbs:
   <h2>How to Use</h2>
   <p>Enter vessel and impeller geometry, RPM, and fluid properties for each case you want to compare. The tool computes Reynolds number, tip speed, power number-based draw, P/V, and torque, laid out as a comparison table so you can judge whether a lab or pilot condition is being scaled consistently to plant scale.</p>
 
+  <h2>The Formulas</h2>
+  <div class="formula-box">
+    Reynolds number Re = &rho; N D&sup2; / &mu;<br>
+    Tip speed = &pi; D N<br>
+    Power P = N<sub>p</sub> &rho; N&sup3; D&#8309; (summed over the impellers)<br>
+    Blend time (95 %, turbulent) = 5.2 (T/D)&sup2; / (N<sub>p</sub><sup>1/3</sup> N)<br>
+    Torque = P / (2&pi;N)
+  </div>
+  <p>N is the speed in rev/s, D the impeller diameter, T the vessel diameter and N<sub>p</sub> the power number of the impeller. The power number is constant only in turbulent flow (Re above about 10,000); the calculator warns you when it is not.</p>
+
+  <h2>Worked Example</h2>
+  <p>A 7,000 L reactor (T = 1.98 m) holds 3,200 L of liquid (1,065 kg/m&sup3;, 0.36 cP), stirred by three 0.92 m pitched-blade turbines (N<sub>p</sub> = 1.27) at 96 rpm.</p>
+  <div class="formula-box">
+    Re = 1,065 &times; 1.6 &times; 0.92&sup2; / 0.00036 &asymp; 4.0 &times; 10<sup>6</sup> (turbulent)<br>
+    Tip speed = &pi; &times; 0.92 &times; 1.6 = 4.6 m/s<br>
+    P = 3 &times; 1.27 &times; 1,065 &times; 1.6&sup3; &times; 0.92&#8309; &asymp; 11.0 kW, so P/V &asymp; 3.4 kW/m&sup3;<br>
+    Blend time &asymp; 14 s; torque &asymp; 1,090 N&middot;m
+  </div>
+
+  <h2>Typical Values</h2>
+<div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;"><thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Duty</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">P/V (kW/m&sup3;)</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Tip speed (m/s)</th></tr></thead><tbody><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Gentle blending, heat transfer</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.1 to 0.5</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1.5 to 3</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Solids suspension</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.5 to 2</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">3 to 5</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Liquid&ndash;liquid or gas&ndash;liquid dispersion</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1 to 5</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">4 to 7</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Shear-sensitive crystals</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">as low as works</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">below 3</td></tr></tbody></table></div>
+  <h2>Frequently Asked Questions</h2>
+  <h3>Which number should I keep constant when scaling up?</h3>
+  <p>P/V for blending, heat and mass transfer; tip speed when shear damages the product. Keeping both is impossible in geometrically similar vessels, so compare the two cases side by side here.</p>
+  <h3>What power number should I use?</h3>
+  <p>Use the impeller supplier&rsquo;s figure if you have it. The defaults (for example 1.27 for a 45&deg; pitched-blade turbine, 5 to 6 for a Rushton turbine) assume a baffled vessel in turbulent flow.</p>
+  <h3>Why is my motor larger than the calculated power?</h3>
+  <p>The calculated figure is the power into the liquid. Add gearbox and seal losses and a margin for start-up and higher viscosity, typically 20 to 30 %.</p>
+  <p>For the scale-up rules and a worked lab-to-plant example, read <a href="/articles/mixing-scale-up/">mixing scale-up rules from lab to plant</a>.</p>
+
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>Constant P/V, constant tip speed and constant Reynolds number are different (and mutually exclusive) scale-up rules. Which one fits depends on whether your process is shear-sensitive, mass-transfer-limited, or blend-time-limited. This tool reports the numbers; picking the right scale-up criterion for your chemistry is still an engineering judgment call.</p>
 
