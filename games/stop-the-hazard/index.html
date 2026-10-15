@@ -481,15 +481,22 @@ function renderPriorityScene() {
   for (const p of currentScenario.params) {
     const val = paramValueAt(p, priorityTicks);
     const displayVal = p.unit === '%' || p.unit === ' bar' ? val.toFixed(1) : Math.round(val);
+    const threshold = currentScenario.thresholds[p.id];
+    const limitVal = p.unit === '%' || p.unit === ' bar' ? threshold.toFixed(1) : Math.round(threshold);
+    // Taller box so the safe limit can be shown alongside the live reading \u2014
+    // without it, the player has no way to judge which reading is closest to
+    // trouble, which is the whole point of this round.
     pCtx.fillStyle = '#fff'; pCtx.strokeStyle = '#C7D3DE'; pCtx.lineWidth = 2;
-    pCtx.fillRect(p.x - 45, p.y - 22, 90, 44);
-    pCtx.strokeRect(p.x - 45, p.y - 22, 90, 44);
+    pCtx.fillRect(p.x - 45, p.y - 28, 90, 56);
+    pCtx.strokeRect(p.x - 45, p.y - 28, 90, 56);
     pCtx.fillStyle = '#5A6B7A'; pCtx.font = '10px sans-serif'; pCtx.textAlign = 'center';
-    pCtx.fillText(p.label, p.x, p.y - 7);
+    pCtx.fillText(p.label, p.x, p.y - 13);
     pCtx.fillStyle = COL.outline; pCtx.font = 'bold 14px sans-serif';
     const arrow = p.dir > 0 ? '\u2191' : '\u2193';
-    pCtx.fillText(displayVal + p.unit + ' ' + arrow, p.x, p.y + 12);
-    p._hit = { x: p.x - 45, y: p.y - 22, w: 90, h: 44 };
+    pCtx.fillText(displayVal + p.unit + ' ' + arrow, p.x, p.y + 6);
+    pCtx.fillStyle = '#B23B3B'; pCtx.font = '9px sans-serif';
+    pCtx.fillText('limit ' + limitVal + p.unit, p.x, p.y + 20);
+    p._hit = { x: p.x - 45, y: p.y - 28, w: 90, h: 56 };
   }
 }
 

@@ -174,7 +174,7 @@ breadcrumbs:
           <div class="insp-header"><h2>Condenser</h2><span class="code" id="comp-code"></span></div>
           <div class="insp-body">
             <div class="schematic">
-              <div class="box">Steam</div><div class="arrow">&rarr;</div>
+              <div class="box">Vapour</div><div class="arrow">&rarr;</div>
               <div class="box selected" id="comp-box"><span id="comp-box-label">COND</span></div>
             </div>
             <div class="schematic" style="margin-top:-8px;"><div class="arrow">&darr;</div></div>
@@ -507,6 +507,11 @@ const comms = new CommunicationManager();
 const score = new ScoreManager();
 const camera = new CameraManager();
 
+// COND-103 starts the mission already in a LOW-flow / HIGH-outlet state (see
+// ProcessEngine.condensers above), so the Active Alarms panel should show it
+// from the start rather than staying empty until some later event raises it.
+alarms.raise('cond103-flow', 'COND-103 cooling-water flow low / outlet high', 'high');
+
 let missionStage = 0; // 0=find R-103, 1=resolving R-103, 2=R-103 done/multi-event, 3=mission1 complete
 let shiftMinutes = 0;
 let running = false;
@@ -697,6 +702,13 @@ function drawPlayerSprite() {
 // ---------------- HUD / panels ----------------
 function getActivePriorities() {
   const list = [];
+  // COND-103 starts the mission with flow LOW / outlet HIGH (see ProcessEngine
+  // above) — that's the very first fault the player has to find, so it needs
+  // to show up here from the start, not only once later events bump missionStage.
+  const c103 = process_.condensers['COND-103'];
+  if (!(c103.playerFixed || c103.fixed)) {
+    list.push({ id: 'cond103-flow', label: 'COND-103 cooling-water flow low / outlet high', priority: 'high' });
+  }
   const c105 = process_.condensers['COND-105'];
   if (missionStage >= 2 && !c105.playerFixed) {
     const prio = c105.performance < 40 ? 'critical' : c105.performance < 75 ? 'high' : 'low';
@@ -916,7 +928,10 @@ function refreshReactorReadouts(eq) {
   document.getElementById('eq-batch').textContent = c.agitator ? r.batchStatus : '\u2014';
   document.getElementById('eq-batch').className = 'val ' + (c.agitator ? 'normal' : 'pending');
 
-  if (eq.id === 'R-103') { tasks.complete('inspect-r103'); refreshTaskPanel(); refreshHUD(); }
+  // Only count the inspection as done once the player has actually pulled the
+  // readings (clicked the reactor box) — not just from opening the panel,
+  // which calls this same refresh function to paint its initial "—" state.
+  if (eq.id === 'R-103' && c.temp && c.pressure && c.agitator) { tasks.complete('inspect-r103'); refreshTaskPanel(); refreshHUD(); }
 
   const actionRow = document.getElementById('eq-action-row');
   if (r.issueType === 'pressure' && c.pressure && !r.pressureFixed) {
@@ -1277,7 +1292,10 @@ function loop(ts) {
     drawFloorScene();
     advanceMissionIfReady();
     refreshHUD();
-    if (missionStage >= 2) { refreshAlarmPanel(); refreshTaskPanel(); }
+    // Alarms and tasks can change state during stage 0/1 too (e.g. clearing the
+    // initial COND-103 alarm), not just once missionStage reaches 2, so keep
+    // both panels live the whole time instead of gating the refresh.
+    refreshAlarmPanel(); refreshTaskPanel();
     if (camera.current() === 'centrifuge') { refreshCentrifugeView(); if (process_.centrifuge.state === 'complete') {} }
     if (camera.current() === 'dryer') refreshDryerView();
   }
