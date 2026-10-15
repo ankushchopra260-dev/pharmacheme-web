@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Mixing Scale-up Rules from Lab to Plant"
-description: "Agitator scale-up rules for a mixing tank from lab to production: constant tip speed, P/V and Reynolds number, with the RPM formula and a worked example."
+description: "Mixing scale-up rules from lab to production: keep tip speed, P/V or Reynolds number constant, get the plant RPM from N2 = N1 (D1/D2)^n, with a worked example and a free calculator."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -34,6 +34,8 @@ structured_data: |
   <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
 
   <p>Scaling a mixing process from lab to pilot to plant is trickier than it looks because there's no single "correct" way to do it. Constant tip speed, constant power-per-volume (P/V) and constant Reynolds number are different, mutually exclusive scale-up rules. Which one matters depends on your process.</p>
+
+  <div class="formula-box" style="font-family:inherit;line-height:1.6;"><strong>Scale-up rules from lab to production, in short:</strong> keep the vessel geometrically similar (same D/T, impeller type and baffles), choose what must stay the same, then set the plant speed with N<sub>2</sub> = N<sub>1</sub> &times; (D<sub>1</sub>/D<sub>2</sub>)<sup>n</sup>. Use n = 2/3 to keep power per volume (P/V) constant for blending, heat transfer and dispersions; n = 1 to keep tip speed constant for shear-sensitive solids; n = 2 for constant Reynolds number, which is rarely practical. Then check the motor power, blend time and solids suspension at the plant speed.</div>
 
   <p>Want to run your own numbers? Try the <a href="/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a>.</p>
 

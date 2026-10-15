@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Pump Power Calculation: Formula & Examples"
+title: "Pump Power Calculation: Formula, kW from Flow & Head, Examples"
 description: "Pump power calculation step by step: hydraulic power, shaft power and motor kW from flow and head. Two worked examples, the Q×H/367 shortcut and a free pump power calculator."
 breadcrumbs:
   - label: Articles
@@ -22,6 +22,7 @@ structured_data: |
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "What is the formula for pump power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = density (kg/m3) x 9.81 x flow (m3/s) x total head (m) / 1000. Divide by pump efficiency to get shaft power, and by motor efficiency to get motor input power." } },
+          { "@type": "Question", "name": "What is the pump capacity formula?", "acceptedAnswer": { "@type": "Answer", "text": "Q (m3/h) = 367 x shaft power (kW) x pump efficiency / (head (m) x SG). It gives the flow a pump can deliver at a given head and power; the pump curve gives the exact figure." } },
           { "@type": "Question", "name": "What is the quick formula for pump power in kW from m3/h?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = Q (m3/h) x H (m) x SG / 367, where SG is specific gravity. For 50 m3/h of water at 30 m head this gives about 4.1 kW." } },
           { "@type": "Question", "name": "What is the difference between hydraulic power and shaft power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power is the energy actually given to the fluid. Shaft power (brake power) is what the pump draws at its shaft, which is higher because of pump losses: shaft power = hydraulic power / pump efficiency." } },
           { "@type": "Question", "name": "How do I convert pressure to head for a pump calculation?", "acceptedAnswer": { "@type": "Answer", "text": "Head (m) = pressure difference (Pa) / (density x 9.81). For example, 1 bar (100,000 Pa) of water is about 10.2 m of head." } }
@@ -81,6 +82,25 @@ structured_data: |
   </div>
   <p>Notice that the receiver pressure is more than half of the total head here. Leave it out and the motor would be undersized by more than half.</p>
 
+  <h2>How to Find the Total Head</h2>
+  <p>The head in the formula is the <strong>total developed head</strong>: everything the pump has to overcome between the suction tank and the delivery point.</p>
+  <div class="formula-box">
+    H = (z<sub>2</sub> &minus; z<sub>1</sub>) + (P<sub>2</sub> &minus; P<sub>1</sub>) / (&rho; g) + h<sub>f</sub>
+  </div>
+  <p>Here z<sub>2</sub> &minus; z<sub>1</sub> is the static lift from the suction liquid level to the outlet, P<sub>2</sub> &minus; P<sub>1</sub> is the difference between the pressure at the delivery point and the pressure on the suction tank, and h<sub>f</sub> is the friction loss in the suction and delivery lines, including valves, bends, strainers, flowmeters and heat exchangers. Get h<sub>f</sub> from the line size and flow; the <a href="/design-tools/line-sizing/">Line Sizing calculator</a> gives the pressure drop per 100 m.</p>
+
+  <h2>Pump Capacity Formula</h2>
+  <p>Pump capacity is the flow rate the pump delivers. Turn the power formula round to find the flow a pump or motor can give at a given head:</p>
+  <div class="formula-box">
+    Q (m&sup3;/h) = 367 &times; P<sub>shaft</sub> (kW) &times; &eta;<sub>pump</sub> / (H (m) &times; SG)<br>
+    Q (m&sup3;/h) = 3,600 &times; velocity (m/s) &times; pipe area (m&sup2;)
+  </div>
+  <p>Example: a 7.5 kW motor (shaft power about 6.9 kW at 92% motor efficiency) driving a pump at 65% efficiency against 30 m of water gives Q = 367 &times; 6.9 &times; 0.65 / 30 &asymp; 55 m&sup3;/h. In practice read the flow from the pump curve at your system head; this formula is for checking.</p>
+
+  <h2>Quick Sizing Table</h2>
+  <p>Motor input power for water (SG 1), 65% pump efficiency and 92% motor efficiency. Pick the next standard motor size above the value.</p>
+<div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;"><thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Flow (m&sup3;/h)</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">20 m head</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">40 m head</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">60 m head</th></tr></thead><tbody><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">5</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.46 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.91 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1.37 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">10</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.91 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1.82 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">2.73 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">20</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1.82 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">3.65 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">5.47 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">50</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">4.56 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">9.11 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">13.67 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">100</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">9.11 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">18.23 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">27.34 kW</td></tr></tbody></table></div>
+
   <h2>In the Plant</h2>
   <p>Pump efficiency isn't constant. It peaks at the best-efficiency point (BEP) on the pump curve and drops off the further you run from it. A pump selected purely on this formula using catalog efficiency, but actually operated well off its BEP, will draw more real power than this calculation predicts.</p>
 
@@ -94,6 +114,10 @@ structured_data: |
   <p>Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367. For 50 m&sup3;/h of water at 30 m head this is about 4.1 kW.</p>
   <h3>What is the difference between hydraulic power and shaft power?</h3>
   <p>Hydraulic power is the energy actually given to the fluid. Shaft power (also called brake power) is what the pump draws at its shaft. It is always higher because of losses inside the pump: shaft power = hydraulic power / pump efficiency.</p>
+  <h3>What is the pump capacity formula?</h3>
+  <p>Q (m&sup3;/h) = 367 &times; shaft power (kW) &times; pump efficiency / (head (m) &times; SG). It gives the flow a pump can deliver at a given head and power; the pump curve gives the exact figure.</p>
+  <h3>What size motor do I need for 50 m&sup3;/h at 30 m head?</h3>
+  <p>Hydraulic power = 50 &times; 30 / 367 &asymp; 4.1 kW. With 65% pump and 92% motor efficiency the motor draws about 6.8 kW, so choose a 7.5 kW motor.</p>
   <h3>How do I convert pressure to head?</h3>
   <p>Head (m) = &Delta;P (Pa) / (&rho; &times; 9.81). For water, 1 bar is about 10.2 m of head. For a lighter liquid the same pressure is more metres of head, which is why the density matters.</p>
 
