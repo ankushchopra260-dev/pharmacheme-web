@@ -197,6 +197,9 @@ var qz = $('#ps-quiz');
 if (qz){
   var Q = JSON.parse($('#ps-quiz-data').textContent), i = 0, score = 0, order = Q.map(function(_, k){ return k; });
   var started = false;
+  // Fisher-Yates shuffle so the correct option isn't always in the same
+  // position (the source data otherwise skews heavily toward answer B).
+  var shuffleIdx = function(n){ var a = []; for (var k = 0; k < n; k++) a.push(k); for (var j = a.length - 1; j > 0; j--){ var r = Math.floor(Math.random()*(j+1)); var tmp = a[j]; a[j] = a[r]; a[r] = tmp; } return a; };
   var show = function(){
     if (i >= order.length){ var best = Math.max(score, store.get('quiz', 0)); store.set('quiz', best);
       track('process_safety_quiz_complete', { score: score, total: order.length }); announce('Quiz complete. Score '+score+' of '+order.length+'.');
@@ -204,16 +207,17 @@ if (qz){
         '</p><p class="ps-src">Best score in this browser: '+best+' / '+order.length+'</p><div class="ps-done"><button class="btn btn-primary" id="ps-qagain">↺ Try again</button><a class="btn btn-outline" href="../">Back to Process Safety</a></div>';
       $('#ps-qagain').addEventListener('click', function(){ i = 0; score = 0; started = false; show(); }); return; }
     var q = Q[order[i]];
+    var perm = shuffleIdx(q.o.length), opts = perm.map(function(k){ return q.o[k]; }), ansPos = perm.indexOf(q.a);
     qz.innerHTML = '<div class="ps-src">Question '+(i + 1)+' of '+order.length+' · '+q.topic+' · score '+score+'</div><div class="ps-quiz-bar"><i style="width:'+(i/order.length*100)+'%"></i></div>' +
-      '<div class="ps-mq" data-ans="'+q.a+'"><div class="q">'+q.q+'</div><div class="opts">'+q.o.map(function(o, k){ return '<button class="o">'+String.fromCharCode(65 + k)+'. '+o+'</button>'; }).join('')+'</div><div class="exp">'+q.e+'</div></div>' +
+      '<div class="ps-mq" data-ans="'+ansPos+'"><div class="q">'+q.q+'</div><div class="opts">'+opts.map(function(o, k){ return '<button class="o">'+String.fromCharCode(65 + k)+'. '+o+'</button>'; }).join('')+'</div><div class="exp">'+q.e+'</div></div>' +
       '<div class="ps-done"><button class="btn btn-primary" id="ps-qnext" disabled>Next →</button></div>';
     var box = $('.ps-mq', qz);
     $$('button.o', box).forEach(function(b, k){ b.addEventListener('click', function(){
       if (!started){ started = true; track('process_safety_quiz_start', {}); }
-      if (k === q.a) score++;
-      $$('button.o', box).forEach(function(x, j){ x.disabled = true; if (j === q.a) x.classList.add('right'); else if (j === k) x.classList.add('wrong'); });
-      var e = $('.exp', box); e.innerHTML = (k === q.a ? '✅ <b>Correct.</b> ' : '❌ <b>Not quite.</b> ') + e.innerHTML; e.style.display = 'block';
-      announce((k === q.a ? 'Correct. ' : 'Not quite. The answer is '+String.fromCharCode(65 + q.a)+'. ') + e.textContent.replace(/^[✅❌]\s*(Correct\.|Not quite\.)\s*/, ''));
+      if (k === ansPos) score++;
+      $$('button.o', box).forEach(function(x, j){ x.disabled = true; if (j === ansPos) x.classList.add('right'); else if (j === k) x.classList.add('wrong'); });
+      var e = $('.exp', box); e.innerHTML = (k === ansPos ? '✅ <b>Correct.</b> ' : '❌ <b>Not quite.</b> ') + e.innerHTML; e.style.display = 'block';
+      announce((k === ansPos ? 'Correct. ' : 'Not quite. The answer is '+String.fromCharCode(65 + ansPos)+'. ') + e.textContent.replace(/^[✅❌]\s*(Correct\.|Not quite\.)\s*/, ''));
       $('#ps-qnext').disabled = false; $('#ps-qnext').focus({ preventScroll: true }); }); });
     $('#ps-qnext').addEventListener('click', function(){ i++; show(); window.scrollTo({ top: qz.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' }); });
   };

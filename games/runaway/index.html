@@ -444,17 +444,21 @@ const QUIZ = [
     e:'TMR<sub>ad</sub> falls exponentially with temperature. For E<sub>a</sub> = 100 kJ/mol, 20 K hotter cuts it by a factor of about 4, to around 6 h. That is why a few degrees above TD24 matter so much.' },
 ];
 let qi = 0, qs = 0;
+// Fisher-Yates shuffle so the correct option isn't always in the same
+// position (the source data otherwise skews heavily toward answer B).
+function shuffleIdx(n){ const a = []; for (let k = 0; k < n; k++) a.push(k); for (let j = a.length - 1; j > 0; j--){ const r = Math.floor(Math.random()*(j+1)); [a[j], a[r]] = [a[r], a[j]]; } return a; }
 function startQuiz(){ qi = 0; qs = 0; $('rw-qnext').style.visibility = ''; showQ(); }
 function showQ(){
   if (qi >= QUIZ.length){ return quizDone(); }
   const Q = QUIZ[qi];
+  const perm = shuffleIdx(Q.o.length), opts = perm.map(k => Q.o[k]), ansPos = perm.indexOf(Q.a);
   $('rw-qbar').style.width = (qi/QUIZ.length*100)+'%';
   $('rw-qno').textContent = 'Question '+(qi + 1)+' of '+QUIZ.length+' · score '+qs;
   $('rw-qtext').innerHTML = Q.q; $('rw-qexp').style.display = 'none'; $('rw-qnext').disabled = true;
-  $('rw-qopts').innerHTML = Q.o.map((o, k) => `<button class="rw-opt" data-k="${k}">${String.fromCharCode(65 + k)}. ${o}</button>`).join('');
+  $('rw-qopts').innerHTML = opts.map((o, k) => `<button class="rw-opt" data-k="${k}">${String.fromCharCode(65 + k)}. ${o}</button>`).join('');
   $('rw-qopts').querySelectorAll('.rw-opt').forEach(b => b.addEventListener('click', () => {
-    const k = +b.dataset.k, ok = k === Q.a; if (ok) qs++;
-    $('rw-qopts').querySelectorAll('.rw-opt').forEach((x, j) => { x.disabled = true; if (j === Q.a) x.classList.add('right'); else if (j === k) x.classList.add('wrong'); });
+    const k = +b.dataset.k, ok = k === ansPos; if (ok) qs++;
+    $('rw-qopts').querySelectorAll('.rw-opt').forEach((x, j) => { x.disabled = true; if (j === ansPos) x.classList.add('right'); else if (j === k) x.classList.add('wrong'); });
     $('rw-qexp').innerHTML = (ok ? '✅ <b>Correct.</b> ' : '❌ <b>Not quite.</b> ') + Q.e; $('rw-qexp').style.display = 'block';
     $('rw-qnext').disabled = false; $('rw-qnext').textContent = qi === QUIZ.length - 1 ? 'See my score →' : 'Next →';
     $('rw-qno').textContent = 'Question '+(qi + 1)+' of '+QUIZ.length+' · score '+qs;

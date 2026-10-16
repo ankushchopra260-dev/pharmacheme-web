@@ -149,16 +149,25 @@
     let limExtent = Infinity, limId = null;
     R.forEach((c) => {
       const mw = an.get(c.id).mw;
-      const eq = c.id === b.id ? 1 : num(c.eq, c.coeff / b.coeff);
-      const kmol = bKmol * eq;
-      const pureKg = kmol * mw;
-      const purity = Math.min(100, Math.max(0.0001, num(c.purity, 100)));
-      const chargedKg = pureKg / (purity / 100);
+      const rawEq = c.id === b.id ? 1 : num(c.eq, c.coeff / b.coeff);
+      const rawPurity = num(c.purity, 100);
+      // Negative/zero equivalents and non-positive (or implausibly tiny)
+      // purity aren't physical charges — rather than silently clamping purity
+      // down to 0.0001% (which blew a 0% entry up into a multi-million-kg
+      // "charge"), flag the row and blank the dependent numbers instead.
+      const eqValid = isFinite(rawEq) && rawEq > 0;
+      const purityValid = isFinite(rawPurity) && rawPurity > 0 && rawPurity <= 100;
+      const eq = eqValid ? rawEq : NaN;
+      const purity = purityValid ? rawPurity : NaN;
+      const kmol = eqValid ? bKmol * eq : NaN;
+      const pureKg = eqValid ? kmol * mw : NaN;
+      const chargedKg = eqValid && purityValid ? pureKg / (purity / 100) : NaN;
+      const rowWarn = !eqValid ? "Equivalents must be greater than 0." : !purityValid ? "Purity must be > 0 and ≤ 100%." : "";
       const dens = num(c.density, null);
-      const vol = dens ? chargedKg / dens : null;
-      const extent = kmol / c.coeff;
+      const vol = dens && isFinite(chargedKg) ? chargedKg / dens : null;
+      const extent = eqValid ? kmol / c.coeff : Infinity;
       if (extent < limExtent - 1e-12) { limExtent = extent; limId = c.id; }
-      rows.push({ c, mw, eq, kmol, pureKg, chargedKg, purity, vol, stoichEq: c.coeff / b.coeff });
+      rows.push({ c, mw, eq, kmol, pureKg, chargedKg, purity, vol, stoichEq: c.coeff / b.coeff, rowWarn });
     });
     R.forEach((c) => {
       const r = rows.find((x) => x.c.id === c.id);
@@ -351,12 +360,12 @@
       <div class="rb-scroll"${viewMode === "sheet" ? " hidden" : ""}><table class="rb-table">
         <thead><tr><th>Reactant</th><th>MW</th><th>Equiv.</th><th>kmol</th><th>Pure kg</th><th>kmol required</th><th>Excess/less kmol</th><th>Excess/less kg</th><th>Purity %</th><th>Charge kg</th><th>Density kg/L</th><th>Volume L</th></tr></thead><tbody>
         ${s.rows.map((r) => `<tr class="${r.c.id === s.limId ? "rb-lim" : ""}">
-          <td>${esc(nameOf(r.c))}${r.c.id === s.limId ? ` <span class="rb-tag">limiting</span>` : ""}${r.c.id === s.basis.id ? ` <span class="rb-tag rb-tag-b">basis</span>` : ""}</td>
+          <td>${esc(nameOf(r.c))}${r.c.id === s.limId ? ` <span class="rb-tag">limiting</span>` : ""}${r.c.id === s.basis.id ? ` <span class="rb-tag rb-tag-b">basis</span>` : ""}${r.rowWarn ? ` <span class="rb-tag" style="background:var(--rust,#c0392b);color:#fff;" title="${esc(r.rowWarn)}">⚠ ${esc(r.rowWarn)}</span>` : ""}</td>
           <td>${f(r.mw, 2)}</td>
-          <td>${r.c.id === s.basis.id ? "1.000" : `<input type="number" step="any" min="0" class="rb-cell" data-rb-eq="${r.c.id}" value="${+r.eq.toFixed(4)}">`}</td>
+          <td>${r.c.id === s.basis.id ? "1.000" : `<input type="number" step="any" min="0" class="rb-cell" data-rb-eq="${r.c.id}" value="${isFinite(r.eq) ? +r.eq.toFixed(4) : r.c.eq}">`}</td>
           <td>${f(r.kmol, 4)}</td><td>${f(r.pureKg, 2)}</td>
           <td>${f(r.reqKmol, 4)}</td>${diffCells(r)}
-          <td><input type="number" step="any" min="0" max="100" class="rb-cell" data-rb-purity="${r.c.id}" value="${r.purity}"></td>
+          <td><input type="number" step="any" min="0" max="100" class="rb-cell" data-rb-purity="${r.c.id}" value="${r.c.purity}"></td>
           <td><b>${f(r.chargedKg, 2)}</b></td>
           <td><input type="number" step="any" min="0" class="rb-cell" data-rb-density="${r.c.id}" value="${r.c.density || ""}" placeholder="—"></td>
           <td>${r.vol ? f(r.vol, 1) : "—"}</td></tr>`).join("")}

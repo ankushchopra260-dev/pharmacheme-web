@@ -81,7 +81,7 @@ const BT_SCENARIOS = [
   },
   {
     tag: "NF-1", title: "Filtrate flow dropping on the Nutsche filter", reactorLabel: "NF-1",
-    recipe: { product: "Product-A", batch: "2,000 kg", reactor: "NF-1", step: "Batch filtration", target: "Filtrate <60 min" },
+    recipe: { product: "Product-A", batch: "2,000 kg", reactor: "NF-1", step: "Batch filtration", target: "Filtrate flow >15 L/min" },
     narrative: "Filtration has slowed to a crawl even though vacuum is already near maximum. Cake is building on the cloth.",
     metric: { label: "Filtrate Flow", unit: " L/min", band: [15, 40] },
     ctrlA: { label: "Filter Vacuum", states: ["MAX", "REDUCED"] },

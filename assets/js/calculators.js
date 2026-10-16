@@ -875,10 +875,21 @@ function initMolBuilder() {
   mbUpdate();
 }
 // ---------- Solvent Recovery ----------
+// Antoine's equation is only physically meaningful for an absolute pressure
+// strictly between 0 and atmospheric (760 torr) — 0 or negative pressure is
+// impossible, and above 760 torr isn't a "vacuum" distillation condition
+// this tool is modeling. Outside that range, return NaN rather than a
+// plausible-looking but meaningless boiling point (e.g. P=0 previously gave
+// a silent -C °C result).
+function solventBoilingPointAt(d, P) {
+  if (!d || !isFinite(P) || P <= 0 || P > 760) return NaN;
+  return d.B / (d.A - Math.log10(P)) - d.C;
+}
+
 function computeBoilingPointOnly(cfg) {
   const d = SOLVENT_DB[cfg.solvent];
   const P = parseFloat(cfg.vacuum);
-  const Tb = d.B / (d.A - Math.log10(P)) - d.C;
+  const Tb = solventBoilingPointAt(d, P);
   return { Tb };
 }
 
@@ -887,7 +898,7 @@ function computeBoilingPointOnly(cfg) {
 function hlBoilingPoint(cfg) {
   const d = SOLVENT_DB[cfg.solvent];
   const P = parseFloat(cfg.vacuum);
-  return d.B / (d.A - Math.log10(P)) - d.C;
+  return solventBoilingPointAt(d, P);
 }
 
 // Auto-suggests Heating Utility Type from the solvent boiling point. Only sets
@@ -953,7 +964,13 @@ function computeHeatLoadRecovery(cfg) {
     hwMean = (hwSupply + hwReturn) / 2;
     hwJacketDT = hwMean - Tb;
 
-    if (hwJacketDT < 0) {
+    if (!isFinite(Tb)) {
+      hwStatus = "invalid";
+      hwMessage = "Enter a vacuum between 0 and 760 torr to get a valid boiling point first.";
+    } else if (hwAvailDT <= 0) {
+      hwStatus = "invalid";
+      hwMessage = "HW return is not cooler than supply — check the temperatures (or swap them).";
+    } else if (hwJacketDT < 0) {
       hwStatus = "invalid";
       hwMessage = "HW temperature is below the solvent boiling point. Invalid heating condition.";
     } else if (hwJacketDT < HW_MIN_DRIVING_FORCE) {
@@ -965,7 +982,7 @@ function computeHeatLoadRecovery(cfg) {
     }
 
     const hwFlowKgHr = num(cfg.hwFlow) * 1000;
-    Q_avail = hwFlowKgHr * 1 * hwAvailDT;
+    Q_avail = hwStatus === "invalid" ? NaN : hwFlowKgHr * 1 * hwAvailDT;
     Q_jacket = hwStatus === "invalid" ? NaN : U * effectiveArea * hwJacketDT;
   } else {
     // Steam path \u2014 unchanged from the original LMTD-based approach.
@@ -991,7 +1008,7 @@ function computeCondenserSizing(cfg) {
   const num = (v) => parseFloat(v);
   const d = SOLVENT_DB[cfg.solvent];
   const P = num(cfg.vacuum);
-  const Tb = d.B / (d.A - Math.log10(P)) - d.C;
+  const Tb = solventBoilingPointAt(d, P);
 
   const distilledL = num(cfg.qtyDistilled);
   const recoveryTime = num(cfg.recoveryTime);
@@ -1011,7 +1028,7 @@ function computeCondenserSizing(cfg) {
   const tempMsg = condTout <= condTin ? "Utility outlet must be warmer than the inlet."
     : !isFinite(LMTD_cond) ? "The vapour condenses at " + Tb.toFixed(1) + " \u00b0C, which is not above the utility outlet. Use a colder utility or less vacuum." : "";
 
-  const utilFlowKgHr = Q_cond / (util.cp * (condTout - condTin));
+  const utilFlowKgHr = tempOk ? Q_cond / (util.cp * (condTout - condTin)) : NaN;
   const utilDensity = util.density;
   const utilVolM3Hr = utilFlowKgHr / utilDensity;
   const pipeAreaM2 = utilVolM3Hr / 3600 / num(cfg.condVelocity);
@@ -1026,7 +1043,7 @@ function computeVacuumPumpOnly(cfg) {
   const num = (v) => parseFloat(v);
   const d = SOLVENT_DB[cfg.solvent];
   const P = num(cfg.vacuum);
-  const Tb = d.B / (d.A - Math.log10(P)) - d.C;
+  const Tb = solventBoilingPointAt(d, P);
 
   const V_m3 = num(cfg.capacity) / 1000;
   const distilledL = num(cfg.qtyDistilled);
@@ -1677,7 +1694,24 @@ function computeReactorMetrics(r) {
   const torque = Power / (2 * Math.PI * N);
   const torqueV = torque / rm;
 
-  return { calcVol, H, clearWall, clearImpellers, LT, DTbottom, DTmiddle, DTtop, occupancy, Re, regime, tipSpeed, Power, PV, microMixTime, shearRate, torque, torqueV };
+  // This model's Power sums all 3 configured impellers unconditionally —
+  // it has no way to know each impeller's actual mounted elevation, so it
+  // can't tell whether a shallow batch leaves some of them above the
+  // liquid. Rather than guess at elevations it can't verify, flag it: if
+  // the liquid depth doesn't even reach the diameter of the bottom
+  // impeller (a standard rule-of-thumb minimum for an impeller to be
+  // considered properly covered and developing normal flow), warn that
+  // Power/P-V below are unreliable instead of presenting a precise-looking
+  // but physically implausible number.
+  const liquidHeightMm = H * 1000;
+  const shallowFillWarn = isFinite(liquidHeightMm) && liquidHeightMm < Db
+    ? `Liquid depth (${fmt(liquidHeightMm)} mm) is less than the bottom impeller diameter (${fmt(Db)} mm) — the impellers can't all be properly submerged at this fill. Power and P/V below assume full coverage and will overstate the real value; reduce impeller diameter/count or increase fill to get a reliable number.`
+    : "";
+
+  const occupancyWarn = occupancy > 100 ? "Fill volume exceeds reactor capacity" : "";
+  const wallClearanceWarn = clearWall < 0 ? "Impeller wider than the vessel — negative wall clearance" : "";
+
+  return { calcVol, H, clearWall, clearImpellers, LT, DTbottom, DTmiddle, DTtop, occupancy, Re, regime, tipSpeed, Power, PV, microMixTime, shearRate, torque, torqueV, shallowFillWarn, occupancyWarn, wallClearanceWarn };
 }
 
 const SCALEUP_INPUT_ROWS = [
@@ -1803,14 +1837,14 @@ function suRenderResults() {
   const resultRows = [
     ["Calculated reactor volume", (m) => `${fmt(m.calcVol)} L`],
     ["Height of RM volume (H)", (m) => `${fmt(m.H)} m`],
-    ["Impeller–wall clearance", (m) => `${fmt(m.clearWall)} mm`],
+    ["Impeller–wall clearance", (m) => `${fmt(m.clearWall)} mm${m.wallClearanceWarn ? `<div style="color:var(--rust); font-size:0.7rem;">${m.wallClearanceWarn}</div>` : ""}`],
     ["Inter-impeller clearance (calc.)", (m) => `${fmt(m.clearImpellers)} mm`],
     ["L/T", (m) => fmt(m.LT)],
     ["D/T (bottom / middle / top)", (m) => `${fmt(m.DTbottom)} / ${fmt(m.DTmiddle)} / ${fmt(m.DTtop)}`],
-    ["%Occupancy", (m) => `${fmt(m.occupancy)} %`],
+    ["%Occupancy", (m) => `${fmt(m.occupancy)} %${m.occupancyWarn ? `<div style="color:var(--rust); font-size:0.7rem;">${m.occupancyWarn}</div>` : ""}`],
     ["Reynolds number (agitator)", (m) => `${fmt(m.Re)}<div style="color:${m.regime === "Turbulent" ? "var(--muted)" : "var(--rust)"}; font-size:0.7rem;">${m.regime}${m.regime === "Turbulent" ? "" : ": power and blend time below assume turbulent flow and will be off"}</div>`],
     ["Tip speed", (m) => `${fmt(m.tipSpeed)} m/s`],
-    ["Power", (m) => `${fmt(m.Power)} W`],
+    ["Power", (m) => `${fmt(m.Power)} W${m.shallowFillWarn ? `<div style="color:var(--rust); font-size:0.7rem; max-width:28ch;">${m.shallowFillWarn}</div>` : ""}`],
     ["P/V", (m) => `${fmt(m.PV)} W/L`],
     ["Blend time, 95 % (turbulent)", (m) => `${fmt(m.microMixTime)} s`],
     ["Shear rate (P/V basis)", (m) => `${fmt(m.shearRate)} 1/s`],
@@ -1840,6 +1874,38 @@ function initScaleUp() {
 }
 
 // ---------- Corrosion Coupon Study ----------
+// Alloy densities (g/cm³) per ASTM G1 — weight-loss corrosion rate should use
+// the material's known density, not one back-calculated from coupon weight
+// and geometry (that back-calc only recovers the true density if the coupon
+// is pure, void-free metal weighed and measured perfectly — any machining
+// tolerance or surface scale throws it off, and it silently ignores which
+// alloy was actually tested).
+const ALLOY_DENSITIES = {
+  "ss316": 7.98, "ss 316": 7.98, "316": 7.98, "316l": 7.98, "ss316l": 7.98, "316 ss": 7.98, "316l ss": 7.98,
+  "ss304": 8.00, "304": 8.00, "ss304l": 8.00, "304 ss": 8.00, "304l": 8.00,
+  "hastelloy c276": 8.89, "hastelloy c-276": 8.89, "c276": 8.89, "c-276": 8.89,
+  "mild steel": 7.85, "carbon steel": 7.85, "cs": 7.85, "ms": 7.85,
+  "titanium": 4.51, "ti": 4.51, "grade 2 titanium": 4.51, "ti grade 2": 4.51,
+  "monel 400": 8.80, "monel": 8.80,
+  "inconel 625": 8.44, "inconel": 8.44, "inconel 600": 8.47,
+  "aluminium": 2.70, "aluminum": 2.70,
+  "copper": 8.96,
+  "2205": 7.80, "duplex 2205": 7.80, "ss 2205": 7.80,
+  "zirconium": 6.52, "zr": 6.52,
+  "nickel": 8.90, "ni": 8.90,
+};
+
+function lookupAlloyDensity(name) {
+  if (!name) return null;
+  const key = String(name).trim().toLowerCase().replace(/[-_]/g, " ").replace(/\s+/g, " ");
+  if (ALLOY_DENSITIES[key] != null) return ALLOY_DENSITIES[key];
+  const compact = key.replace(/\s+/g, "");
+  for (const k in ALLOY_DENSITIES) {
+    if (k.replace(/\s+/g, "") === compact) return ALLOY_DENSITIES[k];
+  }
+  return null;
+}
+
 function computeCouponMetrics(cfg) {
   const num = (v) => parseFloat(v);
   const initial = num(cfg.initialWeight), final = num(cfg.finalWeight);
@@ -1848,18 +1914,25 @@ function computeCouponMetrics(cfg) {
 
   const weightLoss = initial - final;
   const volume = L * W * H;
-  const density = initial / volume;
+  const geometricDensity = initial / volume;
+  const alloyDensity = lookupAlloyDensity(cfg.coupon);
+  const density = alloyDensity != null ? alloyDensity : geometricDensity;
+  const densityIsKnownAlloy = alloyDensity != null;
   const area = 2 * (L * W + W * H + H * L);
-  const Rcorr = (weightLoss * 365 * 24 * 10) / 0.0254 / density / time / area;
+  const validTime = isFinite(time) && time > 0;
+  const validGeometry = isFinite(volume) && volume > 0 && isFinite(area) && area > 0 && isFinite(density) && density > 0;
+  const Rcorr = validTime && validGeometry ? (weightLoss * 365 * 24 * 10) / 0.0254 / density / time / area : NaN;
 
   let rating;
-  if (weightLoss < 0) rating = "Check weights: final is more than initial";
+  if (!validTime) rating = "Enter a valid exposure time (> 0 hr)";
+  else if (!validGeometry) rating = "Check coupon dimensions";
+  else if (weightLoss < 0) rating = "Check weights: final is more than initial";
   else if (Rcorr < 2) rating = "Excellent";
   else if (Rcorr < 20) rating = "Good";
   else if (Rcorr < 50) rating = "Satisfactory";
   else rating = "Unsatisfactory";
 
-  return { weightLoss, volume, density, area, Rcorr, rating };
+  return { weightLoss, volume, density, densityIsKnownAlloy, area, Rcorr, rating };
 }
 
 const COUPON_DEFAULTS = {
@@ -1905,6 +1978,12 @@ function renderCouponStudy() {
     <p style="font-size:0.75rem; color:var(--muted-dim); font-family:var(--f-sans); margin-top:16px;">
       Basis: Excellent &lt;2 mpy · Good &lt;20 mpy · Satisfactory &lt;50 mpy · Unsatisfactory \u226550 mpy.
     </p>
+    <datalist id="cp-alloy-list">
+      <option value="SS316"><option value="SS304"><option value="Hastelloy C276">
+      <option value="Mild Steel"><option value="Titanium"><option value="Monel 400">
+      <option value="Inconel 625"><option value="Aluminium"><option value="Copper">
+      <option value="Duplex 2205"><option value="Zirconium"><option value="Nickel">
+    </datalist>
   `;
 }
 
@@ -1930,7 +2009,8 @@ function cpRenderStructure() {
     html += "<tr>" + suThCell(row.label, true);
     couponReactors.forEach((r, i) => {
       if (row.type === "text") {
-        html += suTdCell(`<input type="text" data-cp-field="${row.field}" data-cp-idx="${i}" value="${r[row.field]}" style="width:100%; padding:6px 8px; font-size:0.85rem; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line); font-family:var(--f-sans);">`);
+        const listAttr = row.field === "coupon" ? ' list="cp-alloy-list"' : "";
+        html += suTdCell(`<input type="text" data-cp-field="${row.field}" data-cp-idx="${i}" value="${r[row.field]}"${listAttr} style="width:100%; padding:6px 8px; font-size:0.85rem; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line); font-family:var(--f-sans);">`);
       } else {
         html += suTdCell(`<input type="number" data-cp-field="${row.field}" data-cp-idx="${i}" value="${r[row.field]}" style="width:100%; padding:6px 8px; font-size:0.9rem; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line); font-family:var(--f-mono);">`);
       }
@@ -1982,7 +2062,7 @@ function cpRenderResults() {
   const rows = [
     ["Weight loss (g)", (m) => fmt(m.weightLoss)],
     ["Volume (cm\u00b3)", (m) => fmt(m.volume)],
-    ["Density, back-calculated (g/cm\u00b3)", (m) => fmt(m.density)],
+    ["Density used (g/cm\u00b3)", (m) => `${fmt(m.density)}${m.densityIsKnownAlloy ? "" : ` <span style="color:var(--rust); font-size:0.7rem;">(unrecognized material \u2014 back-calculated from weight/volume, not a true alloy density)</span>`}`],
     ["Surface area (cm\u00b2)", (m) => fmt(m.area)],
   ];
   rows.forEach(([label, fn]) => {
@@ -1992,7 +2072,7 @@ function cpRenderResults() {
     });
     html += "</tr>";
   });
-  html += "<tr>" + suThCell("Corrosion rate (mills/yr)", true);
+  html += "<tr>" + suThCell("Corrosion rate (mils/yr)", true);
   metrics.forEach((m) => {
     html += suTdCell(`<div style="color:var(--brass); font-family:var(--f-mono); font-size:0.95rem;">${fmt(m.Rcorr)}</div><div style="color:${ratingColor(m.rating)}; font-size:0.75rem; font-weight:600;">${m.rating}</div>`);
   });
@@ -2025,24 +2105,40 @@ const N_READINGS = 14;
 
 function computeFiltrationMetrics(cfg) {
   const num = (v) => parseFloat(v);
-  const area = 0.785 * Math.pow(num(cfg.buchnerDia) / 100, 2);
-  const flux = (num(cfg.filtrateVol) / 1000) / (area * num(cfg.filtrationTime));
-  const concentration = ((num(cfg.wetCakeWt) * num(cfg.solidsFraction)) / num(cfg.slurryVol)) * 1000;
+  const area = (Math.PI / 4) * Math.pow(num(cfg.buchnerDia) / 100, 2);
+  const filtrateVol = num(cfg.filtrateVol);
+  const slurryVol = num(cfg.slurryVol);
+  const vacuum = num(cfg.vacuum);
+
+  // The filtrate can't exceed the slurry that was fed, and vacuum is a
+  // gauge reading in mmHg so it can't go past the 0-760 mmHg a real
+  // vacuum pump can pull. Flag both rather than silently computing a
+  // flux/resistance from an impossible trial.
+  const volumeWarn = isFinite(filtrateVol) && isFinite(slurryVol) && slurryVol > 0 && filtrateVol > slurryVol
+    ? "Filtrate volume can't exceed the slurry volume fed — check the two values."
+    : "";
+  const vacuumWarn = !isFinite(vacuum) || vacuum <= 0 || vacuum > 760
+    ? "Enter a vacuum between 0 and 760 mmHg."
+    : "";
+  const inputsValid = !volumeWarn && !vacuumWarn;
+
+  const flux = inputsValid ? (filtrateVol / 1000) / (area * num(cfg.filtrationTime)) : NaN;
+  const concentration = ((num(cfg.wetCakeWt) * num(cfg.solidsFraction)) / slurryVol) * 1000;
 
   const readings = cfg.readings.filter((r) => r.time !== "" && r.volume !== "" && !isNaN(num(r.time)) && !isNaN(num(r.volume)));
   const F = readings.map((r) => num(r.volume) / 1e6);
   const G = readings.map((r, i) => (num(readings[i].time) * 60) / F[i]);
   const slope = readings.length >= 2 ? linregSlope(F, G) : NaN;
 
-  const dP_pa = num(cfg.vacuum) * 133.322;
+  const dP_pa = vacuum * 133.322;
   const mu_pas = num(cfg.viscosity) * 0.001;
-  const alpha = (2 * area * area * dP_pa * slope) / (mu_pas * concentration);
+  const alpha = inputsValid ? (2 * area * area * dP_pa * slope) / (mu_pas * concentration) : NaN;
 
-  const fluxClass = !isFinite(flux) ? "" : flux < 20 ? "Poor Filtration" : flux < 40 ? "Moderate Filtration" : "Good Filtration";
-  const alphaClass = !isFinite(alpha) ? "Enter at least 2 time / volume readings" : alpha < 1e10 ? "Good Filtration" : alpha < 1e11 ? "Moderate Filtration" : alpha < 1e12 ? "Slow Filtration" : "Very Slow Filtration";
+  const fluxClass = volumeWarn || vacuumWarn || (!isFinite(flux) ? "" : flux < 20 ? "Poor Filtration" : flux < 40 ? "Moderate Filtration" : "Good Filtration");
+  const alphaClass = volumeWarn || vacuumWarn || (!isFinite(alpha) ? "Enter at least 2 time / volume readings" : alpha < 1e10 ? "Good Filtration" : alpha < 1e11 ? "Moderate Filtration" : alpha < 1e12 ? "Slow Filtration" : "Very Slow Filtration");
   const result = cfg.evalBasis === "Cake Resistance" ? alphaClass : fluxClass;
 
-  return { area, flux, concentration, slope, alpha, fluxClass, alphaClass, result, nReadings: readings.length };
+  return { area, flux, concentration, slope, alpha, fluxClass, alphaClass, result, nReadings: readings.length, volumeWarn, vacuumWarn };
 }
 
 function defaultReadings(withData) {
@@ -2232,16 +2328,24 @@ function computeCentrifugeMetrics(cfg) {
   const BD = num(cfg.bulkDensity);
   const RPM = num(cfg.rpm);
 
-  const Da = Db - (2 * t) / 1000;
-  const Aa = (22 / 28) * (Db * Db - Da * Da);
-  const V = H * Aa;
-  const W = V * BD;
-
   const R_mm = (Db * 1000) / 2;
-  const gForce = 1.12 * R_mm * Math.pow(RPM / 1000, 2);
-  const lip = num(cfg.lipDia), maxT = (Db * 1000 - lip) / 2; // the cake cannot be thicker than the lip allows
+  const Da = Db - (2 * t) / 1000;
+  // A cake can't be thicker than the basket's own radius — past that point
+  // there's no annular cavity left (Da would go negative), which isn't a
+  // real centrifuge geometry. Blank the weight/volume instead of silently
+  // computing an area from a negative diameter (squaring hides the sign).
+  const validGeometry = isFinite(t) && t > 0 && t < R_mm;
+  const Aa = validGeometry ? (Math.PI / 4) * (Db * Db - Da * Da) : NaN;
+  const V = validGeometry ? H * Aa : NaN;
+  const W = validGeometry ? V * BD : NaN;
 
-  return { Da, Aa, V, W, R_mm, gForce, maxT, lipOk: !(lip > 0) || t <= maxT + 1e-9 };
+  const gForce = 1.12 * R_mm * Math.pow(RPM / 1000, 2);
+  const lip = num(cfg.lipDia);
+  const lipWiderThanBasket = lip > Db * 1000;
+  const maxT = lipWiderThanBasket ? NaN : (Db * 1000 - lip) / 2; // the cake cannot be thicker than the lip allows
+  const lipOk = !(lip > 0) || (isFinite(maxT) && t <= maxT + 1e-9);
+
+  return { Da, Aa, V, W, R_mm, gForce, maxT, lipOk, validGeometry, lipWiderThanBasket };
 }
 
 const CENTRIFUGE_DEFAULTS = {
@@ -2343,8 +2447,8 @@ function cfRenderResults() {
   const metrics = centrifugeCases.map(computeCentrifugeMetrics);
   let html = suSectionRow("Results", n);
   const rows = [
-    ["Lip check", (m) => m.lipOk ? `<span style="color:var(--muted);">OK: lip allows up to ${fmt(m.maxT)} mm</span>` : `<span style="color:var(--rust);">Cake thicker than the lip allows (${fmt(m.maxT)} mm): it will spill over</span>`],
-    ["Annular diameter, Da (m)", (m) => fmt(m.Da)],
+    ["Lip check", (m) => m.lipWiderThanBasket ? `<span style="color:var(--rust);">Lip diameter is wider than the basket \u2014 check the input</span>` : m.lipOk ? `<span style="color:var(--muted);">OK: lip allows up to ${fmt(m.maxT)} mm</span>` : `<span style="color:var(--rust);">Cake thicker than the lip allows (${fmt(m.maxT)} mm): it will spill over</span>`],
+    ["Annular diameter, Da (m)", (m) => m.validGeometry ? fmt(m.Da) : `<span style="color:var(--rust);">\u2014 (cake thickness \u2265 basket radius)</span>`],
     ["Annular area, Aa (m\u00b2)", (m) => fmt(m.Aa)],
     ["Volume, V (m\u00b3)", (m) => fmt(m.V)],
     ["Max. cake weight / lot, W (kg)", (m) => fmt(m.W)],
@@ -2379,18 +2483,38 @@ function computePumpMetrics(cfg) {
   const Q = num(cfg.flowRate);
   const head = num(cfg.head);
   const g = 9.81;
-  // efficiencies may be typed as a fraction (0.7) or a percentage (70)
+  // Efficiencies may be typed as a fraction (0.7) or a percentage (70), but
+  // either way a real efficiency can't exceed 100% (fraction > 1): that's
+  // not a valid percentage either (150%?), so don't silently reinterpret an
+  // out-of-range number as a tiny percentage (1.5 → 1.5%, inflating the
+  // motor size 100x) — flag it instead.
   const frac = (v) => (v > 1 ? v / 100 : v);
-  const etaPump = frac(num(cfg.etaPump));
-  const etaMotor = frac(num(cfg.etaMotor));
+  const rawEtaPump = num(cfg.etaPump), rawEtaMotor = num(cfg.etaMotor);
+  const etaPump = frac(rawEtaPump);
+  const etaMotor = frac(rawEtaMotor);
+  // A raw value just above 1 (e.g. 1.5) is genuinely ambiguous: it fails as
+  // a fraction (>100%, impossible) and reads as an implausibly low percent
+  // (1.5%) if auto-converted — no real pump/motor runs that low, so treat
+  // anything in (1, 5) as a bad entry rather than silently guessing.
+  const etaPumpValid = isFinite(etaPump) && etaPump > 0 && etaPump <= 1 && rawEtaPump <= 100 && !(rawEtaPump > 1 && rawEtaPump < 5);
+  const etaMotorValid = isFinite(etaMotor) && etaMotor > 0 && etaMotor <= 1 && rawEtaMotor <= 100 && !(rawEtaMotor > 1 && rawEtaMotor < 5);
+  const flowValid = isFinite(Q) && Q > 0;
+  const headValid = isFinite(head) && head > 0;
+  const inputsValid = etaPumpValid && etaMotorValid && flowValid && headValid;
 
   const dP = density * g * head;
-  const theoreticalKw = (Q * dP) / 3600 / 1000;
-  const shaftKw = theoreticalKw / etaPump;
-  const motorKw = shaftKw / etaMotor;
-  const motorHp = motorKw * 1.34102;
+  const theoreticalKw = inputsValid ? (Q * dP) / 3600 / 1000 : NaN;
+  const shaftKw = inputsValid ? theoreticalKw / etaPump : NaN;
+  const motorKw = inputsValid ? shaftKw / etaMotor : NaN;
+  const motorHp = inputsValid ? motorKw * 1.34102 : NaN;
 
-  return { density, dP, theoreticalKw, shaftKw, motorKw, motorHp };
+  const validityWarn = !flowValid ? "Flow rate must be greater than 0."
+    : !headValid ? "Head must be greater than 0."
+    : !etaPumpValid ? "Pump efficiency must be between 0 and 100% (enter as a fraction like 0.7 or a percentage like 70)."
+    : !etaMotorValid ? "Motor efficiency must be between 0 and 100% (enter as a fraction like 0.9 or a percentage like 90)."
+    : "";
+
+  return { density, dP, theoreticalKw, shaftKw, motorKw, motorHp, validityWarn };
 }
 
 const PUMP_DEFAULTS = { solvent: "Water", density: "1000", flowRate: "8", head: "60", etaPump: "0.7", etaMotor: "0.9" };
@@ -2537,7 +2661,7 @@ function ppRenderResults() {
   let html = suSectionRow("Results", n);
   const rows = [
     ["\u0394P = \u03c1gh (Pa)", (m) => fmt(m.dP)],
-    ["Theoretical power (kW)", (m) => fmt(m.theoreticalKw)],
+    ["Theoretical power (kW)", (m) => `${fmt(m.theoreticalKw)}${m.validityWarn ? `<div style="color:var(--rust); font-size:0.7rem; max-width:28ch;">${m.validityWarn}</div>` : ""}`],
     ["Pump shaft power (kW)", (m) => fmt(m.shaftKw)],
     ["Motor power requirement", (m) => `${fmt(m.motorKw)} kW<div style="color:var(--muted); font-size:0.7rem;">${fmt(m.motorHp)} hp</div>`],
   ];
@@ -2727,7 +2851,7 @@ function btShowScenario() {
 
 function btBatchSheetHTML(recipe) {
   return `<div class="grid cols-3" style="margin-bottom:6px;">
-    ${[["Product", recipe.product], ["Batch Size", recipe.batch], ["Reactor", recipe.reactor], ["Step", recipe.step], ["Target", recipe.target]]
+    ${[["Product", recipe.product], ["Batch Size", recipe.batch], ["Equipment", recipe.reactor], ["Step", recipe.step], ["Target", recipe.target]]
       .map(([k, v]) => `<label class="field"><span class="lbl">${k}</span><div class="field-row"><span class="unit" style="width:100%; text-align:left; border:1px solid var(--grid-line);">${v}</span></div></label>`)
       .join("")}
   </div>`;
