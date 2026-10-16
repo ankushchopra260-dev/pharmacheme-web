@@ -1,0 +1,78 @@
+# Top navigation. Items with "children" or "groups" show a dropdown on hover.
+- title: Calculators
+  url: /calculators/
+  children:
+    - { title: "Heat Load & Recovery", url: /calculators/heat-load-calculator/ }
+    - { title: "Solvent Recovery (BP under vacuum)", url: /calculators/solvent-recovery-calculator/ }
+    - { title: "Pump Power", url: /calculators/pump-power-calculator/ }
+    - { title: "Mixing Scale-up", url: /calculators/mixing-scale-up-calculator/ }
+    - { title: "Agitator Simulator", url: /calculators/agitator-simulator/ }
+    - { title: "Filtration", url: /calculators/filtration-calculator/ }
+    - { title: "Centrifuge Cake Weight", url: /calculators/centrifuge-cake-weight-calculator/ }
+    - { title: "Corrosion Coupon", url: /calculators/corrosion-coupon-calculator/ }
+    - { title: "Materials Compatibility", url: /calculators/materials-compatibility/ }
+- title: Design Tools
+  url: /design-tools/
+  children:
+    - { title: "Line Sizing", url: /design-tools/line-sizing/ }
+    - { title: "P&ID Drawing", url: /design-tools/pid/ }
+    - { title: "PFD Drawing", url: /design-tools/pfd/ }
+- title: Games
+  url: /games/
+  children:
+    - { title: "Plant Operator", url: /games/plant-operator/ }
+    - { title: "Runaway!", url: /games/runaway/ }
+    - { title: "Stop the Hazard", url: /games/stop-the-hazard/ }
+    - { title: "Troubleshooter", url: /games/troubleshooter/ }
+- title: Molecules
+  url: /molecules/
+  children:
+    - { title: "Structure Builder", url: /molecules/structure/ }
+    - { title: "Reaction Builder", url: /molecules/reaction/ }
+- title: Articles
+  url: /articles/
+  children:
+    - { title: "Heat Load Calculation", url: /articles/heat-load-calculation/ }
+    - { title: "Solvent Recovery Calculation", url: /articles/solvent-recovery-calculation/ }
+    - { title: "Pump Power Calculation", url: /articles/pump-power-calculation/ }
+    - { title: "Mixing Scale-up Rules", url: /articles/mixing-scale-up/ }
+    - { title: "Filtration Calculation", url: /articles/filtration-calculation/ }
+    - { title: "Centrifuge Cake Weight", url: /articles/centrifuge-cake-weight/ }
+- title: Videos
+  url: /videos/
+- title: Interview
+  url: /process-engineering-faq/
+- title: Process Safety
+  url: /process-safety/
+  groups:
+    - title: Learn
+      children:
+        - { title: "What is process safety?", url: /process-safety/what-is-process-safety/ }
+        - { title: "Spotting a high-hazard process", url: /process-safety/high-hazard-process-checklist/ }
+        - { title: "Cooling failure & runaway", url: /process-safety/cooling-failure-and-runaway/ }
+        - { title: "Stoessel criticality classes", url: /process-safety/stoessel-criticality-classes/ }
+        - { title: "DSC, ARC & RC1 testing", url: /process-safety/thermal-testing-dsc-arc-rc/ }
+        - { title: "Scale-up & tech transfer", url: /process-safety/scale-up-and-tech-transfer/ }
+        - { title: "Relief & vent sizing", url: /process-safety/emergency-relief-vent-sizing/ }
+        - { title: "Dust & powder hazards", url: /process-safety/dust-and-powder-hazards/ }
+        - { title: "Toxic & flammable releases", url: /process-safety/toxic-and-flammable-releases/ }
+    - title: Case studies
+      children:
+        - { title: "Bhopal, 1984", url: /process-safety/case-studies/bhopal-1984/ }
+        - { title: "Flixborough, 1974", url: /process-safety/case-studies/flixborough-1974/ }
+        - { title: "Buncefield, 2005", url: /process-safety/case-studies/buncefield-2005/ }
+        - { title: "T2 Laboratories, 2007", url: /process-safety/case-studies/t2-laboratories-2007/ }
+        - { title: "Vizag LG Polymers, 2020", url: /process-safety/case-studies/vizag-lg-polymers-2020/ }
+    - title: Practice
+      children:
+        - { title: "Worked exercises", url: /process-safety/exercises/ }
+        - { title: "Quiz", url: /process-safety/quiz/ }
+- title: Equipment
+  url: /equipment-instruments/
+  children:
+    - { title: "Equipment", url: "/equipment-instruments/#equipment" }
+    - { title: "Instrumentation", url: "/equipment-instruments/#instrumentation" }
+    - { title: "Agitators", url: "/equipment-instruments/#agitators" }
+    - { title: "Interactive labs", url: "/equipment-instruments/#labs" }
+- title: About
+  url: /about/

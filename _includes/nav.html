@@ -3,16 +3,30 @@
     <a href="{{ '/' | relative_url }}" class="site-logo">PHARMA<span>CHEM</span>E</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
     <ul class="site-nav-links" id="navLinks">
-      <li><a href="{{ '/calculators/' | relative_url }}"{% if page.url contains '/calculators/' %} class="active"{% endif %}>Calculators</a></li>
-      <li><a href="{{ '/design-tools/' | relative_url }}"{% if page.url contains '/design-tools/' %} class="active"{% endif %}>Design Tools</a></li>
-      <li><a href="{{ '/games/' | relative_url }}"{% if page.url contains '/games/' %} class="active"{% endif %}>Games</a></li>
-      <li><a href="{{ '/molecules/' | relative_url }}"{% if page.url contains '/molecules/' %} class="active"{% endif %}>Molecules</a></li>
-      <li><a href="{{ '/articles/' | relative_url }}"{% if page.url contains '/articles/' %} class="active"{% endif %}>Articles</a></li>
-      <li><a href="{{ '/videos/' | relative_url }}"{% if page.url contains '/videos/' %} class="active"{% endif %}>Videos</a></li>
-      <li><a href="{{ '/process-engineering-faq/' | relative_url }}"{% if page.url contains '/process-engineering-faq/' %} class="active"{% endif %}>Interview</a></li>
-      <li><a href="{{ '/process-safety/' | relative_url }}"{% if page.url contains '/process-safety/' %} class="active"{% endif %}>Process Safety</a></li>
-      <li><a href="{{ '/equipment-instruments/' | relative_url }}"{% if page.url contains '/equipment-instruments/' %} class="active"{% endif %}>Equipment</a></li>
-      <li><a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} class="active"{% endif %}>About</a></li>
+      {%- for item in site.data.nav %}
+      {%- if item.children or item.groups %}
+      <li class="has-sub{% if item.groups %} mega{% endif %}">
+        <a href="{{ item.url | relative_url }}"{% if page.url contains item.url %} class="active"{% endif %} aria-haspopup="true">{{ item.title | escape }}</a>
+        <button class="sub-toggle" type="button" aria-label="Show {{ item.title | escape }} pages" aria-expanded="false"></button>
+        <div class="sub"><div class="sub-inner">
+          {%- if item.groups %}
+          {%- for g in item.groups %}
+          <div class="sub-group"><p class="sub-head">{{ g.title | escape }}</p><ul>
+            {%- for c in g.children %}<li><a href="{{ c.url | relative_url }}">{{ c.title | escape }}</a></li>{% endfor -%}
+          </ul></div>
+          {%- endfor %}
+          {%- else %}
+          <ul>
+            {%- for c in item.children %}<li><a href="{{ c.url | relative_url }}">{{ c.title | escape }}</a></li>{% endfor -%}
+          </ul>
+          {%- endif %}
+          <a class="sub-all" href="{{ item.url | relative_url }}">Open the {{ item.title | escape }} page</a>
+        </div></div>
+      </li>
+      {%- else %}
+      <li><a href="{{ item.url | relative_url }}"{% if page.url contains item.url %} class="active"{% endif %}>{{ item.title | escape }}</a></li>
+      {%- endif %}
+      {%- endfor %}
       <li><a href="{{ '/plant-tour/' | relative_url }}" class="nav-cta">3D Plant Tour</a></li>
     </ul>
   </div>
@@ -25,6 +39,20 @@
       toggle.addEventListener('click', function () {
         var isOpen = links.classList.toggle('open');
         toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      // small screens: the arrow button next to a tab opens its sub-pages
+      links.querySelectorAll('.sub-toggle').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var li = b.parentNode, open = li.classList.toggle('open');
+          b.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      });
+      // Escape closes an open dropdown for keyboard users
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && links.contains(document.activeElement)) {
+          var li = document.activeElement.closest('.has-sub');
+          if (li) { li.classList.remove('open'); li.querySelector('a').focus(); li.classList.add('hush'); setTimeout(function () { li.classList.remove('hush'); }, 400); }
+        }
       });
     }
   })();
