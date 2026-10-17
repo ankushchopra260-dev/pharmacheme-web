@@ -1,0 +1,99 @@
+---
+layout: default
+title: "Process Safety and Plant Training for Your Team"
+description: "On-site and online training for chemical and pharma plant teams: static and solvent fire safety, runaway reactions, HAZOP, scale-up and tech transfer, utilities energy saving and pump basics. Practical, plant-floor sessions for operators, supervisors, engineers and plant heads."
+breadcrumbs:
+  - label: Training
+    url: /training/
+---
+<link rel="stylesheet" href="{{ '/assets/css/live-plant.css' | relative_url }}">
+<style>
+.tr-topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.tr-topic { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 4px; padding: 22px; }
+.tr-topic .icon { font-size: 1.6rem; display: block; margin-bottom: 6px; }
+.tr-topic h3 { font-family: var(--f-display); font-size: 1.12rem; color: var(--paper); margin: 0 0 6px; }
+.tr-topic p { color: var(--muted); font-size: .88rem; line-height: 1.5; margin: 0 0 8px; }
+.tr-topic small { color: var(--brass); font-size: .78rem; font-weight: 600; }
+.tr-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.tr-cols h3 { font-family: var(--f-display); color: var(--paper); font-size: 1.1rem; margin: 0 0 8px; }
+.tr-cols ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.7; font-size: .92rem; }
+.tr-form-wrap { max-width: 680px; margin: 0 auto; }
+</style>
+
+<div class="container calc-page-head">
+  <h1>Plant training for your team</h1>
+  <p>Practical sessions for operators, supervisors, engineers and plant heads in chemical and pharma plants. Built from real plant work: live demos, short videos, quizzes and your own plant's examples, not slides read aloud.</p>
+  <div class="hero-actions" style="justify-content:flex-start; margin-top:14px;"><a href="#enquire" class="btn btn-primary">Ask about a session</a></div>
+</div>
+
+<section class="section" style="padding-top:8px;">
+  <div class="container">
+    <div class="section-head" style="text-align:left;"><h2>Topics</h2><p>Each topic can run as a 2-hour online session or a half-day on site, and can be combined into a full day.</p></div>
+    <div class="tr-topics">
+      <div class="tr-topic"><span class="icon" aria-hidden="true">&#128293;</span><h3>Static electricity and solvent fires</h3><p>How charge builds up, why a spark you can&rsquo;t feel ignites solvent, earthing and bonding, inerting, and powder charging. With a live spark-energy demo and the Barton Solvents case.</p><small>Operators &middot; supervisors &middot; engineers</small></div>
+      <div class="tr-topic"><span class="icon" aria-hidden="true">&#127777;&#65039;</span><h3>Runaway reactions and safe dosing</h3><p>Heat of reaction, accumulation, MTSR, Stoessel classes, and reading DSC, ARC and RC1 data, ending with the Runaway! game.</p><small>Engineers &middot; chemists &middot; plant heads</small></div>
+      <div class="tr-topic"><span class="icon" aria-hidden="true">&#128269;</span><h3>HAZOP made practical</h3><p>Nodes, guidewords, writing a useful row, batch HAZOP and closing actions, with a worked HAZOP on one of your own processes.</p><small>Engineers &middot; supervisors &middot; EHS</small></div>
+      <div class="tr-topic"><span class="icon" aria-hidden="true">&#128203;</span><h3>Scale-up and technology transfer</h3><p>What changes from lab to plant: heat transfer, mixing, crystallisation, filtration, drying and time, with a transfer checklist your team can reuse.</p><small>R&amp;D &middot; tech transfer &middot; production</small></div>
+      <div class="tr-topic"><span class="icon" aria-hidden="true">&#9832;&#65039;</span><h3>Utilities and energy saving</h3><p>Steam traps and condensate, cooling towers, chillers and VAM, compressed air leaks and nitrogen use, with a walk-down of your own utilities.</p><small>Utility and maintenance teams &middot; engineers</small></div>
+      <div class="tr-topic"><span class="icon" aria-hidden="true">&#9881;&#65039;</span><h3>Pumps, seals and vacuum for operators</h3><p>Where a pump likes to run, why seals fail, cavitation, and why vacuum &ldquo;won&rsquo;t come&rdquo;, taught with symptoms operators see every day.</p><small>Operators &middot; maintenance</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line);">
+  <div class="container tr-cols">
+    <div><h3>What your team keeps</h3><ul><li>The slides and a one-page summary</li><li>Links to the calculators and articles used</li><li>Quiz results, so you can see who needs a refresher</li></ul></div>
+    <div><h3>Who delivers it</h3><ul><li>Ankush Chopra, chemical engineer working in API and agrochemical manufacturing</li><li>Process engineering, technology transfer and plant safety experience</li><li><a href="{{ '/about/' | relative_url }}">More about PharmaChemE</a></li></ul></div>
+  </div>
+</section>
+
+<section class="section" id="enquire">
+  <div class="container tr-form-wrap">
+    <div class="section-head"><h2>Ask about a session</h2><p>Tell us about your team and what you need. We&rsquo;ll reply by email with a suggested outline and dates.</p></div>
+    <form class="enquiry-form" id="tr-form" action="https://formspree.io/f/maeyvvbg" method="POST">
+      <input type="hidden" name="_subject" value="Training enquiry">
+      <input type="hidden" name="source" value="Training page">
+      <div class="lp-two">
+        <div><label for="tr-name">Name</label><input type="text" id="tr-name" name="name" required autocomplete="name"></div>
+        <div><label for="tr-company">Company</label><input type="text" id="tr-company" name="company" required autocomplete="organization"></div>
+      </div>
+      <div class="lp-two">
+        <div><label for="tr-email">Email</label><input type="email" id="tr-email" name="email" required autocomplete="email"></div>
+        <div><label for="tr-phone">Phone / WhatsApp</label><input type="tel" id="tr-phone" name="phone" autocomplete="tel"></div>
+      </div>
+      <fieldset class="lp-checks">
+        <legend>Topics of interest</legend>
+        <label><input type="checkbox" name="topic" value="Static and solvent fires">Static &amp; solvent fires</label>
+        <label><input type="checkbox" name="topic" value="Runaway reactions">Runaway reactions</label>
+        <label><input type="checkbox" name="topic" value="HAZOP">HAZOP</label>
+        <label><input type="checkbox" name="topic" value="Scale-up and tech transfer">Scale-up &amp; tech transfer</label>
+        <label><input type="checkbox" name="topic" value="Utilities and energy">Utilities &amp; energy</label>
+        <label><input type="checkbox" name="topic" value="Pumps, seals and vacuum">Pumps, seals &amp; vacuum</label>
+      </fieldset>
+      <div class="lp-two">
+        <div><label for="tr-format">Format</label><select id="tr-format" name="format"><option>On site</option><option>Online</option><option>Not sure yet</option></select></div>
+        <div><label for="tr-size">Group size</label><input type="text" id="tr-size" name="group_size" placeholder="e.g. 25 operators, 8 engineers"></div>
+      </div>
+      <div><label for="tr-loc">Plant location</label><input type="text" id="tr-loc" name="location" placeholder="City, state"></div>
+      <div><label for="tr-msg">Anything else?</label><textarea id="tr-msg" name="message" placeholder="Recent incidents or near misses you want covered, preferred dates&hellip;"></textarea></div>
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <div id="tr-status" role="status" style="font-size:0.85rem; min-height:1.2em;"></div>
+      <button type="submit" class="btn btn-primary" id="tr-submit">Send enquiry</button>
+    </form>
+  </div>
+</section>
+
+<script>
+(function () {
+  var form = document.getElementById('tr-form'), status = document.getElementById('tr-status'), btn = document.getElementById('tr-submit');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); btn.disabled = true; btn.textContent = 'Sending…'; status.textContent = ''; status.style.color = '';
+    var data = new FormData(form), t = data.getAll('topic'); data.delete('topic'); data.append('topics', t.join(', '));
+    fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } }).then(function (r) {
+      if (r.ok) { form.reset(); Array.prototype.forEach.call(form.children, function (n) { if (n !== status) n.style.display = 'none'; }); status.style.color = 'var(--brass)'; status.style.fontSize = '0.95rem'; status.textContent = 'Thanks. Your enquiry has been sent, and we’ll reply by email.'; if (window.gtag) gtag('event', 'training_enquiry'); }
+      else return r.json().then(function (d) { status.style.color = 'var(--rust)'; status.textContent = (d && d.errors && d.errors.map(function (x) { return x.message; }).join(', ')) || 'Something went wrong. Please try again or email pharmacheme.app@gmail.com.'; });
+    }).catch(function () { status.style.color = 'var(--rust)'; status.textContent = 'Network error. Please try again or email pharmacheme.app@gmail.com.'; })
+      .finally(function () { btn.disabled = false; btn.textContent = 'Send enquiry'; });
+  });
+})();
+</script>

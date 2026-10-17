@@ -249,12 +249,163 @@
       return { rows: [['Recovery', F(rec, 0), '%'], ['Salt rejection', F(rej, 1), '%'], ['Reject flow', F(r, 1), 'm³/h'], ['Reject TDS', F(tr, 0), 'ppm'], ['Concentration factor', F(tr / v.tf, 1), '×']], notes: [band] };
     } };
 
+  /* ---------------- Reactor & vessel ---------------- */
+  const HEADS = [['tori', 'Torispherical (Klöpper, DIN 28011)'], ['ell', '2:1 elliptical'], ['flat', 'Flat']];
+  const HF = { tori: [0.1935, 0.0999, 0.90], ell: [0.25, 0.1309, 1.084], flat: [0, 0, 0.785] }; // depth/D, volume/D³, inside area/D²
+  function vesselVol(D, H, head, L) { // m, m³
+    const hd = HF[head][0] * D, Vd = HF[head][1] * D * D * D, A = Math.PI * D * D / 4, cap = (h) => hd > 0 ? Vd * Math.pow(h / hd, 2) * (3 - h / hd) / 2 : 0;
+    if (L <= hd) return cap(Math.max(0, L));
+    if (L <= hd + H) return Vd + A * (L - hd);
+    const e = hd - Math.min(L - hd - H, hd); return Vd + A * H + Vd - cap(e);
+  }
+  const XHD = `IF({head}="tori",0.1935,IF({head}="ell",0.25,0))`, XVD = `IF({head}="tori",0.0999,IF({head}="ell",0.1309,0))`;
+  C.dish = { title: 'Vessel volume and level', sub: 'Dished-end vessel: total volume, liquid volume at a level, and the level for a volume',
+    inputs: [{ k: 'D', label: 'Inside diameter', unit: 'm', v: 1.6 }, { k: 'H', label: 'Straight side (tangent to tangent)', unit: 'm', v: 1.8 },
+      { k: 'head', label: 'Dished ends', type: 'sel', v: 'tori', opts: HEADS }, { k: 'L', label: 'Liquid level from the bottom', unit: 'm', v: 1.5 },
+      { k: 'Vt', label: 'Find the level for this volume', unit: 'litres', v: 3000 }],
+    run(v) {
+      const hd = HF[v.head][0] * v.D, Vd = HF[v.head][1] * Math.pow(v.D, 3), A = Math.PI * v.D * v.D / 4, Vt = 2 * Vd + A * v.H, Ht = 2 * hd + v.H;
+      const VL = vesselVol(v.D, v.H, v.head, Math.min(v.L, Ht));
+      let lo = 0, hi = Ht; for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2; vesselVol(v.D, v.H, v.head, m) * 1000 < v.Vt ? lo = m : hi = m; }
+      const notes = [[`Dish depth ${F(hd * 1000, 0)} mm. Volumes are inside volumes; nozzles, agitator and baffles take a little space. The level-volume formula for the dished end is an ellipsoid approximation, within about 2 % for Klöpper heads.`]];
+      if (v.L > Ht) notes.push(['The level is above the top of the vessel.', 'bad']);
+      if (v.Vt / 1000 > Vt) notes.push(['The target volume is more than the vessel holds.', 'bad']);
+      return { rows: [['Total vessel volume', F(Vt * 1000, 0), 'litres'], ['Liquid volume at that level', F(VL * 1000, 0), 'litres'], ['Fill', F(VL / Vt * 100, 0), '% of total'],
+        ['Level for ' + F(v.Vt, 0) + ' litres', v.Vt / 1000 > Vt ? 'over full' : F((lo + hi) / 2, 3), 'm from bottom'], ['Bottom dish volume', F(Vd * 1000, 0), 'litres'], ['Per 10 cm of straight side', F(A * 100, 0), 'litres'], ['Overall inside height', F(Ht, 3), 'm']], notes };
+    },
+    xl: [['hd', 'Dish depth', `${XHD}*{D}`, 'm'], ['Vd', 'Bottom dish volume', `${XVD}*{D}^3*1000`, 'litres'], ['A', 'Cross-section area', `PI()*{D}^2/4`, 'm²'],
+      ['Vt', 'Total vessel volume', `2*{Vd}+{A}*{H}*1000`, 'litres'],
+      ['VL', 'Liquid volume at that level', `IF({L}<={hd},IF({hd}=0,0,{Vd}*({L}/{hd})^2*(3-{L}/{hd})/2),IF({L}<={hd}+{H},{Vd}+{A}*({L}-{hd})*1000,{Vd}+{A}*{H}*1000+{Vd}-IF({hd}=0,0,{Vd}*(({hd}-MIN({L}-{hd}-{H},{hd}))/{hd})^2*(3-({hd}-MIN({L}-{hd}-{H},{hd}))/{hd})/2)))`, 'litres'],
+      ['fill', 'Fill', `{VL}/{Vt}*100`, '% of total'], ['p10', 'Per 10 cm of straight side', `{A}*100`, 'litres']] };
+
+  C.batchFit = { title: 'Batch size feasibility', sub: 'Does every step fit between the minimum stirrable and maximum working volume?',
+    inputs: [{ k: 'Vg', label: 'Reactor gross volume', unit: 'litres', v: 6300 }, { k: 'Vmin', label: 'Minimum stirrable volume', unit: 'litres', v: 800 }, { k: 'fmax', label: 'Maximum working fill', unit: '% of gross', v: 80 },
+      { k: 's1', label: 'Step 1 volume (e.g. after charging)', unit: 'litres', v: 3500 }, { k: 's2', label: 'Step 2 volume (e.g. after dosing)', unit: 'litres', v: 5200 },
+      { k: 's3', label: 'Step 3 volume (e.g. after quench)', unit: 'litres', v: 4800 }, { k: 's4', label: 'Step 4 volume (e.g. after distillation)', unit: 'litres', v: 1500 }],
+    run(v) {
+      const Vmax = v.Vg * v.fmax / 100, s = [v.s1, v.s2, v.s3, v.s4], st = x => x < v.Vmin ? 'Below minimum stir' : x > Vmax ? 'Overfills' : 'OK';
+      const lo = v.Vmin / Math.min(...s), hi = Vmax / Math.max(...s), ok = s.every(x => st(x) === 'OK');
+      const rows = [['Maximum working volume', F(Vmax, 0), 'litres']].concat(s.map((x, i) => ['Step ' + (i + 1) + ': ' + st(x), F(x / v.Vg * 100, 0), '% of gross']));
+      rows.push(['Batch can be scaled between', lo <= hi ? F(lo, 2) + ' and ' + F(hi, 2) : 'no range', '× this batch']);
+      return { rows, notes: [ok ? ['Every step fits.', 'good'] : lo <= hi ? [`Scale the batch by a factor between ${F(lo, 2)} and ${F(hi, 2)} so every step fits.`, 'warn'] : ['No single batch size fits both the smallest and the largest step. Split the batch, change the reactor, or change the step volumes.', 'bad'],
+        ['Use 4 steps; if you have fewer, repeat a step volume.']] };
+    },
+    xl: [['Vmax', 'Maximum working volume', `{Vg}*{fmax}/100`, 'litres'], ['p1', 'Step 1, % of gross', `{s1}/{Vg}*100`, '%'], ['c1', 'Step 1', `IF({s1}<{Vmin},"Below minimum stir",IF({s1}>{Vmax},"Overfills","OK"))`, ''],
+      ['p2', 'Step 2, % of gross', `{s2}/{Vg}*100`, '%'], ['c2', 'Step 2', `IF({s2}<{Vmin},"Below minimum stir",IF({s2}>{Vmax},"Overfills","OK"))`, ''],
+      ['p3', 'Step 3, % of gross', `{s3}/{Vg}*100`, '%'], ['c3', 'Step 3', `IF({s3}<{Vmin},"Below minimum stir",IF({s3}>{Vmax},"Overfills","OK"))`, ''],
+      ['p4', 'Step 4, % of gross', `{s4}/{Vg}*100`, '%'], ['c4', 'Step 4', `IF({s4}<{Vmin},"Below minimum stir",IF({s4}>{Vmax},"Overfills","OK"))`, ''],
+      ['lo', 'Smallest scale factor', `{Vmin}/MIN({s1},{s2},{s3},{s4})`, '×'], ['hi', 'Largest scale factor', `{Vmax}/MAX({s1},{s2},{s3},{s4})`, '×']] };
+
+  const WALLS = { ss: ['Stainless steel', 8, 16, 0], cs: ['Carbon steel', 10, 50, 0], gl: ['Glass-lined steel', 12, 50, 1.5], hast: ['Hastelloy', 8, 10, 0] };
+  C.overallU = { title: 'Overall heat transfer coefficient (U)', sub: 'From the film coefficients, wall and fouling',
+    inputs: [{ k: 'hp', label: 'Process-side film coefficient', unit: 'W/m²K', v: 800 }, { k: 'hj', label: 'Jacket-side film coefficient', unit: 'W/m²K', v: 2000 },
+      { k: 'wall', label: 'Wall', type: 'sel', v: 'gl', opts: Object.entries(WALLS).map(([k, w]) => [k, w[0]]) }, { k: 't', label: 'Steel wall thickness', unit: 'mm', v: 12 }, { k: 'k', label: 'Wall conductivity', unit: 'W/m·K', v: 50 },
+      { k: 'tg', label: 'Glass thickness (0 if none)', unit: 'mm', v: 1.5 }, { k: 'rf', label: 'Total fouling allowance', unit: 'm²K/W', v: 0.0004 }],
+    onSel: (k, val) => k === 'wall' ? { t: WALLS[val][1], k: WALLS[val][2], tg: WALLS[val][3] } : null,
+    run(v) {
+      const r = [1 / v.hp, v.t / 1000 / v.k, v.tg / 1000 / 1.0, v.rf, 1 / v.hj], R = r.reduce((a, b) => a + b, 0), p = x => F(x / R * 100, 0) + ' %';
+      return { rows: [['Overall U', F(1 / R, 0), 'W/m²K'], ['Process film share', p(r[0]), 'of resistance'], ['Wall share', p(r[1]), 'of resistance'], ['Glass share', p(r[2]), 'of resistance'], ['Fouling share', p(r[3]), 'of resistance'], ['Jacket film share', p(r[4]), 'of resistance']],
+        notes: [['Improve the largest share first. Glass is taken as 1.0 W/m·K. Typical process films in agitated reactors are 300–1,500 W/m²K.']] };
+    },
+    xl: [['R', 'Total resistance', `1/{hp}+{t}/1000/{k}+{tg}/1000/1+{rf}+1/{hj}`, 'm²K/W'], ['U', 'Overall U', `1/{R}`, 'W/m²K'],
+      ['s1', 'Process film share', `1/{hp}/{R}*100`, '%'], ['s2', 'Wall share', `{t}/1000/{k}/{R}*100`, '%'], ['s3', 'Glass share', `{tg}/1000/{R}*100`, '%'], ['s4', 'Fouling share', `{rf}/{R}*100`, '%'], ['s5', 'Jacket film share', `1/{hj}/{R}*100`, '%']] };
+
+  const SOLV = { tol: ['Toluene', 363, 1.70, 110.6], meoh: ['Methanol', 1100, 2.53, 64.7], etoh: ['Ethanol', 841, 2.44, 78.3], ipa: ['IPA', 667, 2.60, 82.3], ace: ['Acetone', 518, 2.17, 56.1],
+    water: ['Water', 2257, 4.18, 100], mdc: ['MDC (dichloromethane)', 330, 1.19, 39.6], etac: ['Ethyl acetate', 367, 1.92, 77.1], thf: ['THF', 410, 1.72, 66], hep: ['n-Heptane', 317, 2.24, 98.4], chx: ['Cyclohexane', 358, 1.85, 80.7] };
+  C.batchTR = { title: 'Refrigeration needed to cool a batch', sub: 'Average and peak TR, brine flow and the UA the jacket must give',
+    inputs: [{ k: 'm', label: 'Batch mass', unit: 'kg', v: 4000 }, { k: 'cp', label: 'Batch cp', unit: 'kJ/kg·K', v: 2.0 }, { k: 'T1', label: 'Start temperature', unit: '°C', v: 40 }, { k: 'T2', label: 'Final temperature', unit: '°C', v: 5 },
+      { k: 't', label: 'Cooling time wanted', unit: 'h', v: 3 }, { k: 'Tb', label: 'Brine supply temperature', unit: '°C', v: -10 }, { k: 'dTb', label: 'Brine temperature rise', unit: '°C', v: 5 },
+      { k: 'cb', label: 'Brine cp', unit: 'kJ/kg·K', v: 3.5 }, { k: 'q', label: 'Other heat (reaction, agitator)', unit: 'kW', v: 5 }, { k: 'loss', label: 'Losses and margin', unit: '%', v: 15 }],
+    run(v) {
+      if (!(v.T1 > v.T2 && v.T2 > v.Tb)) return { rows: [], notes: [['Need start > final > brine temperature.', 'bad']] };
+      const avg = (v.m * v.cp * (v.T1 - v.T2) / (v.t * 3600) + v.q) * (1 + v.loss / 100), r = Math.log((v.T1 - v.Tb) / (v.T2 - v.Tb)), peak = (v.m * v.cp * (v.T1 - v.T2) / (v.t * 3600) * (v.T1 - v.Tb) * r / (v.T1 - v.T2) + v.q) * (1 + v.loss / 100);
+      const UA = v.m * v.cp * r / (v.t * 3600), bf = peak / (v.cb * v.dTb) * 3.6;
+      return { rows: [['Average load', F(avg / TR, 1), 'TR'], ['Peak load (start of cooling)', F(peak / TR, 1), 'TR'], ['Peak load', F(peak, 0), 'kW'], ['Brine flow at peak', F(bf, 1), 'm³/h'], ['UA the jacket must give', F(UA, 2), 'kW/K']],
+        notes: [['With a fixed jacket area, cooling is fastest at the start and slows as the batch approaches the brine temperature, so the chiller must cover the peak, not the average. Divide the UA by your U to get the area needed (overall U and area calculators on this page).']] };
+    },
+    xl: [['r', 'ln((T1−Tb)/(T2−Tb))', `LN(({T1}-{Tb})/({T2}-{Tb}))`, ''], ['avg', 'Average load', `({m}*{cp}*({T1}-{T2})/({t}*3600)+{q})*(1+{loss}/100)/3.517`, 'TR'],
+      ['pk', 'Peak load', `({m}*{cp}*({T1}-{T2})/({t}*3600)*({T1}-{Tb})*{r}/({T1}-{T2})+{q})*(1+{loss}/100)`, 'kW'], ['pkTR', 'Peak load', `{pk}/3.517`, 'TR'],
+      ['bf', 'Brine flow at peak', `{pk}/({cb}*{dTb})*3.6`, 'm³/h'], ['UA', 'UA the jacket must give', `{m}*{cp}*{r}/({t}*3600)`, 'kW/K']] };
+
+  C.addTime = { title: 'Reagent addition time from RC1 data', sub: 'Shortest safe dosing time for the plant cooling, and the MTSR',
+    inputs: [{ k: 'm', label: 'Batch mass at end of dosing', unit: 'kg', v: 3000 }, { k: 'cp', label: 'Batch cp', unit: 'kJ/kg·K', v: 1.8 }, { k: 'Hr', label: 'Reaction heat (RC1)', unit: 'kJ per kg batch', v: 260 },
+      { k: 'acc', label: 'Accumulation at end of dosing (RC1)', unit: '%', v: 15 }, { k: 'Tp', label: 'Reaction temperature', unit: '°C', v: 60 }, { k: 'MTT', label: 'MTT (boiling point or limit)', unit: '°C', v: 111 },
+      { k: 'U', label: 'Overall U', unit: 'W/m²K', v: 350 }, { k: 'A', label: 'Wetted jacket area', unit: 'm²', v: 9 }, { k: 'Tj', label: 'Coolant temperature', unit: '°C', v: 30 }, { k: 'use', label: 'Use this much of the cooling', unit: '%', v: 70 }],
+    run(v) {
+      const Q = v.m * v.Hr, cool = v.U * v.A * (v.Tp - v.Tj) / 1000, usable = cool * v.use / 100, td = Q * (1 - v.acc / 100) / usable / 3600, dTad = v.Hr / v.cp, mtsr = v.Tp + v.acc / 100 * dTad;
+      return { rows: [['Shortest dosing time', F(td, 1), 'h'], ['Cooling capacity', F(cool, 0), 'kW'], ['Heat release at that time', F(usable, 0), 'kW'], ['Adiabatic temperature rise', F(dTad, 0), '°C'], ['MTSR', F(mtsr, 0), '°C']],
+        notes: [mtsr >= v.MTT ? ['MTSR is above the MTT: a cooling failure would boil the batch or exceed the limit. Lower the accumulation (dose slower or hotter, if the chemistry allows) and check the relief case.', 'bad'] : ['MTSR stays below the MTT.', 'good'],
+          ['Accumulation depends on the dosing time. Confirm with an RC1 run at the chosen time before using it in the plant.']] };
+    },
+    xl: [['Q', 'Total reaction heat', `{m}*{Hr}`, 'kJ'], ['cool', 'Cooling capacity', `{U}*{A}*({Tp}-{Tj})/1000`, 'kW'], ['td', 'Shortest dosing time', `{Q}*(1-{acc}/100)/({cool}*{use}/100)/3600`, 'h'],
+      ['dT', 'Adiabatic temperature rise', `{Hr}/{cp}`, '°C'], ['mtsr', 'MTSR', `{Tp}+{acc}/100*{dT}`, '°C'], ['ok', 'MTSR below MTT?', `IF({mtsr}<{MTT},"Yes","No")`, '']] };
+
+  /* ---------------- Process: agitation, properties, drying, scrubbing ---------------- */
+  const PRE = { water: ['Water', 997, 0.89, 18.02], meoh: ['Methanol', 791, 0.54, 32.04], etoh: ['Ethanol', 789, 1.07, 46.07], ipa: ['IPA', 786, 2.04, 60.1], ace: ['Acetone', 784, 0.31, 58.08],
+    tol: ['Toluene', 867, 0.56, 92.14], mdc: ['MDC', 1326, 0.41, 84.93], etac: ['Ethyl acetate', 897, 0.42, 88.11], thf: ['THF', 889, 0.46, 72.11], hep: ['n-Heptane', 684, 0.39, 100.2],
+    dmf: ['DMF', 944, 0.80, 73.09], acoh: ['Acetic acid', 1049, 1.13, 60.05], none: ['(not used)', 1000, 1, 100] };
+  const comp = (i, d, w) => [{ k: 'c' + i, label: 'Component ' + i, type: 'sel', v: d, opts: Object.entries(PRE).map(([k, p]) => [k, p[0]]) }, { k: 'w' + i, label: 'Component ' + i + ' mass', unit: '%', v: w },
+    { k: 'r' + i, label: 'Component ' + i + ' density', unit: 'kg/m³', v: PRE[d][1] }, { k: 'm' + i, label: 'Component ' + i + ' viscosity', unit: 'cP', v: PRE[d][2] }, { k: 'M' + i, label: 'Component ' + i + ' molar mass', unit: 'g/mol', v: PRE[d][3] }];
+  C.mixProps = { title: 'Density and viscosity of a solvent mixture', sub: 'Ideal mixing rules for up to three liquids at about 25 °C',
+    inputs: [].concat(comp(1, 'tol', 70), comp(2, 'meoh', 30), comp(3, 'none', 0)),
+    onSel: (k, val) => { const i = k.slice(1); const p = PRE[val]; const o = {}; o['r' + i] = p[1]; o['m' + i] = p[2]; o['M' + i] = p[3]; if (val === 'none') o['w' + i] = 0; return o; },
+    run(v) {
+      const I = [1, 2, 3], W = I.reduce((a, i) => a + v['w' + i], 0); if (!(W > 0)) return { rows: [], notes: [['Enter at least one mass %.', 'bad']] };
+      const rho = W / I.reduce((a, i) => a + v['w' + i] / v['r' + i], 0), mol = I.map(i => v['w' + i] / v['M' + i]), nt = mol.reduce((a, b) => a + b, 0), x = mol.map(m => m / nt);
+      const mu = Math.exp(I.reduce((a, i, j) => a + (x[j] > 0 ? x[j] * Math.log(v['m' + i]) : 0), 0));
+      const hasW = I.some(i => v['c' + i] === 'water' && v['w' + i] > 0), hasA = I.some(i => ['meoh', 'etoh', 'ipa', 'acoh', 'dmf'].includes(v['c' + i]) && v['w' + i] > 0);
+      return { rows: [['Mixture density', F(rho, 0), 'kg/m³'], ['Mixture viscosity (estimate)', F(mu, 2), 'cP']].concat(I.filter(i => v['w' + i] > 0).map((i, j) => ['Mole fraction, component ' + i, F(x[i - 1], 3), ''])),
+        notes: [hasW && hasA ? ['Water with alcohols, acids or DMF mixes far from ideal: the real viscosity can be twice the estimate (methanol-water peaks near 40 % methanol), and the volume shrinks a few %. Measure it for design.', 'warn'] : ['Density assumes volumes add; viscosity uses the Arrhenius (Grunberg-Nissan, G = 0) log rule on mole fractions.'], ['Mass % are normalised if they do not add to 100.']] };
+    },
+    xl: [['W', 'Total mass %', `{w1}+{w2}+{w3}`, '%'], ['rho', 'Mixture density', `{W}/({w1}/{r1}+{w2}/{r2}+{w3}/{r3})`, 'kg/m³'], ['n', 'Total moles (per 100 g)', `{w1}/{M1}+{w2}/{M2}+{w3}/{M3}`, ''],
+      ['mu', 'Mixture viscosity (estimate)', `EXP(({w1}/{M1}*LN({m1})+{w2}/{M2}*LN({m2})+{w3}/{M3}*LN({m3}))/{n})`, 'cP']] };
+
+  const ABS = { s3a: ['Molecular sieve 3A', 10], s4a: ['Molecular sieve 4A', 10], na2so4: ['Sodium sulphate (anhydrous)', 15], mgso4: ['Magnesium sulphate (anhydrous)', 20], sg: ['Silica gel', 10] };
+  C.moisture = { title: 'Moisture absorbent requirement', sub: 'How much drying agent to bring a solvent down to a water specification',
+    inputs: [{ k: 'V', label: 'Solvent volume', unit: 'litres', v: 2000 }, { k: 'rho', label: 'Solvent density', unit: 'kg/m³', v: 870 }, { k: 'w0', label: 'Water now (KF)', unit: 'ppm', v: 2000 },
+      { k: 'w1', label: 'Water target', unit: 'ppm', v: 200 }, { k: 'ab', label: 'Absorbent', type: 'sel', v: 's3a', opts: Object.entries(ABS).map(([k, a]) => [k, a[0]]) },
+      { k: 'cap', label: 'Working capacity', unit: 'g water per 100 g', v: 10 }, { k: 'sf', label: 'Safety factor', unit: '', v: 1.3 }],
+    onSel: (k, val) => k === 'ab' ? { cap: ABS[val][1] } : null,
+    run(v) {
+      if (!(v.w0 > v.w1)) return { rows: [], notes: [['The target must be lower than the present water.', 'bad']] };
+      const kg = v.V * v.rho / 1000, water = kg * (v.w0 - v.w1) / 1e6, ab = water / (v.cap / 100) * v.sf;
+      return { rows: [['Absorbent needed', F(ab, 1), 'kg'], ['Water to remove', F(water, 2), 'kg'], ['Solvent mass', F(kg, 0), 'kg']],
+        notes: [['Use 3A sieves for methanol, ethanol and other small molecules: 4A also takes up methanol. Working capacity is well below the saturation figure and falls with lower target water; confirm by a small trial with KF before and after.'], v.w1 < 100 && ['na2so4', 'mgso4', 'sg'].includes(v.ab) ? ['Salts and silica gel rarely reach below about 100 ppm; molecular sieves do better for very dry solvents.', 'warn'] : ['']].filter(n => n[0]) };
+    },
+    xl: [['kg', 'Solvent mass', `{V}*{rho}/1000`, 'kg'], ['water', 'Water to remove', `{kg}*({w0}-{w1})/1E6`, 'kg'], ['ab', 'Absorbent needed', `{water}/({cap}/100)*{sf}`, 'kg']] };
+
+  const POL = { hcl: ['HCl → NaOH', 40 / 36.46, 'NaOH'], so2: ['SO₂ → NaOH (to sulphite)', 80 / 64.07, 'NaOH'], cl2: ['Cl₂ → NaOH (to hypochlorite)', 80 / 70.9, 'NaOH'], nh3: ['NH₃ → H₂SO₄', 98.08 / 34.06, 'H₂SO₄'] };
+  C.scrubber = { title: 'Packed scrubber sizing', sub: 'Column diameter, packed height, liquor flow and reagent use',
+    inputs: [{ k: 'Q', label: 'Gas flow', unit: 'Nm³/h', v: 500 }, { k: 'T', label: 'Gas temperature', unit: '°C', v: 40 }, { k: 'pol', label: 'Gas and reagent', type: 'sel', v: 'hcl', opts: Object.entries(POL).map(([k, p]) => [k, p[0]]) },
+      { k: 'st', label: 'Reagent per kg of gas', unit: 'kg/kg', v: +(40 / 36.46).toFixed(3) }, { k: 'pm', label: 'Pollutant load (peak)', unit: 'kg/h', v: 5 }, { k: 'eff', label: 'Removal efficiency', unit: '%', v: 99 },
+      { k: 'u', label: 'Design gas velocity', unit: 'm/s', v: 1.2 }, { k: 'htu', label: 'Height of a transfer unit (HTU)', unit: 'm', v: 0.5 }, { k: 'wr', label: 'Liquid wetting rate', unit: 'm³/m²·h', v: 12 },
+      { k: 'cs', label: 'Reagent strength', unit: 'wt %', v: 10 }],
+    onSel: (k, val) => k === 'pol' ? { st: +POL[val][1].toFixed(3) } : null,
+    run(v) {
+      if (!(v.eff > 0 && v.eff < 100)) return { rows: [], notes: [['Efficiency must be between 0 and 100 %.', 'bad']] };
+      const Qa = v.Q * (273.15 + v.T) / 273.15 / 3600, D = Math.sqrt(4 * Qa / (Math.PI * v.u)), A = Math.PI * D * D / 4, ntu = Math.log(1 / (1 - v.eff / 100)), Z = ntu * v.htu, re = v.pm * v.st;
+      return { rows: [['Column diameter', F(D * 1000, 0), 'mm'], ['Packed height (NTU × HTU)', F(Z, 2), 'm'], ['With 20 % margin', F(Z * 1.2, 2), 'm'], ['Recirculation flow', F(v.wr * A, 1), 'm³/h'],
+        ['Number of transfer units', F(ntu, 2), ''], [POL[v.pol][2] + ' used at peak', F(re, 2), 'kg/h'], [F(v.cs, 0) + ' % solution used at peak', F(re / (v.cs / 100), 1), 'kg/h']],
+        notes: [['NTU = ln(1/(1−η)) assumes a fast reaction with no back-pressure of the gas over the liquor, true for acid gases in excess caustic. Check the gas velocity against the packing supplier\'s flooding chart (aim for 60–80 % of flood) and keep free reagent in the liquor.']] };
+    },
+    xl: [['Qa', 'Actual gas flow', `{Q}*(273.15+{T})/273.15/3600`, 'm³/s'], ['D', 'Column diameter', `SQRT(4*{Qa}/(PI()*{u}))*1000`, 'mm'], ['A', 'Column area', `PI()*({D}/1000)^2/4`, 'm²'],
+      ['ntu', 'Number of transfer units', `LN(1/(1-{eff}/100))`, ''], ['Z', 'Packed height', `{ntu}*{htu}`, 'm'], ['Z2', 'With 20 % margin', `{Z}*1.2`, 'm'], ['L', 'Recirculation flow', `{wr}*{A}`, 'm³/h'],
+      ['re', 'Reagent used at peak', `{pm}*{st}`, 'kg/h'], ['sol', 'Reagent solution used at peak', `{re}/({cs}/100)`, 'kg/h']] };
+
   /* ---------------- render ---------------- */
   function mount(el) {
     const id = el.dataset.calc, c = C[id]; if (!c) return;
     const v = {}; c.inputs.forEach(i => v[i.k] = i.v);
-    el.innerHTML = `<div class="ut-card"><div class="ut-hd"><h3>${esc(c.title)}</h3><p>${esc(c.sub)}</p></div><div class="ut-body"><form class="ut-in" autocomplete="off"></form><div class="ut-out" aria-live="polite"></div></div></div>`;
-    const form = el.querySelector('.ut-in'), out = el.querySelector('.ut-out');
+    el.innerHTML = `<div class="ut-card"><div class="ut-hd"><h3>${esc(c.title)}</h3><p>${esc(c.sub)}</p></div><div class="ut-body"><form class="ut-in" autocomplete="off"></form><div class="ut-out" aria-live="polite"></div></div><div class="ut-tools"><button type="button" class="ut-xl">Download Excel</button><span>${c.xl ? 'with live formulas' : 'inputs and results'}</span></div></div>`;
+    const form = el.querySelector('.ut-in'), out = el.querySelector('.ut-out'), xb = el.querySelector('.ut-xl');
+    xb.addEventListener('click', () => {
+      if (!window.PCME_XL) { alert('Download is not available on this page.'); return; }
+      const ins = c.inputs.filter(i => !i.show || i.show(v)), r = c.run(v);
+      xb.disabled = true; xb.textContent = 'Preparing…';
+      window.PCME_XL.calcSheet({ title: c.title, sub: c.sub, inputs: ins.map(i => ({ k: i.k, label: i.label, unit: i.type === 'sel' ? 'type one of: ' + i.opts.map(o => o[0]).join(', ') : i.unit, value: v[i.k], text: i.type === 'sel' ? (i.opts.find(o => o[0] === v[i.k]) || [, ''])[1] : '' })),
+        xl: c.xl, rows: r.rows, notes: (r.notes || []).map(n => n[0]) })
+        .then(() => { xb.disabled = false; xb.textContent = 'Download Excel'; }, e => window.PCME_XL.fail(xb, e));
+    });
     function drawInputs() {
       form.innerHTML = c.inputs.filter(i => !i.show || i.show(v)).map(i => `<label class="ut-f"><span>${esc(i.label)}${i.unit && i.type !== 'sel' ? ` <i>${esc(i.unit)}</i>` : ''}</span>${i.type === 'sel'
         ? `<select data-k="${i.k}">${i.opts.map(o => `<option value="${o[0]}"${o[0] === v[i.k] ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select>`

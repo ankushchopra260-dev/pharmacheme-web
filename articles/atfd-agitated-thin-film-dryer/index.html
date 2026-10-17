@@ -1,0 +1,138 @@
+---
+layout: default
+title: "Agitated Thin Film Dryer (ATFD): Working, Sizing and Operation"
+description: "How an agitated thin film dryer works and how it is sized: the rotor and blades, film formation, heat duty and heat flux, evaporation capacity, feed concentration, ATFD in zero liquid discharge, and operating problems such as wet product, sticking and rotor wear. Interactive capacity estimate."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: ATFD
+    url: /articles/atfd-agitated-thin-film-dryer/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Agitated Thin Film Dryer (ATFD): Working, Sizing and Operation",
+        "description": "ATFD working principle, rotor and film, heat duty and capacity, ZLD use, and operating problems.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is an ATFD used for?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Drying or concentrating liquids that are too viscous, fouling or heat-sensitive for tube evaporators, most often drying MEE concentrate to a solid salt in zero liquid discharge plants."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you estimate ATFD capacity?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat duty = U x heated area x (steam temperature - product temperature); evaporation is duty divided by latent heat. Feed capacity is evaporation divided by the fraction of feed that must evaporate."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why concentrate in an MEE before the ATFD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An MEE evaporates several kg of water per kg of steam, while an ATFD evaporates less than 1 kg per kg of steam, so the more water removed in the MEE, the lower the steam cost and the smaller the ATFD."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Agitated Thin Film Dryer (ATFD)</h1>
+  <p class="article-meta">Process Design &middot; Evaporation and Drying &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">The agitated thin film dryer is the last step in most zero liquid discharge plants: it takes the thick concentrate from the MEE and turns it into a dry, free-flowing salt. It also dries and concentrates heat-sensitive and viscous products that no other evaporator can handle. Its secret is a rotor that keeps spreading a thin film on the heated wall. This article explains how it works, how to estimate its capacity, and what goes wrong.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#how">How an ATFD works</a><span>Basics</span></li>
+    <li><a href="#where">Where it is used</a><span>Basics</span></li>
+    <li><a href="#size">Estimating capacity</a><span>Working level</span></li>
+    <li><a href="#op">Operating it well</a><span>Working level</span></li>
+    <li><a href="#trouble">Common problems</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="how">How an ATFD works <span class="lvl l1">Basics</span></h2>
+  <p>An ATFD is a vertical cylinder with a heating jacket (steam or thermic fluid) and a high-speed rotor inside, carrying blades or wipers set a few millimetres from the wall. Feed enters at the top and the blades spread it into a thin, turbulent film on the hot wall. Water or solvent evaporates quickly from the thin film; the vapour flows up to a condenser, and the dried solid or concentrate is scraped down and leaves at the bottom. Because the rotor keeps renewing the film, it can handle liquids that become pastes and then powders on the way down, which would block any tube evaporator.</p>
+
+  <h2 id="where">Where it is used <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Zero liquid discharge</strong>: drying MEE concentrate to a salt that goes to a hazardous waste facility.</li>
+    <li><strong>Heat-sensitive products</strong>: short residence time (seconds to a few minutes) under vacuum.</li>
+    <li><strong>Solvent recovery</strong> from residues and viscous mother liquors.</li>
+  </ul>
+  <p>A related machine, the agitated thin film evaporator (ATFE or wiped film evaporator), concentrates a liquid without drying it, often as a stage before the dryer.</p>
+
+  <h2 id="size">Estimating capacity <span class="lvl l2">Working level</span></h2>
+  <div class="formula-box">Q = U &times; A &times; (T<sub>steam</sub> &minus; T<sub>product</sub>) &nbsp;&nbsp; Evaporation &asymp; Q / &lambda;
+    <small>Feed capacity = evaporation / (fraction of the feed evaporated). For a feed with solids fraction s dried to 5 % moisture, the fraction evaporated is 1 &minus; s/0.95.</small></div>
+  <p>A 10 m&sup2; ATFD with U = 800 W/m&sup2;K and 60 &deg;C between steam and product transfers about 480 kW and evaporates about 766 kg/h of water. With a feed of 35 % solids, about 63 % of the feed must evaporate, so the ATFD can take about 1,200 kg/h of feed and gives about 450 kg/h of salt. U falls sharply as the product thickens, and varies widely between products, so real sizing uses pilot trials or the supplier's data on your concentrate.</p>
+  <figure class="art-fig" data-fig="atfd">
+    <figcaption>Try it: change the heated area, U, temperature difference and feed solids. Notice how much more feed the dryer can take when the MEE sends it a thicker concentrate.</figcaption>
+  </figure>
+  <p>That last point drives the whole ZLD design: evaporating water in a multiple effect evaporator costs a fraction of the steam per kilogram that an ATFD needs (each kg of steam in the ATFD evaporates under 1 kg of water). Concentrate as far as the MEE can go before the ATFD.</p>
+
+  <h2 id="op">Operating it well <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Steady feed</strong>: rate and concentration swings cause wet product one hour and an overheated, sticky wall the next. A feed tank with level control and a metering pump helps.</li>
+    <li><strong>Watch motor current</strong>: it rises as the product thickens and is the best online signal of what is happening inside.</li>
+    <li><strong>Steam pressure</strong>: higher temperature raises capacity but can make some salts sticky or decompose organics. Find the window for your product.</li>
+    <li><strong>Vapour line and condenser</strong>: size them for the full evaporation, and keep the scrubber or vent condenser working for volatile organics.</li>
+  </ul>
+
+  <h2 id="trouble">Common problems <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Wet or lumpy product</strong>: feed too high, steam pressure low, or feed too dilute.</li>
+    <li><strong>Product sticking to the wall</strong>: some salt mixtures go through a sticky phase; adjust temperature, blade clearance or feed rate.</li>
+    <li><strong>High rotor current, trips</strong>: overload from too much solid, or blades rubbing.</li>
+    <li><strong>Blade and wall wear</strong>: abrasive salts; inspect clearances at each shutdown.</li>
+    <li><strong>Corrosion</strong>: concentrated chloride brines are aggressive; check the material of construction. See <a href="{{ '/articles/materials-of-construction/' | relative_url }}">materials of construction</a>.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Sending dilute feed to the ATFD instead of concentrating it in the MEE first.</li>
+    <li>Sizing from a generic U without trials on the actual concentrate.</li>
+    <li>Unsteady feed rate and concentration.</li>
+    <li>Ignoring the rising motor current.</li>
+    <li>Wrong material of construction for chloride brines.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is an ATFD used for?</h3>
+  <p>Drying MEE concentrate to salt in ZLD, and handling viscous or heat-sensitive liquids.</p>
+  <h3>How do you estimate ATFD capacity?</h3>
+  <p>Duty = U &times; A &times; &Delta;T; evaporation = duty / latent heat; feed = evaporation / fraction evaporated.</p>
+  <h3>Why concentrate in an MEE before the ATFD?</h3>
+  <p>The MEE uses far less steam per kg of water than the ATFD.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/falling-film-evaporator/' | relative_url }}">Falling film evaporator</a>
+    <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

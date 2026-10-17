@@ -35,3 +35,8 @@
 .ut-table th { color: var(--muted); font-weight: 600; }
 .ut-table-wrap { overflow-x: auto; }
 @media (max-width: 860px) { .ut-body { grid-template-columns: minmax(0, 1fr); } .ut-out { border-left: 0; border-top: 1px solid var(--grid-line); } }
+.ut-tools { display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-top: 1px solid var(--grid-line); }
+.ut-xl { font: 600 .82rem var(--f-sans); color: var(--brass); background: none; border: 1px solid var(--brass); border-radius: 4px; padding: 6px 12px; cursor: pointer; }
+.ut-xl:hover { background: var(--brass); color: var(--bg-deep); }
+.ut-xl:disabled { opacity: .6; cursor: wait; }
+.ut-tools span { color: var(--muted); font-size: .8rem; }

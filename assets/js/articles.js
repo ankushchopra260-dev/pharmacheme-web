@@ -1325,6 +1325,119 @@
     ctl.addEventListener('input', draw); draw();
   };
 
+  /* Qualification V-model: click a stage */
+  M['vmodel'] = function (fig) {
+    const c = C();
+    const N = [['URS', 70, 40, 'User requirement specification', 'What the user needs, in testable terms: capacity, materials of construction, cleanability, safety, GMP. Every later test traces back to a line here.'],
+      ['FS', 140, 110, 'Functional specification', 'How the supplier will meet each requirement: control philosophy, alarms, interlocks, sequences.'],
+      ['DS · DQ', 210, 180, 'Design specification and design qualification', 'Drawings, datasheets and P&IDs. DQ is the documented check that the design meets the URS and GMP before anything is built.'],
+      ['Build · FAT', 320, 240, 'Build and factory acceptance test', 'The equipment is built and tested at the supplier’s works against an agreed protocol, so faults are found before it ships.'],
+      ['SAT · IQ', 430, 180, 'Site acceptance test and installation qualification', 'Installed as designed: correct materials, instruments calibrated, utilities connected, drawings as-built, documents received. Verifies the design specification.'],
+      ['OQ', 500, 110, 'Operational qualification', 'Every function works across its operating range: alarms, interlocks, speeds, temperatures, sequences. Verifies the functional specification.'],
+      ['PQ', 570, 40, 'Performance qualification', 'The equipment does the job consistently with the real process or a representative load, over several runs. Verifies the user requirements.']];
+    const svg = el('svg', { viewBox: '0 0 640 290', role: 'img', 'aria-label': 'Qualification V-model: specification on the left, verification on the right; tap a stage' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const info = document.createElement('div'); info.className = 'art-read'; info.style.gridTemplateColumns = '1fr'; fig.insertBefore(info, fig.querySelector('figcaption'));
+    const pts = N.map(n => [n[1], n[2]]);
+    el('path', { d: path(pts), fill: 'none', stroke: c.grid, 'stroke-width': 10, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, svg);
+    [[0, 6], [1, 5], [2, 4]].forEach(([a, b]) => el('line', { x1: N[a][1] + 34, y1: N[a][2], x2: N[b][1] - 34, y2: N[b][2], stroke: c.mute, 'stroke-dasharray': '4 5' }, svg));
+    txt(svg, 320, 52, 'verifies', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
+    txt(svg, 40, 278, 'Specify and design', { fill: c.mute, 'font-size': 11 }); txt(svg, 600, 278, 'Test and qualify', { 'text-anchor': 'end', fill: c.mute, 'font-size': 11 });
+    const show = i => { info.innerHTML = `<div class="hi"><span>${N[i][3]}</span><b style="font:400 .95rem var(--f-sans);line-height:1.5">${N[i][4]}</b></div>`; svg.querySelectorAll('rect[data-i]').forEach(r => r.setAttribute('fill', +r.dataset.i === i ? c.brass : '#13263A')); };
+    N.forEach((n, i) => { const g = el('g', { style: 'cursor:pointer', tabindex: 0, role: 'button', 'aria-label': n[3] }, svg);
+      el('rect', { 'data-i': i, x: n[1] - 34, y: n[2] - 15, width: 68, height: 30, rx: 6, fill: '#13263A', stroke: c.brass, 'stroke-width': 1.5 }, g);
+      txt(g, n[1], n[2] + 4, n[0], { 'text-anchor': 'middle', fill: c.ink, 'font-weight': 700, 'font-size': 11 });
+      g.addEventListener('click', () => show(i)); g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(i); } }); });
+    show(0);
+  };
+
+  /* Falling film evaporator: wetting rate at top and bottom of the tubes */
+  M['ffe'] = function (fig) {
+    const c = C();
+    const svg = el('svg', { viewBox: '0 0 640 170', role: 'img', 'aria-label': 'Liquid wetting rate at the top and bottom of the tubes against a typical minimum' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<label>Feed <input type="range" min="500" max="10000" step="100" value="3000" aria-label="Feed in kg per hour"> <output></output></label>
+      <label>Evaporated <input type="range" min="10" max="85" step="1" value="60" aria-label="Percent evaporated"> <output></output></label>
+      <label>Tubes <input type="range" min="10" max="200" step="5" value="60" aria-label="Number of tubes"> <output></output></label>
+      <label>Recirculation <input type="range" min="0" max="10000" step="250" value="0" aria-label="Recirculation in kg per hour"> <output></output></label>`);
+    const [iF, iE, iN, iR] = ctl.querySelectorAll('input'), [oF, oE, oN, oR] = ctl.querySelectorAll('output'), rd = readout(fig), d = 0.038, MIN = 0.25;
+    function draw() {
+      const F_ = +iF.value, e = +iE.value / 100, n = +iN.value, R = +iR.value; oF.textContent = F(F_, 0) + ' kg/h'; oE.textContent = Math.round(e * 100) + ' %'; oN.textContent = n + ' × 38 mm'; oR.textContent = F(R, 0) + ' kg/h';
+      const per = n * Math.PI * d, top = (F_ + R) / 3600 / per, bot = (F_ * (1 - e) + R) / 3600 / per;
+      svg.innerHTML = ''; const X = g => 190 + Math.min(g, 1) / 1 * 400;
+      [0, 0.25, 0.5, 0.75, 1].forEach(g => { el('line', { x1: X(g), y1: 8, x2: X(g), y2: 110, stroke: c.grid }, svg); txt(svg, X(g), 126, F(g, 2), { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); });
+      el('rect', { x: 190, y: 8, width: X(MIN) - 190, height: 102, fill: c.rust, opacity: .12 }, svg); txt(svg, X(MIN) - 4, 22, 'risk of dry patches', { 'text-anchor': 'end', fill: c.rust, 'font-size': 10 });
+      [['Top of tubes', top, c.blue], ['Bottom of tubes', bot, bot < MIN ? c.rust : c.green]].forEach((r, k) => { const y = 34 + k * 40; txt(svg, 10, y + 15, r[0], { fill: c.ink, 'font-size': 12 }); el('rect', { x: 190, y, width: Math.max(2, X(r[1]) - 190), height: 22, rx: 4, fill: r[2] }, svg); txt(svg, Math.min(X(r[1]) + 6, 600), y + 16, F(r[1], 2), { fill: c.ink, 'font-weight': 700, 'font-size': 12 }); });
+      txt(svg, 390, 150, 'Wetting rate Γ, kg per second per metre of tube perimeter', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
+      rd.innerHTML = `<div class="hi"><span>Bottom wetting rate</span><b class="${bot < MIN ? 'no' : ''}">${F(bot, 2)} kg/m·s</b></div><div><span>Wetted perimeter</span><b>${F(per, 2)} m</b></div><div><span>Verdict</span><b>${bot < MIN ? 'Too thin at the bottom: add recirculation or use fewer, longer tubes' : 'Film should stay continuous'}</b></div>`;
+    }
+    ctl.addEventListener('input', draw); draw();
+  };
+
+  /* ATFD: evaporation capacity from area, U and temperature difference */
+  M['atfd'] = function (fig) {
+    const c = C();
+    const svg = el('svg', { viewBox: '0 0 640 150', role: 'img', 'aria-label': 'Evaporation and feed capacity of an agitated thin film dryer' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<label>Heated area <input type="range" min="2" max="40" step="1" value="10" aria-label="Heated area in square metres"> <output></output></label>
+      <label>Overall U <input type="range" min="300" max="2000" step="50" value="800" aria-label="Overall U"> <output></output></label>
+      <label>Steam minus product temperature <input type="range" min="20" max="100" step="5" value="60" aria-label="Temperature difference"> <output></output></label>
+      <label>Feed solids <input type="range" min="10" max="60" step="1" value="35" aria-label="Feed solids percent"> <output></output></label>`);
+    const [iA, iU, iT, iS] = ctl.querySelectorAll('input'), [oA, oU, oT, oS] = ctl.querySelectorAll('output'), rd = readout(fig);
+    function draw() {
+      const A = +iA.value, U = +iU.value, dT = +iT.value, s = +iS.value / 100; oA.textContent = A + ' m²'; oU.textContent = U + ' W/m²K'; oT.textContent = dT + ' °C'; oS.textContent = Math.round(s * 100) + ' %';
+      const Q = U * A * dT / 1000, ev = Q / 2257 * 3600, frac = 1 - s / 0.95, feed = ev / frac, dry = feed * s / 0.95;
+      svg.innerHTML = ''; const mx = Math.max(feed, 1), sc = 340 / mx;
+      [['Feed it can take', feed, c.blue], ['Water evaporated', ev, c.brass], ['Dry salt out (5 % moisture)', dry, c.green]].forEach((r, k) => { const y = 12 + k * 40; txt(svg, 10, y + 16, r[0], { fill: c.ink, 'font-size': 12 }); el('rect', { x: 200, y, width: Math.max(2, r[1] * sc), height: 24, rx: 4, fill: r[2] }, svg); txt(svg, 206 + r[1] * sc, y + 17, F(r[1], 0) + ' kg/h', { fill: c.ink, 'font-weight': 700, 'font-size': 12 }); });
+      rd.innerHTML = `<div><span>Heat duty</span><b>${F(Q, 0)} kW</b></div><div><span>Heat flux</span><b>${F(Q / A, 1)} kW/m²</b></div><div class="hi"><span>Feed capacity</span><b>${F(feed, 0)} kg/h</b></div>`;
+    }
+    ctl.addEventListener('input', draw); draw();
+  };
+
+  /* Steam: sensible vs latent heat as pressure rises */
+  M['steamsplit'] = function (fig) {
+    const c = C(), ST = [[0, 100.0, 419.1, 2256.7], [1, 120.2, 504.7, 2201.6], [2, 133.5, 561.4, 2163.2], [3, 143.6, 604.7, 2133.0], [4, 151.8, 640.1, 2107.4], [5, 158.8, 670.4, 2085.0], [6, 165.0, 697.1, 2064.9], [7, 170.4, 720.9, 2046.5], [8, 175.4, 742.6, 2029.5], [9, 179.9, 762.6, 2013.6], [10, 184.1, 781.1, 1998.5], [12, 191.6, 814.7, 1970.7], [15, 201.4, 858.6, 1933.2], [20, 214.9, 920.0, 1878.2]];
+    const svg = el('svg', { viewBox: '0 0 640 160', role: 'img', 'aria-label': 'Enthalpy of saturated steam split into sensible and latent heat' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<label>Steam pressure <input type="range" min="0" max="20" step="0.5" value="3" aria-label="Steam pressure in barg"> <output></output></label>`);
+    const i = ctl.querySelector('input'), o = ctl.querySelector('output'), rd = readout(fig);
+    function at(p) { let k = 0; while (k < ST.length - 2 && p > ST[k + 1][0]) k++; const a = ST[k], b = ST[k + 1], f = (p - a[0]) / (b[0] - a[0]); return [0, 1, 2, 3].map(j => a[j] + f * (b[j] - a[j])); }
+    function draw() {
+      const p = +i.value, s = at(p); o.textContent = p.toFixed(1) + ' barg'; svg.innerHTML = '';
+      const sc = 560 / 2800, hf = s[2], hfg = s[3];
+      el('rect', { x: 40, y: 30, width: hf * sc, height: 44, fill: c.blue }, svg); el('rect', { x: 40 + hf * sc, y: 30, width: hfg * sc, height: 44, fill: c.brass }, svg);
+      txt(svg, 46, 57, 'Sensible ' + F(hf, 0), { fill: '#0B1622', 'font-weight': 700, 'font-size': 12 }); txt(svg, 46 + hf * sc, 57, 'Latent ' + F(hfg, 0) + ' kJ/kg (released in the jacket)', { fill: '#0B1622', 'font-weight': 700, 'font-size': 12 });
+      [0, 500, 1000, 1500, 2000, 2500].forEach(v => { el('line', { x1: 40 + v * sc, y1: 80, x2: 40 + v * sc, y2: 86, stroke: c.mute }, svg); txt(svg, 40 + v * sc, 100, F(v, 0), { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); });
+      txt(svg, 320, 120, 'Enthalpy of saturated steam (kJ/kg from 0 °C water)', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
+      rd.innerHTML = `<div><span>Saturation temperature</span><b>${F(s[1], 1)} °C</b></div><div class="hi"><span>Latent heat</span><b>${F(hfg, 0)} kJ/kg</b></div><div><span>Steam for 100 kW of heating</span><b>${F(100 / hfg * 3600, 0)} kg/h</b></div>`;
+    }
+    i.addEventListener('input', draw); draw();
+  };
+
+  /* Fault tree: OR and AND gates */
+  M['fta'] = function (fig) {
+    const c = C(), L = [['A', 'Dosing pump speed set too high', 0.05], ['B', 'Flow control valve fails open', 0.1], ['C', 'Operator doses the wrong quantity', 0.1], ['D', 'High-temperature trip fails on demand', 0.01], ['E', 'Relief not sized for the runaway', 0.1]];
+    const ctl = controls(fig, L.map((l, k) => `<label>${l[0]}: ${l[1]} <input type="range" min="-4" max="0" step="0.1" value="${Math.log10(l[2])}" data-k="${k}" aria-label="${l[1]}, logarithmic"> <output></output></label>`).join(''));
+    const svg = el('svg', { viewBox: '0 0 640 300', role: 'img', 'aria-label': 'Fault tree for a runaway during dosing with OR and AND gates' });
+    fig.insertBefore(svg, fig.querySelector('figcaption')); const rd = readout(fig), ins = ctl.querySelectorAll('input'), outs = ctl.querySelectorAll('output');
+    const box = (x, y, w, t, v, col) => { el('rect', { x: x - w / 2, y, width: w, height: 40, rx: 6, fill: '#13263A', stroke: col, 'stroke-width': 1.5 }, svg); txt(svg, x, y + 16, t, { 'text-anchor': 'middle', fill: c.ink, 'font-size': 11, 'font-weight': 700 }); txt(svg, x, y + 32, v, { 'text-anchor': 'middle', fill: col, 'font-size': 11 }); };
+    const gate = (x, y, kind) => { el('path', { d: kind === 'OR' ? `M${x - 16} ${y + 20} Q${x} ${y + 8} ${x + 16} ${y + 20} Q${x + 14} ${y} ${x} ${y - 6} Q${x - 14} ${y} ${x - 16} ${y + 20}Z` : `M${x - 16} ${y + 20} V${y + 4} A16 16 0 0 1 ${x + 16} ${y + 4} V${y + 20}Z`, fill: 'none', stroke: c.mute, 'stroke-width': 1.5 }, svg); txt(svg, x, y + 34, kind, { 'text-anchor': 'middle', fill: c.mute, 'font-size': 10 }); };
+    const fmt = p => p >= 0.01 ? F(p, 3) : p.toExponential(1);
+    function draw() {
+      const p = [...ins].map(r => Math.pow(10, +r.value)); outs.forEach((o, k) => o.textContent = fmt(p[k]));
+      const exc = 1 - (1 - p[0]) * (1 - p[1]) * (1 - p[2]), prot = p[3] * p[4], top = exc * prot;
+      svg.innerHTML = '';
+      box(320, 6, 230, 'Runaway with reactor damage', fmt(top) + ' per year', top > 1e-4 ? c.rust : c.green);
+      el('path', { d: 'M320 46 V60', stroke: c.mute }, svg); gate(320, 60, 'AND'); el('path', { d: 'M180 112 V100 H460 V112 M320 94 V100', fill: 'none', stroke: c.mute }, svg);
+      box(180, 112, 200, 'Too much reagent dosed', fmt(exc) + ' per year', c.brass); box(460, 112, 200, 'Both protections fail', fmt(prot) + ' per demand', c.brass);
+      el('path', { d: 'M180 152 V160', stroke: c.mute }, svg); gate(180, 160, 'OR'); el('path', { d: 'M460 152 V160', stroke: c.mute }, svg); gate(460, 160, 'AND');
+      el('path', { d: 'M90 222 V206 H270 V222 M180 194 V206 M400 222 V206 H520 V222 M460 194 V206', fill: 'none', stroke: c.mute }, svg);
+      [[90, 0], [180, 1], [270, 2], [400, 3], [520, 4]].forEach(([x, k]) => box(x, 222, k < 3 ? 84 : 110, L[k][0], fmt(p[k]), c.blue));
+      rd.innerHTML = `<div><span>OR gate (any one)</span><b>1 − (1−A)(1−B)(1−C)</b></div><div><span>AND gate (all together)</span><b>D × E</b></div><div class="hi"><span>Top event</span><b class="${top > 1e-4 ? 'no' : ''}">${fmt(top)} per year</b></div>`;
+    }
+    ctl.addEventListener('input', draw); draw();
+  };
+
   window.PCME_ART = M;
   document.querySelectorAll('.art-fig[data-fig]').forEach(f => { const m = M[f.dataset.fig]; if (m) try { m(f); } catch (e) { console.error(e); } });
   // pause looping diagrams when off screen

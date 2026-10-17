@@ -11,6 +11,8 @@
     - { title: "Centrifuge Cake Weight", url: /calculators/centrifuge-cake-weight-calculator/ }
     - { title: "Corrosion Coupon", url: /calculators/corrosion-coupon-calculator/ }
     - { title: "Materials Compatibility", url: /calculators/materials-compatibility/ }
+    - { title: "Reactor Calculators (5)", url: /calculators/reactor/ }
+    - { title: "Process Calculators (3)", url: /calculators/process/ }
 - title: Design Tools
   url: /design-tools/
   children:
@@ -42,7 +44,7 @@
   groups:
     - title: "Process safety"
       url: /articles/#process-safety
-      count: 11
+      count: 12
       children:
         - { title: "How to Read DSC, ARC, RC1 and TSU", url: /articles/how-to-read-dsc-arc-rc1-tsu/ }
         - { title: "HAZOP Made Practical", url: /articles/hazop-made-practical/ }
@@ -60,7 +62,7 @@
         - { title: "Continuous and Flow Chemistry", url: /articles/continuous-flow-chemistry/ }
     - title: "Process design"
       url: /articles/#process-design
-      count: 12
+      count: 14
       children:
         - { title: "Heat Exchanger Design Basics", url: /articles/heat-exchanger-design-basics/ }
         - { title: "Distillation Basics", url: /articles/distillation-basics/ }
@@ -69,7 +71,7 @@
         - { title: "Agitator Design Basics", url: /articles/agitator-design/ }
     - title: "Plant engineering & operations"
       url: /articles/#plant-engineering-operations
-      count: 12
+      count: 13
       children:
         - { title: "How to Read a P&ID", url: /articles/how-to-read-a-pid/ }
         - { title: "Batch Cycle Time and Debottlenecking", url: /articles/batch-cycle-time-debottlenecking/ }
@@ -78,7 +80,7 @@
         - { title: "PID Control and Tuning", url: /articles/pid-control-tuning/ }
     - title: "Utilities"
       url: /articles/#utilities
-      count: 5
+      count: 6
       children:
         - { title: "Steam System Efficiency", url: /articles/steam-system-efficiency/ }
         - { title: "Cooling Tower Calculations", url: /articles/cooling-tower-calculations/ }

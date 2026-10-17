@@ -1,0 +1,138 @@
+---
+layout: default
+title: "Falling Film Evaporator (FFE): Working Principle, Wetting Rate and Design Basics"
+description: "Falling film evaporators from the basics: how the film forms, why short residence time suits heat-sensitive liquids, the liquid distributor, minimum wetting rate and recirculation, heat transfer and area, multiple effects and MVR, and common problems. Interactive wetting rate check."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Falling Film Evaporator
+    url: /articles/falling-film-evaporator/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Falling Film Evaporator (FFE): Working Principle, Wetting Rate and Design Basics",
+        "description": "FFE working principle, distributor, wetting rate, recirculation, heat transfer, multiple effects, MVR and troubleshooting.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the wetting rate in a falling film evaporator?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The liquid flow per metre of tube perimeter, mass flow divided by (number of tubes x pi x tube diameter). If it falls below the minimum for the liquid, the film breaks into rivulets and dry patches foul."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is a falling film evaporator good for heat-sensitive products?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The liquid passes through the heated tube in seconds as a thin film, and there is no hydrostatic head raising the boiling point, so it can run at a low temperature difference and short residence time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much steam does a multiple effect evaporator save?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Roughly in proportion to the number of effects: a four-effect evaporator evaporates about 3 to 3.5 kg of water per kg of steam, against about 0.9 for a single effect."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Falling Film Evaporator: How It Works and How It Is Sized</h1>
+  <p class="article-meta">Process Design &middot; Evaporation &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A falling film evaporator looks like a shell-and-tube exchanger standing on end, and that is nearly what it is. Liquid runs down the inside of the tubes as a thin film while steam condenses outside, and the vapour separates at the bottom. Because each drop spends only seconds in the heated tube, it is a favourite for heat-sensitive liquids and for effluent concentration in MEE plants. Its weak point is the film itself: if it breaks, the tube runs dry and fouls. This article explains how it works and how to keep the film whole.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#how">How it works</a><span>Basics</span></li>
+    <li><a href="#why">Why choose a falling film</a><span>Basics</span></li>
+    <li><a href="#dist">The distributor and the wetting rate</a><span>Working level</span></li>
+    <li><a href="#size">Sizing the heat transfer</a><span>Working level</span></li>
+    <li><a href="#eff">Multiple effects and MVR</a><span>Going deeper</span></li>
+    <li><a href="#trouble">Common problems</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="how">How it works <span class="lvl l1">Basics</span></h2>
+  <p>Feed enters the top head, above the tube sheet, and a distributor spreads it evenly over every tube. It runs down the inside wall as a thin film, typically a millimetre or less, heated by steam condensing on the shell side. The liquid boils at the film surface; vapour flows down the tube centre with the liquid, and both leave the bottom into a separator, where the vapour goes to a condenser or the next effect and the concentrate is pumped out, partly recirculated to the top if needed.</p>
+
+  <h2 id="why">Why choose a falling film <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Short residence time</strong>, seconds per pass, so heat-sensitive products degrade less.</li>
+    <li><strong>Small temperature difference</strong> works well, because there is no hydrostatic head raising the boiling point at the bottom of the tube (unlike a rising film or natural circulation evaporator). That suits multiple effects and vapour recompression.</li>
+    <li><strong>High heat transfer coefficients</strong> for clean, low-viscosity liquids.</li>
+  </ul>
+  <p>It is a poor choice for liquids that crystallise or foul heavily in the tube, or are very viscous; forced circulation evaporators and agitated thin film dryers handle those. See the <a href="{{ '/articles/atfd-agitated-thin-film-dryer/' | relative_url }}">ATFD article</a>.</p>
+
+  <h2 id="dist">The distributor and the wetting rate <span class="lvl l2">Working level</span></h2>
+  <p>Everything depends on every tube getting enough liquid, all the way down. The measure is the <strong>wetting rate</strong> &Gamma;: liquid flow per metre of tube perimeter.</p>
+  <div class="formula-box">&Gamma; = m / (N &times; &pi; &times; d)
+    <small>m liquid flow (kg/s), N number of tubes, d tube inside diameter (m). Evaporation reduces &Gamma; down the tube, so the bottom is the critical point.</small></div>
+  <p>Below a minimum wetting rate the film breaks into rivulets, leaving dry patches that overheat and foul. The minimum depends on the liquid, surface and heat flux; designers often work with figures in the region of a few tenths of a kg/m&middot;s for water-like liquids and check with the supplier. The figure uses 0.25 kg/m&middot;s as an illustration.</p>
+  <figure class="art-fig" data-fig="ffe">
+    <figcaption>Try it: 3,000 kg/h of feed over 60 tubes, evaporating 60 %, leaves a thin film at the bottom. Add recirculation or reduce the number of tubes and watch the bottom wetting rate.</figcaption>
+  </figure>
+  <p>The usual fixes are <strong>recirculation</strong> (pumping part of the concentrate back to the top), <strong>fewer, longer tubes</strong> for the same area, or splitting the evaporation over two passes. Distributors (perforated plates, weirs or individual tube inserts) must be level and clean: a blocked hole starves a tube.</p>
+
+  <h2 id="size">Sizing the heat transfer <span class="lvl l2">Working level</span></h2>
+  <div class="formula-box">Q = m<sub>evap</sub> &times; &lambda; + m<sub>feed</sub> &times; c<sub>p</sub> &times; (T<sub>boil</sub> &minus; T<sub>feed</sub>) &nbsp;&nbsp; A = Q / (U &times; &Delta;T)</div>
+  <p>&Delta;T is the steam saturation temperature minus the boiling temperature of the liquid at the evaporator pressure, adjusted for boiling point elevation of concentrated solutions. Overall U for clean aqueous duty is often 1,500&ndash;3,000 W/m&sup2;K, falling with viscosity and fouling. Preheat the feed to its boiling point before it enters the tubes; otherwise the top of the tubes acts as a heater, not an evaporator. See <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">heat exchanger design basics</a>.</p>
+
+  <h2 id="eff">Multiple effects and MVR <span class="lvl l3">Going deeper</span></h2>
+  <p>In a <strong>multiple effect evaporator (MEE)</strong> the vapour from one effect heats the next, which runs at a lower pressure and temperature. A four-effect plant evaporates roughly 3 to 3.5 kg of water per kg of steam. In <strong>mechanical vapour recompression (MVR)</strong>, a compressor or fan raises the vapour pressure slightly so it can heat the same evaporator, using electricity instead of steam. Falling film designs suit both because they work with small temperature differences. In pharma effluent plants, an FFE often forms the first effects of the MEE, followed by forced circulation effects as the liquid concentrates and an ATFD to dry it. See <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics</a>.</p>
+
+  <h2 id="trouble">Common problems <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Falling capacity</strong>: scaling in the tubes (check the &Delta;T needed for the same evaporation) or non-condensables blanketing the shell side (vent it).</li>
+    <li><strong>Dry tubes and fouling at the bottom</strong>: wetting rate too low; add recirculation.</li>
+    <li><strong>Carry-over</strong> of droplets into the condensate: separator overloaded, demister damaged or foaming.</li>
+    <li><strong>Uneven tube performance</strong>: distributor out of level or partly blocked.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Feeding below the boiling point so the top of the tubes only heats.</li>
+    <li>No recirculation when most of the feed is evaporated.</li>
+    <li>Distributor not levelled or inspected.</li>
+    <li>Using an FFE for crystallising or very viscous liquids.</li>
+    <li>Ignoring boiling point elevation of concentrated solutions.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the wetting rate in a falling film evaporator?</h3>
+  <p>Liquid flow per metre of tube perimeter: m / (N &pi; d).</p>
+  <h3>Why is a falling film evaporator good for heat-sensitive products?</h3>
+  <p>Seconds of residence time and no hydrostatic head, so low temperatures work.</p>
+  <h3>How much steam does a multiple effect evaporator save?</h3>
+  <p>A four-effect unit evaporates about 3&ndash;3.5 kg of water per kg of steam.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/atfd-agitated-thin-film-dryer/' | relative_url }}">ATFD: agitated thin film dryer</a>
+    <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics</a>
+    <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">Heat exchanger design basics</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

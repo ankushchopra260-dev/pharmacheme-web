@@ -1,0 +1,132 @@
+---
+layout: default
+title: "Equipment Qualification: URS, DQ, IQ, OQ and PQ Explained for Pharma Plants"
+description: "Equipment qualification in pharma plants from the basics: the V-model, user requirement specification, design qualification, FAT and SAT, installation, operational and performance qualification, risk-based scope, what goes in each protocol, requalification and change control. Interactive V-model."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Equipment Qualification
+    url: /articles/equipment-qualification-dq-iq-oq-pq/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Equipment Qualification: URS, DQ, IQ, OQ and PQ Explained for Pharma Plants",
+        "description": "The V-model, URS, DQ, FAT, SAT, IQ, OQ, PQ, risk-based qualification, protocols, requalification and change control.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between IQ, OQ and PQ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "IQ shows the equipment is installed as designed; OQ shows every function works across its operating range; PQ shows the equipment performs consistently under real process conditions, usually over three runs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is DQ in pharma?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Design qualification: the documented review that the proposed design meets the user requirement specification and GMP requirements before the equipment is built."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is FAT part of qualification?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "FAT is an engineering test at the supplier works. Its documented results can support IQ and OQ under a risk-based approach, so tests need not all be repeated on site."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Equipment Qualification: URS, DQ, IQ, OQ and PQ</h1>
+  <p class="article-meta">Plant Engineering &middot; GMP &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A new reactor arrives at the site, and before it makes a single batch of drug substance, it has to be qualified: a documented trail showing it was specified properly, built and installed as designed, works as intended and performs consistently with the real process. To engineers new to pharma it can look like paperwork for its own sake. Done well, it is simply good engineering written down. This article explains each stage and what it is really checking.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why qualify equipment</a><span>Basics</span></li>
+    <li><a href="#v">The V-model</a><span>Basics</span></li>
+    <li><a href="#urs">URS and DQ: getting the specification right</a><span>Working level</span></li>
+    <li><a href="#fat">FAT and SAT</a><span>Working level</span></li>
+    <li><a href="#iq">IQ, OQ and PQ</a><span>Working level</span></li>
+    <li><a href="#risk">Risk-based scope, requalification and change</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why qualify equipment <span class="lvl l1">Basics</span></h2>
+  <p>GMP rules (EU GMP Annex 15, WHO and Schedule M in India, US FDA expectations) require that equipment used to make medicines is shown to be fit for its intended use, with documented evidence. The aim is simple: if a batch fails, you should be able to rule out the equipment, because you know it was built right, installed right and works right. Qualification is that evidence.</p>
+  <p>Qualification applies to equipment and utilities (reactors, dryers, purified water, HVAC, compressed air and nitrogen that contact product). <em>Validation</em> is the related term for processes, cleaning and computer systems. Qualified equipment is a precondition for process validation.</p>
+
+  <h2 id="v">The V-model <span class="lvl l1">Basics</span></h2>
+  <p>The stages are usually drawn as a V. Down the left side you specify what you want and design it; at the bottom it is built; up the right side you test it, and each test stage checks the specification opposite it.</p>
+  <figure class="art-fig" data-fig="vmodel">
+    <figcaption>Try it: tap each stage of the V to see what it covers. The dashed lines show which specification each test verifies.</figcaption>
+  </figure>
+
+  <h2 id="urs">URS and DQ: getting the specification right <span class="lvl l2">Working level</span></h2>
+  <p>The <strong>user requirement specification (URS)</strong> is the most important document in the chain, and the one most often rushed. Write it in the user's terms, with numbers that can be tested: working volume and minimum stir volume, temperature and pressure range, materials of construction for every wetted part, surface finish, cleanability (drainability, spray ball coverage), instruments and their accuracy, interlocks, data integrity needs for any control system, and safety requirements such as ATEX zone and relief.</p>
+  <p><strong>Design qualification (DQ)</strong> is the documented review that the supplier's design (drawings, datasheets, P&amp;IDs, functional specification) meets every URS requirement and GMP. A traceability matrix, listing each URS line against where the design meets it and which later test will prove it, makes DQ and everything after it much easier.</p>
+
+  <h2 id="fat">FAT and SAT <span class="lvl l2">Working level</span></h2>
+  <p>The <strong>factory acceptance test (FAT)</strong> is done at the supplier's works before dispatch: dimensions, materials certificates, welding records, pressure test, surface finish, agitator run, control sequences. Faults found here are cheap to fix. The <strong>site acceptance test (SAT)</strong> repeats the key checks after installation. Well-documented FAT and SAT results can be referenced in IQ and OQ instead of repeating every test.</p>
+
+  <h2 id="iq">IQ, OQ and PQ <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Installation qualification (IQ):</strong> the equipment is installed as designed. Check model and serial numbers, materials certificates, P&amp;ID walk-down, utilities connected correctly, instruments calibrated and tagged, drawings as-built, manuals, spare parts lists and SOPs received.</li>
+    <li><strong>Operational qualification (OQ):</strong> every function works across its operating range. Agitator speed range, heating and cooling rates, temperature control and uniformity, vacuum and pressure hold tests, alarms and interlocks proven by simulating the trip condition, sequence and recipe functions, and data recording and audit trail for computerised systems.</li>
+    <li><strong>Performance qualification (PQ):</strong> the equipment does its job consistently under real conditions, with the process or a representative load, usually over three runs. For a dryer, uniform drying to the LOD limit; for purified water, meeting specification at all points over weeks; for an autoclave, sterility assurance.</li>
+  </ul>
+  <p>Each stage has a <strong>protocol</strong> approved before execution (what will be tested, how, and the acceptance criteria) and a <strong>report</strong> after (results, deviations and their resolution, conclusion). A failed test is not a disaster: raise a deviation, investigate, fix, retest and document.</p>
+  <div class="art-note"><b>On the plant</b><p>The most common qualification finding is not a failed test but a URS that never asked the right question: a vessel that cannot drain fully, a temperature probe that is not covered at minimum volume, a dryer without a sample point. Get production and maintenance to read the URS before it goes to suppliers.</p></div>
+
+  <h2 id="risk">Risk-based scope, requalification and change <span class="lvl l3">Going deeper</span></h2>
+  <p>Modern guidance (Annex 15, ICH Q9, ASTM E2500) expects the depth of qualification to follow risk: test thoroughly what affects product quality and patient safety, and rely on good engineering practice and supplier documentation for the rest. A jacket's cooling rate matters for a crystallisation step; the colour of the motor does not.</p>
+  <p>Qualified status has to be maintained. Periodic review (often yearly) checks that the equipment is still in a qualified state: calibrations current, changes controlled, deviations and breakdowns reviewed. Any change goes through change control, and the impact assessment decides what must be requalified. A like-for-like replacement may need no retest; a new agitator or control software update usually needs part of OQ repeated. See <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a>.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>A URS copied from an old project, with untestable wording.</li>
+    <li>Protocols written after the testing.</li>
+    <li>Repeating every FAT test at site instead of referencing good FAT records.</li>
+    <li>Testing interlocks by reading the logic instead of simulating the condition.</li>
+    <li>Changes made after qualification without change control.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between IQ, OQ and PQ?</h3>
+  <p>IQ: installed as designed. OQ: works across its range. PQ: performs consistently in real use.</p>
+  <h3>What is DQ in pharma?</h3>
+  <p>The documented check that the design meets the URS and GMP before building.</p>
+  <h3>Is FAT part of qualification?</h3>
+  <p>It is an engineering test whose records can support IQ and OQ.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">Glass-lined reactor care</a>
+    <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">How to read a P&amp;ID</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -1,0 +1,131 @@
+---
+layout: default
+title: "Fault Tree Analysis (FTA) for Process Plants: Gates, Probabilities and Cut Sets"
+description: "Fault tree analysis for chemical and pharma plants from the basics: top events, basic events, AND and OR gates, calculating the top event frequency, minimal cut sets, common cause failures, and how FTA relates to HAZOP and LOPA. Interactive fault tree."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Fault Tree Analysis
+    url: /articles/fault-tree-analysis/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Fault Tree Analysis (FTA) for Process Plants: Gates, Probabilities and Cut Sets",
+        "description": "Top events, basic events, AND and OR gates, top event frequency, minimal cut sets, common cause failures, and FTA with HAZOP and LOPA.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between AND and OR gates in a fault tree?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An OR gate passes the failure up if any input occurs, so probabilities roughly add. An AND gate passes it up only if all inputs occur together, so probabilities multiply."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a minimal cut set?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A smallest combination of basic events that together cause the top event; remove any one and the top event no longer occurs. Single-event cut sets show the weakest points."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is FTA different from LOPA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "LOPA multiplies an initiating frequency by the failure probabilities of independent layers for one scenario. FTA models the full logic of how failures combine, including redundancy and common causes, and is used where that logic is complex."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Fault Tree Analysis (FTA)</h1>
+  <p class="article-meta">Process Safety &middot; Risk Assessment &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A HAZOP finds that a runaway is possible. LOPA estimates how likely it is with simple multiplication. But when the protection is a complicated system, two pumps, redundant trips, shared power supplies, you need a way to see exactly which combinations of failures lead to the accident. That is fault tree analysis: working backwards from the accident to every route that gets there.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea: start from the accident</a><span>Basics</span></li>
+    <li><a href="#gates">AND and OR gates</a><span>Basics</span></li>
+    <li><a href="#calc">Calculating the top event</a><span>Working level</span></li>
+    <li><a href="#cut">Minimal cut sets</a><span>Working level</span></li>
+    <li><a href="#ccf">Common cause failures and where FTA fits</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="idea">The idea: start from the accident <span class="lvl l1">Basics</span></h2>
+  <p>A fault tree starts with one undesired <strong>top event</strong>, such as &ldquo;runaway reaction with reactor damage&rdquo;, and asks: what must happen for this to occur? Each answer is broken down again, until you reach <strong>basic events</strong> whose failure rates you can estimate: a pump fails, a valve sticks open, an operator makes an error, a trip fails on demand. The result is a tree that shows, on one page, every route to the accident.</p>
+
+  <h2 id="gates">AND and OR gates <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>OR gate</strong>: the event above happens if <em>any one</em> of the events below happens. Too much reagent is dosed if the pump speed is wrong, <em>or</em> the control valve fails open, <em>or</em> the operator doses the wrong quantity.</li>
+    <li><strong>AND gate</strong>: the event above happens only if <em>all</em> the events below happen together. Damage occurs only if excess dosing happens <em>and</em> both protections fail.</li>
+  </ul>
+  <div class="formula-box">OR: P = 1 &minus; (1 &minus; P<sub>1</sub>)(1 &minus; P<sub>2</sub>)&hellip; &asymp; P<sub>1</sub> + P<sub>2</sub> + &hellip; (for small P) &nbsp;&nbsp; AND: P = P<sub>1</sub> &times; P<sub>2</sub> &times; &hellip;</div>
+  <p>OR gates add up; AND gates multiply down. That is why protection works: putting independent protections under an AND gate makes the top event much rarer.</p>
+  <figure class="art-fig" data-fig="fta">
+    <figcaption>Try it: change the frequency or probability of each basic event (log scale). See how improving a branch under an OR gate helps much less than improving one under the AND gate.</figcaption>
+  </figure>
+
+  <h2 id="calc">Calculating the top event <span class="lvl l2">Working level</span></h2>
+  <p>In the example, the three causes of excess dosing (0.05, 0.1 and 0.1 per year) combine through the OR gate to about 0.23 per year. The high-temperature trip fails on 1 demand in 100, and the relief is undersized for this case with a probability of 0.1, so both protections fail together with a probability of 0.001 per demand. The top event frequency is 0.23 &times; 0.001 &asymp; 2.3 &times; 10<sup>&minus;4</sup> per year. Halving the operator error rate barely changes this; improving the trip to SIL 2 (0.001) cuts it tenfold.</p>
+  <p>Mixing units is the common trap: initiating causes are <em>frequencies</em> (per year), while protections are <em>probabilities</em> of failure on demand (no units). Only one frequency may sit under an AND gate; the rest must be probabilities.</p>
+
+  <h2 id="cut">Minimal cut sets <span class="lvl l2">Working level</span></h2>
+  <p>A <strong>cut set</strong> is a combination of basic events that together cause the top event. A <strong>minimal cut set</strong> is one where removing any event stops it being a cut set. In the example the minimal cut sets are {A, D, E}, {B, D, E} and {C, D, E}. Two things to look for:</p>
+  <ul>
+    <li><strong>Single-event cut sets</strong>: one failure alone causes the accident. These need attention first.</li>
+    <li><strong>Events that appear in every cut set</strong>, like D and E here: improving them reduces every route at once.</li>
+  </ul>
+
+  <h2 id="ccf">Common cause failures and where FTA fits <span class="lvl l3">Going deeper</span></h2>
+  <p>The AND gate only multiplies if the events are independent. Two trips on the same instrument air supply, two pumps fed from one electrical panel, or two sensors calibrated with the same faulty reference can fail together. These <strong>common cause failures</strong> often dominate the real risk and must be added as their own basic events. See <a href="{{ '/articles/lopa-and-sil-basics/' | relative_url }}">LOPA and SIL</a> on independence.</p>
+  <p>FTA sits alongside other methods: HAZOP finds the scenarios, LOPA screens them with quick arithmetic, and FTA is used where the protection logic is complex, for SIL verification of redundant systems, or for investigating an incident to see which combinations of failures occurred. See <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>.</p>
+  <div class="art-note"><b>On the plant</b><p>Drawing a fault tree for a real near miss is one of the best training exercises for a plant team. People see that the event needed several things to go wrong at once, and which of those things they control every day.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Putting two frequencies under an AND gate.</li>
+    <li>Assuming protections are independent when they share a utility or a sensor.</li>
+    <li>Using precise-looking numbers without stating where they came from.</li>
+    <li>Improving events on OR branches when the AND gate matters more.</li>
+    <li>Drawing a tree so detailed that nobody reviews it.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between AND and OR gates in a fault tree?</h3>
+  <p>OR: any input causes it (add). AND: all inputs together (multiply).</p>
+  <h3>What is a minimal cut set?</h3>
+  <p>The smallest combination of basic events that causes the top event.</p>
+  <h3>How is FTA different from LOPA?</h3>
+  <p>LOPA is quick layer arithmetic for one scenario; FTA models the full failure logic.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lopa-and-sil-basics/' | relative_url }}">LOPA and SIL basics</a>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

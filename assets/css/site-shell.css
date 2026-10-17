@@ -344,3 +344,16 @@ a.video-card[href*="/shorts/"] .video-thumb-wrap,
 .video-card-link[href*="/shorts/"] .video-thumb-wrap { aspect-ratio: 9 / 16; }
 a.video-card[href*="/shorts/"] img,
 .video-card-link[href*="/shorts/"] img { object-fit: cover; object-position: center; }
+.xl-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 14px 0 0; }
+.xl-bar span { color: var(--muted); font-size: .82rem; }
+.xl-bar .btn { background: transparent; color: var(--brass); border: 1px solid var(--brass); font-weight: 700; cursor: pointer; }
+.xl-bar .btn:hover, .xl-bar .btn:focus-visible { background: var(--brass); color: var(--bg-deep); }
+.xl-bar .btn:disabled { opacity: .6; cursor: wait; }
+/* author box under articles */
+.author-box { max-width: 720px; margin: 0 auto 48px; display: flex; gap: 16px; align-items: flex-start; background: var(--panel); border: 1px solid var(--grid-line); border-radius: 6px; padding: 18px 20px; }
+.author-box img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; background: var(--bg-deep); border: 1px solid var(--grid-line); }
+.author-box p { margin: 0 0 6px; }
+.author-box .ab-name { font-family: var(--f-display); font-size: 1.1rem; color: var(--paper); }
+.author-box .ab-role { color: var(--muted); font-size: .9rem; line-height: 1.5; }
+.author-box .ab-note { color: var(--muted-dim); font-size: .82rem; line-height: 1.5; margin: 0; }
+@media (max-width: 560px) { .author-box { margin-left: 16px; margin-right: 16px; } }
