@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Solvent Recovery Calculation: Boiling Point, Heat Load & Time"
-description: "How to do a solvent recovery calculation for a batch: boiling point under vacuum (Antoine equation), heat duty and recovery time, with a step-by-step toluene example and a free calculator."
+description: "Solvent recovery calculation from the basics to plant practice: boiling point under vacuum with the Antoine equation, heat load and recovery time, jacket and condenser checks, vacuum depth limits and mixed solvents, with a toluene worked example and an interactive chart."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -14,78 +14,159 @@ structured_data: |
       {
         "@type": "Article",
         "headline": "Solvent Recovery Calculation: Boiling Point Under Vacuum, Heat Load & Time",
-        "description": "Boiling point at vacuum, heat load and recovery time for batch solvent recovery, with a toluene worked example.",
+        "description": "Boiling point at vacuum, heat load, recovery time, jacket and condenser checks for batch solvent recovery, with a toluene worked example.",
         "author": { "@type": "Person", "name": "Ankush Chopra" },
-        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
+        "dateModified": "2026-10-17"
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "How do you calculate the boiling point of a solvent under vacuum?", "acceptedAnswer": { "@type": "Answer", "text": "Rearrange the Antoine equation: Tb = B / (A - log10 P) - C, with P in mmHg and the A, B, C coefficients for that solvent. For toluene at 100 mmHg this gives about 52 C, against 110.6 C at atmospheric pressure." } },
           { "@type": "Question", "name": "How do you calculate heat load for solvent recovery?", "acceptedAnswer": { "@type": "Answer", "text": "Heat duty (kW) = vaporisation rate (kg/s) x latent heat (kJ/kg). Recovering toluene at 500 kg/h with a latent heat of about 360 kJ/kg needs roughly 50 kW, before sensible heat and losses." } },
-          { "@type": "Question", "name": "Is mmHg the same as mbar?", "acceptedAnswer": { "@type": "Answer", "text": "No. 1 mmHg is about 1.333 mbar. Entering mbar into an Antoine equation fitted in mmHg gives the wrong boiling point." } }
+          { "@type": "Question", "name": "Is mmHg the same as mbar?", "acceptedAnswer": { "@type": "Answer", "text": "No. 1 mmHg is about 1.333 mbar. Entering mbar into an Antoine equation fitted in mmHg gives the wrong boiling point." } },
+          { "@type": "Question", "name": "Why can't I pull deeper vacuum to recover solvent faster?", "acceptedAnswer": { "@type": "Answer", "text": "Deeper vacuum lowers the boiling point, but the condenser must be colder than the vapour to condense it. Methanol at 50 mbar boils at about 3 C, so cooling water cannot condense it and the vapour goes to the vacuum pump." } }
         ]
       }
     ]
   }
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>Solvent Recovery Calculation: Boiling Point Under Vacuum, Heat Load and Time</h1>
-  <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
+  <h1>Solvent Recovery Calculation: From Boiling Point to Batch Time</h1>
+  <p class="article-meta">Chemical Engineering &middot; Distillation &middot; <span class="art-updated">Updated October 2026</span></p>
 
-  <p>Batch solvent recovery under vacuum comes down to one question repeated at every step: at what temperature does this solvent boil at this pressure, and how much heat does it take to get there and keep it boiling? Everything else (condenser sizing, vacuum pump capacity, recovery time) follows from that.</p>
+  <p class="art-lede">Almost every batch in a pharma or agrochemical plant ends the same way: the reaction is done, and now the solvent has to come off. How hot will the batch get? How long will it take? Will the condenser keep up, or will solvent end up in the vacuum pump oil? This article answers those questions in order, from the basic idea to the checks that decide whether a recovery runs smoothly on the plant.</p>
 
-  <p><strong>Need a number now?</strong> The free <a href="/calculators/solvent-recovery-calculator/">Solvent Recovery Calculator</a> finds the boiling point under vacuum for thousands of solvents, plus heat load, condenser size and vacuum pump capacity.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">Why we recover under vacuum</a><span>Basics</span></li>
+    <li><a href="#antoine">Boiling point at any pressure: the Antoine equation</a><span>Basics</span></li>
+    <li><a href="#heat">Heat load and recovery time</a><span>Working level</span></li>
+    <li><a href="#jacket">Can the jacket supply it?</a><span>Working level</span></li>
+    <li><a href="#condenser">The condenser decides how deep you can go</a><span>Going deeper</span></li>
+    <li><a href="#mixed">Mixed solvents and water</a><span>Going deeper</span></li>
+    <li><a href="#plant">What goes wrong on the plant</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <p><strong>Just need the number?</strong> The <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent Recovery Calculator</a> gives the boiling point under vacuum for thousands of solvents, with heat load and condenser size.</p>
 
-  <h2>Boiling Point at Vacuum: the Antoine Equation</h2>
+  <h2 id="idea">Why we recover under vacuum <span class="lvl l1">Basics</span></h2>
+  <p>A liquid boils when its vapour pressure reaches the pressure above it. At sea level that is about 1,013 mbar, so toluene boils at 110.6 &deg;C. Lower the pressure in the reactor and the liquid needs less heat to reach that point, so it boils cooler.</p>
+  <p>Cooler boiling helps in three ways. The product is less likely to degrade. Hot water or low-pressure steam is enough to drive the distillation. And the gap between the jacket and the batch is bigger, so heat flows in faster.</p>
+  <figure class="art-fig">
+    <svg viewBox="0 0 720 270" role="img" aria-label="Batch vacuum distillation: jacketed reactor, vapour line, condenser, receiver and vacuum pump, with flow animated">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M60 70 h140 v120 q0 40 -70 40 q-70 0 -70 -40 z"/>
+        <path d="M48 110 v80 q0 52 82 52 q82 0 82 -52 v-80" stroke-dasharray="6 5"/>
+        <path d="M130 70 V30 H360"/>
+        <rect x="360" y="16" width="150" height="34" rx="16"/>
+        <path d="M510 33 H560 V120"/><rect x="520" y="120" width="80" height="90" rx="6"/>
+        <path d="M600 140 H650"/><circle cx="650" cy="165" r="18"/>
+      </g>
+      <path d="M62 140 H198" stroke="#7FB2E8" stroke-width="2"/>
+      <g fill="#7FB2E8"><rect x="63" y="141" width="134" height="49"/><path d="M63 190 h134 q0 37 -67 37 q-67 0 -67 -37z"/></g>
+      <g fill="#E8EEF4">
+        <circle class="anim-rise" cx="95" cy="200" r="4"/><circle class="anim-rise" cx="130" cy="210" r="5" style="animation-delay:.6s"/><circle class="anim-rise" cx="165" cy="200" r="4" style="animation-delay:1.2s"/><circle class="anim-rise" cx="112" cy="185" r="3" style="animation-delay:1.8s"/>
+      </g>
+      <path class="anim-flow slow" d="M130 70 V30 H360" fill="none" stroke="#D4A72C" stroke-width="3"/>
+      <path class="anim-flow" d="M372 33 H498" fill="none" stroke="#7FB2E8" stroke-width="3" opacity=".7"/>
+      <path class="anim-flow slow" d="M510 33 H560 V120" fill="none" stroke="#D4A72C" stroke-width="3"/>
+      <g fill="#D4A72C"><circle class="anim-fall" cx="560" cy="122" r="4"/><circle class="anim-fall" cx="560" cy="122" r="4" style="animation-delay:.8s"/></g>
+      <rect x="522" y="178" width="76" height="30" fill="#D4A72C" opacity=".55"/>
+      <g class="anim-spin" stroke="#E8EEF4" stroke-width="2.5"><path d="M650 165 m-10 0 h20 M650 165 m0 -10 v20"/></g>
+      <g font-family="sans-serif" font-size="12" fill="currentColor">
+        <text x="140" y="62">Reactor under vacuum</text><text x="20" y="258">Jacket: hot water or steam</text><text x="370" y="68">Condenser (cooling water)</text>
+        <text x="520" y="228">Receiver</text><text x="616" y="200">Vacuum pump</text>
+      </g>
+    </svg>
+    <figcaption>Heat from the jacket boils the solvent, vapour travels to the condenser, liquid drains to the receiver, and the vacuum pump removes only air and leakage, if the condenser is doing its job.</figcaption>
+  </figure>
+
+  <h2 id="antoine">Boiling point at any pressure: the Antoine equation <span class="lvl l1">Basics</span></h2>
+  <p>The relation between vapour pressure and temperature is curved: each 10 &deg;C of temperature roughly doubles a solvent's vapour pressure near its boiling point. The Antoine equation describes that curve with three constants per solvent:</p>
   <div class="formula-box">
-    log&#8321;&#8320;(P) = A &minus; B / (T + C)<br>
-    &rArr; T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C
+    log&#8321;&#8320;(P) = A &minus; B / (T + C) &nbsp;&nbsp;&rArr;&nbsp;&nbsp; T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C
+    <small>P in mmHg and T in &deg;C for the constants used here. Some tables use bar and kelvin, so always check the units of the set you use.</small>
   </div>
-  <p>Where P is pressure in mmHg, T is temperature in &deg;C, and A, B, C are compound-specific Antoine coefficients fitted from experimental vapor-pressure data. At standard atmospheric pressure (760 mmHg), this reduces to the solvent's normal boiling point, which is a handy sanity check on any Antoine coefficient set before trusting it at vacuum.</p>
-
-  <h2>Worked Example: Toluene Under Vacuum</h2>
-  <p>Toluene's Antoine coefficients (in this form) are A = 6.95087, B = 1342.31, C = 219.187. At 100 mmHg vacuum:</p>
+  <p>For toluene, A = 6.95087, B = 1342.31, C = 219.187. At 100 mmHg (133 mbar):</p>
   <div class="formula-box">
-    T<sub>b</sub> = 1342.31 / (6.95087 &minus; log&#8321;&#8320;100) &minus; 219.187<br>
-    = 1342.31 / (6.95087 &minus; 2.0) &minus; 219.187<br>
-    &asymp; 271.2 &minus; 219.187 &asymp; 52.0&deg;C
+    T<sub>b</sub> = 1342.31 / (6.95087 &minus; 2.000) &minus; 219.187 &asymp; 271.1 &minus; 219.2 &asymp; 52 &deg;C
   </div>
-  <p>Compare that to toluene's normal boiling point of 110.6&deg;C at 760 mmHg (the same equation with P = 760). Pulling vacuum drops the boiling point by nearly 60&deg;C. That is the whole reason batch recovery runs under vacuum: it lets you strip solvent at a temperature the batch (and the jacket steam pressure available) can actually sustain.</p>
+  <p>A quick sanity check for any Antoine set: put P = 760 mmHg in and you should get the normal boiling point (110.6 &deg;C for toluene). If you don't, the constants or units are wrong.</p>
+  <figure class="art-fig" data-fig="antoine">
+    <figcaption>Try it: pick a solvent and pull the vacuum. The dot moves down the vapour pressure curve. The shaded bands show what your condenser coolant can handle: cooling water around 32 &deg;C, or chilled water and brine for colder vapour.</figcaption>
+  </figure>
 
-  <h2>Heat Load &amp; Recovery Time</h2>
-  <p>Once you know the boiling temperature, the heat duty to sustain boiling is governed by the solvent's latent heat of vaporization and the target vapor rate: Duty (kW) = mass vaporization rate (kg/s) &times; latent heat (kJ/kg). Recovery time then follows from total solvent mass to be recovered divided by that vaporization rate, adjusted for the available heating duty from the jacket or coil.</p>
-
-  <h2>Worked Example: Heat Load and Recovery Time</h2>
-  <p>Continuing with toluene: say 2,000 kg has to be stripped at a steady 500 kg/hr. Toluene's latent heat is about 360 kJ/kg near its normal boiling point (use the value at your actual recovery temperature for design).</p>
+  <h2 id="heat">Heat load and recovery time <span class="lvl l2">Working level</span></h2>
+  <p>Once the batch is boiling, almost all the heat goes into turning liquid into vapour. So the boiling duty is simply:</p>
   <div class="formula-box">
-    Vapor rate = 500 / 3,600 &asymp; 0.139 kg/s<br>
-    Heat duty = 0.139 &times; 360 &asymp; 50 kW<br>
-    Recovery time = 2,000 / 500 = 4 hours
+    Heat duty (kW) = vapour rate (kg/s) &times; latent heat (kJ/kg)<br>
+    Recovery time (h) = solvent to recover (kg) / vapour rate (kg/h)
   </div>
-  <p>This is the boiling duty alone. Add the sensible heat to bring the batch up to 52&deg;C and an allowance for heat losses. If the jacket can only supply, say, 35 kW, the vapor rate drops in proportion and the recovery takes longer than 4 hours. The condenser has to remove the same ~50 kW, which is the starting point for sizing it.</p>
+  <h3>Worked example</h3>
+  <p>2,000 kg of toluene to strip at 100 mmHg, at a target 500 kg/h. Toluene's latent heat is about 360 kJ/kg (a little higher at 52 &deg;C than at 110 &deg;C, which is a small extra margin).</p>
+  <div class="formula-box">
+    Vapour rate = 500 / 3,600 = 0.139 kg/s<br>
+    Boiling duty = 0.139 &times; 360 &asymp; 50 kW<br>
+    Time at that rate = 2,000 / 500 = 4 h
+  </div>
+  <p>Before boiling starts, the batch has to be heated to 52 &deg;C. Heating 2,000 kg of toluene (c<sub>p</sub> &asymp; 1.7 kJ/kg&middot;K) from 30 &deg;C takes 2,000 &times; 1.7 &times; 22 &asymp; 75,000 kJ, about 21 kWh, roughly 25 minutes at 50 kW. Add the reactor steel and the product mass if they are significant, plus 5&ndash;10 % for losses.</p>
 
-  <h2>In the Plant</h2>
-  <p>Antoine coefficients are only valid over the temperature/pressure range they were fitted to. Extrapolating far outside that range (very deep vacuum, or temperatures near a solvent's critical point) can give a boiling point that looks plausible but is wrong. Always check the returned value against a known reference point (like the normal boiling point) before using it to size equipment.</p>
+  <h2 id="jacket">Can the jacket supply it? <span class="lvl l2">Working level</span></h2>
+  <p>The 50 kW has to get through the reactor wall. The jacket can only deliver Q = U &times; A &times; &Delta;T, where U is the overall heat transfer coefficient, A the wetted jacket area and &Delta;T the difference between jacket medium and batch.</p>
+  <div class="formula-box">
+    Hot water at 80 &deg;C, batch boiling at 52 &deg;C: &Delta;T = 28 &deg;C<br>
+    With U &asymp; 300 W/m&sup2;K (glass-lined, typical) and 6 m&sup2; wetted area:<br>
+    Q = 300 &times; 6 &times; 28 &asymp; 50 kW &nbsp;&rarr;&nbsp; just enough
+  </div>
+  <p>At atmospheric pressure the same toluene boils at 110.6 &deg;C; hot water can't do it at all, and even 3 barg steam (144 &deg;C) gives only about 33 &deg;C of driving force. Vacuum is often what makes a recovery possible with the utilities the plant has.</p>
+  <div class="art-note"><b>On the plant</b><p>The wetted area shrinks as the solvent comes off. A reactor that starts 80 % full may be 30 % full at the end, and the jacket loses most of its useful area just when you want to finish. That is why the last 20 % of a recovery always seems slow. The <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load calculator</a> averages the wetted area over the distillation for exactly this reason.</p></div>
 
-  <h2>Common Mistakes</h2>
-  <p>Mixing up mmHg and mbar (a factor of ~1.33 apart) when entering the vacuum level; using latent heat measured at atmospheric pressure without adjusting for the actual recovery temperature; and forgetting that mixed-solvent systems don't follow a single Antoine curve at all. A binary or multi-component mix needs a real VLE calculation, not this single-compound shortcut.</p>
+  <h2 id="condenser">The condenser decides how deep you can go <span class="lvl l3">Going deeper</span></h2>
+  <p>It is tempting to think deeper vacuum is always better. It isn't. Every kilogram that boils off must be condensed, and a condenser can only condense vapour that is warmer than its coolant. A practical rule: keep the vapour at least 8&ndash;10 &deg;C above the coolant outlet temperature.</p>
+  <ul>
+    <li>Toluene at 133 mbar boils at 52 &deg;C: cooling water at 32&ndash;37 &deg;C condenses it comfortably.</li>
+    <li>Methanol at 50 mbar boils at about 3 &deg;C: cooling water cannot condense it. The vapour passes through the condenser and into the vacuum pump, where it dilutes the oil, or goes straight out of the vent.</li>
+  </ul>
+  <p>For the toluene example, the condenser must remove the same 50 kW. With cooling water 32 &rarr; 37 &deg;C and vapour condensing at 52 &deg;C:</p>
+  <div class="formula-box">
+    LMTD = (20 &minus; 15) / ln(20/15) &asymp; 17.4 &deg;C<br>
+    Area = 50,000 / (400 &times; 17.4) &asymp; 7.2 m&sup2; (U &asymp; 400 W/m&sup2;K for a shell-and-tube condenser under vacuum)<br>
+    Cooling water = 50 / (4.186 &times; 5) &asymp; 2.4 kg/s &asymp; 8.6 m&sup3;/h
+  </div>
+  <p>Under vacuum, air leaking into the system blankets the condenser tubes and cuts U sharply. A small leak can halve the condenser's capacity, which you see as a rising vapour temperature at the condenser outlet and solvent in the vacuum pump. A secondary vent condenser on chilled water or brine, after the main condenser, is cheap insurance for low-boiling solvents.</p>
 
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="mixed">Mixed solvents and water <span class="lvl l3">Going deeper</span></h2>
+  <p>The Antoine equation is for one pure liquid. A mixture boils at a temperature between its components, and that temperature rises as the lighter one leaves. For an ideal mixture each component contributes its share of vapour pressure (Raoult's law: partial pressure = mole fraction &times; pure vapour pressure), so a toluene&ndash;methanol mix starts boiling much cooler than pure toluene and finishes near toluene's boiling point.</p>
+  <p>Many common pairs are not ideal and form <strong>azeotropes</strong>, mixtures that boil at a fixed composition and cannot be separated by simple distillation: ethanol&ndash;water at about 95.6 % ethanol, IPA&ndash;water at about 87.7 % IPA. Toluene and water don't mix at all and boil together at about 84 &deg;C at atmospheric pressure, below either pure boiling point, which is useful for drying a toluene batch by azeotropic distillation. For anything beyond a rough estimate, use proper VLE data.</p>
+
+  <h2 id="plant">What goes wrong on the plant <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Bumping and foaming</strong> when vacuum is pulled too fast on a warm batch: the whole batch flashes at once and carries product into the vapour line. Pull vacuum in steps and keep the agitator running.</li>
+    <li><strong>Solvent in the vacuum pump</strong>: condenser too warm, fouled, or blanketed by air leaks. Check the vent temperature.</li>
+    <li><strong>Receiver flashing back</strong>: a receiver at the same vacuum but warmer than the condensate boils it again.</li>
+    <li><strong>Slow last stage</strong>: wetted area falling and the boiling point rising as the mixture gets heavier; plan the end point, don't just wait.</li>
+    <li><strong>Units</strong>: mbar entered into an Antoine set fitted in mmHg. 1 mmHg = 1.333 mbar, and the error is several degrees.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
   <h3>How do you calculate the boiling point of a solvent under vacuum?</h3>
-  <p>Rearrange the Antoine equation: T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C, with P in mmHg and the A, B, C coefficients for that solvent. For toluene at 100 mmHg this gives about 52&deg;C.</p>
+  <p>Rearrange the Antoine equation: T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C, with P in mmHg and the solvent's A, B, C constants. Toluene at 100 mmHg boils at about 52 &deg;C.</p>
   <h3>How do you calculate heat load for solvent recovery?</h3>
-  <p>Heat duty (kW) = vaporisation rate (kg/s) &times; latent heat (kJ/kg). In the example above, 500 kg/hr of toluene needs roughly 50 kW before sensible heat and losses.</p>
+  <p>Heat duty (kW) = vapour rate (kg/s) &times; latent heat (kJ/kg). 500 kg/h of toluene needs about 50 kW, plus sensible heat to warm the batch and losses.</p>
   <h3>Is mmHg the same as mbar?</h3>
-  <p>No. 1 mmHg &asymp; 1.333 mbar. Check which unit your Antoine coefficients were fitted in before entering the vacuum level.</p>
+  <p>No. 1 mmHg &asymp; 1.333 mbar. Check which unit your Antoine constants were fitted in.</p>
+  <h3>Why can't I pull deeper vacuum to recover faster?</h3>
+  <p>Because the condenser must be colder than the vapour. Methanol at 50 mbar boils at about 3 &deg;C, so cooling water cannot condense it and it ends up in the vacuum pump.</p>
 
   <div class="related-box">
     <h3>Try the Calculators</h3>
-    <a href="/calculators/solvent-recovery-calculator/">Solvent Recovery Calculator</a>
-    <a href="/calculators/heat-load-calculator/">Heat Load &amp; Recovery Calculator</a>
+    <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent Recovery Calculator</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load &amp; Recovery Calculator</a>
     <h3>Related Articles</h3>
-    <a href="/articles/heat-load-calculation/">How to Calculate Heat Load &amp; Recovery Time</a>
-    <a href="/articles/pump-power-calculation/">Pump Power Calculation</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and recovery time</a>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power and NPSH from a vacuum receiver</a>
   </div>
 </div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

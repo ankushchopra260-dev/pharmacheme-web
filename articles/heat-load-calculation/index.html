@@ -1,7 +1,7 @@
 ---
 layout: default
 title: How to Calculate Heat Load & Recovery Time
-description: "Heat duty and batch recovery time for solvent recovery, explained with formula and worked example."
+description: "Heat load for a jacketed batch reactor from the basics: sensible and latent heat, Q = U·A·ΔT, wetted jacket area and reactor occupancy, heat-up and cool-down time, and solvent recovery time, with worked examples and an interactive heat-up chart."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -10,45 +10,135 @@ breadcrumbs:
 structured_data: |
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "How to Calculate Heat Load & Recovery Time",
-    "description": "Heat duty and batch recovery time for solvent recovery.",
-    "author": { "@type": "Person", "name": "Ankush Chopra" },
-    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+    "@graph": [
+      { "@type": "Article", "headline": "How to Calculate Heat Load & Recovery Time",
+        "description": "Sensible and latent heat, jacket heat transfer, wetted area and occupancy, heat-up and cool-down time, and solvent recovery time for batch reactors.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "dateModified": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you calculate the heat-up time of a jacketed reactor?", "acceptedAnswer": { "@type": "Answer", "text": "With the jacket at a constant temperature Tj, time = (M x cp / (U x A)) x ln((Tj - T0) / (Tj - T)). For 4,000 kg of batch (cp 2 kJ/kg K), U = 350 W/m2K and 9 m2 of wetted area, heating from 30 to 80 C on 3 barg steam takes about 25 minutes." } },
+        { "@type": "Question", "name": "Why does cooling a batch take longer than heating it?", "acceptedAnswer": { "@type": "Answer", "text": "Because the driving temperature difference is smaller. Cooling water at 32 C has only 8 C of driving force left when the batch reaches 40 C, so the last few degrees are slow. The same batch that heats in 25 minutes on steam can take over an hour to cool from 80 to 40 C." } },
+        { "@type": "Question", "name": "How do you calculate solvent recovery time?", "acceptedAnswer": { "@type": "Answer", "text": "Recovery time = solvent to recover (kg) / vapour rate (kg/h), where vapour rate = heat duty (kW) x 3,600 / latent heat (kJ/kg). 500 kg of solvent with a latent heat of 360 kJ/kg at 40 kW takes about 1.25 hours of boiling." } }
+      ] }
+    ]
   }
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>How to Calculate Heat Load &amp; Recovery Time</h1>
-  <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
+  <p class="article-meta">Chemical Engineering &middot; Heat Transfer &middot; <span class="art-updated">Updated October 2026</span></p>
 
-  <p>Once a solvent's boiling point at your working vacuum is known, the next question is a plant one: how much heat does it take to boil it off at a useful rate, and how long will the batch actually take? This is what separates a recovery step that finishes in two hours from one that drags on all shift.</p>
+  <p class="art-lede">&ldquo;How long will it take to heat the batch?&rdquo; and &ldquo;How long to strip the solvent?&rdquo; are two questions every shift asks. Both come from the same two ideas: how much heat the batch needs, and how fast the jacket can push it through the reactor wall. Get those right and you can predict batch time cycles, spot a fouled jacket, and explain why the last 10 &deg;C of cooling always takes forever.</p>
 
-  <h2>The Formula</h2>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#need">How much heat does the batch need?</a><span>Basics</span></li>
+    <li><a href="#flow">How fast can the jacket deliver it?</a><span>Basics</span></li>
+    <li><a href="#heatup">Heat-up and cool-down time</a><span>Working level</span></li>
+    <li><a href="#recovery">Solvent recovery time</a><span>Working level</span></li>
+    <li><a href="#area">Wetted area and reactor occupancy</a><span>Going deeper</span></li>
+    <li><a href="#u">What sets U, and how it decays</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <p><strong>Just need the number?</strong> The <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load &amp; Recovery Calculator</a> works it out, including wetted area from reactor occupancy.</p>
+
+  <h2 id="need">How much heat does the batch need? <span class="lvl l1">Basics</span></h2>
+  <p>Heat goes into a batch in two ways. <strong>Sensible heat</strong> raises its temperature; you can feel it, hence the name. <strong>Latent heat</strong> changes liquid into vapour without changing the temperature; it is hidden, which is what &ldquo;latent&rdquo; means. A boiling batch can take heat all day and stay at the same temperature, because every kilojoule is going into vapour.</p>
   <div class="formula-box">
-    Heat duty (kW) = m&#775; &times; &lambda;<br>
-    Recovery time (hr) = M<sub>total</sub> / m&#775;
+    Sensible heat Q = M &times; c<sub>p</sub> &times; &Delta;T &nbsp;&nbsp;(kJ)<br>
+    Latent heat Q = m<sub>vapour</sub> &times; &lambda; &nbsp;&nbsp;(kJ)
   </div>
-  <p>Where m&#775; is the vaporization mass rate (kg/hr), &lambda; is the solvent's latent heat of vaporization (kJ/kg) at the recovery temperature, and M<sub>total</sub> is the total mass of solvent to be recovered from the batch.</p>
+  <p>For a sense of scale: heating 1 kg of water by 1 &deg;C takes 4.2 kJ, but boiling it off takes 2,257 kJ. For toluene the numbers are about 1.7 kJ to warm it 1 &deg;C and 360 kJ to boil it. Boiling is where the energy goes.</p>
 
-  <h2>Worked Example</h2>
-  <p>Recovering 500 kg of a solvent with a latent heat of 360 kJ/kg, using a jacket that can sustainably deliver 40 kW of heating duty to the batch at the vacuum boiling point:</p>
+  <h2 id="flow">How fast can the jacket deliver it? <span class="lvl l1">Basics</span></h2>
+  <p>Heat flows from the jacket into the batch through the reactor wall, and the rate depends on three things:</p>
   <div class="formula-box">
-    m&#775; = Duty / &lambda; = 40 / 360 &times; 3,600 &asymp; 400 kg/hr<br>
-    Recovery time = 500 / 400 &asymp; 1.25 hr
+    Q (W) = U &times; A &times; &Delta;T
+    <small>U: overall heat transfer coefficient (W/m&sup2;K), how easily heat crosses the wall. A: wetted area (m&sup2;), only the part of the wall with liquid behind it. &Delta;T: jacket temperature minus batch temperature.</small>
   </div>
-  <p>That's the sustained-boiling estimate. Real recovery time is usually somewhat longer once you account for the initial heat-up to boiling point and the tail end of the batch where the boil-up rate naturally falls off as the last of the solvent is stripped.</p>
+  <p>That last term is the one people underestimate. Heat flow is proportional to the temperature difference, so as the batch gets close to the jacket temperature, heat flow tails off. That single fact explains most of what follows.</p>
+  <figure class="art-fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Jacketed reactor with steam flowing through the jacket and heat flowing into the batch">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M200 30 h240 v120 q0 50 -120 50 q-120 0 -120 -50 z"/>
+        <path d="M186 70 v80 q0 64 134 64 q134 0 134 -64 v-80"/>
+        <path d="M320 20 V150"/><path d="M290 150 h60"/>
+      </g>
+      <g fill="#7FB2E8" opacity=".85"><path d="M202 80 h236 v70 q0 48 -118 48 q-118 0 -118 -48z"/></g>
+      <g class="anim-spin slow"><path d="M290 150 h60" stroke="#E8EEF4" stroke-width="3"/></g>
+      <path class="anim-flow" d="M120 76 H186 V150 q0 64 134 64 q134 0 134 -64 V76 H520" fill="none" stroke="#F08A6B" stroke-width="3"/>
+      <g fill="#F08A6B" font-size="30" font-family="sans-serif" font-weight="700"><text class="anim-pulse" x="208" y="160">&#8594;</text><text class="anim-pulse" x="404" y="160" style="animation-delay:.5s">&#8592;</text><text class="anim-pulse" x="310" y="196" style="animation-delay:.25s">&#8593;</text></g>
+      <g font-family="sans-serif" font-size="12" fill="currentColor"><text x="40" y="72">Steam in</text><text x="526" y="72">Condensate out</text><text x="240" y="110">Batch (wetted area)</text><text x="230" y="58">Vapour space: little heat transfer</text></g>
+    </svg>
+    <figcaption>Only the jacket area with liquid behind it transfers heat well. Above the liquid level the wall is heating vapour, which does very little.</figcaption>
+  </figure>
 
-  <h2>In the Plant</h2>
-  <p>Available heat duty isn't fixed. It depends on jacket steam pressure (or hot water supply temperature), heat transfer area, and how fouled the jacket surface is. A jacket that delivered 40 kW when clean may only manage 30 kW after a few years of service, stretching recovery time well beyond this calculation.</p>
+  <h2 id="heatup">Heat-up and cool-down time <span class="lvl l2">Working level</span></h2>
+  <p>Because the heat flow falls as the batch warms, the temperature does not rise in a straight line. It rises quickly at first and then creeps towards the jacket temperature. With the jacket at a constant temperature T<sub>j</sub> (condensing steam is close to this), the time to go from T<sub>0</sub> to T is:</p>
+  <div class="formula-box">
+    t = (M &times; c<sub>p</sub>) / (U &times; A) &times; ln[(T<sub>j</sub> &minus; T<sub>0</sub>) / (T<sub>j</sub> &minus; T)]
+    <small>M &times; c<sub>p</sub> / (U &times; A) is the batch's time constant: the bigger the batch or the worse the heat transfer, the slower it responds.</small>
+  </div>
+  <h3>Worked example</h3>
+  <p>A 5 KL glass-lined reactor with 4,000 kg of batch (c<sub>p</sub> &asymp; 2.0 kJ/kg&middot;K), 9 m&sup2; of wetted area and U &asymp; 350 W/m&sup2;K. Heat from 30 to 80 &deg;C on 3 barg steam (143.6 &deg;C):</p>
+  <div class="formula-box">
+    M c<sub>p</sub> / UA = 4,000 &times; 2.0 / (0.35 &times; 9) &asymp; 2,540 s &asymp; 42 min<br>
+    t = 42 &times; ln[(143.6 &minus; 30) / (143.6 &minus; 80)] = 42 &times; ln(1.79) &asymp; 25 min
+  </div>
+  <p>Now cool it back from 80 to 40 &deg;C with cooling water at 32 &deg;C:</p>
+  <div class="formula-box">t = 42 &times; ln[(80 &minus; 32) / (40 &minus; 32)] = 42 &times; ln(6) &asymp; 76 min</div>
+  <p>Three times longer for a smaller temperature change. When the batch is at 40 &deg;C, the cooling water has only 8 &deg;C of driving force left. This is why plants switch to chilled water or brine for the last part of a cool-down.</p>
+  <figure class="art-fig" data-fig="heatup">
+    <figcaption>Try it: the same 4,000 kg batch on steam, on hot water, or being cooled. Notice how hot water at 90 &deg;C takes three times as long as steam to reach 80 &deg;C, because the driving force near the end is only 10 &deg;C. Raising U (a clean jacket, better agitation) shortens every case.</figcaption>
+  </figure>
 
-  <h2>Common Mistakes</h2>
-  <p>Using latent heat at atmospheric pressure when the batch is actually recovering under vacuum at a lower temperature (latent heat does shift with temperature, though usually modestly); assuming the full nameplate heating duty is available throughout the batch rather than derating for fouling and real steam supply conditions; and not accounting for the slower boil-up rate typical near the end of a batch.</p>
+  <h2 id="recovery">Solvent recovery time <span class="lvl l2">Working level</span></h2>
+  <p>Once the batch is boiling, the temperature stops rising and every kilowatt goes into vapour:</p>
+  <div class="formula-box">
+    Vapour rate (kg/h) = Heat duty (kW) &times; 3,600 / &lambda; (kJ/kg)<br>
+    Recovery time (h) = solvent to recover (kg) / vapour rate (kg/h)
+  </div>
+  <p>500 kg of solvent with &lambda; = 360 kJ/kg, and a jacket that can deliver 40 kW at the boiling temperature:</p>
+  <div class="formula-box">Vapour rate = 40 &times; 3,600 / 360 = 400 kg/h &nbsp;&rarr;&nbsp; time = 500 / 400 &asymp; 1.25 h</div>
+  <p>Add the heat-up time before boiling starts, and expect the last part to be slower than the first: the wetted area shrinks and, with mixed solvents, the boiling point rises as the light solvent leaves. The <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">solvent recovery article</a> covers boiling points under vacuum and the condenser side.</p>
+
+  <h2 id="area">Wetted area and reactor occupancy <span class="lvl l3">Going deeper</span></h2>
+  <p>A reactor's jacket area on the datasheet is the full jacket. The area that matters is the part covered by liquid inside. For a vertical reactor with a 2:1 dished bottom head:</p>
+  <ul>
+    <li>The bottom head holds a volume of &pi;D&sup3;/24 and has an inside area of about 1.08 D&sup2;.</li>
+    <li>Above the head, each metre of liquid height in the shell adds &pi;D m&sup2; of wetted wall.</li>
+  </ul>
+  <p>So the wetted area depends on how full the reactor is. A 5 KL reactor (about 1.75 m diameter) at 80 % occupancy has roughly 9&ndash;11 m&sup2; wetted, depending on how high the jacket goes; at 30 % (near the end of a solvent strip) only about 5 m&sup2;. Since Q = U A &Delta;T, the jacket delivers half the heat just when the operator is waiting for the batch to finish. For recovery time estimates, use the average of the wetted area at the start and end of distillation, which is what the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load calculator</a> does.</p>
+  <div class="art-note"><b>On the plant</b><p>Low occupancy also hurts agitation: an anchor or a pitched-blade turbine that is barely covered splashes instead of mixing, so U falls as well. If a batch must run at low fill, check the impeller is still submerged at the end of the step.</p></div>
+
+  <h2 id="u">What sets U, and how it decays <span class="lvl l3">Going deeper</span></h2>
+  <p>U is not one property; it is several resistances in series, like resistors in a circuit:</p>
+  <div class="formula-box">1/U = 1/h<sub>inside</sub> + wall thickness / k<sub>wall</sub> + 1/h<sub>jacket</sub> + fouling resistances</div>
+  <p>The biggest one wins. In a glass-lined reactor the glass layer (k &asymp; 1 W/mK) is a large resistance, so U is typically 250&ndash;400 W/m&sup2;K. In stainless steel with good agitation and steam, 500&ndash;800 is common. Viscous batches, poor agitation and scale in the jacket all pull it down.</p>
+  <p>The practical check: record the heat-up time of a standard batch when the reactor is clean. If the same batch takes 30 % longer a year later, U has dropped by about 30 %, and the jacket probably needs descaling. Hot water jackets scale faster than steam jackets because of the hard water circulating through them.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Using the full jacket area from the datasheet instead of the wetted area.</li>
+    <li>Using an average &Delta;T as if the batch temperature were fixed, which underestimates heat-up time near the end.</li>
+    <li>Forgetting the reactor steel and the jacket contents in M c<sub>p</sub> for short batches; they can add 10&ndash;20 %.</li>
+    <li>Taking latent heat at atmospheric pressure for a vacuum recovery (it is a little higher at lower temperatures).</li>
+    <li>Designing a cool-down on cooling water alone when the target is within 10 &deg;C of the cooling water temperature.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do you calculate the heat-up time of a jacketed reactor?</h3>
+  <p>t = (M c<sub>p</sub> / UA) &times; ln[(T<sub>j</sub> &minus; T<sub>0</sub>) / (T<sub>j</sub> &minus; T)]. For the 4,000 kg example on 3 barg steam, about 25 minutes from 30 to 80 &deg;C.</p>
+  <h3>Why does cooling take longer than heating?</h3>
+  <p>The driving force is smaller. Cooling water at 32 &deg;C has only 8 &deg;C of driving force when the batch is at 40 &deg;C, while steam at 144 &deg;C still has over 60 &deg;C when the batch reaches 80 &deg;C.</p>
+  <h3>How do you calculate solvent recovery time?</h3>
+  <p>Vapour rate = heat duty &times; 3,600 / latent heat; time = solvent mass / vapour rate. 500 kg at 360 kJ/kg and 40 kW takes about 1.25 hours of boiling.</p>
 
   <div class="related-box">
     <h3>Try the Calculator</h3>
-    <a href="/calculators/heat-load-calculator/">Heat Load &amp; Recovery Calculator</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load &amp; Recovery Calculator</a>
     <h3>Related Articles</h3>
-    <a href="/articles/solvent-recovery-calculation/">Solvent Recovery Calculation Explained</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery: boiling point under vacuum</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency and the cost of steam</a>
   </div>
 </div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

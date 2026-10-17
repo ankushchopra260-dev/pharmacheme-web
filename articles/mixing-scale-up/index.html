@@ -1,11 +1,11 @@
 ---
 layout: default
 title: "Mixing Scale-up Rules from Lab to Plant"
-description: "Mixing scale-up rules from lab to production: keep tip speed, P/V or Reynolds number constant, get the plant RPM from N2 = N1 (D1/D2)^n, with a worked example and a free calculator."
+description: "Mixing scale-up from the basics: Reynolds number, power number, tip speed and P/V, the N2 = N1 (D1/D2)^n rule, which rule to use for blending, crystals and suspensions, blend time and heat transfer at scale, with a worked example and an interactive lab-vs-plant animation."
 breadcrumbs:
   - label: Articles
     url: /articles/
-  - label: Mixing & Scale-up
+  - label: Mixing & Scale-up Calculations
     url: /articles/mixing-scale-up/
 structured_data: |
   {
@@ -13,84 +13,132 @@ structured_data: |
     "@graph": [
       {
         "@type": "Article",
-        "headline": "Mixing Scale-up Rules from Lab to Plant: Tip Speed, P/V & Reynolds",
-        "description": "Agitator scale-up rules from lab to production, with the RPM scaling formula and a worked example.",
+        "headline": "Mixing Scale-up Rules from Lab to Plant",
+        "description": "Reynolds number, power number, tip speed and P/V scale-up rules, blend time, suspension and heat transfer at scale.",
         "author": { "@type": "Person", "name": "Ankush Chopra" },
-        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
+        "dateModified": "2026-10-17"
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "What are the main mixing scale-up rules?", "acceptedAnswer": { "@type": "Answer", "text": "For geometrically similar vessels, N2 = N1 x (D1/D2)^n. Constant tip speed uses n = 1, constant power per volume (P/V) uses n = 2/3 in the turbulent regime, and constant Reynolds number uses n = 2." } },
-          { "@type": "Question", "name": "Which scale-up rule should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Constant tip speed for shear-sensitive products such as crystals, constant P/V when blending, heat transfer or mass transfer matter most. Constant Reynolds number is rarely practical at large scale-up ratios." } }
+          { "@type": "Question", "name": "Which scale-up rule should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Constant tip speed for shear-sensitive products such as crystals, constant P/V when blending, heat transfer or mass transfer matter most. Constant Reynolds number is rarely practical at large scale-up ratios." } },
+          { "@type": "Question", "name": "Why does blend time increase on scale-up?", "acceptedAnswer": { "@type": "Answer", "text": "In turbulent flow, blend time is inversely proportional to impeller speed for the same geometry. Plant agitators turn much slower than lab ones, so blending takes longer: about 5 times longer at constant P/V for a tenfold increase in impeller diameter." } }
         ]
       }
     ]
   }
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>Mixing Scale-up Rules from Lab to Plant</h1>
-  <p class="article-meta">Chemical Engineering &middot; Process Engineering</p>
+  <h1>Mixing Scale-up: From the Lab Flask to the Plant Reactor</h1>
+  <p class="article-meta">Chemical Engineering &middot; Mixing &middot; <span class="art-updated">Updated October 2026</span></p>
 
-  <p>Scaling a mixing process from lab to pilot to plant is trickier than it looks because there's no single "correct" way to do it. Constant tip speed, constant power-per-volume (P/V) and constant Reynolds number are different, mutually exclusive scale-up rules. Which one matters depends on your process.</p>
+  <p class="art-lede">A reaction that worked perfectly in a 2-litre flask at 300 rpm is moving to a 20 KL reactor. What speed should the plant agitator run at? There is no single right answer, because you cannot keep everything the same when you make a vessel a thousand times bigger. You have to choose what matters most for your process, and accept that other things will change. This article explains the choice.</p>
 
-  <div class="formula-box" style="font-family:inherit;line-height:1.6;"><strong>Scale-up rules from lab to production, in short:</strong> keep the vessel geometrically similar (same D/T, impeller type and baffles), choose what must stay the same, then set the plant speed with N<sub>2</sub> = N<sub>1</sub> &times; (D<sub>1</sub>/D<sub>2</sub>)<sup>n</sup>. Use n = 2/3 to keep power per volume (P/V) constant for blending, heat transfer and dispersions; n = 1 to keep tip speed constant for shear-sensitive solids; n = 2 for constant Reynolds number, which is rarely practical. Then check the motor power, blend time and solids suspension at the plant speed.</div>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What an agitator actually does</a><span>Basics</span></li>
+    <li><a href="#numbers">The four numbers that describe mixing</a><span>Basics</span></li>
+    <li><a href="#rules">The scale-up rules</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: 0.1 m to 1.0 m impeller</a><span>Working level</span></li>
+    <li><a href="#choose">Which rule for which process</a><span>Working level</span></li>
+    <li><a href="#change">What changes no matter which rule you pick</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <p><strong>Want to run your own numbers?</strong> Try the <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing / Scale-up Calculator</a> or the <a href="{{ '/calculators/agitator-simulator/' | relative_url }}">Agitator Simulator</a>.</p>
 
-  <p>Want to run your own numbers? Try the <a href="/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a>.</p>
+  <h2 id="what">What an agitator actually does <span class="lvl l1">Basics</span></h2>
+  <p>An impeller does two jobs at once. It <strong>pumps</strong>: it moves the whole batch around the vessel so every part passes through the impeller zone regularly. And it <strong>shears</strong>: right at the blade tips the liquid is torn apart into small eddies, which breaks up droplets, disperses gas and, unfortunately, can break crystals.</p>
+  <p>Different impellers split their effort differently. A Rushton (flat-blade) turbine throws liquid outwards and makes a lot of shear: good for gas dispersion. A pitched-blade turbine or hydrofoil pushes liquid down and around: good for blending and keeping solids suspended with less shear. An anchor scrapes the wall at low speed: good for viscous batches and heat transfer near the wall.</p>
+  <figure class="art-fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Flow patterns: radial flow from a flat-blade turbine and axial flow from a pitched-blade turbine">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M40 20 V180 q0 30 120 30 q120 0 120 -30 V20"/><path d="M360 20 V180 q0 30 120 30 q120 0 120 -30 V20"/>
+        <path d="M160 10 V120"/><path d="M480 10 V140"/>
+      </g>
+      <rect x="130" y="114" width="60" height="12" rx="2" fill="#D4A72C"/>
+      <path d="M455 134 l50 12" stroke="#D4A72C" stroke-width="10" stroke-linecap="round"/>
+      <g fill="none" stroke="#7FB2E8" stroke-width="2.5">
+        <path class="anim-flow" d="M190 120 C240 120 270 110 270 70 C270 40 200 40 170 100"/><path class="anim-flow" d="M190 120 C240 120 270 140 270 170 C270 200 200 190 170 130"/>
+        <path class="anim-flow" d="M130 120 C80 120 50 110 50 70 C50 40 120 40 150 100"/><path class="anim-flow" d="M130 120 C80 120 50 140 50 170 C50 200 120 190 150 130"/>
+        <path class="anim-flow" d="M480 150 C480 190 590 200 590 120 C590 40 500 40 490 120"/><path class="anim-flow" d="M480 150 C480 190 370 200 370 120 C370 40 460 40 470 120"/>
+      </g>
+      <g font-family="sans-serif" font-size="12" fill="currentColor"><text x="80" y="226">Radial: flat-blade turbine</text><text x="398" y="226">Axial: pitched-blade turbine</text></g>
+    </svg>
+    <figcaption>A flat-blade turbine pushes liquid outwards into two loops; a pitched-blade turbine pumps it down to the bottom and back up the walls, which is better for lifting solids.</figcaption>
+  </figure>
 
-  <h2>The Core Numbers</h2>
+  <h2 id="numbers">The four numbers that describe mixing <span class="lvl l1">Basics</span></h2>
   <div class="formula-box">
-    Re = &rho; &times; N &times; D&sup2; / &mu;<br>
-    Tip Speed = &pi; &times; D &times; N<br>
-    Power = N<sub>p</sub> &times; &rho; &times; N&sup3; &times; D&#8309;<br>
-    P/V = Power / Volume
+    Reynolds number Re = &rho; N D&sup2; / &mu; &nbsp;&nbsp; <small style="display:inline">turbulent above about 10,000; laminar below about 10</small><br>
+    Tip speed = &pi; D N &nbsp;&nbsp; <small style="display:inline">a measure of the shear at the blade tips</small><br>
+    Power P = N<sub>p</sub> &rho; N&sup3; D&#8309; &nbsp;&nbsp; <small style="display:inline">N<sub>p</sub> is the impeller's power number</small><br>
+    Power per volume P/V &nbsp;&nbsp; <small style="display:inline">how hard the whole batch is being worked</small>
   </div>
-  <p>Where N is impeller rotational speed (rev/s), D is impeller diameter, &rho; and &mu; are fluid density and viscosity, and N<sub>p</sub> is the power number (a dimensionless constant depending on impeller type and Reynolds regime).</p>
+  <p>N is speed in revolutions per second and D the impeller diameter. Two things in the power equation are worth noticing: power rises with the <em>cube</em> of speed and the <em>fifth</em> power of diameter. Double the impeller diameter at the same speed and you need 32 times the power. That is why plant agitators run so much slower than lab stirrers.</p>
+  <p>The power number N<sub>p</sub> depends on the impeller type and is roughly constant in turbulent flow: about 5 for a six-blade Rushton turbine, about 1.3&ndash;1.5 for a 45&deg; pitched-blade turbine, and 0.3 or less for a hydrofoil.</p>
 
-  <h2>Scale-up Rules at a Glance</h2>
-  <p>For geometrically similar vessels (same D/T, same impeller type, same baffling), every common rule reduces to one formula for the plant agitator speed:</p>
-  <div class="formula-box">
-    N<sub>2</sub> = N<sub>1</sub> &times; (D<sub>1</sub> / D<sub>2</sub>)<sup>n</sup>
-  </div>
-  <div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;">
-    <thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Scale-up rule</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">n</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Use it when</th></tr></thead>
-    <tbody>
-      <tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Constant tip speed</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Shear matters: crystals, flocs, fragile solids</td></tr>
-      <tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Constant P/V (turbulent)</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">2/3</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Blending, heat transfer, gas&ndash;liquid or liquid&ndash;liquid dispersion</td></tr>
-      <tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Constant Reynolds number</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">2</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">Rarely practical; gives a very low plant RPM</td></tr>
-    </tbody>
+  <h2 id="rules">The scale-up rules <span class="lvl l2">Working level</span></h2>
+  <p>If the plant vessel is a scaled copy of the lab one (same ratio of impeller to tank diameter, same impeller type, same baffles, same fill height ratio), every common rule reduces to one formula:</p>
+  <div class="formula-box">N<sub>2</sub> = N<sub>1</sub> &times; (D<sub>1</sub> / D<sub>2</sub>)<sup>n</sup></div>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Keep this the same</th><th>n</th><th>What it protects</th></tr>
+    <tr><td>Tip speed</td><td>1</td><td>Shear: crystals, flocs, fragile solids</td></tr>
+    <tr><td>Power per volume (P/V)</td><td>2/3</td><td>Blending, heat transfer, gas or liquid dispersion</td></tr>
+    <tr><td>Reynolds number</td><td>2</td><td>The flow regime; rarely practical</td></tr>
   </table></div>
 
-  <h2>Worked Example</h2>
-  <p>A lab reactor with a 0.1 m impeller running at 300 rpm (5 rev/s) needs to scale to a plant vessel with a 1.0 m impeller. Scaling on <strong>constant tip speed</strong>:</p>
+  <h2 id="example">Worked example: 0.1 m to 1.0 m impeller <span class="lvl l2">Working level</span></h2>
+  <p>A lab vessel (0.3 m diameter) with a 0.1 m Rushton turbine at 300 rpm, water-like liquid. The plant vessel is ten times bigger in every dimension: a 3 m tank with a 1.0 m impeller, about a thousand times the volume.</p>
   <div class="formula-box">
-    Tip speed (lab) = &pi; &times; 0.1 &times; 5 &asymp; 1.57 m/s<br>
-    N (plant) = Tip speed / (&pi; &times; D) = 1.57 / (&pi; &times; 1.0) &asymp; 0.5 rev/s (30 rpm)
+    Constant P/V: N<sub>2</sub> = 300 &times; (0.1/1.0)<sup>2/3</sup> &asymp; 65 rpm<br>
+    Constant tip speed: N<sub>2</sub> = 300 &times; (0.1/1.0) = 30 rpm<br>
+    Constant Re: N<sub>2</sub> = 300 &times; (0.1/1.0)&sup2; = 3 rpm
   </div>
-  <p>Scaling the same jump on <strong>constant P/V</strong> instead (P/V scales with N&sup3;D&sup2; in the turbulent regime, so n = 2/3):</p>
-  <div class="formula-box">
-    N (plant) = 300 &times; (0.1 / 1.0)<sup>2/3</sup> &asymp; 300 &times; 0.215 &asymp; 65 rpm
-  </div>
-  <p>And on <strong>constant Reynolds number</strong> (n = 2): N = 300 &times; (0.1)&sup2; = 3 rpm, which is far too slow to mix a plant vessel. The same lab result gives 3, 30 or 65 rpm depending on the rule, so picking the right one for your chemistry matters more than the arithmetic. At constant P/V the total power also rises with the volume, about 1,000 times here for a tenfold jump in impeller diameter.</p>
+  <p>The same lab result gives 65, 30 or 3 rpm. At 65 rpm the plant agitator draws about 6 kW (a thousand times the lab's 6 W). At 30 rpm it draws only 0.6 kW, but the batch is worked ten times less hard per cubic metre. At 3 rpm, nothing is really mixing.</p>
+  <figure class="art-fig" data-fig="scaleup">
+    <figcaption>Try it: the impellers turn at their real relative speeds (both slowed down 20 times so you can follow them). Switch rules and watch what happens to tip speed, power per volume and blend time.</figcaption>
+  </figure>
 
-  <h2>In the Plant</h2>
-  <p>Constant tip speed suits shear-sensitive systems (crystals you don't want to break, some biological materials). Constant P/V suits systems where bulk blend time and heat/mass transfer matter more than shear. Constant Reynolds number is rarely workable at large scale-up ratios since it typically demands an unrealistically low large-vessel RPM.</p>
+  <h2 id="choose">Which rule for which process <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Crystallisation and fragile solids: constant tip speed.</strong> Crystal breakage happens at the blade tips. Keep the tip speed the same as the lab (or below about 3&ndash;5 m/s) and accept slower blending.</li>
+    <li><strong>Blending, heat transfer, reactions with dosing, liquid&ndash;liquid or gas&ndash;liquid dispersion: constant P/V.</strong> These depend on how much energy goes into the whole batch.</li>
+    <li><strong>Keeping solids suspended:</strong> the just-suspended speed (Zwietering) scales as roughly D<sup>&minus;0.85</sup>, between the two rules. Constant P/V usually keeps solids off the bottom; constant tip speed may not. Check it.</li>
+    <li><strong>Viscous batches</strong> (laminar flow): scale-up is about keeping the whole batch moving, usually with close-clearance impellers (anchors, helical ribbons); P/V rules don't apply.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Most plant reactors are not scaled copies of the lab flask: a round-bottom flask with a magnetic stirrer is nothing like a baffled reactor with an anchor. When the geometry is different, use the rules only as a starting point, and confirm with a pilot run or at least a check of blend time and suspension at the chosen plant speed.</p></div>
 
-  <h2>Common Mistakes</h2>
-  <p>Applying one scale-up rule "by default" without checking whether it actually protects the thing that matters for that specific product; comparing power numbers between different impeller types as if they were interchangeable; and forgetting that geometric similarity (same D/T ratio, same baffling) is an assumption behind all of these formulas. If the plant vessel's geometry doesn't match the lab vessel's, none of these scale-up rules apply cleanly.</p>
+  <h2 id="change">What changes no matter which rule you pick <span class="lvl l3">Going deeper</span></h2>
+  <p><strong>Blend time gets longer.</strong> In turbulent flow, the time to blend to 95 % uniformity is inversely proportional to speed for the same geometry. In the example, the lab blends in about 5 s; the plant takes about 25 s at constant P/V and about 55 s at constant tip speed. If your chemistry is fast compared with that (a quick neutralisation, a fast addition of a reactive reagent), the plant will see local hot spots or over-concentrated zones the lab never did. Slow the addition, or add near the impeller where mixing is most intense.</p>
+  <p><strong>Heat transfer area per volume falls.</strong> The vessel's surface area grows with diameter squared, its volume with diameter cubed. Ten times the diameter means one tenth the jacket area per cubic metre of batch. A reaction that was easy to cool in the lab can run hot in the plant even at the same P/V. This is the single most important reason why exothermic reactions need a proper heat balance before scale-up, not just a mixing calculation. See the <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load article</a> and the <a href="{{ '/process-safety/cooling-failure-and-runaway/' | relative_url }}">cooling failure and runaway guide</a>.</p>
+  <p><strong>Shear distribution widens.</strong> At constant P/V the plant has higher tip speed (here 3.4 m/s against 1.6 m/s) but slower average circulation. Crystals see brief, more violent passes through the impeller zone.</p>
 
-  <h2>Frequently Asked Questions</h2>
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Using one rule by habit without asking what the process actually needs.</li>
+    <li>Comparing speeds between different impeller types as if their power numbers were the same.</li>
+    <li>Scaling mixing correctly and forgetting that heat removal per volume fell tenfold.</li>
+    <li>Ignoring the fill level: a reactor run at 30 % fill has the impeller near the surface and very different flow.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
   <h3>What are the main mixing scale-up rules?</h3>
   <p>For geometrically similar vessels, N<sub>2</sub> = N<sub>1</sub> &times; (D<sub>1</sub>/D<sub>2</sub>)<sup>n</sup>, with n = 1 for constant tip speed, n = 2/3 for constant P/V (turbulent) and n = 2 for constant Reynolds number.</p>
   <h3>Which scale-up rule should I use?</h3>
-  <p>Constant tip speed when shear damages the product, constant P/V when blending, heat transfer or mass transfer control the result. If you are unsure, calculate both and check what each one does to the property you care about.</p>
+  <p>Constant tip speed when shear damages the product, constant P/V when blending, heat transfer or mass transfer control the result. If you are unsure, calculate both and check what each does to the property you care about.</p>
+  <h3>Why does blend time increase on scale-up?</h3>
+  <p>Blend time in turbulent flow is inversely proportional to speed. Plant agitators turn much slower, so blending takes longer: about five times longer at constant P/V for a tenfold increase in impeller diameter.</p>
 
   <div class="related-box">
-    <h3>Try the Calculator</h3>
-    <a href="/calculators/mixing-scale-up-calculator/">Mixing / Scale-up Calculator</a>
-    <a href="/calculators/agitator-simulator/">Agitator Simulator</a>
+    <h3>Try the Calculators</h3>
+    <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing / Scale-up Calculator</a>
+    <a href="{{ '/calculators/agitator-simulator/' | relative_url }}">Agitator Simulator</a>
     <h3>Related Articles</h3>
-    <a href="/articles/heat-load-calculation/">How to Calculate Heat Load &amp; Recovery Time</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and heat-up time</a>
+    <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration: how crystal size sets the filtration time</a>
   </div>
 </div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

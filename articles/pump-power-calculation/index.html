@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Pump Power Calculation: Formula, kW from Flow & Head, Examples"
-description: "Pump power calculation step by step: hydraulic power, shaft power and motor kW from flow and head. Two worked examples, the Q×H/367 shortcut and a free pump power calculator."
+description: "Pump power calculation from the basics to plant practice: hydraulic, shaft and motor kW from flow and head, total head with a pressurised receiver, the Q×H/367 shortcut, motor margins, pump curves, NPSH and field efficiency checks, with worked examples."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -14,9 +14,10 @@ structured_data: |
       {
         "@type": "Article",
         "headline": "Pump Power Calculation: Formula, Worked Examples & Motor kW",
-        "description": "Pump power calculation step by step: hydraulic power, shaft power and motor kW from flow and head, with worked examples.",
+        "description": "Pump power calculation from the basics to plant practice: hydraulic, shaft and motor kW, total head, motor margins, pump curves, NPSH and field checks.",
         "author": { "@type": "Person", "name": "Ankush Chopra" },
-        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
+        "dateModified": "2026-10-17"
       },
       {
         "@type": "FAQPage",
@@ -25,107 +26,221 @@ structured_data: |
           { "@type": "Question", "name": "What is the pump capacity formula?", "acceptedAnswer": { "@type": "Answer", "text": "Q (m3/h) = 367 x shaft power (kW) x pump efficiency / (head (m) x SG). It gives the flow a pump can deliver at a given head and power; the pump curve gives the exact figure." } },
           { "@type": "Question", "name": "What is the quick formula for pump power in kW from m3/h?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = Q (m3/h) x H (m) x SG / 367, where SG is specific gravity. For 50 m3/h of water at 30 m head this gives about 4.1 kW." } },
           { "@type": "Question", "name": "What is the difference between hydraulic power and shaft power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power is the energy actually given to the fluid. Shaft power (brake power) is what the pump draws at its shaft, which is higher because of pump losses: shaft power = hydraulic power / pump efficiency." } },
-          { "@type": "Question", "name": "How do I convert pressure to head for a pump calculation?", "acceptedAnswer": { "@type": "Answer", "text": "Head (m) = pressure difference (Pa) / (density x 9.81). For example, 1 bar (100,000 Pa) of water is about 10.2 m of head." } }
+          { "@type": "Question", "name": "How do I convert pressure to head for a pump calculation?", "acceptedAnswer": { "@type": "Answer", "text": "Head (m) = pressure difference (Pa) / (density x 9.81). For example, 1 bar (100,000 Pa) of water is about 10.2 m of head." } },
+          { "@type": "Question", "name": "How much margin should a pump motor have?", "acceptedAnswer": { "@type": "Answer", "text": "A common rule (API 610) is a motor rated at least 125% of the pump's rated shaft power up to 22 kW, 115% from 22 to 55 kW and 110% above 55 kW, then the next standard motor size. Also check the shaft power at the end of the pump curve." } }
         ]
       }
     ]
   }
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>Pump Power Calculation: Formula and Worked Examples</h1>
-  <p class="article-meta">Chemical Engineering &middot; Engineering Calculations</p>
+  <h1>Pump Power Calculation: From the Basics to the Plant Floor</h1>
+  <p class="article-meta">Chemical Engineering &middot; Pumps &middot; <span class="art-updated">Updated October 2026</span></p>
 
-  <p>Sizing a pump motor comes down to three numbers stacked on top of each other: the power the fluid itself needs (hydraulic power), the power the pump has to draw at the shaft to deliver that (shaft power), and the power the motor has to supply to turn that shaft (motor power). Each step loses a bit to inefficiency, which is why a pump moving water at a modest flow and head can still need a noticeably larger motor than the "theoretical" number suggests.</p>
+  <p class="art-lede">Someone asks you to transfer 20 m&sup3;/h of solvent from a storage tank into a reactor. What size motor does the pump need? The answer takes about five minutes, if you know which numbers matter. This article starts from what &ldquo;pump power&rdquo; actually means and works up to the things that catch people out on a real plant: receiver pressure, motor margins, pump curves and NPSH.</p>
 
-  <p><strong>Short on time?</strong> Use the free <a href="/calculators/pump-power-calculator/">Pump Power Calculator</a>. Enter flow, head, density and efficiencies and it returns hydraulic, shaft and motor power.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea in plain words</a><span>Basics</span></li>
+    <li><a href="#head">What &ldquo;head&rdquo; really is</a><span>Basics</span></li>
+    <li><a href="#formula">The formula, and where 367 comes from</a><span>Basics</span></li>
+    <li><a href="#ex1">Example 1: water to a tank</a><span>Working level</span></li>
+    <li><a href="#ex2">Example 2: solvent into a pressurised reactor</a><span>Working level</span></li>
+    <li><a href="#motor">Choosing the motor</a><span>Working level</span></li>
+    <li><a href="#curve">Pump curves and why efficiency is not a constant</a><span>Going deeper</span></li>
+    <li><a href="#npsh">NPSH: the problem power calculations don't show</a><span>Going deeper</span></li>
+    <li><a href="#field">Checking a running pump</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <p><strong>Just need the number?</strong> The <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump Power Calculator</a> does it from flow, head and efficiencies.</p>
 
-  <h2>The Formula</h2>
-  <div class="formula-box">
-    Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 1,000<br>
-    Shaft power (kW) = Hydraulic power / &eta;<sub>pump</sub><br>
-    Motor power (kW) = Shaft power / &eta;<sub>motor</sub>
-  </div>
-  <p>Where &rho; is fluid density (kg/m&sup3;), g is 9.81 m/s&sup2;, Q is flow rate (m&sup3;/s), H is total developed head (m), and &eta;<sub>pump</sub> / &eta;<sub>motor</sub> are the pump and motor efficiencies as fractions (e.g. 0.65 for 65%).</p>
+  <h2 id="idea">The idea in plain words <span class="lvl l1">Basics</span></h2>
+  <p>A pump does one job: it gives energy to a liquid so the liquid can get somewhere it would not go by itself. Higher up, into a vessel at higher pressure, or simply through a long pipe that resists the flow.</p>
+  <p>Think of carrying buckets of water up a staircase. The work you do depends on two things: how much water you carry each minute, and how high the stairs are. Pumps are the same. <strong>Flow</strong> is how much you carry; <strong>head</strong> is how high the stairs are. Multiply them (with the liquid's weight) and you get the power the liquid receives.</p>
+  <p>The pump is not perfect, so it needs more power at its shaft than it gives to the liquid. The motor is not perfect either, so it draws more from the supply than it gives to the shaft. That is why there are three powers, each bigger than the last:</p>
+  <ol>
+    <li><strong>Hydraulic power</strong>: what the liquid actually receives.</li>
+    <li><strong>Shaft power</strong> (also called brake power): what the pump takes at its shaft. Hydraulic power divided by pump efficiency.</li>
+    <li><strong>Motor input power</strong>: what the motor draws from the electrical supply. Shaft power divided by motor efficiency. This is what you pay for.</li>
+  </ol>
 
-  <h2>Quick Formula: Pump Power from m&sup3;/h</h2>
-  <p>On the plant floor, flow is usually read in m&sup3;/h, not m&sup3;/s. Folding the constants together gives a shortcut that is easy to remember:</p>
-  <div class="formula-box">
-    Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367
-  </div>
-  <p>SG is the specific gravity of the liquid (1.0 for water). The 367 comes from 3,600 &times; 1,000 / (1,000 &times; 9.81). To get kW in horsepower, divide by 0.7457 (1 hp = 0.7457 kW).</p>
-
-  <h2>Variables and Units</h2>
-  <p>Total head H isn't just the static lift. It's static lift plus friction losses in the piping plus any pressure the destination vessel is already holding, all converted to an equivalent height of fluid. Getting H wrong (usually by forgetting friction losses) is the single most common source of an undersized pump.</p>
-
-  <h2>Worked Example</h2>
-  <p>Take water (&rho; = 1,000 kg/m&sup3;) at a flow of 50 m&sup3;/hr (0.0139 m&sup3;/s) against a total head of 30 m, with a pump efficiency of 65% and motor efficiency of 92%:</p>
-  <div class="formula-box">
-    Hydraulic power = 1,000 &times; 9.81 &times; 0.0139 &times; 30 / 1,000 &asymp; 4.09 kW<br>
-    Shaft power = 4.09 / 0.65 &asymp; 6.29 kW<br>
-    Motor power = 6.29 / 0.92 &asymp; 6.84 kW
-  </div>
-  <p>In practice you'd round up to the next standard motor frame size above 6.84 kW (commonly a 7.5 kW motor) rather than specifying the exact calculated value, to leave margin for wear and off-curve operation. The quick formula gives the same hydraulic power: 50 &times; 30 &times; 1.0 / 367 &asymp; 4.09 kW.</p>
-
-  <h2>Worked Example 2: Solvent into a Pressurised Vessel</h2>
-  <p>Now a case closer to a pharma plant: a solvent with density 870 kg/m&sup3; (SG 0.87) is transferred at 20 m&sup3;/hr into a receiver held at 2 bar(g). The static lift is 12 m and the line friction loss is 5 m. Pump efficiency is 60% and motor efficiency 90%.</p>
-  <p>First, convert the receiver pressure to head of <em>this</em> liquid:</p>
-  <div class="formula-box">
-    Pressure head = &Delta;P / (&rho; &times; g) = 200,000 / (870 &times; 9.81) &asymp; 23.4 m<br>
-    Total head H = 12 + 5 + 23.4 &asymp; 40.4 m
-  </div>
-  <p>Then the power:</p>
-  <div class="formula-box">
-    Hydraulic power = 20 &times; 40.4 &times; 0.87 / 367 &asymp; 1.92 kW<br>
-    Shaft power = 1.92 / 0.60 &asymp; 3.20 kW<br>
-    Motor power = 3.20 / 0.90 &asymp; 3.55 kW &rarr; select a 4 kW motor
-  </div>
-  <p>Notice that the receiver pressure is more than half of the total head here. Leave it out and the motor would be undersized by more than half.</p>
-
-  <h2>How to Find the Total Head</h2>
-  <p>The head in the formula is the <strong>total developed head</strong>: everything the pump has to overcome between the suction tank and the delivery point.</p>
+  <h2 id="head">What &ldquo;head&rdquo; really is <span class="lvl l1">Basics</span></h2>
+  <p>Head is energy per unit weight of liquid, expressed as a height in metres. It sounds abstract, but it is a useful trick: a pump that develops 30 m of head can lift any liquid 30 m, whether it is water, toluene or a heavy brine. The <em>pressure</em> it makes changes with the liquid's density; the head does not. That is why pump curves are drawn in metres.</p>
+  <p>The total head a pump must deliver has three parts:</p>
+  <figure class="art-fig">
+    <svg viewBox="0 0 760 260" role="img" aria-label="Pump system: suction tank, pump and a pressurised receiver higher up, with static head, pressure head and friction shown">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="30" y="150" width="120" height="80" rx="6"/><line x1="30" y1="175" x2="150" y2="175" stroke-dasharray="5 4"/>
+        <circle cx="250" cy="215" r="22"/><path d="M150 215 H228"/><path d="M272 215 H420 V70 H470"/>
+        <rect x="470" y="40" width="140" height="90" rx="6"/><line x1="470" y1="70" x2="610" y2="70" stroke-dasharray="5 4"/>
+        <circle cx="580" cy="22" r="12"/><path d="M580 34 V40"/>
+        <path d="M640 70 V175" stroke-width="1.5"/><path d="M634 76 L640 70 L646 76 M634 169 L640 175 L646 169" stroke-width="1.5"/>
+        <path d="M160 175 H640" stroke-width="1" stroke-dasharray="2 4"/>
+      </g>
+      <path class="anim-flow" d="M150 215 H228 M272 215 H420 V70 H470" fill="none" stroke="#7FB2E8" stroke-width="3"/>
+      <g class="anim-spin" fill="none" stroke="#D4A72C" stroke-width="3" stroke-linecap="round"><path d="M250 215 l0 -14 M250 215 l12 7 M250 215 l-12 7"/><circle cx="250" cy="215" r="3" fill="#D4A72C"/></g>
+      <g fill="currentColor" font-family="sans-serif" font-size="13">
+        <text x="45" y="205">Suction tank</text><text x="232" y="252">Pump</text><text x="482" y="105">Receiver, 2 barg</text>
+        <text x="596" y="18">P&#8322;</text>
+        <text x="652" y="118">Static head</text><text x="652" y="134">(level</text><text x="652" y="150">difference)</text>
+        <text x="410" y="120" text-anchor="end">Friction losses:</text><text x="410" y="136" text-anchor="end">pipe, valves, strainer,</text><text x="410" y="152" text-anchor="end">flow meter</text>
+      </g>
+    </svg>
+    <figcaption>Total head = static lift + pressure difference converted to head + friction losses.</figcaption>
+  </figure>
   <div class="formula-box">
     H = (z<sub>2</sub> &minus; z<sub>1</sub>) + (P<sub>2</sub> &minus; P<sub>1</sub>) / (&rho; g) + h<sub>f</sub>
   </div>
-  <p>Here z<sub>2</sub> &minus; z<sub>1</sub> is the static lift from the suction liquid level to the outlet, P<sub>2</sub> &minus; P<sub>1</sub> is the difference between the pressure at the delivery point and the pressure on the suction tank, and h<sub>f</sub> is the friction loss in the suction and delivery lines, including valves, bends, strainers, flowmeters and heat exchangers. Get h<sub>f</sub> from the line size and flow; the <a href="/design-tools/line-sizing/">Line Sizing calculator</a> gives the pressure drop per 100 m.</p>
+  <ul>
+    <li><strong>Static head</strong>, z<sub>2</sub> &minus; z<sub>1</sub>: the height from the liquid level in the suction tank to the delivery point.</li>
+    <li><strong>Pressure head</strong>, (P<sub>2</sub> &minus; P<sub>1</sub>) / &rho;g: any pressure the receiver holds above the suction tank, turned into metres of <em>this</em> liquid. For water, 1 bar is about 10.2 m. For toluene (SG 0.87) the same bar is about 11.7 m.</li>
+    <li><strong>Friction head</strong>, h<sub>f</sub>: losses in the pipe, bends, valves, strainers, flow meters and heat exchangers on the way. It grows with the square of the flow.</li>
+  </ul>
 
-  <h2>Pump Capacity Formula</h2>
-  <p>Pump capacity is the flow rate the pump delivers. Turn the power formula round to find the flow a pump or motor can give at a given head:</p>
+  <h2 id="formula">The formula, and where 367 comes from <span class="lvl l1">Basics</span></h2>
   <div class="formula-box">
-    Q (m&sup3;/h) = 367 &times; P<sub>shaft</sub> (kW) &times; &eta;<sub>pump</sub> / (H (m) &times; SG)<br>
-    Q (m&sup3;/h) = 3,600 &times; velocity (m/s) &times; pipe area (m&sup2;)
+    Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 1,000<br>
+    Shaft power (kW) = Hydraulic power / &eta;<sub>pump</sub><br>
+    Motor input power (kW) = Shaft power / &eta;<sub>motor</sub>
   </div>
-  <p>Example: a 7.5 kW motor (shaft power about 6.9 kW at 92% motor efficiency) driving a pump at 65% efficiency against 30 m of water gives Q = 367 &times; 6.9 &times; 0.65 / 30 &asymp; 55 m&sup3;/h. In practice read the flow from the pump curve at your system head; this formula is for checking.</p>
+  <p>&rho; is density in kg/m&sup3;, g is 9.81 m/s&sup2;, Q is flow in m&sup3;/s, H is total head in m, and the efficiencies are fractions (0.65, not 65).</p>
+  <p>On the plant, flow is read in m&sup3;/h, not m&sup3;/s. Put Q in m&sup3;/h and density as specific gravity, and all the constants fold into one number:</p>
+  <div class="formula-box">
+    Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367<br>
+    <small>367 = 3,600 &times; 1,000 / (1,000 &times; 9.81). It is worth remembering.</small>
+  </div>
+  <p>If you think in horsepower, 1 hp = 0.746 kW.</p>
 
-  <h2>Quick Sizing Table</h2>
-  <p>Motor input power for water (SG 1), 65% pump efficiency and 92% motor efficiency. Pick the next standard motor size above the value.</p>
-<div style="overflow-x:auto;margin:12px 0 20px;"><table style="border-collapse:collapse;width:100%;font-size:15px;"><thead><tr><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">Flow (m&sup3;/h)</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">20 m head</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">40 m head</th><th style="border:1px solid var(--line,#ccc);padding:6px 10px;text-align:left;">60 m head</th></tr></thead><tbody><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">5</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.46 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.91 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1.37 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">10</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">0.91 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1.82 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">2.73 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">20</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">1.82 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">3.65 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">5.47 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">50</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">4.56 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">9.11 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">13.67 kW</td></tr><tr><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">100</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">9.11 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">18.23 kW</td><td style="border:1px solid var(--line,#ccc);padding:6px 10px;">27.34 kW</td></tr></tbody></table></div>
+  <h2 id="ex1">Example 1: water to an overhead tank <span class="lvl l2">Working level</span></h2>
+  <p>Water at 50 m&sup3;/h, total head 30 m (static lift plus friction, tank open to atmosphere). Pump efficiency 65 %, motor efficiency 92 %.</p>
+  <div class="formula-box">
+    Hydraulic power = 50 &times; 30 &times; 1.0 / 367 &asymp; 4.09 kW<br>
+    Shaft power = 4.09 / 0.65 &asymp; 6.29 kW<br>
+    Motor input = 6.29 / 0.92 &asymp; 6.84 kW
+  </div>
+  <p>You would not buy a 6.84 kW motor; you pick a standard size. The next size up is 7.5 kW, and many plants would fit exactly that. Apply the stricter margin rule in the motor section below (125 % of 6.29 kW &asymp; 7.9 kW) and it becomes the next size again, 9.3 kW (12.5 HP).</p>
 
-  <h2>In the Plant</h2>
-  <p>Pump efficiency isn't constant. It peaks at the best-efficiency point (BEP) on the pump curve and drops off the further you run from it. A pump selected purely on this formula using catalog efficiency, but actually operated well off its BEP, will draw more real power than this calculation predicts.</p>
+  <h2 id="ex2">Example 2: solvent into a pressurised reactor <span class="lvl l2">Working level</span></h2>
+  <p>This is closer to daily life in a pharma or chemical plant. Toluene (870 kg/m&sup3;, SG 0.87) is transferred at 20 m&sup3;/h into a reactor held at 2 barg under nitrogen. The storage tank is atmospheric. Static lift is 12 m; friction in the line, including a strainer and a flow meter, is 5 m. Pump efficiency 60 %, motor efficiency 90 %.</p>
+  <p>First turn the reactor pressure into head of toluene:</p>
+  <div class="formula-box">
+    Pressure head = 200,000 / (870 &times; 9.81) &asymp; 23.4 m<br>
+    Total head = 12 + 5 + 23.4 &asymp; 40.4 m
+  </div>
+  <p>Then the power:</p>
+  <div class="formula-box">
+    Hydraulic = 20 &times; 40.4 &times; 0.87 / 367 &asymp; 1.92 kW<br>
+    Shaft = 1.92 / 0.60 &asymp; 3.20 kW<br>
+    Motor input = 3.20 / 0.90 &asymp; 3.55 kW
+  </div>
+  <p>Look at where the head comes from: more than half of it is the reactor pressure. Forget it, and you would size the pump for 17 m instead of 40 m. The pump would run, but it would not deliver against a pressurised reactor. This is the single most common mistake in transfer pump sizing.</p>
+  <div class="art-note"><b>On the plant</b><p>Reactor pressure is not always constant. If the same pump also has to transfer while the reactor is being pressure-tested or vented to a scrubber, use the highest pressure it will see during transfer. And remember that the suction tank may be under nitrogen blanket too; use the <em>difference</em>.</p></div>
 
-  <h2>Common Mistakes</h2>
-  <p>Using static head alone and skipping friction losses; using density from a different fluid than the one actually being pumped; and applying a single "safety factor" on top of an already-conservative efficiency estimate, which can lead to an oversized motor running inefficiently at partial load.</p>
+  <h2 id="motor">Choosing the motor <span class="lvl l2">Working level</span></h2>
+  <p>Two things push the motor size above the calculated number.</p>
+  <p><strong>Margin.</strong> Pumps rarely run exactly at their duty point, liquids change, impellers wear and strainers choke. A widely used rule, from the API 610 pump standard, sets the motor nameplate rating against the pump's rated shaft power:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Pump shaft power</th><th>Motor rating at least</th></tr>
+    <tr><td>Up to 22 kW</td><td>125 % of shaft power</td></tr>
+    <tr><td>22 to 55 kW</td><td>115 %</td></tr>
+    <tr><td>Above 55 kW</td><td>110 %</td></tr>
+  </table></div>
+  <p>In Example 2, 3.20 kW &times; 1.25 = 4.0 kW. Where 4 kW IEC motors are stocked, that is the pick. Many Indian plants standardise on 3.7 kW (5 HP) instead, which is just short, so the next size, 5.5 kW (7.5 HP), is the safe choice.</p>
+  <p><strong>End-of-curve power.</strong> On a normal centrifugal pump, shaft power keeps rising as flow increases. If the pump can ever run out to high flow, say when the reactor is empty and at atmospheric pressure so the head is much lower, it will draw more power than at the duty point. Read the shaft power at the right-hand end of the pump curve and make sure the motor covers it. Otherwise the overload trips on the first batch.</p>
+  <p>Positive displacement pumps (gear, screw, diaphragm) behave the opposite way: flow is nearly fixed and the power rises with discharge pressure. Size their motors at the relief valve setting, and never throttle their discharge.</p>
 
-  <h2>Frequently Asked Questions</h2>
+  <h2 id="curve">Pump curves and why efficiency is not a constant <span class="lvl l3">Going deeper</span></h2>
+  <p>So far we have used a single efficiency figure. In reality a centrifugal pump's efficiency depends on where it operates on its curve. Each pump has a <strong>best efficiency point (BEP)</strong>. Run it at 80&ndash;110 % of the BEP flow and you get the catalogue efficiency, quiet running and long seal life. Run it far to the left (throttled hard) and efficiency falls, the liquid recirculates inside the casing, it heats up, and seals and bearings suffer. Far to the right, efficiency falls again and NPSH required shoots up.</p>
+  <p>Where a pump actually runs is set by two curves crossing: the pump curve (head falls as flow rises) and the system curve (static head plus friction, which rises with flow squared). Change either one and the operating point moves. Closing a discharge valve steepens the system curve; slowing the pump with a VFD lowers the pump curve. The second wastes far less energy, because power falls roughly with the cube of speed on a friction-dominated system. Our <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">VFD article</a> works through the numbers.</p>
+  <figure class="art-fig" data-fig="pump-curve">
+    <figcaption>Try it: a pump designed for 50 m&sup3;/h at 30 m. Drag the flow down and switch between throttling a valve and slowing the pump. The throttled pump climbs up its own curve and the valve wastes the extra head; the VFD moves the whole pump curve down to meet the system curve.</figcaption>
+  </figure>
+  <p>Viscous liquids are another trap. Catalogue curves are for water. Above roughly 20&ndash;50 cP, a centrifugal pump loses head, flow and especially efficiency; at a few hundred cP a gear or screw pump is usually the better choice. The Hydraulic Institute correction method gives the factors; for a quick check, expect efficiency to drop noticeably once viscosity gets into the tens of centipoise.</p>
+
+  <h2 id="npsh">NPSH: the problem power calculations don't show <span class="lvl l3">Going deeper</span></h2>
+  <p>A pump can have the right motor and the right head and still not work, because the liquid boils in its own suction. If the pressure at the impeller eye drops below the liquid's vapour pressure, vapour bubbles form and then collapse violently as the pressure rises. That is cavitation: a gravel-like noise, falling flow, and pitted impellers.</p>
+  <div class="formula-box">
+    NPSH available = (P<sub>surface</sub> &minus; P<sub>vapour</sub>) / (&rho; g) + suction static height &minus; suction friction<br>
+    <small>Keep NPSH available above the pump's NPSH required, with a margin of at least 0.5&ndash;1 m (more for hot or volatile liquids).</small>
+  </div>
+  <p>This bites hardest in pharma plants when pumping out of a vacuum receiver. Say toluene at 40 &deg;C sits in a distillation receiver at 100 mbar abs. Toluene's vapour pressure at 40 &deg;C is about 79 mbar, so the liquid is close to boiling:</p>
+  <div class="formula-box">
+    (10,000 &minus; 7,900) Pa / (850 &times; 9.81) &asymp; 0.25 m<br>
+    + 2.0 m liquid height above the pump &minus; 0.3 m suction friction &asymp; 1.95 m NPSH available
+  </div>
+  <figure class="art-fig" data-fig="cavitation">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Pump impeller with vapour bubbles forming at the eye and collapsing on the vanes">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M20 110 H230"/><path d="M20 140 H230"/><circle cx="320" cy="125" r="80"/><path d="M400 110 H620"/><path d="M400 140 H620"/>
+      </g>
+      <path class="anim-flow" d="M20 125 H240" stroke="#7FB2E8" stroke-width="3" fill="none"/>
+      <path class="anim-flow" d="M400 125 H620" stroke="#7FB2E8" stroke-width="3" fill="none"/>
+      <g class="anim-spin slow" fill="none" stroke="#D4A72C" stroke-width="4" stroke-linecap="round">
+        <path d="M320 125 q30 -10 55 -40"/><path d="M320 125 q10 30 40 55"/><path d="M320 125 q-30 10 -55 40"/><path d="M320 125 q-10 -30 -40 -55"/><circle cx="320" cy="125" r="10" fill="#D4A72C"/>
+      </g>
+      <g class="bubbles" fill="#E8EEF4">
+        <circle class="anim-pop" cx="262" cy="118" r="5"/><circle class="anim-pop" cx="270" cy="134" r="4" style="animation-delay:.3s"/><circle class="anim-pop" cx="284" cy="112" r="6" style="animation-delay:.6s"/>
+        <circle class="anim-pop" cx="292" cy="140" r="4" style="animation-delay:.15s"/><circle class="anim-pop" cx="252" cy="128" r="3" style="animation-delay:.8s"/>
+      </g>
+      <text x="20" y="96" font-family="sans-serif" font-size="13" fill="currentColor">Suction from receiver</text><text x="420" y="110" font-family="sans-serif" font-size="13" fill="currentColor">Discharge</text>
+      <text class="cav-msg" x="20" y="230" font-family="sans-serif" font-size="13" font-weight="700" fill="#F08A6B"></text>
+    </svg>
+    <figcaption>At 100 mbar the toluene is close to boiling and the pressure drop into the impeller eye is enough to flash it. Break the vacuum with nitrogen and the same pump has over 12 m of NPSH available.</figcaption>
+  </figure>
+  <p>A small transfer pump needing 2.5 m NPSH will cavitate. The fixes are physical: raise the receiver or lower the pump to gain height, use a short, large-bore suction line with no strainer pressure drop, cool the liquid, or break the vacuum with nitrogen before pumping out. A bigger motor does nothing.</p>
+
+  <h2 id="field">Checking a running pump <span class="lvl l3">Going deeper</span></h2>
+  <p>You can work out a running pump's real efficiency with three readings: flow, suction and discharge pressure, and motor input power.</p>
+  <ol>
+    <li>Head from the gauges: H = (P<sub>discharge</sub> &minus; P<sub>suction</sub>) / (&rho; g), adding any height difference between the two gauges.</li>
+    <li>Hydraulic power from flow and head, as above.</li>
+    <li>Shaft power = motor input power (from a power meter, or &radic;3 &times; V &times; I &times; PF) &times; motor efficiency.</li>
+    <li>Pump efficiency = hydraulic power / shaft power.</li>
+  </ol>
+  <p>If a pump that was 65 % efficient when new now gives 45 %, the impeller is worn, the wear rings are open or it is running far from BEP. That gap, multiplied by running hours and the power tariff, tells you whether an overhaul or a smaller impeller pays.</p>
+
+  <h2>Quick sizing table</h2>
+  <p>Motor input power for water (SG 1), 65 % pump and 92 % motor efficiency. Add margin and pick the next standard motor size.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Flow (m&sup3;/h)</th><th>20 m head</th><th>40 m head</th><th>60 m head</th></tr>
+    <tr><td>5</td><td>0.46 kW</td><td>0.91 kW</td><td>1.37 kW</td></tr>
+    <tr><td>10</td><td>0.91 kW</td><td>1.82 kW</td><td>2.73 kW</td></tr>
+    <tr><td>20</td><td>1.82 kW</td><td>3.65 kW</td><td>5.47 kW</td></tr>
+    <tr><td>50</td><td>4.56 kW</td><td>9.11 kW</td><td>13.67 kW</td></tr>
+    <tr><td>100</td><td>9.11 kW</td><td>18.23 kW</td><td>27.34 kW</td></tr>
+  </table></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Leaving out the receiver pressure, or using gauge pressure on one side and absolute on the other.</li>
+    <li>Using static lift only and forgetting friction through strainers, flow meters and control valves.</li>
+    <li>Using water's density for a solvent or a brine, or forgetting that pressure in metres depends on density.</li>
+    <li>Sizing the motor for the duty point only, then tripping at run-out.</li>
+    <li>Stacking a margin on the flow, another on the head and another on the motor, and ending up with a pump that spends its life throttled.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
   <h3>What is the formula for pump power?</h3>
-  <p>Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 1,000, with &rho; in kg/m&sup3;, Q in m&sup3;/s and H in m. Divide by pump efficiency for shaft power and by motor efficiency for motor input power.</p>
-  <h3>What is the quick formula for pump power in kW from m&sup3;/h?</h3>
-  <p>Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367. For 50 m&sup3;/h of water at 30 m head this is about 4.1 kW.</p>
+  <p>Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 1,000, with &rho; in kg/m&sup3;, Q in m&sup3;/s and H in m. Divide by pump efficiency for shaft power, then by motor efficiency for motor input power.</p>
+  <h3>What is the quick formula from m&sup3;/h?</h3>
+  <p>Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367. For 50 m&sup3;/h of water at 30 m head, about 4.1 kW.</p>
   <h3>What is the difference between hydraulic power and shaft power?</h3>
-  <p>Hydraulic power is the energy actually given to the fluid. Shaft power (also called brake power) is what the pump draws at its shaft. It is always higher because of losses inside the pump: shaft power = hydraulic power / pump efficiency.</p>
+  <p>Hydraulic power is what the liquid receives. Shaft power is what the pump takes at its shaft; it is higher because of losses inside the pump. Shaft power = hydraulic power / pump efficiency.</p>
   <h3>What is the pump capacity formula?</h3>
-  <p>Q (m&sup3;/h) = 367 &times; shaft power (kW) &times; pump efficiency / (head (m) &times; SG). It gives the flow a pump can deliver at a given head and power; the pump curve gives the exact figure.</p>
-  <h3>What size motor do I need for 50 m&sup3;/h at 30 m head?</h3>
-  <p>Hydraulic power = 50 &times; 30 / 367 &asymp; 4.1 kW. With 65% pump and 92% motor efficiency the motor draws about 6.8 kW, so choose a 7.5 kW motor.</p>
+  <p>Turn the power formula round: Q (m&sup3;/h) = 367 &times; shaft power (kW) &times; pump efficiency / (H &times; SG). A 7.5 kW motor driving a 65 % efficient pump against 30 m of water gives roughly 55 m&sup3;/h. The pump curve gives the exact figure.</p>
   <h3>How do I convert pressure to head?</h3>
-  <p>Head (m) = &Delta;P (Pa) / (&rho; &times; 9.81). For water, 1 bar is about 10.2 m of head. For a lighter liquid the same pressure is more metres of head, which is why the density matters.</p>
+  <p>Head (m) = &Delta;P (Pa) / (&rho; &times; 9.81). For water, 1 bar is about 10.2 m; for a lighter liquid the same pressure is more metres.</p>
+  <h3>How much margin should a pump motor have?</h3>
+  <p>A common rule is 125 % of shaft power up to 22 kW, 115 % from 22 to 55 kW and 110 % above that, then the next standard size. Also check the shaft power at the end of the pump curve.</p>
 
   <div class="related-box">
-    <h3>Try the Calculator</h3>
-    <a href="/calculators/pump-power-calculator/">Pump Power Calculator</a>
+    <h3>Try the Calculators</h3>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump Power Calculator</a>
+    <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line Sizing: friction loss per 100 m</a>
     <h3>Related Articles</h3>
-    <a href="/articles/solvent-recovery-calculation/">Solvent Recovery Calculation Explained</a>
-    <a href="/articles/heat-load-calculation/">How to Calculate Heat Load &amp; Recovery Time</a>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">VFD savings, motor loading and power factor</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
   </div>
 </div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

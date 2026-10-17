@@ -1,7 +1,7 @@
 ---
 layout: default
 title: How to Calculate Filtration Performance
-description: "Specific cake resistance and flux from a bench-scale filtration trial, explained with formula and worked example."
+description: "Filtration calculation from the basics: cake and cloth resistance, the cake filtration (Ruth) equation, getting specific cake resistance from a bench trial by plotting t/V against V, scaling up to a Nutsche filter, and what to do with a slow-filtering cake. Worked example and interactive chart."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -10,40 +10,138 @@ breadcrumbs:
 structured_data: |
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "How to Calculate Filtration Performance",
-    "description": "Specific cake resistance and flux from a bench-scale filtration trial.",
-    "author": { "@type": "Person", "name": "Ankush Chopra" },
-    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+    "@graph": [
+      { "@type": "Article", "headline": "How to Calculate Filtration Performance",
+        "description": "Cake filtration equation, specific cake resistance from a bench trial, scale-up to a Nutsche filter, and fixes for slow cakes.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "dateModified": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you calculate specific cake resistance?", "acceptedAnswer": { "@type": "Answer", "text": "Record filtrate volume V against time t in a bench trial, plot t/V against V and fit a straight line. Specific cake resistance alpha = 2 x slope x A^2 x deltaP / (mu x c), where A is filter area, deltaP the pressure difference, mu the filtrate viscosity and c the dry cake mass per volume of filtrate." } },
+        { "@type": "Question", "name": "What is a good specific cake resistance?", "acceptedAnswer": { "@type": "Answer", "text": "Below about 10^10 m/kg a cake filters fast, 10^10 to 10^11 is moderate, 10^11 to 10^12 is slow and above 10^12 is very slow, usually needing a change to the crystallisation, a filter aid or a different filter." } },
+        { "@type": "Question", "name": "Does doubling the pressure halve the filtration time?", "acceptedAnswer": { "@type": "Answer", "text": "Only for an incompressible cake. Many organic crystals and amorphous solids form compressible cakes whose resistance rises with pressure, so higher pressure gives much less benefit than expected and can even blind the cloth." } }
+      ] }
+    ]
   }
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>How to Calculate Filtration Performance</h1>
-  <p class="article-meta">Chemical Engineering &middot; Equipment</p>
+  <p class="article-meta">Chemical Engineering &middot; Solid&ndash;Liquid Separation &middot; <span class="art-updated">Updated October 2026</span></p>
 
-  <p>A quick Büchner or Nutsche trial can tell you a lot about how a slurry will filter at production scale, but only if you turn the raw filtrate-volume-vs-time data into two numbers that actually transfer: specific cake resistance and expected flux.</p>
+  <p class="art-lede">A 15-minute Büchner test in the lab can tell you whether the plant filtration will take one hour or eight, if you record the right numbers. This article explains what slows a filtration down, how to turn a simple bench trial into one number that scales (the specific cake resistance), and how to use it to predict a Nutsche filter or centrifuge batch.</p>
 
-  <h2>The Cake Filtration Equation</h2>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">What actually slows a filtration</a><span>Basics</span></li>
+    <li><a href="#eq">The cake filtration equation</a><span>Basics</span></li>
+    <li><a href="#trial">Running and reading a bench trial</a><span>Working level</span></li>
+    <li><a href="#scale">Predicting the plant filter</a><span>Working level</span></li>
+    <li><a href="#compress">Compressible cakes and why pressure disappoints</a><span>Going deeper</span></li>
+    <li><a href="#fix">Fixing a slow cake</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <p><strong>Have trial data?</strong> The <a href="{{ '/calculators/filtration-calculator/' | relative_url }}">Filtration Calculator</a> fits the line and gives the cake resistance and flux.</p>
+
+  <h2 id="idea">What actually slows a filtration <span class="lvl l1">Basics</span></h2>
+  <p>Liquid has to squeeze through two things: the filter cloth and the cake of solids building up on it. At the start there is no cake, so filtrate pours through. As solids deposit, the cake thickens and every layer adds resistance, so the flow keeps slowing. In almost every plant filtration the <strong>cake</strong>, not the cloth, ends up controlling the time.</p>
+  <figure class="art-fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Nutsche filter: slurry on top, cake building on the cloth, filtrate dripping below">
+      <g fill="none" stroke="currentColor" stroke-width="2.5"><path d="M180 30 V170 H460 V30"/><path d="M180 170 L300 220 H340 L460 170"/><path d="M320 220 V236"/></g>
+      <rect x="182" y="40" width="276" height="90" fill="#7FB2E8" opacity=".35"/>
+      <g fill="#E8EEF4" opacity=".8"><circle class="anim-fall" cx="220" cy="50" r="3" style="animation-duration:2.6s"/><circle class="anim-fall" cx="280" cy="60" r="3" style="animation-duration:2.6s;animation-delay:.7s"/><circle class="anim-fall" cx="350" cy="48" r="3" style="animation-duration:2.6s;animation-delay:1.3s"/><circle class="anim-fall" cx="420" cy="58" r="3" style="animation-duration:2.6s;animation-delay:2s"/></g>
+      <rect x="182" y="130" width="276" height="34" fill="#D4A72C" opacity=".75"><animate attributeName="y" values="152;130;152" dur="8s" repeatCount="indefinite"/><animate attributeName="height" values="12;34;12" dur="8s" repeatCount="indefinite"/></rect>
+      <line x1="182" y1="166" x2="458" y2="166" stroke="#E8EEF4" stroke-width="3" stroke-dasharray="3 3"/>
+      <g fill="#7FB2E8"><circle class="anim-fall" cx="320" cy="222" r="3" style="animation-duration:1.4s"/></g>
+      <g font-family="sans-serif" font-size="12" fill="currentColor"><text x="470" y="90">Slurry</text><text x="470" y="148">Cake (grows)</text><text x="470" y="170">Filter cloth</text><text x="340" y="236">Filtrate</text><text x="20" y="100">Pressure or</text><text x="20" y="116">vacuum drives</text><text x="20" y="132">the flow</text></g>
+    </svg>
+    <figcaption>As the cake grows, each new layer of solids adds resistance, so the same pressure pushes less filtrate through.</figcaption>
+  </figure>
+
+  <h2 id="eq">The cake filtration equation <span class="lvl l1">Basics</span></h2>
+  <p>The flow through a cake behaves like flow through any porous bed (Darcy's law): rate is proportional to pressure and area, and inversely proportional to viscosity and resistance. The resistance has two parts, the cake (which grows with the filtrate collected) and the cloth (fixed):</p>
   <div class="formula-box">
-    dV/dt = &Delta;P &times; A / [&mu; &times; (&alpha; &times; c &times; V/A + R<sub>m</sub>)]
+    dV/dt = &Delta;P &middot; A / [ &mu; ( &alpha; c V / A + R<sub>m</sub> ) ]
+    <small>V filtrate volume (m&sup3;), t time (s), &Delta;P pressure difference (Pa), A filter area (m&sup2;), &mu; filtrate viscosity (Pa&middot;s), c dry cake mass per m&sup3; of filtrate (kg/m&sup3;), &alpha; specific cake resistance (m/kg), R<sub>m</sub> cloth resistance (1/m).</small>
   </div>
-  <p>Where V is filtrate volume, t is time, &Delta;P is the pressure/vacuum driving force, A is filter area, &mu; is filtrate viscosity, &alpha; is specific cake resistance, c is the mass of dry cake solids per unit volume of filtrate, and R<sub>m</sub> is the filter medium resistance. In practice, this is rearranged and the trial data (t/V vs V) is plotted to extract &alpha; and R<sub>m</sub> from the slope and intercept.</p>
+  <p>Integrated at constant pressure, it becomes a straight line, which is the trick that makes it useful:</p>
+  <div class="formula-box">
+    t / V = (&mu; &alpha; c / 2 A&sup2; &Delta;P) &middot; V + &mu; R<sub>m</sub> / (A &Delta;P)
+    <small>Plot t/V against V: the slope gives &alpha;, the intercept gives R<sub>m</sub>.</small>
+  </div>
+  <p>&alpha; is the number that transfers from lab to plant. It belongs to the solid (its particle size, shape and how it packs), not to the filter you tested it in.</p>
 
-  <h2>Worked Example</h2>
-  <p>A bench trial at 0.5 bar vacuum through a 20 cm&sup2; Büchner filter collects 150 mL of filtrate in 90 seconds, with a slurry concentration giving c = 40 kg/m&sup3;. Plotting t/V against V from several timed readings gives a straight line whose slope yields &alpha; and whose intercept yields R<sub>m</sub>. The regression needs several data points, not just the endpoint, so a single-point trial isn't enough on its own.</p>
-  <p>Once &alpha; is known, expected flux at a given &Delta;P and cake thickness can be estimated directly from the rearranged equation, and specific cake resistance above roughly 10<sup>11</sup>&ndash;10<sup>12</sup> m/kg is generally considered slow-filtering, prompting a look at flocculation, filter aid, or a different filter type.</p>
+  <h2 id="trial">Running and reading a bench trial <span class="lvl l2">Working level</span></h2>
+  <p>Use a Büchner or a small pressure filter with a known area, the same cloth or paper type as the plant if possible, and a vacuum or pressure close to the plant's. Record the filtrate volume at regular times, every 15&ndash;30 s, not just the total at the end. Note the slurry concentration so you know c.</p>
+  <h3>Worked example</h3>
+  <p>A 20 cm&sup2; (0.002 m&sup2;) filter at 0.5 bar (50,000 Pa), filtrate viscosity 1 cP (0.001 Pa&middot;s), c = 40 kg/m&sup3;:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Filtrate V (mL)</th><th>Time t (s)</th><th>t/V (s/mL)</th></tr>
+    <tr><td>50</td><td>17.5</td><td>0.35</td></tr>
+    <tr><td>100</td><td>60</td><td>0.60</td></tr>
+    <tr><td>150</td><td>127.5</td><td>0.85</td></tr>
+    <tr><td>200</td><td>220</td><td>1.10</td></tr>
+  </table></div>
+  <p>t/V rises by 0.25 s/mL for every 50 mL, a straight line. In SI units the slope is 5 &times; 10<sup>9</sup> s/m&#8310; and the intercept 1 &times; 10<sup>5</sup> s/m&sup3;. Then:</p>
+  <div class="formula-box">
+    &alpha; = 2 &times; slope &times; A&sup2; &times; &Delta;P / (&mu; c) = 2 &times; 5&times;10<sup>9</sup> &times; (0.002)&sup2; &times; 50,000 / (0.001 &times; 40) = 5 &times; 10<sup>10</sup> m/kg<br>
+    R<sub>m</sub> = intercept &times; A &times; &Delta;P / &mu; = 1&times;10<sup>5</sup> &times; 0.002 &times; 50,000 / 0.001 = 1 &times; 10<sup>10</sup> 1/m
+  </div>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Specific cake resistance &alpha;</th><th>What it means</th></tr>
+    <tr><td>Below 10<sup>10</sup> m/kg</td><td>Fast-filtering, coarse crystals</td></tr>
+    <tr><td>10<sup>10</sup> &ndash; 10<sup>11</sup></td><td>Moderate: our example sits here</td></tr>
+    <tr><td>10<sup>11</sup> &ndash; 10<sup>12</sup></td><td>Slow: expect long filtrations and wet cakes</td></tr>
+    <tr><td>Above 10<sup>12</sup></td><td>Very slow: fix the solid before buying a bigger filter</td></tr>
+  </table></div>
 
-  <h2>In the Plant</h2>
-  <p>Specific cake resistance for compressible cakes (many organic precipitates and biological solids) isn't constant. It increases with &Delta;P. A trial run at bench-scale vacuum doesn't automatically predict performance at a much higher production-scale pressure differential; ideally, run the trial at a &Delta;P close to what production will actually use.</p>
+  <h2 id="scale">Predicting the plant filter <span class="lvl l2">Working level</span></h2>
+  <p>The plant Nutsche has 2 m&sup2; of cloth and must collect 2 m&sup3; of filtrate at the same 0.5 bar. Put the lab &alpha; and R<sub>m</sub> back into the integrated equation with the plant area:</p>
+  <div class="formula-box">
+    Slope = &mu; &alpha; c / (2 A&sup2; &Delta;P) = 0.001 &times; 5&times;10<sup>10</sup> &times; 40 / (2 &times; 4 &times; 50,000) = 5,000 s/m&#8310;<br>
+    Intercept = &mu; R<sub>m</sub> / (A &Delta;P) = 100 s/m&sup3;<br>
+    t = 5,000 &times; 2&sup2; + 100 &times; 2 &asymp; 20,200 s &asymp; 5.6 h
+  </div>
+  <p>The shortcut: what matters is filtrate per square metre. The lab filter collected 0.1 m&sup3;/m&sup2; in 220 s; the plant needs 1 m&sup3;/m&sup2;, ten times more, and because the cake term goes with V&sup2;, it takes roughly a hundred times longer. The cake will be 40 kg/m&sup2; of dry solids, several centimetres thick.</p>
+  <figure class="art-fig" data-fig="ruth">
+    <figcaption>Try it: the same 2 m&sup2; Nutsche and 2 m&sup3; of filtrate. Move &alpha; one step on the log scale and the time changes about tenfold; doubling the pressure only halves it, and only if the cake does not compress.</figcaption>
+  </figure>
 
-  <h2>Common Mistakes</h2>
-  <p>Using only the total volume and total time (a single point) instead of a proper t/V vs V regression across the run; ignoring filter medium resistance when it's actually a significant fraction of total resistance for a thin cake; and assuming bench-scale flux scales linearly to a production filter of different geometry without accounting for the medium and support structure differences.</p>
+  <h2 id="compress">Compressible cakes and why pressure disappoints <span class="lvl l3">Going deeper</span></h2>
+  <p>The equation assumes &alpha; stays constant. For hard, regular crystals it nearly does. Many organic products, amorphous solids, and anything with fines form <strong>compressible</strong> cakes: pressing harder squeezes the pores shut, so &alpha; rises with &Delta;P. A common fit is &alpha; = &alpha;<sub>0</sub> &Delta;P<sup>n</sup>, with n between 0 (incompressible) and 1 (so compressible that more pressure gains nothing).</p>
+  <p>To find out, run the bench trial at two pressures, say 0.5 and 1.5 bar. If &alpha; triples, n &asymp; 1 and the plant should not expect a pressure filter to beat a vacuum one. Run the lab trial near the plant pressure, never extrapolate far.</p>
+
+  <h2 id="fix">Fixing a slow cake <span class="lvl l3">Going deeper</span></h2>
+  <p>Because &alpha; depends on the particles, the cheapest fix is usually upstream, in the crystallisation:</p>
+  <ul>
+    <li><strong>Grow bigger crystals:</strong> slower cooling or antisolvent addition, seeding, and a hold before filtering. Resistance rises steeply as particle size falls.</li>
+    <li><strong>Avoid fines:</strong> reduce agitator speed or impeller tip speed during crystallisation and transfer; pumps with high shear crush crystals.</li>
+    <li><strong>Raise the temperature</strong> of the filtration if the product allows: filtrate viscosity falls and the time falls with it.</li>
+    <li><strong>Filter aid</strong> (diatomaceous earth, perlite) for gelatinous or very fine solids, if the product can tolerate it.</li>
+    <li><strong>Thinner cakes:</strong> split the batch into two loads, or use a centrifuge, which applies a far higher driving force and keeps the cake thin.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>A filtration that suddenly takes twice as long, with the same product and filter, almost always means the crystals changed: a faster cool-down, a different seed, a temperature excursion. Check the crystallisation log before blaming the cloth.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Recording only the final volume and time: one point can't separate cake from cloth resistance.</li>
+    <li>Testing at a very different pressure from the plant on a compressible cake.</li>
+    <li>Forgetting that slurry from the lab beaker is not the same as slurry after a plant transfer pump.</li>
+    <li>Ignoring temperature: filtrate viscosity can change by half between 20 and 50 &deg;C.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do you calculate specific cake resistance?</h3>
+  <p>Plot t/V against V from a timed trial, fit a line, and use &alpha; = 2 &times; slope &times; A&sup2; &times; &Delta;P / (&mu; c).</p>
+  <h3>What is a good specific cake resistance?</h3>
+  <p>Below 10<sup>10</sup> m/kg is fast, 10<sup>10</sup>&ndash;10<sup>11</sup> moderate, 10<sup>11</sup>&ndash;10<sup>12</sup> slow, and above 10<sup>12</sup> very slow.</p>
+  <h3>Does doubling the pressure halve the filtration time?</h3>
+  <p>Only for an incompressible cake. For compressible cakes the resistance rises with pressure and the gain is much smaller.</p>
 
   <div class="related-box">
     <h3>Try the Calculator</h3>
-    <a href="/calculators/filtration-calculator/">Filtration Evaluation Calculator</a>
+    <a href="{{ '/calculators/filtration-calculator/' | relative_url }}">Filtration Evaluation Calculator</a>
     <h3>Related Articles</h3>
-    <a href="/articles/centrifuge-cake-weight/">Centrifuge Cake Weight Calculation</a>
+    <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}">Centrifuge cake weight and G-force</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up and crystal damage</a>
   </div>
 </div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

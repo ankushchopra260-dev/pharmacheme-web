@@ -2190,7 +2190,7 @@ function renderFiltrationEvaluation() {
       <table id="ft-table" class="comparison-table" style="border-collapse:collapse; width:100%;"></table>
     </div>
     <p style="font-size:0.75rem; color:var(--muted-dim); font-family:var(--f-sans); margin-top:16px;">
-      Specific cake resistance uses the actual t/V vs V regression slope. Flux basis: Poor &lt;20, Moderate &lt;40, Good \u226540 L/m\u00b2.min. Cake-resistance basis: Good &lt;1e8, Moderate &lt;1e9, Slow &lt;1e10, Very Slow \u22651e10 m/kg.
+      Specific cake resistance uses the actual t/V vs V regression slope. Flux basis: Poor &lt;20, Moderate &lt;40, Good \u226540 L/m\u00b2.min. Cake-resistance basis: Good &lt;1e10, Moderate &lt;1e11, Slow &lt;1e12, Very Slow \u22651e12 m/kg.
     </p>
   `;
 }

@@ -22,15 +22,47 @@ structured_data: |
     ]
   }
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Steam System Efficiency: Calculations for the Plant</h1>
-  <p class="article-meta">Utilities &middot; Steam &amp; Boiler</p>
+  <p class="article-meta">Utilities &middot; Steam &amp; Boiler &middot; <span class="art-updated">Updated October 2026</span></p>
 
-  <p>Steam is the biggest fuel bill in most chemical and pharma plants, and most of the losses are invisible: a trap blowing into the condensate line, a flash vent at the feed tank, condensate going to drain because the return pump tripped months ago. This article walks through the numbers you need to put a rupee value on each of them, starting from what a tonne of steam actually costs.</p>
+  <p class="art-lede">Steam is the biggest fuel bill in most chemical and pharma plants, and most of the losses are invisible: a trap blowing into the condensate line, a flash vent at the feed tank, condensate going to drain because the return pump tripped months ago. This article walks through the numbers you need to put a rupee value on each of them, starting from what a tonne of steam actually costs.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#basics">How a steam system works</a><span>Basics</span></li>
+    <li><a href="#cost">The cost of a tonne of steam</a><span>Working level</span></li>
+    <li><a href="#losses">Where the fuel goes</a><span>Working level</span></li>
+    <li><a href="#blowdown">Boiler blowdown</a><span>Going deeper</span></li>
+    <li><a href="#traps">Steam traps and leaks</a><span>Working level</span></li>
+    <li><a href="#flash">Flash steam</a><span>Going deeper</span></li>
+    <li><a href="#condensate">Condensate recovery</a><span>Working level</span></li>
+    <li><a href="#audit">A steam audit checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
   <p><strong>Short on time?</strong> The <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam &amp; Boiler calculators</a> do every calculation below as you type.</p>
 
-  <h2>1. The cost of a tonne of steam</h2>
+  <h2 id="basics">How a steam system works <span class="lvl l1">Basics</span></h2>
+  <p>A steam system is a loop. The boiler burns fuel to turn water into steam. Steam travels through the mains to wherever heat is needed: reactor jackets, coils, heat exchangers, dryers. There it condenses back into water and gives up its <strong>latent heat</strong>, which is most of the energy it carries. The condensed water, called condensate, drains through a <strong>steam trap</strong>, a small automatic valve that lets water out but holds steam in, and in a good system flows back to the boiler feed tank to be used again.</p>
+  <p>Every loss in that loop has to be paid for with more fuel at the boiler: steam escaping through a leak or a failed trap, heat lost through bare pipes, hot condensate sent to drain, and hot boiler water drained off as blowdown.</p>
+  <figure class="art-fig">
+    <svg viewBox="0 0 680 230" role="img" aria-label="Steam loop: boiler, steam main, user, steam trap, condensate return to the feed tank">
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="30" y="90" width="110" height="100" rx="10"/><path d="M140 110 H330 V60 H430"/><rect x="430" y="40" width="130" height="70" rx="8"/>
+        <path d="M495 110 V150"/><circle cx="495" cy="162" r="12"/><path d="M495 174 V200 H230 V170"/><rect x="180" y="130" width="100" height="40" rx="6"/><path d="M180 160 H140"/>
+      </g>
+      <path class="anim-flow" d="M140 110 H330 V60 H430" fill="none" stroke="#F08A6B" stroke-width="3"/>
+      <path class="anim-flow slow" d="M495 110 V150 M495 174 V200 H230 V170" fill="none" stroke="#7FB2E8" stroke-width="3"/>
+      <path class="anim-flow slow" d="M180 160 H140" fill="none" stroke="#7FB2E8" stroke-width="3"/>
+      <g fill="#E8EEF4" opacity=".7"><circle class="anim-rise" cx="200" cy="128" r="4"/><circle class="anim-rise" cx="210" cy="128" r="3" style="animation-delay:.9s"/></g>
+      <path d="M60 150 q8 -16 16 0 q8 -16 16 0 q8 -16 16 0" fill="none" stroke="#F08A6B" stroke-width="3" class="anim-pulse"/>
+      <g font-family="sans-serif" font-size="12" fill="currentColor"><text x="52" y="84">Boiler</text><text x="200" y="104">Steam main</text><text x="446" y="80">User (jacket, coil)</text>
+      <text x="514" y="166">Steam trap</text><text x="300" y="220">Condensate return</text><text x="182" y="186">Feed tank</text><text x="152" y="124" font-size="11">flash vent</text></g>
+    </svg>
+    <figcaption>Steam goes out hot, condensate comes back hot. Anything that breaks the loop (a leak, a failed trap, condensate to drain, a flash vent) costs fuel.</figcaption>
+  </figure>
+
+  <h2 id="cost">The cost of a tonne of steam <span class="lvl l2">Working level</span></h2>
   <p>Every loss calculation needs this one number. The fuel part of it comes from an energy balance on the boiler:</p>
   <div class="formula-box">
     Heat per kg of steam = h<sub>g</sub> (at boiler pressure) &minus; h<sub>fw</sub> (feed water)<br>
@@ -46,7 +78,10 @@ structured_data: |
   </div>
   <p>The same steam from furnace oil at 10,200 kcal/kg, 85 % efficient and &#8377;55/kg costs about &#8377;3,700 per tonne. Add power for the FD/ID fans and feed pumps, water treatment, chemicals, ash handling, labour and maintenance, and the full cost is usually 15&ndash;30 % higher than the fuel cost alone. Use the full cost when you value savings.</p>
 
-  <h2>2. Where the fuel goes</h2>
+  <figure class="art-fig" data-fig="steamcost">
+    <figcaption>Try it: the fuel cost of one tonne of 10 barg steam for different fuels at their typical boiler efficiency. Drop the efficiency a few points or the feed water temperature, and watch the cost climb.</figcaption>
+  </figure>
+  <h2 id="losses">Where the fuel goes <span class="lvl l2">Working level</span></h2>
   <p>A coal or biomass boiler at 75 % efficiency loses a quarter of the fuel's heat before the steam leaves the boiler house. The usual split:</p>
   <ul>
     <li><strong>Dry flue gas:</strong> the biggest loss. It rises with stack temperature and with excess air. Check O&#8322; in the flue gas: about 3&ndash;4 % on oil and gas, 6&ndash;8 % on solid fuel.</li>
@@ -56,14 +91,14 @@ structured_data: |
     <li><strong>Blowdown:</strong> hot boiler water drained to control TDS.</li>
   </ul>
 
-  <h2>3. Boiler blowdown</h2>
+  <h2 id="blowdown">Boiler blowdown <span class="lvl l3">Going deeper</span></h2>
   <p>Dissolved solids in the feed water stay behind when water boils, so the boiler water gets more concentrated until some of it is drained off. The blowdown needed to hold a TDS limit is:</p>
   <div class="formula-box">
     Blowdown (% of steam) = TDS<sub>feed</sub> / (TDS<sub>boiler, max</sub> &minus; TDS<sub>feed</sub>) &times; 100
   </div>
   <p>With 150 ppm feed water and a 3,000 ppm limit, blowdown is about 5.3 % of the steam. For a 5 t/h boiler at 10 barg that is about 263 kg/h of water at 184 &deg;C, carrying (781 &minus; 335) kJ/kg more heat than the feed water, about 33 kW or roughly 0.7 % of the fuel. Better feed water (more condensate return, a softener or RO) reduces it at the source; automatic TDS control and a flash vessel with a heat exchanger on continuous blowdown recover most of the rest.</p>
 
-  <h2>4. Steam traps and leaks</h2>
+  <h2 id="traps">Steam traps and leaks <span class="lvl l2">Working level</span></h2>
   <p>A trap that fails open passes live steam into the condensate line. Napier's formula gives an upper estimate of the steam through an orifice:</p>
   <div class="formula-box">Steam (kg/h) &asymp; 0.412 &times; d&sup2; (mm&sup2;) &times; P (bar abs)</div>
   <h3>Worked example: a trap survey</h3>
@@ -75,12 +110,12 @@ structured_data: |
   </div>
   <p>The real figure is usually lower, because a failed trap rarely blows the full seat area all the time. Even half of it pays for a trap survey and spares many times over. Test traps with an ultrasonic tester or a surface thermometer, tag the failed ones and recheck after repair.</p>
 
-  <h2>5. Flash steam</h2>
+  <h2 id="flash">Flash steam <span class="lvl l3">Going deeper</span></h2>
   <p>Condensate leaving a trap at 8 barg is at about 175 &deg;C. In a return line at 0.5 barg water can only exist up to about 111 &deg;C, so the extra heat boils part of it:</p>
   <div class="formula-box">Flash fraction = (h<sub>f,high</sub> &minus; h<sub>f,low</sub>) / h<sub>fg,low</sub> = (743 &minus; 467) / 2,226 &asymp; 12 %</div>
   <p>That flash steam is ordinary low-pressure steam. If a flash vessel sends it to a low-pressure user such as a tank heater, an air heater or a deaerator, it replaces live steam. If not, it plumes from the feed tank vent, which also means the feed tank cannot be held at a high temperature.</p>
 
-  <h2>6. Condensate recovery</h2>
+  <h2 id="condensate">Condensate recovery <span class="lvl l2">Working level</span></h2>
   <p>Returned condensate is hot, already treated water. Each kilogram returned saves:</p>
   <ul>
     <li>the fuel to heat make-up water from ambient to the condensate temperature: m &times; 4.186 &times; (T<sub>c</sub> &minus; T<sub>makeup</sub>);</li>
@@ -90,7 +125,7 @@ structured_data: |
   <p>Returning 3 t/h of condensate at 90 &deg;C instead of 30 &deg;C make-up recovers about 209 kW, roughly 60 kg/h of coal in a 75 % efficient boiler, plus 72 m&sup3; a day of treated water. A rule of thumb worth remembering: every 6 &deg;C rise in feed water temperature saves about 1 % of boiler fuel.</p>
   <p>Condensate from process heat exchangers can pick up product if a tube leaks. Return it through a conductivity or TOC monitor with a dump valve, rather than sending it all to drain.</p>
 
-  <h2>A steam audit checklist</h2>
+  <h2 id="audit">A steam audit checklist <span class="lvl l3">Going deeper</span></h2>
   <ul>
     <li>Calculate the cost of steam per tonne and agree it with finance.</li>
     <li>Measure boiler efficiency monthly (direct method) and trend the evaporation ratio.</li>
@@ -102,10 +137,10 @@ structured_data: |
     <li>Set blowdown from boiler water TDS, not from habit.</li>
   </ul>
 
-  <h2>Common mistakes</h2>
+  <h2>Mistakes I see most often</h2>
   <p>Valuing savings at the fuel cost only, which undervalues them; using h<sub>fg</sub> instead of h<sub>g</sub> &minus; h<sub>fw</sub> for the boiler heat duty; measuring boiler efficiency over a short period at changing load; and assuming condensate return is happening because a return pump exists.</p>
 
-  <h2>Frequently asked questions</h2>
+  <h2 id="faq">Questions people ask</h2>
   <h3>How do you calculate the cost of steam?</h3>
   <p>Fuel per tonne = 1,000 &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV &times; 4.1868), then multiply by the fuel price. For 10 barg steam from 80 &deg;C feed water, a 75 % efficient boiler on &#8377;8/kg coal of 4,000 kcal/kg gives about &#8377;1,560 per tonne for fuel alone.</p>
   <h3>How do you calculate boiler blowdown?</h3>
@@ -129,3 +164,4 @@ structured_data: |
     <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">How to calculate heat load &amp; recovery time</a>
   </div>
 </div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

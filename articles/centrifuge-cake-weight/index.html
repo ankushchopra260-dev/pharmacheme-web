@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Centrifuge Cake Weight & G-Force Calculation
-description: "Basket centrifuge cake weight and G-force from basket geometry and cake thickness, with formula and worked example."
+description: "Basket centrifuge calculations from the basics: G-force from radius and rpm, cake volume and weight per load, lip limit, the pressure that drives liquid through the cake, load limits and dewatering, with a worked example and an interactive spinning-basket figure."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -10,46 +10,110 @@ breadcrumbs:
 structured_data: |
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Centrifuge Cake Weight & G-Force Calculation",
-    "description": "Basket centrifuge cake weight and G-force from basket geometry and cake thickness.",
-    "author": { "@type": "Person", "name": "Ankush Chopra" },
-    "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+    "@graph": [
+      { "@type": "Article", "headline": "Centrifuge Cake Weight & G-Force Calculation",
+        "description": "G-force, cake weight per load, lip limit, centrifugal driving pressure and dewatering in a basket centrifuge.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "dateModified": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you calculate G-force in a centrifuge?", "acceptedAnswer": { "@type": "Answer", "text": "G = 1.118 x 10^-5 x r (cm) x N^2 (rpm), or G = 1.12 x r (mm) x (N/1000)^2. A 1,200 mm basket (600 mm radius) at 1,000 rpm gives about 670 G at the basket wall." } },
+        { "@type": "Question", "name": "How do you calculate cake weight in a basket centrifuge?", "acceptedAnswer": { "@type": "Answer", "text": "Cake volume = basket height x (pi/4) x (D^2 - (D - 2t)^2), where D is basket diameter and t cake thickness. Cake weight = volume x bulk density of the wet cake. A 1.2 m x 0.6 m basket with a 120 mm cake at 700 kg/m3 holds about 171 kg." } },
+        { "@type": "Question", "name": "Why does a centrifuge dewater better than a Nutsche filter?", "acceptedAnswer": { "@type": "Answer", "text": "The spinning liquid layer presses on the cake with a pressure of rho x omega^2 x (r_wall^2 - r_liquid^2) / 2, often 5 to 10 bar at normal speeds, against at most about 1 bar for a vacuum filter, so more liquid is driven out of the cake." } }
+      ] }
+    ]
   }
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>Centrifuge Cake Weight &amp; G-Force Calculation</h1>
-  <p class="article-meta">Chemical Engineering &middot; Equipment</p>
+  <h1>Centrifuge Cake Weight &amp; G-Force: How a Basket Centrifuge Works in Numbers</h1>
+  <p class="article-meta">Chemical Engineering &middot; Solid&ndash;Liquid Separation &middot; <span class="art-updated">Updated October 2026</span></p>
 
-  <p>Two numbers matter most when planning a basket centrifuge batch: how hard the cake is actually being spun (G-force), and how much cake that translates to once the basket is loaded to a given thickness.</p>
+  <p class="art-lede">A basket centrifuge is a filter that uses spin instead of vacuum. Planning a batch on one comes down to a few numbers: how hard it spins the cake (G-force), how much cake fits in one load, and how much liquid it can squeeze out. This article builds them up from the basics, then covers the limits that matter on the plant: the lip, the load rating and the residual moisture.</p>
 
-  <h2>The Formula</h2>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">How a basket centrifuge separates</a><span>Basics</span></li>
+    <li><a href="#g">G-force</a><span>Basics</span></li>
+    <li><a href="#cake">Cake volume and weight per load</a><span>Working level</span></li>
+    <li><a href="#example">Worked example</a><span>Working level</span></li>
+    <li><a href="#pressure">The pressure that drives liquid out</a><span>Going deeper</span></li>
+    <li><a href="#limits">Load, speed and safety limits</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <p><strong>Just need the number?</strong> The <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}">Centrifuge Cake Weight Calculator</a> gives G-force, cake weight and the lip check.</p>
+
+  <h2 id="idea">How a basket centrifuge separates <span class="lvl l1">Basics</span></h2>
+  <p>The basket is a perforated drum lined with a filter cloth. Slurry is fed in while it spins. The spin flings everything outwards: solids pack against the cloth as a cake, and the liquid is pushed through the cake and the cloth and out through the holes. Once the feed stops, the basket keeps spinning to spin the cake dry, then the cake is washed (if needed), spun again and discharged, by a scraper (peeler) or by hand through the bottom.</p>
+  <p>It is the same physics as a Nutsche filter, with one big difference: instead of 0.5&ndash;1 bar of vacuum or gas pressure pushing the liquid, the spinning liquid itself presses on the cake, and at normal speeds that pressure is several times higher. That is why centrifuge cakes usually come out drier.</p>
+
+  <h2 id="g">G-force <span class="lvl l1">Basics</span></h2>
+  <p>G-force tells you how many times stronger than gravity the push is. It comes from the centripetal acceleration &omega;&sup2;r divided by g:</p>
   <div class="formula-box">
-    G-force = 1.118 &times; 10<sup>&minus;5</sup> &times; r &times; N&sup2;<br>
-    Cake weight = Cake volume &times; bulk density
+    G = &omega;&sup2; r / g = (2&pi;N/60)&sup2; r / 9.81<br>
+    G = 1.118 &times; 10<sup>&minus;5</sup> &times; r (cm) &times; N&sup2; &nbsp; = &nbsp; 1.12 &times; r (mm) &times; (N/1000)&sup2;
   </div>
-  <p>Where r is basket radius (cm) and N is rotational speed (rpm). Cake volume comes from the annular geometry defined by basket radius and cake thickness. In effect it is the basket's cylindrical volume minus the empty core left in the middle.</p>
+  <p>Two things to remember. G grows with the <em>square</em> of speed, so a basket at 1,400 rpm works the cake about twice as hard as at 1,000 rpm. And G is proportional to radius, so it is not the same everywhere: it is highest at the basket wall and lower at the inner surface of the cake.</p>
 
-  <h2>Worked Example</h2>
-  <p>A basket with 40 cm radius spinning at 1,200 rpm:</p>
+  <h2 id="cake">Cake volume and weight per load <span class="lvl l2">Working level</span></h2>
+  <p>The cake forms a hollow cylinder (an annulus) against the basket wall. Its volume is the basket's volume minus the empty core:</p>
   <div class="formula-box">
-    G-force = 1.118 &times; 10<sup>&minus;5</sup> &times; 40 &times; 1,200&sup2;<br>
-    = 1.118 &times; 10<sup>&minus;5</sup> &times; 40 &times; 1,440,000<br>
-    &asymp; 644 G
+    Cake volume = H &times; (&pi;/4) &times; [D&sup2; &minus; (D &minus; 2t)&sup2;]<br>
+    Cake weight = cake volume &times; bulk density of the wet cake
+    <small>D basket diameter, H basket height, t cake thickness. Use the bulk density of the actual discharged wet cake of your product, not a handbook value.</small>
   </div>
-  <p>If that basket carries a 10 cm-thick cake at a bulk density of 1,400 kg/m&sup3;, the cake volume comes from the annulus between the full basket radius (40 cm) and the inner radius left after the cake (40 &minus; 10 = 30 cm) times the basket height. Multiply that volume by the bulk density to get total cake mass for the batch.</p>
+  <p>The cake cannot be thicker than the lip allows. The lip is the ring at the top of the basket; its opening diameter sets the maximum cake thickness, (D &minus; D<sub>lip</sub>) / 2. Feed beyond that and slurry spills over the lip into the filtrate side.</p>
 
-  <h2>In the Plant</h2>
-  <p>Bulk density of a centrifuged cake is not a fixed material property. It depends heavily on particle shape, size distribution, and how well the cake has been de-liquored during the spin. A bulk density measured from a different product, or even a different batch of the same product with different crystal habit, can give a meaningfully wrong cake weight.</p>
+  <h2 id="example">Worked example <span class="lvl l2">Working level</span></h2>
+  <p>A 1,200 mm (48&rdquo;) basket, 600 mm high, lip opening 900 mm, running at 1,000 rpm. Planned cake 120 mm thick, wet cake bulk density 700 kg/m&sup3;.</p>
+  <div class="formula-box">
+    G at the wall = 1.12 &times; 600 &times; (1,000/1,000)&sup2; &asymp; 670 G<br>
+    G at the cake surface (r = 480 mm) &asymp; 540 G<br>
+    Lip limit = (1,200 &minus; 900) / 2 = 150 mm &nbsp;&rarr; 120 mm is fine<br>
+    Cake volume = 0.6 &times; &pi;/4 &times; (1.2&sup2; &minus; 0.96&sup2;) &asymp; 0.244 m&sup3;<br>
+    Cake weight = 0.244 &times; 700 &asymp; 171 kg per load
+  </div>
+  <p>If the batch produces 900 kg of wet cake, that is about five and a half loads, so plan six. Each load has feed, spin-dry, wash, spin-dry and discharge steps, so the number of loads, not the spin itself, usually decides the batch time.</p>
+  <figure class="art-fig" data-fig="centrifuge">
+    <figcaption>Try it: the basket is seen from above (slowed down so you can follow it). Change the speed and the cake thickness. G rises with the square of speed and falls towards the centre; a thicker cake holds more per load but sees less G at its inner surface, and stops at the lip.</figcaption>
+  </figure>
 
-  <h2>Common Mistakes</h2>
-  <p>Using the full basket radius instead of the cake's actual radial position when computing G-force at the cake surface versus at the basket wall (G-force varies with radius, so the value at the cake's inner surface is lower than at the basket wall); and assuming a bulk density from a handbook table rather than from an actual discharged cake of the real product.</p>
+  <h2 id="pressure">The pressure that drives liquid out <span class="lvl l3">Going deeper</span></h2>
+  <p>During the feed, a layer of liquid sits on top of the cake. Spinning, that liquid presses outwards like a column of water pressing on the bottom of a tank, except the &ldquo;gravity&rdquo; is hundreds of G. The pressure across the cake and cloth is:</p>
+  <div class="formula-box">
+    &Delta;P = &rho;<sub>liquid</sub> &times; &omega;&sup2; &times; (r<sub>wall</sub>&sup2; &minus; r<sub>liquid surface</sub>&sup2;) / 2
+  </div>
+  <p>In the example, with a 30 mm liquid layer on the cake (liquid surface at 450 mm radius) and liquid of 900 kg/m&sup3;, &Delta;P = 900 &times; 104.7&sup2; &times; (0.6&sup2; &minus; 0.45&sup2;) / 2 &asymp; 7.8 bar. A vacuum Nutsche can never exceed about 0.9 bar. That is the real reason a centrifuge filters and dewaters faster: the same cake resistance equation applies, with a much bigger pressure.</p>
+  <p>Once the liquid layer has drained, the remaining liquid is held in the pores by capillary forces. Spinning longer or faster removes more of it, but with diminishing returns: the residual moisture falls steeply in the first minutes and then levels off. If the cake is still too wet after a reasonable spin, the answer is usually in the crystals (fines blocking pores) or the wash (a viscous wash solvent), not more spin time. The <a href="{{ '/articles/filtration-calculation/' | relative_url }}">filtration article</a> explains how particle size drives cake resistance.</p>
+
+  <h2 id="limits">Load, speed and safety limits <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Maximum load and speed are linked.</strong> The basket's stress depends on load &times; speed&sup2;. The nameplate gives a maximum load at maximum speed; a denser product or a heavier load means a lower allowed speed. Never exceed both.</li>
+    <li><strong>Imbalance.</strong> Uneven feeding, or a cake that slumps on one side, makes the basket wobble. Feed at low speed and evenly, and respect the vibration trip.</li>
+    <li><strong>Flammable solvents.</strong> A spinning basket full of solvent-wet cake, with fast-moving liquid and plastic cloth, is a static and flammable-vapour hazard. Centrifuges handling solvents should be nitrogen-inerted with oxygen monitoring and properly earthed. The <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">nitrogen purging calculator</a> helps plan the inerting.</li>
+    <li><strong>Peeler discharge</strong> leaves a heel of cake on the cloth that blinds over many loads; plan heel washes.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Quoting one G-force for the whole cake; the inner surface sees less.</li>
+    <li>Using a handbook bulk density instead of the real wet cake, which can be off by 30 %.</li>
+    <li>Planning cake thickness without checking the lip limit.</li>
+    <li>Running a heavier, denser cake at the nameplate maximum speed.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do you calculate G-force in a centrifuge?</h3>
+  <p>G = 1.118 &times; 10<sup>&minus;5</sup> &times; r (cm) &times; N&sup2;, or 1.12 &times; r (mm) &times; (N/1000)&sup2;. A 600 mm radius at 1,000 rpm gives about 670 G.</p>
+  <h3>How do you calculate cake weight in a basket centrifuge?</h3>
+  <p>Cake volume = H &times; &pi;/4 &times; [D&sup2; &minus; (D &minus; 2t)&sup2;], times the wet cake bulk density. The example basket holds about 171 kg per load.</p>
+  <h3>Why does a centrifuge dewater better than a Nutsche filter?</h3>
+  <p>The spinning liquid presses on the cake with several bar of pressure (about 7.8 bar in the example), against at most about 1 bar on a vacuum filter.</p>
 
   <div class="related-box">
     <h3>Try the Calculator</h3>
-    <a href="/calculators/centrifuge-cake-weight-calculator/">Centrifuge Cake Weight Calculator</a>
+    <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}">Centrifuge Cake Weight Calculator</a>
     <h3>Related Articles</h3>
-    <a href="/articles/filtration-calculation/">Filtration Calculation Explained</a>
+    <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration: cake resistance and scale-up</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up and crystal damage</a>
   </div>
 </div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>
