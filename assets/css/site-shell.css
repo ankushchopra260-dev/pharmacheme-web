@@ -358,3 +358,6 @@ a.video-card[href*="/shorts/"] img,
 .author-box .ab-role { color: var(--muted); font-size: .9rem; line-height: 1.5; }
 .author-box .ab-note { color: var(--muted-dim); font-size: .82rem; line-height: 1.5; margin: 0; }
 @media (max-width: 560px) { .author-box { margin-left: 16px; margin-right: 16px; } }
+
+/* Home hero: two buttons side by side on phones */
+@media (max-width: 560px) { .hero .hero-actions { flex-wrap: nowrap; } .hero .hero-actions .btn { flex: 1 1 0; padding: 13px 10px; text-align: center; display: flex; align-items: center; justify-content: center; } }
