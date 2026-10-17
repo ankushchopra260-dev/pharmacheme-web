@@ -1,0 +1,144 @@
+---
+layout: default
+title: "Solvent Selection and Solvent Swaps: Put-and-Take vs Constant-Volume Distillation"
+description: "Choosing process solvents and changing from one solvent to another in the plant: solvent selection criteria and guides, ICH residual solvent classes, put-and-take and constant-volume distillation, azeotropes, minimum stirrable volume and how much new solvent a swap needs. Interactive solvent swap model."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Solvent Swap and Selection
+    url: /articles/solvent-swap-and-selection/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Solvent Selection and Solvent Swaps: Put-and-Take vs Constant-Volume Distillation",
+        "description": "Solvent selection criteria, ICH classes, put-and-take and constant-volume swaps, azeotropes and minimum stirrable volume.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a put-and-take solvent swap?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A sequence of distilling the batch down to a minimum volume, adding the new solvent back, and distilling down again, repeated until the old solvent is low enough."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is constant-volume distillation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Distilling while adding the new solvent at the same rate as distillate is removed, so the volume stays constant. Done at the minimum stirrable volume, it usually uses less new solvent than put-and-take for the same residual."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does a solvent swap sometimes stall?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually because the two solvents form an azeotrope, so simple distillation cannot reduce the old solvent below a certain level, or because a dead volume in the equipment keeps returning old solvent."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Solvent Selection and Solvent Swaps</h1>
+  <p class="article-meta">Scale-up &middot; Solvents &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Many API processes use three or four solvents across a sequence of steps, and every change from one to the next costs time, energy and solvent. The swap is often the longest step in the batch and the one that most often leaves too much of the old solvent behind. This article covers how to choose solvents in the first place and how to swap them efficiently.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#choose">Choosing a solvent</a><span>Basics</span></li>
+    <li><a href="#ich">Residual solvents and ICH classes</a><span>Basics</span></li>
+    <li><a href="#swap">Two ways to swap</a><span>Working level</span></li>
+    <li><a href="#az">Azeotropes and other traps</a><span>Working level</span></li>
+    <li><a href="#plant">Doing it in the plant</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="choose">Choosing a solvent <span class="lvl l1">Basics</span></h2>
+  <p>The chemist picks a solvent for the chemistry: solubility, reactivity, selectivity. At scale, more questions matter:</p>
+  <ul>
+    <li><strong>Safety:</strong> flash point, static (conductivity), peroxide formation (THF, ethers), toxicity, thermal stability with reagents (DMF and DMSO with strong bases and hydrides).</li>
+    <li><strong>Work-up:</strong> water miscibility, density difference from water, emulsion tendency.</li>
+    <li><strong>Recovery:</strong> boiling point, azeotropes with water and other solvents, ease of drying.</li>
+    <li><strong>Regulatory and environmental:</strong> ICH class, emission limits, effluent load.</li>
+    <li><strong>Cost and supply.</strong></li>
+  </ul>
+  <p>Published solvent selection guides (for example from the ACS GCI Pharmaceutical Roundtable and CHEM21) rank common solvents on these factors and are a good starting point for replacing problem solvents like DCM, DMF or 1,4-dioxane.</p>
+
+  <h2 id="ich">Residual solvents and ICH classes <span class="lvl l1">Basics</span></h2>
+  <p>ICH Q3C groups solvents by toxicity: <strong>Class 1</strong> (avoid: benzene, carbon tetrachloride), <strong>Class 2</strong> (limit, with a permitted concentration for each: toluene 890 ppm, methanol 3,000 ppm, DCM 600 ppm, acetonitrile 410 ppm), and <strong>Class 3</strong> (low toxicity, generally up to 5,000 ppm: ethanol, acetone, ethyl acetate, IPA). The class of the last solvents used before isolation matters most, because they are the hardest to remove completely.</p>
+
+  <h2 id="swap">Two ways to swap <span class="lvl l2">Working level</span></h2>
+  <p>To change from a low-boiling solvent (say THF) to a higher-boiling one (say toluene):</p>
+  <ul>
+    <li><strong>Put-and-take:</strong> distil down to the minimum volume, add the new solvent back to the working volume, distil down again, repeat. Simple to run, with several &ldquo;chases&rdquo;.</li>
+    <li><strong>Concentrate, then constant volume:</strong> distil down to the minimum volume, then keep distilling while feeding new solvent at the same rate as distillate leaves, holding the volume constant. Finally top up to the working volume.</li>
+  </ul>
+  <p>Both work because the old solvent is more volatile: the vapour is richer in it than the liquid. With a relative volatility of 3.5, distilling down to half volume and swapping at that volume, put-and-take needs about 2 batch volumes of new solvent in four chases to reach 1 % residual; the constant-volume method needs about 1.4, roughly 30 % less. The advantage of constant volume grows as the minimum volume gets smaller and the target tighter.</p>
+  <figure class="art-fig" data-fig="swap">
+    <figcaption>Try it: change the minimum stirrable volume and compare how much new solvent each method needs to reach 1 % of the old solvent.</figcaption>
+  </figure>
+  <p>The single biggest lever is the minimum volume: the lower you can go, the fewer volumes of new solvent you need. That is set by the agitator coverage, the temperature probe position, and whether the product stays in solution or becomes a stirrable slurry.</p>
+
+  <h2 id="az">Azeotropes and other traps <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Azeotropes:</strong> methanol and toluene, ethanol and toluene, IPA and water all form azeotropes. A swap that crosses one can't reach low residuals by simple distillation; the residual levels off. Check azeotrope data before designing a swap, and sometimes swap through a third solvent.</li>
+    <li><strong>Product stability:</strong> concentrating to a low volume at high temperature can degrade the product or crystallise it on the wall. Use vacuum to keep the temperature down. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a>.</li>
+    <li><strong>Water:</strong> water from a work-up often has to come out with the old solvent; toluene's heterogeneous azeotrope with water helps here (azeotropic drying with a Dean-Stark separator).</li>
+    <li><strong>Swapping to a lower-boiling solvent</strong> by distillation doesn't work; use crystallisation, a different isolation, or a high-boiler-tolerant next step instead.</li>
+  </ul>
+
+  <h2 id="plant">Doing it in the plant <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Define the end point by analysis (GC of the pot), not by the number of chases.</li>
+    <li>Know the true minimum stirrable volume of the reactor, with the agitator covered and the temperature probe immersed.</li>
+    <li>Watch the top temperature: as the old solvent runs out, it rises toward the new solvent's boiling point at that pressure.</li>
+    <li>Collect the distillate separately for recovery; mixed distillate of two solvents is harder to recover than either alone. See <a href="{{ '/articles/distillation-basics/' | relative_url }}">distillation basics</a>.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>If the residual old solvent stalls at the same value after each chase, suspect an azeotrope or a dead volume (a condenser leg, a dip pipe, a sample line) that keeps feeding old solvent back. More chases won't fix either.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Fixing the number of chases instead of testing the residual.</li>
+    <li>Ignoring an azeotrope between the two solvents.</li>
+    <li>Not knowing the true minimum stirrable volume.</li>
+    <li>Overheating the product during concentration.</li>
+    <li>Mixing the distillates of different solvents.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a put-and-take solvent swap?</h3>
+  <p>Repeated distilling down and refilling with the new solvent.</p>
+  <h3>What is constant-volume distillation?</h3>
+  <p>Distilling while feeding new solvent at the same rate, keeping the volume constant.</p>
+  <h3>Why does a solvent swap sometimes stall?</h3>
+  <p>An azeotrope, or a dead volume returning old solvent.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/distillation-basics/' | relative_url }}">Distillation basics</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -1,0 +1,139 @@
+---
+layout: default
+title: "Reactor Jackets, Limpet Coils and Half-Pipe Jackets: Design Basics"
+description: "Heating and cooling jackets for reactors from the basics: conventional jackets, half-pipe (limpet) coils, dimple jackets and internal coils, why jacket-side velocity matters, film coefficients and overall U, steam, water and thermic fluid service, and multi-fluid jackets. Interactive jacket comparison."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Jacket and Limpet Coil Design
+    url: /articles/jacket-and-limpet-coil-design/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Reactor Jackets, Limpet Coils and Half-Pipe Jackets: Design Basics",
+        "description": "Jacket types, jacket-side velocity, film coefficients, overall U, utilities and multi-fluid operation.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a limpet coil?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A half-pipe welded in a spiral around a reactor shell, carrying the heating or cooling fluid. Its small flow area gives high velocity and good heat transfer with liquids, and it withstands higher utility pressures than a conventional jacket."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is cooling slow in a conventional jacket?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The annulus has a large flow area, so cooling water moves very slowly (often a few centimetres per second) and the jacket-side film coefficient is low. Agitation nozzles, a spiral baffle or a half-pipe coil raise the velocity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What overall U can a reactor jacket achieve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Roughly 200 to 600 W/m2K for stainless steel reactors with liquid utilities, depending on the jacket design and agitation, and about 200 to 400 W/m2K for glass-lined reactors."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Reactor Jackets and Limpet Coils</h1>
+  <p class="article-meta">Process Design &middot; Heat Transfer &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Heat-up and cool-down times on a plant reactor are often blamed on the vessel size or the glass lining. Sometimes the real culprit is the jacket: cooling water creeping through a wide annulus at a few centimetres per second. This article explains the main jacket types, why velocity on the jacket side matters, and when it stops mattering.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#types">Jacket types</a><span>Basics</span></li>
+    <li><a href="#vel">Why jacket-side velocity matters</a><span>Basics</span></li>
+    <li><a href="#u">Film coefficients and overall U</a><span>Working level</span></li>
+    <li><a href="#util">Steam, water, brine and thermic fluid</a><span>Working level</span></li>
+    <li><a href="#multi">Multi-fluid jackets and practical problems</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="types">Jacket types <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Conventional jacket:</strong> an outer shell around the vessel, with a gap of typically 50&ndash;100 mm. Simple and cheap, good for steam. For liquids, the flow area is huge and the velocity very low unless agitation nozzles or a spiral baffle are fitted.</li>
+    <li><strong>Half-pipe or limpet coil:</strong> a pipe cut in half lengthwise and welded in a spiral around the vessel. Small flow area, so high velocity and good heat transfer with liquids. Strong, so it suits high-pressure utilities and thin vessel walls.</li>
+    <li><strong>Dimple jacket:</strong> a thin sheet with pressed dimples welded to the vessel. Light and cheap, used for moderate pressures.</li>
+    <li><strong>Internal coils:</strong> extra area inside the vessel, at the cost of cleaning difficulty and obstruction to mixing. Not possible in glass-lined vessels.</li>
+  </ul>
+
+  <h2 id="vel">Why jacket-side velocity matters <span class="lvl l1">Basics</span></h2>
+  <p>Take a 3 m&sup3; vessel, 1.6 m in diameter. A 50 mm conventional jacket has a flow area of about 0.27 m&sup2;. Twenty m&sup3;/h of cooling water flows through it at about 0.02 m/s: barely moving. The jacket-side film coefficient is then only a few hundred W/m&sup2;K, set mostly by natural convection.</p>
+  <p>The same 20 m&sup3;/h through an 80 NB half-pipe coil (flow area about 0.0024 m&sup2;) runs at over 2 m/s, and the film coefficient rises to around 7,500 W/m&sup2;K. Agitation nozzles in a conventional jacket, which inject water tangentially to create swirl, give something in between.</p>
+  <figure class="art-fig" data-fig="jacket">
+    <figcaption>Try it: change the cooling water flow and compare the overall U for three jacket designs on the same stainless steel reactor.</figcaption>
+  </figure>
+
+  <h2 id="u">Film coefficients and overall U <span class="lvl l2">Working level</span></h2>
+  <div class="formula-box">1/U = 1/h<sub>process</sub> + t<sub>wall</sub>/k<sub>wall</sub> + R<sub>fouling</sub> + 1/h<sub>jacket</sub></div>
+  <p>The overall coefficient is limited by the worst resistance. With a slow conventional jacket, the jacket side dominates and U is about 220 W/m&sup2;K. With agitation nozzles, U roughly doubles. With a half-pipe coil, the jacket side almost disappears from the sum, and U is limited by the process side and the wall: about 550 W/m&sup2;K in this example. Going faster on the jacket side beyond this gains little.</p>
+  <p>For glass-lined vessels, the glass layer (about 1&ndash;2 mm, with thermal conductivity around 1 W/m&middot;K) adds a resistance of the same order as the process film, so U is usually 200&ndash;400 W/m&sup2;K whatever the jacket. Improving the process side, with better agitation, often helps more there.</p>
+
+  <h2 id="util">Steam, water, brine and thermic fluid <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Steam:</strong> condensing film coefficients are very high, so a conventional jacket is fine. Inlet at the top, condensate out at the bottom through a steam trap. Air and non-condensables must be vented or they blanket the surface.</li>
+    <li><strong>Cooling water and chilled water:</strong> velocity matters, as above. Inlet at the bottom so the jacket stays full and air is pushed out at the top.</li>
+    <li><strong>Brine and glycol:</strong> more viscous at low temperature, so film coefficients are lower; velocity matters even more.</li>
+    <li><strong>Thermic fluid (hot oil):</strong> for temperatures above about 180 &deg;C without high-pressure steam. Lower film coefficients than steam; usually in half-pipe coils.</li>
+  </ul>
+
+  <h2 id="multi">Multi-fluid jackets and practical problems <span class="lvl l3">Going deeper</span></h2>
+  <p>Most multi-purpose reactors switch the same jacket between steam, water and brine. That is convenient but causes trouble if not done carefully:</p>
+  <ul>
+    <li><strong>Drain and blow out</strong> the previous fluid before switching. Water left in a jacket that receives brine dilutes the brine and can freeze; steam into a jacket full of brine causes water hammer.</li>
+    <li><strong>Thermal shock:</strong> switching from steam to cold brine on a glass-lined vessel can crack the glass. Respect the manufacturer's temperature-difference limits. See <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">glass-lined reactor care</a>.</li>
+    <li><strong>Fouling:</strong> cooling tower water scales jackets over the years. A periodic acid clean of the jacket, done under a permit, can restore a surprising amount of cooling.</li>
+    <li><strong>Air pockets:</strong> a jacket filled from the top traps air and loses area at the top. Fill from the bottom and vent at the top.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Measure the cooling water temperature rise across the jacket during a cool-down. A rise of only 1&ndash;2 &deg;C with a large temperature difference to the batch means the water isn't picking up heat: low velocity or fouling. A rise of 10 &deg;C or more means the water flow itself is the limit.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Expecting good cooling from water in a conventional jacket with no nozzles.</li>
+    <li>Feeding cooling water from the top and trapping air.</li>
+    <li>Switching utilities without draining the previous fluid.</li>
+    <li>Blaming the glass for slow cooling without checking the jacket side.</li>
+    <li>Never cleaning scaled jackets.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a limpet coil?</h3>
+  <p>A half-pipe spiral welded to the shell: high velocity and strong.</p>
+  <h3>Why is cooling slow in a conventional jacket?</h3>
+  <p>Water moves very slowly in the wide annulus, so the film coefficient is low.</p>
+  <h3>What overall U can a reactor jacket achieve?</h3>
+  <p>About 200&ndash;600 W/m&sup2;K for stainless, 200&ndash;400 for glass-lined.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and heat-up time</a>
+    <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">Heat exchanger design basics</a>
+    <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">Glass-lined reactor care</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -1,0 +1,146 @@
+---
+layout: default
+title: "Line Sizing and Pressure Drop: Velocity, Reynolds Number and Friction Loss"
+description: "How to size process lines from the basics: recommended velocities for pump suction, discharge, gravity and gas lines, Reynolds number, friction factor and the Darcy equation, fittings and equivalent length, static-safe velocities for solvents and viscous liquids. Interactive line sizing chart."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Line Sizing and Pressure Drop
+    url: /articles/line-sizing-and-pressure-drop/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Line Sizing and Pressure Drop: Velocity, Reynolds Number and Friction Loss",
+        "description": "Velocity guidelines, Reynolds number, Darcy friction factor, fittings, static limits and viscous liquids.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What velocity should a pump discharge line have?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Typically 1.5 to 3 m/s for water-like liquids. Suction lines are usually lower, about 0.6 to 1.5 m/s, to keep NPSH available high."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate pressure drop in a pipe?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With the Darcy equation: pressure drop = friction factor x (length / diameter) x density x velocity squared / 2, plus the losses of fittings and valves using K values or equivalent lengths."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the friction factor for laminar flow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "64 divided by the Reynolds number (Darcy friction factor), valid below Re of about 2,300."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Line Sizing and Pressure Drop</h1>
+  <p class="article-meta">Process Design &middot; Fluid Flow &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Choosing a pipe size looks like a small decision, but it fixes the pump head, the energy bill, whether the pump cavitates, whether a solvent line charges up with static, and whether the line erodes or blocks. Most of it comes down to one number, velocity, and one equation for friction. This article goes through both, with the rules of thumb engineers actually use.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#vel">Start with velocity</a><span>Basics</span></li>
+    <li><a href="#re">Reynolds number: laminar or turbulent</a><span>Basics</span></li>
+    <li><a href="#dp">Friction loss: the Darcy equation</a><span>Working level</span></li>
+    <li><a href="#fit">Fittings, valves and equivalent length</a><span>Working level</span></li>
+    <li><a href="#special">Special cases: solvents, slurries, viscous liquids, gases</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="vel">Start with velocity <span class="lvl l1">Basics</span></h2>
+  <div class="formula-box">v = Q / A = 4Q / (&pi; D&sup2;)
+    <small>v in m/s, Q in m&sup3;/s, D the pipe's inside diameter in m (not the nominal size).</small></div>
+  <p>Typical design velocities for liquids:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Service</th><th>Typical velocity</th><th>Why</th></tr>
+    <tr><td>Pump suction</td><td>0.6&ndash;1.5 m/s</td><td>Low friction keeps NPSH available high</td></tr>
+    <tr><td>Pump discharge</td><td>1.5&ndash;3 m/s</td><td>Balance of pipe cost and pumping energy</td></tr>
+    <tr><td>Gravity drain</td><td>0.3&ndash;1 m/s</td><td>Little head available; avoid running full of vapour</td></tr>
+    <tr><td>Cooling water headers</td><td>1.5&ndash;2.5 m/s</td><td>High enough to limit fouling</td></tr>
+    <tr><td>Low-conductivity solvent into a tank</td><td>&le; 1 m/s until the inlet is submerged</td><td>Static charge generation</td></tr>
+  </table></div>
+  <p>For 20 m&sup3;/h of water: 40 NB gives 4.2 m/s (too fast), 50 NB 2.6 m/s (good for a discharge), 80 NB 1.2 m/s (good for a suction).</p>
+  <figure class="art-fig" data-fig="dp">
+    <figcaption>Try it: choose a fluid and flow and see the velocity in each standard size, then pick a size to see its Reynolds number and friction loss.</figcaption>
+  </figure>
+
+  <h2 id="re">Reynolds number: laminar or turbulent <span class="lvl l1">Basics</span></h2>
+  <div class="formula-box">Re = &rho; v D / &mu;</div>
+  <p>Below about 2,300 the flow is laminar: smooth layers, friction proportional to velocity. Above about 4,000 it is turbulent: eddies, friction roughly proportional to velocity squared. Water at 2.6 m/s in a 50 NB line has Re &asymp; 135,000, well into turbulence. A 100 cP oil at the same velocity has Re &asymp; 1,200, which is laminar, and behaves very differently.</p>
+
+  <h2 id="dp">Friction loss: the Darcy equation <span class="lvl l2">Working level</span></h2>
+  <div class="formula-box">&Delta;P = f &times; (L / D) &times; &rho; v&sup2; / 2
+    <small>f is the Darcy friction factor: 64/Re for laminar flow; for turbulent flow from the Moody chart or the Colebrook or Swamee-Jain equations, depending on Re and the pipe roughness (about 0.045 mm for commercial steel).</small></div>
+  <p>For 20 m&sup3;/h of water in 50 NB steel, f &asymp; 0.02 and the loss is about 1.3 bar per 100 m. In 80 NB it falls to about 0.18 bar per 100 m. That is the trade-off: friction falls steeply with diameter (roughly as D<sup>&minus;5</sup> at constant flow), while pipe cost rises with diameter. Velocities of 1.5&ndash;3 m/s for pumped liquids sit near the economic optimum for typical plant lengths.</p>
+
+  <h2 id="fit">Fittings, valves and equivalent length <span class="lvl l2">Working level</span></h2>
+  <p>Elbows, tees, valves, strainers and entrances add loss. Two ways to include it:</p>
+  <ul>
+    <li><strong>K values:</strong> &Delta;P = K &times; &rho; v&sup2;/2 for each fitting. Typical K: standard 90&deg; elbow 0.3&ndash;0.75, open gate valve 0.15, open globe valve 6&ndash;10, swing check 2, tank entrance 0.5, exit 1.</li>
+    <li><strong>Equivalent length:</strong> each fitting adds the friction of a straight length, for example about 30 pipe diameters for an elbow.</li>
+  </ul>
+  <p>In compact plant piping, fittings often account for more loss than the straight pipe. A Y-strainer that is half blocked can account for more than everything else together; that's why strainers get differential pressure gauges.</p>
+
+  <h2 id="special">Special cases: solvents, slurries, viscous liquids, gases <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Solvents and static:</strong> keep low-conductivity solvents at 1 m/s or less into tanks until the fill pipe is submerged, and at most about 7 m/s anywhere. See <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity</a>.</li>
+    <li><strong>Slurries:</strong> keep velocity above the settling velocity of the solids, often 1.5&ndash;2.5 m/s, and avoid dead legs and low points where solids collect.</li>
+    <li><strong>Viscous liquids:</strong> flow is often laminar and loss rises with viscosity; heat tracing or a larger line can save a lot of pump power. Use a positive displacement pump.</li>
+    <li><strong>Gases and vapours:</strong> much higher velocities (10&ndash;30 m/s for process gas, lower for vacuum lines where every millibar matters). Vacuum lines from a condenser to the pump should be short and generously sized; see <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a>.</li>
+    <li><strong>Steam and condensate:</strong> steam 20&ndash;35 m/s; condensate return lines carry flash steam and must be sized for the two-phase flow.</li>
+  </ul>
+  <p>For a full network with several branches, use the <a href="{{ '/design-tools/line-sizing/' | relative_url }}">line sizing design tool</a>.</p>
+  <div class="art-note"><b>On the plant</b><p>When a pump &ldquo;has become weak&rdquo;, check the strainer and the line before the pump. Scale, a half-closed valve or an extra length of hose added for a temporary job can take more head than the pump has to give.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Using the nominal size instead of the inside diameter.</li>
+    <li>Sizing pump suction lines like discharge lines.</li>
+    <li>Ignoring fittings and strainers in compact piping.</li>
+    <li>Filling solvent tanks at high velocity through a top nozzle.</li>
+    <li>Forgetting that viscous liquids may be laminar.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What velocity should a pump discharge line have?</h3>
+  <p>1.5&ndash;3 m/s; suction lines 0.6&ndash;1.5 m/s.</p>
+  <h3>How do you calculate pressure drop in a pipe?</h3>
+  <p>Darcy: &Delta;P = f &times; (L/D) &times; &rho;v&sup2;/2, plus fittings.</p>
+  <h3>What is the friction factor for laminar flow?</h3>
+  <p>64/Re below Re &asymp; 2,300.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
+    <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing design tool</a>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and seal troubleshooting</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

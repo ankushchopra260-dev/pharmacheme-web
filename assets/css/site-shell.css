@@ -79,6 +79,7 @@ a { color: inherit; text-decoration: none; }
 }
 .site-nav-links .sub a:hover, .site-nav-links .sub a:focus-visible { background: var(--bg-deep); color: var(--brass); }
 .sub-head { margin: 6px 12px 4px; font-size: .78rem; font-weight: 700; color: var(--brass); }
+.site-nav-links .sub a.sub-more { color: var(--muted); font-size: .8rem; }
 .site-nav-links .sub .sub-all { margin-top: 6px; border-top: 1px solid var(--grid-line); border-radius: 0 0 4px 4px; padding-top: 10px; color: var(--muted); font-size: .82rem; }
 .mega .sub { left: 50%; transform: translateX(-50%); }
 .mega .sub-inner { display: grid; grid-template-columns: repeat(3, auto); gap: 0 10px; }

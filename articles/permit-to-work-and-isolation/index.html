@@ -1,0 +1,136 @@
+---
+layout: default
+title: "Permit to Work and Isolation (LOTO): How to Make Maintenance Safe"
+description: "Permit to work systems and process isolation from the basics: permit types, the isolation hierarchy from single valve to positive isolation, lockout-tagout of energy sources, verification, gas testing, handover and lessons from Piper Alpha. Interactive isolation exercise."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Permit to Work and Isolation
+    url: /articles/permit-to-work-and-isolation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Permit to Work and Isolation (LOTO): How to Make Maintenance Safe",
+        "description": "Permit types, isolation hierarchy, LOTO, verification, gas testing, shift handover and Piper Alpha.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is double block and bleed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Two closed valves in series with a vent or drain open between them, so any leakage past the first valve escapes through the bleed instead of reaching the work. It is more secure than a single valve but less secure than positive isolation with a blind."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When is positive isolation needed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For hazardous fluids (toxic, flammable, high pressure or high temperature), for long jobs, and for any confined space entry. Positive isolation means a spade or blind is inserted, or a spool is removed and blanked."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does LOTO mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lockout-tagout: isolating every energy source, locking each isolation point with a personal lock for each worker, tagging it, and verifying that the equipment cannot be started or energised before work begins."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Permit to Work and Isolation</h1>
+  <p class="article-meta">Process Safety &middot; Safe Work &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Most serious accidents during maintenance happen at the boundary between operations and maintenance: a line opened that was still connected to pressure, a pump started that someone was working on, a permit that didn&rsquo;t survive a shift change. A permit to work is the system that manages that boundary. This article explains how it works, and how to isolate equipment properly.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#ptw">What a permit to work is for</a><span>Basics</span></li>
+    <li><a href="#types">Types of permit</a><span>Basics</span></li>
+    <li><a href="#iso">The isolation hierarchy</a><span>Working level</span></li>
+    <li><a href="#loto">Lockout, tagout and verification</a><span>Working level</span></li>
+    <li><a href="#piper">Handover: the Piper Alpha lesson</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="ptw">What a permit to work is for <span class="lvl l1">Basics</span></h2>
+  <p>A permit to work is a written agreement between the person in control of the plant and the person doing the work. It records what will be done, where, what hazards exist, how the equipment has been made safe, what precautions are needed, and who has checked each one. Its value is not the paper but the conversation and checks it forces: the plant is handed over in a defined state, and handed back only when the work is complete and the equipment ready.</p>
+
+  <h2 id="types">Types of permit <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Hot work:</strong> welding, grinding, cutting, anything that makes sparks or flames. Needs gas testing and fire watch.</li>
+    <li><strong>Cold work / line break:</strong> opening process lines and equipment.</li>
+    <li><strong>Confined space entry:</strong> vessels, tanks, pits. Needs isolation, ventilation, atmosphere testing for oxygen, flammables and toxics, a standby person and a rescue plan.</li>
+    <li><strong>Electrical work</strong> and <strong>work at height</strong>, often as certificates attached to a main permit.</li>
+  </ul>
+  <p>Where several jobs touch the same equipment, they must be cross-referenced so one permit isn't closed while another depends on the same isolation.</p>
+
+  <h2 id="iso">The isolation hierarchy <span class="lvl l2">Working level</span></h2>
+  <p>Valves leak and get opened by mistake. The more severe the hazard, the more secure the isolation must be:</p>
+  <ol>
+    <li><strong>Single closed valve:</strong> only for low-hazard fluids and short, simple jobs.</li>
+    <li><strong>Double block:</strong> two closed valves in series.</li>
+    <li><strong>Double block and bleed:</strong> two closed valves with a vent or drain open between them, so any leak through the first valve goes to the bleed, not to the work.</li>
+    <li><strong>Positive isolation:</strong> a spade (blind) or spectacle blind inserted, or a spool removed and the open ends blanked.</li>
+  </ol>
+  <p>Toxic, flammable, high-pressure or hot fluids, and any confined space entry, generally need positive isolation. The isolation points must be marked on a P&amp;ID copy attached to the permit. See <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">how to read a P&amp;ID</a>.</p>
+  <figure class="art-fig" data-fig="quiz">
+    <script type="application/json">{"a":["Acceptable","Not enough"],"q":[["Replacing a pressure gauge on a cooling water header, isolated by its own root valve.",0,"Low hazard, a single valve and a quick job: acceptable, provided pressure is vented and verified before removing the gauge."],["Entering a reactor for inspection after closing all inlet valves.",1,"Confined space entry needs positive isolation: spades or disconnected spools on every line, plus electrical isolation of the agitator."],["Removing a toluene pump for seal replacement, with suction and discharge valves closed and the casing drained.",1,"Flammable liquid with a long job: double block and bleed at minimum, or blinds, plus electrical lockout of the motor."],["Changing a steam trap with the upstream valve closed and the line depressurised through the trap's test valve.",0,"Acceptable for a short job if the valve holds and the line is proven depressurised and cool. If the valve passes, step up the isolation."],["Breaking a chlorine line flange with two closed valves and nothing open between them.",1,"For a toxic gas, use double block and bleed with the bleed routed to a scrubber, then positive isolation before opening."],["Electrical work on a motor after pressing the local stop button.",1,"A stop button is not an isolation. Isolate at the breaker, lock it, and test that the motor cannot start."]]}</script>
+    <figcaption>Try it: is the isolation described enough for the job? Six situations from plant maintenance.</figcaption>
+  </figure>
+
+  <h2 id="loto">Lockout, tagout and verification <span class="lvl l2">Working level</span></h2>
+  <p>Every energy source that could hurt someone must be isolated and locked: electrical supply, pneumatic and hydraulic power, stored pressure, springs, gravity (raised parts), and process chemicals. Each person working puts their own lock on the isolation (a multi-lock hasp or lock box) and only they remove it.</p>
+  <p>Then <strong>verify</strong>: try to start the motor locally; check the pressure gauge reads zero and open the bleed; test the atmosphere before entry. An isolation that hasn't been tested is an assumption.</p>
+
+  <h2 id="piper">Handover: the Piper Alpha lesson <span class="lvl l3">Going deeper</span></h2>
+  <p>On 6 July 1988, on the Piper Alpha platform in the North Sea, a pressure safety valve had been removed from a condensate pump for maintenance and replaced with a blind flange that was not leak-tight. The permit for that work was not effectively communicated at the evening shift handover. When the other pump tripped, the night shift started the pump with the missing valve. Condensate leaked, ignited and exploded, and the fires that followed destroyed the platform. 167 men died.</p>
+  <p>The inquiry found weaknesses in the permit to work system, especially in shift handover and in cross-referencing permits. The lesson for every plant: a permit is only as good as the handover. Active permits should be visible on a board in the control room, discussed at every handover, and suspended permits must leave the equipment in a clearly safe and labelled state.</p>
+  <div class="art-note"><b>On the plant</b><p>Walk the job with the permit in hand before signing it. Most permit failures are found in the field: a blind in the wrong place, a valve that isn't the one on the drawing, a drain that is blocked.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Signing permits in the office without visiting the job.</li>
+    <li>Treating a stop button or a closed valve as an isolation.</li>
+    <li>Not verifying the isolation before starting work.</li>
+    <li>Permits not discussed at shift handover.</li>
+    <li>Closing a permit while another job depends on the same isolation.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is double block and bleed?</h3>
+  <p>Two closed valves with an open bleed between them, so leakage goes to the bleed, not the work.</p>
+  <h3>When is positive isolation needed?</h3>
+  <p>For toxic, flammable, high-energy fluids, long jobs and any confined space entry.</p>
+  <h3>What does LOTO mean?</h3>
+  <p>Isolating, locking and tagging every energy source, then verifying it before work.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">How to read a P&amp;ID</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

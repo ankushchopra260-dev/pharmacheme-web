@@ -1,0 +1,134 @@
+---
+layout: default
+title: "Scrubber Design for HCl, SO2, Cl2 and NH3 Vents: Basics and Operation"
+description: "Wet scrubbers for chemical and pharma plant vents: choosing the scrubbing liquor, caustic consumption and change-out, heat of absorption and neutralisation, packed columns and venturis, sizing for peak gas rate, suck-back and the instruments a scrubber needs. Interactive caustic consumption calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Scrubber Design
+    url: /articles/scrubber-design/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Scrubber Design for HCl, SO2, Cl2 and NH3 Vents: Basics and Operation",
+        "description": "Scrubbing liquors, caustic consumption, heat release, packed columns, peak sizing, suck-back and instrumentation.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much NaOH is needed to scrub HCl?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "About 1.1 kg of NaOH per kg of HCl (molar masses 40 and 36.5), plus a reserve so the liquor never runs out of free caustic during a peak."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should scrubber caustic be changed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At a set minimum free-caustic concentration measured by titration or inferred from pH or conductivity, commonly around 2 to 3 %, so there is reserve capacity for an upset."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is suck-back in a scrubber?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Scrubber liquor being drawn back up the vent line into a process vessel when the vessel cools or is put under vacuum. It can cause violent reactions and is prevented by dip-leg height, vacuum breakers and keeping a slight positive pressure."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Scrubber Design for Process Vents</h1>
+  <p class="article-meta">Process Safety &middot; Emissions &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">The vent scrubber stands at the edge of the plant, usually forgotten until someone smells HCl in the yard. Yet it is a safety device: it stops toxic gases escaping during normal operation and during upsets. Designing and running one well comes down to a few questions: what gas, how much, how fast, and is there still enough caustic left to catch it.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What a scrubber does</a><span>Basics</span></li>
+    <li><a href="#liquor">Choosing the liquor</a><span>Basics</span></li>
+    <li><a href="#cap">How long the caustic lasts</a><span>Working level</span></li>
+    <li><a href="#size">Sizing for the peak</a><span>Working level</span></li>
+    <li><a href="#run">Running it safely</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What a scrubber does <span class="lvl l1">Basics</span></h2>
+  <p>A wet scrubber brings the vent gas into close contact with a liquid that absorbs or reacts with the pollutant. Most process scrubbers are packed columns: gas flows up through packing while the liquor is pumped from a tank, sprayed on top and trickles down. Venturi or jet scrubbers use a high-velocity liquid jet to draw in and scrub the gas, which also helps pull vapours from the process.</p>
+
+  <h2 id="liquor">Choosing the liquor <span class="lvl l1">Basics</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Gas</th><th>Liquor</th><th>Reaction and notes</th></tr>
+    <tr><td>HCl, HBr</td><td>Water, then dilute NaOH</td><td>Very soluble; NaOH 1.1 kg per kg HCl. Water alone works until the acid gets strong.</td></tr>
+    <tr><td>SO<sub>2</sub></td><td>NaOH</td><td>Forms sulphite, then bisulphite; 1&ndash;2 mol NaOH per mol SO<sub>2</sub> depending on pH.</td></tr>
+    <tr><td>Cl<sub>2</sub></td><td>NaOH</td><td>Forms hypochlorite; 2 mol NaOH per mol Cl<sub>2</sub>. Keep excess caustic, or chlorine breaks through and the liquor can decompose.</td></tr>
+    <tr><td>NH<sub>3</sub>, amines</td><td>Dilute H<sub>2</sub>SO<sub>4</sub></td><td>Forms ammonium sulphate.</td></tr>
+    <tr><td>H<sub>2</sub>S</td><td>NaOH (or hypochlorite)</td><td>Forms NaHS/Na<sub>2</sub>S; never let it meet acid again.</td></tr>
+  </table></div>
+  <p>Never route incompatible vents into one scrubber without a review. Hypochlorite from a chlorine scrubber meeting an acid or ammonia vent produces chlorine or chloramines.</p>
+
+  <h2 id="cap">How long the caustic lasts <span class="lvl l2">Working level</span></h2>
+  <p>For HCl: NaOH + HCl &rarr; NaCl + H<sub>2</sub>O, so each kg of HCl uses 40/36.5 &asymp; 1.1 kg of NaOH. A 2,000 kg charge of 10 % NaOH holds 200 kg of NaOH. If each batch releases 60 kg of HCl, it uses about 66 kg of NaOH. Keeping at least about 2 % free caustic as a reserve for upsets leaves room for only two batches before the liquor must be changed.</p>
+  <figure class="art-fig" data-fig="scrubber">
+    <figcaption>Try it: change the HCl per batch, liquor quantity and strength, and see how many batches the scrubber can take before the free caustic is too low.</figcaption>
+  </figure>
+  <p>Heat matters too. Neutralisation releases about 57 kJ per mol, and absorbing gaseous HCl into water releases roughly as much again. A fast release into a small tank can heat the liquor enough to reduce absorption and, for some gases, to drive them back out. Cool the recirculating liquor or size the tank generously.</p>
+
+  <h2 id="size">Sizing for the peak <span class="lvl l2">Working level</span></h2>
+  <p>A scrubber that handles the average flow can fail at the peak: the first minutes of a thionyl chloride distillation, a quench, or a relief event. Size the gas side for the peak rate, check the pressure drop through the packing at that rate, and keep enough liquid flow to wet the packing fully (manufacturers give a minimum wetting rate). Gas that bypasses the liquid goes straight to the stack.</p>
+
+  <h2 id="run">Running it safely <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Measure the liquor:</strong> pH or conductivity online, and free caustic by titration on a schedule. Change it at a set strength, not when it smells.</li>
+    <li><strong>Interlock the process:</strong> no vent-producing step if the scrubber pump is off or the fan has failed. Alarm on low recirculation flow.</li>
+    <li><strong>Prevent suck-back:</strong> when a reactor cools or goes under vacuum, scrubber liquor can be drawn back up the vent line into it, with violent results if the reactor holds thionyl chloride or hydride. Use a dip-leg arrangement with enough height, a vacuum breaker or a knock-out pot, and keep the reactor under slight nitrogen pressure.</li>
+    <li><strong>Watch for solids:</strong> salts crystallising from strong liquor block packing and nozzles.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Put the free-caustic result on the shift log next to the batch that is about to vent. If someone has to write both numbers down, someone will notice when the scrubber has no capacity left.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Changing the liquor only when the outlet smells.</li>
+    <li>Sizing for average gas flow, not the peak.</li>
+    <li>No interlock between the scrubber pump and gas-producing steps.</li>
+    <li>Combining incompatible vents in one scrubber.</li>
+    <li>Ignoring suck-back when a reactor cools under vacuum.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How much NaOH is needed to scrub HCl?</h3>
+  <p>About 1.1 kg NaOH per kg HCl, plus a reserve.</p>
+  <h3>When should scrubber caustic be changed?</h3>
+  <p>At a set minimum free caustic, commonly about 2&ndash;3 %, before it is exhausted.</p>
+  <h3>What is suck-back in a scrubber?</h3>
+  <p>Liquor pulled back into a cooling or evacuated vessel through the vent line.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench design</a>
+    <a href="{{ '/process-safety/toxic-and-flammable-releases/' | relative_url }}">Toxic and flammable releases</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

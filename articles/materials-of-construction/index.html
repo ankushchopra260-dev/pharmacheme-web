@@ -1,0 +1,147 @@
+---
+layout: default
+title: "Materials of Construction for Chemical Plants: SS316, Hastelloy, Glass-Lined and PTFE"
+description: "Choosing materials of construction for chemical and pharma plants: carbon steel, SS304 and SS316L, duplex, Hastelloy, titanium, glass-lined steel, PTFE linings, FRP and plastics; forms of corrosion including pitting and stress-corrosion cracking; PREN; gaskets and elastomers. Interactive material selector."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Materials of Construction
+    url: /articles/materials-of-construction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Materials of Construction for Chemical Plants: SS316, Hastelloy, Glass-Lined and PTFE",
+        "description": "Common materials, corrosion mechanisms, PREN, linings, gaskets and selection by service.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does stainless steel corrode in chloride solutions?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Chlorides break down the thin chromium oxide film that protects stainless steel, causing pitting, crevice corrosion and, above about 50 to 60 C under stress, stress-corrosion cracking."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is PREN?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The pitting resistance equivalent number: %Cr + 3.3 x %Mo + 16 x %N. It ranks stainless steels and alloys by resistance to chloride pitting: about 24 for 316L and 35 for duplex 2205."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can glass-lined reactors handle caustic?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cold, dilute alkali briefly, yes; hot or concentrated alkali dissolves the glass. Check the manufacturer’s pH and temperature limits."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Materials of Construction</h1>
+  <p class="article-meta">Plant Engineering &middot; Materials &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">&ldquo;Use SS316, it&rsquo;s stainless.&rdquo; Many corrosion failures start with that sentence. Stainless steel resists a lot, but chlorides, hot caustic and reducing acids can destroy it quickly, while cheap carbon steel happily holds strong sulphuric acid. This article explains how the common plant materials behave, the forms of corrosion that catch people out, and how to choose.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#mats">The common materials</a><span>Basics</span></li>
+    <li><a href="#forms">Forms of corrosion</a><span>Basics</span></li>
+    <li><a href="#select">Choosing by service</a><span>Working level</span></li>
+    <li><a href="#seal">Gaskets, seals and linings</a><span>Working level</span></li>
+    <li><a href="#check">Checking and monitoring</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="mats">The common materials <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Carbon steel:</strong> cheap and strong. Fine for neutral solvents, steam, strong sulphuric acid at ambient, caustic at moderate temperature. Rusts in water and dilute acids.</li>
+    <li><strong>SS304 / SS316L:</strong> chromium forms a thin passive oxide film that protects the steel. Molybdenum in 316 improves resistance to chlorides. &ldquo;L&rdquo; means low carbon, which avoids corrosion at welds.</li>
+    <li><strong>Duplex stainless (2205):</strong> stronger and much more resistant to chloride stress-corrosion cracking than 316L.</li>
+    <li><strong>Nickel alloys (Hastelloy C-276, C-22):</strong> resist chlorides, many reducing acids and mixed acid streams. Expensive, used where stainless fails.</li>
+    <li><strong>Titanium:</strong> excellent in chlorides, wet chlorine and oxidising conditions; poor in reducing acids such as hot HCl and attacked by fluorides.</li>
+    <li><strong>Glass-lined steel:</strong> resists almost all acids at most temperatures, except HF and hot concentrated phosphoric acid; damaged by hot alkali and mechanical or thermal shock. See <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">glass-lined reactor care</a>.</li>
+    <li><strong>PTFE and PFA linings:</strong> almost universally resistant; permeation, vacuum collapse and static (they are non-conductive) are the limits.</li>
+    <li><strong>FRP, PP, HDPE, PVDF:</strong> tanks and piping for acids and caustic at modest temperatures.</li>
+  </ul>
+
+  <h2 id="forms">Forms of corrosion <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>General corrosion:</strong> even thinning, predictable from corrosion rate tables and coupons. See the <a href="{{ '/calculators/corrosion-coupon-calculator/' | relative_url }}">corrosion coupon calculator</a>.</li>
+    <li><strong>Pitting:</strong> local holes where the passive film breaks down, typically caused by chlorides. Can perforate a vessel while the rest looks perfect. The pitting resistance equivalent number, PREN = %Cr + 3.3 &times; %Mo + 16 &times; %N, ranks alloys: about 24 for 316L, 35 for duplex 2205, over 40 for super-duplex and Hastelloy.</li>
+    <li><strong>Stress-corrosion cracking (SCC):</strong> cracks from the combination of tensile stress and a specific environment, such as chlorides with 304/316 above about 50&ndash;60 &deg;C, or hot caustic with carbon steel. Sudden and dangerous.</li>
+    <li><strong>Crevice corrosion:</strong> under gaskets, deposits and in tight gaps, where the chemistry inside differs from the bulk.</li>
+    <li><strong>Galvanic corrosion:</strong> two different metals in contact in an electrolyte; the less noble one corrodes faster.</li>
+    <li><strong>Erosion-corrosion:</strong> high velocity or slurries wear away the protective film, common at elbows and pump casings.</li>
+  </ul>
+
+  <h2 id="select">Choosing by service <span class="lvl l2">Working level</span></h2>
+  <figure class="art-fig" data-fig="matsel">
+    <figcaption>Try it: pick a service and see how the common materials generally behave. This is a first guide only; concentration, temperature and impurities change the answer.</figcaption>
+  </figure>
+  <p>Selection should follow the worst condition the equipment will see, not the normal one: the cleaning cycle, the start-up with concentrated acid, the hot spot near the steam inlet, the chloride left from a previous product. In a multi-purpose plant, list every chemical the equipment may meet, including cleaning agents, and check them all. The <a href="{{ '/calculators/materials-compatibility/' | relative_url }}">materials compatibility tool</a> helps with that list.</p>
+
+  <h2 id="seal">Gaskets, seals and linings <span class="lvl l2">Working level</span></h2>
+  <p>A vessel in Hastelloy with the wrong gasket still leaks. Elastomers are usually the weakest link:</p>
+  <ul>
+    <li><strong>EPDM:</strong> good for water, steam, dilute acids and alkali; swells in hydrocarbons and oils.</li>
+    <li><strong>Viton (FKM):</strong> good for hydrocarbons and many acids; poor in ketones, esters and amines.</li>
+    <li><strong>FFKM (perfluoroelastomer):</strong> resists almost everything; expensive.</li>
+    <li><strong>PTFE gaskets</strong> resist chemicals but creep under load; use filled or expanded PTFE and the right bolt torque.</li>
+  </ul>
+
+  <h2 id="check">Checking and monitoring <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Corrosion coupons in critical services, removed and weighed on a schedule.</li>
+    <li>Ultrasonic thickness surveys on vessels and piping, compared with the minimum thickness from design.</li>
+    <li>Material certificates and positive material identification (PMI) for alloy parts, so a carbon steel fitting doesn't end up in a Hastelloy line.</li>
+    <li>Review materials through MOC whenever a new chemical or cleaning agent is introduced.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Keep the failed part. A pitted gasket face, a cracked weld or a thinned elbow tells a corrosion specialist almost exactly what happened. Thrown into the scrap bin, it tells nobody anything.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Assuming stainless steel resists chlorides.</li>
+    <li>Choosing material for the process but not for cleaning chemicals.</li>
+    <li>Glass-lined vessels exposed to hot caustic.</li>
+    <li>Elastomers chosen without checking every solvent.</li>
+    <li>No PMI on alloy spares.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why does stainless steel corrode in chloride solutions?</h3>
+  <p>Chlorides break the passive film, causing pitting and stress-corrosion cracking.</p>
+  <h3>What is PREN?</h3>
+  <p>%Cr + 3.3&times;%Mo + 16&times;%N; about 24 for 316L, 35 for duplex 2205.</p>
+  <h3>Can glass-lined reactors handle caustic?</h3>
+  <p>Only cold and dilute; hot alkali dissolves glass.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/materials-compatibility/' | relative_url }}">Materials compatibility tool</a>
+    <a href="{{ '/calculators/corrosion-coupon-calculator/' | relative_url }}">Corrosion coupon calculator</a>
+    <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">Glass-lined reactor care</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

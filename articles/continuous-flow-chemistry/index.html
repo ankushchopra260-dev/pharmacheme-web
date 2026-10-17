@@ -1,0 +1,139 @@
+---
+layout: default
+title: "Continuous and Flow Chemistry: An Introduction for Process Engineers"
+description: "Flow chemistry from the basics for process engineers: residence time, tube and plate reactors, heat transfer and safety benefits, mixing, throughput, what flow does well and badly (solids, slow reactions), scale-up by numbering up and running time, and process analytical technology. Interactive flow reactor calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Continuous and Flow Chemistry
+    url: /articles/continuous-flow-chemistry/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Continuous and Flow Chemistry: An Introduction for Process Engineers",
+        "description": "Residence time, flow reactor types, heat transfer, safety, throughput, limitations, scale-up and PAT.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is residence time in a flow reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average time fluid spends in the reactor: reactor volume divided by volumetric flow rate. It plays the role that reaction time plays in a batch reactor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is flow chemistry safer for exothermic reactions?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A narrow tube has a very high heat transfer area per volume, so heat is removed quickly, and only a small amount of material is reacting at any time, so the energy available for a runaway is small."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the main limitations of flow chemistry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Solids that block channels, slow reactions that need very long residence times, the complexity of linking many steps, and the need to manage start-up and shut-down material."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Continuous and Flow Chemistry</h1>
+  <p class="article-meta">Scale-up &middot; Continuous Processing &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Instead of filling a 6,000 L reactor and waiting, a flow reactor pumps reagents through a tube a few millimetres wide, and product comes out continuously at the other end. It sounds like a lab curiosity, but flow chemistry is now used at production scale for reactions that are too fast, too hot or too hazardous to run safely in batch. This article explains how it works and where it fits.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea: time becomes distance</a><span>Basics</span></li>
+    <li><a href="#why">Why flow can do things batch cannot</a><span>Basics</span></li>
+    <li><a href="#design">Sizing a simple flow reactor</a><span>Working level</span></li>
+    <li><a href="#limits">What flow does badly</a><span>Working level</span></li>
+    <li><a href="#scale">Scaling up and running a flow process</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="idea">The idea: time becomes distance <span class="lvl l1">Basics</span></h2>
+  <p>In a batch reactor, the reaction proceeds in time: so many hours at temperature. In a flow reactor, it proceeds along the tube: each bit of fluid enters, reacts as it travels, and leaves after the residence time:</p>
+  <div class="formula-box">Residence time &tau; = reactor volume V / volumetric flow Q</div>
+  <p>A 6 mm tube 40 m long holds about 1.1 L. At 100 mL/min, the residence time is about 11 minutes. Run it continuously and it processes 144 L a day, from a reactor you can carry.</p>
+  <figure class="art-fig" data-fig="flowres">
+    <figcaption>Try it: change the tube diameter, length and flow and see the residence time, throughput and heat transfer area per volume compared with batch reactors.</figcaption>
+  </figure>
+
+  <h2 id="why">Why flow can do things batch cannot <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Heat transfer:</strong> area per volume is 4/d for a tube. A 6 mm tube has about 670 m&sup2;/m&sup3;; a 6 kL batch reactor has about 2. Strongly exothermic reactions that would need hours of slow dosing in batch can run in seconds to minutes.</li>
+    <li><strong>Small inventory:</strong> only a litre or so is reacting at any moment. If something goes wrong, the energy available is tiny compared with a full batch. Hazardous intermediates (diazonium salts, azides, organolithiums) can be made and used immediately without accumulating.</li>
+    <li><strong>Precise residence time:</strong> stopping a reaction at exactly the right point helps with consecutive side reactions. See <a href="{{ '/articles/reactor-selection/' | relative_url }}">reactor selection</a>.</li>
+    <li><strong>Extreme conditions:</strong> temperatures above the solvent's boiling point under a back-pressure regulator, high-pressure gases, photochemistry with thin layers that light can penetrate.</li>
+  </ul>
+
+  <h2 id="design">Sizing a simple flow reactor <span class="lvl l2">Working level</span></h2>
+  <ol>
+    <li>Find the residence time needed from batch kinetics or small flow trials at the chosen temperature.</li>
+    <li>Choose the throughput: product per day = flow &times; concentration &times; molar mass &times; time. At 100 mL/min, 0.5 mol/L and a molar mass of 250 g/mol, that is about 18 kg per day.</li>
+    <li>Reactor volume = flow &times; residence time.</li>
+    <li>Check mixing at the inlet: fast reactions need a good mixer (T-piece, static mixer or micromixer), because laminar flow in small tubes mixes slowly by itself.</li>
+    <li>Check pressure drop through the tube and mixers, and that the pumps can deliver steady, pulse-free flow.</li>
+  </ol>
+
+  <h2 id="limits">What flow does badly <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Solids:</strong> precipitates and slurries block narrow channels. This is the most common reason flow projects fail. Keep everything in solution, or use reactors designed for slurries (CSTR cascades, oscillatory baffled reactors).</li>
+    <li><strong>Slow reactions:</strong> a 10-hour reaction needs a very long tube or very low flow. Batch is usually simpler.</li>
+    <li><strong>Many steps with different conditions</strong> can be linked, but every step adds pumps, mixers and control, and the slowest step sets the pace.</li>
+    <li><strong>Start-up and shut-down</strong> produce off-specification material, which must be planned for.</li>
+  </ul>
+
+  <h2 id="scale">Scaling up and running a flow process <span class="lvl l3">Going deeper</span></h2>
+  <p>Flow processes scale by running longer, by using a larger reactor of the same design (keeping heat transfer and mixing similar), or by <strong>numbering up</strong>: several identical reactors in parallel. Each keeps the same conditions that worked in development, which avoids many of the scale-up surprises of batch. See <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant scale-up</a>.</p>
+  <p>Continuous processes also need continuous quality control. Process analytical technology (inline IR, UV or Raman) watches the product stream in real time, and a diverter valve sends out-of-specification material to waste or recycling. In GMP manufacture, the batch is defined by time or quantity, with traceability of all inputs.</p>
+  <div class="art-note"><b>On the plant</b><p>A good first flow project is a single hazardous step in an otherwise batch process: a nitration, a diazotisation or a low-temperature lithiation. Run it in flow, collect the product in a batch vessel, and continue as before. It gives most of the safety benefit without converting the whole plant.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Choosing flow for a reaction that forms solids.</li>
+    <li>Ignoring mixing at the inlet of a fast reaction.</li>
+    <li>Pulsing pumps that make residence time uneven.</li>
+    <li>No plan for start-up and shut-down material.</li>
+    <li>Converting a whole process when one hazardous step would do.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is residence time in a flow reactor?</h3>
+  <p>Reactor volume divided by flow rate.</p>
+  <h3>Why is flow chemistry safer for exothermic reactions?</h3>
+  <p>High area per volume removes heat fast, and the reacting inventory is tiny.</p>
+  <h3>What are the main limitations of flow chemistry?</h3>
+  <p>Solids, slow reactions, multi-step complexity, and start-up/shut-down material.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/reactor-selection/' | relative_url }}">Reactor selection</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench design</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -1,0 +1,116 @@
+---
+layout: default
+title: "Drying and Dryer Scale-up: Drying Curves, Dryer Types and Endpoints"
+description: "Drying of wet cakes from the basics: free and bound moisture, constant-rate and falling-rate periods, why plant drying takes much longer than lab drying, dryer types (tray, VTD, ANFD, RCVD, FBD), temperature limits, residual solvent and how to tell when drying is finished. Interactive drying curve."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Drying and Dryer Scale-up
+    url: /articles/drying-and-dryer-scale-up/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Drying and Dryer Scale-up: Drying Curves, Dryer Types and Endpoints",
+        "description": "Drying periods, lab vs plant drying time, dryer types, temperature limits, residual solvents and drying endpoints.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "Why does drying take so much longer in the plant than in the lab?", "acceptedAnswer": { "@type": "Answer", "text": "In a contact dryer, heat enters through the wall and has to reach every kilogram of cake. A plant bed is ten to twenty times deeper than a lab tray, so heat transfer area per kilogram is much smaller, and drying takes correspondingly longer. In the example, 1.4 hours in the lab becomes about 22 hours in the plant." } },
+        { "@type": "Question", "name": "What are the constant-rate and falling-rate periods?", "acceptedAnswer": { "@type": "Answer", "text": "In the constant-rate period the particle surfaces are wet and solvent evaporates as fast as heat arrives. Below the critical moisture content, solvent must first move out from inside the particles, the rate falls, and the product temperature rises toward the jacket temperature." } },
+        { "@type": "Question", "name": "How do you know drying is complete?", "acceptedAnswer": { "@type": "Answer", "text": "By LOD or residual solvent analysis against the specification. Useful online signs are the product temperature approaching the jacket temperature, the vacuum reaching its no-load level, and condensate collection stopping." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Drying and Dryer Scale-up</h1>
+  <p class="article-meta">Scale-up &middot; Solids &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Drying looks like the simplest step in the process: put the wet cake in, heat it, wait. Yet it is often the bottleneck of the whole plant, and where batches fail on LOD, residual solvent or degradation. The reason is that drying happens in two very different stages, and the second one, which barely shows in the lab, can take most of the time in the plant. This article explains drying from the basics and what to expect when you scale it up.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What happens when a cake dries</a><span>Basics</span></li>
+    <li><a href="#curve">The drying curve</a><span>Basics</span></li>
+    <li><a href="#scale">Why the plant is so much slower</a><span>Working level</span></li>
+    <li><a href="#types">Choosing a dryer</a><span>Working level</span></li>
+    <li><a href="#limits">Temperature, form and residual solvent</a><span>Working level</span></li>
+    <li><a href="#end">Knowing when it's dry</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What happens when a cake dries <span class="lvl l1">Basics</span></h2>
+  <p>A wet cake from a centrifuge or filter holds solvent in two places: <strong>free solvent</strong> in the spaces between particles and on their surfaces, and <strong>bound solvent</strong> inside pores, in crystal defects or held as a solvate. Free solvent evaporates easily once heat reaches it. Bound solvent first has to travel out of the particle, which is slow and doesn't speed up much however hot the jacket is.</p>
+  <p>To evaporate solvent you need heat (its latent heat) and a way to carry the vapour away (vacuum or a gas stream). Vacuum lowers the boiling point, so the solvent evaporates at a temperature the product can tolerate.</p>
+
+  <h2 id="curve">The drying curve <span class="lvl l1">Basics</span></h2>
+  <p>Plot LOD (loss on drying) against time and you see two periods:</p>
+  <ul>
+    <li><strong>Constant-rate period:</strong> particle surfaces are wet, and solvent evaporates as fast as heat arrives. The product sits near the solvent's boiling point at the dryer pressure, well below the jacket temperature. LOD falls in a straight line.</li>
+    <li><strong>Falling-rate period:</strong> below the <strong>critical moisture content</strong>, the surfaces dry out. Now the rate is set by how fast solvent moves out from inside the particles. The rate falls, LOD approaches its final value slowly, and the product temperature rises toward the jacket temperature.</li>
+  </ul>
+  <p>The falling-rate period is the trap. It has little solvent left to remove, but it can take longer than everything before it.</p>
+  <figure class="art-fig" data-fig="drycurve">
+    <figcaption>Try it: the blue line is a 2 cm lab tray; the gold line is the plant bed. Change the bed depth and jacket temperature and see how long the plant needs to reach 0.5 % LOD, and how much of that is the falling-rate period.</figcaption>
+  </figure>
+
+  <h2 id="scale">Why the plant is so much slower <span class="lvl l2">Working level</span></h2>
+  <p>In a contact dryer (a vacuum tray dryer, filter-dryer or conical dryer), heat comes through the heated wall or plates. The drying rate per kilogram of cake depends on how much heated area each kilogram has, and that falls as the bed gets deeper:</p>
+  <div class="formula-box">Drying rate per kg &prop; U &times; A &times; (T<sub>jacket</sub> &minus; T<sub>product</sub>) / m<sub>cake</sub> &nbsp;&nbsp; &prop; &Delta;T / bed depth</div>
+  <p>A lab tray of 2 cm cake dried at 60 &deg;C reaches 0.5 % LOD in about 1.4 hours. The same cake in a filter-dryer with a 30 cm bed has 15 times less area per kilogram and takes about 22 hours, 14 of them in the falling-rate period. Raising the jacket to 80 &deg;C, if the product allows, brings it to about 14 hours. Reducing the bed depth, by drying smaller loads or using a dryer with more area, helps the same way.</p>
+  <p>The model in the figure is a simplification: in reality the falling-rate period depends more on particle size and structure than on bed depth, and agitation in the dryer changes things again. But it gives the right message: estimate plant drying time from plant-like conditions, not from the lab oven.</p>
+  <p>The cheapest drying is the solvent you never put in the dryer: better deliquoring in the centrifuge or filter. Taking a cake from 30 % to 20 % LOD before drying removes a third of the work. See the <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}">centrifuge article</a>.</p>
+
+  <h2 id="types">Choosing a dryer <span class="lvl l2">Working level</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Dryer</th><th>Good for</th><th>Watch out for</th></tr>
+    <tr><td>Vacuum tray dryer (VTD)</td><td>Small batches, sticky or heat-sensitive products, many products</td><td>Manual loading and unloading, operator exposure, slow</td></tr>
+    <tr><td>Agitated nutsche filter-dryer (ANFD)</td><td>Filtration, washing and drying in one closed vessel; potent and toxic products</td><td>Deep beds, slow falling-rate period, agitator causing agglomerates or attrition</td></tr>
+    <tr><td>Rotary cone vacuum dryer (RCVD)</td><td>Free-flowing powders, gentle tumbling, good mixing</td><td>Lumps and balling with sticky cakes</td></tr>
+    <tr><td>Fluid bed dryer (FBD)</td><td>Fast drying of granular, free-flowing solids with hot gas</td><td>Dust explosion risk with solvents and fines; needs inert gas for flammable solvents</td></tr>
+    <tr><td>Paddle dryer</td><td>Continuous or large-volume pastes</td><td>Product hold-up, cleaning</td></tr>
+  </table></div>
+
+  <h2 id="limits">Temperature, form and residual solvent <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Product temperature limit:</strong> below the temperature where it melts, sinters, degrades or changes form. During the constant-rate period the product stays cool even with a hot jacket, but in the falling-rate period it heats up toward the jacket temperature. Many plants run a hot jacket first and lower it later.</li>
+    <li><strong>Solvates and hydrates:</strong> some products hold solvent or water in the crystal. Drying too hard can remove it and change the form; drying too gently can leave too much. The form must be checked by XRD at the end of drying.</li>
+    <li><strong>Residual solvent limits:</strong> ICH Q3C sets limits for solvents in drug substances. For example, toluene is limited to 890 ppm and methanol to 3,000 ppm; class 3 solvents such as ethanol, acetone and ethyl acetate to 5,000 ppm (0.5 %). A product can pass LOD and still fail residual solvent, especially with a high-boiling solvent trapped inside particles.</li>
+  </ul>
+
+  <h2 id="end">Knowing when it's dry <span class="lvl l3">Going deeper</span></h2>
+  <p>The definitive answer is a sample tested for LOD or residual solvent. But samples take time, so watch the online signs too:</p>
+  <ul>
+    <li><strong>Product temperature</strong> rising toward the jacket temperature: the constant-rate period is over.</li>
+    <li><strong>Dryer pressure</strong> falling toward the pump's no-load vacuum: little vapour is being produced.</li>
+    <li><strong>Condensate</strong> collection in the receiver slowing to a stop.</li>
+  </ul>
+  <p>Sample at the point the trend says it should be dry, not on a fixed clock. If the falling-rate period is the bottleneck, look at reducing particle porosity in crystallisation, at better deliquoring, or at a short slurry wash with a lower-boiling solvent to displace a high-boiling one before drying.</p>
+  <div class="art-note"><b>On the plant</b><p>If the LOD stops falling and stays at, say, 1.2 % for hours, check for lumps. Agglomerates keep wet solvent inside a dry crust. Breaking them by gentle agitation or sieving and re-drying is faster than drying longer.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Estimating plant drying time from a lab oven tray.</li>
+    <li>Running the jacket at full temperature into the falling-rate period without checking product temperature limits.</li>
+    <li>Passing LOD but never testing residual solvent.</li>
+    <li>Drying a 30 % LOD cake when better deliquoring could bring it to 20 %.</li>
+    <li>Fluid-bed drying flammable solvent-wet product with air.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is plant drying so much slower?</h3>
+  <p>The plant bed is much deeper, so heated area per kilogram is much smaller. 1.4 hours in a lab tray can become about 22 hours in a filter-dryer.</p>
+  <h3>What are the constant-rate and falling-rate periods?</h3>
+  <p>First, wet surfaces evaporate as fast as heat arrives; then solvent must move out of the particles and the rate falls.</p>
+  <h3>How do you know drying is complete?</h3>
+  <p>By LOD or residual solvent test, guided by product temperature, vacuum level and condensate rate.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}">Centrifuge calculation</a>
+    <a href="{{ '/articles/dust-explosions/' | relative_url }}">Dust explosions</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

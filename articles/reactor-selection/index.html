@@ -1,0 +1,143 @@
+---
+layout: default
+title: "Reactor Selection: Batch, Semi-batch, CSTR and Flow Reactors Compared"
+description: "How to choose a reactor type from the basics: batch, semi-batch, continuous stirred tank (CSTR) and plug flow reactors, residence time and conversion, why a CSTR needs more volume, selectivity, heat removal and safety, and when to choose each. Interactive conversion chart."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Reactor Selection
+    url: /articles/reactor-selection/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Reactor Selection: Batch, Semi-batch, CSTR and Flow Reactors Compared",
+        "description": "Batch, semi-batch, CSTR and plug flow reactors, residence time, conversion, selectivity, heat removal and selection.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does a CSTR need more volume than a batch reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because the whole CSTR operates at the outlet composition, where reactant concentration and therefore reaction rate are lowest. For 90 % conversion of a first-order reaction, a single CSTR needs about 3.9 times the residence time of a batch or plug flow reactor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the Damkohler number?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The ratio of reaction rate to flow rate through the reactor; for a first-order reaction it is the rate constant times the residence time, k x tau. It determines the conversion for each reactor type."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should a flow reactor be used?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For fast, highly exothermic or hazardous reactions, for unstable intermediates that must be used immediately, and for processes needing precise control of residence time or very high heat and mass transfer."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Reactor Selection: Batch, Semi-batch, CSTR or Flow</h1>
+  <p class="article-meta">Process Design &middot; Reaction Engineering &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Most API and fine chemical plants are built around batch reactors, and for good reasons. But the choice of reactor type changes conversion, selectivity, safety and cost, and sometimes a different type solves a problem that no amount of batch optimisation can. This article compares the four basic reactor types and when each one makes sense.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#four">The four basic types</a><span>Basics</span></li>
+    <li><a href="#conv">Residence time and conversion</a><span>Working level</span></li>
+    <li><a href="#sel">Selectivity: where the reactor type really matters</a><span>Working level</span></li>
+    <li><a href="#heat">Heat removal and safety</a><span>Working level</span></li>
+    <li><a href="#when">Choosing in practice</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="four">The four basic types <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Batch:</strong> everything charged, reacted, discharged. Flexible, simple, the standard multi-purpose plant reactor.</li>
+    <li><strong>Semi-batch:</strong> one reactant dosed into the other. The workhorse for exothermic reactions because dosing controls the heat. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing</a>.</li>
+    <li><strong>Continuous stirred tank (CSTR):</strong> feed in and product out continuously, well mixed, so the whole contents sit at the outlet composition.</li>
+    <li><strong>Plug flow (PFR):</strong> a tube where each slice of fluid travels through without mixing with the slices before and after. Every slice behaves like a small batch reactor. Modern flow chemistry reactors approach this. See <a href="{{ '/articles/continuous-flow-chemistry/' | relative_url }}">flow chemistry</a>.</li>
+  </ul>
+
+  <h2 id="conv">Residence time and conversion <span class="lvl l2">Working level</span></h2>
+  <p>For a simple first-order reaction with rate constant k and residence time &tau;, the product k&tau; (the Damk&ouml;hler number) sets conversion:</p>
+  <div class="formula-box">
+    Batch or plug flow: X = 1 &minus; e<sup>&minus;k&tau;</sup><br>
+    One CSTR: X = k&tau; / (1 + k&tau;)
+  </div>
+  <p>To reach 90 % conversion, a batch or plug flow reactor needs k&tau; = 2.3; a single CSTR needs k&tau; = 9, almost four times the volume. The reason is that the CSTR runs entirely at the outlet concentration, where the reactant is depleted and the rate is slow. Two CSTRs in series need about 1.9 times the plug flow volume; more tanks in series approach plug flow.</p>
+  <figure class="art-fig" data-fig="reactorsel">
+    <figcaption>Try it: set the conversion you need and compare the residence time each reactor type requires. The gap widens sharply above 90 %.</figcaption>
+  </figure>
+
+  <h2 id="sel">Selectivity: where the reactor type really matters <span class="lvl l2">Working level</span></h2>
+  <p>Conversion only costs volume. Selectivity costs yield and purity, and the reactor type affects it strongly:</p>
+  <ul>
+    <li><strong>Consecutive reactions</strong> (A &rarr; desired B &rarr; unwanted C): plug flow or batch, stopped at the right time, gives the most B. A CSTR keeps B in the reactor with fresh conversion going on, so more C forms.</li>
+    <li><strong>Parallel reactions</strong> where the side reaction has a higher order in a reagent: keep that reagent dilute. Semi-batch dosing or a CSTR does this naturally.</li>
+    <li><strong>Fast reactions limited by mixing:</strong> local excess at the feed point gives impurities. Small, well-mixed flow reactors or good feed-point design help.</li>
+  </ul>
+
+  <h2 id="heat">Heat removal and safety <span class="lvl l2">Working level</span></h2>
+  <p>A large batch reactor has little cooling area per litre and holds the whole inventory of reactive material. A CSTR at steady state holds mostly converted material, so the energy available for a runaway is smaller. A flow reactor has a tiny volume and enormous area per volume, so it can run reactions that would be unsafe or impossible in batch: very fast, very exothermic, or with unstable intermediates that are made and consumed within seconds.</p>
+  <p>The trade-off is complexity: continuous plants need steady feeds, accurate pumps, good analytics and a plan for start-up, shut-down and blockages.</p>
+
+  <h2 id="when">Choosing in practice <span class="lvl l3">Going deeper</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Situation</th><th>Usually best</th></tr>
+    <tr><td>Many products, small volumes, frequent changes</td><td>Batch or semi-batch</td></tr>
+    <tr><td>Exothermic reaction, moderate rate</td><td>Semi-batch with controlled dosing</td></tr>
+    <tr><td>Large single product, liquid phase, slow reaction</td><td>CSTRs in series</td></tr>
+    <tr><td>Fast, highly exothermic or hazardous chemistry; unstable intermediates</td><td>Flow (plug flow) reactor</td></tr>
+    <tr><td>Consecutive side reaction you must avoid</td><td>Batch or plug flow, stopped at the right conversion</td></tr>
+  </table></div>
+  <div class="art-note"><b>On the plant</b><p>A batch reactor with a long dosing time is already halfway to a CSTR: the reactor holds mostly converted material with fresh reagent arriving slowly. Thinking of it that way helps explain why some impurities rise when dosing is slowed down, and others fall.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Comparing reactor volumes without checking the conversion each achieves.</li>
+    <li>Choosing a CSTR for a reaction with a consecutive side reaction.</li>
+    <li>Moving to flow chemistry without solving solids handling.</li>
+    <li>Ignoring the inventory of reactive material in safety comparisons.</li>
+    <li>Treating semi-batch as batch in kinetic and safety calculations.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why does a CSTR need more volume than a batch reactor?</h3>
+  <p>It runs entirely at the low outlet concentration; for 90 % conversion about 3.9&times; the volume.</p>
+  <h3>What is the Damkohler number?</h3>
+  <p>Rate constant &times; residence time; it sets conversion.</p>
+  <h3>When should a flow reactor be used?</h3>
+  <p>For fast, exothermic or hazardous chemistry and short-lived intermediates.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/continuous-flow-chemistry/' | relative_url }}">Continuous and flow chemistry</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

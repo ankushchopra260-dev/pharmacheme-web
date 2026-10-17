@@ -1,0 +1,151 @@
+---
+layout: default
+title: "Hydrogenation Safety: Hydrogen, Pyrophoric Catalysts and Safe Procedures"
+description: "Safe catalytic hydrogenation in pharma and fine chemical plants: why hydrogen is different, the nitrogen-hydrogen-nitrogen purge sequence, pyrophoric catalysts (Pd/C, Raney nickel) and how to charge and filter them, heat release, leaks and detection. Interactive purge sequence."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Hydrogenation Safety
+    url: /articles/hydrogenation-safety/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Hydrogenation Safety: Hydrogen, Pyrophoric Catalysts and Safe Procedures",
+        "description": "Hydrogen properties, purge sequence, pyrophoric catalyst handling, catalyst filtration, heat release and leak detection.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the flammable range of hydrogen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "About 4 to 75 % by volume in air, with a minimum ignition energy of around 0.02 mJ, far more easily ignited than most solvent vapours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is Pd/C supplied wet?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Dry palladium on carbon is pyrophoric, especially after absorbing hydrogen, and can ignite solvent vapour on contact with air. Supplying it about 50 % water-wet greatly reduces the risk during handling."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why purge with nitrogen before hydrogen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "To remove oxygen first, so that hydrogen never mixes with air inside the vessel. Adding hydrogen directly to air passes through the flammable range of 4 to 75 %."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Hydrogenation Safety</h1>
+  <p class="article-meta">Process Safety &middot; Hazardous Operations &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Hydrogenation is one of the most useful reactions in API manufacturing and one of the most unforgiving. It combines a gas that ignites from almost any spark with catalysts that can catch fire on their own in air, usually in a flammable solvent, under pressure. Most hydrogenation fires happen not during the reaction but before and after it: at charging, purging and filtration. This article explains why, and the procedures that prevent them.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#h2">Why hydrogen is different</a><span>Basics</span></li>
+    <li><a href="#purge">The purge sequence</a><span>Basics</span></li>
+    <li><a href="#cat">Pyrophoric catalysts</a><span>Working level</span></li>
+    <li><a href="#filter">Charging and filtering catalyst safely</a><span>Working level</span></li>
+    <li><a href="#heat">Heat, pressure and leaks</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="h2">Why hydrogen is different <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Very wide flammable range:</strong> about 4 to 75 % in air, compared with roughly 1 to 7 % for toluene.</li>
+    <li><strong>Tiny ignition energy:</strong> about 0.02 mJ, around ten times less than most solvent vapours. A static spark you would never feel is enough.</li>
+    <li><strong>Low LOC:</strong> about 5 % oxygen with nitrogen, lower than most solvents, so inerting must be tighter.</li>
+    <li><strong>Leaks easily:</strong> the smallest molecule, so it escapes through joints that hold other gases. It is lighter than air and collects under roofs.</li>
+    <li><strong>Nearly invisible flame</strong> in daylight.</li>
+  </ul>
+
+  <h2 id="purge">The purge sequence <span class="lvl l1">Basics</span></h2>
+  <p>The rule is simple: <strong>hydrogen and air must never meet in the vessel</strong>. Every hydrogenation follows the same pattern:</p>
+  <ol>
+    <li>Charge the vessel and inert it: pressure-purge with nitrogen, typically three cycles, until oxygen is below about 1 %.</li>
+    <li>Pressure-purge with hydrogen to displace the nitrogen.</li>
+    <li>React under hydrogen pressure.</li>
+    <li>Vent the hydrogen to a safe location and purge with nitrogen until hydrogen is below a safe level (often under 1 %).</li>
+    <li>Only then open the vessel or transfer the slurry for filtration.</li>
+  </ol>
+  <figure class="art-fig" data-fig="h2purge">
+    <figcaption>Try it: run the correct sequence, then skip the first nitrogen purge. The headspace passes through the flammable range as hydrogen enters air.</figcaption>
+  </figure>
+  <p>Each pressure purge cycle to 4 barg dilutes the previous gas by a factor of about five, so three cycles take air from 21 % oxygen to under 0.2 %. The same arithmetic is in the <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and LOC article</a>.</p>
+
+  <h2 id="cat">Pyrophoric catalysts <span class="lvl l2">Working level</span></h2>
+  <p>Palladium, platinum and nickel catalysts are pyrophoric: dry, and especially when they have absorbed hydrogen, they can heat up and ignite on contact with air. Add a flammable solvent and you have the fuel, the ignition source and the oxygen together.</p>
+  <ul>
+    <li><strong>Pd/C and Pt/C</strong> are supplied about 50 % water-wet to reduce this risk. Keep them wet.</li>
+    <li><strong>Raney nickel</strong> is stored under water and is strongly pyrophoric when dry.</li>
+    <li><strong>Spent catalyst</strong> is more dangerous than fresh: it carries absorbed hydrogen and organic residue.</li>
+  </ul>
+
+  <h2 id="filter">Charging and filtering catalyst safely <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li>Charge wet catalyst into an inerted vessel, ideally as a slurry in water or the reaction solvent through a closed charging system. Never sprinkle dry catalyst into a solvent in air.</li>
+    <li>Filter under nitrogen in a closed filter: candle, sparkler or enclosed Nutsche. Open-top filtration of a catalyst slurry is a classic fire scenario.</li>
+    <li><strong>Never let the catalyst cake suck dry</strong> while air can reach it. Wash with solvent and then water, and keep the cake covered.</li>
+    <li>Store spent catalyst under water in closed, labelled containers, and send it for recovery promptly.</li>
+    <li>Earth the filter and the receiving vessel: catalyst slurry in a low-conductivity solvent charges up. See <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity</a>.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>If a catalyst filter cake starts to smoke or glow, flood it with water. Don't scrape it, don't blow nitrogen across it into the open air, and don't try to move the filter.</p></div>
+
+  <h2 id="heat">Heat, pressure and leaks <span class="lvl l3">Going deeper</span></h2>
+  <p>Many hydrogenations are strongly exothermic; nitro reductions release over 500 kJ per mol of nitro group. Because the reaction usually can't go faster than hydrogen dissolves, the hydrogen feed rate and agitation control the heat release. That is useful, but it means an agitator restart after a stop, or a sudden pressure increase, can release accumulated heat quickly. See <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">gas-liquid mass transfer</a>.</p>
+  <ul>
+    <li>Pressure relief sized for the worst case, including runaway of the substrate if it is thermally unstable.</li>
+    <li>Leak test the system with nitrogen at operating pressure before every campaign.</li>
+    <li>Hydrogen detectors at high points, with ventilation and alarms. Vent hydrogen to a safe outdoor location above the roof, through a flame arrester where required.</li>
+    <li>Hazardous area classification for hydrogen (gas group IIC) for electrical equipment in the area.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Introducing hydrogen into a vessel that was never purged with nitrogen.</li>
+    <li>Letting the catalyst cake dry on the filter.</li>
+    <li>Opening the reactor before purging out the hydrogen.</li>
+    <li>Leak testing only once, at commissioning.</li>
+    <li>Venting hydrogen inside a building or under a canopy.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the flammable range of hydrogen?</h3>
+  <p>About 4&ndash;75 % in air, with a minimum ignition energy around 0.02 mJ.</p>
+  <h3>Why is Pd/C supplied wet?</h3>
+  <p>Dry Pd/C can ignite in air; water-wetting makes it much safer to handle.</p>
+  <h3>Why purge with nitrogen before hydrogen?</h3>
+  <p>So hydrogen never mixes with air; adding it to air passes through the flammable range.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+    <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">Gas-liquid mass transfer and kLa</a>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -13,6 +13,7 @@
           {%- for g in item.groups %}
           <div class="sub-group"><p class="sub-head">{{ g.title | escape }}</p><ul>
             {%- for c in g.children %}<li><a href="{{ c.url | relative_url }}">{{ c.title | escape }}</a></li>{% endfor -%}
+            {%- if g.url %}<li><a class="sub-more" href="{{ g.url | relative_url }}">All {{ g.count }} in {{ g.title | escape }}</a></li>{% endif -%}
           </ul></div>
           {%- endfor %}
           {%- else %}

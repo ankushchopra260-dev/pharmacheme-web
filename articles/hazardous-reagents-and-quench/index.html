@@ -1,0 +1,140 @@
+---
+layout: default
+title: "Hazardous Reagents in API Plants: NaH, LiAlH4, SOCl2, Azides and Quench Design"
+description: "Handling the reagents that cause most incidents in API and fine chemical plants: sodium hydride, lithium aluminium hydride, thionyl chloride, azides and others, and how to design a safe quench with controlled heat and gas release. Interactive hydrogen evolution calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Hazardous Reagents and Quench Design
+    url: /articles/hazardous-reagents-and-quench/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Hazardous Reagents in API Plants: NaH, LiAlH4, SOCl2, Azides and Quench Design",
+        "description": "Hazards of NaH, LiAlH4, SOCl2 and azides, and principles of quench design: addition control, gas evolution, venting and verification.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is NaH in DMF dangerous?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sodium hydride and DMF (and similarly DMSO and DMAc) can undergo an exothermic decomposition at moderate temperatures, and several serious runaway incidents have been reported. The combination should be avoided or tested by calorimetry before use, especially when heated."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much hydrogen does sodium hydride give on quench?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "One mole of hydrogen per mole of NaH: about 0.93 Nm3 per kg of pure NaH (molar mass 24 g/mol)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a reverse quench?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Adding the reaction mixture into the quench solution rather than the quench into the reaction. It keeps the reactive species dilute and often gives better control of heat and gas."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Hazardous Reagents and Quench Design</h1>
+  <p class="article-meta">Process Safety &middot; Hazardous Operations &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A small group of reagents causes a large share of the incidents in API plants. They are not exotic: sodium hydride, lithium aluminium hydride, thionyl chloride, sodium azide. What they share is that their hazard is greatest at the end of the reaction, when the excess has to be destroyed. This article covers the main ones and the principles of a safe quench.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why the quench is the dangerous step</a><span>Basics</span></li>
+    <li><a href="#reag">The usual suspects</a><span>Basics</span></li>
+    <li><a href="#design">Designing a safe quench</a><span>Working level</span></li>
+    <li><a href="#gas">Gas evolution and venting</a><span>Working level</span></li>
+    <li><a href="#verify">Before scale-up</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why the quench is the dangerous step <span class="lvl l1">Basics</span></h2>
+  <p>During the reaction, the reagent is consumed under conditions somebody designed carefully. The quench is different: it destroys whatever is left, often an uncertain amount, with water or an alcohol, releasing heat and gas. It is often written in the batch record as a single line (&ldquo;quench with water&rdquo;) and done near the end of a long shift. Many incidents follow that pattern.</p>
+
+  <h2 id="reag">The usual suspects <span class="lvl l1">Basics</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Reagent</th><th>Main hazards</th><th>Key precautions</th></tr>
+    <tr><td>Sodium hydride (usually 60 % in mineral oil)</td><td>Hydrogen with water, alcohols and acids; known thermal runaways in DMF, DMSO and DMAc</td><td>Avoid NaH with DMF/DMSO at elevated temperature unless tested; quench slowly with IPA before water; inerted vessel and safe H<sub>2</sub> vent</td></tr>
+    <tr><td>Lithium aluminium hydride</td><td>Violent reaction with water, hydrogen; ether solvents</td><td>Controlled quench (for example the Fieser method: water, 15 % NaOH, water in a 1:1:3 ratio by weight of LAH); keep cold; vent H<sub>2</sub></td></tr>
+    <tr><td>Thionyl chloride</td><td>Releases SO<sub>2</sub> and HCl; violent with water</td><td>Distil off the excess before quench; route vents to a caustic scrubber sized for the gas</td></tr>
+    <tr><td>Sodium azide and organic azides</td><td>Toxic and explosive HN<sub>3</sub> with acid; explosive heavy-metal azides (copper, lead) in drains; diazidomethane with dichloromethane</td><td>Never acidify azide streams; no DCM with azide; destroy residual azide with nitrite under controlled conditions; check drains and metals</td></tr>
+    <tr><td>Organolithiums (n-BuLi)</td><td>Pyrophoric; reacts violently with water</td><td>Closed transfer under nitrogen; cold, controlled quench</td></tr>
+  </table></div>
+  <p>This is a starting list, not a complete one. Peroxides, nitration mixtures, diazo compounds and hydroxylamine all deserve the same level of care.</p>
+
+  <h2 id="design">Designing a safe quench <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Know how much is left.</strong> Use the stoichiometry and an in-process check, not &ldquo;excess&rdquo;. The amount of reagent left decides the heat and gas.</li>
+    <li><strong>Control by addition rate.</strong> The quench should be dose-controlled: heat and gas come out as you add, and stop when you stop. That needs the quench reagent to react quickly at the quench temperature. Too cold and it accumulates, then reacts all at once.</li>
+    <li><strong>Choose the direction.</strong> Adding quench to the reaction (normal quench) or the reaction to the quench (reverse quench) gives very different local concentrations. Reverse quench into a large volume of cold quench solution often gives better control of heat and gas.</li>
+    <li><strong>Use a mild quench first.</strong> For hydrides, IPA or ethyl acetate before water or acid destroys the bulk more gently.</li>
+    <li><strong>Agitation on, interlocked.</strong> If the agitator stops, quench reagent pools on top and reacts violently when mixing restarts.</li>
+  </ul>
+
+  <h2 id="gas">Gas evolution and venting <span class="lvl l2">Working level</span></h2>
+  <p>Every mole of NaH gives a mole of hydrogen. Six kilograms of NaH (250 mol) releases about 5.6 Nm&sup3; of hydrogen. Over 2 hours that averages 2.8 Nm&sup3;/h, but the peak rate is often higher. The vent line, flame arrester and scrubber must handle the peak without pressurising the vessel, and the headspace must stay inerted so the hydrogen has no oxygen to burn with inside the vessel.</p>
+  <figure class="art-fig" data-fig="quench">
+    <figcaption>Try it: change the amount of excess NaH and the addition time. The curve shows the average hydrogen rate; compare it with what the vent can take.</figcaption>
+  </figure>
+  <p>The same logic applies to CO<sub>2</sub> from bicarbonate quenches (foaming), SO<sub>2</sub> and HCl from thionyl chloride, and nitrogen from azide destruction.</p>
+
+  <h2 id="verify">Before scale-up <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Run the quench in the reaction calorimeter at the plant addition rate, measuring heat and gas. See <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read RC1 data</a>.</li>
+    <li>DSC the reaction mixture before quench, especially reagent/solvent combinations with known incidents.</li>
+    <li>Calculate peak gas rate and check the vent and scrubber capacity. See <a href="{{ '/articles/scrubber-design/' | relative_url }}">scrubber design</a>.</li>
+    <li>Write the quench into the batch record as a controlled step with rate, temperature limits and stop conditions, not a single line.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>If a quench &ldquo;isn't doing anything&rdquo;, stop adding. A quench that seems not to react is the most dangerous kind: the reagent is accumulating, and when it starts, it will all go at once.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Quenching an unknown excess.</li>
+    <li>Quenching too cold, so the quench reagent accumulates.</li>
+    <li>Adding the quench faster because nothing seems to happen.</li>
+    <li>Vent lines sized for normal breathing, not for quench gas.</li>
+    <li>Using DMF or DMSO with NaH at elevated temperature without testing.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is NaH in DMF dangerous?</h3>
+  <p>The combination can decompose exothermically at moderate temperature; several runaways have been reported.</p>
+  <h3>How much hydrogen does sodium hydride give on quench?</h3>
+  <p>One mole of H<sub>2</sub> per mole of NaH, about 0.93 Nm&sup3; per kg of pure NaH.</p>
+  <h3>What is a reverse quench?</h3>
+  <p>Adding the reaction mixture into the quench, keeping the reactive species dilute.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">Hydrogenation safety</a>
+    <a href="{{ '/articles/scrubber-design/' | relative_url }}">Scrubber design</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

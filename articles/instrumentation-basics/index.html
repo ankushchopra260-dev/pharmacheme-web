@@ -1,0 +1,145 @@
+---
+layout: default
+title: "Process Instrumentation Basics: Measuring Pressure, Temperature, Level and Flow"
+description: "How plant instruments measure pressure, temperature, level and flow: gauge and absolute pressure, RTDs and thermocouples, DP, radar and load-cell level, orifice, magnetic, Coriolis and vortex flowmeters, accuracy as % of span vs % of reading, and calibration. Interactive DP flow turndown demo."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Instrumentation Basics
+    url: /articles/instrumentation-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Process Instrumentation Basics: Measuring Pressure, Temperature, Level and Flow",
+        "description": "Pressure, temperature, level and flow measurement, accuracy, turndown and calibration.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why can magnetic flowmeters not measure solvents?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "They work by measuring the voltage induced in a conductive liquid moving through a magnetic field. Most organic solvents have almost no conductivity, so no usable signal is produced."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between RTD and thermocouple?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An RTD measures temperature from the resistance of platinum and is more accurate and stable; a thermocouple measures the voltage from two dissimilar metals and covers a wider range more robustly but less accurately."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does accuracy as a percentage of span mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The error is a fixed fraction of the full measuring range, so it is the same absolute amount at every reading and becomes a large relative error at low readings."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Process Instrumentation Basics</h1>
+  <p class="article-meta">Plant Engineering &middot; Instrumentation &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Every decision on a plant starts with a number from an instrument. When that number is wrong, everything built on it is wrong too: the batch goes off temperature, the tank overflows, the yield seems to fall. Instrument engineers don’t need to be the only ones who understand how these readings are made. This article covers the four main measurements, how each instrument works, and where each one fools people.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#press">Pressure</a><span>Basics</span></li>
+    <li><a href="#temp">Temperature</a><span>Basics</span></li>
+    <li><a href="#level">Level</a><span>Working level</span></li>
+    <li><a href="#flow">Flow</a><span>Working level</span></li>
+    <li><a href="#acc">Accuracy, turndown and calibration</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="press">Pressure <span class="lvl l1">Basics</span></h2>
+  <p>Know which pressure you are reading. <strong>Gauge pressure</strong> (barg) is relative to the atmosphere; <strong>absolute pressure</strong> (bar abs, mbar abs) is relative to vacuum. For vacuum work always use absolute transmitters: a gauge reading of &minus;0.95 bar means a different absolute pressure on different days and at different altitudes.</p>
+  <ul>
+    <li><strong>Bourdon gauges</strong> for local reading; <strong>transmitters</strong> (strain gauge or capacitance sensors) send 4&ndash;20 mA signals to the DCS.</li>
+    <li><strong>Diaphragm seals</strong> protect the sensor from corrosive, crystallising or viscous fluids. The fill fluid adds temperature error and slows the response.</li>
+    <li>A <strong>pressure gauge on the suction</strong> of every important pump is worth its cost many times over. See <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">pump troubleshooting</a>.</li>
+  </ul>
+
+  <h2 id="temp">Temperature <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>RTD (Pt100):</strong> platinum resistance; accurate and stable, the usual choice up to about 400 &deg;C.</li>
+    <li><strong>Thermocouple:</strong> two dissimilar metals produce a voltage; robust, wide range, less accurate. Type K is common for high temperatures.</li>
+    <li><strong>Thermowell:</strong> protects the sensor but adds delay. A heavy thermowell in a slow-moving liquid can lag the real temperature by minutes, which matters a great deal in an exothermic reaction.</li>
+  </ul>
+  <p>In glass-lined reactors the temperature probe is usually inside a baffle. If the baffle isn't covered by liquid at low volume, it reads vapour temperature, not batch temperature.</p>
+
+  <h2 id="level">Level <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Differential pressure:</strong> level = &Delta;P / (&rho; g). Accurate only if the density is right; a change from water to toluene (1,000 to 867 kg/m&sup3;) shifts the reading by 15 %.</li>
+    <li><strong>Radar (non-contact) and guided-wave radar:</strong> unaffected by density; foam, vapour and agitators can confuse non-contact radar.</li>
+    <li><strong>Load cells:</strong> weigh the whole vessel; excellent for batch charging and mass balances, but piping stresses, nitrogen pressure and agitator vibration affect them.</li>
+    <li><strong>Sight glass and level gauges:</strong> local check; keep them clean and protected.</li>
+    <li><strong>Level switches</strong> for high-high trips should be independent of the level transmitter used for control.</li>
+  </ul>
+
+  <h2 id="flow">Flow <span class="lvl l2">Working level</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Meter</th><th>How it works</th><th>Good for</th><th>Limitations</th></tr>
+    <tr><td>Orifice plate (DP)</td><td>Flow &prop; &radic;&Delta;P across a restriction</td><td>Clean liquids, gases, steam; cheap</td><td>Narrow turndown (about 3&ndash;4:1); permanent pressure loss</td></tr>
+    <tr><td>Magnetic</td><td>Voltage induced in a conductive liquid moving through a magnetic field</td><td>Water, aqueous solutions, slurries</td><td>Does not work with solvents and other non-conductive liquids</td></tr>
+    <tr><td>Coriolis</td><td>Mass flow from the twisting of vibrating tubes</td><td>Mass flow and density of any liquid; batch dosing</td><td>Cost; pressure drop in small sizes</td></tr>
+    <tr><td>Vortex</td><td>Frequency of vortices shed from a bluff body</td><td>Steam, gases, clean liquids</td><td>Needs a minimum velocity</td></tr>
+    <tr><td>Rotameter</td><td>Float rises in a tapered tube</td><td>Local indication, nitrogen and small flows</td><td>Reading depends on density; no signal unless fitted</td></tr>
+  </table></div>
+  <figure class="art-fig" data-fig="dpflow">
+    <figcaption>Try it: move the flow down the range and watch the DP signal collapse. At low flows, a small transmitter error becomes a large flow error.</figcaption>
+  </figure>
+
+  <h2 id="acc">Accuracy, turndown and calibration <span class="lvl l3">Going deeper</span></h2>
+  <p>Read the accuracy statement carefully. <strong>&ldquo;&plusmn;0.1 % of span&rdquo;</strong> means the same absolute error at every reading, so the relative error grows at low readings. <strong>&ldquo;&plusmn;0.2 % of reading&rdquo;</strong> stays proportional. For an orifice meter at 10 % flow, the DP is only 1 % of span, and a &plusmn;0.1 % of span transmitter gives about &plusmn;5 % error in flow.</p>
+  <p><strong>Turndown</strong> is the ratio of maximum to minimum flow the meter can measure accurately. Size meters for the normal flow, not the design maximum times a safety factor, or the plant will spend its life at the bottom of the range.</p>
+  <p><strong>Calibration</strong> checks the instrument against a reference; a <strong>loop check</strong> confirms that the value in the DCS matches the field. Instruments used for safety functions or GMP-critical parameters need a calibration schedule, records and an investigation when found out of tolerance.</p>
+  <div class="art-note"><b>On the plant</b><p>When an instrument and an operator disagree, check both. Compare the transmitter with a local gauge, the level with a dip, the flow with a tank level change over time. Most &ldquo;process problems&rdquo; that last more than a week turn out to be measurement problems.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Magnetic flowmeters on solvent lines.</li>
+    <li>DP level transmitters left calibrated for the wrong density.</li>
+    <li>Gauge-pressure transmitters for vacuum control.</li>
+    <li>Orifice meters sized for the maximum and run at 10 % flow.</li>
+    <li>Control and trip sharing one level transmitter.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why can magnetic flowmeters not measure solvents?</h3>
+  <p>They need a conductive liquid; most solvents have almost no conductivity.</p>
+  <h3>What is the difference between RTD and thermocouple?</h3>
+  <p>RTDs are more accurate and stable; thermocouples cover wider ranges more robustly.</p>
+  <h3>What does accuracy as a percentage of span mean?</h3>
+  <p>A fixed error over the full range, which becomes large relative to small readings.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/pid-control-tuning/' | relative_url }}">PID control and tuning</a>
+    <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">How to read a P&amp;ID</a>
+    <a href="{{ '/equipment-instruments/' | relative_url }}">Equipment and instruments</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

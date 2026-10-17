@@ -1,0 +1,123 @@
+---
+layout: default
+title: "Crystallisation Scale-up: Solubility, Metastable Zone, Seeding and Cooling Profiles"
+description: "Cooling and antisolvent crystallisation from the basics: solubility and supersaturation, the metastable zone width, nucleation vs growth, seeding, linear vs cubic cooling, oiling out, polymorphs and what changes at plant scale. Interactive metastable zone diagram."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Crystallisation Scale-up
+    url: /articles/crystallisation-scale-up/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Crystallisation Scale-up: Solubility, Metastable Zone, Seeding and Cooling Profiles",
+        "description": "Solubility, supersaturation, metastable zone width, seeding, cooling profiles, antisolvent addition, oiling out and scale-up.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is the metastable zone width?", "acceptedAnswer": { "@type": "Answer", "text": "The range of supersaturation, often expressed as degrees of undercooling below the saturation temperature, in which a clear solution does not nucleate on its own within a practical time. It typically ranges from a few degrees to 20 C and depends on cooling rate, agitation and impurities." } },
+        { "@type": "Question", "name": "When and how much should you seed?", "acceptedAnswer": { "@type": "Answer", "text": "Seed inside the metastable zone, usually about a quarter to a third of the way into it, with 0.5 to 2 % by weight of milled seed of the correct form, and hold for 30 to 60 minutes before cooling further so the seed starts growing." } },
+        { "@type": "Question", "name": "Why is cubic cooling better than linear cooling?", "acceptedAnswer": { "@type": "Answer", "text": "Early in the batch, the seed has little surface area to absorb supersaturation, so cooling must be slow. As crystals grow, they can absorb more, so cooling can speed up. A cubic profile matches this and keeps supersaturation low and even, which gives larger crystals and fewer fines." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Crystallisation Scale-up</h1>
+  <p class="article-meta">Scale-up &middot; Solids &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">In API manufacturing, crystallisation is where the product gets its purity, its form and its particle size. It is also the step that most often behaves differently in the plant: the lab gave nice prisms that filtered in minutes, and the plant gives a paste that blocks the centrifuge. The cause is nearly always supersaturation: how much of it was created, how fast, and where in the vessel. This article explains crystallisation from that one idea.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#super">Solubility and supersaturation</a><span>Basics</span></li>
+    <li><a href="#nuc">Nucleation vs growth</a><span>Basics</span></li>
+    <li><a href="#mszw">The metastable zone</a><span>Working level</span></li>
+    <li><a href="#seed">Seeding and cooling profiles</a><span>Working level</span></li>
+    <li><a href="#anti">Antisolvent and reactive crystallisation</a><span>Working level</span></li>
+    <li><a href="#scale">What changes at plant scale</a><span>Going deeper</span></li>
+    <li><a href="#trouble">Oiling out, polymorphs and other surprises</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="super">Solubility and supersaturation <span class="lvl l1">Basics</span></h2>
+  <p>Every compound has a <strong>solubility</strong> in a solvent: the most that can stay dissolved at a given temperature. For most organic compounds it rises with temperature. Dissolve the product hot, cool it, and the solution ends up holding more than it can at the lower temperature. That excess is <strong>supersaturation</strong>, and it is the driving force for crystallisation:</p>
+  <div class="formula-box">Supersaturation &Delta;C = C &minus; C*(T) &nbsp;&nbsp; or as a ratio S = C / C*(T)
+    <small>C: concentration in solution; C*: solubility at the current temperature.</small></div>
+  <p>We create supersaturation by cooling, by evaporating solvent, by adding an antisolvent in which the product is poorly soluble, or by a reaction that forms the less soluble product (salt formation, pH change).</p>
+
+  <h2 id="nuc">Nucleation vs growth <span class="lvl l1">Basics</span></h2>
+  <p>Supersaturation can be used up in two ways:</p>
+  <ul>
+    <li><strong>Nucleation:</strong> new crystals form from nothing. It needs high supersaturation and happens suddenly, in a burst, producing a large number of tiny crystals.</li>
+    <li><strong>Growth:</strong> dissolved molecules attach to crystals that already exist. It works at low supersaturation and makes existing crystals bigger.</li>
+  </ul>
+  <p>A good crystallisation is mostly growth: few crystals, growing large and evenly. A bad one is mostly nucleation: a shower of fines that are hard to filter and wash, hold more mother liquor (and its impurities) and dry slowly. Controlling crystallisation means keeping supersaturation in the range where growth wins.</p>
+
+  <h2 id="mszw">The metastable zone <span class="lvl l2">Working level</span></h2>
+  <p>A clear solution can be cooled some way below its saturation temperature without crystallising. The region between the solubility curve and the point where it finally nucleates on its own is the <strong>metastable zone</strong>. Its width (MSZW) is typically a few degrees to about 20 &deg;C of undercooling. It is not a fixed property: faster cooling, weaker agitation and higher purity all make it wider.</p>
+  <p>Inside the zone, crystals that are already present grow, but new ones form only slowly. Cross the upper limit and the solution nucleates suddenly, usually at a temperature that varies from batch to batch.</p>
+  <figure class="art-fig" data-fig="mszw">
+    <figcaption>Try it: a solution saturated at 70 &deg;C is cooled to 10 &deg;C. Without seed it crosses the metastable limit and nucleates. Add seed, try a cubic profile, and change the cooling time. Watch the peak supersaturation.</figcaption>
+  </figure>
+  <p>The MSZW is measured in the lab with a turbidity probe or FBRM (focused beam reflectance measurement): heat until clear, cool at a fixed rate, and record when particles appear. Doing it at two or three cooling rates shows how sensitive the system is.</p>
+
+  <h2 id="seed">Seeding and cooling profiles <span class="lvl l2">Working level</span></h2>
+  <p>Seeding takes nucleation out of the hands of chance. You add crystals of the right form at a chosen point inside the metastable zone, so growth starts on them at low supersaturation. Good practice:</p>
+  <ul>
+    <li>Seed about a quarter to a third of the way into the metastable zone: past saturation so the seed doesn't dissolve, but far from the limit.</li>
+    <li>Use 0.5&ndash;2 % by weight of seed, milled or sieved to a known size, and of the correct polymorph. Add it as a slurry in the same solvent, not as a dry powder that floats on the surface.</li>
+    <li>Hold for 30&ndash;60 minutes after seeding before cooling further, so the seed surface &ldquo;heals&rdquo; and starts to grow.</li>
+  </ul>
+  <p>Then cool. At the start, the seed has very little surface, so it can absorb only a little supersaturation; cooling fast at this point builds supersaturation up until it nucleates fines. Later, there is much more crystal surface and cooling can go faster. A <strong>cubic profile</strong> (temperature falling slowly at first, faster at the end) matches this. In the figure, a 2-hour linear cool after seeding reaches about 23 % supersaturation and nucleates fines, while a cubic cool of the same length stays below 20 %.</p>
+  <p>In practice, plants approximate the cubic curve with three or four linear ramps in the DCS, slow first and faster later.</p>
+
+  <h2 id="anti">Antisolvent and reactive crystallisation <span class="lvl l2">Working level</span></h2>
+  <p>With an antisolvent (water into a methanol solution, heptane into ethyl acetate), supersaturation is created where the antisolvent meets the solution: at the feed point. Local supersaturation there can be far higher than the average in the vessel. The same applies to reactive crystallisation, such as adding acid to form a salt. So:</p>
+  <ul>
+    <li>Add slowly, especially at first; seed after the first portion.</li>
+    <li>Feed into a well-mixed zone near the impeller, not onto the surface or down the wall.</li>
+    <li>Consider reverse addition (solution into antisolvent) only if the lab has shown it gives the right form.</li>
+  </ul>
+
+  <h2 id="scale">What changes at plant scale <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Cooling is slower and less even.</strong> The plant can't cool as fast as the lab, which is often good for crystal size, but the jacket wall is much colder than the bulk. Supersaturation near the wall causes encrustation and fines. Limit the jacket-to-batch temperature difference (often 10&ndash;15 &deg;C) during crystallisation.</li>
+    <li><strong>Mixing is slower.</strong> Antisolvent and reagent feed points matter much more. See the <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up article</a>.</li>
+    <li><strong>Agitator tip speed is higher.</strong> At the same power per volume, the plant impeller tip moves faster and can break needle-like crystals, creating fines. Check the crystal habit under the microscope.</li>
+    <li><strong>Time is longer.</strong> Holds at the end of crystallisation, transfers and filtration all extend the time crystals spend in contact with mother liquor, which can change their form (Ostwald ripening or a polymorph transition).</li>
+    <li><strong>Downstream feels it.</strong> Particle size sets filtration time, wash efficiency and drying. Measure specific cake resistance on plant-like slurry (see the <a href="{{ '/articles/filtration-calculation/' | relative_url }}">filtration article</a>).</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Watch the batch temperature trace around the nucleation point. In an unseeded batch, you see a small temperature bump as crystallisation heat is released, at a different temperature every batch. A seeded batch has no bump, just a smooth curve. That trace is the simplest evidence that seeding is working.</p></div>
+
+  <h2 id="trouble">Oiling out, polymorphs and other surprises <span class="lvl l3">Going deeper</span></h2>
+  <p><strong>Oiling out</strong> (liquid-liquid phase separation) happens when the product separates as an oil instead of crystals, usually because supersaturation is too high or the temperature is above the product's melting point in that solvent mixture. The oil later solidifies into a lump that traps impurities. Seed above the oiling-out temperature, and add antisolvent more slowly.</p>
+  <p><strong>Polymorphs</strong> are different crystal forms of the same molecule, with different solubility, stability and bioavailability. The form that crystallises can depend on solvent, temperature, supersaturation and seed. Always seed with the right form, confirm the form by XRD on plant batches, and treat any change to solvent ratio or temperature as a change requiring review.</p>
+  <p><strong>Impurities</strong> can widen the metastable zone, change habit or get built into the crystal. A change in the impurity profile upstream can make a well-behaved crystallisation misbehave.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Cooling at a fixed rate with no seed and accepting whatever nucleates.</li>
+    <li>Adding dry seed powder onto the surface.</li>
+    <li>Cooling fast right after seeding.</li>
+    <li>Pouring antisolvent onto the surface or down the wall.</li>
+    <li>Scaling up without checking the plant's jacket temperature difference and agitator tip speed.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the metastable zone width?</h3>
+  <p>The undercooling a clear solution can take before nucleating on its own, typically a few degrees to 20 &deg;C.</p>
+  <h3>When and how much should you seed?</h3>
+  <p>About a quarter to a third into the metastable zone, with 0.5&ndash;2 % seed of the right form, then hold 30&ndash;60 minutes.</p>
+  <h3>Why cubic cooling?</h3>
+  <p>It cools slowly while crystal surface is small and faster as it grows, keeping supersaturation low and even.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration calculation</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

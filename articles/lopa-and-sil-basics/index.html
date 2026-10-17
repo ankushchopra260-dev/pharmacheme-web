@@ -1,0 +1,156 @@
+---
+layout: default
+title: "LOPA and SIL Basics: Protection Layers, Frequencies and Safety Integrity Levels"
+description: "Layer of protection analysis from the basics: scenarios, initiating event frequencies, independent protection layers and their credits, tolerable risk targets, closing the gap with a safety instrumented function, and what SIL 1 and SIL 2 really mean. Interactive LOPA calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: LOPA and SIL Basics
+    url: /articles/lopa-and-sil-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "LOPA and SIL Basics: Protection Layers, Frequencies and Safety Integrity Levels",
+        "description": "Initiating events, independent protection layers, tolerable risk, LOPA arithmetic, SIL levels and proof testing.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is LOPA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Layer of protection analysis: a semi-quantitative method that multiplies the frequency of an initiating event by the failure probabilities of independent protection layers, and compares the result with a tolerable risk target to decide whether more protection is needed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between SIL 1 and SIL 2?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SIL 1 means an average probability of failure on demand between 0.1 and 0.01, a risk reduction of 10 to 100 times. SIL 2 means 0.01 to 0.001, a risk reduction of 100 to 1,000 times."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can an operator alarm be a protection layer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, typically with a credit of 0.1, if the alarm is independent of the cause, clearly indicates what to do, and the operator has enough time (often at least 10 minutes) to act before the consequence occurs."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>LOPA and SIL Basics</h1>
+  <p class="article-meta">Process Safety &middot; Risk Assessment &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A HAZOP finds a scenario: cooling water fails during dosing and the reactor could run away. Everyone agrees it is serious. But is the alarm enough? Do we need a trip? How reliable must it be? LOPA, layer of protection analysis, answers those questions with simple arithmetic instead of opinion. This article shows how it works and what a SIL rating actually means.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea: layers like slices of cheese</a><span>Basics</span></li>
+    <li><a href="#ipl">What counts as a protection layer</a><span>Basics</span></li>
+    <li><a href="#math">The LOPA arithmetic</a><span>Working level</span></li>
+    <li><a href="#sil">Closing the gap: SIF and SIL</a><span>Working level</span></li>
+    <li><a href="#life">Keeping the SIL real</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="idea">The idea: layers like slices of cheese <span class="lvl l1">Basics</span></h2>
+  <p>No single safeguard is perfect. The alarm might be ignored, the trip valve might stick, the rupture disc might be the wrong size. A plant is safe when there are enough independent layers that the chance of all of them failing together is very small. Picture slices of Swiss cheese: an accident happens only when the holes line up.</p>
+  <p>LOPA puts numbers on this. Start with how often the cause happens, multiply by the chance each layer fails when needed, and compare the result with what the company accepts as tolerable.</p>
+
+  <h2 id="ipl">What counts as a protection layer <span class="lvl l1">Basics</span></h2>
+  <p>Only <strong>independent protection layers (IPLs)</strong> get credit. A safeguard is an IPL only if it is:</p>
+  <ul>
+    <li><strong>Independent</strong> of the initiating event and of the other layers. A high-temperature alarm on the same sensor as the control loop that failed is not independent.</li>
+    <li><strong>Effective</strong>: able to stop the scenario on its own, in time, if it works. An operator needs a clear alarm and enough time, often at least 10 minutes, to act.</li>
+    <li><strong>Auditable</strong>: tested and maintained, with records.</li>
+  </ul>
+  <p>Typical credits, as probability of failure on demand (PFD):</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Layer</th><th>Typical PFD</th><th>Risk reduction</th></tr>
+    <tr><td>Alarm with operator response (enough time, clear procedure)</td><td>0.1</td><td>10&times;</td></tr>
+    <tr><td>Basic process control system function, independent of the cause</td><td>0.1</td><td>10&times;</td></tr>
+    <tr><td>Relief valve or rupture disc sized for the scenario</td><td>0.01</td><td>100&times;</td></tr>
+    <tr><td>Safety instrumented function, SIL 1</td><td>0.1 to 0.01</td><td>10&ndash;100&times;</td></tr>
+    <tr><td>Safety instrumented function, SIL 2</td><td>0.01 to 0.001</td><td>100&ndash;1,000&times;</td></tr>
+  </table></div>
+  <p>Things that are <em>not</em> IPLs: training, procedures by themselves, PPE, and a relief device that wasn't sized for this scenario (for example, a fire-case valve on a runaway).</p>
+
+  <h2 id="math">The LOPA arithmetic <span class="lvl l2">Working level</span></h2>
+  <div class="formula-box">Frequency of outcome = initiating event frequency &times; PFD<sub>1</sub> &times; PFD<sub>2</sub> &times; &hellip; &times; conditional modifiers
+    <small>Conditional modifiers include the probability that someone is present (occupancy) or that a release ignites. Use them with care and only where justified.</small></div>
+  <p>Take the scenario: cooling water fails during exothermic dosing (0.1 per year, a typical value for a utility failure), leading to a runaway that could rupture the reactor and kill an operator. The company's tolerable frequency for a single fatality is 10<sup>&minus;5</sup> per year.</p>
+  <ul>
+    <li>High-temperature alarm, operator stops dosing: &times; 0.1</li>
+    <li>Area manned half the time: &times; 0.5</li>
+    <li>Result: 0.1 &times; 0.1 &times; 0.5 = 5 &times; 10<sup>&minus;3</sup> per year, 500 times above target.</li>
+  </ul>
+  <p>Adding a rupture disc sized for the runaway by DIERS methods (&times; 0.01) brings it to 5 &times; 10<sup>&minus;5</sup>, still five times too high. An independent SIL 1 trip that stops dosing and opens emergency cooling closes the gap: 5 &times; 10<sup>&minus;6</sup>.</p>
+  <figure class="art-fig" data-fig="lopa">
+    <figcaption>Try it: switch layers on and off and watch the frequency fall. Notice that the same-sensor DCS trip earns no credit, because it is not independent.</figcaption>
+  </figure>
+
+  <h2 id="sil">Closing the gap: SIF and SIL <span class="lvl l2">Working level</span></h2>
+  <p>When the existing layers don't reach the target, the usual answer is a <strong>safety instrumented function (SIF)</strong>: its own sensor, logic solver and final element, separate from the control system. Its <strong>safety integrity level (SIL)</strong> is set by the risk reduction still needed:</p>
+  <ul>
+    <li>Gap up to 10&times;: no SIF needed if another IPL can do it; otherwise SIL 1 is ample.</li>
+    <li>Gap of 10&ndash;100&times;: SIL 1.</li>
+    <li>Gap of 100&ndash;1,000&times;: SIL 2.</li>
+    <li>Gap above 1,000&times;: SIL 3 is possible but rare and expensive in chemical plants; usually it is better to change the process (smaller batch, slower dosing, a different solvent).</li>
+  </ul>
+  <p>SIL is a property of the whole function, not of a transmitter. A SIL 2 sensor connected to a single solenoid valve that is never tested doesn't make a SIL 2 function. Achieving the SIL depends on the architecture (one or two sensors and valves), the failure rates of each part, and how often it is proof tested, all calculated under IEC 61511.</p>
+
+  <h2 id="life">Keeping the SIL real <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Proof testing</strong> at the interval the calculation assumed, testing the whole loop from sensor to valve, with results recorded.</li>
+    <li><strong>Bypass management</strong>: a bypassed SIF provides no protection. Bypasses need permits, compensating measures and a time limit.</li>
+    <li><strong>Demand tracking</strong>: if the SIF trips more often than the LOPA assumed, the initiating frequency was wrong and the analysis must be redone.</li>
+    <li><strong>Management of change</strong> for set points, logic and hardware. See <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a>.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>The most useful LOPA output is often not the SIL number but the list of layers you were already relying on. Each one becomes a safety-critical element with an owner and a test, and that list is worth more than the spreadsheet.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Giving credit to two layers that share a sensor or valve.</li>
+    <li>Counting procedures and training as protection layers.</li>
+    <li>Using a fire-sized relief valve as a layer for a runaway.</li>
+    <li>Specifying a SIL and never proof testing the loop.</li>
+    <li>Stacking optimistic conditional modifiers to make the numbers work.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is LOPA?</h3>
+  <p>A method that multiplies an initiating frequency by the failure probability of each independent layer and compares it with a target.</p>
+  <h3>What is the difference between SIL 1 and SIL 2?</h3>
+  <p>SIL 1 reduces risk 10&ndash;100&times;; SIL 2, 100&ndash;1,000&times;.</p>
+  <h3>Can an operator alarm be a protection layer?</h3>
+  <p>Yes, usually a 10&times; credit, if independent and with enough time to act.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/relief-valve-sizing/' | relative_url }}">Relief valve sizing</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

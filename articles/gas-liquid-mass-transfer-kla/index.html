@@ -1,0 +1,140 @@
+---
+layout: default
+title: "Gas-Liquid Reactions and kLa: Hydrogenation Scale-up Explained"
+description: "Mass transfer in gas-liquid reactions from the basics: gas solubility and Henry’s law, the kLa coefficient, when a hydrogenation is mass-transfer limited or kinetically limited, why plant reactors have lower kLa, and how pressure, agitation and gas dispersion change the rate. Interactive rate-limit calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Gas-Liquid Mass Transfer and kLa
+    url: /articles/gas-liquid-mass-transfer-kla/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Gas-Liquid Reactions and kLa: Hydrogenation Scale-up Explained",
+        "description": "Gas solubility, Henry law, kLa, mass-transfer vs kinetic limitation, scale-up and ways to improve gas-liquid transfer.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is kLa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The volumetric gas-liquid mass transfer coefficient, in 1/s: the liquid-side transfer coefficient times the interfacial area per unit volume. Multiplied by the concentration driving force, it gives the rate at which gas dissolves."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you know if a hydrogenation is mass-transfer limited?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Change the agitation speed: if the rate changes significantly, mass transfer limits. If it does not, but more catalyst increases the rate, the reaction is kinetically limited."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are hydrogenations slower in the plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Plant reactors usually achieve lower kLa than lab autoclaves because of lower power per volume and less effective gas dispersion, so hydrogen dissolves more slowly and the reaction becomes mass-transfer limited."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Gas-Liquid Reactions and k<sub>L</sub>a</h1>
+  <p class="article-meta">Scale-up &middot; Reaction Engineering &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A hydrogenation that finishes in an hour in the lab autoclave takes six hours in the plant, and the impurity profile changes too. The catalyst is the same, the temperature and pressure are the same. What changed is how fast hydrogen gets from the gas into the liquid. This article explains gas-liquid mass transfer and the one number, k<sub>L</sub>a, that describes it.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#path">The path of a hydrogen molecule</a><span>Basics</span></li>
+    <li><a href="#kla">k<sub>L</sub>a and the transfer rate</a><span>Basics</span></li>
+    <li><a href="#limit">Which step limits the rate?</a><span>Working level</span></li>
+    <li><a href="#scale">Why plant k<sub>L</sub>a is lower</a><span>Working level</span></li>
+    <li><a href="#improve">Improving mass transfer</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="path">The path of a hydrogen molecule <span class="lvl l1">Basics</span></h2>
+  <p>For hydrogen to react, it has to travel: from the gas bubble across a thin liquid film into the bulk liquid, then through the liquid to a catalyst particle, into its pores and onto the metal surface. Each step has a resistance. The slowest one sets the overall rate. In most hydrogenations with an active catalyst, the slow step is the first: gas into liquid.</p>
+
+  <h2 id="kla">k<sub>L</sub>a and the transfer rate <span class="lvl l1">Basics</span></h2>
+  <div class="formula-box">Rate of transfer = k<sub>L</sub>a &times; (C* &minus; C)
+    <small>k<sub>L</sub>a: volumetric mass transfer coefficient (1/s), the product of the liquid-film coefficient k<sub>L</sub> and the bubble surface area per volume a. C*: gas solubility at the interface; C: dissolved concentration in the bulk.</small></div>
+  <p>C* follows Henry's law: proportional to the gas partial pressure. Hydrogen is poorly soluble; in methanol roughly 0.004 mol/L per bar. At 5 bar, C* &asymp; 0.02 mol/L. With k<sub>L</sub>a = 0.1 s<sup>&minus;1</sup>, the maximum transfer rate (when C is near zero) is 0.1 &times; 0.02 &times; 3,600 &asymp; 7 mol/L per hour.</p>
+
+  <h2 id="limit">Which step limits the rate? <span class="lvl l2">Working level</span></h2>
+  <p>Compare the maximum transfer rate with the rate the catalyst could achieve if hydrogen were plentiful (the kinetic rate):</p>
+  <ul>
+    <li><strong>Mass-transfer limited:</strong> the catalyst could go faster, but hydrogen can't arrive fast enough. Dissolved hydrogen is near zero. The rate rises with pressure and agitation, but not with more catalyst.</li>
+    <li><strong>Kinetically limited:</strong> hydrogen is plentiful; the catalyst is the bottleneck. The rate rises with catalyst loading and temperature, but not with agitation.</li>
+  </ul>
+  <figure class="art-fig" data-fig="kla">
+    <figcaption>Try it: change the pressure, k<sub>L</sub>a and catalyst-limited rate. See which one limits, and how long it takes to take up 3 mol/L of hydrogen (a nitro reduction at 1 mol/L).</figcaption>
+  </figure>
+  <p>A simple lab test tells you which regime you are in: double the agitation speed. If the rate rises clearly, mass transfer limits. If it doesn't, kinetics limits. Then try doubling the catalyst.</p>
+  <p>The regime matters for quality too. When hydrogen is starved at the catalyst, partially reduced intermediates (such as hydroxylamines in nitro reductions) can accumulate, react with each other to form azo and azoxy impurities, and in some cases decompose exothermically.</p>
+
+  <h2 id="scale">Why plant k<sub>L</sub>a is lower <span class="lvl l2">Working level</span></h2>
+  <p>Typical values: lab autoclaves with gas-inducing stirrers reach 0.1&ndash;1 s<sup>&minus;1</sup>; plant hydrogenators often 0.02&ndash;0.2 s<sup>&minus;1</sup>. The reasons:</p>
+  <ul>
+    <li>Plant agitators run at lower power per volume than small lab stirrers.</li>
+    <li>Gas enters from the headspace by surface entrainment, which becomes much less effective in tall vessels.</li>
+    <li>Gas-inducing impellers lose efficiency with depth.</li>
+  </ul>
+  <p>So a reaction that was kinetically limited in the lab can become mass-transfer limited in the plant, with a longer cycle time and a different impurity profile. With the default values in the figure, lowering k<sub>L</sub>a from 0.1 to 0.03 s<sup>&minus;1</sup> stretches the reaction from about 40 minutes to over an hour and a half.</p>
+
+  <h2 id="improve">Improving mass transfer <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Raise the pressure</strong> within the vessel rating: C* rises in proportion.</li>
+    <li><strong>Improve gas dispersion:</strong> gas-inducing hollow-shaft impellers, a sparger below a Rushton-type turbine, or an external loop reactor with an ejector.</li>
+    <li><strong>Increase agitator power</strong> where the motor and seal allow.</li>
+    <li><strong>Use the right fill level:</strong> too full and the surface entrainment drops; too empty and the impeller is uncovered.</li>
+  </ul>
+  <p>Mass transfer also gives a safety handle: in a mass-transfer limited hydrogenation, cutting the hydrogen supply or stopping the agitator stops the reaction and its heat quickly. But it works in reverse too: restarting a stopped agitator with hydrogen pressure on can release a burst of reaction. See <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">hydrogenation safety</a>.</p>
+  <div class="art-note"><b>On the plant</b><p>Trend the hydrogen uptake rate (from the supply pressure drop or a mass flow meter) on every batch. A flat uptake curve that suddenly drops is reaction completion; a slow, sagging curve compared with previous batches means catalyst activity or mass transfer has changed.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Adding more catalyst to a mass-transfer limited reaction.</li>
+    <li>Assuming lab reaction times will hold in the plant.</li>
+    <li>Ignoring hydrogen starvation as a source of impurities.</li>
+    <li>Restarting the agitator under hydrogen pressure without thought.</li>
+    <li>Overfilling a hydrogenator with a gas-inducing impeller.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is kLa?</h3>
+  <p>The mass transfer coefficient times interfacial area per volume, in 1/s.</p>
+  <h3>How do you know if a hydrogenation is mass-transfer limited?</h3>
+  <p>If the rate changes with agitation speed, mass transfer limits it.</p>
+  <h3>Why are hydrogenations slower in the plant?</h3>
+  <p>Plant kLa is usually lower, so hydrogen dissolves more slowly.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">Hydrogenation safety</a>
+    <a href="{{ '/articles/agitator-design/' | relative_url }}">Agitator design</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -1,0 +1,118 @@
+---
+layout: default
+title: "Pump and Mechanical Seal Troubleshooting: Causes, Checks and Fixes"
+description: "Centrifugal pump troubleshooting for chemical plants: low flow, cavitation, overloading, vibration and hot bearings, the operating window around best efficiency point, mechanical seal basics, seal flush plans and why seals fail. Interactive symptom finder."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Pump and Seal Troubleshooting
+    url: /articles/pump-and-mechanical-seal-troubleshooting/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Pump and Mechanical Seal Troubleshooting: Causes, Checks and Fixes",
+        "description": "Low flow, cavitation, overloading, vibration, hot bearings, best efficiency point, mechanical seals and seal plans.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "Why do mechanical seals fail?", "acceptedAnswer": { "@type": "Answer", "text": "Most failures come from the conditions around the seal rather than the seal itself: dry running, loss of flush or barrier fluid, vibration and misalignment, solids or crystallising product between the faces, and elastomers that are not compatible with the solvent." } },
+        { "@type": "Question", "name": "What is the safe operating range of a centrifugal pump?", "acceptedAnswer": { "@type": "Answer", "text": "Ideally 80 to 110 % of the best efficiency point flow, and generally within about 70 to 120 %. Far below it the pump recirculates internally, heats the liquid and vibrates; far above it, NPSH required rises and the motor can overload." } },
+        { "@type": "Question", "name": "How do you know a pump is cavitating?", "acceptedAnswer": { "@type": "Answer", "text": "A crackling noise like gravel in the casing, fluctuating discharge pressure and flow, a drop in head, and over time pitting on the impeller eye. It means the NPSH available is below what the pump needs." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Pump and Mechanical Seal Troubleshooting</h1>
+  <p class="article-meta">Plant Engineering &middot; Rotating Equipment &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Centrifugal pumps are the most common machine in a chemical plant and the most common maintenance call. The same pump that ran for three years without trouble suddenly eats a seal every month. Usually the pump hasn't changed; the way it is being run has. This article explains how a centrifugal pump wants to be operated, what each symptom tells you, and why mechanical seals really fail.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#curve">Where a pump likes to run</a><span>Basics</span></li>
+    <li><a href="#seal">How a mechanical seal works</a><span>Basics</span></li>
+    <li><a href="#symptom">Reading the symptoms</a><span>Working level</span></li>
+    <li><a href="#plans">Seal flush and barrier plans</a><span>Working level</span></li>
+    <li><a href="#why">Why seals really fail</a><span>Going deeper</span></li>
+    <li><a href="#rel">Making pumps reliable</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="curve">Where a pump likes to run <span class="lvl l1">Basics</span></h2>
+  <p>A centrifugal pump has a curve: the head it makes falls as the flow rises. Where that curve crosses the system curve is where it actually runs. Each pump also has a <strong>best efficiency point (BEP)</strong>, the flow at which the liquid enters and leaves the impeller smoothly. Near the BEP, forces on the shaft are balanced, vibration is low and the seal and bearings last.</p>
+  <ul>
+    <li><strong>Far left of BEP</strong> (throttled hard, below about 60&ndash;70 %): liquid recirculates inside the impeller, the shaft deflects, the liquid heats up, vibration rises. At zero flow (dead-heading) the pump can boil its own contents.</li>
+    <li><strong>Far right of BEP</strong> (discharge wide open, above about 120 %): the pump needs more NPSH, cavitation starts, and the motor current climbs.</li>
+  </ul>
+  <p>Aim for 80&ndash;110 % of BEP flow. A pump that is badly oversized for its duty spends its life throttled at the left end of the curve, and that is one of the most common root causes of repeated failures. The <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">pump power article</a> shows the curves.</p>
+
+  <h2 id="seal">How a mechanical seal works <span class="lvl l1">Basics</span></h2>
+  <p>Where the shaft passes through the casing, something has to stop the liquid escaping. Old pumps used packing (gland rope) that was designed to drip. Mechanical seals instead use two very flat rings, one rotating with the shaft and one stationary, pressed together by springs. Between them runs a liquid film about one micrometre thick. That film lubricates and cools the faces. With it, a seal lasts years; without it, the faces rub, overheat and crack, sometimes within a minute.</p>
+  <p>Everything about seal reliability comes back to that film: keep it present, clean, cool and stable.</p>
+
+  <h2 id="symptom">Reading the symptoms <span class="lvl l2">Working level</span></h2>
+  <figure class="art-fig" data-fig="pumptrouble">
+    <figcaption>Try it: pick a symptom. The pump shows where to look, with the likely causes in order and the first check to make.</figcaption>
+  </figure>
+  <p>Three measurements solve most pump problems: <strong>suction pressure</strong>, <strong>discharge pressure</strong> and <strong>motor current</strong>. With the head (discharge minus suction) and the current, you can place the pump on its curve and see whether it is running where you think it is. Fit pressure gauges on both sides of every important pump, not only on the discharge.</p>
+  <p>Two quick checks catch a surprising number of faults: the <strong>direction of rotation</strong> (a reverse-running centrifugal pump still delivers some flow at reduced head, so it isn't obvious), and the <strong>shut-off head</strong> (briefly close the discharge valve and compare the pressure with the curve; much lower means a worn impeller or wear rings).</p>
+
+  <h2 id="plans">Seal flush and barrier plans <span class="lvl l2">Working level</span></h2>
+  <p>API 682 numbers the arrangements that keep the seal environment healthy. The ones you'll meet most in chemical plants:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Plan</th><th>What it does</th><th>Used for</th></tr>
+    <tr><td>11</td><td>Recirculates a little liquid from the discharge to the seal faces</td><td>Clean, cool liquids; the most common single-seal plan</td></tr>
+    <tr><td>32</td><td>Injects clean liquid from an external source</td><td>Dirty or crystallising liquids</td></tr>
+    <tr><td>52</td><td>Unpressurised buffer fluid between two seals, from a pot</td><td>Volatile liquids where some leakage to the buffer is acceptable</td></tr>
+    <tr><td>53A/B/C</td><td>Pressurised barrier fluid between two seals, from a pot or accumulator</td><td>Toxic, flammable or crystallising products; nothing leaks to atmosphere</td></tr>
+    <tr><td>62</td><td>External quench on the atmospheric side</td><td>Products that crystallise or oxidise as they leak</td></tr>
+  </table></div>
+  <p>With double seals, the barrier pot is the instrument that tells you how the seals are doing. A falling level means the inner seal is leaking into the process; a rising level means process is leaking into the barrier. Check and log the pot level and pressure every shift.</p>
+
+  <h2 id="why">Why seals really fail <span class="lvl l3">Going deeper</span></h2>
+  <p>Seal manufacturers say that most failures are not the seal's fault, and in my experience they are right. Look at the failed parts before ordering a replacement:</p>
+  <ul>
+    <li><strong>Heat-checked or cracked faces:</strong> dry running. The pump ran on an empty tank, against a closed suction valve, or with vapour at the faces. Fit a low-level or dry-run trip (power monitor) and fill and vent the pump before starting.</li>
+    <li><strong>Swollen, hard or cracked O-rings:</strong> wrong elastomer for the solvent. Viton swells in ketones such as acetone; EPDM swells in hydrocarbons; FFKM (perfluoroelastomer) resists almost everything but costs much more. Check compatibility for every solvent the pump sees, including cleaning solvents.</li>
+    <li><strong>Scored faces, clogged springs:</strong> solids or crystallising product. Use a flush from a clean source (plan 32), a quench (plan 62) or a double seal.</li>
+    <li><strong>Chipped edges, fretted shaft sleeve:</strong> vibration and misalignment. Fix the alignment and pipe strain, and move the pump back toward BEP.</li>
+    <li><strong>Leaking from new:</strong> installation. Faces touched with fingers, setting dimension wrong, set screws not tightened.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Keep a simple failure log per pump: date, what was found, what was changed. After three entries, a pattern usually appears. A pump that fails every time after the monthly cleaning has a cleaning-solvent problem, not a seal problem.</p></div>
+
+  <h2 id="rel">Making pumps reliable <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Size for the real duty</strong>, not the worst case times a safety factor. Use a VFD where flows vary, rather than throttling.</li>
+    <li><strong>Protect against dry running and dead-heading:</strong> a minimum-flow recirculation line, a power monitor that trips on low load, and interlocks on tank low level.</li>
+    <li><strong>Alignment</strong> after every maintenance job, ideally with a laser, and with pipework supported so it doesn't pull on the pump.</li>
+    <li><strong>Consider sealless pumps</strong> (magnetic drive or canned motor) for toxic or very volatile liquids. They have no seal to leak, but they hate dry running and solids even more than sealed pumps.</li>
+    <li><strong>Trend vibration and bearing temperature</strong> monthly on critical pumps. Problems show up weeks before failure.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Replacing the seal without asking why it failed.</li>
+    <li>Running an oversized pump throttled at a third of its BEP flow.</li>
+    <li>Starting a pump before it is filled and vented.</li>
+    <li>Choosing seal elastomers for the product but not for the cleaning solvent.</li>
+    <li>No suction pressure gauge, so cavitation is guessed at, not measured.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why do mechanical seals fail?</h3>
+  <p>Mostly because of conditions around them: dry running, lost flush, vibration, solids and incompatible elastomers.</p>
+  <h3>What is the safe operating range?</h3>
+  <p>Ideally 80&ndash;110 % of best efficiency flow, and generally within 70&ndash;120 %.</p>
+  <h3>How do you know a pump is cavitating?</h3>
+  <p>Crackling noise, fluctuating pressure and flow, lower head, and pitting on the impeller eye over time.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power, NPSH and motor sizing</a>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">VFD savings and motor loading</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

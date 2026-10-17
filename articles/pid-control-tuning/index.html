@@ -1,0 +1,139 @@
+---
+layout: default
+title: "PID Control and Tuning for Batch Reactors: A Practical Introduction"
+description: "PID control from the basics: what proportional, integral and derivative action each do, process gain, time constant and dead time, IMC tuning rules, cascade and split-range temperature control on batch reactors, and integral windup. Interactive PID simulator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: PID Control and Tuning
+    url: /articles/pid-control-tuning/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "PID Control and Tuning for Batch Reactors: A Practical Introduction",
+        "description": "Proportional, integral and derivative action, process dynamics, IMC tuning, cascade and split-range control and windup.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does the integral term in PID do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It keeps adding to the output for as long as an error remains, which removes the steady offset left by proportional control. Too much integral action causes overshoot and slow oscillation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is cascade control on a reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A batch temperature controller sets the set point of a jacket temperature controller, which moves the utility valves. The inner jacket loop corrects disturbances quickly before they affect the batch."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you tune a PI controller simply?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Do a step test to find the process gain K, time constant tau and dead time theta, then use the IMC rules: Kc = tau / (K x (lambda + theta)) and Ti = tau, with lambda about equal to the dead time or larger for gentler control."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>PID Control and Tuning</h1>
+  <p class="article-meta">Plant Engineering &middot; Process Control &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A badly tuned temperature loop on a reactor shows up as a batch that swings 5 &deg;C around its set point, a jacket valve that never stops moving, or a heat-up that overshoots into an exotherm. Most loops are tuned once at commissioning and never touched again. This article explains what a PID controller actually does and how to tune one sensibly.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#fb">Feedback control in one paragraph</a><span>Basics</span></li>
+    <li><a href="#pid">P, I and D</a><span>Basics</span></li>
+    <li><a href="#proc">Know the process: gain, lag and dead time</a><span>Working level</span></li>
+    <li><a href="#tune">Tuning: a simple, safe method</a><span>Working level</span></li>
+    <li><a href="#batch">Reactor temperature control in practice</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="fb">Feedback control in one paragraph <span class="lvl l1">Basics</span></h2>
+  <p>A controller compares the measured value (the process variable, PV) with the set point (SP), and moves an output (usually a valve) to reduce the difference, the error. It repeats this many times a second. Everything else is about <em>how much</em> to move the valve for a given error, and how to avoid overreacting.</p>
+
+  <h2 id="pid">P, I and D <span class="lvl l1">Basics</span></h2>
+  <div class="formula-box">Output = K<sub>c</sub> &times; [ e + (1/T<sub>i</sub>) &int; e dt + T<sub>d</sub> &times; de/dt ]</div>
+  <ul>
+    <li><strong>Proportional (K<sub>c</sub>):</strong> output proportional to the error now. More gain gives a faster response but, beyond a point, oscillation. Proportional action alone leaves a steady offset.</li>
+    <li><strong>Integral (T<sub>i</sub>):</strong> keeps adding output while any error remains, so it removes the offset. A short integral time (strong integral action) causes overshoot and slow oscillation.</li>
+    <li><strong>Derivative (T<sub>d</sub>):</strong> reacts to how fast the error is changing, damping overshoot on slow processes. It amplifies noise, so it is often left at zero, except on slow temperature loops.</li>
+  </ul>
+
+  <h2 id="proc">Know the process: gain, lag and dead time <span class="lvl l2">Working level</span></h2>
+  <p>Most plant loops behave roughly like a first-order lag with dead time:</p>
+  <ul>
+    <li><strong>Process gain K:</strong> how much the PV finally changes for a 1 % change in output.</li>
+    <li><strong>Time constant &tau;:</strong> how long it takes to get about 63 % of the way to its new value.</li>
+    <li><strong>Dead time &theta;:</strong> how long before anything happens at all. Thermowells, long pipes and jacket volumes add dead time.</li>
+  </ul>
+  <p>Dead time is what limits control. The bigger &theta; is compared with &tau;, the gentler the tuning must be. Find these three numbers with a simple step test: put the controller in manual, change the output by 5&ndash;10 %, and record the PV.</p>
+
+  <h2 id="tune">Tuning: a simple, safe method <span class="lvl l2">Working level</span></h2>
+  <p>The IMC (internal model control) rules give robust PI settings from the step test, with one choice: the desired closed-loop speed &lambda;. Choosing &lambda; equal to the dead time is a reasonable start; a larger &lambda; is gentler.</p>
+  <div class="formula-box">K<sub>c</sub> = &tau; / [K &times; (&lambda; + &theta;)] &nbsp;&nbsp; T<sub>i</sub> = &tau;</div>
+  <p>For a process with K = 1, &tau; = 10 min and &theta; = 2 min, with &lambda; = 2 min: K<sub>c</sub> = 2.5 and T<sub>i</sub> = 10 min. Compare that with a loop left at K<sub>c</sub> = 1 and T<sub>i</sub> = 5 min: slower to start, but overshooting because the integral is too strong.</p>
+  <figure class="art-fig" data-fig="pid">
+    <figcaption>Try it: change gain, integral and derivative and watch the response to a set point step. Push the gain up until it oscillates, then press &ldquo;Use IMC tuning&rdquo;.</figcaption>
+  </figure>
+
+  <h2 id="batch">Reactor temperature control in practice <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Cascade control:</strong> the batch temperature controller (master) sets the jacket temperature set point; the jacket temperature controller (slave) moves the valves. The fast slave loop corrects utility disturbances before they reach the batch. Tune the slave first.</li>
+    <li><strong>Split range:</strong> one output drives cooling for 0&ndash;50 % and heating for 50&ndash;100 %. Check the overlap so both valves aren't open together, and that there's no dead band where nothing happens.</li>
+    <li><strong>Integral windup:</strong> during a long heat-up, the error stays large and the integral term keeps growing; when the batch reaches set point, the stored integral causes a big overshoot. Use anti-windup in the DCS, or switch from ramp to control mode near the set point.</li>
+    <li><strong>Limit the jacket:</strong> clamp the master output so the jacket set point stays within the glass-lined vessel's thermal shock limits and the product's wall temperature limit.</li>
+    <li><strong>Exotherms:</strong> overshoot in a heat-up can start a reaction. Tune exothermic reactors for little or no overshoot, even at the cost of speed.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Before retuning, look at the valve. A sticky valve with a dead band makes every loop oscillate, whatever the tuning. Put the loop in manual, move the output in 1 % steps, and see if the valve follows.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Tuning a loop without knowing the process dead time.</li>
+    <li>Too much integral action, causing slow oscillation.</li>
+    <li>No anti-windup on batch heat-up.</li>
+    <li>Tuning the master loop before the slave loop.</li>
+    <li>Blaming tuning for a sticky valve.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What does the integral term in PID do?</h3>
+  <p>It removes steady offset; too much causes overshoot and oscillation.</p>
+  <h3>What is cascade control on a reactor?</h3>
+  <p>A batch controller setting a jacket controller, which moves the valves.</p>
+  <h3>How do you tune a PI controller simply?</h3>
+  <p>Step test, then IMC: K<sub>c</sub> = &tau;/[K(&lambda;+&theta;)], T<sub>i</sub> = &tau;.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">Instrumentation basics</a>
+    <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">Jacket and limpet coil design</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

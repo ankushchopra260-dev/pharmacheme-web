@@ -1,0 +1,164 @@
+---
+layout: default
+title: "How to Read DSC, ARC, RC1 and TSU Data: Thermal Safety Tests Explained"
+description: "The basics of the four thermal safety tests used in chemical and pharma plants and how to read their results: DSC onset and energy, ARC self-heat rate, phi factor and TD24, RC1 heat flow, accumulation and MTSR, and TSU temperature and pressure. Interactive annotated curves."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: How to Read DSC, ARC, RC1 and TSU
+    url: /articles/how-to-read-dsc-arc-rc1-tsu/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "How to Read DSC, ARC, RC1 and TSU Data: Thermal Safety Tests Explained",
+        "description": "Principles of DSC, ARC, RC1 and TSU and how to read onset, energy, self-heat rate, phi factor, TD24, heat flow, accumulation and gas generation.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does DSC onset temperature mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The temperature at which the DSC first detects an exotherm at its heating rate. It depends on heating rate and sensitivity, and large batches can self-heat at much lower temperatures, so it should never be used as a safe operating limit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the phi factor in ARC testing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Phi = 1 + (mass x heat capacity of the bomb) / (mass x heat capacity of the sample). It measures how much heat the test vessel absorbs. ARC phi factors are often 1.5 to 3, so temperature rise and rates must be corrected before applying them to a plant vessel with phi close to 1."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does an RC1 tell you that a DSC does not?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The RC1 runs the real reaction under process conditions and measures its heat release rate, total reaction heat, thermal conversion and accumulation during dosing, which give the cooling needed and the MTSR. A DSC only scans a small sample with rising temperature."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>How to Read DSC, ARC, RC1 and TSU Data</h1>
+  <p class="article-meta">Process Safety &middot; Thermal Hazards &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A thermal safety report lands on your desk: a DSC trace, an ARC plot on a log scale, an RC1 curve and a TSU pressure chart. Each says something different about the same chemistry, and each can mislead you if read carelessly. This article explains, from the basics, what each instrument does, how to read its key features, and which questions each one can and cannot answer.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why four different tests</a><span>Basics</span></li>
+    <li><a href="#dsc">DSC: the first screen</a><span>Basics</span></li>
+    <li><a href="#readdsc">Reading a DSC trace</a><span>Working level</span></li>
+    <li><a href="#tsu">TSU: screening for gas</a><span>Working level</span></li>
+    <li><a href="#rc1">RC1: the reaction as it runs</a><span>Working level</span></li>
+    <li><a href="#arc">ARC: the runaway in slow motion</a><span>Going deeper</span></li>
+    <li><a href="#choose">Putting it together</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why four different tests <span class="lvl l1">Basics</span></h2>
+  <p>Two questions decide whether a process is thermally safe. First, the <strong>desired reaction</strong>: how much heat does it release, how fast, and how much could still be released if cooling failed? Second, the <strong>undesired reaction</strong>: at what temperature does the mixture start to decompose, how much energy and gas does that release, and how quickly does it run away? No single instrument answers both well, so we use a set:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Test</th><th>Sample</th><th>What it measures</th><th>Main question it answers</th></tr>
+    <tr><td>DSC</td><td>2&ndash;10 mg, sealed crucible</td><td>Heat flow while heating at a fixed rate</td><td>Is there an exotherm, where, and how big?</td></tr>
+    <tr><td>TSU</td><td>A few grams, closed cell</td><td>Temperature and pressure while heating</td><td>Does decomposition make gas, and how much?</td></tr>
+    <tr><td>RC1</td><td>0.5&ndash;2 L, real process</td><td>Heat flow while the reaction runs</td><td>Reaction heat, heat release rate, accumulation, MTSR</td></tr>
+    <tr><td>ARC</td><td>A few grams, adiabatic bomb</td><td>Self-heating under near-adiabatic conditions</td><td>How fast is a runaway at each temperature? TMR and TD24</td></tr>
+  </table></div>
+
+  <h2 id="dsc">DSC: the first screen <span class="lvl l1">Basics</span></h2>
+  <p>Differential scanning calorimetry heats a few milligrams of sample and an empty reference side by side at a steady rate, typically 2&ndash;10 &deg;C/min, and records the extra heat the sample absorbs or gives out. It is fast, cheap and needs very little material, so it is the first test for every intermediate, reaction mixture, distillation residue and isolated solid.</p>
+  <p>Use a <strong>sealed high-pressure crucible</strong> (gold-plated steel is common) for anything containing solvent. In an open pan, the solvent evaporates with a large endotherm that can hide a decomposition exotherm completely.</p>
+
+  <h2 id="readdsc">Reading a DSC trace <span class="lvl l2">Working level</span></h2>
+  <figure class="art-fig" data-fig="thermread">
+    <figcaption>Try it: pick an instrument and tap the numbered points on its curve. The curves are illustrative, not from a real compound.</figcaption>
+  </figure>
+  <p>On a DSC trace (check the axis label: most safety labs plot <em>exo up</em>), read four things:</p>
+  <ul>
+    <li><strong>Endotherms</strong> (downward peaks): melting, boiling, desolvation. Not hazards themselves, but a melt just before a decomposition often means the decomposition is fast.</li>
+    <li><strong>Onset</strong>: where the exotherm leaves the baseline. It depends on heating rate and sensitivity. A DSC at 5 &deg;C/min detects onset much later than the temperature at which a large, insulated plant batch would start to self-heat. It is a marker, never a safe operating limit.</li>
+    <li><strong>Energy</strong>: the area of the exotherm in J/g. Dividing by heat capacity gives the adiabatic temperature rise: 650 J/g &divide; 1.8 J/g&middot;K &asymp; 360 K. As a rough guide many companies use, below about 100 J/g is low severity, above about 500 J/g is high, and very high energies (roughly 800 J/g and up) call for explosive-property testing.</li>
+    <li><strong>Peak shape</strong>: a sharp, narrow peak means a fast reaction once started; a broad one, a slower one.</li>
+  </ul>
+  <p>You will hear of the &ldquo;100 K rule&rdquo;: keep the process at least 100 &deg;C below the DSC onset. It is a crude screen and can be unsafe for autocatalytic decompositions and large batches. Use it only to decide whether more testing is needed.</p>
+
+  <h2 id="tsu">TSU: screening for gas <span class="lvl l2">Working level</span></h2>
+  <p>A thermal screening unit (TSU) heats a few grams of sample in a closed metal cell, usually at a slow ramp (often around 1&ndash;2 &deg;C/min), recording both temperature and pressure. It fills the gap between DSC and ARC. The pressure trace is the valuable part:</p>
+  <ul>
+    <li>Below the onset, pressure rises gently and reversibly with the solvent's vapour pressure.</li>
+    <li>At the exotherm, temperature and pressure jump together. The rates dT/dt and dP/dt show how violent it is.</li>
+    <li>After cooling back to room temperature, any pressure left is <strong>non-condensable gas</strong>. Gas generation often decides relief sizing and can be more dangerous than the heat itself.</li>
+  </ul>
+
+  <h2 id="rc1">RC1: the reaction as it runs <span class="lvl l2">Working level</span></h2>
+  <p>A reaction calorimeter such as the RC1 is a small jacketed reactor that runs the real process (same charges, temperatures and dosing) and measures the heat flow from the difference between reactor and jacket temperatures: q = UA &times; (T<sub>r</sub> &minus; T<sub>j</sub>). A calibration heater of known power, fired before and after the reaction, gives UA. From one run you get:</p>
+  <ul>
+    <li><strong>Reaction heat</strong> &Delta;H<sub>r</sub> in kJ/mol, from integrating the heat flow, and the adiabatic temperature rise.</li>
+    <li><strong>Heat release rate</strong>: the plateau during dosing tells you the cooling the plant must provide per kg.</li>
+    <li><strong>Thermal conversion and accumulation</strong>: heat still coming out after dosing stops is unreacted material. That gives the MTSR. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a>.</li>
+    <li>With a gas flow meter on the vent, <strong>gas evolution rate</strong> during the reaction.</li>
+  </ul>
+
+  <h2 id="arc">ARC: the runaway in slow motion <span class="lvl l3">Going deeper</span></h2>
+  <p>An accelerating rate calorimeter puts a few grams in a strong spherical bomb inside a heated chamber and runs <em>heat-wait-search</em>: heat by about 5 &deg;C, wait for temperatures to settle, then search for self-heating above a threshold of about 0.02 &deg;C/min. Once found, the heaters track the sample so it heats itself as if insulated. The result is the runaway in slow motion, plotted as self-heat rate (log scale) against temperature, plus pressure.</p>
+  <ul>
+    <li><strong>Phi factor</strong>: the bomb absorbs part of the heat, so the sample looks milder than it would in a plant reactor. &phi; = 1 + (m&middot;c<sub>p</sub>)<sub>bomb</sub> / (m&middot;c<sub>p</sub>)<sub>sample</sub>, often 1.5&ndash;3 in an ARC and close to 1 for a plant vessel. Results must be corrected for &phi; before use.</li>
+    <li><strong>Time to maximum rate (TMR)</strong>: how long a batch held at a given temperature would take to reach the peak of its runaway, under adiabatic conditions.</li>
+    <li><strong>TD24</strong>: the temperature at which TMR is 24 hours. It is usually well below the detected onset and is the key number for setting the maximum process and storage temperatures in a Stoessel assessment. See <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes</a>.</li>
+  </ul>
+
+  <h2 id="choose">Putting it together <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li>DSC every material and mixture, including residues and mother liquors that will be stored or distilled.</li>
+    <li>If DSC shows a significant exotherm within reach of process conditions, run TSU or ARC for gas and kinetics.</li>
+    <li>For every exothermic step, run RC1 under the planned dosing to get heat, accumulation and MTSR.</li>
+    <li>Combine MTSR, MTT and TD24 into the criticality class, and size relief for the worst credible case.</li>
+  </ol>
+  <div class="art-note"><b>On the plant</b><p>Ask for the raw curves, not only the summary table. A table that says &ldquo;onset 228 &deg;C, 650 J/g&rdquo; hides whether the exotherm was sharp, whether a melt came first, and whether the sample was in a sealed crucible. Five minutes with the trace answers most of the questions a HAZOP will ask.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Treating the DSC onset as a safe temperature.</li>
+    <li>Testing solvent-containing samples in open DSC pans.</li>
+    <li>Using ARC results without the phi-factor correction.</li>
+    <li>Ignoring gas generation because the heat looked small.</li>
+    <li>Testing only the pure product, not the reaction mixture, residues and mother liquors.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What does DSC onset temperature mean?</h3>
+  <p>The temperature where the DSC first detects the exotherm at its ramp rate. It is not a safe limit.</p>
+  <h3>What is the phi factor in ARC testing?</h3>
+  <p>1 + (m&middot;c<sub>p</sub>)<sub>bomb</sub>/(m&middot;c<sub>p</sub>)<sub>sample</sub>; ARC results must be corrected for it.</p>
+  <h3>What does an RC1 tell you that a DSC does not?</h3>
+  <p>Heat release rate, reaction heat and accumulation under real dosing, which give the MTSR.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/thermal-testing-dsc-arc-rc/' | relative_url }}">Thermal testing: DSC, ARC and RC1</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -1,0 +1,108 @@
+---
+layout: default
+title: "Consumption Norms and Cost per kg: From Lab Data to Plant Costing"
+description: "How to build consumption norms and cost per kg for a chemical or API process: molar and weight yield, raw material per kg of product, solvent consumption and recovery, conversion cost per batch, sensitivity to yield and recovery, and the gap between lab and plant numbers. Interactive cost build-up."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Consumption Norms and Cost per kg
+    url: /articles/consumption-norms-and-cost-per-kg/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Consumption Norms and Cost per kg: From Lab Data to Plant Costing",
+        "description": "Yield, consumption norms, solvent recovery, conversion cost, sensitivity and lab-to-plant differences.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is a consumption norm?", "acceptedAnswer": { "@type": "Answer", "text": "The quantity of each input needed per kilogram of finished product, for example 0.98 kg of starting material per kg, or 0.39 kg of toluene per kg. Norms are the basis for costing, purchasing and tracking plant performance." } },
+        { "@type": "Question", "name": "How is solvent consumption calculated?", "acceptedAnswer": { "@type": "Answer", "text": "Solvent consumed is the amount charged minus the amount recovered and reused, divided by the product made. 2,000 kg charged with 90 % recovery on 510 kg of product is 200 / 510 = 0.39 kg of solvent per kg of product." } },
+        { "@type": "Question", "name": "Which matters more for cost: yield or solvent recovery?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on the cost split. When raw materials dominate, as in most API steps, a few percent of yield is worth far more than a few percent of solvent recovery. In the example, 5 % more yield saves about 67 rupees per kg; 5 % more recovery saves about 18." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Consumption Norms and Cost per kg</h1>
+  <p class="article-meta">Process Design &middot; Costing &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Sooner or later every process engineer is asked: what will this cost per kilogram? The answer decides whether a product is launched, which route is chosen and where improvement effort goes. Building it is not difficult, but it needs care with yields, solvent recovery and the costs that come per batch rather than per kilogram. This article walks through it with a worked example.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#yield">Yield: molar and weight</a><span>Basics</span></li>
+    <li><a href="#norm">Consumption norms</a><span>Basics</span></li>
+    <li><a href="#build">Building the cost per kg</a><span>Working level</span></li>
+    <li><a href="#sens">Where the money really is</a><span>Working level</span></li>
+    <li><a href="#lab">Lab numbers vs plant numbers</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="yield">Yield: molar and weight <span class="lvl l1">Basics</span></h2>
+  <p>Chemists usually report <strong>molar yield</strong>: moles of product made per mole of limiting starting material, as a percentage. Costing usually needs <strong>weight yield</strong>: kilograms of product per kilogram of starting material. They differ by the ratio of molecular weights:</p>
+  <div class="formula-box">Weight yield = molar yield &times; (MW product / MW starting material) &times; stoichiometric ratio</div>
+  <p>A molar yield of 85 % on a reaction where the product weighs 1.2 times the starting material gives a weight yield of 1.02 kg/kg. Mixing the two up is one of the most common errors in early costing. Always say which you mean.</p>
+
+  <h2 id="norm">Consumption norms <span class="lvl l1">Basics</span></h2>
+  <p>A <strong>consumption norm</strong> is how much of each input is used per kilogram of finished product. For raw materials:</p>
+  <div class="formula-box">Norm (kg/kg) = quantity charged per batch / product per batch</div>
+  <p>For solvents, only the part that isn't recovered and reused counts:</p>
+  <div class="formula-box">Solvent norm = charged &times; (1 &minus; recovery fraction) / product per batch</div>
+  <p>Norms are also the best way to track a plant. A rising solvent norm points straight to a recovery or loss problem, before anyone looks at the cost report. The <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">material balance article</a> shows how to find where the losses are.</p>
+
+  <h2 id="build">Building the cost per kg <span class="lvl l2">Working level</span></h2>
+  <p>Take one stage. Per batch, charge 500 kg of starting material at &#8377;800/kg, 300 kg of reagent at &#8377;250/kg, and 2,000 kg of toluene at &#8377;90/kg with 90 % recovered. Theoretical output is 600 kg; at 85 % yield, 510 kg. Conversion cost (utilities, labour, maintenance, QC, effluent treatment and overheads) is about &#8377;1.2 lakh per batch.</p>
+  <ul>
+    <li>Raw materials: (500 &times; 800 + 300 &times; 250) / 510 = &#8377;931 per kg.</li>
+    <li>Solvent make-up: 2,000 &times; 0.10 &times; 90 / 510 = &#8377;35 per kg.</li>
+    <li>Conversion: 1,20,000 / 510 = &#8377;235 per kg.</li>
+    <li><strong>Total: about &#8377;1,202 per kg.</strong></li>
+  </ul>
+  <figure class="art-fig" data-fig="costkg">
+    <figcaption>Try it: move the yield and the solvent recovery and watch the cost per kg. All the numbers are illustrative, not from a real product.</figcaption>
+  </figure>
+  <p>For a multi-stage process, cost each stage this way and carry the cost of each intermediate into the next stage as its &ldquo;raw material&rdquo;. Losses in late stages are the most expensive, because the material lost has already absorbed the cost of every earlier stage.</p>
+
+  <h2 id="sens">Where the money really is <span class="lvl l2">Working level</span></h2>
+  <p>In this example, raw materials are about three-quarters of the cost. Raising the yield from 85 to 90 % cuts the cost to about &#8377;1,135 per kg, saving &#8377;67. Raising solvent recovery from 90 to 95 % saves only about &#8377;18. That pattern is typical of API and fine chemical steps with expensive starting materials: yield is worth far more than solvent.</p>
+  <p>The picture flips for cheap chemistry. In a bulk intermediate made from inexpensive raw materials in a lot of solvent, solvent loss and conversion cost can dominate. That's why the first step of any cost-reduction exercise is to draw the cost split, before choosing what to work on.</p>
+  <p>Conversion cost is per batch, so it falls with batch size and with more batches per week. Debottlenecking (see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">batch cycle time</a>) reduces cost per kg even when nothing about the chemistry changes, because fixed costs are spread over more product.</p>
+  <div class="art-note"><b>On the plant</b><p>When a cost report shows a variance, separate it into price (we paid more per kg) and usage (we used more kg per kg of product). Only usage variance is the plant's to fix, and the consumption norms tell you exactly which input it comes from.</p></div>
+
+  <h2 id="lab">Lab numbers vs plant numbers <span class="lvl l3">Going deeper</span></h2>
+  <p>Costing from lab data almost always comes out too optimistic. The usual gaps:</p>
+  <ul>
+    <li><strong>Yield:</strong> plants lose a few percent to hold-up in reactors, lines, filters and dryers, to fines through the filter cloth, and to longer hold times. A lab yield of 90 % often becomes 85&ndash;87 % in the first plant campaigns.</li>
+    <li><strong>Solvent:</strong> the lab rarely recovers solvent at all, so the recovery percentage is a guess. Base it on similar processes in the plant and on whether the recovered solvent meets the specification for reuse (water content, impurities, azeotropes).</li>
+    <li><strong>Excess reagents and extra washes</strong> added during scale-up to make the plant robust.</li>
+    <li><strong>Rework and failed batches:</strong> include an allowance until the process has a track record.</li>
+    <li><strong>Effluent and waste disposal:</strong> the cost of treating the aqueous layer and disposing of residues can be significant, and it grows with solvent and salt loads.</li>
+  </ul>
+  <p>Good practice is to give a range rather than a single number: a lab-based estimate, a realistic plant estimate, and the cost at the target yield after optimisation. That range tells management both what the product costs today and what it could cost.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Using molar yield where weight yield is needed.</li>
+    <li>Counting total solvent charged instead of solvent consumed.</li>
+    <li>Leaving out conversion and effluent costs.</li>
+    <li>Optimising solvent recovery when yield is where the money is.</li>
+    <li>Presenting lab-based cost as the plant cost.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a consumption norm?</h3>
+  <p>The quantity of each input used per kg of finished product, the basis of costing and plant tracking.</p>
+  <h3>How is solvent consumption calculated?</h3>
+  <p>Charged minus recovered, divided by product: 2,000 kg at 90 % recovery on 510 kg is 0.39 kg/kg.</p>
+  <h3>Which matters more: yield or solvent recovery?</h3>
+  <p>Where raw materials dominate, yield. In the example, 5 % yield is worth about &#8377;67/kg; 5 % recovery about &#8377;18/kg.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+    <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time and debottlenecking</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

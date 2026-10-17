@@ -1,0 +1,123 @@
+---
+layout: default
+title: "Dust Explosions in Pharma and Chemical Plants: The Pentagon, Kst and Controls"
+description: "Dust explosions from the basics: the explosion pentagon, which powders can explode, Kst and Pmax, minimum ignition energy of dusts, hybrid mixtures with solvent, secondary explosions, zoning and the controls that work: housekeeping, inerting, venting, suppression and isolation. Interactive dust explosion pentagon."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Dust Explosions
+    url: /articles/dust-explosions/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Dust Explosions in Pharma and Chemical Plants: The Pentagon, Kst and Controls",
+        "description": "The explosion pentagon, Kst and Pmax, dust MIE, hybrid mixtures, secondary explosions, zoning and protection.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is Kst?", "acceptedAnswer": { "@type": "Answer", "text": "Kst is the dust deflagration index: the maximum rate of pressure rise in a standard 1 m3 test, normalised for volume, in bar.m/s. Dusts are classed St 1 (up to 200), St 2 (200 to 300) and St 3 (above 300). It is used to size explosion vents and suppression systems." } },
+        { "@type": "Question", "name": "What is a hybrid mixture?", "acceptedAnswer": { "@type": "Answer", "text": "A dust cloud combined with a flammable vapour, such as a solvent-wet powder being charged into a reactor or dried. Even vapour below its lower flammable limit can make the dust much easier to ignite and the explosion more violent, so hybrid mixtures must be treated as at least as hazardous as the vapour alone." } },
+        { "@type": "Question", "name": "What is a secondary dust explosion?", "acceptedAnswer": { "@type": "Answer", "text": "A small primary explosion inside equipment shakes loose dust layers from beams, ducts and floors, creating a large cloud that the flame then ignites. Secondary explosions cause most of the damage and deaths in major dust incidents, which is why housekeeping is a primary control." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Dust Explosions</h1>
+  <p class="article-meta">Process Safety &middot; Fire and Explosion &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Most people in a solvent plant respect solvent vapour, but treat powder as harmless: it is just the product, sitting in a bag. Yet many organic powders, APIs, intermediates, sugar and starch among them, explode as violently as a gas when they are dispersed as a cloud. This article explains when and why a dust explodes, how to read the test data, and the controls that actually protect a plant.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#how">How a powder can explode</a><span>Basics</span></li>
+    <li><a href="#pent">The explosion pentagon</a><span>Basics</span></li>
+    <li><a href="#data">Reading the test data: Kst, Pmax, MIE</a><span>Working level</span></li>
+    <li><a href="#hybrid">Hybrid mixtures: powder plus solvent</a><span>Working level</span></li>
+    <li><a href="#protect">Prevention and protection</a><span>Working level</span></li>
+    <li><a href="#secondary">Secondary explosions and Imperial Sugar</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="how">How a powder can explode <span class="lvl l1">Basics</span></h2>
+  <p>A lump of sugar burns slowly. Grind it to a fine powder and blow it into the air, and every particle is surrounded by oxygen with a huge surface area to react. A flame can then pass from particle to particle fast enough to build pressure inside equipment or a building: a dust explosion.</p>
+  <p>Roughly, any solid that can burn can explode as a dust if it is fine enough, typically below about 500 &micro;m, and especially below 100 &micro;m. That includes most organic chemicals, APIs, excipients, food powders, plastics and metal powders such as aluminium. Inert inorganic salts don't.</p>
+
+  <h2 id="pent">The explosion pentagon <span class="lvl l1">Basics</span></h2>
+  <p>A fire needs the three sides of the fire triangle: fuel, oxygen and ignition. A dust explosion needs two more: the dust must be <strong>dispersed</strong> as a cloud, and the cloud must be <strong>confined</strong> so pressure can build. Take away any one of the five and there is no explosion.</p>
+  <figure class="art-fig" data-fig="dustpent">
+    <figcaption>Try it: tap a side of the pentagon to remove it, and see how plants remove each one in practice.</figcaption>
+  </figure>
+  <p>Dispersion is what makes dust different from a vapour. A layer of powder on a floor is not an explosion hazard by itself; the same powder blown into the air is. That's why the places to worry about are where powder is airborne: inside mills, sieves, blenders, fluid bed dryers, cyclones, bag filters, pneumatic conveying, and at charging points where bags are emptied.</p>
+
+  <h2 id="data">Reading the test data: Kst, Pmax, MIE <span class="lvl l2">Working level</span></h2>
+  <p>A powder's explosion behaviour is measured in standard tests. The main numbers:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Property</th><th>What it means</th><th>Typical range</th></tr>
+    <tr><td>K<sub>St</sub> (bar&middot;m/s)</td><td>How violent the explosion is: maximum rate of pressure rise, normalised to volume</td><td>St 1: up to 200; St 2: 200&ndash;300; St 3: above 300</td></tr>
+    <tr><td>P<sub>max</sub> (bar g)</td><td>Highest pressure in a closed vessel</td><td>Usually 7&ndash;10 bar g</td></tr>
+    <tr><td>MIE (mJ)</td><td>Smallest spark that ignites the dust cloud</td><td>From below 3 mJ (very sensitive) to above 1,000 mJ</td></tr>
+    <tr><td>MIT (&deg;C)</td><td>Minimum ignition temperature of a cloud and of a 5 mm layer</td><td>Cloud often 400&ndash;600 &deg;C; layers much lower</td></tr>
+    <tr><td>LOC (% O<sub>2</sub>)</td><td>Oxygen below which the dust cannot explode</td><td>Often 9&ndash;14 % with nitrogen</td></tr>
+    <tr><td>MEC (g/m&sup3;)</td><td>Minimum explosible concentration</td><td>Often 30&ndash;125 g/m&sup3;</td></tr>
+  </table></div>
+  <p>Two points are worth remembering. A P<sub>max</sub> of 8 bar g will burst almost any ordinary process vessel, so &ldquo;containment&rdquo; means a vessel specifically designed for it. And the MIE decides how careful you must be with static: below about 10 mJ, a powder can be ignited by discharges from plastic bags and liners, so earthing and antistatic packaging become essential. See the <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity article</a>.</p>
+  <p>MEC values look high, far denser than any dust you'd stand in. That is true in a room, but inside a mill, cyclone or bag filter, concentrations above the MEC are normal.</p>
+
+  <h2 id="hybrid">Hybrid mixtures: powder plus solvent <span class="lvl l2">Working level</span></h2>
+  <p>Pharma and fine chemical plants have a special problem: powders that are wet with solvent, or charged into vessels containing solvent vapour. A dust cloud mixed with flammable vapour is a <strong>hybrid mixture</strong>. Even solvent vapour well below its LFL makes the dust far easier to ignite, often reducing the MIE to that of the solvent, and makes the explosion more violent. Practical rules:</p>
+  <ul>
+    <li>Charging powder into a reactor containing solvent: treat it as a solvent vapour hazard first, and inert the vessel. See <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and LOC</a>.</li>
+    <li>Drying solvent-wet product in a fluid bed: use nitrogen in a closed loop, not air, unless testing shows the hybrid mixture can't ignite.</li>
+    <li>Milling or sieving partly dried product: check residual solvent first.</li>
+  </ul>
+
+  <h2 id="protect">Prevention and protection <span class="lvl l2">Working level</span></h2>
+  <p><strong>Prevention</strong> stops an explosion starting:</p>
+  <ul>
+    <li><strong>Avoid clouds and layers:</strong> closed transfer systems, dust extraction at charging points, and housekeeping with industrial vacuum cleaners rated for combustible dust, never compressed air or brooms.</li>
+    <li><strong>Control ignition sources:</strong> earthing and bonding, Type C or D FIBCs, magnets and metal detectors ahead of mills, temperature limits for equipment surfaces, and hazardous area zoning (Zone 20, 21, 22 for dust) with suitably rated electrical equipment.</li>
+    <li><strong>Inert</strong> equipment where clouds are unavoidable and the dust is sensitive: mills, blenders, dryers.</li>
+  </ul>
+  <p><strong>Protection</strong> limits the damage when one does start:</p>
+  <ul>
+    <li><strong>Explosion venting:</strong> panels that open at low pressure and direct the flame and pressure to a safe place outdoors. Vent area is sized from K<sub>St</sub>, P<sub>max</sub> and vessel volume (NFPA 68, EN 14491).</li>
+    <li><strong>Flameless venting</strong> for equipment indoors where flame can't be vented outside.</li>
+    <li><strong>Suppression:</strong> pressure sensors detect the first milliseconds of an explosion and inject a suppressant powder.</li>
+    <li><strong>Isolation:</strong> fast-acting valves or chemical barriers that stop the explosion travelling through ducts to other equipment.</li>
+    <li><strong>Containment:</strong> equipment strong enough to withstand P<sub>max</sub>.</li>
+  </ul>
+
+  <h2 id="secondary">Secondary explosions and Imperial Sugar <span class="lvl l3">Going deeper</span></h2>
+  <p>A primary explosion inside equipment is often fairly small. But its pressure wave shakes loose dust settled on beams, ducts, cable trays and floors, raising a large cloud through the building, and the flame from the primary ignites it. This <strong>secondary explosion</strong> causes most of the deaths and damage in major dust incidents.</p>
+  <p>On 7 February 2008, at the Imperial Sugar refinery in Port Wentworth, Georgia, a primary explosion in a steel belt conveyor under the sugar silos set off secondary explosions that spread through the packing buildings. Fourteen workers died and dozens were injured. The US Chemical Safety Board found heavy accumulations of sugar dust on floors and elevated surfaces throughout the plant, a problem known for years. The board concluded that the disaster was preventable with proper housekeeping, equipment design and dust control.</p>
+  <p>A rule of thumb from NFPA guidance: a layer of dust about as thick as a paper clip (around 0.8 mm) over a significant fraction of a room's floor can fuel a damaging secondary explosion. If you can write your name in the dust on a beam, it is time to clean.</p>
+  <div class="art-note"><b>On the plant</b><p>Look up. Dust settles on the tops of ducts, light fittings and beams where nobody cleans, and that is the fuel for a secondary explosion. Add high-level cleaning to the housekeeping schedule with a frequency, an owner and a check.</p></div>
+  <p>For more on handling powders safely, see the <a href="{{ '/process-safety/dust-and-powder-hazards/' | relative_url }}">dust and powder hazards page</a>.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Assuming a powder is safe because it is &ldquo;just the product&rdquo;.</li>
+    <li>No dust explosion test data for products that are milled, sieved or fluid-bed dried.</li>
+    <li>Cleaning with compressed air, which creates the cloud.</li>
+    <li>Ignoring hybrid mixtures when charging powders into solvent.</li>
+    <li>Explosion vents that discharge into a work area or are blocked.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is K<sub>St</sub>?</h3>
+  <p>The dust deflagration index: St 1 up to 200, St 2 200&ndash;300, St 3 above 300 bar&middot;m/s. It sizes vents and suppression.</p>
+  <h3>What is a hybrid mixture?</h3>
+  <p>A dust cloud with flammable vapour. It ignites more easily and burns more violently than the dust alone.</p>
+  <h3>What is a secondary explosion?</h3>
+  <p>A primary blast raises settled dust into a cloud that then explodes, usually causing most of the damage.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/dust-and-powder-hazards/' | relative_url }}">Dust and powder hazards</a>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

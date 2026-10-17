@@ -1,0 +1,147 @@
+---
+layout: default
+title: "Work-up and Phase Separation at Scale: Settling, Emulsions and Rag Layers"
+description: "Liquid-liquid work-ups from the basics: why phases separate, Stokes settling and why plant settling takes longer, emulsions and rag layers and how to break them, interface detection, and designing a robust work-up for the plant. Interactive settling time calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Work-up and Phase Separation
+    url: /articles/workup-and-phase-separation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Work-up and Phase Separation at Scale: Settling, Emulsions and Rag Layers",
+        "description": "Phase separation, Stokes law, plant settling times, emulsions, rag layers, interface detection and work-up design.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does phase separation take longer in the plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Droplets must travel much further, often 1 to 2 m instead of 10 cm, and plant agitators can create smaller droplets. Settling velocity depends on droplet diameter squared, so smaller drops and longer distances combine into much longer settling times."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you break an emulsion?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Add brine to increase density difference, change pH or temperature, remove interface solids by filtration, add solvent to change density and viscosity, or use gentle agitation to help droplets coalesce."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a rag layer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A stable band of emulsion, often containing fine solids or surface-active species, that sits at the interface between two liquid phases and does not separate on standing."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Work-up and Phase Separation at Scale</h1>
+  <p class="article-meta">Scale-up &middot; Work-up &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">In the lab, you shake the separating funnel, wait a minute and run off the lower layer. In the plant, the same work-up can take hours to settle, leave a cloudy rag layer at the interface, and lose product down the drain with the aqueous layer. This article explains why, and how to make a work-up that separates cleanly at scale.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why two liquids separate</a><span>Basics</span></li>
+    <li><a href="#stokes">Settling: the Stokes law picture</a><span>Basics</span></li>
+    <li><a href="#emul">Emulsions and rag layers</a><span>Working level</span></li>
+    <li><a href="#break">Breaking an emulsion</a><span>Working level</span></li>
+    <li><a href="#plant">Running separations in the plant</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why two liquids separate <span class="lvl l1">Basics</span></h2>
+  <p>Water and an immiscible solvent such as toluene, ethyl acetate or MDC form two phases because they don't dissolve in each other (much). Mixing breaks one phase into droplets dispersed in the other. When mixing stops, droplets fall or rise according to density, meet, merge (coalesce) and form a continuous layer. Separation needs both steps: settling to bring droplets together, and coalescence to merge them.</p>
+
+  <h2 id="stokes">Settling: the Stokes law picture <span class="lvl l1">Basics</span></h2>
+  <div class="formula-box">v = g &times; d&sup2; &times; &Delta;&rho; / (18 &mu;)
+    <small>v settling velocity, d droplet diameter, &Delta;&rho; density difference between phases, &mu; viscosity of the continuous phase.</small></div>
+  <p>Droplet size counts most, because it is squared. With a toluene-water density difference of about 130 kg/m&sup3; and a water-like viscosity:</p>
+  <ul>
+    <li>100 &micro;m droplets settle at about 0.7 mm/s: 2&ndash;3 minutes across a 10 cm separating funnel, but about 35 minutes across a 1.5 m plant reactor.</li>
+    <li>30 &micro;m droplets take about 26 minutes in the funnel and over 6 hours in the plant.</li>
+  </ul>
+  <p>That is the scale-up problem: settling distance grows 15-fold, and plant agitators often make smaller droplets than a hand-shaken funnel.</p>
+  <figure class="art-fig" data-fig="settle">
+    <figcaption>Try it: change the droplet size, density difference and viscosity and compare settling time in a lab flask and a plant reactor.</figcaption>
+  </figure>
+
+  <h2 id="emul">Emulsions and rag layers <span class="lvl l2">Working level</span></h2>
+  <p>An <strong>emulsion</strong> forms when droplets are stabilised against coalescing. A <strong>rag layer</strong> is a band of emulsion, often with fine solids, that sits at the interface and won't resolve. Common causes:</p>
+  <ul>
+    <li>Fine solids (catalyst fines, inorganic salts, polymeric by-products) collecting at the interface.</li>
+    <li>Surface-active species: amphiphilic intermediates, soaps formed at high pH, residual surfactant.</li>
+    <li>Small density difference: MDC with heavy brine, or solvents close to water's density.</li>
+    <li>Over-mixing: high-speed agitation before settling makes very fine droplets.</li>
+    <li>A pH near the pK<sub>a</sub> of the product, where it partitions into both phases.</li>
+  </ul>
+
+  <h2 id="break">Breaking an emulsion <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Add salt (brine):</strong> increases the density difference and reduces the solubility of organics in water.</li>
+    <li><strong>Change pH</strong> away from the problem range, or adjust temperature (viscosity falls and solubilities change).</li>
+    <li><strong>Filter</strong> the mixture through a filter aid to remove interface solids, often the real cause.</li>
+    <li><strong>Add more solvent</strong> or a different co-solvent to change density and viscosity.</li>
+    <li><strong>Wait, gently:</strong> slow agitation helps droplets meet; no agitation at all can leave them suspended.</li>
+  </ul>
+  <p>Test these in the lab on a plant sample before the campaign, and write the chosen remedy into the batch record.</p>
+
+  <h2 id="plant">Running separations in the plant <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Mix enough, not more:</strong> extraction needs contact, but not violent mixing. Lower the agitator speed for extractions, and reduce it further before stopping.</li>
+    <li><strong>Specify settling time</strong> from plant experience, not from the lab funnel.</li>
+    <li><strong>See the interface:</strong> a sight glass on the bottom outlet line, conductivity probes (water conducts, most solvents don't) or a capacitance probe. Run the lower layer slowly as the interface approaches.</li>
+    <li><strong>Decide where the rag goes:</strong> keep it with the product layer, send it to a separate drum, or recycle it to the next batch. Decide in advance, not at 3 a.m.</li>
+    <li><strong>Check losses:</strong> analyse the aqueous layer for product. A few percent of product in a large aqueous volume is a big yield loss.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Take a sample from the reactor at the end of mixing and watch it settle in a measuring cylinder. If it takes 10 minutes in a 30 cm cylinder, you can expect roughly 50 minutes or more in a 1.5 m reactor, and you know before you start draining.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Copying the lab settling time into the plant batch record.</li>
+    <li>Mixing extractions at full agitator speed.</li>
+    <li>Ignoring interface solids as the cause of a rag layer.</li>
+    <li>Draining the lower layer fast as the interface approaches.</li>
+    <li>Not checking the aqueous layer for product loss.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why does phase separation take longer in the plant?</h3>
+  <p>Longer settling distances and often smaller droplets; settling velocity goes with d&sup2;.</p>
+  <h3>How do you break an emulsion?</h3>
+  <p>Brine, pH or temperature change, filtering out solids, more solvent, gentle agitation.</p>
+  <h3>What is a rag layer?</h3>
+  <p>A stable emulsion band at the interface, often stabilised by fine solids.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

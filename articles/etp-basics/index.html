@@ -1,0 +1,138 @@
+---
+layout: default
+title: "Effluent Treatment Plant (ETP) Basics for Pharma and Chemical Plants"
+description: "Effluent treatment for pharma and chemical plants from the basics: COD, BOD, TDS and the BOD/COD ratio, stream segregation, stripping, MEE and ATFD for high-TDS streams, biological treatment, tertiary treatment, zero liquid discharge and typical discharge limits. Interactive COD reduction chart."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: ETP Basics
+    url: /articles/etp-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Effluent Treatment Plant (ETP) Basics for Pharma and Chemical Plants",
+        "description": "COD, BOD, TDS, segregation, MEE and ATFD, biological and tertiary treatment, ZLD and discharge limits.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between COD and BOD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "COD measures the oxygen needed to oxidise all organic matter chemically; BOD measures the oxygen bacteria consume to break down the biodegradable part over a set time. BOD/COD shows how biodegradable the effluent is."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is an MEE?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A multiple effect evaporator: a series of evaporators where vapour from one effect heats the next, so each kg of steam evaporates several kg of water. It concentrates high-TDS effluent before drying in an ATFD."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does zero liquid discharge mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No liquid effluent leaves the site: treated water is recycled, and dissolved salts are recovered as solid waste through evaporation and drying."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Effluent Treatment Basics</h1>
+  <p class="article-meta">Plant Engineering &middot; Environment &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Pharmaceutical effluent is difficult: high COD, high salt, residual solvents and compounds that bacteria don’t like to eat. Treating it all together usually fails. Treating it well starts long before the ETP, with knowing which stream is which. This article explains the key parameters, the treatment steps, and why segregation is the most important design decision.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#params">The numbers that describe effluent</a><span>Basics</span></li>
+    <li><a href="#seg">Segregation: the first decision</a><span>Basics</span></li>
+    <li><a href="#high">High-COD and high-TDS streams</a><span>Working level</span></li>
+    <li><a href="#bio">Biological treatment</a><span>Working level</span></li>
+    <li><a href="#zld">Tertiary treatment and ZLD</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="params">The numbers that describe effluent <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>COD</strong> (chemical oxygen demand): the oxygen needed to oxidise everything organic chemically, in mg/L. The overall organic load.</li>
+    <li><strong>BOD</strong> (biochemical oxygen demand, usually 3 days at 27 &deg;C in India): the oxygen bacteria use to eat the organics. The biodegradable part.</li>
+    <li><strong>BOD/COD ratio:</strong> above about 0.4, the effluent is reasonably biodegradable; below about 0.2, biology alone won't do much.</li>
+    <li><strong>TDS</strong> (total dissolved solids): salts from neutralisations and work-ups. High TDS, above roughly 1&ndash;2 %, inhibits normal biological treatment.</li>
+    <li><strong>pH, TSS, oil and grease, ammoniacal nitrogen</strong> and specific toxic compounds.</li>
+  </ul>
+  <p>Typical general discharge standards for inland surface water in India include COD 250 mg/L, BOD 30 mg/L, TSS 100 mg/L and pH 5.5&ndash;9, but the consent conditions for each site set the actual limits, and many pharma sites must achieve zero liquid discharge.</p>
+
+  <h2 id="seg">Segregation: the first decision <span class="lvl l1">Basics</span></h2>
+  <p>A small volume of mother liquor or aqueous layer can carry most of a site's COD and salt. Mixing it with large volumes of washings dilutes the concentration, but not the load, and turns it into a big stream that is hard to treat. Separate streams at the source:</p>
+  <ul>
+    <li><strong>High-COD / high-TDS:</strong> aqueous layers, mother liquors, scrubber blowdowns. Send to stripping and evaporation.</li>
+    <li><strong>Low-COD / low-TDS:</strong> equipment washings, utility blowdowns, floor washings. Send to biological treatment.</li>
+  </ul>
+  <p>Collect high-strength streams in separate, labelled tanks with an analysis for each batch. The <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">material balance</a> of each process tells you in advance what each stream carries.</p>
+
+  <h2 id="high">High-COD and high-TDS streams <span class="lvl l2">Working level</span></h2>
+  <ol>
+    <li><strong>Solvent stripping:</strong> a steam stripper removes volatile solvents, recovering them and cutting COD. A few percent of methanol in an aqueous stream can be a large share of its COD.</li>
+    <li><strong>Neutralisation and pre-treatment:</strong> pH adjustment, removal of oil and suspended solids.</li>
+    <li><strong>Multiple effect evaporator (MEE):</strong> evaporates the water using steam several times over; a four-effect MEE typically evaporates around 3&ndash;3.5 kg of water per kg of steam. The condensate goes to biological treatment or reuse.</li>
+    <li><strong>Agitated thin film dryer (ATFD):</strong> dries the MEE concentrate to a solid salt, which goes to a hazardous waste facility.</li>
+  </ol>
+
+  <h2 id="bio">Biological treatment <span class="lvl l2">Working level</span></h2>
+  <p>Low-strength streams and MEE condensate go through a conventional sequence: equalisation (to even out swings in flow and composition), neutralisation, primary clarification, aeration (activated sludge or MBBR) and secondary clarification. Bacteria need steady conditions: sudden slugs of solvent, high salt or toxic compounds kill the biomass, and recovery takes weeks. Equalisation and stream control protect them.</p>
+  <figure class="art-fig" data-fig="etp">
+    <figcaption>Try it: change the inlet COD and biodegradability (BOD/COD) and see whether the treated effluent meets a 250 mg/L COD limit. A rough model, but it shows why low-BOD/COD streams need segregation.</figcaption>
+  </figure>
+
+  <h2 id="zld">Tertiary treatment and ZLD <span class="lvl l3">Going deeper</span></h2>
+  <p>After biology, tertiary steps polish the water: pressure sand filters, activated carbon, sometimes ozonation, and ultrafiltration plus reverse osmosis for reuse. In a <strong>zero liquid discharge</strong> scheme, RO permeate is reused as cooling tower or boiler feed make-up, and the RO reject goes back to the MEE, so no liquid leaves the site.</p>
+  <p>ETP operating cost is dominated by steam for the MEE and ATFD, power for aeration, chemicals and hazardous solid disposal. The cheapest reduction is at source: recover solvents better, reduce salt by choosing reagents and work-ups carefully, and keep high-strength streams small.</p>
+  <div class="art-note"><b>On the plant</b><p>Track COD load (kg/day), not just concentration. A process change that halves water use while keeping the same load doubles the concentration and looks alarming, but is often good for the ETP. A change that keeps concentration constant but doubles volume is the one to worry about.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Mixing high-strength mother liquors with large washing streams.</li>
+    <li>Sending high-TDS effluent straight to biological treatment.</li>
+    <li>Ignoring solvent content as a source of COD.</li>
+    <li>Shock loading the aeration tank.</li>
+    <li>Watching concentration instead of load.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between COD and BOD?</h3>
+  <p>COD is all oxidisable organics; BOD is the biodegradable part.</p>
+  <h3>What is an MEE?</h3>
+  <p>A multi-stage evaporator that reuses vapour, evaporating several kg of water per kg of steam.</p>
+  <h3>What does zero liquid discharge mean?</h3>
+  <p>No liquid leaves the site; water is reused and salts leave as solids.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">Water and power utilities</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

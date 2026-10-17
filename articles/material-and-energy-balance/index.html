@@ -1,0 +1,119 @@
+---
+layout: default
+title: "Material and Energy Balance for Batch Plants: A Practical Guide"
+description: "Material and energy balances from the basics: the conservation idea, choosing the boundary, a batch mass balance with closure and unaccounted losses, component balances for solvents, and a batch energy balance for distillation steam and cooling water. Interactive mass balance."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Material and Energy Balance
+    url: /articles/material-and-energy-balance/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Material and Energy Balance for Batch Plants: A Practical Guide",
+        "description": "Boundaries, batch mass balance, closure, component balances for solvents and a batch energy balance for distillation.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is mass balance closure?", "acceptedAnswer": { "@type": "Answer", "text": "Closure is total measured outputs divided by total inputs, as a percentage. A well-measured batch closes within about 97 to 103 %. A lower closure means streams are missing or mismeasured, often vent losses, hold-up in equipment or unrecorded washes." } },
+        { "@type": "Question", "name": "How do you calculate steam needed for a distillation?", "acceptedAnswer": { "@type": "Answer", "text": "Add the sensible heat to bring the batch to boiling and the latent heat of the solvent distilled, then divide by the latent heat of steam at the jacket pressure (about 2,100 kJ/kg at 3 to 4 barg) and add 10 to 15 % for losses. Distilling 1,850 kg of toluene needs roughly 360 kg of steam." } },
+        { "@type": "Question", "name": "Why does a component balance matter more than a total balance?", "acceptedAnswer": { "@type": "Answer", "text": "A total balance can close while individual components do not, because errors cancel. A component balance on the solvent, the product or water shows exactly where each is lost, which is what you need to reduce consumption." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Material and Energy Balance for Batch Plants</h1>
+  <p class="article-meta">Plant Engineering &middot; Fundamentals &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Every chemical engineer learns material balances in the first year, then meets a real plant where the numbers never add up. 3,800 kg go into the reactor and only 3,670 kg come out the other end, and nobody can say where the rest went. Those missing kilograms are money, solvent emissions and sometimes a safety problem. This article shows how to do a balance that is useful on a real batch plant, and how to find what is missing.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea: what goes in comes out</a><span>Basics</span></li>
+    <li><a href="#boundary">Draw the boundary first</a><span>Basics</span></li>
+    <li><a href="#batch">A batch mass balance</a><span>Working level</span></li>
+    <li><a href="#comp">Component balances: following the solvent</a><span>Working level</span></li>
+    <li><a href="#energy">The energy balance of a distillation</a><span>Working level</span></li>
+    <li><a href="#missing">Finding the missing kilograms</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="idea">The idea: what goes in comes out <span class="lvl l1">Basics</span></h2>
+  <p>Mass is conserved. For any part of a plant over any period:</p>
+  <div class="formula-box">In &minus; Out + Generated &minus; Consumed = Accumulated</div>
+  <p>For total mass, nothing is generated or consumed by a chemical reaction, so for a complete batch (empty to empty) the balance is simply <strong>In = Out</strong>. For a single chemical, reactions do create and destroy it, so its balance needs the generation and consumption terms from the stoichiometry. Energy follows the same rule: heat in from steam, plus heat released by reaction, equals heat out to cooling water and surroundings, plus the change in the batch's own heat content.</p>
+
+  <h2 id="boundary">Draw the boundary first <span class="lvl l1">Basics</span></h2>
+  <p>Most balance arguments are really arguments about the boundary. Before writing any numbers, draw a box on the process flow diagram and decide:</p>
+  <ul>
+    <li><strong>What is inside:</strong> one reactor, a whole stage, or the whole plant?</li>
+    <li><strong>Over what period:</strong> one batch, a campaign, a month? Monthly balances smooth out batch-to-batch hold-up.</li>
+    <li><strong>Every stream crossing the line:</strong> raw materials, solvents, washes, nitrogen, water, steam condensate, vents, samples, effluent, product, residues.</li>
+  </ul>
+  <p>The streams people forget are almost always the small ones crossing the boundary sideways: the line wash, the sample, the vent to the scrubber, the water used to rinse the filter.</p>
+
+  <h2 id="batch">A batch mass balance <span class="lvl l2">Working level</span></h2>
+  <p>Take a reaction stage. Into the reactor go 500 kg of starting material, 300 kg of reagent, 400 kg of caustic lye, 2,000 kg of toluene and 600 kg of water: 3,800 kg in total. Out come 520 kg of dry product, 1,850 kg of recovered toluene, 1,160 kg of aqueous layer to the ETP and 140 kg of distillation residue: 3,670 kg.</p>
+  <div class="formula-box">Closure = total out / total in &times; 100 = 3,670 / 3,800 = 96.6 %
+    <small>130 kg unaccounted per batch.</small></div>
+  <p>A batch balance closing within about 97&ndash;103 % is good, given weighing and level-gauge accuracy. Below that, something is being missed or lost.</p>
+  <figure class="art-fig" data-fig="mbal">
+    <figcaption>Try it: change how much toluene is recovered and how much dry product is made. Watch the unaccounted gap and the closure. Better toluene recovery closes most of the gap here; the rest is in the product and the aqueous layer.</figcaption>
+  </figure>
+
+  <h2 id="comp">Component balances: following the solvent <span class="lvl l2">Working level</span></h2>
+  <p>A total balance can close even when individual components don't, because errors cancel. To reduce consumption you need a balance on each important component, and toluene is the obvious one here:</p>
+  <ul>
+    <li>In: 2,000 kg charged (fresh plus recovered).</li>
+    <li>Out: 1,850 kg recovered, plus toluene dissolved in the aqueous layer (toluene's solubility in water is about 0.05 %, so under 1 kg), plus toluene in the wet cake before drying, plus toluene in the residue, plus vapour lost through vents and vacuum.</li>
+  </ul>
+  <p>Analyse each stream: GC on the aqueous layer and residue, LOD and GC on the wet cake, and a vent estimate from the condenser outlet temperature (see the <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems article</a>). Usually the balance points to two or three streams that hold most of the loss. In my experience they are vacuum and vent losses, the wet cake going to the dryer, and the residue.</p>
+  <p>Do the same for the product: dissolved in the mother liquor, left in the reactor and lines, lost as fines through the filter cloth, and degraded in the dryer. Product losses usually cost more than solvent losses.</p>
+
+  <h2 id="energy">The energy balance of a distillation <span class="lvl l2">Working level</span></h2>
+  <p>Energy balances answer questions like &ldquo;how much steam does this distillation need?&rdquo; and &ldquo;is the condenser big enough?&rdquo;.</p>
+  <div class="formula-box">
+    Heat needed = m<sub>batch</sub> &times; c<sub>p</sub> &times; (T<sub>boil</sub> &minus; T<sub>start</sub>) + m<sub>distilled</sub> &times; &lambda;<sub>solvent</sub><br>
+    Steam = heat needed / &lambda;<sub>steam</sub> &times; (1 + losses)
+  </div>
+  <p>Distilling 1,850 kg of toluene (&lambda; &asymp; 360 kJ/kg at atmospheric pressure) takes 1,850 &times; 360 &asymp; 666 MJ of latent heat. With steam at about 3.5 barg (&lambda; &asymp; 2,130 kJ/kg) that is 313 kg of steam, plus roughly 10&ndash;15 % for losses and heating the vessel: about 360 kg. Add the sensible heat to bring the batch up to boiling if it starts cold.</p>
+  <p>The condenser has to remove the same 666 MJ. With cooling water warming by 8 &deg;C: 666,000 / (4.18 &times; 8) &asymp; 19,900 kg, about 20 m&sup3; of cooling water per batch. If the distillation runs over 4 hours, that is a 46 kW average load, with a higher peak at the start. The <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">heat exchanger article</a> shows how to check the condenser area, and the <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">steam article</a> how to put a price on the steam.</p>
+  <div class="art-note"><b>On the plant</b><p>Compare the calculated steam with the steam flow meter, if there is one. A large gap usually means wet steam, a failed trap passing live steam, or an uninsulated vessel top. The balance turns a vague &ldquo;steam consumption is high&rdquo; into a specific number to investigate.</p></div>
+
+  <h2 id="missing">Finding the missing kilograms <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li><strong>Check the measurements.</strong> Load cells drift; level gauges on agitated, foaming or jacketed vessels are often several percent out; drum weights are sometimes assumed rather than weighed. Calibrate before chasing losses.</li>
+    <li><strong>Check hold-up.</strong> A batch balance is only exact from empty to empty. Material left in the reactor, filter, lines and dryer from one batch shows up in the next. Use campaign balances to average it out.</li>
+    <li><strong>List the unrecorded streams.</strong> Line washes, filter washes, samples, spillage, nitrogen sweeping vapour to the vent.</li>
+    <li><strong>Look at the vents.</strong> Every vessel that breathes during charging, heating or nitrogen purging carries solvent vapour out. With nitrogen sweeping a warm vessel, the loss can be tens of kilograms per batch.</li>
+    <li><strong>Look at the chemistry.</strong> Gas given off (CO<sub>2</sub>, HCl, SO<sub>2</sub>) leaves the balance through the scrubber and must be counted as an output.</li>
+  </ol>
+  <p>A good balance also has a safety benefit. Material that is &ldquo;unaccounted&rdquo; is somewhere: in the air of the plant, in the ETP, or building up in a vessel. A persistent gap in a toxic or flammable component deserves an investigation, not a correction factor.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Starting with numbers before agreeing the boundary.</li>
+    <li>Balancing total mass and never balancing the components.</li>
+    <li>Forgetting gases given off by the reaction.</li>
+    <li>Treating a 5 % gap as &ldquo;normal losses&rdquo; year after year.</li>
+    <li>Estimating steam from the latent heat alone, without the losses and sensible heat.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is mass balance closure?</h3>
+  <p>Total outputs divided by total inputs. A good batch closes within about 97&ndash;103 %.</p>
+  <h3>How do you calculate steam for a distillation?</h3>
+  <p>Sensible plus latent heat, divided by the latent heat of steam, plus 10&ndash;15 % for losses. 1,850 kg of toluene needs about 360 kg of steam.</p>
+  <h3>Why do component balances matter?</h3>
+  <p>Errors cancel in a total balance. Component balances show where each material is actually lost.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

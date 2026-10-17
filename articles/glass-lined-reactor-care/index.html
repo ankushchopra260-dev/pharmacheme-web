@@ -1,0 +1,137 @@
+---
+layout: default
+title: "Glass-Lined Reactor Care: Thermal Shock, Chemical Limits, Spark Testing and Repairs"
+description: "How to look after glass-lined reactors: how the glass lining works, thermal shock and temperature limits, mechanical damage, chemical attack by hot alkali, HF and phosphoric acid, electrostatic damage, spark testing and inspection, and repairs with tantalum and PTFE. Interactive safe-or-risky exercise."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Glass-Lined Reactor Care
+    url: /articles/glass-lined-reactor-care/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Glass-Lined Reactor Care: Thermal Shock, Chemical Limits, Spark Testing and Repairs",
+        "description": "Glass lining, thermal shock, mechanical and chemical damage, electrostatic damage, inspection and repair.",
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        },
+        "datePublished": "2026-10-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What causes thermal shock in glass-lined reactors?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A sudden temperature difference between the glass and the steel, from charging hot or cold liquids, switching jacket utilities abruptly or spraying cold water on hot glass. It puts the glass into tension and can crack it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What chemicals damage glass lining?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrofluoric acid and fluorides, hot concentrated phosphoric acid, and alkaline solutions, especially hot ones. Most other acids are handled very well."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is spark testing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A high-voltage test that passes a brush electrode over the glass surface; a spark jumps to the steel wherever there is a pinhole or crack, showing defects before corrosion begins."
+            }
+          }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Glass-Lined Reactor Care</h1>
+  <p class="article-meta">Plant Engineering &middot; Equipment Care &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A glass-lined reactor costs a lot, takes months to replace, and can be ruined in seconds by a dropped spanner or a blast of steam into a cold jacket. Yet it will last decades if a handful of rules are followed. This article explains how the lining works, what damages it, and how to inspect and repair it.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">How a glass lining works</a><span>Basics</span></li>
+    <li><a href="#therm">Thermal shock</a><span>Basics</span></li>
+    <li><a href="#mech">Mechanical and chemical damage</a><span>Working level</span></li>
+    <li><a href="#static">Electrostatic damage</a><span>Working level</span></li>
+    <li><a href="#inspect">Inspection and repair</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">How a glass lining works <span class="lvl l1">Basics</span></h2>
+  <p>A glass-lined reactor is a carbon steel vessel with a layer of special glass, typically about 1&ndash;2 mm thick, fused onto the inside at high temperature. The glass is applied so that it is held in compression by the steel as they cool; glass is very strong in compression and weak in tension. Anything that puts the glass in tension, such as a sudden temperature change, an impact or flexing of the steel, can crack or chip it. Once the glass is breached, the process liquid reaches the steel and corrodes it quickly.</p>
+
+  <h2 id="therm">Thermal shock <span class="lvl l1">Basics</span></h2>
+  <p>Glass and steel expand at different rates. A sudden temperature difference between the glass surface and the steel behind it creates stress in the glass. Manufacturers publish charts of the allowable temperature difference, which depend on the vessel temperature and on whether you are heating or cooling. Typical dangerous situations:</p>
+  <ul>
+    <li>Charging cold liquid into a hot empty vessel, or hot liquid into a cold one.</li>
+    <li>Switching the jacket from steam straight to brine, or brine to steam.</li>
+    <li>Spraying cold wash water onto a hot wall.</li>
+  </ul>
+  <p>Ramp the jacket temperature in steps, clamp the jacket set point within the allowed difference in the DCS, and drain the jacket between utilities. See <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">jacket design</a>.</p>
+  <figure class="art-fig" data-fig="quiz">
+    <script type="application/json">{"a":["Safe practice","Risky"],"q":[["Charging cold solvent into a reactor still at 120 °C after a distillation.",1,"A large, sudden temperature difference on hot glass. Cool the vessel first, or charge slowly within the manufacturer's limits."],["Ramping the jacket from 20 to 80 °C over 30 minutes through the DCS.",0,"Controlled heating within the allowed temperature difference."],["Switching the jacket from steam directly to brine to speed up crystallisation.",1,"Thermal shock and possible water hammer. Drain, cool with water first, then brine."],["Using a plastic scraper and a nylon brush to clean the vessel wall.",0,"Non-metallic tools avoid chipping the glass."],["Washing out the reactor with hot 30 % caustic.",1,"Hot alkali dissolves glass. Use the manufacturer's limits for pH and temperature."],["Filling a toluene batch through a top nozzle at high velocity, onto the glass wall.",1,"Non-conductive solvent and a non-conductive lining can build static charge that punctures the glass. Use a dip pipe and earthed probes or conductive glass where needed."],["Spark testing the lining at the manufacturer's recommended voltage during the annual shutdown.",0,"Finds pinholes before the steel corrodes. Too high a voltage can damage good glass, so follow the recommended value."],["Lowering a metal sample thief through the manhole on a chain.",1,"Metal objects chip the glass. Use PTFE or glass sampling devices and protect the manhole rim."]]}</script>
+    <figcaption>Try it: safe practice or risky? Eight everyday situations around a glass-lined reactor.</figcaption>
+  </figure>
+
+  <h2 id="mech">Mechanical and chemical damage <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Impact:</strong> dropped tools, sample thieves, scrapers, solids charged from height. Use protective covers on the manhole and non-metallic tools.</li>
+    <li><strong>Agitator problems:</strong> a bent shaft or worn bearing lets the impeller strike the wall or baffle. Check runout after maintenance.</li>
+    <li><strong>External damage:</strong> welding on the outside of the jacket or nozzles destroys the glass behind it. Never weld on a glass-lined vessel.</li>
+    <li><strong>Chemicals:</strong> glass resists almost all acids, but is attacked by hydrofluoric acid and fluorides, hot concentrated phosphoric acid, and alkali, increasingly so with temperature and pH. Prolonged boiling water also slowly attacks glass.</li>
+  </ul>
+
+  <h2 id="static">Electrostatic damage <span class="lvl l2">Working level</span></h2>
+  <p>Glass is an insulator. When non-conductive liquids such as toluene or heptane are stirred, filtered or sprayed into a glass-lined vessel, charge can build up on the glass surface until it discharges through the lining to the steel, leaving a pinhole. It is also an ignition risk. Remedies include conductive glass, earthed tantalum or PTFE-coated probes in contact with the liquid, slower filling through dip pipes, and adding conductive solvents where the process allows. See <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity</a>.</p>
+
+  <h2 id="inspect">Inspection and repair <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Visual inspection</strong> at every opportunity: chips, dull or rough patches (chemical attack), rust stains (breach).</li>
+    <li><strong>Spark (holiday) testing:</strong> a high-voltage brush passed over the glass shows sparks where there is a pinhole or crack to the steel. Use the voltage recommended by the manufacturer for the glass thickness.</li>
+    <li><strong>Thickness measurement</strong> of the glass with a magnetic gauge shows gradual chemical wear.</li>
+    <li><strong>Repairs:</strong> small defects are sealed with tantalum plugs and screws or tantalum patches, with PTFE gaskets; larger areas with repair cements or sleeves. Repairs are compatible with fewer chemicals than the original glass, so note them in the vessel history and check every new product against them.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Keep a simple logbook for each glass-lined vessel: spark test results, repairs and their locations, and any thermal or mechanical incident. When a new product is planned for that reactor, the logbook tells you whether its chemistry will attack the old repairs.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Steam straight into the jacket of a cold vessel, or brine into a hot one.</li>
+    <li>Metal tools and sample thieves inside the vessel.</li>
+    <li>Hot caustic cleaning.</li>
+    <li>Welding on the jacket or nozzles.</li>
+    <li>Ignoring static with non-conductive solvents.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What causes thermal shock in glass-lined reactors?</h3>
+  <p>A sudden temperature difference between glass and steel, which puts the glass into tension.</p>
+  <h3>What chemicals damage glass lining?</h3>
+  <p>HF and fluorides, hot concentrated phosphoric acid, and hot alkali.</p>
+  <h3>What is spark testing?</h3>
+  <p>A high-voltage test that sparks through pinholes to show defects.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/materials-of-construction/' | relative_url }}">Materials of construction</a>
+    <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">Jacket and limpet coil design</a>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>
