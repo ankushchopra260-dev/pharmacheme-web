@@ -7580,6 +7580,14 @@ function updateEquipmentHighlight(){
 }
 
 init();
+// Embedded on the home page (?embed=1): hide the side panel and start the fly-through so the plant is live straight away.
+(function(){
+  if (!/[?&]embed=1/.test(location.search)) return;
+  document.body.classList.add('pt-embed');
+  try { setSidebarCollapsed(true, false); } catch(e) {}
+  window.addEventListener('load', function(){ setTimeout(function(){ try { startCinematic('fly'); } catch(e) {} }, 1200); });
+})();
 </script>
+<style>body.pt-embed #sidebar-toggle-btn, body.pt-embed #sidebar-backdrop { display:none; }</style>
 </body>
 </html>
