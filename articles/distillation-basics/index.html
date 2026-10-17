@@ -1,0 +1,136 @@
+---
+layout: default
+title: "Distillation Basics: Relative Volatility, Reflux Ratio and Theoretical Stages"
+description: "Distillation from the basics: vapour-liquid equilibrium, relative volatility, what a theoretical stage is, McCabe-Thiele, minimum reflux and minimum stages (Fenske), choosing the reflux ratio, tray efficiency and packing HETP, and batch distillation in pharma plants. Interactive McCabe-Thiele diagram."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Distillation Basics
+    url: /articles/distillation-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Distillation Basics: Relative Volatility, Reflux Ratio and Theoretical Stages",
+        "description": "Vapour-liquid equilibrium, relative volatility, theoretical stages, McCabe-Thiele, minimum reflux, Fenske, reflux ratio and batch distillation.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is relative volatility?", "acceptedAnswer": { "@type": "Answer", "text": "Relative volatility (alpha) is how much more the light component prefers the vapour than the heavy component. For an ideal mixture it is roughly the ratio of the two vapour pressures. Above about 2 the separation is easy; below about 1.2 it is hard and expensive." } },
+        { "@type": "Question", "name": "What is the minimum reflux ratio?", "acceptedAnswer": { "@type": "Answer", "text": "The lowest reflux ratio at which the separation is possible at all, needing an infinite number of stages. Practical columns run at about 1.2 to 1.5 times the minimum reflux ratio." } },
+        { "@type": "Question", "name": "How do you convert theoretical stages to real trays?", "acceptedAnswer": { "@type": "Answer", "text": "Divide the theoretical stages by the overall tray efficiency, typically 0.5 to 0.8. For packed columns, multiply the theoretical stages by the HETP (height equivalent to a theoretical plate), typically 0.3 to 0.6 m for structured packing." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Distillation Basics</h1>
+  <p class="article-meta">Process Design &middot; Separation &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Distillation is the workhorse of every chemical plant: solvent recovery, purification, removing water before a reaction. Most engineers can run a still, but fewer can say why one separation needs five trays and another needs fifty, or why turning up the reflux sometimes fixes the purity and sometimes doesn't. This article builds the picture from one idea: vapour is richer in the more volatile component than the liquid it boils from.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The one idea behind distillation</a><span>Basics</span></li>
+    <li><a href="#alpha">Relative volatility: how easy is the separation?</a><span>Basics</span></li>
+    <li><a href="#stage">What a theoretical stage is</a><span>Basics</span></li>
+    <li><a href="#mt">McCabe-Thiele: counting the stages</a><span>Working level</span></li>
+    <li><a href="#reflux">Choosing the reflux ratio</a><span>Working level</span></li>
+    <li><a href="#real">From theoretical stages to a real column</a><span>Working level</span></li>
+    <li><a href="#batch">Batch distillation in pharma plants</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="idea">The one idea behind distillation <span class="lvl l1">Basics</span></h2>
+  <p>Boil a mixture of methanol and water and the first vapour that comes off is richer in methanol than the liquid was, because methanol has the higher vapour pressure. Condense that vapour, boil it again, and it gets richer still. A distillation column simply does this boiling and condensing many times over, in one piece of equipment. Vapour rises, liquid falls, and on each tray or each bit of packing they meet, swap some molecules, and part again.</p>
+  <p>That is all. Everything else in distillation design is about how many of those contacts you need and how much liquid you must send back down the column to make them work.</p>
+
+  <h2 id="alpha">Relative volatility: how easy is the separation? <span class="lvl l1">Basics</span></h2>
+  <p>Relative volatility, &alpha;, measures how strongly the light component prefers the vapour compared with the heavy one:</p>
+  <div class="formula-box">&alpha; = (y<sub>A</sub>/x<sub>A</sub>) / (y<sub>B</sub>/x<sub>B</sub>) &asymp; P<sup>sat</sup><sub>A</sub> / P<sup>sat</sup><sub>B</sub> (for ideal mixtures)
+    <small>x is the mole fraction in the liquid, y in the vapour. The equilibrium curve is y = &alpha;x / (1 + (&alpha; &minus; 1)x).</small></div>
+  <p>Some feel for the numbers:</p>
+  <ul>
+    <li><strong>&alpha; above 3:</strong> easy. A few stages do the job. Acetone from water is in this range at low acetone concentrations.</li>
+    <li><strong>&alpha; around 1.5 to 2.5:</strong> normal. Ten to thirty stages.</li>
+    <li><strong>&alpha; below 1.2:</strong> hard. Many stages and high reflux; ask whether another method would be cheaper.</li>
+    <li><strong>&alpha; = 1:</strong> an azeotrope. Ordinary distillation cannot pass it, whatever the column. Ethanol and water at about 95.6 % ethanol, IPA and water at about 87 % IPA, toluene and water as a heterogeneous azeotrope.</li>
+  </ul>
+  <p>Real solvent mixtures are rarely ideal, especially with water, so &alpha; changes along the column. For design, use measured VLE data or a good activity-coefficient model (NRTL, UNIQUAC), not a single &alpha; from vapour pressures.</p>
+
+  <h2 id="stage">What a theoretical stage is <span class="lvl l1">Basics</span></h2>
+  <p>A <strong>theoretical stage</strong> (or ideal stage) is a contact where vapour and liquid mix long enough to reach equilibrium and then separate cleanly. Real trays don't quite get there, so a real column needs more trays than theoretical stages. But theoretical stages are the right way to think first, because they depend only on the chemistry and the reflux, not on the hardware.</p>
+  <p>The reboiler counts as one theoretical stage. A partial condenser also counts as one; a total condenser does not.</p>
+
+  <h2 id="mt">McCabe-Thiele: counting the stages <span class="lvl l2">Working level</span></h2>
+  <p>The McCabe-Thiele diagram is the classic way to see a binary separation. It has three lines:</p>
+  <ul>
+    <li>the <strong>equilibrium curve</strong>: what composition of vapour sits above each liquid;</li>
+    <li>the <strong>operating lines</strong>: a mass balance that links the liquid leaving one stage with the vapour coming up from the one below. Above the feed (rectifying section) the slope is R/(R + 1), where R is the reflux ratio; below the feed (stripping section) it is steeper;</li>
+    <li>the 45&deg; diagonal, where x = y.</li>
+  </ul>
+  <p>Starting at the top product composition, step horizontally to the equilibrium curve (one stage of equilibrium), then vertically to the operating line (mass balance to the next stage down), and repeat until you pass the bottom composition. The number of steps is the number of theoretical stages.</p>
+  <figure class="art-fig" data-fig="mccabe">
+    <figcaption>Try it: a feed of 50 % light component split into 95 % top and 5 % bottom. Lower the relative volatility, or move the reflux closer to the minimum, and count how many more steps the staircase needs.</figcaption>
+  </figure>
+  <p>For &alpha; = 2.5 and this 95 %/5 % split, the figure gives about 12 theoretical stages at 1.5 times the minimum reflux. Raise the reflux to 2 times the minimum and it drops to 10; go down to 1.2 times and it climbs to 15.</p>
+
+  <h2 id="reflux">Choosing the reflux ratio <span class="lvl l2">Working level</span></h2>
+  <p>Two limits frame every design:</p>
+  <div class="formula-box">
+    N<sub>min</sub> = ln[ (x<sub>D</sub>/(1 &minus; x<sub>D</sub>)) &times; ((1 &minus; x<sub>B</sub>)/x<sub>B</sub>) ] / ln &alpha; &nbsp; (Fenske, at total reflux)<br>
+    R<sub>min</sub>: the reflux at which the operating line touches the equilibrium curve (a pinch)
+  </div>
+  <p>For our example: N<sub>min</sub> = ln(19 &times; 19) / ln 2.5 &asymp; 6.4 stages, and R<sub>min</sub> &asymp; 1.1. At total reflux you need the fewest stages but produce nothing; at minimum reflux you need infinite stages. Between them is a trade-off:</p>
+  <ul>
+    <li>Every unit of reflux has to be boiled in the reboiler and condensed again. Reboiler duty &asymp; (R + 1) &times; D &times; latent heat, so steam and cooling water costs rise in step with R + 1.</li>
+    <li>Fewer stages means a shorter, cheaper column.</li>
+  </ul>
+  <p>The economic optimum is usually 1.2 to 1.5 times R<sub>min</sub>. In operation, extra reflux is the easy lever for purity, but only up to a point: once the column floods or the condenser runs out of capacity, more reflux makes things worse.</p>
+  <div class="art-note"><b>On the plant</b><p>If the top purity falls and more reflux doesn't fix it, check the feed composition and the feed point first. A feed that has changed, or that enters too high or too low, wastes stages. Then check for flooding: a rising pressure drop across the column with no gain in purity.</p></div>
+
+  <h2 id="real">From theoretical stages to a real column <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Trays:</strong> real trays = theoretical stages &divide; overall efficiency. Typical efficiencies are 0.5 to 0.8 for solvent systems, lower for viscous liquids. Tray spacing is usually 450&ndash;600 mm.</li>
+    <li><strong>Packing:</strong> packed height = theoretical stages &times; HETP. Structured packing gives HETP of roughly 0.3&ndash;0.5 m; random packing (rings) 0.4&ndash;0.8 m. Packing has a low pressure drop, so it is the usual choice for vacuum distillation and for the small columns on top of batch stills.</li>
+    <li><strong>Diameter</strong> is set by the vapour load: too small and the column floods; too large and liquid doesn't distribute evenly on packing or trays weep at low load. Design around 70&ndash;80 % of flooding.</li>
+  </ul>
+  <p>Add a margin of 10&ndash;20 % on stages for uncertainty in the VLE data, and make sure liquid distribution on packing is good: poor distribution can double the effective HETP.</p>
+
+  <h2 id="batch">Batch distillation in pharma plants <span class="lvl l3">Going deeper</span></h2>
+  <p>Most solvent distillation in API and intermediate plants is batch: a reactor acts as the reboiler, with a short packed column, a condenser, a reflux divider and receivers. The pot composition keeps changing, so the top composition falls during the run unless the reflux ratio is raised. Operators usually run it in cuts:</p>
+  <ol>
+    <li>total reflux to establish the column;</li>
+    <li>a low-boiler fore-cut, collected separately;</li>
+    <li>the main solvent cut at a moderate reflux ratio, raising it as the top temperature starts to climb;</li>
+    <li>an intermediate cut (slop) to be recycled into the next batch;</li>
+    <li>the residue left in the pot.</li>
+  </ol>
+  <p>Watch the top temperature, not just the time. For a solvent like toluene, the top temperature at the boiling point under the column pressure is the best online signal that the cut is clean. Under vacuum, the boiling points fall sharply; see the <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">solvent recovery article</a> for the Antoine calculation.</p>
+  <p>Azeotropes need special handling: water removal by toluene azeotrope with a Dean-Stark separator, pressure-swing distillation, or adding an entrainer. When a recovered solvent fails its water specification after distillation, an azeotrope is often the reason.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Designing from a single relative volatility for a mixture with water.</li>
+    <li>Expecting distillation to break an azeotrope.</li>
+    <li>Turning up reflux on a column that is already flooding.</li>
+    <li>Ignoring liquid distribution in packed columns.</li>
+    <li>Running batch cuts by the clock instead of the top temperature.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is relative volatility?</h3>
+  <p>How much more the light component prefers the vapour than the heavy one. Above 2 the separation is easy; below 1.2 it is hard.</p>
+  <h3>What is the minimum reflux ratio?</h3>
+  <p>The reflux at which the separation needs an infinite number of stages. Practical designs use 1.2 to 1.5 times the minimum.</p>
+  <h3>How do you convert theoretical stages to real trays?</h3>
+  <p>Divide by the tray efficiency (0.5&ndash;0.8), or for packing multiply by the HETP (0.3&ndash;0.8 m).</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery and the Antoine equation</a>
+    <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">Heat exchanger design basics</a>
+    <a href="{{ '/articles/vacuum-systems/' | relative_url }}">Vacuum systems in batch plants</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

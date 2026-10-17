@@ -54,3 +54,15 @@
 .art-read b { font: 600 1.05rem var(--f-mono); color: var(--paper); }
 .art-read .hi b { color: var(--brass); }
 @media (prefers-reduced-motion: reduce) { .anim-flow, .anim-spin, .anim-rise, .anim-fall, .anim-pop, .anim-pulse { animation: none !important; } }
+/* batch 2 figures */
+.art-ctl select { font: 600 .85rem var(--f-sans); color: var(--paper); background: var(--bg-deep); border: 1px solid #2C4C6C; border-radius: 8px; padding: 5px 8px; }
+.art-read b.no { color: #F08A6B; }
+.moc-q { display: grid; gap: 10px; margin-bottom: 10px; }
+.moc-item { background: var(--bg-deep); border: 1px solid #22384F; border-radius: 10px; padding: 12px 14px 4px; }
+.moc-item > p { margin: 0 0 8px; color: var(--paper); line-height: 1.5; }
+.moc-item .art-ctl { margin: 0 0 8px; }
+.moc-item button:disabled { cursor: default; opacity: .55; }
+.moc-item button[aria-pressed="true"]:disabled { opacity: 1; }
+.moc-ans { font-size: .9rem; color: var(--muted); line-height: 1.5; }
+.moc-ans .ok { color: #8FD1A5; } .moc-ans .no { color: #F08A6B; }
+@media (max-width: 600px) { .art-ctl input[type=range] { width: 130px; } }

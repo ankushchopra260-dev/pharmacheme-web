@@ -536,6 +536,180 @@
     draw();
   };
 
+  /* McCabe-Thiele: stages for a binary column at a chosen relative volatility and reflux ratio */
+  M['mccabe'] = function (fig) {
+    const c = C(), xD = 0.95, xB = 0.05, zF = 0.5;
+    const svg = el('svg', { viewBox: '0 0 640 340', role: 'img', 'aria-label': 'McCabe-Thiele diagram with equilibrium curve, operating lines and stages' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<label>Relative volatility &alpha; <input type="range" min="1.5" max="5" step="0.1" value="2.5" aria-label="Relative volatility"> <output></output></label>
+      <label>Reflux, &times; minimum <input type="range" min="1.05" max="4" step="0.05" value="1.5" aria-label="Reflux ratio as a multiple of minimum reflux"> <output></output></label>`);
+    const [ia, ir] = ctl.querySelectorAll('input'), [oa, or] = ctl.querySelectorAll('output'), rd = readout(fig);
+    const x0 = 60, y0 = 12, s = 290, X = v => x0 + v * s, Y = v => y0 + s - v * s;
+    function draw() {
+      const a = +ia.value, m = +ir.value; oa.textContent = a.toFixed(1); or.textContent = m.toFixed(2) + '×';
+      const eq = x => a * x / (1 + (a - 1) * x), inv = y => y / (a - (a - 1) * y);
+      const ys = eq(zF), Rmin = (xD - ys) / (ys - zF), R = Rmin * m;
+      const rect = x => R / (R + 1) * x + xD / (R + 1), yq = rect(zF), sl = (yq - xB) / (zF - xB), strip = x => xB + sl * (x - xB);
+      svg.innerHTML = '';
+      for (let v = 0; v <= 1.0001; v += 0.2) { el('line', { x1: X(v), y1: y0, x2: X(v), y2: y0 + s, stroke: c.grid }, svg); el('line', { x1: x0, y1: Y(v), x2: x0 + s, y2: Y(v), stroke: c.grid }, svg);
+        txt(svg, X(v), y0 + s + 16, v.toFixed(1), { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); txt(svg, x0 - 8, Y(v) + 4, v.toFixed(1), { 'text-anchor': 'end', fill: c.mute, 'font-size': 11 }); }
+      txt(svg, x0 + s / 2, y0 + s + 32, 'x, light component in liquid', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
+      const yl = txt(svg, 0, 0, 'y, in vapour', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); yl.setAttribute('transform', `translate(${x0 - 38},${y0 + s / 2}) rotate(-90)`);
+      el('line', { x1: X(0), y1: Y(0), x2: X(1), y2: Y(1), stroke: c.mute, 'stroke-dasharray': '4 4' }, svg);
+      el('path', { d: path(Array.from({ length: 101 }, (_, k) => [X(k / 100), Y(eq(k / 100))])), fill: 'none', stroke: c.blue, 'stroke-width': 2.5 }, svg);
+      el('path', { d: path([[X(xD), Y(xD)], [X(zF), Y(yq)], [X(xB), Y(xB)]]), fill: 'none', stroke: c.rust, 'stroke-width': 2 }, svg);
+      el('line', { x1: X(zF), y1: Y(zF), x2: X(zF), y2: Y(yq), stroke: c.mute, 'stroke-width': 1.5 }, svg);
+      let x = xD, y = xD, n = 0; const st = [[X(x), Y(y)]];
+      while (x > xB && n < 60) { const xn = inv(y); st.push([X(xn), Y(y)]); n++; if (xn <= xB) { x = xn; break; } const yn = xn > zF ? rect(xn) : strip(xn); st.push([X(xn), Y(yn)]); x = xn; y = yn; }
+      el('path', { d: path(st), fill: 'none', stroke: c.brass, 'stroke-width': 2 }, svg);
+      const lx = x0 + s + 30; [[c.blue, 'Equilibrium curve'], [c.rust, 'Operating lines'], [c.brass, 'Stages']].forEach((l, k) => { el('rect', { x: lx, y: 30 + k * 22, width: 14, height: 4, fill: l[0] }, svg); txt(svg, lx + 22, 36 + k * 22, l[1], { fill: c.ink, 'font-size': 12 }); });
+      txt(svg, lx, 120, 'Feed 50 %, saturated liquid', { fill: c.mute, 'font-size': 11 }); txt(svg, lx, 138, 'Top 95 %, bottom 5 %', { fill: c.mute, 'font-size': 11 });
+      const Nmin = Math.log((xD / (1 - xD)) * ((1 - xB) / xB)) / Math.log(a);
+      rd.innerHTML = `<div class="hi"><span>Theoretical stages</span><b>${n >= 60 ? '60+' : n}</b></div><div><span>Minimum stages (total reflux)</span><b>${F(Nmin, 1)}</b></div><div><span>Reflux ratio R (R<sub>min</sub> ${F(Rmin, 2)})</span><b>${F(R, 2)}</b></div>`;
+    }
+    ia.addEventListener('input', draw); ir.addEventListener('input', draw); draw();
+  };
+
+  /* Relief valve sizing for gas or vapour (API 520 Part I, critical flow) */
+  M['relief'] = function (fig) {
+    const c = C(), FL = { tol: ['Toluene vapour', 92.1, 1.09], meoh: ['Methanol vapour', 32.0, 1.20], n2: ['Nitrogen', 28.0, 1.40] };
+    const LET = [['D', .110], ['E', .196], ['F', .307], ['G', .503], ['H', .785], ['J', 1.287], ['K', 1.838], ['L', 2.853], ['M', 3.60], ['N', 4.34], ['P', 6.38], ['Q', 11.05], ['R', 16.0], ['T', 26.0]];
+    const svg = el('svg', { viewBox: '0 0 640 130', role: 'img', 'aria-label': 'Standard API relief valve orifice sizes with the selected orifice highlighted' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<button type="button" data-c="1.10" aria-pressed="false">Process upset (10 % over)</button><button type="button" data-c="1.21" aria-pressed="true">Fire case (21 % over)</button><label>Fluid <select aria-label="Fluid">${Object.keys(FL).map(k => `<option value="${k}">${FL[k][0]}</option>`).join('')}</select></label>
+      <label>Relieving load <input type="range" min="500" max="20000" step="50" value="3850" aria-label="Relieving load in kg per hour"> <output></output></label>
+      <label>Set pressure <input type="range" min="0.5" max="10" step="0.5" value="3" aria-label="Set pressure in barg"> <output></output></label>
+      <label>Relieving temperature <input type="range" min="20" max="250" step="5" value="175" aria-label="Relieving temperature"> <output></output></label>`);
+    const sel = ctl.querySelector('select'), [iw, ip, it] = ctl.querySelectorAll('input'), [ow, op, ot] = ctl.querySelectorAll('output'), rd = readout(fig);
+    function draw() {
+      const f = FL[sel.value], W = +iw.value, Ps = +ip.value, T = +it.value + 273.15, M_ = f[1], k = f[2];
+      ow.textContent = F(W, 0) + ' kg/h'; op.textContent = Ps.toFixed(1) + ' barg'; ot.textContent = it.value + ' °C';
+      const P1 = (Ps * op_ + 1.01325) * 100, C_ = 0.03948 * Math.sqrt(k * Math.pow(2 / (k + 1), (k + 1) / (k - 1))), Kd = 0.975;
+      const A = W / (C_ * Kd * P1) * Math.sqrt(T * 1.0 / M_), Ain = A / 645.16, pick = LET.find(l => l[1] >= Ain);
+      svg.innerHTML = ''; const step = 600 / LET.length;
+      LET.forEach((l, i) => { const cx = 30 + i * step + step / 2 - 10, r = 3 + 17 * Math.sqrt(l[1] / 26), on = pick && l[0] === pick[0];
+        el('circle', { cx, cy: 52, r, fill: on ? c.brass : 'none', stroke: on ? c.brass : c.mute, 'stroke-width': on ? 2 : 1.5 }, svg);
+        txt(svg, cx, 98, l[0], { 'text-anchor': 'middle', fill: on ? c.brass : c.ink, 'font-weight': 700, 'font-size': 13 });
+        txt(svg, cx, 114, l[1] < 1 ? l[1].toFixed(2) : l[1].toFixed(1), { 'text-anchor': 'middle', fill: c.mute, 'font-size': 10 }); });
+      txt(svg, 20, 127, 'API 526 orifice letter, effective area in in²', { fill: c.mute, 'font-size': 10 });
+      rd.innerHTML = `<div><span>Relieving pressure (${Math.round((op_ - 1) * 100)} % over)</span><b>${F(P1 / 100, 2)} bar abs</b></div><div><span>Required area</span><b>${F(A, 0)} mm² (${F(Ain, 3)} in²)</b></div><div class="hi"><span>Next standard orifice</span><b>${pick ? pick[0] + ' (' + pick[1] + ' in²)' : 'larger than T: use two valves'}</b></div>`;
+    }
+    let op_ = 1.21; ctl.addEventListener('click', e => { const b = e.target.closest('button[data-c]'); if (!b) return; op_ = +b.dataset.c; ctl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+    ctl.addEventListener('input', draw); draw();
+  };
+
+  /* MOC: is it a change or a replacement in kind? */
+  M['moc'] = function (fig) {
+    const Q = [
+      ['A PTFE gasket fails and is replaced with the same specification PTFE gasket.', 0, 'Same specification, same function: a replacement in kind. Record it in the maintenance history.'],
+      ['Dosing time is cut from 4 h to 2 h to finish the batch within one shift.', 1, 'A change to an operating limit. It changes accumulation and heat release, so it needs a reaction safety review.'],
+      ['A carbon steel valve is swapped for a stainless steel one "because SS is better".', 1, 'Not in kind. The piping class, gasket, weight and even corrosion behaviour can change. It needs a review.'],
+      ['The high-temperature trip set point is raised by 5 °C because it keeps tripping.', 1, 'A change to a safeguard. Nuisance trips are a reason to investigate, not to move the set point quietly.'],
+      ['A failed pump is replaced with an identical make and model.', 0, 'Replacement in kind, provided the impeller size, seal type and materials really are the same.'],
+      ['A rubber hose is laid to bypass a choked line "just until the shutdown".', 1, 'A temporary change. Temporary changes need the same review, plus an expiry date and someone who removes it.'],
+      ['The same grade of raw material is bought from a new supplier.', 1, 'A change. A new route can bring different impurities, moisture or particle size; in pharma it also goes through change control.'],
+      ['An interlock is bypassed so instrument technicians can work on the sensor.', 1, 'A change with real risk. It needs approval, compensating measures while bypassed, and a check that it is restored.'],
+    ];
+    const box = document.createElement('div'); box.className = 'moc-q'; fig.insertBefore(box, fig.querySelector('figcaption'));
+    const rd = readout(fig); let done = 0, right = 0;
+    Q.forEach((q, i) => {
+      const d = document.createElement('div'); d.className = 'moc-item';
+      d.innerHTML = `<p>${q[0]}</p><div class="art-ctl"><button type="button" data-a="1">Change: needs MOC</button><button type="button" data-a="0">Replacement in kind</button></div><p class="moc-ans" hidden></p>`;
+      d.addEventListener('click', e => { const b = e.target.closest('button[data-a]'); if (!b || d.dataset.done) return; d.dataset.done = 1; done++;
+        const ok = +b.dataset.a === q[1]; if (ok) right++; b.setAttribute('aria-pressed', 'true');
+        const a = d.querySelector('.moc-ans'); a.hidden = false; a.innerHTML = `<b class="${ok ? 'ok' : 'no'}">${ok ? 'Right.' : 'Not quite.'}</b> ${q[2]}`;
+        d.querySelectorAll('button').forEach(x => x.disabled = true); score(); });
+      box.appendChild(d); });
+    function score() { rd.innerHTML = `<div class="hi"><span>Score</span><b>${right} / ${done}</b></div><div><span>Answered</span><b>${done} of ${Q.length}</b></div>`; }
+    score();
+  };
+
+  /* Flammability diagram: fuel vs oxygen, with LOC */
+  M['loc'] = function (fig) {
+    const c = C(), LFL = 1.2, UFL = 7, LOC = 10;
+    const svg = el('svg', { viewBox: '0 0 640 300', role: 'img', 'aria-label': 'Flammability diagram of oxygen against solvent vapour concentration, showing the flammable region and the limiting oxygen concentration' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<label>Solvent vapour <input type="range" min="0" max="12" step="0.1" value="3" aria-label="Solvent vapour percent by volume"> <output></output></label>
+      <label>Oxygen <input type="range" min="2" max="21" step="0.5" value="21" aria-label="Oxygen percent by volume"> <output></output></label>`);
+    const [ifu, io] = ctl.querySelectorAll('input'), [ofu, oo] = ctl.querySelectorAll('output'), rd = readout(fig);
+    const air = f => 20.95 * (1 - f / 100);
+    const poly = [[LFL, air(LFL)], [2, air(2)], [3, air(3)], [4, air(4)], [5, air(5)], [6, air(6)], [UFL, air(UFL)], [6.2, 17.6], [5, 15.4], [3.8, 13.3], [2.6, 11.4], [1.75, LOC], [1.45, 10.4], [1.3, 12.5], [1.22, 16], [LFL, air(LFL)]];
+    const inside = (x, y) => { let r = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) r = !r; } return r; };
+    function draw() {
+      const f = +ifu.value; let o = Math.min(+io.value, air(f)); ofu.textContent = f.toFixed(1) + ' %'; oo.textContent = o.toFixed(1) + ' %';
+      svg.innerHTML = ''; const { X, Y } = axes(svg, { x0: 60, y0: 12, w: 540, h: 230, xmax: 12, ymax: 24, xstep: 2, ystep: 4, xlab: 'Solvent vapour (% by volume)', ylab: 'Oxygen (% by volume)' });
+      el('path', { d: path(poly.map(p => [X(p[0]), Y(p[1])])) + 'Z', fill: c.rust, opacity: .28, stroke: c.rust, 'stroke-width': 2 }, svg);
+      el('line', { x1: X(0), y1: Y(air(0)), x2: X(12), y2: Y(air(12)), stroke: c.blue, 'stroke-width': 2 }, svg); txt(svg, X(11.9), Y(air(12)) - 6, 'mixtures with air', { 'text-anchor': 'end', fill: c.blue, 'font-size': 11 });
+      el('line', { x1: X(0), y1: Y(LOC), x2: X(12), y2: Y(LOC), stroke: c.green, 'stroke-dasharray': '6 5', 'stroke-width': 2 }, svg); txt(svg, X(11.9), Y(LOC) + 15, 'LOC ≈ 10 %', { 'text-anchor': 'end', fill: c.green, 'font-size': 11, 'font-weight': 700 });
+      el('line', { x1: X(0), y1: Y(8), x2: X(12), y2: Y(8), stroke: c.green, 'stroke-dasharray': '2 4', 'stroke-width': 1.5 }, svg); txt(svg, X(11.9), Y(8) + 14, 'target 8 %', { 'text-anchor': 'end', fill: c.green, 'font-size': 11 });
+      txt(svg, X(3.6), Y(16.5), 'flammable', { 'text-anchor': 'middle', fill: c.rust, 'font-weight': 700 });
+      txt(svg, X(LFL), Y(23), 'LFL', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); txt(svg, X(UFL), Y(23), 'UFL', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
+      el('circle', { cx: X(f), cy: Y(o), r: 8, fill: c.ink, stroke: '#0B1622', 'stroke-width': 2 }, svg);
+      let v, cls = '';
+      if (inside(f, o) || (o >= air(f) - 0.05 && f >= LFL && f <= UFL)) { v = 'Flammable: one spark ignites it'; cls = 'no'; }
+      else if (o < LOC) v = o <= 8 ? 'Inert: cannot burn at any solvent level' : 'Below LOC, but inside the safety margin';
+      else if (f > UFL) v = 'Too rich now, but flammable as air leaks in';
+      else v = 'Too lean to burn at this solvent level';
+      rd.innerHTML = `<div class="hi"><span>Headspace</span><b class="${cls}">${v}</b></div><div><span>Oxygen with air only at this vapour level</span><b>${F(air(f), 1)} %</b></div>`;
+    }
+    ifu.addEventListener('input', draw); io.addEventListener('input', draw); draw();
+  };
+
+  /* Vacuum pump-down with an air leak */
+  M['vacleak'] = function (fig) {
+    const c = C(), V = 6;
+    const svg = el('svg', { viewBox: '0 0 640 300', role: 'img', 'aria-label': 'Pressure against time while evacuating a reactor, on a log scale' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<button type="button" data-p="lr" aria-pressed="true">Liquid ring pump</button><button type="button" data-p="ds" aria-pressed="false">Dry screw pump</button>
+      <label>Pump speed <input type="range" min="50" max="500" step="25" value="250" aria-label="Pump speed in cubic metres per hour"> <output></output></label>
+      <label>Air leak <input type="range" min="0" max="5" step="0.25" value="1" aria-label="Air leak in kilograms per hour"> <output></output></label>`);
+    const [is, il] = ctl.querySelectorAll('input'), [os, ol] = ctl.querySelectorAll('output'), rd = readout(fig); let pump = 'lr';
+    const x0 = 70, y0 = 12, w = 530, h = 230, tmax = 30, X = t => x0 + t / tmax * w, lo = -1, hi = 3, Y = p => y0 + h - (Math.log10(p) - lo) / (hi - lo) * h;
+    function draw() {
+      const S = +is.value, L = +il.value, floor = pump === 'lr' ? 45 : 0.05; os.textContent = S + ' m³/h'; ol.textContent = L.toFixed(2) + ' kg/h';
+      const leak = L / 1.19 * 1013; // mbar·m³/h of air
+      svg.innerHTML = '';
+      [0.1, 1, 10, 100, 1000].forEach(p => { el('line', { x1: x0, y1: Y(p), x2: x0 + w, y2: Y(p), stroke: c.grid }, svg); txt(svg, x0 - 8, Y(p) + 4, p >= 1 ? F(p, 0) : '0.1', { 'text-anchor': 'end', fill: c.mute, 'font-size': 11 }); });
+      for (let t = 0; t <= tmax; t += 5) { el('line', { x1: X(t), y1: y0, x2: X(t), y2: y0 + h, stroke: c.grid }, svg); txt(svg, X(t), y0 + h + 16, t, { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); }
+      txt(svg, x0 + w / 2, y0 + h + 34, 'Time (minutes), 6 m³ reactor', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
+      const yl = txt(svg, 0, 0, 'Pressure (mbar abs)', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); yl.setAttribute('transform', `translate(${x0 - 46},${y0 + h / 2}) rotate(-90)`);
+      let P = 1013, t50 = null; const pts = [], dt = 1 / 600;
+      for (let t = 0; t <= tmax + 1e-9; t += dt) { if (Math.round(t * 600) % 6 === 0) pts.push([X(t), Y(Math.max(P, 0.1))]); if (t50 === null && P <= 50) t50 = t;
+        const Se = S * Math.max(0, 1 - floor / P); P = Math.max(0.05, P + (-Se * P + leak) / V * dt / 60); }
+      el('path', { d: path(pts), fill: 'none', stroke: c.brass, 'stroke-width': 3 }, svg);
+      el('line', { x1: x0, y1: Y(50), x2: x0 + w, y2: Y(50), stroke: c.blue, 'stroke-dasharray': '6 5' }, svg); txt(svg, x0 + w, Y(50) - 6, 'target 50 mbar', { 'text-anchor': 'end', fill: c.blue, 'font-size': 11 });
+      const ideal = V / S * Math.log(1013 / 50) * 60;
+      rd.innerHTML = `<div class="hi"><span>Time to 50 mbar</span><b>${t50 === null ? 'never' : F(t50, 1) + ' min'}</b></div><div><span>Lowest pressure reached</span><b>${F(P, P < 10 ? 1 : 0)} mbar</b></div><div><span>Ideal, no leak, full speed</span><b>${F(ideal, 1)} min</b></div><div><span>Leak volume at 50 mbar</span><b>${F(L / (1.19 * 50 / 1013), 0)} m³/h</b></div>`;
+    }
+    ctl.addEventListener('click', e => { const b = e.target.closest('button[data-p]'); if (!b) return; pump = b.dataset.p; ctl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+    ctl.addEventListener('input', draw); draw();
+  };
+
+  /* Lab to plant: what changes with scale (geometric similarity) */
+  M['scalegap'] = function (fig) {
+    const c = C();
+    const svg = el('svg', { viewBox: '0 0 640 230', role: 'img', 'aria-label': 'How cooling area per litre, heat-up time, mixing time and tip speed change from a 1 litre flask to plant scale' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<label>Plant batch volume <input type="range" min="1" max="4" step="0.05" value="3.78" aria-label="Plant volume, logarithmic"> <output></output></label>`);
+    const i = ctl.querySelector('input'), o = ctl.querySelector('output'), rd = readout(fig);
+    const rows = [['Cooling area per litre', -1 / 3, c.blue, 'less'], ['Heat-up / cool-down time', 1 / 3, c.rust, 'longer'], ['Blend time at same P/V', 2 / 9, c.brass, 'longer'], ['Tip speed at same P/V', 1 / 9, c.green, 'faster']];
+    const x0 = 200, w = 400, X = r => x0 + (Math.log10(r) + 2) / 4 * w;
+    function draw() {
+      const V = Math.pow(10, +i.value), ratio = V / 1; o.textContent = V >= 1000 ? F(V / 1000, 1) + ' kL' : F(V, 0) + ' L';
+      svg.innerHTML = '';
+      [0.01, 0.1, 1, 10, 100].forEach(r => { el('line', { x1: X(r), y1: 6, x2: X(r), y2: 190, stroke: r === 1 ? c.mute : c.grid, 'stroke-width': r === 1 ? 2 : 1 }, svg); txt(svg, X(r), 208, (r < 1 ? r : F(r, 0)) + '×', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); });
+      txt(svg, X(1), 224, 'same as 1 L flask', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 10 });
+      let html = '';
+      rows.forEach((r, k) => { const v = Math.pow(ratio, r[1]), y = 18 + k * 44, a = X(1), b = X(v);
+        txt(svg, x0 - 10, y + 16, r[0], { 'text-anchor': 'end', fill: c.ink, 'font-size': 12 });
+        el('rect', { x: Math.min(a, b), y, width: Math.max(2, Math.abs(b - a)), height: 22, rx: 4, fill: r[2] }, svg);
+        txt(svg, b + (v >= 1 ? 6 : -6), y + 16, (v >= 1 ? F(v, 1) : F(v, 3)) + '×', { 'text-anchor': v >= 1 ? 'start' : 'end', fill: c.ink, 'font-weight': 700, 'font-size': 12 });
+        html += `<div${k === 0 ? ' class="hi"' : ''}><span>${r[0]}</span><b>${v >= 1 ? F(v, 1) : F(1 / v, 0)}× ${r[3]}</b></div>`; });
+      rd.innerHTML = html;
+    }
+    i.addEventListener('input', draw); draw();
+  };
+
   window.PCME_ART = M;
   document.querySelectorAll('.art-fig[data-fig]').forEach(f => { const m = M[f.dataset.fig]; if (m) try { m(f); } catch (e) { console.error(e); } });
   // pause looping diagrams when off screen

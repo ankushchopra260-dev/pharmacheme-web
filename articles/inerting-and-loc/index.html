@@ -1,0 +1,112 @@
+---
+layout: default
+title: "Inerting and Limiting Oxygen Concentration (LOC): A Practical Guide"
+description: "Nitrogen inerting from the basics: the flammability diagram, LFL, UFL and limiting oxygen concentration, safe oxygen targets (NFPA 69), pressure, vacuum and sweep purging, blanketing, oxygen measurement and the asphyxiation hazard. Interactive flammability diagram and purge calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Inerting and LOC
+    url: /articles/inerting-and-loc/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Inerting and Limiting Oxygen Concentration (LOC): A Practical Guide",
+        "description": "Flammability diagram, LFL, UFL, LOC, oxygen targets, purging methods, blanketing, oxygen measurement and asphyxiation.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is the limiting oxygen concentration?", "acceptedAnswer": { "@type": "Answer", "text": "The LOC is the oxygen concentration below which no mixture of the fuel, air and inert gas can burn, whatever the fuel concentration. For most common organic solvents with nitrogen it is roughly 9 to 12 % oxygen; for hydrogen it is about 5 %." } },
+        { "@type": "Question", "name": "What oxygen level should an inerted reactor be kept at?", "acceptedAnswer": { "@type": "Answer", "text": "NFPA 69 requires at least 2 percentage points below the LOC with continuous oxygen monitoring, or no more than 60 % of the LOC without it. With an LOC of 10 %, that means 8 % monitored or 6 % unmonitored." } },
+        { "@type": "Question", "name": "How many pressure purge cycles are needed?", "acceptedAnswer": { "@type": "Answer", "text": "Each cycle multiplies the oxygen by P_low / P_high (absolute). Purging with nitrogen to 2 barg and venting to atmosphere multiplies oxygen by about 0.34, so two cycles take air from 21 % to about 2.4 %." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Inerting and Limiting Oxygen Concentration</h1>
+  <p class="article-meta">Process Safety &middot; Fire and Explosion &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">&ldquo;The reactor is under nitrogen.&rdquo; Everyone in a solvent plant has said it, and it is one of the most reassuring and least checked sentences in process safety. Inerting is powerful: take enough oxygen away and solvent vapour simply cannot burn, whatever sparks fly. But it only works if the oxygen really is low, and the only way to know is to understand the numbers and measure them. This article explains both.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#triangle">Why removing oxygen works</a><span>Basics</span></li>
+    <li><a href="#diagram">The flammability diagram</a><span>Basics</span></li>
+    <li><a href="#target">How low is low enough?</a><span>Working level</span></li>
+    <li><a href="#purge">Getting there: three ways to purge</a><span>Working level</span></li>
+    <li><a href="#keep">Staying there: blanketing and leaks</a><span>Working level</span></li>
+    <li><a href="#measure">Measuring oxygen, and the hazard to people</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="triangle">Why removing oxygen works <span class="lvl l1">Basics</span></h2>
+  <p>A fire needs fuel, oxygen and an ignition source. In a solvent plant, fuel is always present and ignition sources are hard to eliminate completely: static, hot surfaces, sparks from metal, a pyrophoric catalyst. Oxygen is the one side of the triangle we can control reliably, by replacing air with nitrogen.</p>
+  <p>You don't need to remove all the oxygen. Below a certain level, the flame can't sustain itself because there isn't enough oxygen to release heat faster than the surrounding gas absorbs it. That level is the <strong>limiting oxygen concentration (LOC)</strong>.</p>
+
+  <h2 id="diagram">The flammability diagram <span class="lvl l1">Basics</span></h2>
+  <p>Picture a chart with solvent vapour along the bottom and oxygen up the side. Mixtures of solvent with plain air lie on a line that starts at 21 % oxygen and falls slightly as vapour displaces air. Along that line, the mixture burns only between the <strong>lower flammable limit (LFL)</strong> and the <strong>upper flammable limit (UFL)</strong>: around 1&ndash;7 % for toluene, 6&ndash;36 % for methanol.</p>
+  <p>Add nitrogen and you move downward. The flammable range narrows as oxygen falls, until the LFL and UFL boundaries meet at a nose. The oxygen level at that nose is the LOC. Below it, no solvent concentration can burn.</p>
+  <figure class="art-fig" data-fig="loc">
+    <figcaption>Try it: the shaded region is flammable for a typical solvent. Move the vapour level and the oxygen. Notice that a mixture above the UFL is not safe: as air leaks in, it passes back through the flammable region.</figcaption>
+  </figure>
+  <p>Typical LOC values with nitrogen are around 9&ndash;12 % oxygen for common organic solvents, and about 5 % for hydrogen. With carbon dioxide as the inert gas, LOC is a little higher. Use values from NFPA 69 or measured data for your mixture, not a rule of thumb, especially with hydrogen or very reactive chemicals.</p>
+
+  <h2 id="target">How low is low enough? <span class="lvl l2">Working level</span></h2>
+  <p>Operating right at the LOC leaves no room for error: a small leak, a slow analyser or a gust of air through a manhole would put you into the flammable region. NFPA 69 sets the margin:</p>
+  <div class="formula-box">With continuous O<sub>2</sub> monitoring: operate at least 2 percentage points below LOC<br>Without continuous monitoring: no more than 60 % of LOC
+    <small>For LOC = 10 %: 8 % with an analyser and interlock, 6 % without.</small></div>
+  <p>Many plants simply use 5 % as a standard target for all solvent work. That is easier to remember and gives margin for hydrogen-free systems, but check it against the LOC if hydrogen or another low-LOC gas can be present.</p>
+
+  <h2 id="purge">Getting there: three ways to purge <span class="lvl l2">Working level</span></h2>
+  <h3>Pressure purging</h3>
+  <p>Pressurise the vessel with nitrogen, let it mix, vent back to atmosphere, repeat. Each cycle reduces the oxygen by the ratio of the absolute pressures:</p>
+  <div class="formula-box">O<sub>2</sub> after n cycles = O<sub>2</sub> initial &times; (P<sub>low</sub> / P<sub>high</sub>)<sup>n</sup></div>
+  <p>Purging to 2 barg (3.01 bar abs) and venting to 1.01 bar abs multiplies the oxygen by 0.34 each cycle: 21 &rarr; 7.1 &rarr; 2.4 %. Two cycles reach a 5 % target. Check the vessel's rating first: a glass-lined reactor or a vessel with a sight glass may not take 2 barg.</p>
+  <figure class="art-fig" data-fig="purge">
+    <figcaption>Try it: change the nitrogen pressure and run the purge. Higher pressure means fewer cycles, but more nitrogen per cycle.</figcaption>
+  </figure>
+  <h3>Vacuum purging</h3>
+  <p>Pull a vacuum, break it with nitrogen, repeat. The same ratio applies: vacuum to 100 mbar and break to atmosphere multiplies oxygen by about 0.1 per cycle, so one cycle takes 21 % to about 2 %. It is very nitrogen-efficient and is the usual choice for vessels rated for full vacuum. It must be done before solvent is charged, or the vacuum will pull solvent vapour to the pump.</p>
+  <h3>Sweep (flow-through) purging</h3>
+  <p>Blow nitrogen in at one end and let it out at the other. With perfect mixing, oxygen falls as C = C<sub>0</sub> &times; e<sup>&minus;volumes</sup>, so about one volume change takes 21 % to 8 % and 1.4 volumes to 5 %. In practice mixing is far from perfect, so plan on three to five volume changes and measure the outlet. Sweeping is the right method for long pipes and for vessels that can't take pressure or vacuum.</p>
+
+  <h2 id="keep">Staying there: blanketing and leaks <span class="lvl l2">Working level</span></h2>
+  <p>Purging gets the oxygen down; blanketing keeps it down. A small nitrogen pressure (typically 20&ndash;100 mbarg) held by a regulator stops air coming in as the vessel breathes. Every time something happens, ask whether oxygen came in:</p>
+  <ul>
+    <li><strong>Opening a manhole</strong> to charge solids lets air in. Keep a nitrogen flow at the manhole while it is open, or use a closed charging system, and re-purge before heating.</li>
+    <li><strong>Cooling</strong> a vessel under a fixed amount of gas pulls a vacuum, which pulls air through any leak. Keep the blanket supply open while cooling.</li>
+    <li><strong>Drawing liquid out</strong> lowers the pressure the same way.</li>
+    <li><strong>Vacuum distillation</strong> pulls in air through every leaking gland and flange. Break the vacuum with nitrogen, never air.</li>
+  </ul>
+
+  <h2 id="measure">Measuring oxygen, and the hazard to people <span class="lvl l3">Going deeper</span></h2>
+  <p>Without a measurement, &ldquo;inerted&rdquo; is a hope. Options range from a portable analyser used to check after each purge, to a fixed analyser on the vent line, interlocked to stop heating or charging if oxygen rises. Calibrate it regularly, check that the sample point represents the vessel (not just the nitrogen inlet), and remember that solvent vapour in the sample can affect some sensors.</p>
+  <p>The same nitrogen that protects the vessel kills people. Air with less than about 18 % oxygen impairs judgement, and a few breaths of near-pure nitrogen cause collapse without warning, because the body senses carbon dioxide, not low oxygen. Treat an inerted vessel as a confined space: positive isolation, ventilation and an oxygen check before entry, and never put your head into a manhole &ldquo;for a quick look&rdquo;. Rescuers without breathing apparatus often become the second victim.</p>
+  <div class="art-note"><b>On the plant</b><p>Look at where your nitrogen vents go. A vent pipe that ends inside a building or in a pit puts low-oxygen gas exactly where people work. Route vents outside, at height.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Assuming the vessel is inert because nitrogen was connected, without measuring.</li>
+    <li>Forgetting to re-purge after opening a manhole for charging.</li>
+    <li>Breaking vacuum with air after distillation.</li>
+    <li>Assuming a mixture above the UFL is safe.</li>
+    <li>Treating nitrogen as harmless around people.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the limiting oxygen concentration?</h3>
+  <p>The oxygen level below which no mixture can burn, roughly 9&ndash;12 % for common solvents with nitrogen and about 5 % for hydrogen.</p>
+  <h3>What oxygen level should we keep?</h3>
+  <p>At least 2 points below the LOC with continuous monitoring, or 60 % of the LOC without (NFPA 69).</p>
+  <h3>How many purge cycles are needed?</h3>
+  <p>Each cycle multiplies oxygen by P<sub>low</sub>/P<sub>high</sub>. At 2 barg, two cycles take air to about 2.4 %.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">Nitrogen purge calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

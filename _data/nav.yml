@@ -42,20 +42,26 @@
   groups:
     - title: "Process safety"
       children:
+        - { title: "Management of Change (MOC)", url: /articles/management-of-change/ }
+        - { title: "Inerting and LOC", url: /articles/inerting-and-loc/ }
         - { title: "Static Electricity and Solvent Fires", url: /articles/static-electricity-solvent-fires/ }
         - { title: "HAZOP Made Practical", url: /articles/hazop-made-practical/ }
     - title: "Scale-up & reaction engineering"
       children:
+        - { title: "Lab to Plant Scale-up Checklist", url: /articles/lab-to-plant-scale-up-checklist/ }
         - { title: "Semi-Batch Dosing and Accumulation", url: /articles/semi-batch-dosing-accumulation/ }
         - { title: "Mixing & Scale-up Calculations", url: /articles/mixing-scale-up/ }
     - title: "Process design"
       children:
+        - { title: "Distillation Basics", url: /articles/distillation-basics/ }
+        - { title: "Relief Valve Sizing Basics", url: /articles/relief-valve-sizing/ }
         - { title: "Heat Exchanger Design Basics", url: /articles/heat-exchanger-design-basics/ }
         - { title: "Heat Load & Heat-up Time", url: /articles/heat-load-calculation/ }
         - { title: "Solvent Recovery Calculation", url: /articles/solvent-recovery-calculation/ }
         - { title: "How to Calculate Pump Power", url: /articles/pump-power-calculation/ }
     - title: "Plant engineering & operations"
       children:
+        - { title: "Vacuum Systems in Batch Plants", url: /articles/vacuum-systems/ }
         - { title: "How to Read a P&ID", url: /articles/how-to-read-a-pid/ }
         - { title: "Batch Cycle Time and Debottlenecking", url: /articles/batch-cycle-time-debottlenecking/ }
         - { title: "Filtration Performance", url: /articles/filtration-calculation/ }

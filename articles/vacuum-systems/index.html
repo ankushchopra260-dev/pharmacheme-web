@@ -1,0 +1,120 @@
+---
+layout: default
+title: "Vacuum Systems in Batch Plants: Pumps, Pump-down Time and Air Leaks"
+description: "Vacuum in chemical and pharma plants from the basics: what vacuum is, liquid ring, dry screw, ejector and booster pumps, pump-down time, air leaks and the rate-of-rise test, condensers and solvent loss, and troubleshooting a vacuum that won't go down. Interactive pump-down chart."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Vacuum Systems
+    url: /articles/vacuum-systems/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Vacuum Systems in Batch Plants: Pumps, Pump-down Time and Air Leaks",
+        "description": "Vacuum pumps, pump-down time, air leaks, rate-of-rise test, condensers, solvent loss and troubleshooting.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "Why can't a liquid ring pump reach a deep vacuum?", "acceptedAnswer": { "@type": "Answer", "text": "The seal liquid boils at the pump's suction pressure. With water at 30 C the vapour pressure is about 42 mbar, so the pump cannot go much below 50 to 60 mbar. A colder seal, a different seal liquid, or an ejector or booster in front of the pump extends the range." } },
+        { "@type": "Question", "name": "How do you calculate vacuum pump-down time?", "acceptedAnswer": { "@type": "Answer", "text": "For an ideal pump with constant speed and no leak, t = (V / S) x ln(P0 / P1). For a 6 m3 vessel and a 250 m3/h pump from 1013 to 50 mbar, that is about 4.3 minutes. Real times are longer because pump speed falls near its limit and air leaks in." } },
+        { "@type": "Question", "name": "How do you measure an air leak into a vacuum system?", "acceptedAnswer": { "@type": "Answer", "text": "Use a rate-of-rise test: evacuate, isolate the pump and record how fast the pressure rises. Leak (kg/h) is about V x (dP / 1013) x 1.19 per unit time, with V in m3 and dP in mbar. A 6 m3 system rising 20 mbar in 10 minutes leaks about 0.85 kg/h of air." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Vacuum Systems in Batch Plants</h1>
+  <p class="article-meta">Plant Engineering &middot; Vacuum &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">&ldquo;Vacuum is not coming.&rdquo; Every plant engineer gets this call, usually during a distillation that is already behind schedule. The answer is almost always one of four things: the pump, a leak, the condenser, or something boiling that shouldn't be. This article explains how a vacuum system works from the basics, how to calculate what it should achieve, and how to find out why it doesn't.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What vacuum really is</a><span>Basics</span></li>
+    <li><a href="#pumps">The pumps you'll meet</a><span>Basics</span></li>
+    <li><a href="#time">Pump-down time</a><span>Working level</span></li>
+    <li><a href="#leak">Air leaks and the rate-of-rise test</a><span>Working level</span></li>
+    <li><a href="#cond">The condenser decides the solvent loss</a><span>Going deeper</span></li>
+    <li><a href="#trouble">When vacuum won't come: a checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What vacuum really is <span class="lvl l1">Basics</span></h2>
+  <p>Vacuum is just a pressure below atmospheric. Always talk in absolute pressure (mbar abs or torr), not &ldquo;mm vacuum&rdquo; or &ldquo;&minus;0.95 kg/cm&sup2;&rdquo;. The same gauge reading means a different absolute pressure on a rainy day and at a different site altitude, and only absolute pressure tells you the boiling point.</p>
+  <p>In process plants we mostly work in <strong>rough vacuum</strong>: from atmospheric (1,013 mbar) down to about 1 mbar. That covers solvent distillation (usually 50&ndash;200 mbar), drying (5&ndash;50 mbar) and deodorising or high-vacuum stripping (1&ndash;5 mbar).</p>
+  <p>Why bother? Lower pressure lowers the boiling point. Toluene boils at 111 &deg;C at atmospheric pressure, but at about 45 &deg;C at 100 mbar. That protects heat-sensitive products and lets you distil with hot water instead of steam. The <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">solvent recovery article</a> shows the Antoine calculation.</p>
+
+  <h2 id="pumps">The pumps you'll meet <span class="lvl l1">Basics</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Pump</th><th>Typical lowest pressure</th><th>Good for</th><th>Watch out for</th></tr>
+    <tr><td>Liquid ring (water seal)</td><td>40&ndash;60 mbar</td><td>Wet, dirty, solvent-laden gas; simple and robust</td><td>Seal water boils at its vapour pressure; solvent ends up in the seal water</td></tr>
+    <tr><td>Dry screw</td><td>0.01&ndash;1 mbar</td><td>Solvent recovery at the discharge, no effluent</td><td>Deposits and polymerising vapours; needs a condenser before it</td></tr>
+    <tr><td>Steam ejector</td><td>Depends on stages; 1&ndash;50 mbar</td><td>No moving parts, large volumes, deep vacuum</td><td>Steam use; contaminated condensate</td></tr>
+    <tr><td>Roots booster</td><td>Adds a stage in front of another pump</td><td>Speeding up pump-down below 100 mbar</td><td>Can't work against atmosphere alone</td></tr>
+  </table></div>
+  <p>A liquid ring pump's limit comes from its seal liquid: the ring of water inside boils at the suction pressure. Water at 30 &deg;C has a vapour pressure of 42 mbar, so with warm seal water the pump stalls near 50&ndash;60 mbar. In summer, when the cooling water is warmer, the vacuum gets worse; that seasonal pattern is often the first clue.</p>
+
+  <h2 id="time">Pump-down time <span class="lvl l2">Working level</span></h2>
+  <p>For a pump with constant speed S and no leaks, the pressure falls exponentially:</p>
+  <div class="formula-box">t = (V / S) &times; ln(P<sub>0</sub> / P<sub>1</sub>)
+    <small>V vessel and pipe volume (m&sup3;), S pump speed at the vessel (m&sup3;/h), P<sub>0</sub> start pressure, P<sub>1</sub> target. Gives t in hours.</small></div>
+  <p>A 6 m&sup3; reactor with a 250 m&sup3;/h pump, from 1,013 to 50 mbar: t = 6/250 &times; ln(20.3) = 0.072 h, about 4.3 minutes. Real plants are slower, because pump speed falls as the pump approaches its limit, the pipework restricts flow, and air leaks in.</p>
+  <figure class="art-fig" data-fig="vacleak">
+    <figcaption>Try it: a 6 m&sup3; reactor being evacuated. Switch the pump type, change its speed, and add an air leak. Watch how close a liquid ring pump comes to its limit, and how a leak sets the lowest pressure you can reach.</figcaption>
+  </figure>
+
+  <h2 id="leak">Air leaks and the rate-of-rise test <span class="lvl l2">Working level</span></h2>
+  <p>No vacuum system is perfectly tight. Air enters through flange gaskets, agitator seals, valve glands, sight glasses and manhole covers. At the operating pressure, the pump has to remove that air along with the vapour. The leak matters far more than its mass suggests, because a kilogram of air at 50 mbar occupies about 17 m&sup3;, twenty times its volume at atmospheric pressure.</p>
+  <p>To measure the leak, do a <strong>rate-of-rise test</strong> on the empty, dry system:</p>
+  <ol>
+    <li>Evacuate to the working pressure.</li>
+    <li>Close the valve to the pump and start a stopwatch.</li>
+    <li>Record the pressure every minute for 10&ndash;15 minutes.</li>
+  </ol>
+  <div class="formula-box">Air leak (kg/h) &asymp; V &times; (&Delta;P / 1,013) &times; 1.19 &times; (60 / &Delta;t)
+    <small>V in m&sup3;, &Delta;P in mbar, &Delta;t in minutes, 1.19 kg/m&sup3; is the density of air at 20 &deg;C and atmospheric pressure.</small></div>
+  <p>A 6 m&sup3; system that rises 20 mbar in 10 minutes leaks about 6 &times; 20/1,013 &times; 1.19 &times; 6 &asymp; 0.85 kg/h of air. If the pressure rises quickly at first and then levels off, it is probably something evaporating (water or solvent left in the system), not a leak; a true leak gives a steady straight-line rise. Record the result after each shutdown and you will have a trend that tells you when the gaskets need attention.</p>
+  <p>To find a leak, isolate sections one at a time and repeat the test, or use an ultrasonic leak detector on flanges and seals while the system is under vacuum.</p>
+
+  <h2 id="cond">The condenser decides the solvent loss <span class="lvl l3">Going deeper</span></h2>
+  <p>Air leaking in doesn't leave alone: it leaves the condenser saturated with solvent vapour. The amount carried out depends on the condenser outlet temperature and the system pressure:</p>
+  <div class="formula-box">mol solvent / mol air = P<sub>sat</sub>(T<sub>condenser outlet</sub>) / (P<sub>system</sub> &minus; P<sub>sat</sub>)</div>
+  <p>Toluene leaving a condenser at 10 &deg;C has a vapour pressure of about 16.5 mbar. At 50 mbar system pressure, that is 16.5 / 33.5 &asymp; 0.49 mol of toluene per mol of air, or about 1.6 kg of toluene for every kg of air. So a 1 kg/h leak sends about 1.6 kg/h of toluene to the vacuum pump: into the seal water of a liquid ring pump, or to the vent.</p>
+  <p>That is why a vent condenser on chilled brine after the main condenser pays for itself in most solvent plants, and why fixing leaks reduces solvent loss and effluent load as well as improving the vacuum. Non-condensable air also blankets the condenser surface and reduces its capacity, so leaky systems condense less and lose more.</p>
+
+  <h2 id="trouble">When vacuum won't come: a checklist <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li><strong>Isolate the pump and check its blank-off pressure.</strong> If it can't reach its normal limit alone, the problem is the pump: seal water temperature and flow, worn clearances, or solvent in the seal water.</li>
+    <li><strong>Rate-of-rise test on the system.</strong> A steady rise means leaks; a rise that levels off means something is boiling.</li>
+    <li><strong>Check the condenser:</strong> cooling water flow and temperature, and the outlet vapour temperature. A hot outlet means vapour is going straight to the pump.</li>
+    <li><strong>Check what's boiling:</strong> a pot at the boiling point at the target pressure will hold the pressure up until it cools or the solvent is removed. That is not a vacuum fault; it is the distillation working.</li>
+    <li><strong>Check the lines:</strong> liquid trapped in a low point, a partially closed valve, or a choked filter or knock-out pot.</li>
+  </ol>
+  <div class="art-note"><b>On the plant</b><p>Fit an absolute pressure gauge at the pump suction as well as on the reactor. A big difference between the two tells you straight away that the restriction is in the line or the condenser, not the pump.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Talking in gauge vacuum instead of absolute pressure.</li>
+    <li>Expecting a water-seal liquid ring pump to reach 20 mbar.</li>
+    <li>Calling a boiling pot a vacuum leak.</li>
+    <li>Breaking vacuum with air on a solvent system.</li>
+    <li>Fixing the pump when the condenser outlet is hot.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why can't a liquid ring pump reach a deep vacuum?</h3>
+  <p>Its seal liquid boils at the suction pressure: about 42 mbar for water at 30 &deg;C. A colder seal, a booster or an ejector extends the range.</p>
+  <h3>How do you calculate pump-down time?</h3>
+  <p>t = (V/S) &times; ln(P<sub>0</sub>/P<sub>1</sub>); 6 m&sup3; with 250 m&sup3;/h to 50 mbar takes about 4.3 minutes ideally.</p>
+  <h3>How do you measure an air leak?</h3>
+  <p>Rate-of-rise test: isolate the pump and record the pressure rise. 20 mbar in 10 minutes on 6 m&sup3; is about 0.85 kg/h of air.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery and boiling point under vacuum</a>
+    <a href="{{ '/articles/distillation-basics/' | relative_url }}">Distillation basics</a>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

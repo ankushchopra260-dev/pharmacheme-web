@@ -1,0 +1,118 @@
+---
+layout: default
+title: "Management of Change (MOC): What Counts as a Change and How to Review It"
+description: "Management of change in chemical and pharma plants: what counts as a change, replacement in kind, temporary and organisational changes, the MOC steps from request to pre-startup safety review, who should review, and lessons from Flixborough. Interactive 'change or not?' exercise."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Management of Change
+    url: /articles/management-of-change/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Management of Change (MOC): What Counts as a Change and How to Review It",
+        "description": "What counts as a change, replacement in kind, temporary and organisational changes, MOC steps, PSSR and Flixborough.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is a replacement in kind?", "acceptedAnswer": { "@type": "Answer", "text": "A replacement that meets the original design specification exactly: same material, rating, size, function and performance. It does not need an MOC. Anything that differs from the specification, even if it seems better, is a change." } },
+        { "@type": "Question", "name": "Do temporary changes need MOC?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Temporary changes need the same hazard review as permanent ones, plus a defined end date and a check that the plant is returned to its original state. Many serious accidents, including Flixborough in 1974, began with a temporary modification." } },
+        { "@type": "Question", "name": "What is a pre-startup safety review?", "acceptedAnswer": { "@type": "Answer", "text": "A check before the changed equipment or process is put into service, confirming that it was built as approved, that procedures, drawings and training are updated, and that actions from the hazard review are closed." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Management of Change (MOC)</h1>
+  <p class="article-meta">Process Safety &middot; Safety Management &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A plant that is safe on the day it is commissioned does not stay safe by itself. Every week someone swaps a valve, changes a set point, tries a new supplier or adds a hose &ldquo;for now&rdquo;. Each change on its own looks harmless. Management of change is the habit of stopping for a moment before each one and asking: what else does this affect? This article explains what counts as a change, how a good MOC works, and why it fails.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why changes cause accidents</a><span>Basics</span></li>
+    <li><a href="#what">What counts as a change</a><span>Basics</span></li>
+    <li><a href="#steps">The MOC steps</a><span>Working level</span></li>
+    <li><a href="#review">What a good review asks</a><span>Working level</span></li>
+    <li><a href="#temp">Temporary, emergency and organisational changes</a><span>Going deeper</span></li>
+    <li><a href="#flix">Flixborough: a temporary pipe</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why changes cause accidents <span class="lvl l1">Basics</span></h2>
+  <p>When a plant is designed, engineers think through how each part interacts with the others: the relief valve is sized for the nitrogen regulator, the pump for the line, the trip for the reaction. Those links are rarely written on the equipment. When one part is changed without looking at the links, the plant quietly loses protection it used to have, and nobody notices until the day it is needed.</p>
+  <p>Investigations of major accidents keep finding the same thing: a change made with good intentions, by competent people, without anyone asking what else it affected.</p>
+
+  <h2 id="what">What counts as a change <span class="lvl l1">Basics</span></h2>
+  <p>Anything that alters the plant, the process or the way it is run, compared with what was reviewed and approved. That includes:</p>
+  <ul>
+    <li><strong>Equipment and piping:</strong> new or modified equipment, a different material, a bigger pump, removed or added valves.</li>
+    <li><strong>Process conditions:</strong> temperatures, pressures, dosing times, batch sizes, beyond the approved range.</li>
+    <li><strong>Chemistry and materials:</strong> new solvents, reagents, suppliers or grades; a new product in an existing reactor.</li>
+    <li><strong>Controls and safeguards:</strong> set points, alarm limits, interlock logic, bypasses, relief devices.</li>
+    <li><strong>Procedures:</strong> changed sequences, skipped steps, new cleaning methods.</li>
+    <li><strong>Organisation:</strong> fewer operators per shift, a new contractor, the only experienced person retiring.</li>
+  </ul>
+  <p>The one exemption is <strong>replacement in kind</strong>: a part that meets the original specification exactly. The test is the specification, not someone's opinion. &ldquo;Stainless steel is better than carbon steel&rdquo; may be true in general, but a different material is not in kind.</p>
+  <figure class="art-fig" data-fig="moc">
+    <figcaption>Try it: eight things that happen in a real plant. Decide for each one whether it needs an MOC or is a replacement in kind.</figcaption>
+  </figure>
+
+  <h2 id="steps">The MOC steps <span class="lvl l2">Working level</span></h2>
+  <ol>
+    <li><strong>Request:</strong> describe the change, why it is needed and what it replaces. Attach marked-up drawings.</li>
+    <li><strong>Classify:</strong> is it in kind? Minor or major? Permanent or temporary? The class decides how deep the review goes.</li>
+    <li><strong>Hazard review:</strong> a checklist for small changes, a what-if or HAZOP for larger ones, and reaction safety data for chemistry changes.</li>
+    <li><strong>Approve:</strong> by people with the authority and the knowledge, from production, engineering and safety, and quality where product is affected.</li>
+    <li><strong>Implement:</strong> build or change it as approved, not as convenient on the day.</li>
+    <li><strong>Pre-startup safety review (PSSR):</strong> walk it down before use. Built as approved? Drawings, SOPs and batch records updated? Operators trained? Review actions closed?</li>
+    <li><strong>Close:</strong> confirm everything is done and archive the record. For temporary changes, confirm removal.</li>
+  </ol>
+  <p>In pharma plants, GMP change control runs alongside MOC. Change control asks whether product quality is affected; MOC asks whether safety is. Many sites use one form for both, which works well as long as the safety questions don't get lost among the quality ones.</p>
+
+  <h2 id="review">What a good review asks <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li>Does it change the <strong>relief scenarios</strong> or the relief load? (A bigger nitrogen regulator, a higher steam pressure.) See <a href="{{ '/articles/relief-valve-sizing/' | relative_url }}">relief valve sizing</a>.</li>
+    <li>Does it change the <strong>reaction hazard</strong>: heat, gas, accumulation, MTSR?</li>
+    <li>Does it remove or weaken a <strong>safeguard</strong>, even temporarily?</li>
+    <li>Does it bring a new <strong>ignition source</strong>, flammable atmosphere or static risk?</li>
+    <li>Are the <strong>materials</strong> compatible: pressure rating, temperature, corrosion, gaskets?</li>
+    <li>Who needs to know? <strong>Procedures, drawings and training</strong> to update.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>The best MOC systems are quick for small changes and thorough for big ones. If filling in the form for a gasket takes a week, people stop filling it in, and the system misses the changes that matter. Make the simple path simple.</p></div>
+
+  <h2 id="temp">Temporary, emergency and organisational changes <span class="lvl l3">Going deeper</span></h2>
+  <p><strong>Temporary changes</strong> need the same hazard review as permanent ones, plus an expiry date and a named person responsible for removing them. Temporary hoses, bypasses and jumpers have a way of becoming permanent.</p>
+  <p><strong>Emergency changes</strong>, made at night to keep a batch safe, can be approved by a shift manager under a short procedure, but must go through the full review within a defined time, typically a day or two.</p>
+  <p><strong>Organisational changes</strong> are the most often missed: cutting a shift crew, outsourcing maintenance, or losing the one engineer who understood an old process. Ask the same question: which safeguards depended on these people or this knowledge?</p>
+
+  <h2 id="flix">Flixborough: a temporary pipe <span class="lvl l3">Going deeper</span></h2>
+  <p>On 1 June 1974, at the Nypro plant in Flixborough, England, a cracked cyclohexane reactor was removed from a train of six. To keep production going, the engineers bridged the gap with a 20-inch temporary pipe with bellows at each end, supported on scaffolding. No design calculation was done for the bellows or the pipe under pressure, and no qualified engineer reviewed it. Two months later the bypass failed, releasing tonnes of cyclohexane, and the vapour cloud exploded. Twenty-eight people died and the site was destroyed.</p>
+  <p>The investigation's lesson shaped modern MOC: a modification must be designed and reviewed to the same standard as the original plant, however temporary it is meant to be. See the <a href="{{ '/process-safety/case-studies/flixborough-1974/' | relative_url }}">Flixborough case study</a>.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Calling a different specification &ldquo;like for like&rdquo;.</li>
+    <li>Temporary changes with no end date.</li>
+    <li>Changing set points and alarm limits without MOC.</li>
+    <li>MOC closed before drawings and SOPs are updated.</li>
+    <li>Never applying MOC to staffing or organisational changes.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a replacement in kind?</h3>
+  <p>A replacement that meets the original specification exactly. Anything different, even if better, is a change.</p>
+  <h3>Do temporary changes need MOC?</h3>
+  <p>Yes, with the same review, an end date and a check that the plant is restored.</p>
+  <h3>What is a pre-startup safety review?</h3>
+  <p>A check before use that the change was built as approved and that drawings, procedures, training and actions are complete.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/relief-valve-sizing/' | relative_url }}">Relief valve sizing</a>
+    <a href="{{ '/process-safety/case-studies/flixborough-1974/' | relative_url }}">Flixborough, 1974</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

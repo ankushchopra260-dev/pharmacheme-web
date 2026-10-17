@@ -1,0 +1,128 @@
+---
+layout: default
+title: "Relief Valve Sizing Basics: Scenarios, Fire Case and API 520 Orifice Area"
+description: "Pressure relief from the basics: why vessels need relief, set pressure and overpressure, choosing the governing scenario, the API 521 fire case, sizing a vapour relief valve with API 520, orifice letters, rupture discs, runaway reactions and installation rules. Interactive orifice sizing."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Relief Valve Sizing
+    url: /articles/relief-valve-sizing/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Relief Valve Sizing Basics: Scenarios, Fire Case and API 520 Orifice Area",
+        "description": "Relief scenarios, set pressure and overpressure, API 521 fire case, API 520 vapour sizing, orifice letters, rupture discs and installation.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is the allowed overpressure for a relief valve?", "acceptedAnswer": { "@type": "Answer", "text": "For a single relief valve on a vessel, the relieving pressure may reach 10 % above the maximum allowable working pressure for process upsets, 16 % with multiple valves, and 21 % for an external fire case." } },
+        { "@type": "Question", "name": "How is the fire case relief load calculated?", "acceptedAnswer": { "@type": "Answer", "text": "API 521 gives the heat input to a vessel with adequate drainage and firefighting as Q = 43,200 x F x A^0.82 W, with A the wetted area in m2 up to 7.6 m above grade. The relief load is Q divided by the latent heat of the liquid at relieving conditions." } },
+        { "@type": "Question", "name": "Can a relief valve protect against a runaway reaction?", "acceptedAnswer": { "@type": "Answer", "text": "Often not if it is sized for vapour only. A runaway usually gives two-phase flow and gas generation, which needs a much larger area. Runaway relief is sized with DIERS methods using calorimetry data, usually with a rupture disc and a catch tank." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Relief Valve Sizing Basics</h1>
+  <p class="article-meta">Process Design &middot; Pressure Protection &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A relief valve sits on top of a vessel for years doing nothing, and then has a few seconds to do its one job. Whether it succeeds depends on decisions made long before: which scenario it was sized for, whether the pipe to it is too long, whether someone fitted a valve underneath it. This article explains how relief sizing works, from the basic idea to an API 520 calculation, and where the common traps are.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why vessels need relief</a><span>Basics</span></li>
+    <li><a href="#press">Set pressure, overpressure and MAWP</a><span>Basics</span></li>
+    <li><a href="#scen">Finding the governing scenario</a><span>Working level</span></li>
+    <li><a href="#fire">The fire case, worked through</a><span>Working level</span></li>
+    <li><a href="#size">Sizing the orifice with API 520</a><span>Working level</span></li>
+    <li><a href="#run">Rupture discs and runaway reactions</a><span>Going deeper</span></li>
+    <li><a href="#install">Installation: where good sizing goes wrong</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why vessels need relief <span class="lvl l1">Basics</span></h2>
+  <p>Every vessel has a pressure it was designed for. Control systems, alarms and trips keep it well below that pressure most of the time. But all of them can fail: a control valve sticks open, cooling water stops, a fire starts under the vessel. The relief device is the last line of protection: a purely mechanical device that opens when the pressure reaches its set point and lets enough fluid out to stop the pressure rising further.</p>
+  <p>&ldquo;Enough&rdquo; is the important word. A relief valve that opens but is too small simply slows the pressure rise, and the vessel still fails. Sizing is about matching the valve's capacity to the worst credible flow it must pass.</p>
+
+  <h2 id="press">Set pressure, overpressure and MAWP <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>MAWP</strong> (maximum allowable working pressure) is the highest pressure the vessel is certified for at its design temperature. It is on the nameplate.</li>
+    <li><strong>Set pressure</strong> is where the valve starts to open, normally at or below the MAWP.</li>
+    <li><strong>Overpressure</strong> is how far above MAWP the pressure may rise while the valve is discharging at full capacity: 10 % for a single valve on a process upset, 16 % with several valves, and 21 % for an external fire (ASME Section VIII and API 520/521).</li>
+    <li><strong>Relieving pressure</strong> = set pressure + overpressure. Sizing uses this pressure.</li>
+  </ul>
+  <p>Operating pressure should sit at least 10 % below set pressure, or the valve will simmer and leak.</p>
+
+  <h2 id="scen">Finding the governing scenario <span class="lvl l2">Working level</span></h2>
+  <p>API 521 lists the causes of overpressure to consider. For a typical batch reactor in a pharma plant, the list usually narrows to:</p>
+  <ul>
+    <li><strong>External fire</strong> around the vessel.</li>
+    <li><strong>Blocked outlet</strong> on a vent or condenser line while nitrogen or steam keeps flowing in.</li>
+    <li><strong>Control valve failure</strong> on the nitrogen supply, steam to the jacket, or a pump discharging into the vessel.</li>
+    <li><strong>Loss of cooling</strong> during reflux or reaction.</li>
+    <li><strong>Runaway reaction</strong> or decomposition.</li>
+    <li><strong>Tube rupture</strong> in a heat exchanger with a high-pressure side.</li>
+  </ul>
+  <p>Each credible scenario gives a relieving load. The largest one, the <em>governing scenario</em>, sets the size. Write all of them down with the reasoning: a future reviewer needs to see that the runaway case was considered, not forgotten.</p>
+
+  <h2 id="fire">The fire case, worked through <span class="lvl l2">Working level</span></h2>
+  <p>In a fire, the liquid inside boils and the vapour must escape. API 521 gives the heat absorbed by a vessel with adequate drainage and firefighting:</p>
+  <div class="formula-box">Q = 43,200 &times; F &times; A<sub>wetted</sub><sup>0.82</sup> &nbsp;(W)
+    <small>A<sub>wetted</sub>: wetted area in m&sup2;, counted up to 7.6 m above grade. F: environment factor, 1.0 for a bare vessel, lower with approved insulation. Without adequate drainage, the constant is 70,900.</small></div>
+  <p>Take a 6 m&sup3; reactor holding toluene with a wetted area of about 12 m&sup2;, set at 3 barg:</p>
+  <ol>
+    <li>Q = 43,200 &times; 12<sup>0.82</sup> &asymp; 43,200 &times; 7.67 &asymp; 331 kW.</li>
+    <li>Relieving pressure = 3 &times; 1.21 + 1.01 &asymp; 4.64 bar abs. Toluene boils at about 175 &deg;C at this pressure, where its latent heat is about 310 kJ/kg.</li>
+    <li>Relief load = 331 / 310 &asymp; 1.07 kg/s, about 3,850 kg/h of toluene vapour.</li>
+  </ol>
+
+  <h2 id="size">Sizing the orifice with API 520 <span class="lvl l2">Working level</span></h2>
+  <p>For a gas or vapour in critical (choked) flow, which is almost always the case when the valve discharges to a header near atmospheric pressure:</p>
+  <div class="formula-box">A = W / (C &times; K<sub>d</sub> &times; P<sub>1</sub> &times; K<sub>b</sub> &times; K<sub>c</sub>) &times; &radic;(T &times; Z / M)
+    <small>A in mm&sup2;, W in kg/h, P<sub>1</sub> relieving pressure in kPa abs, T in K, M molar mass. C = 0.03948 &times; &radic;[k (2/(k+1))<sup>(k+1)/(k&minus;1)</sup>] from the ratio of specific heats k. K<sub>d</sub> = 0.975 for a preliminary valve size; K<sub>b</sub> = 1 for conventional valves with low back pressure; K<sub>c</sub> = 0.9 with a rupture disc upstream, otherwise 1.</small></div>
+  <p>For toluene, k &asymp; 1.09 gives C &asymp; 0.0247. With W = 3,850 kg/h, P<sub>1</sub> = 464 kPa, T = 448 K and Z taken as 1: A &asymp; 760 mm&sup2;, or 1.18 in&sup2;. Valves come in standard orifice sizes, labelled by letter in API 526, so the next size up is a <strong>J orifice</strong> (1.287 in&sup2;).</p>
+  <figure class="art-fig" data-fig="relief">
+    <figcaption>Try it: change the load, set pressure or fluid and see the required area and the API orifice letter it needs. Switch between a process upset (10 % overpressure) and a fire (21 %).</figcaption>
+  </figure>
+  <p>This is a first estimate. The final size uses the manufacturer's certified coefficient for the chosen valve, and Z from real gas data when the pressure is high.</p>
+
+  <h2 id="run">Rupture discs and runaway reactions <span class="lvl l3">Going deeper</span></h2>
+  <p>A <strong>rupture disc</strong> is a thin membrane that bursts at a set pressure. It opens fully in milliseconds, has no moving parts and is tight against leaks and corrosive vapours. But once burst, it stays open until replaced. Discs are used alone on reactors where a fast, large opening matters, and upstream of a relief valve to protect it from corrosion (with a pressure gauge between them to detect a leaking disc).</p>
+  <p>A runaway reaction is a different problem from fire. As temperature climbs, the batch foams and swells, so the relief discharges a two-phase mixture of liquid and vapour. Two-phase flow needs a much larger area than vapour alone, often several times larger, and if the reaction also produces gas the requirement grows again. These cases are sized with the DIERS methods using adiabatic calorimetry data (for example from a VSP or ARC test), and usually lead to a large rupture disc discharging to a catch tank. A relief valve sized only for the fire case gives no real protection against a runaway. See <a href="{{ '/process-safety/emergency-relief-vent-sizing/' | relative_url }}">emergency relief and vent sizing</a>.</p>
+
+  <h2 id="install">Installation: where good sizing goes wrong <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Inlet pressure loss</strong> above 3 % of set pressure makes the valve open and close rapidly (chatter), which can destroy it. Keep inlet lines short and at least the valve's inlet size.</li>
+    <li><strong>Back pressure</strong> from a long discharge line or a shared header reduces capacity. Above about 10 % of set pressure, use a balanced-bellows valve and the K<sub>b</sub> correction.</li>
+    <li><strong>No isolation valve</strong> under a relief device unless it is locked or car-sealed open under a written procedure.</li>
+    <li><strong>A safe discharge:</strong> to a scrubber, flare, catch tank or a safe high point, never into a work area or back into a building.</li>
+    <li><strong>Testing:</strong> bench-test valves at the interval the inspection plan sets, and record the as-found pressure. A valve found stuck is a near miss worth investigating.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>The most common finding in relief audits is not a wrong calculation. It is a change nobody linked to the relief: a bigger nitrogen regulator, a new reaction in an old reactor, a higher steam pressure on the jacket. Every one of those changes the scenarios, which is why relief belongs in <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a>.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Sizing only for fire and never considering the runaway case.</li>
+    <li>Using the set pressure instead of the relieving pressure in the formula.</li>
+    <li>Isolation valves under relief valves left closed after maintenance.</li>
+    <li>Long, small-bore inlet lines that make the valve chatter.</li>
+    <li>Not revisiting relief sizing when a new product moves into an old reactor.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What overpressure is allowed?</h3>
+  <p>10 % above MAWP for a single valve on a process upset, 16 % with several valves, and 21 % for fire.</p>
+  <h3>How is the fire case load calculated?</h3>
+  <p>Q = 43,200 &times; F &times; A<sup>0.82</sup> W with adequate drainage; divide by the latent heat at relieving conditions.</p>
+  <h3>Can a relief valve protect against a runaway?</h3>
+  <p>Usually not if sized for vapour only. Runaways need two-phase sizing with DIERS methods and calorimetry data.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/emergency-relief-vent-sizing/' | relative_url }}">Emergency relief and vent sizing</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

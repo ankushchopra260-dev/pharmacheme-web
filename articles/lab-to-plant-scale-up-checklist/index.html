@@ -1,0 +1,134 @@
+---
+layout: default
+title: "Lab to Plant Scale-up: What Changes and a Practical Checklist"
+description: "Why reactions behave differently at plant scale: surface area to volume, heat-up time, mixing time, dosing, solids handling and sampling, with a practical lab-to-plant technology transfer checklist for API and fine chemical processes. Interactive scale comparison."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Lab to Plant Scale-up Checklist
+    url: /articles/lab-to-plant-scale-up-checklist/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Lab to Plant Scale-up: What Changes and a Practical Checklist",
+        "description": "Surface area to volume, heat-up time, mixing, dosing, solids handling, sampling and a technology transfer checklist.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "Why does heat transfer get worse on scale-up?", "acceptedAnswer": { "@type": "Answer", "text": "Volume grows with the cube of size but jacket area only with the square, so area per litre falls with volume to the power minus one third. Going from a 1 L flask to a 6,000 L reactor gives about 18 times less cooling area per litre, so heating and cooling take roughly 18 times longer for the same temperature difference." } },
+        { "@type": "Question", "name": "What should a scale-up checklist cover?", "acceptedAnswer": { "@type": "Answer", "text": "Reaction safety data, heat removal, mixing and dosing, solids handling (filtration and drying), materials of construction, equipment fit (minimum stir volume and maximum fill), sampling and in-process controls, hold times, utilities, solvent recovery and waste, and documentation." } },
+        { "@type": "Question", "name": "Should the plant batch match the lab procedure exactly?", "acceptedAnswer": { "@type": "Answer", "text": "No. The chemistry should match, but times, addition methods and temperatures often need to change to suit the plant's heat transfer and mixing. Those changes should be tested in the lab under plant-like conditions first, for example by running the lab reaction with the plant's dosing time." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Lab to Plant Scale-up: What Changes</h1>
+  <p class="article-meta">Scale-up &middot; Technology Transfer &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">The chemist hands over a procedure that works perfectly in a 1-litre flask. The first plant batch takes three times longer, gives a sticky solid that won't filter and misses the impurity limit. Nobody did anything wrong. The chemistry is the same, but almost everything around it has changed. This article explains what changes with scale, why, and how to check it before the first plant batch instead of after.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#same">The chemistry stays, the physics changes</a><span>Basics</span></li>
+    <li><a href="#heat">Heat: the biggest change</a><span>Basics</span></li>
+    <li><a href="#mix">Mixing and dosing</a><span>Working level</span></li>
+    <li><a href="#solids">Solids: crystallisation, filtration and drying</a><span>Working level</span></li>
+    <li><a href="#time">Time itself</a><span>Working level</span></li>
+    <li><a href="#check">The checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="same">The chemistry stays, the physics changes <span class="lvl l1">Basics</span></h2>
+  <p>Reaction kinetics, equilibrium and solubility don't depend on the size of the vessel. What does depend on size is everything that moves heat and material around: how fast you can heat or cool, how quickly a drop of reagent mixes in, how long a transfer takes, how deep the filter cake is. In the lab these are so fast that they disappear. In the plant they can become slower than the chemistry, and then they control the result.</p>
+  <p>So the question for every step is: in the lab, which was faster, the chemistry or the physics? And will that still be true in the plant?</p>
+
+  <h2 id="heat">Heat: the biggest change <span class="lvl l1">Basics</span></h2>
+  <p>Make a vessel twice as wide (keeping the same shape) and its volume grows eight times, but its wall area only four times. Volume grows with the cube of size, area with the square. So the cooling area per litre falls as the vessel gets bigger:</p>
+  <div class="formula-box">Area per volume &prop; V<sup>&minus;1/3</sup>
+    <small>From 1 L to 6,000 L: 6,000<sup>1/3</sup> &asymp; 18, so about 18 times less jacket area per litre.</small></div>
+  <p>That has three consequences. Heating and cooling take roughly 18 times longer for the same temperature difference (and plant jackets often have a lower U than a thin glass flask in a bath, so it can be worse). An exotherm that a flask absorbed easily may exceed the plant's cooling. And a quench or a crash cooling that took two minutes in the lab can take an hour, with the batch spending that hour at temperatures it never saw in the lab.</p>
+  <figure class="art-fig" data-fig="scalegap">
+    <figcaption>Try it: move the plant batch size and see how each property compares with a 1 L flask, assuming the same vessel shape and the same power per volume for mixing.</figcaption>
+  </figure>
+  <p>The <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load article</a> shows how to calculate plant heat-up and cool-down times, and the <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch article</a> shows how cooling capacity sets the minimum dosing time.</p>
+
+  <h2 id="mix">Mixing and dosing <span class="lvl l2">Working level</span></h2>
+  <p>A magnetic stirrer in a flask blends in a few seconds. A plant reactor at a typical power input takes tens of seconds to a few minutes; at the same power per volume, blend time grows roughly with V<sup>2/9</sup>, about 7 times from 1 L to 6,000 L, and much more if the agitator is less powerful per litre than the lab. This matters when:</p>
+  <ul>
+    <li><strong>a fast reaction competes with a side reaction</strong>, and local excess reagent near the feed point favours the impurity. Feed below the surface near the impeller, not onto the surface;</li>
+    <li><strong>two liquid phases</strong> need to stay dispersed for the reaction to proceed;</li>
+    <li><strong>solids need to stay suspended</strong>, especially dense catalysts or heavy crystals;</li>
+    <li><strong>pH adjustment</strong> overshoots locally where base meets the batch.</li>
+  </ul>
+  <p>Scaling the agitator speed is a choice of what to keep constant: tip speed, power per volume or Reynolds number. They give very different speeds. See the <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up article</a>.</p>
+
+  <h2 id="solids">Solids: crystallisation, filtration and drying <span class="lvl l2">Working level</span></h2>
+  <p>Solids cause more scale-up failures than reactions do. Slower cooling in the plant changes the supersaturation profile, so crystals nucleate differently: often finer, sometimes a different polymorph. Fines filter slowly; filtration time grows with the square of the cake depth, and a plant centrifuge or filter-dryer cake is far deeper than a Buchner funnel's. Wash efficiency falls in deep cakes, and drying a deep bed takes much longer than a thin layer in a lab oven.</p>
+  <ul>
+    <li>Run the lab crystallisation at the plant's real cooling rate and agitation, and measure filtration resistance (see the <a href="{{ '/articles/filtration-calculation/' | relative_url }}">filtration article</a>).</li>
+    <li>Seed at a defined temperature to control nucleation.</li>
+    <li>Check the dried product's form (XRD) and particle size from a plant-like run, not just the first lab sample.</li>
+  </ul>
+
+  <h2 id="time">Time itself <span class="lvl l2">Working level</span></h2>
+  <p>Everything takes longer in the plant: charging 200 kg of solid by hand, transferring 4,000 L through a 50 mm line, sampling and waiting for the lab, heating, cooling. A reaction mixture that sat for 20 minutes in the lab may sit for 8 hours in the plant, sometimes overnight. If the product, an intermediate or a reagent degrades in that time, the impurity profile changes.</p>
+  <p>Ask the chemists for <strong>hold-time studies</strong>: keep each key mixture at its process temperature for several times the expected plant duration and measure what happens. It is cheap in the lab and saves batches.</p>
+  <div class="art-note"><b>On the plant</b><p>The best technology transfer meetings I've seen include an operator from the plant. They spot things a chemist and an engineer both miss: a solid that will bridge in the hopper, a step that falls on the shift handover, a valve that can't be reached while wearing a respirator.</p></div>
+
+  <h2 id="check">The checklist <span class="lvl l3">Going deeper</span></h2>
+  <h3>Safety</h3>
+  <ul>
+    <li>Reaction calorimetry for every exothermic step: heat, accumulation, MTSR, gas evolution. DSC/ARC on reaction mixtures, isolated intermediates and residues.</li>
+    <li>Criticality class for each step, and the relief scenario it implies.</li>
+    <li>Flash points, static risk, inerting needs and dust explosion data for powders.</li>
+  </ul>
+  <h3>Equipment fit</h3>
+  <ul>
+    <li>Minimum stir volume and maximum working volume of each vessel at every step, including after distillation.</li>
+    <li>Jacket service (steam, hot water, brine) and the temperatures it can reach.</li>
+    <li>Materials of construction: glass-lined, SS316, Hastelloy; gaskets and seals compatible with every chemical and solvent.</li>
+    <li>Filter or centrifuge area, cake depth and dryer capacity per batch.</li>
+  </ul>
+  <h3>Process</h3>
+  <ul>
+    <li>Plant heat-up, cool-down and dosing times calculated, and tested in the lab at those times.</li>
+    <li>Order and method of addition: liquid dosing, solid charging, subsurface feed.</li>
+    <li>Hold-time data for every intermediate stage.</li>
+    <li>Sampling points, in-process tests, specifications and lab turnaround time.</li>
+    <li>Solvent recovery: can the recovered solvent be reused, and is there an azeotrope?</li>
+  </ul>
+  <h3>Documentation and people</h3>
+  <ul>
+    <li>Batch record written in plant language, with ranges, not single values.</li>
+    <li>HAZOP or what-if review of the process in the actual equipment.</li>
+    <li>Operator training before the first batch, with the chemist present for the first runs.</li>
+    <li>Effluent and waste: quantities, treatability at the ETP, and any special disposal.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Copying lab addition times into the plant batch record.</li>
+    <li>Assuming the lab crystallisation will filter the same at plant scale.</li>
+    <li>No hold-time data, so a weekend stop becomes a failed batch.</li>
+    <li>Checking that the batch fits the reactor at the start, but not after a distillation or a dilution.</li>
+    <li>Reaction safety data done after the first plant batch instead of before.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why does heat transfer get worse on scale-up?</h3>
+  <p>Area per litre falls as V<sup>&minus;1/3</sup>: about 18 times less from 1 L to 6,000 L, so heating and cooling take much longer.</p>
+  <h3>What should a scale-up checklist cover?</h3>
+  <p>Safety data, heat, mixing and dosing, solids, equipment fit, materials, sampling, hold times, utilities, recovery, waste and documentation.</p>
+  <h3>Should the plant batch match the lab procedure exactly?</h3>
+  <p>The chemistry should; times and addition methods often must change, after testing them in the lab under plant-like conditions.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/scale-up-and-tech-transfer/' | relative_url }}">Scale-up and tech transfer (Process Safety)</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up calculations</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>
