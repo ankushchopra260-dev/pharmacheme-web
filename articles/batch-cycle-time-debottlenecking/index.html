@@ -1,0 +1,117 @@
+---
+layout: default
+title: "Batch Cycle Time and Debottlenecking: Finding the Real Bottleneck"
+description: "Batch time vs cycle time, how to find the bottleneck equipment in a multi-step batch process, Gantt charts, batches per week, and practical ways to debottleneck: parallel equipment, shorter steps, removing QC and cleaning waits. Interactive Gantt chart."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Batch Cycle Time and Debottlenecking
+    url: /articles/batch-cycle-time-debottlenecking/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Batch Cycle Time and Debottlenecking: Finding the Real Bottleneck",
+        "description": "Batch time vs cycle time, the bottleneck, Gantt charts, batches per week and practical debottlenecking.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is the difference between batch time and cycle time?", "acceptedAnswer": { "@type": "Answer", "text": "Batch time is how long one batch takes from first charge to packed product. Cycle time is the interval between successive batches, set by the slowest equipment (the bottleneck). In the example on this page, one batch takes 32.5 hours but a new batch can start every 14 hours." } },
+        { "@type": "Question", "name": "How do you find the bottleneck in a batch plant?", "acceptedAnswer": { "@type": "Answer", "text": "List the total occupancy of each piece of equipment per batch, including charging, cleaning, waiting for QC and transfer time. The equipment with the longest occupancy is the bottleneck, and it sets the cycle time." } },
+        { "@type": "Question", "name": "Does speeding up a non-bottleneck step increase output?", "acceptedAnswer": { "@type": "Answer", "text": "No. Shortening a step on equipment that is not the bottleneck shortens the batch time but not the cycle time, so batches per week stay the same. Only time saved on the bottleneck increases output." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Batch Cycle Time and Debottlenecking</h1>
+  <p class="article-meta">Plant Engineering &middot; Capacity &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">&ldquo;We need 20 % more output by next quarter.&rdquo; Every plant manager hears this. The usual reaction is to speed up whatever step looks slow, and often nothing changes. Output in a batch plant is set by one piece of equipment, and until you find it, every improvement elsewhere is wasted effort. This article shows how to find it and what to do about it.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#two">Two different times</a><span>Basics</span></li>
+    <li><a href="#neck">The bottleneck sets the pace</a><span>Basics</span></li>
+    <li><a href="#gantt">Drawing the Gantt chart</a><span>Working level</span></li>
+    <li><a href="#fix">Ways to debottleneck</a><span>Working level</span></li>
+    <li><a href="#hidden">Where the hidden hours are</a><span>Going deeper</span></li>
+    <li><a href="#campaign">Campaigns, shared equipment and real schedules</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="two">Two different times <span class="lvl l1">Basics</span></h2>
+  <p><strong>Batch time</strong> is how long one batch takes from the first charge to packed product: the time a single lot spends in the plant. <strong>Cycle time</strong> is the interval between one batch starting and the next one starting. In a plant with several pieces of equipment in series, these are very different, because while batch 1 is in the dryer, batch 2 can already be in the reactor.</p>
+  <p>Output depends only on cycle time:</p>
+  <div class="formula-box">Batches per week = available hours per week / cycle time
+    <small>Use realistic available hours: 168 minus planned maintenance, cleaning between products and typical downtime.</small></div>
+
+  <h2 id="neck">The bottleneck sets the pace <span class="lvl l1">Basics</span></h2>
+  <p>Think of a line of people passing buckets. However fast the others are, buckets arrive at the end only as fast as the slowest person can pass them. In a batch plant, each piece of equipment can hold only one batch at a time, so a new batch can start only when the busiest piece of equipment is free. That equipment is the <strong>bottleneck</strong>, and its total occupancy per batch is the cycle time.</p>
+  <p>Take a simple API step:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Equipment</th><th>Work in it per batch</th><th>Occupancy</th></tr>
+    <tr><td>Reactor R-101</td><td>Charge 1 h, react 6 h, distil 4 h, transfer 1 h</td><td>12 h</td></tr>
+    <tr><td>Centrifuge C-101</td><td>Spin, wash, unload</td><td>4.5 h</td></tr>
+    <tr><td>Dryer D-101</td><td>Load, dry, cool, unload</td><td>14 h</td></tr>
+    <tr><td>Packing</td><td>Sift, pack, label</td><td>2 h</td></tr>
+  </table></div>
+  <p>One batch takes 12 + 4.5 + 14 + 2 = 32.5 hours from start to finish. But the dryer is busy 14 hours per batch, longer than anything else, so a new batch can only start every 14 hours: 168 / 14 = <strong>12 batches a week</strong>. The reactor sits idle for 2 hours of every cycle, the centrifuge for 9.5.</p>
+
+  <h2 id="gantt">Drawing the Gantt chart <span class="lvl l2">Working level</span></h2>
+  <p>A Gantt chart puts each piece of equipment on its own row and time along the bottom. Each batch is a coloured block in each row. Drawing three or four batches makes the bottleneck obvious: it is the row with no gaps, and every other row has idle time waiting for it.</p>
+  <figure class="art-fig" data-fig="gantt">
+    <figcaption>Try it: the dryer row has no gaps, so it is the bottleneck. Add a second dryer, then shorten distillation, and watch the batches per week change. Then try shortening a step that is not on the bottleneck.</figcaption>
+  </figure>
+  <p>Draw the chart with what actually happens on the shop floor, not with the batch card times. Take the last ten batch records and use the median for each step, including waits.</p>
+
+  <h2 id="fix">Ways to debottleneck <span class="lvl l2">Working level</span></h2>
+  <p>Only time saved on the bottleneck increases output. So work on the bottleneck, in roughly this order of cost:</p>
+  <ol>
+    <li><strong>Remove waiting time on the bottleneck.</strong> Material sitting in the dryer waiting for an LOD result, an operator, or a free packing room. Often free.</li>
+    <li><strong>Move work off the bottleneck.</strong> Cool the product in a separate hopper rather than in the dryer; do a filter-dryer's wash in the centrifuge instead.</li>
+    <li><strong>Shorten the bottleneck step itself.</strong> Better vacuum, higher jacket temperature within the product's limits, a lower final cake moisture from the centrifuge (see the <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}">centrifuge article</a>).</li>
+    <li><strong>Add parallel equipment.</strong> A second dryer working alternate batches halves its occupancy per batch.</li>
+  </ol>
+  <p>Every fix moves the bottleneck somewhere else. In the example, a second dryer cuts the dryer's share to 7 h, so the reactor becomes the bottleneck at 12 h: 168 / 12 = <strong>14 batches a week</strong>, a 17 % gain. Now shortening distillation from 4 to 2.5 h takes the reactor to 10.5 h: <strong>16 batches a week</strong>. Without the second dryer, that same distillation improvement would have added nothing at all.</p>
+
+  <h2 id="hidden">Where the hidden hours are <span class="lvl l3">Going deeper</span></h2>
+  <p>When you compare batch records with the batch card, the extra hours usually come from things nobody calls a process step:</p>
+  <ul>
+    <li><strong>In-process QC waits:</strong> sample taken, equipment held while the lab works through its queue. Agree sample priority for bottleneck equipment, or move the hold to a cheaper vessel.</li>
+    <li><strong>Shift handovers and breaks</strong> at a critical step: schedule so that long unattended steps span the handover.</li>
+    <li><strong>Utilities:</strong> chilled brine shared between reactors, so cooling takes twice as long when two batches need it together; vacuum that falls off when three vessels pull at once.</li>
+    <li><strong>Cleaning and line clearance</strong> between batches and products.</li>
+    <li><strong>Material not ready:</strong> raw material not dispensed, solvent recovery tank still full.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Before spending on new equipment, stand next to the bottleneck for a full cycle with a notebook. Write down what it is actually doing every 30 minutes. In my experience, a third of the time is waiting for something else, and that third is the cheapest capacity you will ever find.</p></div>
+
+  <h2 id="campaign">Campaigns, shared equipment and real schedules <span class="lvl l3">Going deeper</span></h2>
+  <p>Real multi-product plants are messier. A reactor may serve two steps of the same product, or two products. Then its occupancy per batch of final product is the sum of all its uses. Product changeovers add cleaning time that is shared over the campaign length, so longer campaigns raise average output but tie up working capital and warehouse space.</p>
+  <p>For a plant with many products and shared equipment, a spreadsheet with occupancy per equipment per product, multiplied by the demand plan, quickly shows which equipment is loaded above about 85 % (where queues build up and schedules slip) and which is lightly used. Above about 85 % utilisation, small disruptions cause large delays, so plan capacity with that buffer, not at 100 %.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Speeding up a step that is not on the bottleneck and expecting more output.</li>
+    <li>Calculating capacity from batch card times instead of actual batch records.</li>
+    <li>Ignoring cleaning, QC waits and changeovers.</li>
+    <li>Buying a new reactor when the dryer is the bottleneck.</li>
+    <li>Planning for 100 % utilisation of the bottleneck.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between batch time and cycle time?</h3>
+  <p>Batch time is how long one batch takes end to end (32.5 h in the example). Cycle time is the interval between batches, set by the bottleneck (14 h).</p>
+  <h3>How do you find the bottleneck?</h3>
+  <p>Total the occupancy of each piece of equipment per batch, including waits, cleaning and transfers. The longest is the bottleneck.</p>
+  <h3>Does speeding up a non-bottleneck step help?</h3>
+  <p>No. It shortens the batch time but not the cycle time, so output stays the same.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}">Centrifuge calculation</a>
+    <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration time calculation</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and heat-up time</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

@@ -1,0 +1,119 @@
+---
+layout: default
+title: "HAZOP Made Practical: Nodes, Guidewords, Deviations and Actions"
+description: "A practical guide to HAZOP for chemical and pharma plants: what a HAZOP is, nodes and design intent, guidewords and parameters, causes, consequences and safeguards, risk ranking, batch HAZOP, running a good session and closing actions. Includes an interactive guideword explorer."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: HAZOP Made Practical
+    url: /articles/hazop-made-practical/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "HAZOP Made Practical: Nodes, Guidewords, Deviations and Actions",
+        "description": "What a HAZOP is, nodes, guidewords and parameters, causes, consequences, safeguards, risk ranking, batch HAZOP and running a good session.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is a HAZOP?", "acceptedAnswer": { "@type": "Answer", "text": "A HAZOP (hazard and operability study) is a structured team review of a process design. The team takes each part of the plant (a node), applies guidewords such as No, More, Less and Reverse to process parameters such as flow, temperature and pressure, and for each meaningful deviation asks what could cause it, what would happen and what protects against it." } },
+        { "@type": "Question", "name": "What are the HAZOP guidewords?", "acceptedAnswer": { "@type": "Answer", "text": "The basic guidewords are No (or Not), More, Less, As well as, Part of, Reverse and Other than. For batch processes, timing and sequence guidewords such as Early, Late, Before and After are also used." } },
+        { "@type": "Question", "name": "Who should be in a HAZOP team?", "acceptedAnswer": { "@type": "Answer", "text": "An independent facilitator, a scribe, the process engineer who knows the design, someone from operations who knows how the plant is really run, and instrument, maintenance and safety specialists as needed. Typically five to eight people." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>HAZOP Made Practical</h1>
+  <p class="article-meta">Process Safety &middot; Hazard Studies &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Most engineers first meet a HAZOP as a long meeting with a projector, a stack of P&amp;IDs and a spreadsheet that grows by a hundred rows a day. Done well, it is the single best way to find out how a design can go wrong before it does. Done badly, it is a box-ticking exercise that misses the one scenario that matters. This article explains how a HAZOP works, step by step, and what separates a useful one from a ritual.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea behind a HAZOP</a><span>Basics</span></li>
+    <li><a href="#method">The method: node, intent, guideword, deviation</a><span>Basics</span></li>
+    <li><a href="#row">Filling one row properly</a><span>Working level</span></li>
+    <li><a href="#risk">Ranking risk and deciding actions</a><span>Working level</span></li>
+    <li><a href="#batch">HAZOP for batch processes</a><span>Going deeper</span></li>
+    <li><a href="#good">What makes a HAZOP good</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="idea">The idea behind a HAZOP <span class="lvl l1">Basics</span></h2>
+  <p>A process design describes how the plant is <em>supposed</em> to behave. Accidents happen when it behaves differently: too much flow, no cooling, the wrong material, a step done out of order. A HAZOP (hazard and operability study) is a disciplined way of imagining those departures from design, one at a time, with a team that between them knows the chemistry, the equipment and how the plant is really operated.</p>
+  <p>The method was developed at ICI in the 1960s and is now described in IEC 61882. Its strength is that it doesn't rely on anyone's memory of past incidents: it forces the team to consider deviations systematically, including ones nobody has seen yet.</p>
+
+  <h2 id="method">The method: node, intent, guideword, deviation <span class="lvl l1">Basics</span></h2>
+  <ol>
+    <li><strong>Pick a node.</strong> A section of the P&amp;ID with one clear purpose: the reagent dosing line and reactor, the condenser and receiver, the transfer to the centrifuge.</li>
+    <li><strong>State the design intent.</strong> What the node is meant to do, with numbers: &ldquo;Dose 800 kg of reagent into R-101 over 4 hours at 60 &deg;C, with the agitator running and the jacket on cooling water.&rdquo;</li>
+    <li><strong>Combine a guideword with a parameter</strong> to get a deviation. Guidewords: <em>No, More, Less, As well as, Part of, Reverse, Other than</em>. Parameters: flow, temperature, pressure, level, composition, agitation, time.</li>
+    <li><strong>For each meaningful deviation, ask:</strong> What could cause it? What would happen? What protects us now? Is that enough?</li>
+  </ol>
+  <p>&ldquo;More flow&rdquo; on a dosing line, &ldquo;No agitation&rdquo; in a reactor, &ldquo;Reverse flow&rdquo; from a reactor into a dosing tank: each is a question the team must answer with the P&amp;ID in front of them.</p>
+  <figure class="art-fig" data-fig="hazop">
+    <figcaption>Try it: a reactor with exothermic reagent dosing. Combine a parameter with a guideword to see a worked HAZOP row: the deviation, its causes, consequences, the safeguards that exist and a typical action.</figcaption>
+  </figure>
+
+  <h2 id="row">Filling one row properly <span class="lvl l2">Working level</span></h2>
+  <p>Take <em>More flow</em> of reagent during dosing. A weak row reads: &ldquo;Cause: pump problem. Consequence: high temperature. Safeguard: operator.&rdquo; It is useless, because nobody can act on it.</p>
+  <p>A good row is specific enough that someone who wasn't in the room understands it:</p>
+  <ul>
+    <li><strong>Causes:</strong> dosing pump speed set too high after maintenance; control valve FCV fails open; operator increases rate to finish before shift change.</li>
+    <li><strong>Consequence (without safeguards):</strong> reagent accumulates faster than it reacts; heat release exceeds jacket cooling; batch temperature rises; if cooling then fails, the MTSR exceeds the solvent boiling point and the reactor pressurises.</li>
+    <li><strong>Existing safeguards:</strong> flow indication with high alarm (same loop as the control valve, so not independent); high-temperature trip on an independent sensor that stops dosing; rupture disc sized for fire case only.</li>
+    <li><strong>Action:</strong> fit a restriction orifice sized to the safe maximum dosing rate; check the relief system for the runaway case.</li>
+  </ul>
+  <p>Notice two habits. The consequence is written assuming the safeguards fail, otherwise everything looks safe. And each safeguard is checked for independence: an alarm on the same instrument that caused the problem is not a separate layer.</p>
+
+  <h2 id="risk">Ranking risk and deciding actions <span class="lvl l2">Working level</span></h2>
+  <p>Most companies rank each scenario on a risk matrix: severity of the consequence (from minor injury to multiple fatalities or a major release) against likelihood (from &ldquo;has happened on this site&rdquo; to &ldquo;not expected in the plant's life&rdquo;). The ranking decides whether the existing safeguards are enough or an action is needed.</p>
+  <p>For high-severity scenarios, a matrix alone is too coarse. Layer of Protection Analysis (LOPA) is the usual next step: it counts the independent protection layers, gives each a credit (typically a tenfold risk reduction for a good alarm with operator response or a basic trip), and checks whether the total meets the company's tolerable risk. If not, the gap often becomes a safety instrumented function with a required SIL rating.</p>
+  <div class="art-note"><b>On the plant</b><p>An action like &ldquo;operator to be careful&rdquo; or &ldquo;SOP to be followed&rdquo; is not an action. Ask: what will be physically different next month? A restriction orifice, an interlock, a changed procedure step with a check, a training session with a date and a name.</p></div>
+
+  <h2 id="batch">HAZOP for batch processes <span class="lvl l3">Going deeper</span></h2>
+  <p>A continuous plant runs in one steady state, so nodes based on equipment work well. A batch plant runs through a sequence of steps, and the same reactor is a charging vessel, a reactor, a distillation pot and a crystalliser on the same day. For batch processes, it works better to take the <strong>batch record steps</strong> as nodes and add timing guidewords:</p>
+  <ul>
+    <li><strong>Early / Late:</strong> sampling done before the reaction is complete; quench added late.</li>
+    <li><strong>Before / After:</strong> solvent charged before the vessel is inerted; heating started before the agitator.</li>
+    <li><strong>Longer / Shorter:</strong> hold time extended over a weekend; dosing completed in half the time.</li>
+    <li><strong>Other than:</strong> wrong drum, wrong reactor, wrong jacket utility.</li>
+  </ul>
+  <p>Batch HAZOPs find many of their best actions in the procedure itself: missing checks, ambiguous wording, steps that depend on one operator's memory.</p>
+
+  <h2 id="good">What makes a HAZOP good <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Up-to-date P&amp;IDs.</strong> A HAZOP on drawings that don't match the plant reviews a plant that doesn't exist. Walk the line first.</li>
+    <li><strong>The right people.</strong> An independent facilitator, a good scribe, the process engineer, and an operator or supervisor who knows how things are really done at 3 a.m.</li>
+    <li><strong>Process safety data in hand.</strong> Reaction heat, MTSR, TD24, gas evolution, flash points, toxicity. Without them, the team guesses at consequences.</li>
+    <li><strong>Short sessions.</strong> Four to five hours a day. After that, quality drops sharply and rows become copy-paste.</li>
+    <li><strong>Actions closed, not just raised.</strong> Track them with owners and dates, and review the closure. An open HAZOP action is a known hazard you have decided to live with.</li>
+    <li><strong>Repeat it.</strong> Revalidate every five years or so, and review changes through management of change in between.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Writing consequences with the safeguards working, so every scenario looks minor.</li>
+    <li>Counting the alarm and the trip on the same sensor as two layers.</li>
+    <li>Skipping &ldquo;obvious&rdquo; deviations because the team is experienced.</li>
+    <li>No reaction hazard data, so runaway scenarios are judged by feel.</li>
+    <li>Actions that say &ldquo;be careful&rdquo;.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a HAZOP?</h3>
+  <p>A structured team review that applies guidewords to process parameters, node by node, to find deviations from design intent and check that each has adequate safeguards.</p>
+  <h3>What are the HAZOP guidewords?</h3>
+  <p>No, More, Less, As well as, Part of, Reverse and Other than; for batch processes also Early, Late, Before and After.</p>
+  <h3>Who should be in a HAZOP team?</h3>
+  <p>An independent facilitator, a scribe, the process engineer, operations, and instrument, maintenance and safety specialists as needed: usually five to eight people.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">How to read a P&amp;ID</a>
+    <a href="{{ '/process-safety/' | relative_url }}">Process Safety section</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

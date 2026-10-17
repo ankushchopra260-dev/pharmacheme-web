@@ -1,0 +1,130 @@
+---
+layout: default
+title: "Heat Exchanger Design Basics: Duty, LMTD, U Value, Fouling and Area"
+description: "Heat exchanger sizing from the basics: heat duty, log mean temperature difference, counter-current vs co-current flow, overall heat transfer coefficient U, typical U values, fouling factors, the F correction factor and a full worked example. Interactive LMTD diagram."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Heat Exchanger Design Basics
+    url: /articles/heat-exchanger-design-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Heat Exchanger Design Basics: Duty, LMTD, U Value, Fouling and Area",
+        "description": "Heat duty, LMTD, counter-current vs co-current, U values, fouling factors, F correction and a worked sizing example.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is LMTD?", "acceptedAnswer": { "@type": "Answer", "text": "The log mean temperature difference is the effective average temperature difference between the hot and cold streams along an exchanger: LMTD = (dT1 - dT2) / ln(dT1 / dT2), where dT1 and dT2 are the temperature differences at the two ends." } },
+        { "@type": "Question", "name": "Why is counter-current flow better than co-current?", "acceptedAnswer": { "@type": "Answer", "text": "Counter-current gives a higher LMTD for the same inlet and outlet temperatures, so it needs less area, and it allows the cold outlet to be hotter than the hot outlet. In the example on this page, counter-current gives 51 C against 46.5 C for co-current." } },
+        { "@type": "Question", "name": "What is a fouling factor?", "acceptedAnswer": { "@type": "Answer", "text": "A fouling factor is an extra thermal resistance added at design to allow for deposits that build up in service: 1/U_dirty = 1/U_clean + Rf. A fouling allowance of 0.0005 m2K/W reduces a clean U of 500 W/m2K to 400 W/m2K, so the exchanger needs 25 % more area." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Heat Exchanger Design Basics</h1>
+  <p class="article-meta">Process Design &middot; Heat Transfer &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Every heat exchanger, from a reactor jacket to a shell-and-tube condenser, is sized with one short equation: Q = U &times; A &times; &Delta;T. The skill is in the three pieces: how much heat you must move, what temperature difference you really have, and how well heat crosses the wall once the exchanger has been in service a year. This article walks through each one and finishes with a full sizing example.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#duty">Step 1: the heat duty</a><span>Basics</span></li>
+    <li><a href="#lmtd">Step 2: the temperature difference (LMTD)</a><span>Basics</span></li>
+    <li><a href="#flow">Counter-current vs co-current</a><span>Working level</span></li>
+    <li><a href="#u">Step 3: the U value</a><span>Working level</span></li>
+    <li><a href="#foul">Fouling: designing for the dirty exchanger</a><span>Working level</span></li>
+    <li><a href="#example">A full worked example</a><span>Working level</span></li>
+    <li><a href="#deeper">F factor, pinch and choosing the type</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="duty">Step 1: the heat duty <span class="lvl l1">Basics</span></h2>
+  <p>The duty is the heat that must move from the hot stream to the cold stream per second. With no phase change:</p>
+  <div class="formula-box">Q = m &times; c<sub>p</sub> &times; (T<sub>in</sub> &minus; T<sub>out</sub>)
+    <small>Q in kW when m is in kg/s and c<sub>p</sub> in kJ/kg&middot;K. With condensation or boiling, add m &times; latent heat.</small></div>
+  <p>The duty must balance: what the hot side loses, the cold side gains (minus a few percent lost to the surroundings). Use this to find the flow you need on the other side. If 4,000 kg/h of a solvent stream with c<sub>p</sub> 2.0 cools from 120 to 60 &deg;C, the duty is (4,000/3,600) &times; 2.0 &times; 60 &asymp; 133 kW. Cooling water warming from 30 to 40 &deg;C then needs 133 / (4.18 &times; 10) &asymp; 3.2 kg/s, about 11.5 m&sup3;/h.</p>
+
+  <h2 id="lmtd">Step 2: the temperature difference (LMTD) <span class="lvl l1">Basics</span></h2>
+  <p>The temperature difference between the two streams is not constant: it is large at one end of the exchanger and smaller at the other. The right average is not the simple arithmetic mean but the <strong>log mean</strong>:</p>
+  <div class="formula-box">LMTD = (&Delta;T<sub>1</sub> &minus; &Delta;T<sub>2</sub>) / ln(&Delta;T<sub>1</sub> / &Delta;T<sub>2</sub>)
+    <small>&Delta;T<sub>1</sub> and &Delta;T<sub>2</sub> are the hot-minus-cold temperature differences at the two ends.</small></div>
+  <p>The log mean is always smaller than the arithmetic mean, and the difference grows as the two end differences move apart. When one end difference gets very small, the LMTD falls sharply and the area shoots up: that is the &ldquo;temperature pinch&rdquo; designers watch for.</p>
+
+  <h2 id="flow">Counter-current vs co-current <span class="lvl l2">Working level</span></h2>
+  <p>In <strong>counter-current</strong> flow the streams enter at opposite ends; in <strong>co-current</strong> (parallel) flow they enter at the same end. For our example, hot 120 &rarr; 60 &deg;C and cold 30 &rarr; 40 &deg;C:</p>
+  <ul>
+    <li>Counter-current: &Delta;T<sub>1</sub> = 120 &minus; 40 = 80, &Delta;T<sub>2</sub> = 60 &minus; 30 = 30. LMTD = 50 / ln(2.67) &asymp; <strong>51.0 &deg;C</strong>.</li>
+    <li>Co-current: &Delta;T<sub>1</sub> = 120 &minus; 30 = 90, &Delta;T<sub>2</sub> = 60 &minus; 40 = 20. LMTD = 70 / ln(4.5) &asymp; <strong>46.5 &deg;C</strong>.</li>
+  </ul>
+  <p>Counter-current needs about 9 % less area here. The bigger advantage is that it allows the cold outlet to get hotter than the hot outlet (a &ldquo;temperature cross&rdquo;), which co-current can never do. Co-current is still used where you want to limit the wall temperature for a heat-sensitive product, because the coldest fluid meets the hottest at the inlet.</p>
+  <figure class="art-fig" data-fig="lmtd">
+    <figcaption>Try it: drag the cold outlet temperature and switch between counter-current and co-current. Watch the gap between the lines at each end, and see how the LMTD and the area react when the gap closes.</figcaption>
+  </figure>
+
+  <h2 id="u">Step 3: the U value <span class="lvl l2">Working level</span></h2>
+  <p>U, the overall heat transfer coefficient (W/m&sup2;&middot;K), is how easily heat crosses from one fluid to the other. It combines the film on the hot side, the wall, the film on the cold side and any fouling, all as resistances in series:</p>
+  <div class="formula-box">1/U = 1/h<sub>hot</sub> + t<sub>wall</sub>/k<sub>wall</sub> + 1/h<sub>cold</sub> + R<sub>f</sub></div>
+  <p>The worst resistance dominates. A gas or a viscous liquid on one side caps U, whatever you do on the other side. Typical overall values for preliminary sizing:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Service</th><th>Typical U (W/m&sup2;&middot;K)</th></tr>
+    <tr><td>Water to water, shell-and-tube</td><td>800 &ndash; 1,500</td></tr>
+    <tr><td>Organic solvent to cooling water</td><td>300 &ndash; 600</td></tr>
+    <tr><td>Condensing steam to water</td><td>1,500 &ndash; 4,000</td></tr>
+    <tr><td>Condensing solvent vapour to cooling water</td><td>500 &ndash; 1,000</td></tr>
+    <tr><td>Gas to water</td><td>20 &ndash; 200</td></tr>
+    <tr><td>Glass-lined reactor jacket</td><td>200 &ndash; 400</td></tr>
+    <tr><td>Plate heat exchanger, water to water</td><td>3,000 &ndash; 6,000</td></tr>
+  </table></div>
+  <p>These are starting points. For a final design, calculate the film coefficients from the flows, properties and geometry, or use the vendor's software.</p>
+
+  <h2 id="foul">Fouling: designing for the dirty exchanger <span class="lvl l2">Working level</span></h2>
+  <p>A clean exchanger only stays clean for a few weeks. Scale from cooling water, polymer or tar from process streams and corrosion products all add resistance. Designers allow for this with a fouling factor:</p>
+  <div class="formula-box">1/U<sub>dirty</sub> = 1/U<sub>clean</sub> + R<sub>f</sub></div>
+  <p>With U<sub>clean</sub> = 500 W/m&sup2;&middot;K and R<sub>f</sub> = 0.0005 m&sup2;K/W: 1/U = 0.002 + 0.0005 = 0.0025, so U<sub>dirty</sub> = 400. The exchanger needs 25 % more area. Typical R<sub>f</sub> values: treated cooling tower water 0.0002&ndash;0.0004, river or untreated water 0.0005&ndash;0.001, clean organic solvents 0.0002, heavy or polymerising streams 0.0005 and up.</p>
+  <p>Be careful not to stack margins: a generous fouling factor, plus a 20 % area margin, plus a conservative U, can give an exchanger twice the size it needs. An oversized cooler with a control valve throttling the water runs at low velocity, which makes it foul faster.</p>
+
+  <h2 id="example">A full worked example <span class="lvl l2">Working level</span></h2>
+  <p>Cool 4,000 kg/h of process stream (c<sub>p</sub> 2.0 kJ/kg&middot;K) from 120 to 60 &deg;C with cooling water from 30 to 40 &deg;C, in a shell-and-tube exchanger E-101.</p>
+  <ol>
+    <li>Duty: Q = 1.111 &times; 2.0 &times; 60 = 133 kW.</li>
+    <li>Cooling water: 133 / (4.18 &times; 10) = 3.2 kg/s, about 11.5 m&sup3;/h.</li>
+    <li>LMTD, counter-current: 51.0 &deg;C.</li>
+    <li>U: organic to water, clean 500, with R<sub>f</sub> 0.0005 gives 400 W/m&sup2;&middot;K.</li>
+    <li>Area: A = Q / (U &times; LMTD) = 133,000 / (400 &times; 51.0) &asymp; <strong>6.5 m&sup2;</strong>. Co-current would need 133,000 / (400 &times; 46.5) &asymp; 7.2 m&sup2;.</li>
+  </ol>
+  <p>Specify the exchanger at 6.5 m&sup2; plus a modest margin (10&ndash;15 %), and check the tube-side velocity: cooling water below about 1 m/s fouls fast.</p>
+
+  <h2 id="deeper">F factor, pinch and choosing the type <span class="lvl l3">Going deeper</span></h2>
+  <p><strong>The F correction factor.</strong> Real shell-and-tube exchangers with more than one tube pass are neither pure counter-current nor co-current. The LMTD is multiplied by a correction factor F (from charts or equations, based on the four temperatures): Q = U &times; A &times; F &times; LMTD. If F falls below about 0.8, the design is inefficient and sensitive; use more shells in series or a true counter-current design.</p>
+  <p><strong>Approach temperature.</strong> The smallest temperature difference anywhere in the exchanger. Below about 5&ndash;10 &deg;C for liquids, area grows very fast for little extra heat recovered. That is why a cooling water exchanger rarely cools a process stream below about 38&ndash;40 &deg;C: the water arrives at 30&ndash;32 &deg;C. Colder targets need chilled water or brine, which costs more per kW. See the <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">chillers article</a>.</p>
+  <p><strong>Choosing the type.</strong> Shell-and-tube for high pressure, fouling services and solvent condensers; plate exchangers for clean liquids and close approaches (U is three to five times higher, but gaskets limit temperature and solvent compatibility); graphite or glass for corrosive acids; jackets and limpet coils for reactors.</p>
+  <div class="art-note"><b>On the plant</b><p>When a condenser &ldquo;isn't working&rdquo;, measure before you blame the design: inlet and outlet water temperatures, water flow, and vapour load. Nine times out of ten the water flow is half of design, the tubes are scaled, or non-condensable nitrogen is blanketing the surface.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Using the arithmetic mean temperature difference instead of the LMTD.</li>
+    <li>Forgetting the latent heat when a solvent vapour condenses.</li>
+    <li>Stacking fouling factor, area margin and conservative U on top of each other.</li>
+    <li>Ignoring non-condensables in vacuum condensers.</li>
+    <li>Taking U from a table for a viscous or gas service where it can be ten times lower.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is LMTD?</h3>
+  <p>The effective average temperature difference along an exchanger: (&Delta;T<sub>1</sub> &minus; &Delta;T<sub>2</sub>) / ln(&Delta;T<sub>1</sub>/&Delta;T<sub>2</sub>).</p>
+  <h3>Why is counter-current better?</h3>
+  <p>It gives a higher LMTD (51 against 46.5 &deg;C in the example), so less area, and it allows a temperature cross.</p>
+  <h3>What is a fouling factor?</h3>
+  <p>An extra resistance for deposits: 1/U<sub>dirty</sub> = 1/U<sub>clean</sub> + R<sub>f</sub>. An R<sub>f</sub> of 0.0005 takes U from 500 to 400.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and jacket heat-up time</a>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chillers and VAM</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

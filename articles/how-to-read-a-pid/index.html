@@ -1,0 +1,144 @@
+---
+layout: default
+title: "How to Read a P&ID: Symbols, Tags, Line Numbers and Instrument Loops"
+description: "A plain guide to reading piping and instrumentation diagrams (P&IDs) in chemical and pharma plants: equipment tags, line numbers, valve and line symbols, ISA-5.1 instrument letters, control loops, interlocks and how to trace a line on the drawing. Interactive P&ID explorer with generic tags."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: How to Read a P&ID
+    url: /articles/how-to-read-a-pid/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "How to Read a P&ID: Symbols, Tags, Line Numbers and Instrument Loops",
+        "description": "Equipment tags, line numbers, valve and line symbols, ISA-5.1 instrument letters, control loops and interlocks on a P&ID.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is the difference between a PFD and a P&ID?", "acceptedAnswer": { "@type": "Answer", "text": "A PFD (process flow diagram) shows the main equipment, main streams and the heat and material balance. A P&ID shows every line, valve, instrument, control loop, interlock, vent, drain and utility connection needed to build and operate the plant." } },
+        { "@type": "Question", "name": "What does TIC mean on a P&ID?", "acceptedAnswer": { "@type": "Answer", "text": "Under ISA-5.1, the first letter is the measured variable and the following letters are functions. TIC is a temperature (T) indicating (I) controller (C). PSV is a pressure safety valve, LAH a level alarm high, FT a flow transmitter." } },
+        { "@type": "Question", "name": "How do you read a line number on a P&ID?", "acceptedAnswer": { "@type": "Answer", "text": "A line number usually combines size, service code, a sequence number and the piping class, for example 50-PS-101-A1: a 50 mm line carrying process solvent, line number 101, built to piping class A1. Some companies add insulation or tracing codes. The legend sheet defines the format." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>How to Read a P&amp;ID</h1>
+  <p class="article-meta">Plant Engineering &middot; Drawings &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">The first time someone hands you a P&amp;ID, it looks like a circuit diagram that fell into a bowl of alphabet soup. A week later you can't imagine working without it. The P&amp;ID is the one drawing that shows how the plant is really put together: every line, valve, instrument and interlock. This article teaches you to read one, using a simple reactor example with generic tags.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What a P&amp;ID is (and is not)</a><span>Basics</span></li>
+    <li><a href="#equip">Equipment and their tags</a><span>Basics</span></li>
+    <li><a href="#lines">Lines and line numbers</a><span>Basics</span></li>
+    <li><a href="#valves">Valves and fittings</a><span>Working level</span></li>
+    <li><a href="#inst">Instrument bubbles and ISA letters</a><span>Working level</span></li>
+    <li><a href="#loops">Control loops and interlocks</a><span>Going deeper</span></li>
+    <li><a href="#trace">How to trace a line on site</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What a P&amp;ID is (and is not) <span class="lvl l1">Basics</span></h2>
+  <p>A <strong>PFD</strong> (process flow diagram) tells the story of the process: main equipment, main streams, temperatures, pressures and flows from the heat and material balance. It fits a whole plant on a few sheets.</p>
+  <p>A <strong>P&amp;ID</strong> (piping and instrumentation diagram) tells you how to build and run it: every pipe with its size and class, every valve, every instrument and what it is connected to, every vent, drain, sample point, utility connection, interlock and relief device. It is drawn schematically, not to scale: a pump drawn next to a reactor might be 30 metres away on site. For where things physically are, you need the layout and isometric drawings.</p>
+  <p>The P&amp;ID is the master document for HAZOPs, SOPs, commissioning, maintenance isolations and management of change. If the P&amp;ID and the plant disagree, one of them is wrong, and it is usually the drawing.</p>
+
+  <h2 id="equip">Equipment and their tags <span class="lvl l1">Basics</span></h2>
+  <p>Each piece of equipment gets a tag: a letter code for its type and a number, often starting with the area or block. Codes differ between companies, but a common pattern is:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Code</th><th>Equipment</th><th>Example</th></tr>
+    <tr><td>R</td><td>Reactor</td><td>R-101</td></tr>
+    <tr><td>V / T</td><td>Vessel / storage tank</td><td>V-102, T-103</td></tr>
+    <tr><td>E</td><td>Heat exchanger, condenser</td><td>E-101</td></tr>
+    <tr><td>P</td><td>Pump</td><td>P-101A/B (A and B: duty and standby)</td></tr>
+    <tr><td>C / K</td><td>Centrifuge / compressor</td><td>C-101</td></tr>
+    <tr><td>F / D</td><td>Filter / dryer</td><td>F-101, D-101</td></tr>
+  </table></div>
+  <p>The legend sheet, usually the first sheet in the set, defines the codes and symbols for that project. Read it before anything else.</p>
+
+  <h2 id="lines">Lines and line numbers <span class="lvl l1">Basics</span></h2>
+  <p>A thick solid line is a main process line; a thinner solid line is a secondary or utility line. Instrument signals are drawn differently: dashed lines for electrical signals, lines with short cross-hatches for pneumatic (air) signals, and a line of small circles or a dash-dot pattern for software or data links. Arrows show the direction of flow, and an off-page connector (an arrow-shaped box) shows where the line continues on another sheet.</p>
+  <p>Every pipe has a line number. A typical format:</p>
+  <div class="formula-box">50 &ndash; PS &ndash; 101 &ndash; A1
+    <small>50: nominal size in mm (or 2&Prime;). PS: service code, here process solvent. 101: sequence number. A1: piping class, which fixes material, pressure rating, gasket and valve types. Some formats add insulation or tracing codes at the end.</small></div>
+  <p>The piping class is easy to overlook but important: it tells you whether a line is carbon steel or SS316, PN16 or PN40, PTFE-lined or not. Fitting a gasket or valve from the wrong class during maintenance is a classic source of leaks.</p>
+
+  <h2 id="valves">Valves and fittings <span class="lvl l2">Working level</span></h2>
+  <p>Most valve symbols start from two triangles touching at their tips (a &ldquo;bow-tie&rdquo;), which is a gate valve. Variations on it:</p>
+  <ul>
+    <li><strong>Globe valve:</strong> bow-tie with a solid dot in the middle. Used for throttling.</li>
+    <li><strong>Ball valve:</strong> bow-tie with a circle in the middle. Quick on/off.</li>
+    <li><strong>Butterfly valve:</strong> a line with a short bar across it, or a bow-tie with a vertical line.</li>
+    <li><strong>Check (non-return) valve:</strong> a bow-tie with one triangle filled, or an arrow with a bar, pointing in the allowed flow direction.</li>
+    <li><strong>Control valve:</strong> a bow-tie with an actuator drawn on top: a dome for a diaphragm actuator. Labels FC (fail closed) or FO (fail open) tell you what it does when air or power fails. That single label is one of the most safety-relevant facts on the drawing.</li>
+    <li><strong>Relief valve (PSV):</strong> a valve symbol with a spring zig-zag, discharging at a right angle. A <strong>rupture disc</strong> is drawn as a curved line across the pipe.</li>
+  </ul>
+  <p>Small symbols worth knowing: a filled bow-tie means a valve normally closed (some projects write NC instead); a blind or spectacle blind is drawn as a figure-of-eight; a reducer is a small trapezium; and drains and vents are short lines with a valve and a cap.</p>
+
+  <h2 id="inst">Instrument bubbles and ISA letters <span class="lvl l2">Working level</span></h2>
+  <p>Instruments are drawn as circles (bubbles). The line through the middle tells you where the instrument is seen:</p>
+  <ul>
+    <li>No line: mounted in the field, locally.</li>
+    <li>Solid line: in the main control room panel.</li>
+    <li>Dashed line: behind the panel or in a local panel.</li>
+    <li>A circle inside a square: a function in the DCS or PLC, shown on the operator screen.</li>
+  </ul>
+  <p>Inside the bubble are letters and a loop number, following ISA-5.1. The <strong>first letter</strong> is what is measured; the <strong>following letters</strong> are what the instrument does.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>First letter (measured)</th><th>Following letters (function)</th></tr>
+    <tr><td>F flow, L level, P pressure, T temperature</td><td>I indicate, R record, C control</td></tr>
+    <tr><td>A analysis (O<sub>2</sub>, pH), S speed, W weight</td><td>T transmit, E element (sensor), V valve</td></tr>
+    <tr><td>PD pressure difference, Z position</td><td>A alarm (H high, L low, HH, LL), S switch / trip, Y relay or converter</td></tr>
+  </table></div>
+  <p>So TT-101 is a temperature transmitter, TIC-101 a temperature indicating controller, TV-101 the temperature control valve in the same loop, LAH-102 a high-level alarm, PSV-103 a pressure safety valve, and AIT-104 an oxygen analyser indicating transmitter.</p>
+  <figure class="art-fig" data-fig="pidread">
+    <figcaption>Try it: a simple reactor P&amp;ID with generic tags. Tap any tag to see what it is, what it does and what to check on site.</figcaption>
+  </figure>
+
+  <h2 id="loops">Control loops and interlocks <span class="lvl l3">Going deeper</span></h2>
+  <p>All instruments with the same number form one loop. Follow it: TE-101 senses the batch temperature, TT-101 sends it to the DCS, TIC-101 compares it with the set point, and TV-101 on the jacket cooling water opens or closes. Once you see a loop as sensor, controller and final element, every loop on the drawing reads the same way.</p>
+  <p>Safety functions are drawn separately. An interlock or trip often appears as a diamond or a hexagon with a number (I-101) and a note, or as a separate safety instrumented function with its own sensor, such as TSHH-105 tripping the dosing valve XV-105. Check two things:</p>
+  <ul>
+    <li><strong>Independence.</strong> Does the trip have its own sensor, or does it share TT-101 with the control loop? If the control sensor fails, a shared trip fails with it.</li>
+    <li><strong>Fail-safe direction.</strong> On loss of air or power, does the dosing valve close (FC) and the cooling water valve open (FO)? If not, ask why.</li>
+  </ul>
+  <p>The interlock description, or cause-and-effect chart, lives in a separate document, but the P&amp;ID tells you which devices are involved.</p>
+
+  <h2 id="trace">How to trace a line on site <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li>Start from a piece of equipment you can find on site, such as the reactor nozzle.</li>
+    <li>Follow the line on the P&amp;ID valve by valve, writing down the line number and each valve.</li>
+    <li>On site, follow the same line. Every valve, instrument, reducer and branch should match the drawing, in the same order.</li>
+    <li>Mark differences in red on a copy: a valve that doesn't exist, a bypass nobody drew, a temporary hose that became permanent.</li>
+    <li>Send the marked-up copy for as-built correction through change control.</li>
+  </ol>
+  <div class="art-note"><b>On the plant</b><p>New engineers learn a plant fastest by tracing lines with an experienced operator. It is also the cheapest HAZOP preparation there is: most surprises found in a HAZOP are things the drawing didn't show.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Reading the P&amp;ID as a layout and expecting things to be where they are drawn.</li>
+    <li>Ignoring the piping class at the end of the line number.</li>
+    <li>Missing the FC/FO label on a control valve.</li>
+    <li>Treating a control alarm and a trip on the same sensor as two protections.</li>
+    <li>Trusting a drawing that hasn't been walked since commissioning.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between a PFD and a P&amp;ID?</h3>
+  <p>The PFD shows the main equipment, streams and the heat and material balance. The P&amp;ID shows every line, valve, instrument and interlock needed to build and operate the plant.</p>
+  <h3>What does TIC mean?</h3>
+  <p>Temperature indicating controller. The first letter is the measured variable; the rest are functions.</p>
+  <h3>How do you read a line number?</h3>
+  <p>Size, service code, sequence number and piping class, for example 50-PS-101-A1. The legend sheet defines the exact format.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
+    <a href="{{ '/process-safety/' | relative_url }}">Process Safety section</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

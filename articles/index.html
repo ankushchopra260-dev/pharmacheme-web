@@ -1,80 +1,133 @@
 ---
 layout: default
 title: Chemical & Pharmaceutical Engineering Articles
-description: "Chemical, pharmaceutical and process engineering articles: steam, cooling towers, chillers and VAM, compressed air, power, pump power, solvent recovery, filtration, heat load, mixing scale-up and centrifuge calculations, each with a worked example."
+description: "Chemical, pharmaceutical and process engineering articles from basics to deep: process safety, HAZOP, static electricity, semi-batch reactions, heat exchanger design, P&ID reading, batch cycle time, pumps, filtration, mixing scale-up and plant utilities, with worked examples and interactive figures."
 breadcrumbs:
   - label: Articles
     url: /articles/
 ---
 
+<style>.art-group{margin:8px 0 36px}.art-group h2{font-size:1.25rem;margin:0 0 14px}.art-group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.art-group-nav a{font-size:.82rem;padding:5px 12px;border:1px solid var(--line,#2a3440);border-radius:999px;color:inherit;text-decoration:none}.art-group-nav a:hover{border-color:currentColor}.tool-card .art-new{font-size:.7rem;font-weight:600;color:var(--accent,#4fb3a9);margin-left:6px;vertical-align:middle}</style>
 <div class="container calc-page-head">
   <h1>Chemical &amp; Pharmaceutical Engineering Articles</h1>
-  <p>The theory behind the calculators and plant utilities, with formulas, worked examples and the mistakes people make on the plant. Each article links to its calculator.</p>
+  <p>Plain explanations that start from the basics and go deep, with worked examples, interactive figures and notes from the plant floor.</p>
+  <nav class="art-group-nav" aria-label="Article areas">
+    <a href="#process-safety">Process safety</a>
+    <a href="#scale-up-reaction-engineering">Scale-up &amp; reaction engineering</a>
+    <a href="#process-design">Process design</a>
+    <a href="#plant-engineering-operations">Plant engineering &amp; operations</a>
+    <a href="#utilities">Utilities</a>
+  </nav>
 </div>
 <div class="container section" style="padding-top:0;">
-  <div class="grid-cards">
-    {%- assign new_articles = site.articles | sort: "date" | reverse -%}
-    {%- for a in new_articles %}
+  <section class="art-group" id="process-safety">
+    <h2>Process safety</h2>
+    <div class="grid-cards">
     <div class="tool-card">
-      <h3>{{ a.title }}</h3>
-      <p>{{ a.description }}</p>
-      <a href="{{ a.url | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+      <h3>Static Electricity and Solvent Fires <span class="art-new">New</span></h3>
+      <p>How charge builds up, spark energy against MIE, bonding, earthing, filling, inerting and powder charging.</p>
+      <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
-    {%- endfor %}
+    <div class="tool-card">
+      <h3>HAZOP Made Practical <span class="art-new">New</span></h3>
+      <p>Nodes, design intent, guidewords, filling a row properly, risk ranking, batch HAZOP and closing actions.</p>
+      <a href="{{ '/articles/hazop-made-practical/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    </div>
+  </section>
+  <section class="art-group" id="scale-up-reaction-engineering">
+    <h2>Scale-up &amp; reaction engineering</h2>
+    <div class="grid-cards">
+    <div class="tool-card">
+      <h3>Semi-Batch Dosing and Accumulation <span class="art-new">New</span></h3>
+      <p>Why dosing time and reaction temperature set the MTSR, cooling capacity at scale, and why colder isn't always safer.</p>
+      <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Mixing &amp; Scale-up Calculations</h3>
+      <p>Why constant tip speed, constant P/V and constant Reynolds number give different answers.</p>
+      <a href="{{ '/articles/mixing-scale-up/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    </div>
+  </section>
+  <section class="art-group" id="process-design">
+    <h2>Process design</h2>
+    <div class="grid-cards">
+    <div class="tool-card">
+      <h3>Heat Exchanger Design Basics <span class="art-new">New</span></h3>
+      <p>Duty, LMTD, counter-current vs co-current, U values, fouling factors and a full sizing example.</p>
+      <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Heat Load &amp; Heat-up Time</h3>
+      <p>Heat duty and jacket heat-up and cool-down time for a batch, worked step by step.</p>
+      <a href="{{ '/articles/heat-load-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Solvent Recovery Calculation</h3>
+      <p>The Antoine equation, boiling point at vacuum, and why recovery runs under vacuum.</p>
+      <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>How to Calculate Pump Power</h3>
+      <p>Hydraulic power, shaft power, NPSH and motor sizing, with a full worked example.</p>
+      <a href="{{ '/articles/pump-power-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    </div>
+  </section>
+  <section class="art-group" id="plant-engineering-operations">
+    <h2>Plant engineering &amp; operations</h2>
+    <div class="grid-cards">
+    <div class="tool-card">
+      <h3>How to Read a P&amp;ID <span class="art-new">New</span></h3>
+      <p>Equipment tags, line numbers, valve symbols, ISA instrument letters, control loops and interlocks.</p>
+      <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Batch Cycle Time and Debottlenecking <span class="art-new">New</span></h3>
+      <p>Batch time vs cycle time, finding the bottleneck with a Gantt chart, and what really adds batches per week.</p>
+      <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Filtration Performance</h3>
+      <p>Turning a bench filtration trial into specific cake resistance and plant filtration time.</p>
+      <a href="{{ '/articles/filtration-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Centrifuge Cake Weight &amp; G-Force</h3>
+      <p>Basket G-force and cake mass from geometry and bulk density.</p>
+      <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    </div>
+  </section>
+  <section class="art-group" id="utilities">
+    <h2>Utilities</h2>
+    <div class="grid-cards">
     <div class="tool-card">
       <h3>Steam System Efficiency</h3>
-      <p>Cost of steam, boiler losses and blowdown, failed traps, flash steam and condensate recovery, with a trap-survey example.</p>
+      <p>Cost of steam, boiler losses and blowdown, failed traps, flash steam and condensate recovery.</p>
       <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
     <div class="tool-card">
       <h3>Cooling Tower Calculations</h3>
-      <p>Range, approach, heat load, evaporation, blowdown and cycles of concentration, and what raising the cycles saves.</p>
+      <p>Range, approach, heat load, evaporation, blowdown and cycles of concentration.</p>
       <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
     <div class="tool-card">
       <h3>Chiller vs VAM</h3>
-      <p>Chiller TR, kW/TR and COP from field readings, VAM steam use, cooling tower size and which is cheaper to run.</p>
+      <p>Chiller TR, kW/TR and COP from field readings, VAM steam use and which is cheaper to run.</p>
       <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
     <div class="tool-card">
       <h3>Compressed Air &amp; Nitrogen</h3>
-      <p>Leak cost and leak testing, what pressure costs, receiver size, dryers, and nitrogen for purging and blanketing.</p>
+      <p>Leak cost, what pressure costs, receiver size, dryers, and nitrogen for purging and blanketing.</p>
       <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
     <div class="tool-card">
       <h3>RO, DG, Power Factor &amp; VFDs</h3>
-      <p>RO recovery and rejection, DG cost per unit, capacitor kVAR, motor loading and VFD savings with the affinity laws.</p>
+      <p>RO recovery, DG cost per unit, capacitor kVAR, motor loading and VFD savings.</p>
       <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
-    <div class="tool-card">
-      <h3>How to Calculate Pump Power</h3>
-      <p>Hydraulic power, shaft power, and motor sizing, with a full worked example.</p>
-      <a href="{{ '/articles/pump-power-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
-    <div class="tool-card">
-      <h3>Solvent Recovery Calculation Explained</h3>
-      <p>The Antoine equation, boiling point at vacuum, and why recovery runs under vacuum at all.</p>
-      <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-    </div>
-    <div class="tool-card">
-      <h3>How to Calculate Filtration Performance</h3>
-      <p>Turning a bench filtration trial into specific cake resistance and expected flux.</p>
-      <a href="{{ '/articles/filtration-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-    </div>
-    <div class="tool-card">
-      <h3>Heat Load &amp; Recovery Time</h3>
-      <p>Heat duty and batch recovery time for solvent recovery, worked through step by step.</p>
-      <a href="{{ '/articles/heat-load-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-    </div>
-    <div class="tool-card">
-      <h3>Mixing &amp; Scale-up Calculations Explained</h3>
-      <p>Why constant tip speed, constant P/V, and constant Reynolds number give different answers.</p>
-      <a href="{{ '/articles/mixing-scale-up/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-    </div>
-    <div class="tool-card">
-      <h3>Centrifuge Cake Weight &amp; G-Force Calculation</h3>
-      <p>Basket G-force and cake mass from geometry and bulk density.</p>
-      <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-    </div>
-  </div>
+  </section>
 </div>

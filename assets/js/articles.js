@@ -360,6 +360,182 @@
     i.addEventListener('input', draw); draw();
   };
 
+  /* Static: spark energy against minimum ignition energy (log scale) */
+  M['spark'] = function (fig) {
+    const c = C(), OBJ = { person: ['Person, ordinary shoes', 200, 10], drum: ['200 L drum on plastic pallet', 100, 20], funnel: ['Metal funnel or scoop', 10, 15], tanker: ['Road tanker, not earthed', 1000, 10] },
+      SOL = { methanol: ['Methanol', 0.14], toluene: ['Toluene', 0.24], ethylacetate: ['Ethyl acetate', 0.46], ipa: ['IPA', 0.65], acetone: ['Acetone', 1.15] };
+    const svg = el('svg', { viewBox: '0 0 640 170', role: 'img', 'aria-label': 'Spark energy compared with the ignition energy of the solvent, log scale' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const sel = (id, o) => `<select data-k="${id}" style="font:600 .85rem var(--f-sans);color:var(--paper);background:var(--bg-deep);border:1px solid #2C4C6C;border-radius:6px;padding:5px 8px">${Object.entries(o).map(([k, v]) => `<option value="${k}">${v[0]}</option>`).join('')}</select>`;
+    const ctl = controls(fig, `<label>Charged object ${sel('o', OBJ)}</label><label>Solvent ${sel('s', SOL)}</label><label>Voltage <input type="range" min="0" max="30" step="1" value="10" aria-label="Voltage in kV"> <output></output></label><button type="button" aria-pressed="false">Earth it</button>`);
+    const so = ctl.querySelector('[data-k=o]'), ss = ctl.querySelector('[data-k=s]'), iv = ctl.querySelector('input'), ov = ctl.querySelector('output'), be = ctl.querySelector('button'), rd = readout(fig);
+    let earthed = false;
+    const L = v => 60 + (Math.log10(Math.max(v, 0.01)) + 2) / 6 * 540;
+    function draw() {
+      const o = OBJ[so.value], m = SOL[ss.value][1], V = earthed ? 0 : +iv.value, E = 0.5 * o[1] * 1e-12 * Math.pow(V * 1e3, 2) * 1e3;
+      ov.textContent = iv.value + ' kV'; svg.innerHTML = '';
+      el('line', { x1: 60, y1: 120, x2: 600, y2: 120, stroke: c.mute }, svg);
+      [0.01, 0.1, 1, 10, 100, 1000, 10000].forEach(v => txt(svg, L(v), 138, v >= 1000 ? v / 1000 + 'k' : v, { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }));
+      txt(svg, 600, 158, 'mJ (log scale)', { 'text-anchor': 'end', fill: c.mute, 'font-size': 11 });
+      el('rect', { x: L(m) - 2, y: 20, width: 4, height: 100, fill: c.rust }, svg); txt(svg, L(m) + 6, 30, SOL[ss.value][0] + ' ignites at ' + m + ' mJ', { fill: c.rust, 'font-size': 12, 'font-weight': 700 });
+      el('rect', { x: L(1) - 1, y: 50, width: 2, height: 70, fill: c.mute }, svg); txt(svg, L(1) + 6, 60, 'you feel it: 1 mJ', { fill: c.mute, 'font-size': 11 });
+      if (E > 0) { const b = el('rect', { x: 60, y: 76, width: 0, height: 34, rx: 4, fill: E >= m ? c.brass : c.blue }, svg); tween([0], [L(E) - 60], 500, v => b.setAttribute('width', Math.max(0, v[0]))); }
+      const ign = E >= m;
+      rd.innerHTML = `<div class="hi"><span>Spark energy ½CV²</span><b>${E < 1 ? F(E, 3) : F(E, 1)} mJ</b></div><div><span>Capacitance</span><b>${o[1]} pF</b></div><div><span>Verdict</span><b style="color:${ign ? '#F08A6B' : '#8FD1A5'}">${earthed ? 'Earthed: no charge builds up' : ign ? 'Ignites the vapour (' + F(E / m, 0) + '× MIE)' : 'Below the ignition energy'}</b></div>`;
+    }
+    so.addEventListener('change', () => { iv.value = OBJ[so.value][2]; draw(); }); ss.addEventListener('change', draw); iv.addEventListener('input', draw);
+    be.addEventListener('click', () => { earthed = !earthed; be.setAttribute('aria-pressed', earthed); be.textContent = earthed ? 'Earthed (click to remove)' : 'Earth it'; draw(); }); draw();
+  };
+
+  /* HAZOP: guideword x parameter for a reactor dosing node */
+  M['hazop'] = function (fig) {
+    const P = ['Flow', 'Temperature', 'Pressure', 'Agitation', 'Level'], G = ['No / less', 'More', 'Reverse / other than'];
+    const D = {
+      'Flow|No / less': ['No or low reagent dosing flow', 'Dosing pump trips, strainer blocked, valve shut', 'Batch incomplete; if dosing restarts after a long stop with unreacted reagent present, sudden heat release', 'Flow indicator with low-flow alarm; dosing interlocked to agitator and temperature', 'Check SOP says what to do after a dosing stop (hold, sample, restart slowly)'],
+      'Flow|More': ['Dosing faster than designed', 'Pump speed set wrong, control valve fails open, operator increases rate to save time', 'Reagent accumulates faster than it reacts; heat release exceeds cooling; MTSR rises', 'Flow controller with high-flow alarm (same loop as the valve, so not independent); independent high-temperature trip stops dosing', 'Fit a restriction orifice sized to the safe maximum rate'],
+      'Flow|Reverse / other than': ['Wrong material dosed, or batch backflows into the dosing tank', 'Wrong drum connected, similar labels, check valve missing', 'Unknown reaction, gas evolution, contamination of the dosing tank', 'Dedicated hose couplings, material verification before charging, check valve on dosing line', 'Add a second-person check of drum label and lot before connecting'],
+      'Temperature|No / less': ['Batch colder than set point', 'Brine valve stuck open, sensor reading high', 'Reaction slows, reagent accumulates; a later warm-up releases it all at once', 'Low-temperature alarm stops dosing; independent second temperature sensor', 'Interlock: no dosing below the minimum reaction temperature'],
+      'Temperature|More': ['Batch hotter than set point', 'Cooling water failure, jacket valve fails shut, dosing too fast', 'Faster reaction, solvent boils, possible decomposition above TD24', 'High-temperature alarm and trip that stops dosing and opens full cooling; relief system sized for runaway', 'Confirm the trip is independent of the control loop'],
+      'Temperature|Reverse / other than': ['Steam on the jacket instead of cooling water', 'Wrong jacket valve opened at changeover', 'Heating a batch that should be cooled: rapid temperature rise', 'Jacket utilities interlocked so steam and coolant cannot both be open; valve position indication', 'Label jacket valves clearly; add interlock'],
+      'Pressure|More': ['Reactor pressure rises', 'Gas evolution, vent line blocked, scrubber flooded, nitrogen regulator fails', 'Overpressure, possible vessel or gasket failure, release of toxic gas', 'Pressure alarm, rupture disc/PSV to a safe location, vent line free of liquid traps', 'Check relief is sized for gas evolution as well as fire'],
+      'Pressure|No / less': ['Vacuum in the reactor', 'Cooling a vapour space with the vent closed, condenser pulling vacuum', 'Vessel not rated for vacuum may collapse; air drawn in through seals into a flammable atmosphere', 'Vacuum relief or nitrogen make-up; vessel rated full vacuum', 'Confirm vacuum rating on the nameplate'],
+      'Agitation|No / less': ['Agitator stops during dosing', 'Motor trip, coupling failure, power dip', 'Reagent layers out unreacted; when the agitator restarts it mixes and reacts all at once', 'Agitator running signal interlocked to dosing; operating procedure: do not restart without assessment', 'Add rotation sensor on the shaft, not just motor current'],
+      'Level|More': ['Reactor overfilled', 'Wrong charge quantity, level instrument fault', 'Reduced vapour space; liquid carried into the condenser and vent; foam-over', 'High-level alarm independent of weighing; charge by weight', 'Check the maximum working volume is on the batch card'],
+    };
+    const ctl = controls(fig, `<span>Parameter</span>${P.map((p, i) => `<button type="button" data-p="${p}" aria-pressed="${i === 0}">${p}</button>`).join('')}`);
+    const ctl2 = document.createElement('div'); ctl2.className = 'art-ctl'; ctl2.innerHTML = `<span>Guideword</span>${G.map((g, i) => `<button type="button" data-g="${g}" aria-pressed="${i === 1}">${g}</button>`).join('')}`; ctl.after(ctl2);
+    const card = document.createElement('div'); card.className = 'art-read'; card.style.gridTemplateColumns = '1fr'; fig.insertBefore(card, fig.querySelector('figcaption'));
+    let p = 'Flow', g = 'More';
+    function draw() {
+      const d = D[p + '|' + g];
+      card.innerHTML = d ? [['Deviation', d[0]], ['Possible causes', d[1]], ['Consequences', d[2]], ['Existing safeguards', d[3]], ['Typical action', d[4]]].map((r, i) => `<div${i === 0 ? ' class="hi"' : ''}><span>${r[0]}</span><b style="font:${i === 0 ? '600 1.05rem' : '400 .95rem'} var(--f-sans);line-height:1.45">${r[1]}</b></div>`).join('')
+        : `<div><span>${g} ${p.toLowerCase()}</span><b style="font:400 .95rem var(--f-sans)">Not a meaningful deviation for this node. A good HAZOP team says so and moves on, rather than inventing a scenario.</b></div>`;
+    }
+    ctl.addEventListener('click', e => { const b = e.target.closest('button[data-p]'); if (!b) return; p = b.dataset.p; ctl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+    ctl2.addEventListener('click', e => { const b = e.target.closest('button[data-g]'); if (!b) return; g = b.dataset.g; ctl2.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+    draw();
+  };
+
+  /* Semi-batch: accumulation and MTSR against dosing time */
+  M['accumulation'] = function (fig) {
+    const c = C(), dTad = 144, MTT = 111, TD24 = 140, Ea = 80e3, R = 8.314;
+    const svg = el('svg', { viewBox: '0 0 640 300', role: 'img', 'aria-label': 'MTSR and accumulation during dosing' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<label>Dosing time <input type="range" min="0.25" max="6" step="0.25" value="4" aria-label="Dosing time in hours"> <output></output></label>
+      <label>Reaction temperature <input type="range" min="30" max="80" step="5" value="60" aria-label="Reaction temperature"> <output></output></label>`);
+    const [id, it] = ctl.querySelectorAll('input'), [od, ot] = ctl.querySelectorAll('output'), rd = readout(fig);
+    function draw() {
+      const td = +id.value * 3600, Tp = +it.value, k = 5e-4 * Math.exp(Ea / R * (1 / 333.15 - 1 / (Tp + 273.15)));
+      od.textContent = (+id.value) + ' h'; ot.textContent = Tp + ' °C';
+      const tEnd = Math.max(td * 1.6, 3 * 3600), dt = 10, pts = [], acc = []; let F_ = 0, X = 0, mx = 0, tmx = 0;
+      for (let t = 0; t <= tEnd; t += dt) { if (t < td) F_ = Math.min(1, F_ + dt / td); const r = k * (F_ - X) * dt; X = Math.min(F_, X + r); const a = F_ - X, mtsr = Tp + a * dTad; if (mtsr > mx) { mx = mtsr; tmx = t; } pts.push([t / 3600, mtsr]); acc.push([t / 3600, a * 100]); }
+      svg.innerHTML = '';
+      const hx = tEnd / 3600, step = hx > 6 ? 2 : 1;
+      const { X: Xs, Y } = axes(svg, { x0: 60, y0: 14, w: 540, h: 230, xmax: Math.ceil(hx), ymax: 220, xstep: step, ystep: 40, xlab: 'Time (h)', ylab: 'Temperature (°C)' });
+      [[MTT, 'MTT 111 °C (toluene boils)', c.blue], [TD24, 'TD24 140 °C (decomposition)', c.rust]].forEach(([v, l, col]) => { el('line', { x1: 60, y1: Y(v), x2: 600, y2: Y(v), stroke: col, 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, svg); txt(svg, 596, Y(v) - 5, l, { 'text-anchor': 'end', fill: col, 'font-size': 11 }); });
+      el('line', { x1: 60, y1: Y(Tp), x2: 600, y2: Y(Tp), stroke: c.mute, 'stroke-dasharray': '2 4' }, svg); txt(svg, 64, Y(Tp) + 14, 'process ' + Tp + ' °C', { fill: c.mute, 'font-size': 11 });
+      el('rect', { x: 60, y: 14, width: Xs(td / 3600) - 60, height: 230, fill: c.brass, opacity: .06 }, svg); txt(svg, Xs(td / 3600) - 4, 28, 'dosing', { 'text-anchor': 'end', fill: c.brass, 'font-size': 11 });
+      const pth = el('path', { d: path(pts.map(p => [Xs(p[0]), Y(Math.min(220, p[1]))])), fill: 'none', stroke: c.brass, 'stroke-width': 3 }, svg);
+      if (!reduce) { const L = pth.getTotalLength(); pth.style.strokeDasharray = L; pth.style.strokeDashoffset = L; pth.getBoundingClientRect(); pth.style.transition = 'stroke-dashoffset .9s ease-out'; pth.style.strokeDashoffset = 0; }
+      el('circle', { cx: Xs(tmx / 3600), cy: Y(Math.min(220, mx)), r: 6, fill: c.ink }, svg);
+      const cls = mx < MTT ? '1 (MTSR below boiling point)' : mx < TD24 ? '3 (boils first; boiling is the barrier)' : '4 or 5 (decomposition can be reached)';
+      rd.innerHTML = `<div class="hi"><span>Highest MTSR</span><b>${F(mx, 0)} °C</b></div><div><span>Peak accumulation</span><b>${F((mx - Tp) / dTad * 100, 0)} %</b></div><div><span>Criticality class</span><b style="font-size:.9rem">${cls}</b></div>`;
+    }
+    id.addEventListener('input', draw); it.addEventListener('input', draw); draw();
+  };
+
+  /* P&ID reader: click a symbol to learn it */
+  M['pidread'] = function (fig) {
+    const c = C();
+    const svg = el('svg', { viewBox: '0 0 680 330', role: 'img', 'aria-label': 'Simple P&ID of a jacketed reactor with dosing, condenser, instruments and relief; click a symbol to read about it' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const info = document.createElement('div'); info.className = 'art-read'; info.style.gridTemplateColumns = '1fr'; fig.insertBefore(info, fig.querySelector('figcaption'));
+    const S = 'stroke="currentColor" stroke-width="2" fill="none"';
+    svg.innerHTML = `
+      <g ${S}><path d="M230 90 h140 v130 q0 40 -70 40 q-70 0 -70 -40 z"/><path d="M220 130 v90 q0 52 80 52 q80 0 80 -52 v-90" stroke-dasharray="6 5"/>
+      <path d="M300 60 V90"/><rect x="290" y="40" width="20" height="20"/><path d="M300 90 V210"/><path d="M280 210 h40"/>
+      <path d="M60 120 H150"/><path d="M150 112 l16 8 l-16 8 z M182 112 l-16 8 l16 8 z"/><path d="M182 120 H230"/>
+      <path d="M340 90 V40 H470"/><rect x="470" y="22" width="110" height="36" rx="16"/><path d="M580 40 H620 V100"/><rect x="590" y="100" width="60" height="70" rx="6"/>
+      <path d="M260 90 V60"/><path d="M252 60 h16 l-8 -14 z"/><path d="M260 46 V20 H200"/>
+      <path d="M300 272 V292 H414"/><circle cx="430" cy="292" r="16"/><path d="M430 276 H520"/>
+      <circle cx="166" cy="66" r="16"/><path d="M166 82 V98" stroke-dasharray="3 3"/><path d="M154 106 a12 9 0 0 1 24 0 z"/><path d="M166 106 V120"/>
+      <circle cx="400" cy="190" r="16"/><path d="M384 190 H370"/>
+      <circle cx="400" cy="250" r="16"/><path d="M384 250 H372"/><path d="M400 206 V234" stroke-dasharray="3 3"/></g>
+      <path class="anim-flow slow" d="M60 120 H230" stroke="#7FB2E8" stroke-width="2.5" fill="none"/>
+      <g font-family="sans-serif" font-size="10" fill="currentColor" text-anchor="middle"><text x="166" y="70">FIC</text><text x="166" y="80" font-size="8">101</text>
+      <text x="400" y="194">TT</text><text x="400" y="204" font-size="8">101</text><text x="400" y="254">TIC</text><text x="400" y="264" font-size="8">101</text><text x="430" y="324">P-101</text>
+      <text x="300" y="36">M</text><text x="300" y="180" font-size="12">R-101</text><text x="525" y="44">E-101</text><text x="620" y="190">V-101</text><text x="230" y="16">PSV-101</text><text x="90" y="112">Reagent</text></g>`;
+    const H = [
+      [166, 114, 22, 'Control valve FV-101', 'The bow-tie is a valve; the dome-shaped actuator on top makes it a control valve. It sits on the reagent dosing line and is moved by the flow controller above it. On a real P&ID look for FC or FO next to it: on loss of air, a dosing valve should fail closed.'],
+      [166, 66, 18, 'FIC-101: flow indicating controller', 'A circle is an instrument. The letters follow ISA-5.1: the first letter is what is measured (F = flow), the next letters say what it does (I = indicate, C = control). A plain circle means it is in the field; a line through it means a control room panel or DCS.'],
+      [400, 190, 18, 'TT-101: temperature transmitter', 'T = temperature, T = transmitter. It measures the batch temperature and sends the signal (dashed line) to the controller. Instruments in one control loop share the same number, here 101.'],
+      [400, 250, 18, 'TIC-101: temperature controller', 'It compares the batch temperature with the set point and moves the jacket valve. On a reactor with exothermic dosing, the same signal usually also drives a high-temperature trip that stops dosing.'],
+      [300, 175, 40, 'R-101: jacketed reactor', 'Equipment tags: a letter for the type (R reactor, E exchanger, P pump, V vessel, T tank) and a number. The dashed outline around the vessel is the jacket. M on top is the agitator motor.'],
+      [525, 40, 40, 'E-101: overhead condenser', 'Vapour from the reactor goes to the condenser, condenses and drains to the receiver V-101. Follow the line to see where everything goes; lines on a P&ID are always drawn as connected flow paths.'],
+      [260, 52, 16, 'PSV-101: pressure safety valve', 'The relief valve protects the reactor from overpressure. Its outlet must go somewhere safe: here a vent header. Check there is no isolation valve under it, or that any valve is locked open.'],
+      [430, 292, 20, 'P-101: centrifugal pump', 'A circle with a tangential outlet on top is a centrifugal pump. It takes the batch out from the reactor bottom to the next step. A duty and standby pair would be tagged P-101A/B.'],
+      [620, 135, 34, 'V-101: receiver', 'Condensed solvent collects here. A P&ID would also show its level instrument, vent and drain.'],
+    ];
+    H.forEach(h => { const r = el('circle', { cx: h[0], cy: h[1], r: h[2], fill: c.brass, opacity: 0, style: 'cursor:pointer' }, svg); r.setAttribute('tabindex', '0'); r.setAttribute('role', 'button'); r.setAttribute('aria-label', h[3]);
+      const show = () => { svg.querySelectorAll('circle[role=button]').forEach(x => x.setAttribute('opacity', 0)); r.setAttribute('opacity', .22); info.innerHTML = `<div class="hi"><span>${h[3]}</span><b style="font:400 .95rem var(--f-sans);line-height:1.5">${h[4]}</b></div>`; };
+      r.addEventListener('click', show); r.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } }); });
+    info.innerHTML = '<div><span>Click any symbol</span><b style="font:400 .95rem var(--f-sans)">Start with the circles: those are instruments.</b></div>';
+  };
+
+  /* LMTD: counter-current vs co-current temperature profiles */
+  M['lmtd'] = function (fig) {
+    const c = C(), Thi = 120, Tho = 60, Tci = 30;
+    const svg = el('svg', { viewBox: '0 0 640 290', role: 'img', 'aria-label': 'Hot and cold temperature profiles along a heat exchanger' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<button type="button" data-m="cc" aria-pressed="true">Counter-current</button><button type="button" data-m="co" aria-pressed="false">Co-current</button>
+      <label>Cold outlet <input type="range" min="40" max="110" step="1" value="40" aria-label="Cold outlet temperature"> <output></output></label>`);
+    const i = ctl.querySelector('input'), o = ctl.querySelector('output'), rd = readout(fig); let m = 'cc';
+    const lm = (a, b) => a <= 0 || b <= 0 ? NaN : Math.abs(a - b) < 1e-6 ? a : (a - b) / Math.log(a / b);
+    function draw() {
+      const Tco = +i.value; o.textContent = Tco + ' °C'; svg.innerHTML = '';
+      const { X, Y } = axes(svg, { x0: 60, y0: 14, w: 540, h: 220, xmax: 100, ymax: 140, xstep: 25, ystep: 20, xlab: 'Position along the exchanger (%)', ylab: 'Temperature (°C)' });
+      const d1 = m === 'cc' ? Thi - Tco : Thi - Tci, d2 = m === 'cc' ? Tho - Tci : Tho - Tco, L = lm(d1, d2), Lcc = lm(Thi - Tco, Tho - Tci);
+      if (!(d1 > 0 && d2 > 0)) { txt(svg, 330, 120, m === 'co' ? 'Impossible co-current: the cold stream cannot leave hotter than the hot stream leaves.' : 'Temperature cross: not possible.', { 'text-anchor': 'middle', fill: c.rust, 'font-weight': 700 }); }
+      else {
+        const r = d2 / d1, q = x => Math.abs(1 - r) < 1e-6 ? x : (1 - Math.pow(r, x)) / (1 - r), Th = x => Thi - (Thi - Tho) * q(x), dT = x => d1 * Math.pow(r, x);
+        const hp = [], cp = []; for (let k = 0; k <= 50; k++) { const x = k / 50; hp.push([X(x * 100), Y(Th(x))]); cp.push([X(x * 100), Y(Th(x) - dT(x))]); }
+        el('path', { d: path(hp), fill: 'none', stroke: c.rust, 'stroke-width': 3 }, svg); el('path', { d: path(cp), fill: 'none', stroke: c.blue, 'stroke-width': 3 }, svg);
+        txt(svg, X(2), Y(Thi) - 8, 'Hot ' + Thi + ' → ' + Tho + ' °C', { fill: c.rust, 'font-weight': 700, 'font-size': 12 });
+        txt(svg, X(98), Y(m === 'cc' ? Tci : Tco) + 18, 'Cold ' + Tci + ' → ' + Tco + ' °C', { 'text-anchor': 'end', fill: c.blue, 'font-weight': 700, 'font-size': 12 });
+        const ar = (m === 'cc' ? cp.slice().reverse() : cp); el('path', { class: 'anim-flow', d: path(m === 'cc' ? cp.slice().reverse() : cp), fill: 'none', stroke: c.ink, 'stroke-width': 1.5, opacity: .5 }, svg);
+        el('path', { class: 'anim-flow', d: path(hp), fill: 'none', stroke: c.ink, 'stroke-width': 1.5, opacity: .5 }, svg);
+      }
+      rd.innerHTML = `<div class="hi"><span>LMTD</span><b>${isFinite(L) ? F(L, 1) + ' °C' : 'not possible'}</b></div><div><span>End temperature differences</span><b>${F(d1, 0)} and ${F(d2, 0)} °C</b></div><div><span>Area vs counter-current</span><b>${isFinite(L) && isFinite(Lcc) ? F(Lcc / L * 100, 0) + ' %' : '–'}</b></div>`;
+    }
+    ctl.addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if (!b) return; m = b.dataset.m; ctl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+    i.addEventListener('input', draw); draw();
+  };
+
+  /* Batch cycle time: Gantt chart of three batches through the train */
+  M['gantt'] = function (fig) {
+    const c = C(), cols = [c.brass, c.blue, c.green, c.rust];
+    const svg = el('svg', { viewBox: '0 0 680 230', role: 'img', 'aria-label': 'Gantt chart of consecutive batches through reactor, centrifuge, dryer and packing' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, `<button type="button" data-o="dryer" aria-pressed="false">Add a second dryer</button><button type="button" data-o="dist" aria-pressed="false">Faster distillation (4 h → 2.5 h)</button>`);
+    const rd = readout(fig), opt = { dryer: false, dist: false };
+    function draw() {
+      const steps = [['Reactor', 1 + 6 + (opt.dist ? 2.5 : 4) + 1, 1], ['Centrifuge', 4.5, 1], ['Dryer', 14, opt.dryer ? 2 : 1], ['Packing', 2, 1]];
+      const free = steps.map(s => Array(s[2]).fill(0)), sched = [];
+      for (let b = 0; b < 4; b++) { let ready = 0; const row = [];
+        steps.forEach((s, i) => { const u = free[i].indexOf(Math.min(...free[i])); const st = Math.max(ready, free[i][u]); const en = st + s[1]; free[i][u] = en; ready = en; row.push([i, st, en, u]); }); sched.push(row); }
+      const cyc = Math.max(...steps.map(s => s[1] / s[2])), bott = steps.find(s => s[1] / s[2] === cyc)[0];
+      svg.innerHTML = ''; const x0 = 100, W = 560, Hmax = 80, X = h => x0 + h / Hmax * W;
+      for (let h = 0; h <= Hmax; h += 10) { el('line', { x1: X(h), y1: 8, x2: X(h), y2: 196, stroke: c.grid }, svg); txt(svg, X(h), 212, h + ' h', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); }
+      steps.forEach((s, i) => txt(svg, x0 - 8, 30 + i * 46, s[0] + (s[2] > 1 ? ' ×2' : ''), { 'text-anchor': 'end', fill: s[0] === bott ? c.ink : c.mute, 'font-weight': s[0] === bott ? 700 : 400, 'font-size': 12 }));
+      sched.forEach((row, b) => row.forEach(([i, st, en, u]) => { if (st > Hmax) return; const y = 14 + i * 46 + (steps[i][2] > 1 ? u * 15 : 0), hgt = steps[i][2] > 1 ? 14 : 26;
+        const r = el('rect', { x: X(st), y, width: 0, height: hgt, rx: 3, fill: cols[b], opacity: .85 }, svg); tween([0], [Math.min(X(en), X(Hmax)) - X(st)], 400 + b * 150, v => r.setAttribute('width', Math.max(0, v[0])));
+        if (hgt > 20 && X(en) - X(st) > 24) txt(svg, X(st) + 5, y + 17, 'B' + (b + 1), { fill: '#0B1622', 'font-size': 11, 'font-weight': 700 }); }));
+      rd.innerHTML = `<div class="hi"><span>Cycle time (bottleneck)</span><b>${F(cyc, 1)} h: ${bott}</b></div><div><span>Batches per week</span><b>${F(168 / cyc, 1)}</b></div><div><span>Time for one batch, start to finish</span><b>${F(sched[0][3][2], 1)} h</b></div>`;
+    }
+    ctl.addEventListener('click', e => { const b = e.target.closest('button[data-o]'); if (!b) return; opt[b.dataset.o] = !opt[b.dataset.o]; b.setAttribute('aria-pressed', opt[b.dataset.o]); draw(); });
+    draw();
+  };
+
   window.PCME_ART = M;
   document.querySelectorAll('.art-fig[data-fig]').forEach(f => { const m = M[f.dataset.fig]; if (m) try { m(f); } catch (e) { console.error(e); } });
   // pause looping diagrams when off screen

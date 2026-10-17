@@ -1,0 +1,137 @@
+---
+layout: default
+title: "Static Electricity and Solvent Fires: How Static Builds Up and How to Control It"
+description: "Static electricity in chemical and pharma plants from the basics: how charge is generated and builds up, spark energy E = ½CV² against minimum ignition energy, low-conductivity solvents, bonding and earthing, filling, inerting and powder charging, with the Barton Solvents case and an interactive spark calculator."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Static Electricity and Solvent Fires
+    url: /articles/static-electricity-solvent-fires/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Static Electricity and Solvent Fires: How Static Builds Up and How to Control It",
+        "description": "Charge generation and accumulation, spark energy against minimum ignition energy, bonding, earthing, filling, inerting and powder charging.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "Can static electricity ignite solvent vapour?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Most solvent vapours ignite with 0.1 to 1 mJ of spark energy. A person in ordinary shoes charged to 10 kV stores about 10 mJ, so a spark you can barely feel is many times what toluene or methanol vapour needs." } },
+        { "@type": "Question", "name": "What resistance is acceptable for earthing against static?", "acceptedAnswer": { "@type": "Answer", "text": "For static dissipation, a resistance to earth below 1 megohm is enough. For metal-to-metal bonds, a continuity check below 10 ohms is common practice because it shows the bond is real, not just touching." } },
+        { "@type": "Question", "name": "Why are toluene and hexane more hazardous for static than methanol?", "acceptedAnswer": { "@type": "Answer", "text": "They have very low electrical conductivity, so charge stays in the liquid for seconds to minutes even inside an earthed tank. Methanol and acetone conduct well, so charge leaks away quickly if the equipment is earthed." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Static Electricity and Solvent Fires</h1>
+  <p class="article-meta">Process Safety &middot; Ignition Sources &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Most solvent fires in pharma and fine chemical plants are not caused by a welding torch or a faulty motor. They start with a spark nobody saw: from a drum on a plastic pallet, an operator's body, or a plastic bag of powder tipped into a reactor. This article explains, from the beginning, how static charge builds up, why a spark too small to feel can ignite a solvent, and which simple controls stop it.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What static charge is</a><span>Basics</span></li>
+    <li><a href="#buildup">How charge builds up</a><span>Basics</span></li>
+    <li><a href="#energy">How much energy is in a spark</a><span>Working level</span></li>
+    <li><a href="#liquids">Solvents that hold their charge</a><span>Working level</span></li>
+    <li><a href="#controls">The controls that work</a><span>Working level</span></li>
+    <li><a href="#powder">Powder into a solvent reactor</a><span>Going deeper</span></li>
+    <li><a href="#barton">When earthing was not enough: Barton Solvents</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What static charge is <span class="lvl l1">Basics</span></h2>
+  <p>Every material contains equal amounts of positive and negative charge, so normally it is neutral. When two different materials touch, a few electrons cross from one to the other. Pull them apart and those electrons don't all go back: one side is left slightly positive, the other slightly negative. That separated charge is static electricity.</p>
+  <p>It happens whenever things rub or separate: a solvent flowing along a pipe wall, powder sliding out of a bag, a person walking across the floor, a belt running over a pulley, nitrogen blowing through a hose. The more contact and the faster the separation, the more charge. A fine filter is one of the strongest generators in a plant, because the liquid is in contact with a huge surface.</p>
+
+  <h2 id="buildup">How charge builds up <span class="lvl l1">Basics</span></h2>
+  <p>Charge being generated is not, by itself, dangerous. It becomes dangerous only if it cannot escape. Think of a bucket under a running tap with a hole in the bottom. The tap is charge generation; the hole is the path to earth. If the hole is big (earthed metal, a conductive liquid), the level never rises. If the hole is tiny (a plastic container, an unbonded drum, toluene), the level rises until it overflows. In electrical terms, the voltage rises until the air breaks down, roughly 3 kV per millimetre, and the stored charge jumps as a spark.</p>
+  <p>We can rarely stop generation in a process plant. The job is to make sure the leak is always bigger than the tap.</p>
+
+  <h2 id="energy">How much energy is in a spark <span class="lvl l2">Working level</span></h2>
+  <p>A charged object behaves like a capacitor. The energy it can release in one spark is:</p>
+  <div class="formula-box">E = &frac12; C V&sup2;
+    <small>C capacitance in farads (a person about 100&ndash;300 pF, a 200 L drum about 100&ndash;200 pF, a road tanker about 1,000 pF), V voltage in volts.</small></div>
+  <p>A person in ordinary shoes on a dry floor easily reaches 10 kV. With 200 pF that is &frac12; &times; 200&times;10<sup>&minus;12</sup> &times; 10,000&sup2; = 0.01 J, or 10 mJ. You start to feel a spark at about 1 mJ.</p>
+  <p>Now compare that with the <strong>minimum ignition energy (MIE)</strong>, the smallest spark that ignites the most easily ignited mixture of the vapour in air:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Solvent</th><th>MIE (mJ)</th><th>Flash point</th><th>Holds charge?</th></tr>
+    <tr><td>Methanol</td><td>0.14</td><td>11 &deg;C</td><td>No, conductive</td></tr>
+    <tr><td>Toluene</td><td>0.24</td><td>4 &deg;C</td><td>Yes, low conductivity</td></tr>
+    <tr><td>n-Hexane / n-heptane</td><td>0.24</td><td>&minus;22 / &minus;4 &deg;C</td><td>Yes, very low conductivity</td></tr>
+    <tr><td>Ethyl acetate</td><td>0.46</td><td>&minus;4 &deg;C</td><td>No, conductive</td></tr>
+    <tr><td>IPA</td><td>0.65</td><td>12 &deg;C</td><td>No, conductive</td></tr>
+    <tr><td>Acetone</td><td>1.15</td><td>&minus;20 &deg;C</td><td>No, conductive</td></tr>
+  </table></div>
+  <p>Typical literature values; check the SDS for your grade. Two facts stand out. A spark you can barely feel is 40 to 70 times what toluene or methanol needs. And all of these flash points are below normal room temperature in India, so the vapour space of an open drum or reactor is often already flammable.</p>
+  <figure class="art-fig" data-fig="spark">
+    <figcaption>Try it: pick a charged object and a solvent, and change the voltage. The bar is the spark energy; the red line is what the solvent needs to ignite. Then earth the object.</figcaption>
+  </figure>
+
+  <h2 id="liquids">Solvents that hold their charge <span class="lvl l2">Working level</span></h2>
+  <p>A liquid's electrical conductivity decides how fast charge drains from it. The standard IEC TS 60079-32-1 groups liquids into three classes:</p>
+  <ul>
+    <li><strong>Low conductivity, below 50 pS/m:</strong> toluene, xylene, hexane, heptane, many hydrocarbons. Charge can stay in the liquid for tens of seconds, even inside an earthed metal tank.</li>
+    <li><strong>Medium, 50 to 10,000 pS/m:</strong> some esters and ethers.</li>
+    <li><strong>High, above 10,000 pS/m:</strong> alcohols, ketones, water. Charge drains in microseconds, but only if the container is earthed. In a plastic can, even methanol charges up.</li>
+  </ul>
+  <p>The time charge stays in a liquid is its relaxation time, &tau; = &epsilon;&epsilon;<sub>0</sub>/&kappa; (permittivity divided by conductivity). For toluene it is around 20 seconds; for very dry hexane it can be many minutes. That is why you wait before dipping or sampling a tank of low-conductivity solvent, and why a sample can on a nylon rope lowered into a freshly filled tank is a classic ignition source.</p>
+
+  <h2 id="controls">The controls that work <span class="lvl l2">Working level</span></h2>
+  <h3>1. Bond and earth every conductor</h3>
+  <p>Clamp drums, IBCs and tankers before the lid or valve opens, and remove the clamp last. Bond across anything that breaks the metal path: PTFE-gasketed flanges, glass sections, flexible hoses. Test it: a metal-to-metal bond below 10 &Omega; shows it is real, and below 1 M&Omega; to earth is enough to drain static. Earth monitoring clamps with a green light, interlocked to the transfer pump, remove the guesswork. Paint, rust and dirt under a clamp can break the path.</p>
+  <h3>2. Fill slowly and from the bottom</h3>
+  <p>Splash filling from a top nozzle breaks the liquid into droplets and mist, which generates charge and fills the vapour space with a fine flammable mist. Use a dip pipe to the bottom. For low-conductivity solvents, keep the velocity at 1 m/s or less until the pipe outlet is covered by liquid. Avoid air or water slugs in the line, and give the liquid time to relax after a filter before it reaches the tank.</p>
+  <h3>3. Take the oxygen away</h3>
+  <p>Most solvent vapours cannot burn below about 10&ndash;12 % oxygen, the limiting oxygen concentration (LOC). Inerting with nitrogen to 8 % or less, checked with an analyser, removes one side of the fire triangle. It is the main control where charge cannot be avoided, such as powder charging or low-conductivity solvents. See the <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">nitrogen purging calculator</a>.</p>
+  <h3>4. Control the people</h3>
+  <p>ESD (antistatic) footwear only works on a conductive floor, so check both. No mobile phones in solvent areas. Touch an earthed point before opening a manhole. Cotton or FR clothing rather than synthetics; never take off a jacket or wipe with a dry cloth near open solvent.</p>
+  <div class="art-note"><b>On the plant</b><p>Managers set the standard here more than any SOP. If a visitor or a senior person walks into the solvent store in leather-soled shoes, talking on a phone, the rule is dead for everyone who saw it.</p></div>
+
+  <h2 id="powder">Powder into a solvent reactor <span class="lvl l3">Going deeper</span></h2>
+  <p>Tipping powder from a plastic bag through an open manhole into a reactor that already contains solvent is the most common cause of flash fires in API and intermediate plants. Everything lines up at once: a flammable vapour at the manhole, air coming in, powder and bag both charging as the powder slides out, and an operator standing in the vapour.</p>
+  <p>The discharge from a plastic bag or liner is a <em>brush discharge</em>, up to about 4 mJ. That is too weak to ignite most dusts but easily enough for solvent vapour. A non-antistatic FIBC or a plastic-lined chute can give a <em>propagating brush discharge</em> of 1,000 mJ or more, which ignites almost anything.</p>
+  <ul>
+    <li>Charge solids first and solvent afterwards whenever the process allows.</li>
+    <li>Inert the reactor and keep a nitrogen sweep at the charging point.</li>
+    <li>Use closed charging (powder transfer system, split valve, glove box) where you can.</li>
+    <li>Use earthed metal chutes, and Type C (earthed) or Type D (static-dissipative) FIBCs, never ordinary plastic bags at an open manhole.</li>
+  </ul>
+
+  <h2 id="barton">When earthing was not enough: Barton Solvents <span class="lvl l3">Going deeper</span></h2>
+  <p>On 17 July 2007, a 15,000-gallon tank exploded at the Barton Solvents distribution facility in Valley Center, Kansas, while a tanker unloaded VM&amp;P naphtha, a low-conductivity solvent. The tank was thrown into the air, fire spread through the tank farm and about 6,000 residents were evacuated. The US Chemical Safety Board found four conditions lined up:</p>
+  <ul>
+    <li>the naphtha was nonconductive and held its charge;</li>
+    <li>stop&ndash;start filling introduced air and turbulence, adding charge;</li>
+    <li>the tank headspace was flammable and not inerted;</li>
+    <li>a loose linkage on the level float, an isolated conductor inside the tank, likely sparked.</li>
+  </ul>
+  <p>The bonding and grounding of the transfer equipment was likely in place. The CSB's lesson for anyone handling toluene, hexane or heptane: earthing is necessary but not sufficient. Add inerting, slow filling, time to relax, and bonded internals.</p>
+  <p class="art-updated">Source: US Chemical Safety Board, &ldquo;Static Spark Ignites Explosion Inside Flammable Liquid Storage Tank&rdquo;, Barton Solvents final report, June 2008.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>&ldquo;I didn't feel a spark, so there wasn't one.&rdquo;</li>
+    <li>Assuming a conductive solvent is safe in a plastic container or an unbonded drum.</li>
+    <li>Assuming nitrogen protection without ever measuring the oxygen.</li>
+    <li>Plastic buckets, funnels and scoops kept &ldquo;just for small additions&rdquo;.</li>
+    <li>Thinking static is a winter problem: humidity helps surfaces, but does nothing for charge inside a flowing liquid.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Can static electricity ignite solvent vapour?</h3>
+  <p>Yes. Most solvent vapours ignite at 0.1&ndash;1 mJ, while a charged person can release about 10 mJ in one spark.</p>
+  <h3>What resistance is acceptable for earthing?</h3>
+  <p>Below 1 M&Omega; to earth is enough to drain static; a metal bond below 10 &Omega; confirms the connection is real.</p>
+  <h3>Why are toluene and hexane worse than methanol?</h3>
+  <p>Their very low conductivity keeps charge in the liquid for seconds to minutes, even in an earthed tank. Methanol drains its charge almost instantly if the equipment is earthed.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Nitrogen inerting and purge cycles</a>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/process-safety/' | relative_url }}">Process Safety section</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

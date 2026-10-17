@@ -1,0 +1,110 @@
+---
+layout: default
+title: "Semi-Batch Reactions: Dosing Time, Accumulation and MTSR Explained"
+description: "Why exothermic reactions are run semi-batch, what accumulation is, how dosing time and reaction temperature set the MTSR, why colder is not always safer, cooling capacity at plant scale and the interlocks that matter. Interactive accumulation and MTSR chart."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Semi-Batch Dosing and Accumulation
+    url: /articles/semi-batch-dosing-accumulation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Semi-Batch Reactions: Dosing Time, Accumulation and MTSR Explained",
+        "description": "Accumulation, MTSR, dosing time, reaction temperature, cooling capacity and interlocks for semi-batch exothermic reactions.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is accumulation in a semi-batch reaction?", "acceptedAnswer": { "@type": "Answer", "text": "Accumulation is the fraction of dosed reagent that has not yet reacted. If cooling fails, that unreacted reagent can still react and release its heat. MTSR = process temperature + accumulation x adiabatic temperature rise." } },
+        { "@type": "Question", "name": "Is it safer to run an exothermic reaction colder?", "acceptedAnswer": { "@type": "Answer", "text": "Not always. A colder reaction is slower, so more reagent accumulates during dosing. In the example on this page, dosing over 4 hours at 60 C gives an MTSR of about 80 C, but the same dosing at 40 C gives about 126 C." } },
+        { "@type": "Question", "name": "How do you choose the dosing time?", "acceptedAnswer": { "@type": "Answer", "text": "Long enough that the heat release rate stays within the plant's cooling capacity, and long enough that accumulation keeps the MTSR below the boiling point and the decomposition onset (TD24). Reaction calorimetry (RC1) data are used to confirm it." } }
+      ] }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Semi-Batch Reactions: Dosing Time, Accumulation and MTSR</h1>
+  <p class="article-meta">Scale-up &middot; Reaction Safety &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">&ldquo;Dose the reagent over 4 hours.&rdquo; Every batch card for an exothermic reaction has a line like this, and on a busy night someone always asks why it can't be 2 hours. The honest answer is not &ldquo;because the SOP says so&rdquo;. It is about how much unreacted reagent is sitting in the reactor at any moment, and what that reagent would do if the cooling failed. This article builds that answer from the ground up.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why we dose instead of mixing everything</a><span>Basics</span></li>
+    <li><a href="#acc">Accumulation: the reagent waiting to react</a><span>Basics</span></li>
+    <li><a href="#mtsr">From accumulation to MTSR</a><span>Working level</span></li>
+    <li><a href="#cool">Can the plant cool it?</a><span>Working level</span></li>
+    <li><a href="#colder">Why colder is not always safer</a><span>Going deeper</span></li>
+    <li><a href="#protect">Protecting a dosing step</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why we dose instead of mixing everything <span class="lvl l1">Basics</span></h2>
+  <p>If two reactants that release a lot of heat are mixed all at once (a <em>batch</em> reaction), the whole heat of reaction is available from the first minute. If cooling fails, there is nothing you can do: everything is already in the reactor.</p>
+  <p>In a <strong>semi-batch</strong> reaction, one reactant is in the reactor and the other is dosed in slowly. Ideally each drop reacts almost as soon as it arrives, so the heat comes out at the rate you dose. That gives you a control handle: if the temperature rises or cooling fails, stop dosing, and the heat release stops too. At least, that is the idea. Whether it is true depends on accumulation.</p>
+
+  <h2 id="acc">Accumulation: the reagent waiting to react <span class="lvl l1">Basics</span></h2>
+  <p>Reagent doesn't react instantly. At any moment during dosing, some of what has been added has reacted and some hasn't. The unreacted part is the <strong>accumulation</strong>. If the reaction is fast compared with the dosing, accumulation stays low and stopping the feed really does stop the heat. If the reaction is slow, reagent piles up, and stopping the feed doesn't help much: the reagent already in the reactor keeps reacting.</p>
+  <p>Think of filling a bucket with a hole in it. The tap is the dosing rate; the hole is the reaction. The water level in the bucket is the accumulation. Open the tap faster, or make the hole smaller (a colder, slower reaction), and the level rises.</p>
+
+  <h2 id="mtsr">From accumulation to MTSR <span class="lvl l2">Working level</span></h2>
+  <p>The worst case is a total cooling failure at the moment accumulation is highest. All the unreacted reagent then reacts with no cooling, and the batch heats up by its share of the adiabatic temperature rise:</p>
+  <div class="formula-box">
+    &Delta;T<sub>ad</sub> = Q<sub>reaction</sub> / (m &times; c<sub>p</sub>)<br>
+    MTSR = T<sub>process</sub> + X<sub>acc</sub> &times; &Delta;T<sub>ad</sub>
+    <small>MTSR: maximum temperature of the synthesis reaction. X<sub>acc</sub>: accumulation as a fraction (0 to 1).</small>
+  </div>
+  <p>Then compare the MTSR with two temperatures that matter: the <strong>MTT</strong>, the maximum technical temperature (usually the boiling point of the solvent, in an open or vented system), and <strong>TD24</strong>, the temperature at which a decomposition would reach its maximum rate in 24 hours. Those comparisons give the Stoessel criticality class, from 1 (MTSR below both) to 5.</p>
+  <h3>Worked example</h3>
+  <p>A 3,000 kg batch in toluene with c<sub>p</sub> 1.8 kJ/kg&middot;K; the full dose releases 260 kJ per kg of batch. &Delta;T<sub>ad</sub> = 260 / 1.8 &asymp; 144 &deg;C. Toluene boils at 111 &deg;C; the decomposition TD24 is 140 &deg;C. The reaction runs at 60 &deg;C.</p>
+  <ul>
+    <li>Dosed over <strong>4 hours</strong>: peak accumulation about 14 %, MTSR &asymp; 60 + 0.14 &times; 144 &asymp; 80 &deg;C. Below boiling: class 1.</li>
+    <li>Dosed over <strong>1 hour</strong>: peak accumulation about 46 %, MTSR &asymp; 126 &deg;C. Above boiling but below TD24: class 3, relying on the solvent boiling to stop the temperature.</li>
+    <li>Dosed over <strong>30 minutes</strong>: MTSR &asymp; 155 &deg;C, above TD24: class 4 or 5, a potential runaway into decomposition.</li>
+  </ul>
+  <figure class="art-fig" data-fig="accumulation">
+    <figcaption>Try it: the line is the MTSR at each moment, the temperature the batch would reach if cooling failed right then. Shorten the dosing time, or lower the reaction temperature, and watch it climb.</figcaption>
+  </figure>
+
+  <h2 id="cool">Can the plant cool it? <span class="lvl l2">Working level</span></h2>
+  <p>Accumulation is about the cooling failure case. There is a second check for normal operation: can the jacket remove the heat as fast as the reaction makes it?</p>
+  <div class="formula-box">
+    Heat release rate &asymp; total reaction heat / dosing time<br>
+    Cooling capacity = U &times; A &times; (T<sub>batch</sub> &minus; T<sub>jacket</sub>)
+  </div>
+  <p>In the example, the total heat is 3,000 &times; 260 = 780 MJ. Over 4 hours that is about 54 kW; over 1 hour, about 217 kW. If the jacket can remove about 70 kW (U &times; A of 1.4 kW/K and 50 &deg;C between batch and cooling water), the 4-hour dosing is controllable and the 1-hour dosing is not: the temperature will rise even with the cooling working perfectly.</p>
+  <p>This check is why a dosing time that worked in the lab often fails at scale. The lab flask has ten times more cooling area per litre than a plant reactor, so it could absorb a fast addition that the plant cannot. The <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up article</a> explains why the area per volume falls.</p>
+
+  <h2 id="colder">Why colder is not always safer <span class="lvl l3">Going deeper</span></h2>
+  <p>A natural instinct with an exotherm is to run it colder. It feels safer: more margin to the boiling point. But a colder reaction is slower, and a slower reaction accumulates more reagent during dosing.</p>
+  <p>In the example, dosing over 4 hours at 60 &deg;C gives an MTSR of about 80 &deg;C. The same dosing at 40 &deg;C gives about 126 &deg;C, because the reaction rate roughly quarters and reagent piles up. The batch is cooler while it runs, but much more dangerous if cooling fails. Worse, a reaction that is too cold may stall almost completely; if someone then warms it up, everything accumulated reacts at once.</p>
+  <p>That is why many dosing steps have a <em>minimum</em> temperature interlock as well as a maximum: no dosing below the temperature at which the reaction is known to keep up.</p>
+
+  <h2 id="protect">Protecting a dosing step <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Measure it.</strong> Reaction calorimetry (RC1 or similar) gives the heat of reaction, the heat release profile and the accumulation directly. DSC or ARC on the final mixture gives the decomposition onset and TD24. See <a href="{{ '/process-safety/thermal-testing-dsc-arc-rc/' | relative_url }}">thermal safety testing</a>.</li>
+    <li><strong>Limit the dosing rate physically:</strong> a restriction orifice, a dosing pump that cannot exceed the safe rate, or a dosing vessel that holds only one batch quantity.</li>
+    <li><strong>Interlock the feed:</strong> stop dosing on high temperature, low temperature, agitator stopped (rotation, not just motor current) and cooling failure.</li>
+    <li><strong>Never restart blindly</strong> after an agitator stop or a long dosing interruption: sample or wait for the accumulated reagent to react first.</li>
+    <li><strong>Size the relief</strong> for the runaway case if the class is 3 or above, not only for fire.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Agitator stops are the most dangerous moment in a dosing step. Reagent added without mixing can sit as a separate layer. When the agitator restarts, it all mixes and reacts at once. The rule is simple: if the agitator stops, stop dosing, and don't restart the agitator until someone has assessed the accumulation.</p></div>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is accumulation?</h3>
+  <p>The fraction of dosed reagent that has not reacted yet. MTSR = process temperature + accumulation &times; &Delta;T<sub>ad</sub>.</p>
+  <h3>Is it safer to run colder?</h3>
+  <p>Not always. Colder means slower, which means more accumulation. In the example, 40 &deg;C gives a higher MTSR than 60 &deg;C for the same dosing time.</p>
+  <h3>How do you choose the dosing time?</h3>
+  <p>Long enough that the heat release stays within the plant's cooling capacity and that the MTSR stays below the boiling point and TD24, confirmed by reaction calorimetry.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes, with calculator</a>
+    <a href="{{ '/process-safety/cooling-failure-and-runaway/' | relative_url }}">Cooling failure and runaway</a>
+    <a href="{{ '/games/runaway/' | relative_url }}">Runaway! game</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and jacket cooling</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>
