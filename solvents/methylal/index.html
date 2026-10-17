@@ -1,0 +1,136 @@
+---
+layout: default
+title: "Methylal Properties: Boiling Point Under Vacuum, Flash Point, Autoignition, TLV"
+description: "Methylal (dimethoxymethane): boiling point under vacuum (760 to 5 mmHg), melting point, flash point, autoignition temperature, flammable limits, TLV, health effects, density, molecular weight and ICH Q3C class."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the boiling point of methylal under vacuum?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "From the Antoine equation, methylal boils at about -5.9 °C at 100 mmHg absolute (660 mmHg vacuum), -18.7 °C at 50 mmHg absolute and -33.6 °C at 20 mmHg absolute. At atmospheric pressure it boils at 42.0 °C."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the flash point of methylal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "About -21 °C closed cup. Values on supplier SDSs vary by a few degrees."
+        }
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Solvent Data
+    url: /solvents/
+  - label: "Methylal"
+    url: /solvents/methylal/
+---
+<link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}">
+
+<div class="container sv-head">
+  <h1>Methylal (dimethoxymethane): boiling point under vacuum and properties</h1>
+  <p>C<sub>3</sub>H<sub>8</sub>O<sub>2</sub> &middot; CAS 109-87-5. Also called dimethoxymethane. Normal boiling point 42.0 &deg;C. The table gives the boiling point at each vacuum level, so you can set the jacket and condenser for a solvent recovery or a strip.</p>
+</div>
+
+<div class="container sv-wrap">
+  <section class="sv-props" aria-labelledby="sv-props-h">
+    <h2 id="sv-props-h">Methylal properties</h2>
+    <table class="sv-table">
+      <tr class="sv-sec"><th colspan="2">Identity and physical</th></tr>
+      <tr><th>Formula</th><td>C<sub>3</sub>H<sub>8</sub>O<sub>2</sub></td></tr>
+      <tr><th>CAS number</th><td>109-87-5</td></tr>
+      <tr><th>Molecular weight</th><td>76.09 g/mol</td></tr>
+      <tr><th>Density at 20 &deg;C</th><td>0.860 g/mL (860 kg/m&sup3;)</td></tr>
+      <tr><th>Melting point</th><td>&minus;105 &deg;C</td></tr>
+      <tr><th>Boiling point</th><td>42.0 &deg;C at 760 mmHg</td></tr>
+      <tr><th>Vapour pressure at 20 &deg;C</th><td>330 mmHg (440 mbar)</td></tr>
+      <tr><th>With water</th><td>Partly miscible</td></tr>
+      <tr class="sv-sec"><th colspan="2">Fire and explosion</th></tr>
+      <tr><th>Flash point</th><td>about -21 &deg;C (closed cup)</td></tr>
+      <tr><th>Autoignition temperature</th><td>235 &deg;C</td></tr>
+      <tr><th>Flammable limits (LEL to UEL)</th><td>2.2 to 19.9 % by volume</td></tr>
+      <tr class="sv-sec"><th colspan="2">Health and regulatory</th></tr>
+      <tr><th>Exposure limit (TLV)</th><td>TWA 1000 ppm</td></tr>
+      <tr><th>Skin absorption</th><td>No</td></tr>
+      <tr><th>Main health effects</th><td>Drowsiness; eye irritant</td></tr>
+      <tr><th>Cancer (IARC)</th><td>Not listed</td></tr>
+      <tr><th>ICH Q3C residual solvent</th><td>No adequate toxicity data (ICH Q3C table 4)</td></tr>
+      <tr><th>Solvent family</th><td><a href="{{ '/solvents/' | relative_url }}#ethers">Ethers</a></td></tr>
+    </table>
+    <p class="sv-mute sv-src">Fire data from IEC 60079-20-1 and NFPA 497; exposure limits are 8-hour TWA and 15-minute STEL values from the Ontario table, which follows ACGIH TLVs (via the open-source <i>chemicals</i> data library). TLVs are revised every year: check the current ACGIH booklet, your SDS and the Factories Act limits for your state.</p>
+  </section>
+  <section class="sv-calc" data-a="7.16103" data-b="1197.95" data-c="238.031" data-name="Methylal" aria-labelledby="sv-calc-h">
+    <h2 id="sv-calc-h">Boiling point at your vacuum</h2>
+    <div class="sv-row">
+      <label>Pressure <input type="number" step="any" inputmode="decimal" value="100" class="sv-p" aria-label="Pressure"></label>
+      <label>Unit <select class="sv-u" aria-label="Pressure unit"><option value="abs">mmHg absolute (torr)</option><option value="gauge">mmHg vacuum (gauge)</option><option value="mbar">mbar absolute</option></select></label>
+    </div>
+    <p class="sv-out" aria-live="polite"></p>
+    <div class="sv-row">
+      <label>Temperature (&deg;C) for vapour pressure <input type="number" step="any" inputmode="decimal" value="40" class="sv-t" aria-label="Temperature in degrees C"></label>
+    </div>
+    <p class="sv-out2" aria-live="polite"></p>
+  </section>
+
+</div>
+
+<div class="container article-body sv-body">
+  <h2>Boiling point of Methylal under vacuum</h2>
+  <p>&ldquo;Vacuum&rdquo; on a plant gauge is usually read as mmHg below atmosphere; the boiling point depends on the <em>absolute</em> pressure, which is 760 minus the gauge reading at sea level.</p>
+  <div class="sv-scroll"><table class="sv-table sv-grid">
+    <thead><tr><th>Absolute pressure (mmHg / torr)</th><th>Absolute pressure (mbar)</th><th>Vacuum gauge (mmHg)</th><th>Boiling point</th></tr></thead>
+    <tbody><tr><td>760</td><td>1,013</td><td>0</td><td>41.8 &deg;C</td></tr><tr><td>500</td><td>667</td><td>260</td><td>30.4 &deg;C</td></tr><tr><td>300</td><td>400</td><td>460</td><td>17.7 &deg;C</td></tr><tr><td>200</td><td>267</td><td>560</td><td>8.5 &deg;C</td></tr><tr><td>150</td><td>200</td><td>610</td><td>2.3 &deg;C</td></tr><tr><td>100</td><td>133</td><td>660</td><td>-5.9 &deg;C</td></tr><tr><td>75</td><td>100</td><td>685</td><td>-11.4 &deg;C</td></tr><tr><td>50</td><td>67</td><td>710</td><td>-18.7 &deg;C</td></tr><tr><td>30</td><td>40</td><td>730</td><td><span class="sv-mute">below &minus;20 &deg;C</span></td></tr><tr><td>20</td><td>27</td><td>740</td><td><span class="sv-mute">below &minus;20 &deg;C</span></td></tr><tr><td>10</td><td>13</td><td>750</td><td><span class="sv-mute">below &minus;20 &deg;C</span></td></tr><tr><td>5</td><td>7</td><td>755</td><td><span class="sv-mute">below &minus;20 &deg;C</span></td></tr></tbody>
+  </table></div>
+
+  <h2>Vapour pressure</h2>
+  <div class="sv-scroll"><table class="sv-table sv-grid">
+    <thead><tr><th>Temperature</th><th>Vapour pressure (mmHg)</th><th>Vapour pressure (mbar)</th></tr></thead>
+    <tbody><tr><td>20 &deg;C</td><td>330</td><td>440</td></tr><tr><td>25 &deg;C</td><td>404</td><td>539</td></tr><tr><td>40 &deg;C</td><td>712</td><td>949</td></tr><tr><td>60 &deg;C</td><td>1,385</td><td>1,847</td></tr></tbody>
+  </table></div>
+  <div class="formula-box">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; A = 7.16103, B = 1197.95, C = 238.031
+    <small>P in mmHg, T in &deg;C. Antoine constants from the same data as the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>. Accuracy falls well outside the normal working range, and very low temperatures are not shown.</small></div>
+
+  <h2>On the plant</h2>
+  <ul><li><b>Highly flammable:</b> the flash point is below room temperature, so the vapour above the liquid is flammable in normal plant conditions. Inert the vessel with nitrogen. See <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and LOC</a>.</li></ul>
+  <p>Under deep vacuum the boiling point can fall close to the cooling water temperature, and the condenser loses its driving force. Check the condenser and vent condenser before going deeper, and keep the condensing temperature at least 10&ndash;15 &deg;C above the coolant. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a> and <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">steam energy and condenser selection</a>.</p>
+  <section class="sv-gloss" aria-labelledby="sv-gloss-h">
+    <h2 id="sv-gloss-h">What the terms mean</h2>
+    <dl>
+      <dt>CAS number</dt><dd>A unique registry number for the chemical. Use it on purchase orders and SDS requests to avoid mixing up grades and similar names.</dd>
+      <dt>Molecular weight (MW)</dt><dd>Mass of one mole, in g/mol. Used to convert between mass and moles in material balances and vapour calculations.</dd>
+      <dt>Density</dt><dd>Mass per volume at 20 &deg;C. Multiply litres by density to get kilograms; it falls slightly as the liquid warms.</dd>
+      <dt>Melting point</dt><dd>The temperature at which the solid melts (or the liquid freezes). Solvents that freeze near room temperature, such as DMSO, acetic acid and cyclohexanol, can block lines and drums in winter.</dd>
+      <dt>Boiling point</dt><dd>The temperature at which the vapour pressure equals the surrounding pressure. The &ldquo;normal&rdquo; boiling point is at 760 mmHg (1 atm). Under vacuum the liquid boils at a lower temperature.</dd>
+      <dt>Absolute pressure and vacuum (gauge)</dt><dd>Absolute pressure is measured from perfect vacuum. A plant vacuum gauge reads how far below atmosphere you are, so absolute pressure &asymp; 760 &minus; gauge reading (mmHg) at sea level. 1 mmHg = 1 torr = 1.333 mbar.</dd>
+      <dt>Vapour pressure</dt><dd>The pressure of the solvent&rsquo;s own vapour above the liquid at a given temperature. High vapour pressure means faster evaporation, more losses from vents and a higher fire and exposure risk.</dd>
+      <dt>Antoine equation</dt><dd>log<sub>10</sub>P = A &minus; B / (C + T), a fitted equation that links vapour pressure and temperature. It is accurate within the range it was fitted for and less reliable far outside it.</dd>
+      <dt>Azeotrope</dt><dd>A mixture that boils at a constant temperature with the same composition in the liquid and the vapour, so plain distillation cannot separate it further. Water azeotropes are used to dry a batch by distilling off water with the solvent.</dd>
+      <dt>Flash point</dt><dd>The lowest liquid temperature at which the vapour above it can be ignited by a flame or spark, measured in a closed cup. If the liquid is above its flash point, the space above it can be flammable: inert the vessel.</dd>
+      <dt>Autoignition temperature (AIT)</dt><dd>The temperature at which the vapour ignites by itself, with no spark or flame. Hot surfaces such as steam lines, thermic fluid lines and motors must stay well below it.</dd>
+      <dt>Flammable limits (LEL and UEL)</dt><dd>The range of vapour concentration in air, in % by volume, that can burn. Below the lower explosive limit (LEL) the mixture is too lean; above the upper limit (UEL) it is too rich. Gas detectors usually alarm at 10&ndash;25 % of the LEL.</dd>
+      <dt>TLV, TWA, STEL and Ceiling</dt><dd>Threshold limit values (TLVs, published by ACGIH) are airborne concentrations most workers can be exposed to day after day without harm. TWA is the 8-hour time-weighted average, STEL the 15-minute short-term limit, and Ceiling a level never to be exceeded. ppm means parts per million by volume in air.</dd>
+      <dt>Skin absorption (skin notation)</dt><dd>The chemical passes through intact skin in amounts that add to the dose, so gloves and splash protection matter as much as ventilation.</dd>
+      <dt>IARC cancer groups</dt><dd>Group 1: carcinogenic to humans. Group 2A: probably carcinogenic. Group 2B: possibly carcinogenic. Group 3: not classifiable. &ldquo;Not listed&rdquo; means IARC has not evaluated it, not that it is proven safe.</dd>
+      <dt>ICH Q3C residual solvent classes</dt><dd>The pharma guideline for solvent left in a drug. Class 1: avoid (known or suspected carcinogens or environmental hazards). Class 2: limit to the stated ppm. Class 3: low toxicity, generally up to 5,000 ppm (0.5 %) without justification. Table 4 lists solvents with no adequate toxicity data.</dd>
+      <dt>Peroxide former</dt><dd>A solvent, mostly ethers, that reacts slowly with air to form explosive peroxides. Test before distilling or concentrating, and never distil to dryness.</dd>
+      <dt>Static accumulator</dt><dd>A liquid with low electrical conductivity that holds static charge during pumping, filtration and mixing. A spark from the charge can ignite the vapour, so earth and bond all equipment and inert the vessel.</dd>
+    </dl>
+  </section>
+  <p class="sv-mute">Flash points and other safety data are typical published values; always use the supplier&rsquo;s SDS for your grade. ICH Q3C limits are from the current guideline; check the latest revision for your filing.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent recovery calculator (heat load, recovery time, condenser, vacuum pump)</a>
+    <a href="{{ '/calculators/solvent-mixture-density-viscosity-calculator/' | relative_url }}">Solvent mixture density and viscosity</a>
+    <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent swap and solvent selection</a>
+    <a href="{{ '/solvents/' | relative_url }}">All 86 solvents</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/solvents.js' | relative_url }}"></script>

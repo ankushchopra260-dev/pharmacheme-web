@@ -99,6 +99,29 @@ breadcrumbs:
   <h2>On the plant</h2>
   <ul><li><b>Azeotrope with water:</b> boils at about 52.6 &deg;C at atmospheric pressure (96 % MTBE by mass). Distilling off this azeotrope is a common way to dry the batch.</li><li><b>Static accumulator:</b> low conductivity, so charge builds up during pumping and filtration. Earth and bond equipment and keep the vessel inerted. See <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity and solvent fires</a>.</li><li><b>Highly flammable:</b> the flash point is below room temperature, so the vapour above the liquid is flammable in normal plant conditions. Inert the vessel with nitrogen. See <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and LOC</a>.</li></ul>
   <p>Under deep vacuum the boiling point can fall close to the cooling water temperature, and the condenser loses its driving force. Check the condenser and vent condenser before going deeper, and keep the condensing temperature at least 10&ndash;15 &deg;C above the coolant. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a> and <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">steam energy and condenser selection</a>.</p>
+  <section class="sv-gloss" aria-labelledby="sv-gloss-h">
+    <h2 id="sv-gloss-h">What the terms mean</h2>
+    <dl>
+      <dt>CAS number</dt><dd>A unique registry number for the chemical. Use it on purchase orders and SDS requests to avoid mixing up grades and similar names.</dd>
+      <dt>Molecular weight (MW)</dt><dd>Mass of one mole, in g/mol. Used to convert between mass and moles in material balances and vapour calculations.</dd>
+      <dt>Density</dt><dd>Mass per volume at 20 &deg;C. Multiply litres by density to get kilograms; it falls slightly as the liquid warms.</dd>
+      <dt>Melting point</dt><dd>The temperature at which the solid melts (or the liquid freezes). Solvents that freeze near room temperature, such as DMSO, acetic acid and cyclohexanol, can block lines and drums in winter.</dd>
+      <dt>Boiling point</dt><dd>The temperature at which the vapour pressure equals the surrounding pressure. The &ldquo;normal&rdquo; boiling point is at 760 mmHg (1 atm). Under vacuum the liquid boils at a lower temperature.</dd>
+      <dt>Absolute pressure and vacuum (gauge)</dt><dd>Absolute pressure is measured from perfect vacuum. A plant vacuum gauge reads how far below atmosphere you are, so absolute pressure &asymp; 760 &minus; gauge reading (mmHg) at sea level. 1 mmHg = 1 torr = 1.333 mbar.</dd>
+      <dt>Vapour pressure</dt><dd>The pressure of the solvent&rsquo;s own vapour above the liquid at a given temperature. High vapour pressure means faster evaporation, more losses from vents and a higher fire and exposure risk.</dd>
+      <dt>Antoine equation</dt><dd>log<sub>10</sub>P = A &minus; B / (C + T), a fitted equation that links vapour pressure and temperature. It is accurate within the range it was fitted for and less reliable far outside it.</dd>
+      <dt>Azeotrope</dt><dd>A mixture that boils at a constant temperature with the same composition in the liquid and the vapour, so plain distillation cannot separate it further. Water azeotropes are used to dry a batch by distilling off water with the solvent.</dd>
+      <dt>Flash point</dt><dd>The lowest liquid temperature at which the vapour above it can be ignited by a flame or spark, measured in a closed cup. If the liquid is above its flash point, the space above it can be flammable: inert the vessel.</dd>
+      <dt>Autoignition temperature (AIT)</dt><dd>The temperature at which the vapour ignites by itself, with no spark or flame. Hot surfaces such as steam lines, thermic fluid lines and motors must stay well below it.</dd>
+      <dt>Flammable limits (LEL and UEL)</dt><dd>The range of vapour concentration in air, in % by volume, that can burn. Below the lower explosive limit (LEL) the mixture is too lean; above the upper limit (UEL) it is too rich. Gas detectors usually alarm at 10&ndash;25 % of the LEL.</dd>
+      <dt>TLV, TWA, STEL and Ceiling</dt><dd>Threshold limit values (TLVs, published by ACGIH) are airborne concentrations most workers can be exposed to day after day without harm. TWA is the 8-hour time-weighted average, STEL the 15-minute short-term limit, and Ceiling a level never to be exceeded. ppm means parts per million by volume in air.</dd>
+      <dt>Skin absorption (skin notation)</dt><dd>The chemical passes through intact skin in amounts that add to the dose, so gloves and splash protection matter as much as ventilation.</dd>
+      <dt>IARC cancer groups</dt><dd>Group 1: carcinogenic to humans. Group 2A: probably carcinogenic. Group 2B: possibly carcinogenic. Group 3: not classifiable. &ldquo;Not listed&rdquo; means IARC has not evaluated it, not that it is proven safe.</dd>
+      <dt>ICH Q3C residual solvent classes</dt><dd>The pharma guideline for solvent left in a drug. Class 1: avoid (known or suspected carcinogens or environmental hazards). Class 2: limit to the stated ppm. Class 3: low toxicity, generally up to 5,000 ppm (0.5 %) without justification. Table 4 lists solvents with no adequate toxicity data.</dd>
+      <dt>Peroxide former</dt><dd>A solvent, mostly ethers, that reacts slowly with air to form explosive peroxides. Test before distilling or concentrating, and never distil to dryness.</dd>
+      <dt>Static accumulator</dt><dd>A liquid with low electrical conductivity that holds static charge during pumping, filtration and mixing. A spark from the charge can ignite the vapour, so earth and bond all equipment and inert the vessel.</dd>
+    </dl>
+  </section>
   <p class="sv-mute">Flash points and other safety data are typical published values; always use the supplier&rsquo;s SDS for your grade. ICH Q3C limits are from the current guideline; check the latest revision for your filing.</p>
 
   <div class="related-box">
@@ -106,7 +129,7 @@ breadcrumbs:
     <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent recovery calculator (heat load, recovery time, condenser, vacuum pump)</a>
     <a href="{{ '/calculators/solvent-mixture-density-viscosity-calculator/' | relative_url }}">Solvent mixture density and viscosity</a>
     <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent swap and solvent selection</a>
-    <a href="{{ '/solvents/' | relative_url }}">All 48 solvents</a>
+    <a href="{{ '/solvents/' | relative_url }}">All 86 solvents</a>
   </div>
 </div>
 
