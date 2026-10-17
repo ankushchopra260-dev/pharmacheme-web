@@ -29,6 +29,12 @@
         - { title: "Mixture Density & Viscosity", url: /calculators/solvent-mixture-density-viscosity-calculator/ }
         - { title: "Corrosion Coupon", url: /calculators/corrosion-coupon-calculator/ }
         - { title: "Materials Compatibility", url: /calculators/materials-compatibility/ }
+    - title: "Solvent data"
+      children:
+        - { title: "Boiling points under vacuum (48 solvents)", url: /solvents/ }
+        - { title: "Methanol", url: /solvents/methanol/ }
+        - { title: "Toluene", url: /solvents/toluene/ }
+        - { title: "Dichloromethane (MDC)", url: /solvents/dichloromethane/ }
 - title: Design Tools
   url: /design-tools/
   children:

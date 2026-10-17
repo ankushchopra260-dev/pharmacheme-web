@@ -1,0 +1,42 @@
+/* Solvent data pages */
+.sv-head { padding-top: 26px; padding-bottom: 6px; }
+.sv-head h1 { font-family: var(--f-display); font-size: 1.85rem; color: var(--paper); margin: 0 0 8px; }
+.sv-head > p { color: var(--muted); max-width: 720px; margin: 0 0 16px; }
+.sv-wrap { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 18px; align-items: start; margin-bottom: 8px; }
+.sv-calc, .sv-props { background: var(--panel); border: 1px solid var(--grid-line); border-top: 3px solid var(--brass); border-radius: 10px; padding: 16px 18px; }
+.sv-calc h2, .sv-props h2 { font-family: var(--f-display); font-size: 1.05rem; color: var(--paper); margin: 0 0 12px; }
+.sv-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.sv-row label { display: flex; flex-direction: column; gap: 4px; font-size: .82rem; color: var(--muted); font-weight: 600; flex: 1 1 140px; }
+.sv-row input, .sv-row select, .sv-search input { font: inherit; font-size: .95rem; color: var(--paper); background: var(--bg-deep); border: 1px solid var(--grid-line); border-radius: 6px; padding: 8px 10px; min-width: 0; }
+.sv-row input:focus, .sv-row select:focus, .sv-search input:focus { outline: 2px solid var(--brass); outline-offset: 1px; }
+.sv-out, .sv-out2 { margin: 10px 0 14px; color: var(--paper); font-size: .98rem; line-height: 1.5; }
+.sv-out b, .sv-out2 b { color: var(--brass); font-size: 1.25rem; font-family: var(--f-mono); }
+.sv-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.sv-table th, .sv-table td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--grid-line); vertical-align: top; }
+.sv-props .sv-table th { color: var(--muted); font-weight: 600; width: 44%; }
+.sv-props .sv-table td { color: var(--paper); }
+.sv-table a { color: var(--brass); }
+.sv-grid thead th { color: var(--brass); font-size: .8rem; font-weight: 700; }
+.sv-grid td { color: var(--paper); font-family: var(--f-mono); }
+.sv-list td:first-child { font-family: inherit; }
+.sv-scroll { overflow-x: auto; margin: 10px 0 18px; }
+.sv-mute { color: var(--muted); font-size: .86rem; }
+.sv-body ul li { margin-bottom: 8px; }
+.sv-search { margin-bottom: 12px; }
+.sv-search input { width: 100%; max-width: 480px; padding: 10px 12px; }
+.sv-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.sv-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sv-chips a { font-size: .82rem; padding: 5px 12px; border: 1px solid var(--grid-line); border-radius: 999px; color: var(--paper); text-decoration: none; }
+.sv-chips a:hover { border-color: var(--brass); color: var(--brass); }
+.sv-index { padding-bottom: 48px; }
+.sv-group { margin-top: 26px; scroll-margin-top: 120px; }
+.sv-group h2 { font-family: var(--f-display); font-size: 1.15rem; color: var(--brass); margin: 0; }
+.sv-list tr.hide, .sv-group.hide { display: none; }
+@media (max-width: 760px) { .sv-wrap { grid-template-columns: 1fr; } .sv-head h1 { font-size: 1.45rem; } }
+.sv-props .sv-sec th { color: var(--brass); font-size: .78rem; font-weight: 700; padding-top: 14px; border-bottom: 1px solid var(--brass); width: auto; }
+.sv-props .sv-sec:first-child th { padding-top: 2px; }
+.sv-src { margin: 12px 0 0; font-size: .78rem; line-height: 1.5; }
+.sv-calc { position: sticky; top: 90px; }
+.sv-list th, .sv-list td { white-space: nowrap; }
+.sv-list td:first-child { white-space: normal; min-width: 150px; }
+@media (max-width: 760px) { .sv-calc { position: static; } }

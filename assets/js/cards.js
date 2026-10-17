@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const RULES = [
-    [/vessel-volume/, '🛢️'], [/batch-size/, '⚖️'], [/overall-heat-transfer/, '🧱'], [/batch-cooling-tr/, '🧊'], [/reagent-addition/, '⏱️'],
+    [/\/solvents\//, '🧴'], [/vessel-volume/, '🛢️'], [/batch-size/, '⚖️'], [/overall-heat-transfer/, '🧱'], [/batch-cooling-tr/, '🧊'], [/reagent-addition/, '⏱️'],
     [/mixture-density/, '🧪'], [/drying-agent/, '💧'], [/packed-scrubber/, '🧼'],
     [/fault-tree/, '🌳'], [/falling-film/, '🫗'], [/atfd/, '🌪️'], [/qualification/, '✅'], [/condenser-selection/, '♨️'],
     [/runaway/, '🌡️'], [/case-studies/, '📰'], [/what-is-process-safety/, '⚠️'],
