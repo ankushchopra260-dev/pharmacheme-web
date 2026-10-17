@@ -337,3 +337,10 @@ a { color: inherit; text-decoration: none; }
   .site-nav-links > li > .nav-cta { padding: 8px 12px !important; }
   body .ei .ei-hdr { top: 77px; }
 }
+
+/* YouTube Shorts: show them upright (9:16), cropping the blurred sides of the thumbnail */
+.video-grid:has(a[href*="/shorts/"]) { grid-template-columns: repeat(auto-fill, minmax(160px, 190px)); justify-content: center; }
+a.video-card[href*="/shorts/"] .video-thumb-wrap,
+.video-card-link[href*="/shorts/"] .video-thumb-wrap { aspect-ratio: 9 / 16; }
+a.video-card[href*="/shorts/"] img,
+.video-card-link[href*="/shorts/"] img { object-fit: cover; object-position: center; }
