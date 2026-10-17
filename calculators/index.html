@@ -7,68 +7,26 @@ breadcrumbs:
     url: /calculators/
 ---
 
-<section class="section" style="padding-top:32px;">
+<style>.art-group{margin:8px 0 36px;scroll-margin-top:130px}.art-group h2{font-size:1.25rem;margin:0 0 14px}.art-group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.art-group-nav a{font-size:.82rem;padding:5px 12px;border:1px solid var(--line,#2a3440);border-radius:999px;color:inherit;text-decoration:none}.art-group-nav a:hover{border-color:currentColor}</style>
+<section class="section" style="padding-top:32px; padding-bottom:0;">
   <div class="container">
     <div class="section-head" style="text-align:left;">
       <h1 style="font-family:var(--f-display); font-size:1.9rem; color:var(--paper); margin:0 0 8px;">Chemical &amp; Pharmaceutical Engineering Calculators</h1>
       <p style="max-width:680px;">The everyday sums of a pharma or chemical plant: solvent recovery, heat load, agitation, filtration, centrifuge cake, pump power and corrosion. Built for process engineers, production teams and engineering students. Every calculator has a <strong>Download Excel</strong> button.</p>
     </div>
-    <div class="grid-cards">
-      <div class="tool-card">
-        <h3>Solvent Recovery</h3>
-        <p>Batch vacuum distillation in four parts: boiling point at vacuum, heat load &amp; recovery time, condenser sizing and vacuum pump capacity.</p>
-        <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Heat Load &amp; Recovery</h3>
-        <p>How long will the batch take to strip, and how much heat does it need? Opens straight into that part of Solvent Recovery.</p>
-        <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Mixing / Scale-up</h3>
-        <p>Put reactors from different plants or scales in one table. Reynolds number, tip speed, power, P/V and torque for each.</p>
-        <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Agitator Simulator</h3>
-        <p>Compare two agitator setups side by side: animated flow pattern, blend time, solids suspension and crystallisation for 17 agitator types.</p>
-        <a href="{{ '/calculators/agitator-simulator/' | relative_url }}" class="btn btn-outline btn-sm">Open Simulator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Filtration Evaluation</h3>
-        <p>Enter your Büchner trial readings and get specific cake resistance, flux and a Good/Moderate/Slow verdict.</p>
-        <a href="{{ '/calculators/filtration-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Centrifuge Cake Weight</h3>
-        <p>Basket centrifuge cake weight and G-force from basket geometry, cake thickness, and bulk density.</p>
-        <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Pump Power Rating</h3>
-        <p>Theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies.</p>
-        <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Corrosion Coupon</h3>
-        <p>Weight-loss corrosion rate (mpy) from coupon exposure data, with an Excellent/Good/Satisfactory rating.</p>
-        <a href="{{ '/calculators/corrosion-coupon-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Materials &amp; Corrosion</h3>
-        <p>Chemical-to-material compatibility reference across SS316, Hastelloy, PTFE, common plastics and elastomers.</p>
-        <a href="{{ '/calculators/materials-compatibility/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-    </div>
+  <nav class="art-group-nav" aria-label="Calculator categories">
+    <a href="#reactor-batch">Reactor and batch</a>
+    <a href="#heat-solvent-recovery">Heat load and solvent recovery</a>
+    <a href="#mixing-pumps">Mixing and pumps</a>
+    <a href="#separation-drying">Separation, drying and vents</a>
+    <a href="#materials-properties">Materials and properties</a>
+    <a href="{{ '/utilities/' | relative_url }}">Utilities (steam, cooling, air, power)</a>
+  </nav>
   </div>
 </section>
-
-<section class="section" style="padding-top:8px;">
-  <div class="container">
-    <div class="section-head" style="text-align:left;">
-      <h2 style="font-family:var(--f-display); color:var(--paper); margin:0 0 6px;">Reactor &amp; process calculators</h2>
-      <p style="max-width:680px;">Vessel volume, batch size, heat transfer, condensers, refrigeration, dosing, agitation, mixtures, drying agents and scrubbers. Each one downloads as Excel with live formulas.</p>
-    </div>
+<div class="container section" style="padding-top:24px;">
+  <section class="art-group" id="reactor-batch">
+    <h2>Reactor and batch</h2>
     <div class="grid-cards">
       <div class="tool-card">
         <h3>Vessel Volume &amp; Level</h3>
@@ -95,10 +53,55 @@ breadcrumbs:
         <p>Shortest safe dosing time for your jacket, and the MTSR.</p>
         <a href="{{ '/calculators/reactor/#addition-time' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
       </div>
+    </div>
+  </section>
+  <section class="art-group" id="heat-solvent-recovery">
+    <h2>Heat load and solvent recovery</h2>
+    <div class="grid-cards">
       <div class="tool-card">
-        <h3>Mixture Density &amp; Viscosity</h3>
-        <p>Density and viscosity of up to three solvents, with built-in solvent data.</p>
-        <a href="{{ '/calculators/process/#mixture' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+        <h3>Solvent Recovery</h3>
+        <p>Batch vacuum distillation in four parts: boiling point at vacuum, heat load &amp; recovery time, condenser sizing and vacuum pump capacity.</p>
+        <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Heat Load &amp; Recovery</h3>
+        <p>How long will the batch take to strip, and how much heat does it need? Opens straight into that part of Solvent Recovery.</p>
+        <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+    </div>
+  </section>
+  <section class="art-group" id="mixing-pumps">
+    <h2>Mixing and pumps</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Mixing / Scale-up</h3>
+        <p>Put reactors from different plants or scales in one table. Reynolds number, tip speed, power, P/V and torque for each.</p>
+        <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Agitator Simulator</h3>
+        <p>Compare two agitator setups side by side: animated flow pattern, blend time, solids suspension and crystallisation for 17 agitator types.</p>
+        <a href="{{ '/calculators/agitator-simulator/' | relative_url }}" class="btn btn-outline btn-sm">Open Simulator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Pump Power Rating</h3>
+        <p>Theoretical hydraulic power, pump shaft power, and motor power from flow, head, and efficiencies.</p>
+        <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+    </div>
+  </section>
+  <section class="art-group" id="separation-drying">
+    <h2>Separation, drying and vents</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Filtration Evaluation</h3>
+        <p>Enter your Büchner trial readings and get specific cake resistance, flux and a Good/Moderate/Slow verdict.</p>
+        <a href="{{ '/calculators/filtration-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Centrifuge Cake Weight</h3>
+        <p>Basket centrifuge cake weight and G-force from basket geometry, cake thickness, and bulk density.</p>
+        <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
       </div>
       <div class="tool-card">
         <h3>Drying Agent Requirement</h3>
@@ -111,5 +114,25 @@ breadcrumbs:
         <a href="{{ '/calculators/process/#scrubber' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  <section class="art-group" id="materials-properties">
+    <h2>Materials and properties</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Mixture Density &amp; Viscosity</h3>
+        <p>Density and viscosity of up to three solvents, with built-in solvent data.</p>
+        <a href="{{ '/calculators/process/#mixture' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Corrosion Coupon</h3>
+        <p>Weight-loss corrosion rate (mpy) from coupon exposure data, with an Excellent/Good/Satisfactory rating.</p>
+        <a href="{{ '/calculators/corrosion-coupon-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Materials &amp; Corrosion</h3>
+        <p>Chemical-to-material compatibility reference across SS316, Hastelloy, PTFE, common plastics and elastomers.</p>
+        <a href="{{ '/calculators/materials-compatibility/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+    </div>
+  </section>
+</div>
