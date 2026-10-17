@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Compressed Air & Nitrogen Calculations: Leak Cost, Compressor Power, Receiver Size, N₂ Purging"
+description: "How to calculate compressed air leak loss and cost, leak percentage from load and unload times, compressor power and the cost of high pressure, air receiver size, and nitrogen for purging and blanketing, with worked examples."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Compressed Air & Nitrogen
+    url: /articles/compressed-air-and-nitrogen/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Compressed Air and Nitrogen Calculations: Leak Cost, Compressor Power, Receiver Size and Nitrogen Purging",
+        "description": "Air leak loss, leak test from load and unload times, compressor power, receiver size, and nitrogen for purging and blanketing.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you measure compressed air leakage?", "acceptedAnswer": { "@type": "Answer", "text": "With all air users stopped, time how long the compressor stays loaded (T) and unloaded (t) over several cycles. Leakage % = T / (T + t) x 100, and leak flow = leakage fraction x compressor capacity." } },
+        { "@type": "Question", "name": "How much power does reducing compressor pressure save?", "acceptedAnswer": { "@type": "Answer", "text": "Roughly 6 to 8% of compressor power for each 1 bar reduction around 7 barg. For a single-stage machine, dropping from 7.5 to 6.5 barg saves about 7.7% of the theoretical power." } },
+        { "@type": "Question", "name": "How much nitrogen does a pressure purge use?", "acceptedAnswer": { "@type": "Answer", "text": "Each cycle uses vessel volume x (high pressure - low pressure) / 1.013 Nm3. Purging a 6 m3 headspace to 2 barg twice uses about 24 Nm3 and brings oxygen to about 2.3%." } }
+      ] }
+    ]
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Compressed Air &amp; Nitrogen: Calculations and Savings</h1>
+  <p class="article-meta">Utilities &middot; Air &amp; Gases</p>
+
+  <p>Compressed air is easy to use and expensive to make: of every 100 kW a compressor draws, only about 10&ndash;15 kW ends up as useful work at the user. Nitrogen is a safety utility in any plant handling flammable solvents. This article covers the calculations behind both: what leaks cost, how to find them, what pressure costs, how big a receiver should be, and how much nitrogen inerting really takes.</p>
+  <p><strong>Short on time?</strong> The <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">Compressed Air &amp; Nitrogen calculators</a> do all of these.</p>
+
+  <h2>1. Air leaks: flow and cost</h2>
+  <p>Above roughly 0.9 barg, air through a hole reaches sonic speed (choked flow). The mass flow then depends only on the hole area and the upstream absolute pressure:</p>
+  <div class="formula-box">
+    m (kg/s) = C<sub>d</sub> &times; A &times; P<sub>0</sub> &times; &radic;[k / (R T) &times; (2/(k+1))<sup>(k+1)/(k&minus;1)</sup>]<br>
+    k = 1.4, R = 287 J/kg&middot;K, T in K, P<sub>0</sub> in Pa abs, C<sub>d</sub> &asymp; 0.6&ndash;0.65 for a sharp hole
+  </div>
+  <p>A 3 mm hole at 7 barg leaks about 0.43 m&sup3;/min of free air. At a typical 6.5 kW per m&sup3;/min that is 2.8 kW, around the clock: about &#8377;1.8 lakh a year at &#8377;8/kWh over 8,000 hours. Ten such leaks is &#8377;18 lakh.</p>
+
+  <h2>2. Measuring leakage without finding every leak</h2>
+  <p>On a load/unload compressor, stop all air users (a weekend or a shutdown), let the system settle and time several load and unload periods:</p>
+  <div class="formula-box">
+    Leakage (%) = T<sub>load</sub> / (T<sub>load</sub> + T<sub>unload</sub>) &times; 100<br>
+    Leak flow = leakage fraction &times; compressor free air delivery
+  </div>
+  <p>Example: a 20 m&sup3;/min compressor loads for 40 s and unloads for 80 s with everything stopped. Leakage = 40/120 = 33 %, about 6.7 m&sup3;/min, or roughly 43 kW wasted. Plants without a leak programme are typically at 20&ndash;30 %; a good programme holds 5&ndash;10 %. Then find the leaks with an ultrasonic detector, tag them and fix them in batches: quick couplings, hose clamps, FRL drains stuck open, cylinder seals and flange joints are the usual places.</p>
+
+  <h2>3. What pressure costs</h2>
+  <div class="formula-box">
+    Adiabatic power = n &times; k/(k&minus;1) &times; P<sub>1</sub> &times; Q &times; [(P<sub>2</sub>/P<sub>1</sub>)<sup>(k&minus;1)/(n k)</sup> &minus; 1]<br>
+    Shaft power = adiabatic power / overall efficiency (about 0.7&ndash;0.8)
+  </div>
+  <p>For 10 m&sup3;/min in a single stage, the theoretical power at 7.5 barg is about 7.7 % higher than at 6.5 barg. The rule of thumb is 6&ndash;8 % per bar. Many plants run at 7.5&ndash;8 barg because one user at the far end needs 6 barg and the header has a large pressure drop. Fixing that pipe, or giving the one user a small booster, is cheaper than running the whole system 1.5 bar high. A leak also grows with pressure, since choked flow is proportional to absolute pressure.</p>
+
+  <h2>4. Air receiver size</h2>
+  <div class="formula-box">V (m&sup3;) = Q (m&sup3;/min free air) &times; t (min) &times; 1.013 / (P<sub>1</sub> &minus; P<sub>2</sub>)</div>
+  <p>To carry a 10 m&sup3;/min surge for 1 minute while the pressure may fall from 7.5 to 6.5 barg needs about 10 m&sup3;. A receiver near a big intermittent user (filter press, centrifuge discharge, bag filter pulse jets, pneumatic conveying) stops a standby compressor starting for a few seconds of demand, and gives a dryer time to work.</p>
+
+  <h2>5. Dryers and dew point</h2>
+  <p>Air leaving an aftercooler is saturated. A refrigerated dryer gives about +3 &deg;C pressure dew point, fine for general plant air indoors. Instrument air, air for outdoor lines in winter and air touching product need a desiccant dryer, usually &minus;40 &deg;C pressure dew point. Heatless desiccant dryers use 15&ndash;20 % of the air for purge, so do not dry all plant air to &minus;40 &deg;C if only instruments need it.</p>
+
+  <h2>6. Nitrogen for inerting</h2>
+  <p>Most solvent vapours cannot burn below about 10&ndash;12 % oxygen, the limiting oxygen concentration (LOC). Plants usually aim for 8 % or less, confirmed with an oxygen analyser.</p>
+  <div class="formula-box">
+    Pressure or vacuum purge: O&#8322; after n cycles = O&#8322;<sub>start</sub> &times; (P<sub>low</sub> / P<sub>high</sub>)<sup>n</sup> (absolute)<br>
+    N&#8322; per cycle (Nm&sup3;) = V &times; (P<sub>high</sub> &minus; P<sub>low</sub>) / 1.013<br>
+    Sweep purge, well mixed: N&#8322; (Nm&sup3;) = V &times; ln(O&#8322;<sub>start</sub> / O&#8322;<sub>target</sub>)
+  </div>
+  <h3>Worked example</h3>
+  <p>A reactor with 6 m&sup3; of headspace:</p>
+  <ul>
+    <li><strong>Pressure purge to 2 barg, vent to atmosphere:</strong> each cycle multiplies the oxygen by 1.013/3.013 &asymp; 0.34. After one cycle 7.1 % (too close to 8 %), after two 2.3 %. Two cycles use about 24 Nm&sup3;.</li>
+    <li><strong>Vacuum to 200 mbar abs, break with nitrogen:</strong> one cycle gives about 4.1 % and uses about 4.8 Nm&sup3;. Vacuum purging is the most nitrogen-efficient.</li>
+    <li><strong>Sweep purge:</strong> ln(21/8) &times; 6 &asymp; 5.8 Nm&sup3; with perfect mixing; allow at least 1.5 times that in practice, and check the oxygen at the vent.</li>
+  </ul>
+  <p>An open manhole, a nitrogen header that runs low during a big transfer, or compressed air used to push solvent undoes all of this. Nitrogen for blanketing must also replace the liquid pumped out of a tank: 20 m&sup3;/h of liquid at 50 mbarg needs about 19 Nm&sup3;/h of nitrogen.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you measure compressed air leakage?</h3>
+  <p>With all users stopped, leakage % = load time / (load time + unload time) &times; 100. Multiply by the compressor capacity for the leak flow.</p>
+  <h3>How much does lowering compressor pressure save?</h3>
+  <p>About 6&ndash;8 % of compressor power per bar around 7 barg, plus less air lost through leaks.</p>
+  <h3>Is nitrogen purity important for inerting?</h3>
+  <p>Yes. 95 % nitrogen contains 5 % oxygen, so it can never purge below 5 %, and needs more cycles to reach 8 %. Choose the purity from the solvent's LOC and the margin you want.</p>
+
+  <div class="related-box">
+    <h3>Try the Calculators</h3>
+    <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">Compressed Air &amp; Nitrogen calculators</a>
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/' | relative_url }}">Process safety</a>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">RO, DG, power factor and VFD calculations</a>
+  </div>
+</div>

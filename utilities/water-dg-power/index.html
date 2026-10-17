@@ -1,0 +1,100 @@
+---
+layout: default
+title: "Water, DG & Power Calculations: RO Recovery, DG Cost per kWh, Power Factor, VFD Savings"
+description: "Free utility calculators for water and power: RO recovery, rejection and reject TDS, DG set fuel and cost per unit, power factor correction kVAR, motor loading from current, and VFD energy savings on pumps and fans."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebApplication", "name": "Water, DG and Power Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you calculate the cost per unit of DG power?", "acceptedAnswer": { "@type": "Answer", "text": "Cost per kWh = diesel price per litre / kWh generated per litre. At 90 rupees per litre and 3.4 kWh per litre, DG power costs about 26.5 rupees per kWh." } },
+        { "@type": "Question", "name": "How do you calculate capacitor kVAR for power factor correction?", "acceptedAnswer": { "@type": "Answer", "text": "kVAR = kW x (tan of the present PF angle - tan of the target PF angle). For 800 kW raised from 0.82 to 0.98 power factor, about 396 kVAR." } },
+        { "@type": "Question", "name": "How do you calculate RO recovery?", "acceptedAnswer": { "@type": "Answer", "text": "Recovery = permeate flow / feed flow x 100. Salt rejection = (1 - permeate TDS / feed TDS) x 100." } }
+      ] }
+    ]
+  }
+breadcrumbs:
+  - label: Utilities
+    url: /utilities/
+  - label: Water, DG & Power
+    url: /utilities/water-dg-power/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Water, DG &amp; Power Calculations</h1>
+  <p>Check an RO plant from its flows and TDS, find what DG power really costs, size capacitors for power factor, see how loaded a motor is, and estimate what a VFD saves on a pump or fan.</p>
+  <ul class="ut-jump">
+    <li><a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">Full article</a></li>
+    <li><a href="#ro">RO recovery</a></li><li><a href="#dg">DG cost per unit</a></li><li><a href="#pf">Power factor</a></li>
+    <li><a href="#motor">Motor loading</a></li><li><a href="#vfd">VFD savings</a></li><li><a href="#guide">How it works</a></li>
+  </ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" id="ro" data-calc="ro"></div>
+  <div class="ut-calc" id="dg" data-calc="dg"></div>
+  <div class="ut-calc" id="pf" data-calc="pf"></div>
+  <div class="ut-calc" id="motor" data-calc="motor"></div>
+  <div class="ut-calc" id="vfd" data-calc="vfd"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>RO plant: recovery and rejection</h2>
+  <div class="formula-box">
+    Recovery (%) = permeate / feed &times; 100<br>
+    Salt rejection (%) = (1 &minus; permeate TDS / feed TDS) &times; 100<br>
+    Reject TDS = (feed &times; feed TDS &minus; permeate &times; permeate TDS) / reject flow
+  </div>
+  <p>A 20 m&sup3;/h feed at 900 ppm giving 15 m&sup3;/h of 25 ppm permeate runs at 75 % recovery and 97.2 % rejection; the 5 m&sup3;/h reject carries about 3,500 ppm. Pushing recovery higher concentrates the reject further and raises the scaling risk, which is why antiscalant dosing and the reject LSI (Langelier saturation index) set the limit. Falling rejection points to membrane damage, leaking O-rings or scaling; rising feed pressure at the same flow points to fouling.</p>
+
+  <h2>DG set: what a unit of DG power costs</h2>
+  <div class="formula-box">
+    Cost per kWh = diesel price (&#8377;/litre) / specific energy (kWh per litre)<br>
+    Loading (%) = kW / (kVA rating &times; 0.8) &times; 100
+  </div>
+  <p>Read the specific energy from the DG log: kWh from the energy meter divided by litres from the day tank. A healthy diesel set gives about 3.2&ndash;3.8 kWh per litre at 60&ndash;80 % load, so at &#8377;90 per litre DG power costs &#8377;24&ndash;28 per kWh, three times grid power. Below about 40 % load the engine wastes fuel and wet-stacks, so run fewer DG sets at higher load.</p>
+
+  <h2>Power factor correction</h2>
+  <div class="formula-box">kVAR = kW &times; (tan &phi;<sub>1</sub> &minus; tan &phi;<sub>2</sub>), where &phi; = cos<sup>&minus;1</sup>(PF)</div>
+  <p>Raising 800 kW from 0.82 to 0.98 power factor needs about 396 kVAR and cuts the kVA from 976 to 816 and the current by about 16 %. That lowers the kVA demand charge, cable and transformer losses, and frees transformer capacity. Where there are many VFDs, use detuned (reactor-protected) capacitors or an active filter, because harmonics can overload plain capacitors.</p>
+
+  <h2>Motor loading from measured current</h2>
+  <div class="formula-box">Input power (kW) = &radic;3 &times; V &times; I &times; PF / 1,000 &nbsp;&nbsp; Loading (%) = input &times; efficiency / rated kW</div>
+  <p>A 37 kW motor drawing 52 A at 415 V and 0.85 PF takes about 31.8 kW and is about 80 % loaded. Motors below about 50 % load lose efficiency and power factor; a smaller motor or a VFD may pay.</p>
+
+  <h2>VFD savings on pumps and fans</h2>
+  <div class="formula-box">Flow &prop; speed &nbsp;&nbsp; Head &prop; speed&sup2; &nbsp;&nbsp; Power &prop; speed&sup3; (no static head)</div>
+  <p>A pump throttled to 70 % flow with a valve still draws most of its full power. Slowing it to 70 % speed with a VFD needs only about 34 % of the power, plus 2&ndash;3 % VFD losses. For a 45 kW pump that is about 16 kW instead of about 40 kW. Where most of the head is static (lifting to an overhead tank), the cube law overstates the saving, because the pump still has to lift the water at low speed; enter the static head share in the calculator.</p>
+
+  <h2>Typical values</h2>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Item</th><th>Typical</th></tr>
+    <tr><td>Brackish water RO recovery (two stage)</td><td>70&ndash;80 %</td></tr>
+    <tr><td>RO salt rejection, healthy membranes</td><td>97&ndash;99 %</td></tr>
+    <tr><td>DG specific energy at 60&ndash;80 % load</td><td>3.2&ndash;3.8 kWh per litre</td></tr>
+    <tr><td>Target power factor</td><td>0.95&ndash;0.99 (check your tariff's incentive band)</td></tr>
+    <tr><td>IE3 motor efficiency, 37 kW</td><td>&asymp; 93&ndash;94 %</td></tr>
+  </table></div>
+
+  <h2>Frequently asked questions</h2>
+  <h3>Why is DG power so much costlier than grid power?</h3>
+  <p>A diesel engine turns only about 35&ndash;40 % of the fuel's energy into electricity, and diesel is an expensive fuel. At &#8377;90 per litre and 3.4 kWh per litre, each unit costs about &#8377;26.</p>
+  <h3>Does improving power factor reduce my kWh bill?</h3>
+  <p>It mainly reduces the kVA demand charge, any PF penalty and the losses in your own cables and transformers. The kWh used by the load itself does not change.</p>
+  <h3>When does a VFD not save much?</h3>
+  <p>When the pump already runs at full flow most of the time, or when most of the head is static lift. The biggest savings are on throttled pumps and fans with mostly friction head.</p>
+
+  <div class="related-box">
+    <h3>Read more</h3>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">RO, DG, power factor &amp; VFDs: full article</a>
+    <h3>Related</h3>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a>
+    <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/utilities/cooling-tower/' | relative_url }}">Cooling tower water balance</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

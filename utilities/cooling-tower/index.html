@@ -1,0 +1,119 @@
+---
+layout: default
+title: "Cooling Tower Calculations: Range, Approach, Evaporation, Blowdown, COC"
+description: "Free cooling tower calculators: range, approach and effectiveness, heat rejected in kW and TR, evaporation loss, make-up and blowdown from cycles of concentration, and cooling water flow for a heat load, with worked examples."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebApplication", "name": "Cooling Tower Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is range and approach in a cooling tower?", "acceptedAnswer": { "@type": "Answer", "text": "Range is hot water temperature minus cold water temperature. Approach is cold water temperature minus the ambient wet bulb temperature. Effectiveness = range / (range + approach)." } },
+        { "@type": "Question", "name": "How do you calculate cooling tower evaporation loss?", "acceptedAnswer": { "@type": "Answer", "text": "Evaporation (m3/h) = 0.00085 x 1.8 x circulation (m3/h) x range (C), about 0.15% of the flow for every degree of range. 500 m3/h with a 5 C range evaporates about 3.8 m3/h." } },
+        { "@type": "Question", "name": "How do you calculate cooling tower blowdown?", "acceptedAnswer": { "@type": "Answer", "text": "Blowdown = evaporation / (cycles of concentration - 1), less the drift loss. Make-up = evaporation + blowdown + drift = evaporation x COC / (COC - 1)." } }
+      ] }
+    ]
+  }
+breadcrumbs:
+  - label: Utilities
+    url: /utilities/
+  - label: Cooling Tower
+    url: /utilities/cooling-tower/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Cooling Tower Calculations</h1>
+  <p>Check how well a cooling tower is working, how much water it consumes and what higher cycles of concentration would save, and size the cooling water for a condenser or cooler.</p>
+  <ul class="ut-jump">
+    <li><a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Full article</a></li>
+    <li><a href="#performance">Range &amp; approach</a></li><li><a href="#water-balance">Make-up &amp; blowdown</a></li><li><a href="#cw-flow">Water for a heat load</a></li><li><a href="#guide">How it works</a></li>
+  </ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" id="performance" data-calc="ctPerf"></div>
+  <div class="ut-calc" id="water-balance" data-calc="ctWater"></div>
+  <div class="ut-calc" id="cw-flow" data-calc="cwFlow"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How a cooling tower works</h2>
+  <p>Hot return water is sprayed over the fill while fans draw air through it. A small part of the water evaporates, and its latent heat cools the rest. That is why a cooling tower can cool water below the dry-bulb air temperature but never below the <strong>wet bulb</strong> temperature: the wet bulb is the limit set by how much more moisture the air can take.</p>
+
+  <h2>Range, approach and effectiveness</h2>
+  <div class="formula-box">
+    Range = T<sub>hot in</sub> &minus; T<sub>cold out</sub><br>
+    Approach = T<sub>cold out</sub> &minus; T<sub>wet bulb</sub><br>
+    Effectiveness = Range / (Range + Approach)<br>
+    Heat rejected (kW) = flow (kg/s) &times; 4.186 &times; Range
+  </div>
+  <p>Range is set by the plant's heat load and the water flow. Approach shows the tower's condition: a tower that held 4 &deg;C approach when new and now gives 7 &deg;C at the same wet bulb has fouled fill, blocked nozzles or weak fans.</p>
+
+  <h2>Water balance</h2>
+  <div class="formula-box">
+    Evaporation E (m&sup3;/h) = 0.00085 &times; 1.8 &times; Circulation (m&sup3;/h) &times; Range (&deg;C)<br>
+    Cycles of concentration COC = TDS (or conductivity) of circulating water / that of make-up<br>
+    Blowdown B = E / (COC &minus; 1) &minus; Drift<br>
+    Make-up M = E + B + Drift = E &times; COC / (COC &minus; 1)
+  </div>
+  <p>Evaporation removes pure water and leaves the dissolved salts behind, so the circulating water gets more concentrated. Blowdown bleeds off some of it to keep the salts below the scaling limit. More cycles means less blowdown and less make-up, but only as far as the water chemistry and treatment programme allow.</p>
+
+  <h3>Worked example</h3>
+  <p>500 m&sup3;/h circulation, hot water 37 &deg;C, cold water 32 &deg;C, wet bulb 28 &deg;C, COC 4, drift 0.02 %:</p>
+  <div class="formula-box">
+    Range = 5 &deg;C, approach = 4 &deg;C, effectiveness = 5 / 9 &asymp; 56 %<br>
+    Heat rejected = 500 &times; 1,000 / 3,600 &times; 4.186 &times; 5 &asymp; 2,907 kW &asymp; 827 TR<br>
+    Evaporation = 0.00085 &times; 1.8 &times; 500 &times; 5 &asymp; 3.8 m&sup3;/h<br>
+    Blowdown = 3.8 / 3 &minus; 0.1 &asymp; 1.2 m&sup3;/h; make-up &asymp; 5.1 m&sup3;/h (about 122 m&sup3;/day)
+  </div>
+  <p>Raising the cycles from 4 to 5 cuts the make-up to about 4.8 m&sup3;/h, roughly 8 m&sup3; a day saved on this one tower.</p>
+
+  <h2>Typical values</h2>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Item</th><th>Typical</th><th>Notes</th></tr>
+    <tr><td>Approach</td><td>3&ndash;5 &deg;C</td><td>Under 2.5 &deg;C is expensive to build; over 6 &deg;C points to a problem</td></tr>
+    <tr><td>Range</td><td>4&ndash;8 &deg;C</td><td>Set by the heat load and water flow</td></tr>
+    <tr><td>Evaporation</td><td>&asymp; 0.15 % of flow per &deg;C of range</td><td>About 1 % of flow for a 6&ndash;7 &deg;C range</td></tr>
+    <tr><td>Drift loss</td><td>0.005&ndash;0.02 % (modern eliminators)</td><td>0.1&ndash;0.2 % on old towers without eliminators</td></tr>
+    <tr><td>Cycles of concentration</td><td>3&ndash;6</td><td>Limited by hardness, silica and chloride in the make-up</td></tr>
+  </table></div>
+  <p>The heat rejected is shown in kW and in refrigeration tons (1 TR = 3.517 kW). Some cooling tower makers rate towers in &ldquo;cooling tower tons&rdquo; of 15,000 BTU/h, which already includes the chiller's compressor heat, so check which ton a datasheet uses.</p>
+
+  <h2>Simple checks that save energy and water</h2>
+  <ul>
+    <li>Log hot, cold and wet bulb temperatures every shift and trend the approach.</li>
+    <li>Clean the hot water basin nozzles and replace broken fill and drift eliminators.</li>
+    <li>Control blowdown on conductivity, not on a fixed valve opening.</li>
+    <li>Use fan VFDs or switch fans by cold water temperature in winter.</li>
+    <li>Check the cooling water pump is not throttled against a half-closed valve.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+  <h3>Why can't a cooling tower cool below the wet bulb temperature?</h3>
+  <p>The cooling comes from evaporation. At the wet bulb temperature the air in contact with the water is saturated and can take no more vapour, so evaporation, and the cooling, stops.</p>
+  <h3>How much water does a cooling tower lose?</h3>
+  <p>Evaporation is about 0.15 % of the circulation for every degree of range, plus blowdown and a little drift. The calculator above gives the full make-up for your cycles.</p>
+  <h3>What happens if cycles of concentration are too high?</h3>
+  <p>Scale forms on condenser tubes and heat exchangers, and corrosion and biological growth speed up. The safe maximum depends on the make-up water analysis and the treatment chemicals used.</p>
+
+  <h2>Watch</h2>
+  <div style="display:grid;gap:10px;margin:8px 0 22px;">
+    <a href="https://www.youtube.com/shorts/yBP5Pj2upYU" target="_blank" rel="noopener" style="display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--grid-line);border-radius:8px;padding:8px;text-decoration:none;color:var(--paper);max-width:520px;">
+      <img src="https://img.youtube.com/vi/yBP5Pj2upYU/hqdefault.jpg" alt="" loading="lazy" width="120" height="90" style="width:120px;height:90px;object-fit:cover;border-radius:6px;flex:none;">
+      <span><strong style="display:block;font-size:.95rem;line-height:1.35;">Cooling Tower: Essential Heat Rejection System</strong><span style="color:var(--muted);font-size:.82rem;">YouTube Short &middot; PharmaChemE</span></span>
+    </a>
+  </div>
+
+  <div class="related-box">
+    <h3>Read more</h3>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations: full article</a>
+    <h3>Related</h3>
+    <a href="{{ '/utilities/chillers-vam/' | relative_url }}">Chillers and VAM</a>
+    <a href="{{ '/utilities/water-dg-power/' | relative_url }}">RO water, DG and power</a>
+    <a href="{{ '/design-tools/line-sizing/?fluid=cw' | relative_url }}">Cooling water line sizing</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

@@ -1,0 +1,115 @@
+---
+layout: default
+title: "Chiller vs VAM: kW/TR, COP, VAM Steam Consumption and Running Cost"
+description: "How to calculate chiller TR, kW/TR and COP from field readings, VAM steam or hot water consumption, the cooling tower each needs, and how to compare electric chiller and VAM running cost, with worked examples."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Chiller vs VAM
+    url: /articles/chiller-vs-vam/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Chiller vs VAM: kW/TR, COP, VAM Steam Consumption and Running Cost",
+        "description": "Chiller TR, kW/TR and COP from field readings, VAM steam consumption, cooling tower size and running cost comparison.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "What is the difference between a chiller and a VAM?", "acceptedAnswer": { "@type": "Answer", "text": "An electric chiller uses a compressor driven by electricity. A vapour absorption machine (VAM) uses water as refrigerant and lithium bromide as absorbent, and is driven by heat: steam, hot water, exhaust gas or a burner. A VAM uses little electricity but much more heat, and needs a bigger cooling tower." } },
+        { "@type": "Question", "name": "How do you convert kW/TR to COP?", "acceptedAnswer": { "@type": "Answer", "text": "COP = 3.517 / (kW/TR). A chiller at 0.7 kW/TR has a COP of about 5.0." } },
+        { "@type": "Question", "name": "When is a VAM cheaper than an electric chiller?", "acceptedAnswer": { "@type": "Answer", "text": "When steam is cheaper than the break-even cost: (chiller kW/TR - VAM auxiliary kW/TR) x power cost / VAM steam per TR-hour. With 0.85 kW/TR, 0.15 kW/TR auxiliaries, 8 rupees/kWh and 4.6 kg steam per TR-hour, the break-even is about 1,200 rupees per tonne of steam." } }
+      ] }
+    ]
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Chiller vs VAM: Calculations and Running Cost</h1>
+  <p class="article-meta">Utilities &middot; Refrigeration</p>
+
+  <p>Chilled water and brine run crystallisers, reactor cooling, solvent condensers and HVAC. Most plants make it with electric chillers; some also run a vapour absorption machine (VAM) on steam or waste heat. This article shows how to measure what a chiller really delivers, how much steam a VAM needs, and how to decide which one should run.</p>
+  <p><strong>Short on time?</strong> The <a href="{{ '/utilities/chillers-vam/' | relative_url }}">Chillers &amp; VAM calculators</a> do these calculations from your readings.</p>
+
+  <h2>How each machine works</h2>
+  <p><strong>Electric (vapour compression) chiller:</strong> refrigerant boils in the evaporator and takes heat from the chilled water; the compressor raises its pressure; it condenses in the condenser and gives the heat to cooling water; an expansion valve drops the pressure again. The compressor is where the electricity goes.</p>
+  <p><strong>Vapour absorption machine:</strong> water is the refrigerant. It boils at very low pressure (about 8 mbar abs, around 4 &deg;C) in the evaporator and chills the water. Concentrated lithium bromide solution absorbs the vapour. A generator heated by steam or hot water boils the water back out of the solution, and a condenser turns it to liquid again. Instead of a compressor, heat does the work. A double-effect machine uses the vapour from a high-temperature generator to heat a second, low-temperature generator, which is why it gets nearly twice the cooling from the same steam.</p>
+
+  <h2>Measuring a chiller in the field</h2>
+  <div class="formula-box">
+    Cooling (kW) = flow (m&sup3;/h) &times; &rho; / 3,600 &times; c<sub>p</sub> &times; (T<sub>return</sub> &minus; T<sub>supply</sub>)<br>
+    TR = kW / 3.517 &nbsp;&nbsp; (water: TR &asymp; m&sup3;/h &times; &Delta;T / 3.024)<br>
+    kW/TR = compressor power / TR &nbsp;&nbsp; COP = cooling kW / power kW = 3.517 / (kW/TR)
+  </div>
+  <h3>Example 1: water chiller</h3>
+  <p>120 m&sup3;/h of chilled water from 12 &deg;C to 7 &deg;C: 120 &times; 5 / 3.024 &asymp; 198 TR (698 kW). The compressor draws 140 kW: 0.71 kW/TR, COP 5.0. That is a normal water-cooled screw chiller.</p>
+  <h3>Example 2: glycol brine</h3>
+  <p>60 m&sup3;/h of 30 % ethylene glycol (&rho; &asymp; 1,040 kg/m&sup3;, c<sub>p</sub> &asymp; 3.7 kJ/kg&middot;K) from 0 &deg;C to &minus;5 &deg;C:</p>
+  <div class="formula-box">
+    Cooling = 60 &times; 1,040 / 3,600 &times; 3.7 &times; 5 &asymp; 321 kW &asymp; 91 TR<br>
+    Compressor power 180 kW &rarr; about 2.0 kW/TR
+  </div>
+  <p>That is not a bad chiller. Making cold at &minus;5 &deg;C simply takes far more work than at 7 &deg;C, so only compare brine chillers with other brine chillers at the same temperatures. And use the right c<sub>p</sub>: treating glycol as water here would overstate the load by about 9 %.</p>
+  <p>Measurement tips: temperature sensors in thermowells close to the machine, calibrated together (0.25 &deg;C error on a 5 &deg;C &Delta;T is 5 % error in TR); a clamp-on ultrasonic flow meter on a straight run; and power from a true-power meter, not from current alone.</p>
+
+  <h2>VAM steam and hot water consumption</h2>
+  <div class="formula-box">
+    Heat input (kW) = TR &times; 3.517 / COP<br>
+    Steam (kg/h) = heat input &times; 3,600 / h<sub>fg</sub> at the supply pressure<br>
+    Hot water (m&sup3;/h) = heat input &times; 3,600 / (4.186 &times; &Delta;T &times; 1,000)
+  </div>
+  <p>A 200 TR double-effect VAM (COP 1.3) on 8 barg steam needs 200 &times; 3.517 / 1.3 &asymp; 541 kW, about 960 kg/h of steam or 4.8 kg/h per TR. A 100 TR single-effect machine (COP 0.7) on 90 &deg;C hot water cooled by 10 &deg;C needs about 502 kW, or 43 m&sup3;/h of hot water: a good use for DG jacket water, hot condensate or process cooling water that would otherwise go to a cooling tower.</p>
+
+  <h2>The cooling tower each one needs</h2>
+  <p>Both machines reject their heat to the cooling tower: the cooling load plus whatever drove the machine.</p>
+  <div class="formula-box">
+    Electric chiller: cooling + compressor power &asymp; 1.2&ndash;1.25 &times; cooling<br>
+    VAM: cooling &times; (1 + 1/COP) &asymp; 1.77 &times; cooling (double effect), &asymp; 2.4 &times; (single effect)
+  </div>
+  <p>Replacing a 200 TR electric chiller with a VAM therefore needs a cooling tower about 40 % bigger, more condenser water flow, and more make-up water. Count this before deciding.</p>
+
+  <h2>Which is cheaper to run?</h2>
+  <div class="formula-box">
+    Electric chiller cost per year = TR &times; kW/TR &times; hours &times; &#8377;/kWh<br>
+    VAM cost per year = TR &times; steam (kg/h per TR) / 1,000 &times; hours &times; &#8377;/tonne + auxiliary power cost<br>
+    Break-even steam cost = (chiller kW/TR &minus; VAM auxiliary kW/TR) &times; &#8377;/kWh / (steam per TR-hour in tonnes)
+  </div>
+  <p>With 0.85 kW/TR for the chiller (including its share of pumps and cooling tower fans), 0.15 kW/TR of VAM auxiliaries, power at &#8377;8/kWh and 4.6 kg/h of steam per TR, the break-even is about &#8377;1,200 per tonne of steam. Steam from furnace oil at &#8377;3,700 per tonne never gets there; steam from a well-run biomass boiler can come close; waste heat, exhaust gas or back-pressure steam from a turbine beats it easily. That is why VAMs make the most sense with cogeneration, DG or gas-engine waste heat, or a cheap solid-fuel boiler with spare capacity.</p>
+  <p>Other points in the decision: a VAM cannot make sub-zero brine (water is the refrigerant); it has few moving parts and runs quietly; it needs good vacuum and tight control of solution concentration to avoid crystallisation; and it uses almost no electricity, which helps where the electrical supply or DG backup is the limit.</p>
+
+  <h2>Saving chiller energy</h2>
+  <ul>
+    <li>Raise the chilled water set point as far as the process allows: roughly 2&ndash;3 % power saved per 1 &deg;C.</li>
+    <li>Keep the condenser water cold and the condenser tubes clean: roughly 2&ndash;3 % per 1 &deg;C colder.</li>
+    <li>Run one chiller well loaded rather than two lightly loaded, unless the machines are designed for good part-load efficiency.</li>
+    <li>Find the cause of a low chilled water &Delta;T: too much flow, three-way valves bypassing, or an oversized pump.</li>
+    <li>Insulate and seal chilled water and brine lines; wet insulation is both a heat gain and a corrosion problem.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you convert kW/TR to COP?</h3>
+  <p>COP = 3.517 / (kW/TR). At 0.7 kW/TR the COP is about 5.0; at 1.2 kW/TR it is about 2.9.</p>
+  <h3>How much steam does a VAM use per TR?</h3>
+  <p>About 4.5&ndash;5 kg/h per TR for a double-effect machine on 8&ndash;9 barg steam, and about 8 kg/h per TR for a single-effect machine on low-pressure steam.</p>
+  <h3>Can a VAM supply brine below 0 &deg;C?</h3>
+  <p>No. A lithium bromide VAM uses water as the refrigerant, so chilled water down to about 5&ndash;7 &deg;C is its practical limit. Brine duties need a vapour compression chiller.</p>
+
+  <h2>Watch</h2>
+  <div style="display:grid;gap:10px;margin:8px 0 22px;">
+    <a href="https://www.youtube.com/shorts/zPjYc-CAcwc" target="_blank" rel="noopener" style="display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--grid-line);border-radius:8px;padding:8px;text-decoration:none;color:var(--paper);max-width:520px;">
+      <img src="https://img.youtube.com/vi/zPjYc-CAcwc/hqdefault.jpg" alt="" loading="lazy" width="120" height="90" style="width:120px;height:90px;object-fit:cover;border-radius:6px;flex:none;">
+      <span><strong style="display:block;font-size:.95rem;line-height:1.35;">Chillers 101: The Role of Cooling System in the Chemical Industry</strong><span style="color:var(--muted);font-size:.82rem;">YouTube Short &middot; PharmaChemE</span></span>
+    </a>
+    <a href="https://www.youtube.com/shorts/yBP5Pj2upYU" target="_blank" rel="noopener" style="display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--grid-line);border-radius:8px;padding:8px;text-decoration:none;color:var(--paper);max-width:520px;">
+      <img src="https://img.youtube.com/vi/yBP5Pj2upYU/hqdefault.jpg" alt="" loading="lazy" width="120" height="90" style="width:120px;height:90px;object-fit:cover;border-radius:6px;flex:none;">
+      <span><strong style="display:block;font-size:.95rem;line-height:1.35;">Cooling Tower: Essential Heat Rejection System</strong><span style="color:var(--muted);font-size:.82rem;">YouTube Short &middot; PharmaChemE</span></span>
+    </a>
+  </div>
+
+  <div class="related-box">
+    <h3>Try the Calculators</h3>
+    <a href="{{ '/utilities/chillers-vam/' | relative_url }}">Chillers &amp; VAM calculators</a>
+    <h3>Related Articles</h3>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency and the cost of steam</a>
+  </div>
+</div>

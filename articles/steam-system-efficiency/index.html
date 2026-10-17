@@ -1,0 +1,131 @@
+---
+layout: default
+title: "Steam System Efficiency: Boiler Fuel, Steam Cost, Traps, Condensate & Flash Steam"
+description: "How to calculate boiler fuel consumption, cost of steam, blowdown loss, steam trap and leak losses, flash steam and condensate recovery savings, with worked examples from a process plant."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Steam System Efficiency
+    url: /articles/steam-system-efficiency/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "Steam System Efficiency: Boiler Fuel, Steam Cost, Traps, Condensate and Flash Steam",
+        "description": "How to calculate boiler fuel consumption, cost of steam, blowdown loss, steam trap losses, flash steam and condensate recovery savings.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you calculate the cost of steam?", "acceptedAnswer": { "@type": "Answer", "text": "Fuel cost per tonne of steam = 1,000 x (steam enthalpy - feed water enthalpy) / (boiler efficiency x GCV x 4.1868) x fuel price. For 10 barg steam, 80 C feed water, 75% efficiency and coal at 4,000 kcal/kg costing 8 rupees/kg, the fuel cost is about 1,560 rupees per tonne of steam." } },
+        { "@type": "Question", "name": "How do you calculate boiler blowdown?", "acceptedAnswer": { "@type": "Answer", "text": "Blowdown as a percentage of steam = feed water TDS / (maximum boiler water TDS - feed water TDS) x 100. With 150 ppm feed water and a 3,000 ppm limit, blowdown is about 5.3% of the steam flow." } },
+        { "@type": "Question", "name": "How much steam does a failed steam trap lose?", "acceptedAnswer": { "@type": "Answer", "text": "Napier's formula gives an upper estimate: kg/h = 0.412 x orifice diameter (mm) squared x pressure (bar abs). A trap blowing through a 2 mm seat at 7 barg loses up to about 13 kg/h." } }
+      ] }
+    ]
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Steam System Efficiency: Calculations for the Plant</h1>
+  <p class="article-meta">Utilities &middot; Steam &amp; Boiler</p>
+
+  <p>Steam is the biggest fuel bill in most chemical and pharma plants, and most of the losses are invisible: a trap blowing into the condensate line, a flash vent at the feed tank, condensate going to drain because the return pump tripped months ago. This article walks through the numbers you need to put a rupee value on each of them, starting from what a tonne of steam actually costs.</p>
+  <p><strong>Short on time?</strong> The <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam &amp; Boiler calculators</a> do every calculation below as you type.</p>
+
+  <h2>1. The cost of a tonne of steam</h2>
+  <p>Every loss calculation needs this one number. The fuel part of it comes from an energy balance on the boiler:</p>
+  <div class="formula-box">
+    Heat per kg of steam = h<sub>g</sub> (at boiler pressure) &minus; h<sub>fw</sub> (feed water)<br>
+    Fuel per tonne of steam = 1,000 &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV &times; 4.1868)<br>
+    Fuel cost per tonne of steam = Fuel per tonne &times; fuel price
+  </div>
+  <p>h<sub>g</sub> comes from steam tables (about 2,780 kJ/kg at 10 barg), h<sub>fw</sub> &asymp; 4.186 &times; feed water temperature, &eta; is the boiler efficiency and GCV the fuel's gross calorific value in kcal/kg.</p>
+  <h3>Worked example</h3>
+  <div class="formula-box">
+    10 barg steam, feed water 80 &deg;C: 2,780 &minus; 335 = 2,445 kJ/kg<br>
+    Coal at 4,000 kcal/kg, 75 % efficient: fuel = 1,000 &times; 2,445 / (0.75 &times; 4,000 &times; 4.1868) &asymp; 195 kg per tonne of steam<br>
+    At &#8377;8/kg: about &#8377;1,560 per tonne of steam (fuel only)
+  </div>
+  <p>The same steam from furnace oil at 10,200 kcal/kg, 85 % efficient and &#8377;55/kg costs about &#8377;3,700 per tonne. Add power for the FD/ID fans and feed pumps, water treatment, chemicals, ash handling, labour and maintenance, and the full cost is usually 15&ndash;30 % higher than the fuel cost alone. Use the full cost when you value savings.</p>
+
+  <h2>2. Where the fuel goes</h2>
+  <p>A coal or biomass boiler at 75 % efficiency loses a quarter of the fuel's heat before the steam leaves the boiler house. The usual split:</p>
+  <ul>
+    <li><strong>Dry flue gas:</strong> the biggest loss. It rises with stack temperature and with excess air. Check O&#8322; in the flue gas: about 3&ndash;4 % on oil and gas, 6&ndash;8 % on solid fuel.</li>
+    <li><strong>Moisture:</strong> water in the fuel and water formed from hydrogen leave as vapour up the stack. Wet husk or wet coal costs real money.</li>
+    <li><strong>Unburnt carbon in ash:</strong> shows up as black ash. Grate speed, air distribution and fuel sizing matter.</li>
+    <li><strong>Radiation and convection:</strong> small at full load, larger at low load.</li>
+    <li><strong>Blowdown:</strong> hot boiler water drained to control TDS.</li>
+  </ul>
+
+  <h2>3. Boiler blowdown</h2>
+  <p>Dissolved solids in the feed water stay behind when water boils, so the boiler water gets more concentrated until some of it is drained off. The blowdown needed to hold a TDS limit is:</p>
+  <div class="formula-box">
+    Blowdown (% of steam) = TDS<sub>feed</sub> / (TDS<sub>boiler, max</sub> &minus; TDS<sub>feed</sub>) &times; 100
+  </div>
+  <p>With 150 ppm feed water and a 3,000 ppm limit, blowdown is about 5.3 % of the steam. For a 5 t/h boiler at 10 barg that is about 263 kg/h of water at 184 &deg;C, carrying (781 &minus; 335) kJ/kg more heat than the feed water, about 33 kW or roughly 0.7 % of the fuel. Better feed water (more condensate return, a softener or RO) reduces it at the source; automatic TDS control and a flash vessel with a heat exchanger on continuous blowdown recover most of the rest.</p>
+
+  <h2>4. Steam traps and leaks</h2>
+  <p>A trap that fails open passes live steam into the condensate line. Napier's formula gives an upper estimate of the steam through an orifice:</p>
+  <div class="formula-box">Steam (kg/h) &asymp; 0.412 &times; d&sup2; (mm&sup2;) &times; P (bar abs)</div>
+  <h3>Worked example: a trap survey</h3>
+  <p>A survey of 200 traps on 7 barg steam finds 15 % (30 traps) blowing through. Taking an equivalent 2 mm hole for each:</p>
+  <div class="formula-box">
+    Per trap: 0.412 &times; 4 &times; 8.0 &asymp; 13 kg/h<br>
+    30 traps: &asymp; 400 kg/h, about 3,200 tonnes a year over 8,000 hours<br>
+    At &#8377;2,500 per tonne: up to &#8377;80 lakh a year
+  </div>
+  <p>The real figure is usually lower, because a failed trap rarely blows the full seat area all the time. Even half of it pays for a trap survey and spares many times over. Test traps with an ultrasonic tester or a surface thermometer, tag the failed ones and recheck after repair.</p>
+
+  <h2>5. Flash steam</h2>
+  <p>Condensate leaving a trap at 8 barg is at about 175 &deg;C. In a return line at 0.5 barg water can only exist up to about 111 &deg;C, so the extra heat boils part of it:</p>
+  <div class="formula-box">Flash fraction = (h<sub>f,high</sub> &minus; h<sub>f,low</sub>) / h<sub>fg,low</sub> = (743 &minus; 467) / 2,226 &asymp; 12 %</div>
+  <p>That flash steam is ordinary low-pressure steam. If a flash vessel sends it to a low-pressure user such as a tank heater, an air heater or a deaerator, it replaces live steam. If not, it plumes from the feed tank vent, which also means the feed tank cannot be held at a high temperature.</p>
+
+  <h2>6. Condensate recovery</h2>
+  <p>Returned condensate is hot, already treated water. Each kilogram returned saves:</p>
+  <ul>
+    <li>the fuel to heat make-up water from ambient to the condensate temperature: m &times; 4.186 &times; (T<sub>c</sub> &minus; T<sub>makeup</sub>);</li>
+    <li>the treated water itself, and its softener or RO cost;</li>
+    <li>chemicals and blowdown, because condensate has almost no dissolved solids.</li>
+  </ul>
+  <p>Returning 3 t/h of condensate at 90 &deg;C instead of 30 &deg;C make-up recovers about 209 kW, roughly 60 kg/h of coal in a 75 % efficient boiler, plus 72 m&sup3; a day of treated water. A rule of thumb worth remembering: every 6 &deg;C rise in feed water temperature saves about 1 % of boiler fuel.</p>
+  <p>Condensate from process heat exchangers can pick up product if a tube leaks. Return it through a conductivity or TOC monitor with a dump valve, rather than sending it all to drain.</p>
+
+  <h2>A steam audit checklist</h2>
+  <ul>
+    <li>Calculate the cost of steam per tonne and agree it with finance.</li>
+    <li>Measure boiler efficiency monthly (direct method) and trend the evaporation ratio.</li>
+    <li>Check flue gas O&#8322; and stack temperature every shift.</li>
+    <li>Survey every steam trap at least once a year; keep a trap register.</li>
+    <li>Walk the steam mains for leaks, missing insulation and wet lagging.</li>
+    <li>Measure condensate return as a percentage of steam generated; most plants can reach 60&ndash;80 %.</li>
+    <li>Look for vents with a steam plume: feed tank, condensate receivers, flash vessels.</li>
+    <li>Set blowdown from boiler water TDS, not from habit.</li>
+  </ul>
+
+  <h2>Common mistakes</h2>
+  <p>Valuing savings at the fuel cost only, which undervalues them; using h<sub>fg</sub> instead of h<sub>g</sub> &minus; h<sub>fw</sub> for the boiler heat duty; measuring boiler efficiency over a short period at changing load; and assuming condensate return is happening because a return pump exists.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate the cost of steam?</h3>
+  <p>Fuel per tonne = 1,000 &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV &times; 4.1868), then multiply by the fuel price. For 10 barg steam from 80 &deg;C feed water, a 75 % efficient boiler on &#8377;8/kg coal of 4,000 kcal/kg gives about &#8377;1,560 per tonne for fuel alone.</p>
+  <h3>How do you calculate boiler blowdown?</h3>
+  <p>Blowdown (% of steam) = feed TDS / (maximum boiler TDS &minus; feed TDS) &times; 100. With 150 ppm feed water and a 3,000 ppm limit it is about 5.3 %.</p>
+  <h3>How much steam does a failed trap lose?</h3>
+  <p>Up to 0.412 &times; d&sup2; &times; P<sub>abs</sub> kg/h. A 2 mm seat at 7 barg can pass about 13 kg/h, roughly 100 tonnes a year.</p>
+
+  <h2>Watch</h2>
+  <div style="display:grid;gap:10px;margin:8px 0 22px;">
+    <a href="https://www.youtube.com/shorts/yVnveSiNYIM" target="_blank" rel="noopener" style="display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--grid-line);border-radius:8px;padding:8px;text-decoration:none;color:var(--paper);max-width:520px;">
+      <img src="https://img.youtube.com/vi/yVnveSiNYIM/hqdefault.jpg" alt="" loading="lazy" width="120" height="90" style="width:120px;height:90px;object-fit:cover;border-radius:6px;flex:none;">
+      <span><strong style="display:block;font-size:.95rem;line-height:1.35;">Equipment Confessions Ep 2: Steam Trap&rsquo;s Worst Day</strong><span style="color:var(--muted);font-size:.82rem;">YouTube Short &middot; PharmaChemE</span></span>
+    </a>
+  </div>
+
+  <div class="related-box">
+    <h3>Try the Calculators</h3>
+    <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam &amp; Boiler calculators</a>
+    <h3>Related Articles</h3>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM: kW/TR, COP and running cost</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">How to calculate heat load &amp; recovery time</a>
+  </div>
+</div>

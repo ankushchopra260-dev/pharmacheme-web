@@ -1,0 +1,104 @@
+---
+layout: default
+title: "Compressed Air & Nitrogen Calculations: Leak Cost, Receiver, Compressor Power, N₂ Purging"
+description: "Free compressed air and nitrogen calculators: air leak flow and cost, air receiver size, compressor power and specific power, nitrogen for pressure, vacuum and sweep purging, and nitrogen for tank blanketing."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebApplication", "name": "Compressed Air and Nitrogen Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How much does a compressed air leak cost?", "acceptedAnswer": { "@type": "Answer", "text": "A 3 mm hole at 7 barg leaks about 0.43 m3/min of free air. At 6.5 kW per m3/min that is about 2.8 kW, roughly 1.8 lakh rupees a year at 8 rupees per kWh over 8,000 hours." } },
+        { "@type": "Question", "name": "How do you size an air receiver?", "acceptedAnswer": { "@type": "Answer", "text": "Volume (m3) = air demand (m3/min free air) x time (min) x atmospheric pressure (1.013 bar) / allowed pressure drop (bar)." } },
+        { "@type": "Question", "name": "How many nitrogen purge cycles are needed?", "acceptedAnswer": { "@type": "Answer", "text": "Oxygen after n cycles = 21% x (low pressure / high pressure)^n, both absolute. Pressurising to 2 barg and venting to atmosphere cuts oxygen to about a third each cycle: 7% after one cycle, 2.3% after two." } }
+      ] }
+    ]
+  }
+breadcrumbs:
+  - label: Utilities
+    url: /utilities/
+  - label: Compressed Air & Nitrogen
+    url: /utilities/compressed-air-nitrogen/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Compressed Air &amp; Nitrogen Calculations</h1>
+  <p>Compressed air is one of the most expensive utilities per unit of useful energy, and nitrogen is a safety utility. Work out what leaks cost, size a receiver, estimate compressor power and plan nitrogen for purging and blanketing.</p>
+  <ul class="ut-jump">
+    <li><a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Full article</a></li>
+    <li><a href="#leak">Air leak cost</a></li><li><a href="#receiver">Receiver size</a></li><li><a href="#compressor">Compressor power</a></li>
+    <li><a href="#purge">N&#8322; purging</a></li><li><a href="#blanket">N&#8322; blanketing</a></li><li><a href="#guide">How it works</a></li>
+  </ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" id="leak" data-calc="airLeak"></div>
+  <div class="ut-calc" id="receiver" data-calc="receiver"></div>
+  <div class="ut-calc" id="compressor" data-calc="compPower"></div>
+  <div class="ut-calc" id="purge" data-calc="n2Purge"></div>
+  <div class="ut-calc" id="blanket" data-calc="n2Blanket"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>Why compressed air is expensive</h2>
+  <p>Only about 10&ndash;15 % of the electricity a compressor draws comes out as useful work at the tool; the rest becomes heat in the compressor. A compressor making 10 m&sup3;/min at 7 barg draws about 60&ndash;65 kW. Leaks, pressure set higher than needed and air used for cleaning or cooling waste a large share of it.</p>
+
+  <h2>Air leaks</h2>
+  <div class="formula-box">
+    Air through a hole (choked flow): m = C<sub>d</sub> &times; A &times; P<sub>0</sub> &times; &radic;[k / (R T) &times; (2/(k+1))<sup>(k+1)/(k&minus;1)</sup>]<br>
+    Power wasted (kW) = leak (m&sup3;/min free air) &times; specific power (kW per m&sup3;/min)
+  </div>
+  <p>Above about 0.9 barg the flow through a hole is choked, so it rises in step with the absolute pressure. With a discharge coefficient of 0.65, a 3 mm hole at 7 barg leaks about 0.43 m&sup3;/min. Ten such leaks waste about 4.3 m&sup3;/min, roughly 28 kW, or about &#8377;18 lakh a year at &#8377;8/kWh. A simple check: with all users stopped, time how fast the receiver pressure falls, or how long the compressor stays loaded.</p>
+
+  <h2>Air receiver size</h2>
+  <div class="formula-box">V (m&sup3;) = Q (m&sup3;/min free air) &times; t (min) &times; 1.013 / (P<sub>1</sub> &minus; P<sub>2</sub>)</div>
+  <p>To cover a 10 m&sup3;/min demand for 1 minute while the pressure falls from 7.5 to 6.5 barg needs about 10 m&sup3; of storage. A receiver near a large intermittent user, such as a filter press, centrifuge or bag filter pulse cleaning, smooths peaks and stops a second compressor starting for a few seconds of demand.</p>
+
+  <h2>Compressor power</h2>
+  <div class="formula-box">
+    Adiabatic power = n &times; k/(k&minus;1) &times; P<sub>1</sub> &times; Q &times; [(P<sub>2</sub>/P<sub>1</sub>)<sup>(k&minus;1)/(n k)</sup> &minus; 1]<br>
+    Shaft power = adiabatic power / overall efficiency
+  </div>
+  <p>n is the number of stages and k = 1.4 for air. For 10 m&sup3;/min to 7 barg in one stage, the adiabatic power is about 48 kW and the shaft power about 64 kW at 75 % efficiency, about 6.4 kW per m&sup3;/min. Every extra 1 bar of discharge pressure costs roughly 6&ndash;8 % more power, so set the compressor to the lowest pressure the users need.</p>
+
+  <h2>Nitrogen for inerting</h2>
+  <div class="formula-box">
+    Pressure or vacuum purge: O&#8322; after n cycles = O&#8322;<sub>start</sub> &times; (P<sub>low</sub> / P<sub>high</sub>)<sup>n</sup> (absolute pressures)<br>
+    N&#8322; per cycle (Nm&sup3;) = V &times; (P<sub>high</sub> &minus; P<sub>low</sub>) / 1.013<br>
+    Sweep purge (well mixed): N&#8322; (Nm&sup3;) = V &times; ln(O&#8322;<sub>start</sub> / O&#8322;<sub>target</sub>)
+  </div>
+  <p>For a 6 m&sup3; reactor headspace purged to 2 barg and vented to atmosphere, each cycle cuts oxygen to about a third: 7.1 % after one cycle and 2.3 % after two. Most solvent vapours cannot burn below about 10 % oxygen (the limiting oxygen concentration), and plants commonly aim for 8 % or less, so one cycle leaves almost no margin. Two cycles use about 24 Nm&sup3;. Always confirm with an oxygen analyser; a sweep purge with poor mixing can leave pockets of air.</p>
+  <p>When a blanketed tank is pumped out, nitrogen must replace the liquid volume: 20 m&sup3;/h of liquid at 50 mbarg blanket pressure needs about 19 Nm&sup3;/h of nitrogen. Size the regulator for the fastest pump-out plus in-breathing when a warm tank cools quickly in rain.</p>
+
+  <h2>Typical values</h2>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Item</th><th>Typical</th></tr>
+    <tr><td>Specific power, screw compressor at 7 barg</td><td>5.5&ndash;7 kW per m&sup3;/min of free air</td></tr>
+    <tr><td>Leaks in a plant without a leak programme</td><td>20&ndash;30 % of compressor output</td></tr>
+    <tr><td>Pressure drop, compressor to farthest user</td><td>Under about 0.5 bar</td></tr>
+    <tr><td>Dew point: refrigerated dryer</td><td>&asymp; +3 &deg;C pressure dew point</td></tr>
+    <tr><td>Dew point: desiccant dryer (instrument air)</td><td>&minus;40 &deg;C pressure dew point</td></tr>
+    <tr><td>Nitrogen purity for inerting (PSA)</td><td>95&ndash;99.9 %, chosen against the LOC of the solvent</td></tr>
+  </table></div>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How much power does a compressed air leak waste?</h3>
+  <p>Multiply the leak flow in m&sup3;/min by the compressor's specific power. A single 3 mm leak at 7 barg wastes about 2.8 kW, all day and all night.</p>
+  <h3>Can I use compressed air instead of nitrogen to push a solvent?</h3>
+  <p>No. Air adds oxygen to a flammable vapour space. Use nitrogen, or a pump, and keep the vessel inerted.</p>
+  <h3>Pressure purge or sweep purge: which uses less nitrogen?</h3>
+  <p>For a vessel that can take pressure, pressure purging is predictable and easy to check. Vacuum purging uses the least nitrogen. Sweep purging suits vessels that cannot take pressure or vacuum, but needs good mixing and an oxygen check at the vent.</p>
+
+  <div class="related-box">
+    <h3>Read more</h3>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air &amp; nitrogen: full article</a>
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/' | relative_url }}">Process safety: inerting and ignition sources</a>
+    <a href="{{ '/utilities/water-dg-power/' | relative_url }}">Motors, VFDs and power factor</a>
+    <a href="{{ '/design-tools/line-sizing/?fluid=air' | relative_url }}">Compressed air line sizing</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

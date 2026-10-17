@@ -17,6 +17,14 @@
     - { title: "Line Sizing", url: /design-tools/line-sizing/ }
     - { title: "P&ID Drawing", url: /design-tools/pid/ }
     - { title: "PFD Drawing", url: /design-tools/pfd/ }
+- title: Utilities
+  url: /utilities/
+  children:
+    - { title: "Steam & Boiler", url: /utilities/steam-boiler/ }
+    - { title: "Cooling Tower", url: /utilities/cooling-tower/ }
+    - { title: "Chillers & VAM", url: /utilities/chillers-vam/ }
+    - { title: "Compressed Air & Nitrogen", url: /utilities/compressed-air-nitrogen/ }
+    - { title: "Water, DG & Power", url: /utilities/water-dg-power/ }
 - title: Games
   url: /games/
   children:
@@ -38,6 +46,11 @@
     - { title: "Mixing Scale-up Rules", url: /articles/mixing-scale-up/ }
     - { title: "Filtration Calculation", url: /articles/filtration-calculation/ }
     - { title: "Centrifuge Cake Weight", url: /articles/centrifuge-cake-weight/ }
+    - { title: "Steam System Efficiency", url: /articles/steam-system-efficiency/ }
+    - { title: "Cooling Tower Calculations", url: /articles/cooling-tower-calculations/ }
+    - { title: "Chiller vs VAM", url: /articles/chiller-vs-vam/ }
+    - { title: "Compressed Air & Nitrogen", url: /articles/compressed-air-and-nitrogen/ }
+    - { title: "RO, DG, Power Factor & VFDs", url: /articles/water-and-power-utilities/ }
 - title: Videos
   url: /videos/
 - title: Interview

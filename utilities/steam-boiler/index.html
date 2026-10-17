@@ -1,0 +1,124 @@
+---
+layout: default
+title: "Steam & Boiler Calculations: Fuel, Efficiency, Flash Steam, Condensate"
+description: "Free steam and boiler calculators: boiler fuel consumption and evaporation ratio, boiler efficiency (direct method), flash steam, condensate recovery savings and steam leak loss, with formulas and worked examples."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebApplication", "name": "Steam and Boiler Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you calculate boiler fuel consumption?", "acceptedAnswer": { "@type": "Answer", "text": "Fuel (kg/h) = steam (kg/h) x (steam enthalpy - feed water enthalpy) / (boiler efficiency x fuel GCV). For 5,000 kg/h of steam at 10 barg with 80 C feed water, a 75% efficient boiler on 4,000 kcal/kg coal burns about 973 kg/h." } },
+        { "@type": "Question", "name": "What is evaporation ratio of a boiler?", "acceptedAnswer": { "@type": "Answer", "text": "Evaporation ratio is kg of steam made per kg of fuel burned. Typical values are about 4 to 5.5 for Indian coal, 3.5 to 4.5 for rice husk and 13 to 15 for furnace oil." } },
+        { "@type": "Question", "name": "How much flash steam does condensate produce?", "acceptedAnswer": { "@type": "Answer", "text": "Flash fraction = (hf at the high pressure - hf at the low pressure) / hfg at the low pressure. Condensate at 8 barg flashing to 0.5 barg releases about 12% of its mass as steam." } }
+      ] }
+    ]
+  }
+breadcrumbs:
+  - label: Utilities
+    url: /utilities/
+  - label: Steam & Boiler
+    url: /utilities/steam-boiler/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Steam &amp; Boiler Calculations</h1>
+  <p>Work out what your steam costs and where it goes: fuel for a steam load, boiler efficiency from a test, flash steam, the value of returned condensate, and what a leaking trap throws away. Results update as you type.</p>
+  <ul class="ut-jump">
+    <li><a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Full article</a></li>
+    <li><a href="#boiler-fuel">Boiler fuel</a></li><li><a href="#boiler-efficiency">Boiler efficiency</a></li><li><a href="#flash-steam">Flash steam</a></li>
+    <li><a href="#condensate">Condensate recovery</a></li><li><a href="#steam-leak">Steam leak loss</a></li><li><a href="#guide">How it works</a></li>
+  </ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" id="boiler-fuel" data-calc="boilerFuel"></div>
+  <div class="ut-calc" id="boiler-efficiency" data-calc="boilerEff"></div>
+  <div class="ut-calc" id="flash-steam" data-calc="flash"></div>
+  <div class="ut-calc" id="condensate" data-calc="condensate"></div>
+  <div class="ut-calc" id="steam-leak" data-calc="steamLeak"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How a steam system works</h2>
+  <p>The boiler burns fuel to turn feed water into steam. Steam travels through the mains to jackets, coils and heat exchangers, where it condenses and gives up its latent heat. The condensate drains through steam traps and, in a good system, returns hot to the boiler feed tank. Every kilogram of steam that leaks, every trap that blows through and every litre of condensate sent to drain has to be made again from cold water with more fuel.</p>
+
+  <h2>Boiler fuel consumption</h2>
+  <div class="formula-box">
+    Fuel (kg/h) = S &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV &times; 4.1868)<br>
+    Evaporation ratio = S / Fuel
+  </div>
+  <p>S is steam flow (kg/h), h<sub>g</sub> the enthalpy of saturated steam at the boiler pressure (kJ/kg, from steam tables), h<sub>fw</sub> &asymp; 4.186 &times; feed water temperature (kJ/kg), &eta; the boiler efficiency as a fraction and GCV the fuel's gross calorific value in kcal/kg. The 4.1868 converts kcal to kJ.</p>
+  <h3>Worked example</h3>
+  <p>5,000 kg/h of steam at 10 barg, feed water at 80 &deg;C, Indian coal at 4,000 kcal/kg, boiler efficiency 75 %:</p>
+  <div class="formula-box">
+    h<sub>g</sub> at 10 barg (11 bar abs) &asymp; 2,780 kJ/kg; h<sub>fw</sub> = 4.186 &times; 80 &asymp; 335 kJ/kg<br>
+    Heat per kg = 2,780 &minus; 335 = 2,445 kJ/kg<br>
+    Fuel = 5,000 &times; 2,445 / (0.75 &times; 4,000 &times; 4.1868) &asymp; 973 kg/h &rarr; about 23 t/day<br>
+    Evaporation ratio = 5,000 / 973 &asymp; 5.1
+  </div>
+
+  <h2>Boiler efficiency: direct method</h2>
+  <p>Measure steam (from a flow meter or feed water meter) and fuel (weighed or metered) over the same few hours at steady load, then turn the fuel formula around: &eta; = S &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (Fuel &times; GCV &times; 4.1868). It is quick, but a 5 % error in the steam meter is a 5 % error in efficiency. The indirect (heat loss) method, which adds up flue gas, moisture, unburnt and radiation losses, tells you <em>why</em> efficiency is low.</p>
+
+  <h2>Flash steam</h2>
+  <div class="formula-box">Flash fraction = (h<sub>f,1</sub> &minus; h<sub>f,2</sub>) / h<sub>fg,2</sub></div>
+  <p>Condensate leaving a trap is at the saturation temperature of the higher pressure. When it drops to the return line pressure it carries more heat than water can hold there, so part of it boils. From 8 barg to 0.5 barg about 12 % flashes: 2,000 kg/h of condensate gives roughly 250 kg/h of low-pressure steam. Collect it in a flash vessel and use it for a low-pressure heater, or it simply vents from the feed tank.</p>
+
+  <h2>Condensate recovery</h2>
+  <p>Returned condensate saves treated water, chemicals and the fuel to heat cold make-up water. A rule of thumb: every 6 &deg;C rise in feed water temperature saves about 1 % of boiler fuel. Returning 3,000 kg/h at 90 &deg;C instead of 30 &deg;C make-up recovers about 209 kW, worth roughly 60 kg/h of coal.</p>
+
+  <h2>Steam leaks and failed traps</h2>
+  <p>Napier's formula gives the steam through a sharp hole: m (kg/h) &asymp; 0.412 &times; d&sup2; (mm&sup2;) &times; P (bar abs). A 3 mm hole at 7 barg passes about 30 kg/h, around 240 tonnes a year. Treat it as an upper estimate for a trap blowing through; a proper trap survey with ultrasound or temperature tells you which ones.</p>
+
+  <h2>Typical values</h2>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Fuel</th><th>GCV (typical)</th><th>Boiler efficiency</th><th>Evaporation ratio</th></tr>
+    <tr><td>Indian coal</td><td>3,500&ndash;4,500 kcal/kg</td><td>70&ndash;80 %</td><td>4&ndash;5.5</td></tr>
+    <tr><td>Biomass briquette</td><td>3,500&ndash;4,000 kcal/kg</td><td>68&ndash;75 %</td><td>4&ndash;5</td></tr>
+    <tr><td>Rice husk</td><td>3,000&ndash;3,400 kcal/kg</td><td>65&ndash;72 %</td><td>3.5&ndash;4.5</td></tr>
+    <tr><td>Furnace oil</td><td>&asymp; 10,200 kcal/kg</td><td>82&ndash;88 %</td><td>13&ndash;15</td></tr>
+    <tr><td>Natural gas / PNG</td><td>&asymp; 9,500 kcal/Sm&sup3;</td><td>85&ndash;90 %</td><td>&asymp; 14 kg/Sm&sup3;</td></tr>
+  </table></div>
+  <p>Ranges depend on the fuel lot, boiler type and load. Use your own fuel analysis and test data when you have them.</p>
+
+  <h2>Where steam money is usually lost</h2>
+  <ul>
+    <li>Failed-open steam traps: a survey often finds 10&ndash;20 % failed in systems without a programme.</li>
+    <li>Condensate sent to drain instead of back to the feed tank.</li>
+    <li>Flash steam venting from the feed tank or condensate receivers.</li>
+    <li>Bare or wet insulation on mains, valves and flanges.</li>
+    <li>Too much excess air: aim for about 3&ndash;4 % O&#8322; in flue gas on oil or gas, 6&ndash;8 % on solid fuel.</li>
+    <li>Continuous blowdown set by habit instead of by the boiler water TDS.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate boiler fuel consumption?</h3>
+  <p>Fuel = steam &times; (steam enthalpy &minus; feed water enthalpy) / (efficiency &times; GCV). In the example above, 5,000 kg/h of 10 barg steam needs about 973 kg/h of 4,000 kcal/kg coal at 75 % efficiency.</p>
+  <h3>What is a good evaporation ratio?</h3>
+  <p>It depends on the fuel: about 4&ndash;5.5 for Indian coal, 3.5&ndash;4.5 for rice husk, 13&ndash;15 for furnace oil. A falling evaporation ratio on the same fuel means falling efficiency.</p>
+  <h3>Is flash steam the same as live steam?</h3>
+  <p>It is ordinary steam at the lower pressure, with the same latent heat as live steam at that pressure. It is only &ldquo;free&rdquo; if there is a low-pressure user that can take it.</p>
+
+  <h2>Watch</h2>
+  <div style="display:grid;gap:10px;margin:8px 0 22px;">
+    <a href="https://www.youtube.com/shorts/yVnveSiNYIM" target="_blank" rel="noopener" style="display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--grid-line);border-radius:8px;padding:8px;text-decoration:none;color:var(--paper);max-width:520px;">
+      <img src="https://img.youtube.com/vi/yVnveSiNYIM/hqdefault.jpg" alt="" loading="lazy" width="120" height="90" style="width:120px;height:90px;object-fit:cover;border-radius:6px;flex:none;">
+      <span><strong style="display:block;font-size:.95rem;line-height:1.35;">Equipment Confessions Ep 2: Steam Trap&rsquo;s Worst Day</strong><span style="color:var(--muted);font-size:.82rem;">YouTube Short &middot; PharmaChemE</span></span>
+    </a>
+  </div>
+
+  <div class="related-box">
+    <h3>Read more</h3>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency: full article</a>
+    <h3>Related</h3>
+    <a href="{{ '/utilities/cooling-tower/' | relative_url }}">Cooling tower calculations</a>
+    <a href="{{ '/utilities/chillers-vam/' | relative_url }}">Chillers and VAM: chiller vs VAM running cost</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load &amp; recovery calculator</a>
+    <a href="{{ '/design-tools/line-sizing/?fluid=steam' | relative_url }}">Steam line sizing</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

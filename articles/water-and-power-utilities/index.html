@@ -1,0 +1,86 @@
+---
+layout: default
+title: "RO Recovery, DG Cost per Unit, Power Factor and VFD Savings: Water & Power Calculations"
+description: "Plant water and power calculations: RO recovery, salt rejection and reject TDS, DG set cost per kWh and loading, capacitor kVAR for power factor correction, motor loading from current, and VFD savings using the affinity laws, with worked examples."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Water & Power Utilities
+    url: /articles/water-and-power-utilities/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Article", "headline": "RO Recovery, DG Cost per Unit, Power Factor and VFD Savings",
+        "description": "RO recovery and rejection, DG cost per kWh, power factor correction, motor loading and VFD savings, with worked examples.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
+      { "@type": "FAQPage", "mainEntity": [
+        { "@type": "Question", "name": "How do you calculate DG cost per unit?", "acceptedAnswer": { "@type": "Answer", "text": "Cost per kWh = diesel price per litre / kWh generated per litre (from the energy meter and fuel log). At 90 rupees per litre and 3.4 kWh per litre, about 26.5 rupees per kWh." } },
+        { "@type": "Question", "name": "How do you calculate capacitor kVAR?", "acceptedAnswer": { "@type": "Answer", "text": "kVAR = kW x (tan(acos(present PF)) - tan(acos(target PF))). For 800 kW from 0.82 to 0.98 PF, about 396 kVAR." } },
+        { "@type": "Question", "name": "How much energy does a VFD save on a pump?", "acceptedAnswer": { "@type": "Answer", "text": "With mostly friction head, power falls with the cube of speed: at 70% flow a VFD needs about 34% of full power, compared with 80 to 90% for a throttled pump. Static head reduces the saving." } }
+      ] }
+    ]
+  }
+---
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Water &amp; Power Utilities: RO, DG, Power Factor and VFDs</h1>
+  <p class="article-meta">Utilities &middot; Water &amp; Electrical</p>
+
+  <p>Water treatment and electrical power are utilities every engineer meets but few are trained on. Five calculations cover most of the questions that come up in a plant review: how well the RO is working, what DG power really costs, how many kVAR of capacitors you need, whether a motor is sized right, and what a VFD will save.</p>
+  <p><strong>Short on time?</strong> The <a href="{{ '/utilities/water-dg-power/' | relative_url }}">Water, DG &amp; Power calculators</a> do all five.</p>
+
+  <h2>1. RO plant: recovery, rejection and reject TDS</h2>
+  <div class="formula-box">
+    Recovery (%) = permeate / feed &times; 100<br>
+    Salt rejection (%) = (1 &minus; permeate TDS / feed TDS) &times; 100<br>
+    Reject TDS = (feed &times; feed TDS &minus; permeate &times; permeate TDS) / reject flow
+  </div>
+  <p>A 20 m&sup3;/h feed at 900 ppm making 15 m&sup3;/h of 25 ppm permeate: recovery 75 %, rejection 97.2 %, and the 5 m&sup3;/h reject carries about 3,500 ppm, almost four times the feed. That concentration factor is what limits recovery: calcium carbonate, calcium sulphate and silica come out of solution on the last membranes if it goes too high. Antiscalant dosing and the reject water chemistry (LSI) set the limit, typically 70&ndash;80 % for a two-stage brackish water RO.</p>
+  <p>Trend three things daily: normalised permeate flow (fouling), salt passage (membrane damage or O-ring leaks), and differential pressure across each stage (fouling or scaling in that stage). Temperature changes flow by about 3 % per &deg;C, so compare normalised values, not raw ones.</p>
+
+  <h2>2. DG set: cost per unit and loading</h2>
+  <div class="formula-box">
+    Specific energy (kWh/litre) = kWh from the DG energy meter / litres from the day tank<br>
+    Cost per kWh = diesel price / specific energy<br>
+    Loading (%) = kW / (kVA rating &times; 0.8) &times; 100
+  </div>
+  <p>A 1,010 kVA set carrying 560 kW is about 69 % loaded. At 3.4 kWh per litre and &#8377;90 per litre, each unit costs about &#8377;26.5, more than three times a typical grid unit. The same set carrying only 200 kW may give 2.6 kWh per litre, pushing the cost to about &#8377;35 per unit; long running below about 40 % load also causes wet-stacking (unburnt fuel in the exhaust). With several DG sets, run as few as the load needs, each at 60&ndash;80 %, and shed non-essential loads during grid failure.</p>
+
+  <h2>3. Power factor correction</h2>
+  <div class="formula-box">
+    kVAR = kW &times; (tan &phi;<sub>1</sub> &minus; tan &phi;<sub>2</sub>), with &phi; = cos<sup>&minus;1</sup>(PF)<br>
+    kVA = kW / PF &nbsp;&nbsp; Current (A) = kVA &times; 1,000 / (&radic;3 &times; V)
+  </div>
+  <p>800 kW at 0.82 PF draws 976 kVA. Correcting to 0.98 needs about 396 kVAR and brings it to 816 kVA, cutting the current by about 16 %. The benefit is in the kVA demand charge, PF incentives or penalties in the tariff, and lower I&sup2;R losses in cables and transformers; the kWh used by the load does not change. With VFDs and other harmonic sources, plain capacitors can resonate and fail: use detuned capacitor banks (with series reactors) or an active filter, and keep an APFC panel switching steps automatically so you never over-correct to a leading PF at light load.</p>
+
+  <h2>4. Motor loading from measured current</h2>
+  <div class="formula-box">
+    Input power (kW) = &radic;3 &times; V &times; I &times; PF / 1,000<br>
+    Loading (%) = input kW &times; efficiency / rated kW &times; 100
+  </div>
+  <p>A 37 kW motor drawing 52 A at 415 V and 0.85 PF takes about 31.8 kW of input, so it is about 80 % loaded. Measure the PF with a power analyser; at light load it falls sharply and estimating it overstates the power. Motors below about 40&ndash;50 % load waste energy in both efficiency and PF. Replace a badly oversized motor at its next rewind with a correctly sized IE3 motor, or use a VFD where the load varies.</p>
+
+  <h2>5. VFD savings: the affinity laws</h2>
+  <div class="formula-box">
+    Flow &prop; N &nbsp;&nbsp; Head &prop; N&sup2; &nbsp;&nbsp; Power &prop; N&sup3; (for a system with only friction head)
+  </div>
+  <p>A 45 kW pump throttled to 70 % flow with a discharge valve still draws about 85&ndash;90 % of its full-flow power, because the pump runs up its curve against the valve. Slowing it to 70 % speed needs only 0.7&sup3; &asymp; 34 % of the power, plus 2&ndash;3 % VFD losses: about 16 kW instead of about 40 kW, a saving of about &#8377;15 lakh a year at &#8377;8/kWh over 8,000 hours.</p>
+  <p>Two cautions. With a large static head, such as lifting water to an overhead tank, the pump still has to produce that head at low speed, so the saving is much less than the cube law suggests. And below a certain speed the pump stops delivering at all; check the pump curve against the system curve before choosing a minimum speed. Fans and cooling water pumps with mostly friction head are the best candidates.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate DG cost per unit?</h3>
+  <p>Divide the diesel price per litre by the kWh generated per litre from your DG log. At &#8377;90/L and 3.4 kWh/L it is about &#8377;26.5 per kWh.</p>
+  <h3>Does a higher power factor reduce the electricity bill?</h3>
+  <p>It reduces the kVA demand charge, avoids PF penalties (or earns incentives) and lowers losses in your own distribution. The kWh consumed by the load stays the same.</p>
+  <h3>What RO recovery is normal?</h3>
+  <p>About 70&ndash;80 % for a two-stage brackish water RO with antiscalant. Higher recovery needs better pretreatment and careful control of scaling.</p>
+
+  <div class="related-box">
+    <h3>Try the Calculators</h3>
+    <a href="{{ '/utilities/water-dg-power/' | relative_url }}">Water, DG &amp; Power calculators</a>
+    <h3>Related Articles</h3>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+  </div>
+</div>
