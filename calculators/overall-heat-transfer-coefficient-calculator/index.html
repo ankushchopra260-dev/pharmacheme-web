@@ -1,0 +1,73 @@
+---
+layout: default
+title: "Overall Heat Transfer Coefficient (U) Calculator for Reactors"
+description: "Free overall U calculator: overall heat transfer coefficient of a jacketed reactor from the process and jacket film coefficients, wall, glass lining and fouling, with the share of each resistance. Download as Excel with live formulas."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Overall Heat Transfer Coefficient (U) Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the overall heat transfer coefficient?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1/U = 1/h process + wall thickness/wall conductivity + glass thickness/glass conductivity + fouling + 1/h jacket. With 800 and 2,000 W/m2K films, a 12 mm steel wall, 1.5 mm glass and 0.0004 m2K/W fouling, U is about 257 W/m2K."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Overall Heat Transfer Coefficient (U) Calculator"
+    url: /calculators/overall-heat-transfer-coefficient-calculator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Overall Heat Transfer Coefficient (U) Calculator</h1>
+  <p>The overall U of a jacketed vessel from its film coefficients, wall, glass lining and fouling, with the share of each resistance. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="overallU"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <div class="formula-box">1/U = 1/h<sub>process</sub> + t<sub>wall</sub>/k<sub>wall</sub> + t<sub>glass</sub>/k<sub>glass</sub> + R<sub>fouling</sub> + 1/h<sub>jacket</sub></div>
+  <p>With 800 and 2,000 W/m&sup2;K film coefficients, a 12 mm steel wall, 1.5 mm of glass and 0.0004 m&sup2;K/W fouling, U &asymp; 257 W/m&sup2;K, and the glass is the biggest single resistance (39 %). Improve the largest share first. For the wetted jacket area and heat-up time, use the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load calculator</a>; for condenser area, the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate the overall heat transfer coefficient?</h3>
+  <p>1/U = 1/h process + wall thickness/wall conductivity + glass thickness/glass conductivity + fouling + 1/h jacket. With 800 and 2,000 W/m2K films, a 12 mm steel wall, 1.5 mm glass and 0.0004 m2K/W fouling, U is about 257 W/m2K.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load and recovery calculator</a>
+    <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">Jacket and limpet coil design</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

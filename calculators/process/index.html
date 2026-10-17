@@ -1,64 +1,8 @@
 ---
 layout: default
-title: "Process Calculators: Mixture Density & Viscosity, Drying Agent, Scrubber Sizing"
-description: "Free process calculators: density and viscosity of solvent mixtures, molecular sieve and drying agent requirement, and packed scrubber sizing. Download each as Excel with live formulas."
-structured_data: |
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "WebApplication", "name": "Process Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How much molecular sieve do I need to dry a solvent?", "acceptedAnswer": { "@type": "Answer", "text": "Water to remove divided by the working capacity, times a safety factor. Drying 2,000 L of toluene from 2,000 to 200 ppm removes about 3.1 kg of water; at 10 % working capacity and a 1.3 factor that is about 41 kg of 3A sieve." } }
-      ] }
-    ]
-  }
-breadcrumbs:
-  - label: Calculators
-    url: /calculators/
-  - label: Process Calculators
-    url: /calculators/process/
+title: "Calculators"
+sitemap: false
+noindex: true
 ---
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
-
-<div class="container ut-head">
-  <h1>Process Calculators</h1>
-  <p>The density and viscosity of a solvent mixture, how much drying agent a solvent needs, and the size of a packed scrubber. Results update as you type, and each calculator downloads as an Excel sheet with live formulas.</p>
-  <ul class="ut-jump">
-    <li><a href="#mixture">Mixture density &amp; viscosity</a></li>
-    <li><a href="#drying-agent">Drying agent</a></li><li><a href="#scrubber">Packed scrubber</a></li><li><a href="#guide">How it works</a></li>
-  </ul>
-</div>
-
-<div class="container ut-grid">
-  <div class="ut-calc" id="mixture" data-calc="mixProps"></div>
-  <div class="ut-calc" id="drying-agent" data-calc="moisture"></div>
-  <div class="ut-calc" id="scrubber" data-calc="scrubber"></div>
-</div>
-
-<div class="container article-body" id="guide" style="margin-top:28px;">
-  <h2>Density and viscosity of a mixture</h2>
-  <div class="formula-box">1/&rho;<sub>mix</sub> = &Sigma; w<sub>i</sub>/&rho;<sub>i</sub> &nbsp;&nbsp; ln &mu;<sub>mix</sub> = &Sigma; x<sub>i</sub> ln &mu;<sub>i</sub></div>
-  <p>70 % toluene with 30 % methanol by mass: about 843 kg/m&sup3; and 0.55 cP. These ideal rules are good for similar solvents. Water with alcohols, acids or DMF is far from ideal: methanol-water viscosity peaks above both pure liquids, and the volume shrinks on mixing, so measure for design.</p>
-
-  <h2>Drying agent requirement</h2>
-  <div class="formula-box">Absorbent = water to remove / working capacity &times; safety factor</div>
-  <p>Drying 2,000 L of toluene (870 kg/m&sup3;) from 2,000 to 200 ppm removes about 3.1 kg of water. At a 10 % working capacity and a 1.3 factor, that is about 41 kg of 3A molecular sieve. Use 3A for methanol and ethanol, because 4A also adsorbs methanol. Confirm by Karl Fischer before and after a small trial.</p>
-
-  <h2>Packed scrubber sizing</h2>
-  <div class="formula-box">D = &radic;(4Q/&pi;u) &nbsp;&nbsp; NTU = ln[1/(1 &minus; &eta;)] &nbsp;&nbsp; Packed height = NTU &times; HTU</div>
-  <p>500 Nm&sup3;/h at 40 &deg;C and a design velocity of 1.2 m/s gives a column of about 410 mm. 99 % removal is 4.6 transfer units; with HTU = 0.5 m that is 2.3 m of packing, 2.8 m with margin. A 5 kg/h HCl peak uses about 5.5 kg/h of NaOH, 55 kg/h of 10 % solution. Check the velocity against the packing supplier's flooding chart. Background: <a href="{{ '/articles/scrubber-design/' | relative_url }}">scrubber design for process vents</a>.</p>
-
-  <h2>Frequently asked questions</h2>
-  <h3>How much molecular sieve do I need?</h3>
-  <p>Water to remove divided by the working capacity, times a safety factor: about 41 kg in the example.</p>
-
-  <div class="related-box">
-    <h3>Related</h3>
-    <a href="{{ '/calculators/reactor/' | relative_url }}">Reactor calculators: volume, batch size, U, TR, dosing</a>
-    <a href="{{ '/calculators/agitator-simulator/' | relative_url }}">Agitator simulator (power, Njs and motor size)</a>
-    <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing scale-up calculator</a>
-  </div>
-</div>
-
-<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>
+<div class="container section"><p>These calculators now each have their own page. <a href="{{ '/calculators/' | relative_url }}">Go to all calculators</a>.</p></div>
+<script>(function(){var m={'drying-agent':'drying-agent-calculator/','scrubber':'packed-scrubber-calculator/','mixture':'solvent-mixture-density-viscosity-calculator/'},h=location.hash.slice(1),b="{{ '/calculators/' | relative_url }}";location.replace(b+(m[h]||''));})();</script>

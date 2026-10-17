@@ -1,0 +1,73 @@
+---
+layout: default
+title: "Packed Scrubber Sizing Calculator: Diameter, Packed Height, Caustic Use"
+description: "Free packed scrubber calculator for process vents: column diameter, packed height from transfer units, liquor flow and caustic or acid consumption. Download as Excel with live formulas."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Packed Scrubber Sizing Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you size a packed scrubber?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Diameter = square root of (4 x gas flow / (pi x design velocity)). Packed height = number of transfer units x HTU, where NTU = ln(1/(1 - removal efficiency)) for a fast reaction. 99 % removal is 4.6 transfer units."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Packed Scrubber Sizing Calculator"
+    url: /calculators/packed-scrubber-calculator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Packed Scrubber Sizing Calculator</h1>
+  <p>Column diameter, packed height, liquor flow and reagent use for a packed scrubber on a process vent. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="scrubber"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <div class="formula-box">D = &radic;(4Q/&pi;u) &nbsp;&nbsp; NTU = ln[1/(1 &minus; &eta;)] &nbsp;&nbsp; Packed height = NTU &times; HTU</div>
+  <p>500 Nm&sup3;/h at 40 &deg;C and a design velocity of 1.2 m/s gives a column of about 410 mm. 99 % removal is 4.6 transfer units; with HTU = 0.5 m that is 2.3 m of packing, 2.8 m with margin. A 5 kg/h HCl peak uses about 5.5 kg/h of NaOH, 55 kg/h of 10 % solution. Check the velocity against the packing supplier's flooding chart. Background: <a href="{{ '/articles/scrubber-design/' | relative_url }}">scrubber design for process vents</a>.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you size a packed scrubber?</h3>
+  <p>Diameter = square root of (4 x gas flow / (pi x design velocity)). Packed height = number of transfer units x HTU, where NTU = ln(1/(1 - removal efficiency)) for a fast reaction. 99 % removal is 4.6 transfer units.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/scrubber-design/' | relative_url }}">Scrubber design for process vents</a>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench design</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

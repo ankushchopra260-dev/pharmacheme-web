@@ -1,0 +1,73 @@
+---
+layout: default
+title: "Solvent Mixture Density and Viscosity Calculator"
+description: "Free calculator for the density and viscosity of a mixture of up to three solvents, with built-in solvent data and ideal mixing rules. Download as Excel with live formulas."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Solvent Mixture Density and Viscosity",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the density of a solvent mixture?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For an ideal mixture, 1/density = sum of mass fraction / density of each component. Viscosity follows ln(mu) = sum of mole fraction x ln(mu i). 70 % toluene with 30 % methanol by mass is about 843 kg/m3 and 0.55 cP."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Solvent Mixture Density and Viscosity"
+    url: /calculators/solvent-mixture-density-viscosity-calculator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Solvent Mixture Density and Viscosity</h1>
+  <p>Density and viscosity of a mixture of up to three solvents, with built-in solvent data. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="mixProps"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <div class="formula-box">1/&rho;<sub>mix</sub> = &Sigma; w<sub>i</sub>/&rho;<sub>i</sub> &nbsp;&nbsp; ln &mu;<sub>mix</sub> = &Sigma; x<sub>i</sub> ln &mu;<sub>i</sub></div>
+  <p>70 % toluene with 30 % methanol by mass: about 843 kg/m&sup3; and 0.55 cP. These ideal rules are good for similar solvents. Water with alcohols, acids or DMF is far from ideal: methanol-water viscosity peaks above both pure liquids, and the volume shrinks on mixing, so measure for design.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate the density of a solvent mixture?</h3>
+  <p>For an ideal mixture, 1/density = sum of mass fraction / density of each component. Viscosity follows ln(mu) = sum of mole fraction x ln(mu i). 70 % toluene with 30 % methanol by mass is about 843 kg/m3 and 0.55 cP.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent swap and solvent selection</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

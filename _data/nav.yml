@@ -1,18 +1,34 @@
 # Top navigation. Items with "children" or "groups" show a dropdown on hover.
 - title: Calculators
   url: /calculators/
-  children:
-    - { title: "Heat Load & Recovery", url: /calculators/heat-load-calculator/ }
-    - { title: "Solvent Recovery (BP under vacuum)", url: /calculators/solvent-recovery-calculator/ }
-    - { title: "Pump Power", url: /calculators/pump-power-calculator/ }
-    - { title: "Mixing Scale-up", url: /calculators/mixing-scale-up-calculator/ }
-    - { title: "Agitator Simulator", url: /calculators/agitator-simulator/ }
-    - { title: "Filtration", url: /calculators/filtration-calculator/ }
-    - { title: "Centrifuge Cake Weight", url: /calculators/centrifuge-cake-weight-calculator/ }
-    - { title: "Corrosion Coupon", url: /calculators/corrosion-coupon-calculator/ }
-    - { title: "Materials Compatibility", url: /calculators/materials-compatibility/ }
-    - { title: "Reactor Calculators (5)", url: /calculators/reactor/ }
-    - { title: "Process Calculators (3)", url: /calculators/process/ }
+  groups:
+    - title: "Reactor and batch"
+      children:
+        - { title: "Vessel Volume & Level", url: /calculators/vessel-volume-calculator/ }
+        - { title: "Batch Size Feasibility", url: /calculators/batch-size-calculator/ }
+        - { title: "Overall U", url: /calculators/overall-heat-transfer-coefficient-calculator/ }
+        - { title: "TR to Cool a Batch", url: /calculators/batch-cooling-tr-calculator/ }
+        - { title: "Addition Time from RC1", url: /calculators/reagent-addition-time-calculator/ }
+    - title: "Heat load and solvent recovery"
+      children:
+        - { title: "Solvent Recovery (BP under vacuum)", url: /calculators/solvent-recovery-calculator/ }
+        - { title: "Heat Load & Recovery", url: /calculators/heat-load-calculator/ }
+    - title: "Mixing and pumps"
+      children:
+        - { title: "Mixing Scale-up", url: /calculators/mixing-scale-up-calculator/ }
+        - { title: "Agitator Simulator", url: /calculators/agitator-simulator/ }
+        - { title: "Pump Power", url: /calculators/pump-power-calculator/ }
+    - title: "Separation, drying and vents"
+      children:
+        - { title: "Filtration", url: /calculators/filtration-calculator/ }
+        - { title: "Centrifuge Cake Weight", url: /calculators/centrifuge-cake-weight-calculator/ }
+        - { title: "Drying Agent Requirement", url: /calculators/drying-agent-calculator/ }
+        - { title: "Packed Scrubber Sizing", url: /calculators/packed-scrubber-calculator/ }
+    - title: "Materials and properties"
+      children:
+        - { title: "Mixture Density & Viscosity", url: /calculators/solvent-mixture-density-viscosity-calculator/ }
+        - { title: "Corrosion Coupon", url: /calculators/corrosion-coupon-calculator/ }
+        - { title: "Materials Compatibility", url: /calculators/materials-compatibility/ }
 - title: Design Tools
   url: /design-tools/
   children:

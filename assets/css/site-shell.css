@@ -84,6 +84,7 @@ a { color: inherit; text-decoration: none; }
 .mega .sub { left: 50%; transform: translateX(-50%); }
 .mega .sub-inner { display: grid; grid-template-columns: repeat(3, auto); gap: 0 10px; }
 .mega .sub-all { grid-column: 1 / -1; }
+.site-nav-links > li.mega:first-child .sub { left: 0; transform: none; }
 .sub-toggle { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .has-sub:hover > .sub .sub-inner, .has-sub:focus-within > .sub .sub-inner { animation: subIn .14s ease-out; }

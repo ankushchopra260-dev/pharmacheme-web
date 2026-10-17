@@ -1,0 +1,78 @@
+---
+layout: default
+title: "Reactor Vessel Volume and Level Calculator (Dished Ends)"
+description: "Free vessel volume calculator for dished-end reactors: total volume, liquid volume at a level, and the level for a volume, for torispherical (Kloepper), 2:1 elliptical and flat ends. Download as Excel with live formulas."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Vessel Volume and Level Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the volume of a torispherical dished end?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For a Kloepper (DIN 28011) torispherical head the inside volume is about 0.0999 x D cubed and the depth about 0.1935 x D. For a 1.6 m vessel that is about 409 litres per head, 310 mm deep. A 2:1 elliptical head holds 0.1309 x D cubed."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Vessel Volume and Level Calculator"
+    url: /calculators/vessel-volume-calculator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Vessel Volume and Level Calculator</h1>
+  <p>Total volume of a dished-end reactor, the liquid volume at any level, and the level for a given volume. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="dish"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <p>A reactor is a cylinder with two dished ends. Most Indian and European reactors use torispherical (Klöpper, DIN 28011) heads; ASME vessels often use 2:1 elliptical heads.</p>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Head</th><th>Depth</th><th>Volume</th><th>Inside area</th></tr>
+    <tr><td>Torispherical (Klöpper)</td><td>0.1935 D</td><td>0.0999 D&sup3;</td><td>&asymp; 0.90 D&sup2;</td></tr>
+    <tr><td>2:1 elliptical</td><td>0.25 D</td><td>0.1309 D&sup3;</td><td>&asymp; 1.084 D&sup2;</td></tr>
+  </table></div>
+  <p>For a 1.6 m vessel with 1.8 m straight side and Klöpper heads: each head holds about 409 litres and is 310 mm deep; the shell holds about 201 litres per 10 cm; the total is about 4,437 litres. At a level of 1.5 m from the bottom the batch is about 2,803 litres, and 3,000 litres sits at about 1.60 m. Inside a dished end the level-volume relation is not linear; the calculator uses an ellipsoid approximation, within about 2 % for Klöpper heads.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate the volume of a torispherical dished end?</h3>
+  <p>For a Kloepper (DIN 28011) torispherical head the inside volume is about 0.0999 x D cubed and the depth about 0.1935 x D. For a 1.6 m vessel that is about 409 litres per head, 310 mm deep. A 2:1 elliptical head holds 0.1309 x D cubed.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/batch-size-calculator/' | relative_url }}">Batch size feasibility</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load and recovery calculator</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

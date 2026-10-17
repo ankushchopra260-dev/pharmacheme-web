@@ -1,0 +1,73 @@
+---
+layout: default
+title: "TR Calculator: Refrigeration Needed to Cool a Batch"
+description: "Free calculator for the refrigeration (TR) needed to cool a batch: average and peak load, brine flow and the jacket UA required. Download as Excel with live formulas."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Refrigeration (TR) to Cool a Batch",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the TR needed to cool a batch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Average load = mass x cp x temperature drop / cooling time, divided by 3.517 kW per TR. With a fixed jacket the load is highest at the start, so size the chiller for the peak: average x (T1 - Tbrine) x ln((T1 - Tbrine)/(T2 - Tbrine)) / (T1 - T2)."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Refrigeration (TR) to Cool a Batch"
+    url: /calculators/batch-cooling-tr-calculator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Refrigeration (TR) to Cool a Batch</h1>
+  <p>Average and peak refrigeration to cool a batch in a given time, the brine flow and the UA the jacket must give. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="batchTR"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <div class="formula-box">Average load = m c<sub>p</sub> (T<sub>1</sub> &minus; T<sub>2</sub>) / t &nbsp;&nbsp; Peak = average &times; (T<sub>1</sub> &minus; T<sub>b</sub>) ln[(T<sub>1</sub> &minus; T<sub>b</sub>)/(T<sub>2</sub> &minus; T<sub>b</sub>)] / (T<sub>1</sub> &minus; T<sub>2</sub>)</div>
+  <p>Cooling 4,000 kg (c<sub>p</sub> 2.0) from 40 to 5 &deg;C in 3 hours with &minus;10 &deg;C brine averages about 10 TR but peaks at about 16 TR at the start. Size the chiller and brine pump for the peak. 1 TR = 3.517 kW.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate the TR needed to cool a batch?</h3>
+  <p>Average load = mass x cp x temperature drop / cooling time, divided by 3.517 kW per TR. With a fixed jacket the load is highest at the start, so size the chiller for the peak: average x (T1 - Tbrine) x ln((T1 - Tbrine)/(T2 - Tbrine)) / (T1 - T2).</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/utilities/chillers-vam/' | relative_url }}">Chiller load and kW/TR</a>
+    <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall U calculator</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>

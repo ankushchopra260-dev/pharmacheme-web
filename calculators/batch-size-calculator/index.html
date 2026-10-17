@@ -1,0 +1,72 @@
+---
+layout: default
+title: "Batch Size Feasibility Calculator: Minimum Stir and Maximum Fill"
+description: "Free batch size calculator: check that every process step fits between the minimum stirrable volume and the maximum working volume of a reactor, and find the range of scale factors that works. Download as Excel."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Batch Size Feasibility Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the maximum working volume of a reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually 75 to 85 % of the gross volume, lower for foaming or gassing steps. The minimum stirrable volume is the level that covers the agitator and the temperature probe."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Batch Size Feasibility Calculator"
+    url: /calculators/batch-size-calculator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Batch Size Feasibility Calculator</h1>
+  <p>Check that every step of a batch fits between the minimum stirrable volume and the maximum working fill, and find the scale range that works. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="batchFit"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <p>A batch has to fit at every step: above the minimum stirrable volume (agitator and temperature probe covered) and below the maximum working fill (usually 75&ndash;85 % of gross, lower for foaming or gassing steps). Enter the volume at each step. If one step overfills and another is too small, the calculator gives the range of scale factors that fits them all, or tells you none does.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>What is the maximum working volume of a reactor?</h3>
+  <p>Usually 75 to 85 % of the gross volume, lower for foaming or gassing steps. The minimum stirrable volume is the level that covers the agitator and the temperature probe.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/vessel-volume-calculator/' | relative_url }}">Vessel volume and level</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>
