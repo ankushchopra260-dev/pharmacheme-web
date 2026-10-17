@@ -130,8 +130,25 @@ structured_data: |
 })();
 </script>
 
+<section class="hp-stats" aria-label="What is on PharmaChemE">
+  <div class="container">
+    <ul>
+      <li><b>30</b> calculators</li>
+      <li><b>49</b> articles</li>
+      <li><b>4</b> games</li>
+      <li><b>102</b> equipment &amp; instruments explained</li>
+      <li><b>26</b> videos</li>
+      <li>Free, no login</li>
+    </ul>
+  </div>
+</section>
+
 <section class="section">
   <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Start here</p>
+      <h2>What do you need today?</h2>
+    </div>
     <div class="grid-cards">
       <a class="category-card" href="{{ '/calculators/' | relative_url }}">
         <span class="icon">&#129518;</span>
@@ -169,6 +186,18 @@ structured_data: |
         <p>Lessons, calculators, incident case studies, a quiz and the Runaway! game.</p>
         <span class="card-link">Start &rarr;</span>
       </a>
+      <a class="category-card" href="{{ '/utilities/' | relative_url }}">
+        <span class="icon">&#9832;&#65039;</span>
+        <h3>Utilities</h3>
+        <p>Steam and boilers, cooling towers, chillers and VAM, compressed air, nitrogen, water and power.</p>
+        <span class="card-link">Open &rarr;</span>
+      </a>
+      <a class="category-card" href="{{ '/design-tools/' | relative_url }}">
+        <span class="icon">&#128208;</span>
+        <h3>Design Tools</h3>
+        <p>Size a line, draw a P&amp;ID or a PFD, and download the drawing.</p>
+        <span class="card-link">Draw &rarr;</span>
+      </a>
     </div>
   </div>
 </section>
@@ -176,63 +205,68 @@ structured_data: |
 <section class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line);">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Business Services</p>
-      <h2>&#128188; Custom Solutions</h2>
-      <p>Have a calculation your team still does by hand or in a spreadsheet? We can build it into a tool for your process.</p>
-    </div>
-    <div style="text-align:center;">
-      <a href="{{ '/custom-solutions/' | relative_url }}" class="btn btn-primary">Request a Custom Tool</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Popular Calculators</p>
-      <h2>Start Calculating</h2>
+      <p class="eyebrow">Most used</p>
+      <h2>Tools engineers open every week</h2>
     </div>
     <div class="grid-cards">
       <div class="tool-card">
         <h3>Solvent Recovery</h3>
-        <p>Batch vacuum distillation design: boiling point, heat load, recovery time, condenser sizing and vacuum pump capacity.</p>
+        <p>Boiling point at vacuum, heat load and recovery time, condenser sizing and vacuum pump capacity.</p>
         <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
       </div>
       <div class="tool-card">
+        <h3>Line Sizing</h3>
+        <p>Pick the fluid and flow and get pipe size, velocity and pressure drop.</p>
+        <a href="{{ '/design-tools/line-sizing/' | relative_url }}" class="btn btn-outline btn-sm">Size a line</a>
+      </div>
+      <div class="tool-card">
         <h3>Pump Power Rating</h3>
-        <p>Get theoretical hydraulic power, pump shaft power and motor power from flow, head and efficiencies.</p>
+        <p>Hydraulic power, shaft power and motor size from flow, head and efficiencies.</p>
         <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
       </div>
       <div class="tool-card">
-        <h3>Filtration Evaluation</h3>
-        <p>Büchner filtration trial: specific cake resistance and flux, with a Good/Moderate/Slow verdict.</p>
-        <a href="{{ '/calculators/filtration-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Heat Load &amp; Recovery</h3>
-        <p>Recovery time and heat load for batch solvent recovery, taken from the Solvent Recovery module.</p>
-        <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Mixing / Scale-up</h3>
-        <p>Reactor geometry, agitation, Reynolds number, tip speed, Power, P/V and torque. Compare across plants or scales.</p>
-        <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
-      </div>
-      <div class="tool-card">
-        <h3>Centrifuge Cake Weight</h3>
-        <p>Basket centrifuge cake weight and G-force from basket geometry, cake thickness, and bulk density.</p>
-        <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+        <h3>Steam &amp; Boiler</h3>
+        <p>Boiler efficiency, flash steam, condensate recovery and the cost of steam leaks.</p>
+        <a href="{{ '/utilities/steam-boiler/' | relative_url }}" class="btn btn-outline btn-sm">Open steam &amp; boiler</a>
       </div>
     </div>
+    <div style="text-align:center; margin-top:22px;"><a href="{{ '/calculators/' | relative_url }}" class="btn btn-outline">All calculators</a></div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Process Safety</p>
-      <h2>Learn from Real Incidents</h2>
-      <p>What went wrong, why, and what it means for your plant.</p>
+      <p class="eyebrow">Learn</p>
+      <h2>From basics to deep, with interactive figures</h2>
+      <p>Plain explanations, worked examples and notes from the plant floor.</p>
+    </div>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>How to Read DSC, ARC, RC1 and TSU</h3>
+        <p>What each thermal safety test tells you, and how to read onset, energy, phi factor, TD24 and gas.</p>
+        <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+      </div>
+      <div class="tool-card">
+        <h3>Semi-Batch Dosing and Accumulation</h3>
+        <p>Why dosing time and temperature set the MTSR, and why colder is not always safer.</p>
+        <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+      </div>
+      <div class="tool-card">
+        <h3>Static Electricity and Solvent Fires</h3>
+        <p>How charge builds up, why a spark you cannot feel ignites solvent, and the controls that work.</p>
+        <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:22px;"><a href="{{ '/articles/' | relative_url }}" class="btn btn-outline">All 49 articles</a></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line);">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Process safety</p>
+      <h2>Learn from real incidents, then try it yourself</h2>
     </div>
     <div class="grid-cards">
       <div class="tool-card">
@@ -241,89 +275,68 @@ structured_data: |
         <a href="{{ '/process-safety/case-studies/t2-laboratories-2007/' | relative_url }}" class="btn btn-outline btn-sm">Read case study</a>
       </div>
       <div class="tool-card">
-        <h3>Buncefield, 2005</h3>
-        <p>A petrol tank overfilled for 40 minutes when both level protections failed.</p>
-        <a href="{{ '/process-safety/case-studies/buncefield-2005/' | relative_url }}" class="btn btn-outline btn-sm">Read case study</a>
+        <h3>Runaway! Stoessel Challenge</h3>
+        <p>Design exothermic reactions so that a cooling failure cannot become a thermal runaway.</p>
+        <a href="{{ '/games/runaway/' | relative_url }}" class="btn btn-outline btn-sm">Play</a>
       </div>
       <div class="tool-card">
-        <h3>Toxic and Flammable Releases</h3>
-        <p>Source terms, dispersion, AEGL and LFL zones, pool fires and emergency response.</p>
-        <a href="{{ '/process-safety/toxic-and-flammable-releases/' | relative_url }}" class="btn btn-outline btn-sm">Read lesson</a>
+        <h3>What Is Process Safety?</h3>
+        <p>The basics: hazards, layers of protection, and why most incidents start with something ordinary.</p>
+        <a href="{{ '/process-safety/what-is-process-safety/' | relative_url }}" class="btn btn-outline btn-sm">Start learning</a>
       </div>
     </div>
-    <p style="text-align:center; margin-top:18px; color:var(--muted);">More case studies: <a href="{{ '/process-safety/case-studies/bhopal-1984/' | relative_url }}">Bhopal 1984</a> &middot; <a href="{{ '/process-safety/case-studies/flixborough-1974/' | relative_url }}">Flixborough 1974</a> &middot; <a href="{{ '/process-safety/case-studies/vizag-lg-polymers-2020/' | relative_url }}">Vizag LG Polymers 2020</a> &middot; <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes</a></p>
+    <div style="text-align:center; margin-top:22px;"><a href="{{ '/process-safety/' | relative_url }}" class="btn btn-outline">All process safety</a></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">On YouTube</p>
+      <h2>Latest shorts</h2>
+    </div>
+    <div class="video-grid">
+      <a class="video-card" href="https://www.youtube.com/shorts/yVnveSiNYIM" target="_blank" rel="noopener">
+        <div class="video-thumb-wrap"><img src="https://img.youtube.com/vi/yVnveSiNYIM/hqdefault.jpg" alt="" loading="lazy" onerror="ytThumbFallback(this)"><span class="video-play">&#9658;</span></div>
+        <div class="video-title">Equipment Confessions Ep 2: Steam Trap's Worst Day</div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/shorts/EEhWelaY45U" target="_blank" rel="noopener">
+        <div class="video-thumb-wrap"><img src="https://img.youtube.com/vi/EEhWelaY45U/hqdefault.jpg" alt="" loading="lazy" onerror="ytThumbFallback(this)"><span class="video-play">&#9658;</span></div>
+        <div class="video-title">Equipment Confessions Ep 1: Vacuum Pump's Worst Day</div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/shorts/yBP5Pj2upYU" target="_blank" rel="noopener">
+        <div class="video-thumb-wrap"><img src="https://img.youtube.com/vi/yBP5Pj2upYU/hqdefault.jpg" alt="" loading="lazy" onerror="ytThumbFallback(this)"><span class="video-play">&#9658;</span></div>
+        <div class="video-title">Cooling Tower: Essential Heat Rejection System</div>
+      </a>
+      <a class="video-card" href="https://www.youtube.com/shorts/zPjYc-CAcwc" target="_blank" rel="noopener">
+        <div class="video-thumb-wrap"><img src="https://img.youtube.com/vi/zPjYc-CAcwc/hqdefault.jpg" alt="" loading="lazy" onerror="ytThumbFallback(this)"><span class="video-play">&#9658;</span></div>
+        <div class="video-title">Chillers 101: The Role of Cooling System in the Chemical Industry</div>
+      </a>
+    </div>
+    <div style="text-align:center; margin-top:22px;"><a href="{{ '/videos/' | relative_url }}" class="btn btn-outline">All videos</a></div>
   </div>
 </section>
 
 <section class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line);">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Games</p>
-      <h2>Featured Troubleshooting</h2>
-    </div>
-    <div class="grid-cards">
-      <div class="tool-card"><p>"Reactor temperature is rising unexpectedly. What should you check first?"</p></div>
-      <div class="tool-card"><p>"Centrifuge cake isn't reaching expected dryness. Where's the fault?"</p></div>
-      <div class="tool-card"><p>"Solvent recovery yield has dropped this batch. What's your diagnostic path?"</p></div>
-    </div>
-    <div style="text-align:center; margin-top:24px;">
-      <a href="{{ '/games/troubleshooter/' | relative_url }}" class="btn btn-primary">Play Troubleshooter</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Molecules</p>
-      <h2>Build &amp; Analyze Structures</h2>
-      <p>Draw a structure and get molecular formula, weight, atom/bond counts and SMILES. The chemistry is computed by OpenChemLib.</p>
+      <p class="eyebrow">Business services</p>
+      <h2>Custom tools for your plant</h2>
+      <p>Have a calculation your team still does by hand or in a spreadsheet? We can build it into a tool for your process.</p>
     </div>
     <div style="text-align:center;">
-      <a href="{{ '/molecules/structure/' | relative_url }}" class="btn btn-primary">Open Molecule Tool</a>
+      <a href="{{ '/custom-solutions/' | relative_url }}" class="btn btn-primary">Request a Custom Tool</a>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Latest Articles</p>
-      <h2>Calculations Explained</h2>
-    </div>
-    <div class="grid-cards">
-      <div class="tool-card">
-        <h3>How to Calculate Pump Power</h3>
-        <p>Hydraulic power, shaft power, and motor sizing, with a full worked example.</p>
-        <a href="{{ '/articles/pump-power-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-      </div>
-      <div class="tool-card">
-        <h3>Solvent Recovery Calculation Explained</h3>
-        <p>The Antoine equation, boiling point at vacuum, and why recovery runs under vacuum at all.</p>
-        <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-      </div>
-      <div class="tool-card">
-        <h3>Mixing &amp; Scale-up Calculations Explained</h3>
-        <p>Why constant tip speed, constant P/V, and constant Reynolds number give different answers.</p>
-        <a href="{{ '/articles/mixing-scale-up/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
-      </div>
-    </div>
-    <div style="text-align:center; margin-top:24px;">
-      <a href="{{ '/articles/' | relative_url }}" class="btn btn-outline">All Articles</a>
-    </div>
-  </div>
-</section>
-
-<section id="plant-tour" class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line); text-align:center;">
-  <div class="container">
-    <p class="eyebrow">Virtual Plant Tour</p>
-    <h2 style="font-family:var(--f-display); font-size:1.6rem; margin:0 0 12px;">Walk Through a Chemical Plant in 3D</h2>
-    <p style="color:var(--muted); max-width:620px; margin:0 auto 20px;">Fly over the site or walk through it, and watch a full working day: production, distillation, utilities, QC/QA, warehouse, effluent treatment with MEE (zero liquid discharge) and fire &amp; safety, with equipment data at every stop.</p>
-    <a href="{{ '/plant-tour/' | relative_url }}" style="display:block; max-width:720px; margin:0 auto 20px; border:1px solid var(--grid-line); border-radius:10px; overflow:hidden;">
-      <img src="{{ '/plant-tour/og-image.png' | relative_url }}" alt="3D view of the PharmaChemE virtual chemical plant" loading="lazy" style="display:block; width:100%; height:auto;">
-    </a>
-    <a href="{{ '/plant-tour/' | relative_url }}" class="btn btn-primary">Start the Tour</a>
-  </div>
-</section>
+<script>
+function ytThumbFallback(img) {
+  var tried = img.dataset.ytFallback ? parseInt(img.dataset.ytFallback, 10) : 0, sizes = ['mqdefault', 'default'], m = img.src.match(/\/vi\/([^/]+)\//);
+  if (!m) return;
+  if (tried < sizes.length) { img.dataset.ytFallback = tried + 1; img.src = 'https://img.youtube.com/vi/' + m[1] + '/' + sizes[tried] + '.jpg'; }
+  else { img.style.display = 'none'; if (img.parentElement) img.parentElement.style.background = '#1D3752'; }
+}
+</script>
 
 <script src="{{ '/assets/js/companion.js' | relative_url }}" data-img="{{ '/assets/img/guide.webp' | relative_url }}" data-face="{{ '/assets/img/guide-face.webp' | relative_url }}" data-index="{{ '/assets/data/guide-index.json' | relative_url }}" data-search="{{ '/assets/data/site-search.json' | relative_url }}" defer></script>

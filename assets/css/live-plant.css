@@ -64,3 +64,8 @@
 .lp-checks input { width: auto; accent-color: var(--brass); margin: 0; }
 .lp-checks label:has(input:checked) { border-color: var(--brass); }
 @media (prefers-reduced-motion: reduce) { .lp-badge i { animation: none; } }
+/* Home: numbers strip */
+.hp-stats { border-bottom: 1px solid var(--grid-line); padding: 18px 0; }
+.hp-stats ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 34px; color: var(--muted); font-size: .92rem; }
+.hp-stats b { font-family: var(--f-display); color: var(--brass); font-size: 1.35rem; margin-right: 6px; }
+.hp-stats li { display: flex; align-items: baseline; }
