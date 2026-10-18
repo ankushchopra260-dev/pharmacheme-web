@@ -1,7 +1,8 @@
 ---
 layout: default
 title: "Reaction Builder: Equation, Balance & Batch Stoichiometry"
-description: "Build a chemical reaction one component at a time (by name, SMILES or drawn structure), then check the atom balance, auto-balance it, and get batch stoichiometry (kmol, kg, charge quantities, limiting reagent, yield), atom economy and a theoretical mass balance."
+seo_title: "Reaction Builder: Balance and Batch Stoichiometry | PharmaChemE"
+description: "Build a reaction by name, SMILES or structure, check and auto-balance it, and get batch stoichiometry: charges, limiting reagent, yield and atom economy."
 needs_calculators: true
 needs_ocl: true
 calc_init: |
@@ -13,6 +14,31 @@ breadcrumbs:
     url: /molecules/
   - label: Reaction Builder
     url: /molecules/reaction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Reaction Builder",
+    "description": "Build and balance a chemical reaction and get batch stoichiometry, limiting reagent, yield and atom economy.",
+    "url": "https://www.pharmacheme.in/molecules/reaction/",
+    "applicationCategory": "ScienceApplication",
+    "operatingSystem": "Any (runs in a web browser)",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Ankush Chopra"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PharmaChemE",
+      "url": "https://www.pharmacheme.in/"
+    }
+  }
 ---
 
 <style>

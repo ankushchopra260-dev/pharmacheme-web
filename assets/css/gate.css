@@ -135,3 +135,18 @@
   .fs-row { grid-template-columns: 1fr; }
   .gcalc { right: 8px; left: 8px; width: auto; bottom: 8px; }
 }
+
+/* static question list (practice) and mock notes */
+.gs-all h2 { margin-top: 0; }
+.gs-toc { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .9rem; }
+.gs-sec { margin-top: 28px; }
+.gs-sec h3 { color: var(--brass, #C9A227); border-bottom: 1px solid var(--grid-line, #1D3752); padding-bottom: 6px; }
+.gs-item { border-bottom: 1px solid var(--grid-line, #1D3752); padding: 12px 0; }
+.gs-h { margin: 0 0 4px; }
+.gs-meta { color: var(--muted, #6E8CA8); font-size: .8rem; margin-left: 6px; }
+.gs-q { margin: 0 0 6px; }
+.gs-o { margin: 4px 0 8px; padding-left: 1.6em; }
+.gs-o li { margin: 2px 0; }
+.gs-item details summary { cursor: pointer; color: var(--brass, #C9A227); font-size: .9rem; }
+.gs-item details[open] { background: var(--panel, #122234); border-left: 3px solid var(--brass, #C9A227); padding: 6px 12px; border-radius: 4px; }
+.gs-item details p { margin: 6px 0; }

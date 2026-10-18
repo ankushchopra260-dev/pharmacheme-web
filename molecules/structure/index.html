@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Molecule Structure Builder
-description: "Free structure drawing tool in the browser. Draw or load a molecule (SMILES, molfile or name) and get molecular formula, molecular weight, exact mass, degree of unsaturation, cLogP, TPSA, Lipinski and Veber checks, and PNG/SVG/molfile export."
+seo_title: "Molecule Structure Builder: Formula and MW | PharmaChemE"
+description: "Free online structure drawing tool: draw or load a molecule and get formula, molecular weight, exact mass, cLogP, TPSA, Lipinski checks and PNG/SVG export."
 needs_calculators: true
 needs_ocl: true
 calc_init: |
@@ -14,6 +15,31 @@ breadcrumbs:
     url: /molecules/
   - label: Structure Builder
     url: /molecules/structure/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Molecule Structure Builder",
+    "description": "Draw or load a molecule and get its formula, molecular weight, exact mass, cLogP, TPSA and Lipinski checks.",
+    "url": "https://www.pharmacheme.in/molecules/structure/",
+    "applicationCategory": "ScienceApplication",
+    "operatingSystem": "Any (runs in a web browser)",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Ankush Chopra"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PharmaChemE",
+      "url": "https://www.pharmacheme.in/"
+    }
+  }
 ---
 
 <style>

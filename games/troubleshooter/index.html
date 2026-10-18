@@ -1,7 +1,8 @@
 ---
 layout: default
 title: PharmaChemE Troubleshooter
-description: "Test your chemical and pharmaceutical plant troubleshooting skills."
+seo_title: "Plant Troubleshooter Game | PharmaChemE"
+description: "A free troubleshooting game for chemical and pharma plant engineers: diagnose what went wrong in a reactor, centrifuge or solvent recovery batch."
 needs_calculators: true
 needs_troubleshooter: true
 calc_init: |
@@ -14,6 +15,31 @@ breadcrumbs:
     url: /games/
   - label: Troubleshooter
     url: /games/troubleshooter/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Plant Troubleshooter",
+    "description": "Diagnose what went wrong in a reactor, centrifuge or solvent recovery batch.",
+    "url": "https://www.pharmacheme.in/games/troubleshooter/",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any (runs in a web browser)",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Ankush Chopra"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PharmaChemE",
+      "url": "https://www.pharmacheme.in/"
+    }
+  }
 ---
 
 <div class="container calc-page-head">

@@ -1,7 +1,562 @@
 ---
 layout: default
 title: "Solvent Properties Table: Boiling Point, Flash Point, Autoignition, TLV (86 Solvents)"
-description: "Melting point, boiling point (also under vacuum), flash point, autoignition temperature, LEL and UEL, TLV, toxicity and ICH Q3C class for 86 solvents used in pharma and chemical plants: methanol, toluene, MDC, acetone, THF, DMF, ethyl acetate, IPA and more."
+seo_title: "Solvent Properties Table: Boiling & Flash Point, TLV | PharmaChemE"
+description: "Boiling point (also under vacuum), flash point, autoignition, LEL/UEL, TLV and ICH class for 86 plant solvents: methanol, toluene, MDC, acetone, THF, DMF."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Solvent properties for chemical and pharmaceutical plants",
+    "description": "Physical, flammability and exposure data for 86 industrial solvents: molecular weight, melting point, boiling point and boiling point under vacuum (Antoine), flash point, autoignition temperature, flammable limits, ACGIH TLV, IARC classification and ICH Q3C class.",
+    "url": "https://www.pharmacheme.in/solvents/",
+    "keywords": [
+      "solvent properties",
+      "flash point",
+      "boiling point under vacuum",
+      "autoignition temperature",
+      "TLV",
+      "ICH Q3C"
+    ],
+    "isAccessibleForFree": true,
+    "creator": {
+      "@type": "Person",
+      "name": "Ankush Chopra"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "PharmaChemE",
+      "url": "https://www.pharmacheme.in/"
+    },
+    "variableMeasured": [
+      "Molecular weight",
+      "Melting point",
+      "Boiling point",
+      "Flash point",
+      "Autoignition temperature",
+      "Lower and upper flammable limit",
+      "TLV-TWA",
+      "ICH Q3C class"
+    ],
+    "hasPart": [
+      {
+        "@type": "Dataset",
+        "name": "Toluene properties",
+        "url": "https://www.pharmacheme.in/solvents/toluene/",
+        "description": "Properties of Toluene: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Xylene (mixed isomers) properties",
+        "url": "https://www.pharmacheme.in/solvents/xylene/",
+        "description": "Properties of Xylene (mixed isomers): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Ethylbenzene properties",
+        "url": "https://www.pharmacheme.in/solvents/ethylbenzene/",
+        "description": "Properties of Ethylbenzene: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Cumene properties",
+        "url": "https://www.pharmacheme.in/solvents/cumene/",
+        "description": "Properties of Cumene: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Chlorobenzene properties",
+        "url": "https://www.pharmacheme.in/solvents/chlorobenzene/",
+        "description": "Properties of Chlorobenzene: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Benzene properties",
+        "url": "https://www.pharmacheme.in/solvents/benzene/",
+        "description": "Properties of Benzene: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Anisole properties",
+        "url": "https://www.pharmacheme.in/solvents/anisole/",
+        "description": "Properties of Anisole: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Hexane properties",
+        "url": "https://www.pharmacheme.in/solvents/n-hexane/",
+        "description": "Properties of n-Hexane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Heptane properties",
+        "url": "https://www.pharmacheme.in/solvents/n-heptane/",
+        "description": "Properties of n-Heptane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Pentane properties",
+        "url": "https://www.pharmacheme.in/solvents/n-pentane/",
+        "description": "Properties of n-Pentane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Octane properties",
+        "url": "https://www.pharmacheme.in/solvents/n-octane/",
+        "description": "Properties of n-Octane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Cyclohexane properties",
+        "url": "https://www.pharmacheme.in/solvents/cyclohexane/",
+        "description": "Properties of Cyclohexane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methylcyclohexane properties",
+        "url": "https://www.pharmacheme.in/solvents/methylcyclohexane/",
+        "description": "Properties of Methylcyclohexane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methanol properties",
+        "url": "https://www.pharmacheme.in/solvents/methanol/",
+        "description": "Properties of Methanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Ethanol properties",
+        "url": "https://www.pharmacheme.in/solvents/ethanol/",
+        "description": "Properties of Ethanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Isopropanol (IPA) properties",
+        "url": "https://www.pharmacheme.in/solvents/isopropanol/",
+        "description": "Properties of Isopropanol (IPA): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Butanol properties",
+        "url": "https://www.pharmacheme.in/solvents/n-butanol/",
+        "description": "Properties of n-Butanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Isobutanol properties",
+        "url": "https://www.pharmacheme.in/solvents/isobutanol/",
+        "description": "Properties of Isobutanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "tert-Butanol properties",
+        "url": "https://www.pharmacheme.in/solvents/tert-butanol/",
+        "description": "Properties of tert-Butanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Ethylene glycol properties",
+        "url": "https://www.pharmacheme.in/solvents/ethylene-glycol/",
+        "description": "Properties of Ethylene glycol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Acetone properties",
+        "url": "https://www.pharmacheme.in/solvents/acetone/",
+        "description": "Properties of Acetone: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methyl ethyl ketone (MEK) properties",
+        "url": "https://www.pharmacheme.in/solvents/methyl-ethyl-ketone/",
+        "description": "Properties of Methyl ethyl ketone (MEK): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methyl isobutyl ketone (MIBK) properties",
+        "url": "https://www.pharmacheme.in/solvents/mibk/",
+        "description": "Properties of Methyl isobutyl ketone (MIBK): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Ethyl acetate properties",
+        "url": "https://www.pharmacheme.in/solvents/ethyl-acetate/",
+        "description": "Properties of Ethyl acetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methyl acetate properties",
+        "url": "https://www.pharmacheme.in/solvents/methyl-acetate/",
+        "description": "Properties of Methyl acetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Isopropyl acetate properties",
+        "url": "https://www.pharmacheme.in/solvents/isopropyl-acetate/",
+        "description": "Properties of Isopropyl acetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Butyl acetate properties",
+        "url": "https://www.pharmacheme.in/solvents/n-butyl-acetate/",
+        "description": "Properties of n-Butyl acetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Tetrahydrofuran (THF) properties",
+        "url": "https://www.pharmacheme.in/solvents/thf/",
+        "description": "Properties of Tetrahydrofuran (THF): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "2-Methyltetrahydrofuran (2-MeTHF) properties",
+        "url": "https://www.pharmacheme.in/solvents/2-methyltetrahydrofuran/",
+        "description": "Properties of 2-Methyltetrahydrofuran (2-MeTHF): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methyl tert-butyl ether (MTBE) properties",
+        "url": "https://www.pharmacheme.in/solvents/mtbe/",
+        "description": "Properties of Methyl tert-butyl ether (MTBE): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Diethyl ether properties",
+        "url": "https://www.pharmacheme.in/solvents/diethyl-ether/",
+        "description": "Properties of Diethyl ether: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Diisopropyl ether (DIPE) properties",
+        "url": "https://www.pharmacheme.in/solvents/diisopropyl-ether/",
+        "description": "Properties of Diisopropyl ether (DIPE): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "1,4-Dioxane properties",
+        "url": "https://www.pharmacheme.in/solvents/1-4-dioxane/",
+        "description": "Properties of 1,4-Dioxane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "1,2-Dimethoxyethane (DME) properties",
+        "url": "https://www.pharmacheme.in/solvents/1-2-dimethoxyethane/",
+        "description": "Properties of 1,2-Dimethoxyethane (DME): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Dichloromethane (MDC) properties",
+        "url": "https://www.pharmacheme.in/solvents/dichloromethane/",
+        "description": "Properties of Dichloromethane (MDC): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Chloroform properties",
+        "url": "https://www.pharmacheme.in/solvents/chloroform/",
+        "description": "Properties of Chloroform: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "1,2-Dichloroethane (EDC) properties",
+        "url": "https://www.pharmacheme.in/solvents/1-2-dichloroethane/",
+        "description": "Properties of 1,2-Dichloroethane (EDC): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Carbon tetrachloride properties",
+        "url": "https://www.pharmacheme.in/solvents/carbon-tetrachloride/",
+        "description": "Properties of Carbon tetrachloride: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Acetonitrile properties",
+        "url": "https://www.pharmacheme.in/solvents/acetonitrile/",
+        "description": "Properties of Acetonitrile: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Dimethylformamide (DMF) properties",
+        "url": "https://www.pharmacheme.in/solvents/dmf/",
+        "description": "Properties of Dimethylformamide (DMF): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Dimethylacetamide (DMAc) properties",
+        "url": "https://www.pharmacheme.in/solvents/dmac/",
+        "description": "Properties of Dimethylacetamide (DMAc): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Dimethyl sulfoxide (DMSO) properties",
+        "url": "https://www.pharmacheme.in/solvents/dmso/",
+        "description": "Properties of Dimethyl sulfoxide (DMSO): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "N-Methyl-2-pyrrolidone (NMP) properties",
+        "url": "https://www.pharmacheme.in/solvents/nmp/",
+        "description": "Properties of N-Methyl-2-pyrrolidone (NMP): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Pyridine properties",
+        "url": "https://www.pharmacheme.in/solvents/pyridine/",
+        "description": "Properties of Pyridine: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Triethylamine (TEA) properties",
+        "url": "https://www.pharmacheme.in/solvents/triethylamine/",
+        "description": "Properties of Triethylamine (TEA): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Acetic acid properties",
+        "url": "https://www.pharmacheme.in/solvents/acetic-acid/",
+        "description": "Properties of Acetic acid: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Acetic anhydride properties",
+        "url": "https://www.pharmacheme.in/solvents/acetic-anhydride/",
+        "description": "Properties of Acetic anhydride: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Water properties",
+        "url": "https://www.pharmacheme.in/solvents/water/",
+        "description": "Properties of Water: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Propanol properties",
+        "url": "https://www.pharmacheme.in/solvents/n-propanol/",
+        "description": "Properties of n-Propanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "sec-Butanol properties",
+        "url": "https://www.pharmacheme.in/solvents/sec-butanol/",
+        "description": "Properties of sec-Butanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Benzyl alcohol properties",
+        "url": "https://www.pharmacheme.in/solvents/benzyl-alcohol/",
+        "description": "Properties of Benzyl alcohol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Cyclohexanol properties",
+        "url": "https://www.pharmacheme.in/solvents/cyclohexanol/",
+        "description": "Properties of Cyclohexanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "2-Methoxyethanol properties",
+        "url": "https://www.pharmacheme.in/solvents/2-methoxyethanol/",
+        "description": "Properties of 2-Methoxyethanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "2-Ethoxyethanol properties",
+        "url": "https://www.pharmacheme.in/solvents/2-ethoxyethanol/",
+        "description": "Properties of 2-Ethoxyethanol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Propylene glycol properties",
+        "url": "https://www.pharmacheme.in/solvents/propylene-glycol/",
+        "description": "Properties of Propylene glycol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Diethylene glycol properties",
+        "url": "https://www.pharmacheme.in/solvents/diethylene-glycol/",
+        "description": "Properties of Diethylene glycol: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Cyclohexanone properties",
+        "url": "https://www.pharmacheme.in/solvents/cyclohexanone/",
+        "description": "Properties of Cyclohexanone: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Cyclopentanone properties",
+        "url": "https://www.pharmacheme.in/solvents/cyclopentanone/",
+        "description": "Properties of Cyclopentanone: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "n-Propyl acetate properties",
+        "url": "https://www.pharmacheme.in/solvents/n-propyl-acetate/",
+        "description": "Properties of n-Propyl acetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Isobutyl acetate properties",
+        "url": "https://www.pharmacheme.in/solvents/isobutyl-acetate/",
+        "description": "Properties of Isobutyl acetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "tert-Butyl acetate properties",
+        "url": "https://www.pharmacheme.in/solvents/tert-butyl-acetate/",
+        "description": "Properties of tert-Butyl acetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Ethyl formate properties",
+        "url": "https://www.pharmacheme.in/solvents/ethyl-formate/",
+        "description": "Properties of Ethyl formate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methyl formate properties",
+        "url": "https://www.pharmacheme.in/solvents/methyl-formate/",
+        "description": "Properties of Methyl formate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Diethyl carbonate properties",
+        "url": "https://www.pharmacheme.in/solvents/diethyl-carbonate/",
+        "description": "Properties of Diethyl carbonate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Ethyl acetoacetate properties",
+        "url": "https://www.pharmacheme.in/solvents/ethyl-acetoacetate/",
+        "description": "Properties of Ethyl acetoacetate: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Dibutyl ether properties",
+        "url": "https://www.pharmacheme.in/solvents/dibutyl-ether/",
+        "description": "Properties of Dibutyl ether: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Methylal (dimethoxymethane) properties",
+        "url": "https://www.pharmacheme.in/solvents/methylal/",
+        "description": "Properties of Methylal (dimethoxymethane): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Diglyme properties",
+        "url": "https://www.pharmacheme.in/solvents/diglyme/",
+        "description": "Properties of Diglyme: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Mesitylene properties",
+        "url": "https://www.pharmacheme.in/solvents/mesitylene/",
+        "description": "Properties of Mesitylene: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "o-Dichlorobenzene (ODCB) properties",
+        "url": "https://www.pharmacheme.in/solvents/o-dichlorobenzene/",
+        "description": "Properties of o-Dichlorobenzene (ODCB): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Nitrobenzene properties",
+        "url": "https://www.pharmacheme.in/solvents/nitrobenzene/",
+        "description": "Properties of Nitrobenzene: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Isooctane properties",
+        "url": "https://www.pharmacheme.in/solvents/isooctane/",
+        "description": "Properties of Isooctane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Trichloroethylene (TCE) properties",
+        "url": "https://www.pharmacheme.in/solvents/trichloroethylene/",
+        "description": "Properties of Trichloroethylene (TCE): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Tetrachloroethylene (PCE) properties",
+        "url": "https://www.pharmacheme.in/solvents/tetrachloroethylene/",
+        "description": "Properties of Tetrachloroethylene (PCE): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Sulfolane properties",
+        "url": "https://www.pharmacheme.in/solvents/sulfolane/",
+        "description": "Properties of Sulfolane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Formamide properties",
+        "url": "https://www.pharmacheme.in/solvents/formamide/",
+        "description": "Properties of Formamide: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Nitromethane properties",
+        "url": "https://www.pharmacheme.in/solvents/nitromethane/",
+        "description": "Properties of Nitromethane: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Benzonitrile properties",
+        "url": "https://www.pharmacheme.in/solvents/benzonitrile/",
+        "description": "Properties of Benzonitrile: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Formic acid properties",
+        "url": "https://www.pharmacheme.in/solvents/formic-acid/",
+        "description": "Properties of Formic acid: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Propionic acid properties",
+        "url": "https://www.pharmacheme.in/solvents/propionic-acid/",
+        "description": "Properties of Propionic acid: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Trifluoroacetic acid (TFA) properties",
+        "url": "https://www.pharmacheme.in/solvents/trifluoroacetic-acid/",
+        "description": "Properties of Trifluoroacetic acid (TFA): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Diethylamine properties",
+        "url": "https://www.pharmacheme.in/solvents/diethylamine/",
+        "description": "Properties of Diethylamine: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Diisopropylamine properties",
+        "url": "https://www.pharmacheme.in/solvents/diisopropylamine/",
+        "description": "Properties of Diisopropylamine: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Morpholine properties",
+        "url": "https://www.pharmacheme.in/solvents/morpholine/",
+        "description": "Properties of Morpholine: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Aniline properties",
+        "url": "https://www.pharmacheme.in/solvents/aniline/",
+        "description": "Properties of Aniline: boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      },
+      {
+        "@type": "Dataset",
+        "name": "Ethylenediamine (EDA) properties",
+        "url": "https://www.pharmacheme.in/solvents/ethylenediamine/",
+        "description": "Properties of Ethylenediamine (EDA): boiling point under vacuum, flash point, autoignition, flammable limits, TLV and ICH class."
+      }
+    ]
+  }
 breadcrumbs:
   - label: Solvent Data
     url: /solvents/
