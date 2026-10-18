@@ -9,6 +9,7 @@
   var IDX_URL = (CS && CS.getAttribute('data-index')) || '/assets/data/guide-index.json';
   var BASE = (CS && CS.getAttribute('data-base')) || '';
   var MINI = CS && CS.getAttribute('data-mini') === '1';
+  var PAGES_URL = (CS && CS.getAttribute('data-pages')) || IDX_URL.replace(/guide-index\.json$/, 'pages-index.json');
   var FACTS_URL = (CS && CS.getAttribute('data-facts')) || IDX_URL.replace(/guide-index\.json$/, 'solvent-facts.json');
   var PATH = location.pathname.replace(/\/+$/, '/');
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,12 +56,18 @@
     '.pg-form button{all:unset;font:700 .85rem "IBM Plex Sans",sans-serif;background:#C9A227;color:#0B1622;border-radius:8px;padding:0 14px;cursor:pointer}' +
     '.pg-form button:focus-visible{outline:2px solid #ECE7D8}' +
     '.pg-note{padding:0 12px 8px;font-size:.68rem;color:#6E8CA8}' +
+    '.pg-cmp{overflow-x:auto;margin:6px 0}.pg-cmp table{border-collapse:collapse;font-size:.76rem;width:100%}.pg-cmp th,.pg-cmp td{border-bottom:1px solid #1D3752;padding:4px 5px;text-align:left;vertical-align:top}.pg-cmp th{color:#C9A227}.pg-cmp td:first-child{color:#8DA4BA}' +
+    '.pg-ans ol li{margin:2px 0;color:#C9D6E2}' +
+    '.pg-mic{all:unset;width:38px;display:grid;place-items:center;border:1px solid #2C4C6C;border-radius:8px;cursor:pointer;color:#ECE7D8;font-size:16px}.pg-mic:hover{border-color:#C9A227}.pg-mic.on{background:#E0785A;border-color:#E0785A;animation:pgPulse 1s infinite}.pg-mic:focus-visible{outline:2px solid #C9A227}' +
+    '@keyframes pgPulse{50%{opacity:.6}}' +
+    '.pg-hi .pg-ex{all:unset;display:block;margin-top:5px;padding:4px 8px;border:1px solid #B9A46A;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;text-decoration:none}.pg-hi .pg-ex:hover{background:#0B1622;color:#ECE7D8}' +
+    '.pg.min .pg-hi.mini{display:block;right:84px;bottom:22px;border-radius:12px 12px 2px 12px}' +
     '.pg-mini{all:unset;position:fixed;right:16px;bottom:16px;width:58px;height:58px;border-radius:50%;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.5);border:2px solid #C9A227;overflow:hidden;display:none;background:#122234}' +
     '.pg-mini img{width:100%;height:100%;object-fit:cover}.pg-mini:focus-visible{outline:2px solid #ECE7D8;outline-offset:2px}' +
     '.pg-mini::after{content:"";position:absolute;right:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#5FBF8A;border:2px solid #0B1622}' +
     '.pg.min .pg-char,.pg.min .pg-tools,.pg.min .pg-hi,.pg.min .pg-chat{display:none}.pg.min .pg-mini{display:block}' +
     '@media (max-width:600px){.pg-char{width:74px;height:117px;right:4px}.pg-tools{right:26px;bottom:122px}.pg-hi{right:84px;bottom:60px;max-width:190px;font-size:12.5px}' +
-    '.pg-chat{right:8px;left:8px;width:auto;bottom:126px;max-height:calc(100vh - 150px)}.pg-mini{width:50px;height:50px;right:12px;bottom:12px}}';
+    '.pg-chat{right:8px;left:8px;width:auto;bottom:126px;max-height:calc(100vh - 150px)}.pg-mini{width:50px;height:50px;right:12px;bottom:12px}.pg.min .pg-hi.mini{right:72px;bottom:14px}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   var root = document.createElement('div'); root.className = 'pg idle'; root.setAttribute('role', 'complementary'); root.setAttribute('aria-label', 'Plant guide');
@@ -73,7 +80,7 @@
       '<button type="button" class="pg-ic pg-close" aria-label="Close the chat" title="Close">\u00d7</button><button type="button" class="pg-ic pg-min" aria-label="Minimise the guide" title="Minimise">\u2013</button></div>' +
       '<div class="pg-log" aria-live="polite"></div>' +
       '<div class="pg-chips"></div>' +
-      '<form class="pg-form"><label for="pg-in" style="position:absolute;left:-9999px">Ask the plant guide</label><input id="pg-in" type="text" autocomplete="off" placeholder="e.g. flash point of toluene"><button type="submit">Send</button></form>' +
+      '<form class="pg-form"><label for="pg-in" style="position:absolute;left:-9999px">Ask the plant guide</label><input id="pg-in" type="text" autocomplete="off" placeholder="e.g. flash point of toluene">' + ((window.SpeechRecognition || window.webkitSpeechRecognition) ? '<button type="button" class="pg-mic" aria-label="Ask by voice" title="Ask by voice">\uD83C\uDFA4</button>' : '') + '<button type="submit">Send</button></form>' +
       '<p class="pg-note">Answers come from pages on this site. Always check with your own engineering judgement.</p>' +
     '</section>' +
     '<button type="button" class="pg-mini" aria-label="Open the plant guide"><img src="' + FACE + '" alt=""></button>';
@@ -84,12 +91,15 @@
   /* ---------- search engine: curated tool index + full-text site index + glossary ---------- */
   var IDX = null, SITE = null, FACTS = [], loading = null;
   var SITE_URL = (CS && CS.getAttribute('data-search')) || IDX_URL.replace(/guide-index\.json$/, 'site-search.json');
+  function kindOf(u) { return /^\/solvents\//.test(u) ? 'Solvent data' : /^\/gate\//.test(u) ? 'GATE' : /^\/process-modelling\/.|^\/design-tools\/./.test(u) ? 'Tool' : /^\/(calculators|utilities)\/./.test(u) ? 'Calculator' : /^\/articles\/./.test(u) ? 'Article' : /^\/process-safety\/case-studies\//.test(u) ? 'Case study' : /^\/process-safety\//.test(u) ? 'Process safety' : /^\/games\//.test(u) ? 'Game' : 'Page'; }
   function getJ(u) { return fetch(u).then(function (r) { return r.json(); }).catch(function () { return []; }); }
   function load() {
     if (IDX && SITE) return Promise.resolve();
-    if (!loading) loading = Promise.all([window.PCE_GUIDE_INDEX ? Promise.resolve(window.PCE_GUIDE_INDEX) : getJ(IDX_URL), window.PCE_SITE_INDEX ? Promise.resolve(window.PCE_SITE_INDEX) : getJ(SITE_URL), getJ(FACTS_URL)])
+    if (!loading) loading = Promise.all([window.PCE_GUIDE_INDEX ? Promise.resolve(window.PCE_GUIDE_INDEX) : getJ(IDX_URL), window.PCE_SITE_INDEX ? Promise.resolve(window.PCE_SITE_INDEX) : getJ(SITE_URL), getJ(FACTS_URL), getJ(PAGES_URL)])
       .then(function (a) {
         IDX = a[0] || []; SITE = a[1] || []; FACTS = a[2] || [];
+        var known = {}; SITE.forEach(function (r) { known[r.u.split('#')[0]] = 1; });
+        (a[3] || []).forEach(function (pg) { if (pg && pg.u && !known[pg.u]) SITE.push({ t: pg.t, u: pg.u, k: kindOf(pg.u), s: pg.s || '', x: pg.s || '', w: '' }); });
         var byU = {}; SITE.forEach(function (r) { if (!byU[r.u] || !byU[r.u].h) byU[r.u] = byU[r.u] || r; });
         IDX.forEach(function (it) { var r = byU[it.u]; if (r) { r.w = (r.w || '') + ' ' + (it.w || '') + ' ' + it.t; r.cur = 1; } else SITE.push({ t: it.t, u: it.u, k: it.k, s: it.d || '', x: '', w: it.w || '', cur: 1 }); });
         prep(); });
@@ -265,27 +275,206 @@
     var T = f.ant[1] / (f.ant[0] - Math.log10(abs)) - f.ant[2];
     return { T: T, abs: abs, vac: vac && !/abs/i.test(q), raw: m[0] };
   }
+  var CTX = { solvent: null, props: [] };
+  function findAllSolvents(low) {
+    var hits = [];
+    FACTS.forEach(function (f) { var best = null; f.a.forEach(function (a) { var al = a.toLowerCase(), m = new RegExp('(^|[^a-z0-9])(' + al.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')($|[^a-z0-9])').exec(low); if (m && (!best || al.length > best.len)) best = { f: f, at: m.index + m[1].length, len: al.length }; }); if (best) hits.push(best); });
+    hits.sort(function (a, b) { return b.len - a.len; });
+    var out = []; hits.forEach(function (h) { if (!out.some(function (o) { return h.at < o.at + o.len && o.at < h.at + h.len; })) out.push(h); });
+    return out.sort(function (a, b) { return a.at - b.at; }).map(function (h) { return h.f; });
+  }
+  var KEYP = ['Boiling point', 'Melting point', 'Flash point', 'Autoignition temperature', 'Flammable limits (LEL to UEL)', 'Exposure limit (TLV)', 'Density at 20 °C', 'With water', 'ICH Q3C residual solvent'];
+  function compareCard(list) {
+    var d = document.createElement('div'); d.className = 'pg-ans pg-def';
+    var head = '<tr><th></th>' + list.map(function (f) { return '<th>' + esc(f.n.split(' (')[0]) + '</th>'; }).join('') + '</tr>';
+    var rows = KEYP.map(function (p) { return '<tr><td>' + esc(p.replace(' (LEL to UEL)', '').replace(' residual solvent', '')) + '</td>' + list.map(function (f) { return '<td>' + esc(f.f[p] || '–') + '</td>'; }).join('') + '</tr>'; }).join('');
+    d.innerHTML = '<div class="pg-ans-k">Solvent comparison</div><div class="pg-cmp"><table>' + head + rows + '</table></div>' + list.map(function (f) { return '<a class="pg-open" href="' + BASE + '/solvents/' + f.s + '/">' + esc(f.n.split(' (')[0]) + ' →</a>'; }).join(' &nbsp; ');
+    msg('Side by side, from our solvent data:'); log.appendChild(d); log.scrollTop = log.scrollHeight;
+    setChips([['All solvents table', 'u:/solvents/'], ['Solvent swap between them', 'u:/process-modelling/solvent-swap-simulator/'], ['Start over', 'restart']]);
+  }
   function solventAnswer(q) {
     var low = q.toLowerCase(); if (!FACTS.length) return false;
-    var f = findSolvent(low);
-    if (!f) { var pm = PATH.match(/^\/solvents\/([a-z0-9-]+)\/$/); if (pm && PROPS.some(function (p) { return p[0].test(low); })) f = FACTS.filter(function (x) { return x.s === pm[1]; })[0]; }
+    var all = findAllSolvents(low);
+    if (all.length >= 2 && /\bvs\.?\b|versus|compar|differen|better|\bor\b|\band\b/.test(low)) { compareCard(all.slice(0, 3)); CTX.solvent = all[0]; track('guide_query', { q: q.slice(0, 60), compare: all.map(function (f) { return f.s; }).join(',') }); return true; }
+    var follow = /^(and|what about|how about|same for)\b/.test(low) || low.split(/\s+/).length <= 3;
+    var f = all[0] || null, askProps = PROPS.filter(function (p) { return p[0].test(low); }).map(function (p) { return p[1]; });
+    if (!f) { var pm = PATH.match(/^\/solvents\/([a-z0-9-]+)\/$/); if (pm && askProps.length) f = FACTS.filter(function (x) { return x.s === pm[1]; })[0]; }
+    if (!f && CTX.solvent && askProps.length && (follow || low.split(/\s+/).length <= 5)) f = CTX.solvent;
     if (!f) return false;
-    var props = PROPS.filter(function (p) { return p[0].test(low); }).map(function (p) { return p[1]; }).filter(function (p, i, a) { return a.indexOf(p) === i && f.f[p]; });
-    var d = document.createElement('div'); d.className = 'pg-ans pg-def'; var body = '';
+    var props = askProps.filter(function (p, i, a) { return a.indexOf(p) === i && f.f[p]; });
     var bp = /boil|\bbp\b|vac|mm ?hg|torr|mbar/.test(low) ? bpAt(f, q) : null;
+    if (!props.length && !bp && all.length && follow && CTX.props.length && CTX.solvent !== f) props = CTX.props.filter(function (p) { return f.f[p]; });
+    var d = document.createElement('div'); d.className = 'pg-ans pg-def'; var body = '';
     if (bp) body += '<p><b style="display:inline">' + bp.T.toFixed(1) + ' °C</b> at ' + (bp.vac ? Math.round(760 - bp.abs) + ' mmHg vacuum (' + Math.round(bp.abs) + ' mmHg absolute)' : Math.round(bp.abs) + ' mmHg absolute') + ', from the Antoine equation.</p>';
+    var explicit = props.length > 0;
     if (!props.length && !bp) props = ['Boiling point', 'Flash point', 'Autoignition temperature', 'Exposure limit (TLV)'].filter(function (p) { return f.f[p]; });
     body += props.map(function (p) { return '<p><span class="pg-from" style="display:inline">' + esc(p) + ':</span> ' + esc(f.f[p]) + '</p>'; }).join('');
     d.innerHTML = '<div class="pg-ans-k">Solvent data</div><b>' + esc(f.n) + '</b>' + body + '<a class="pg-open" href="' + BASE + '/solvents/' + f.s + '/">All ' + esc(f.n.split(' (')[0]) + ' data, boiling point under vacuum and safety →</a>';
     msg('From our solvent data:'); log.appendChild(d); log.scrollTop = log.scrollHeight;
     d.querySelector('a').addEventListener('click', function () { track('guide_pick', { url: '/solvents/' + f.s + '/', from: 'solvent' }); });
-    setChips([['Flash point', 'q:flash point of ' + f.a[f.a.length - 1]], ['Boiling point at 100 mmHg', 'q:' + f.a[f.a.length - 1] + ' boiling point 100 mmHg'], ['TLV and health', 'q:' + f.a[f.a.length - 1] + ' tlv health'], ['All solvents table', 'u:/solvents/'], ['Start over', 'restart']]);
+    CTX.solvent = f; if (explicit) CTX.props = props;
+    var nm = f.a[f.a.length - 1];
+    setChips([['Flash point', 'q:flash point of ' + nm], ['Boiling point at 100 mmHg', 'q:' + nm + ' boiling point 100 mmHg'], ['TLV and health', 'q:' + nm + ' tlv health'], ['Compare with toluene', 'q:' + nm + ' vs toluene'], ['Start over', 'restart']]);
     track('guide_query', { q: q.slice(0, 60), solvent: f.s, props: props.join(',') });
     return true;
   }
 
+  /* ---------- Hindi, Hinglish and plant slang ---------- */
+  var HI = [[/फ्लैश\s*प(ॉ|ो)इंट|फ्लैश\s*प्वाइंट/g, ' flash point '], [/क्वथनांक|बॉयलिंग\s*प(ॉ|ो)इंट|उबलने का (तापमान|बिंदु)/g, ' boiling point '], [/गलनांक/g, ' melting point '], [/घनत्व/g, ' density '],
+    [/दबाव/g, ' pressure '], [/तापमान/g, ' temperature '], [/पंप/g, ' pump '], [/पावर|शक्ति/g, ' power '], [/मेथनॉल/g, ' methanol '], [/टोल्यू?ईन|टोलुइन|टॉलुईन|टोल्यून/g, ' toluene '], [/एसीटोन|एसिटोन/g, ' acetone '],
+    [/पानी/g, ' water '], [/इथेनॉल/g, ' ethanol '], [/गेट/g, ' gate '], [/प्रश्न|सवाल/g, ' question '], [/सुरक्षा/g, ' safety '], [/रिएक्टर/g, ' reactor '], [/आसवन/g, ' distillation '], [/निस्पंदन|फ़िल्टर|फिल्टर/g, ' filtration '],
+    [/वैक्यूम/g, ' vacuum '], [/और/g, ' and '], [/क्या|हैं|है|का|की|के|में|को|से|बताइए|बताओ|बताएं|कितना|कितनी|कैसे|मुझे|चाहिए/g, ' ']];
+  var HING = /\b(kya|kyaa|hai|hain|ka|ki|ke|batao|bataiye|btao|bta|bata|kitna|kitni|kaise|kese|kyu|kyon|mujhe|muje|chahiye|chaiye|karna|karo|kare|kaun|sa|wala|wali|mein|bhi|nikalo|nikalna|hota|hoti|hote|samjhao|samjhaiye|matlab|kya\s+hota)\b/g;
+  var SLANG = [[/\brota ?vap\b/g, 'rotary evaporator'], [/\bvac\b/g, 'vacuum'], [/\bhx\b/g, 'heat exchanger'], [/\bphe\b/g, 'plate heat exchanger'], [/\bglr\b/g, 'glass lined reactor'], [/\bssr\b/g, 'stainless steel reactor'],
+    [/\bchw\b/g, 'chilled water'], [/\bcw\b/g, 'cooling water'], [/\bcondensor\b/g, 'condenser'], [/\bcentri\b/g, 'centrifuge'], [/\bm\.?l\.? (recovery|distillation|tank)\b/g, 'mother liquor $1'], [/\bnutch\b|\bnutsch\b/g, 'nutsche'],
+    [/\bexo\b/g, 'exotherm'], [/\bbrine temp\b/g, 'brine temperature'], [/\bcum\/h(r)?\b/g, 'm3/h'], [/\bm³/g, 'm3'], [/\bcubic met(er|re)s? per hour\b/g, 'm3/h'], [/\bkg\/cm²/g, 'kg/cm2']];
+  function normalise(q) {
+    var s = ' ' + q + ' ', hindi = /[\u0900-\u097F]/.test(s);
+    HI.forEach(function (p) { s = s.replace(p[0], p[1]); });
+    s = s.toLowerCase(); var hing = HING.test(s); HING.lastIndex = 0;
+    s = s.replace(/\baur\b/g, 'and').replace(HING, ' ');
+    SLANG.forEach(function (p) { s = s.replace(p[0], p[1]); });
+    s = s.replace(/\s+/g, ' ').trim();
+    return { q: s || q, hindi: hindi || hing };
+  }
+
+  /* ---------- quick calculations ---------- */
+  var NUM = '(-?\\d+(?:[.,]\\d+)?)';
+  function nm(x) { return +String(x).replace(',', '.'); }
+  function f2(x, d) { return isFinite(x) ? Number(x).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 2 : d }) : '–'; }
+  var UNITS = {
+    pressure: { bar: 1e5, mbar: 100, pa: 1, kpa: 1e3, mpa: 1e6, psi: 6894.757, psig: 6894.757, atm: 101325, mmhg: 133.322, torr: 133.322, 'kg/cm2': 98066.5, ksc: 98066.5, 'kgf/cm2': 98066.5, inhg: 3386.39, mwc: 9806.65, 'm wc': 9806.65 },
+    flow: { 'm3/h': 1 / 3600, 'm3/hr': 1 / 3600, 'm3/s': 1, 'm3/min': 1 / 60, lph: 1e-3 / 3600, 'l/h': 1e-3 / 3600, lpm: 1e-3 / 60, 'l/min': 1e-3 / 60, 'l/s': 1e-3, gpm: 3.785411784e-3 / 60, cfm: 0.0283168466 / 60, 'kl/h': 1 / 3600 },
+    mass: { kg: 1, g: 1e-3, mg: 1e-6, lb: 0.45359237, lbs: 0.45359237, tonne: 1000, ton: 1000, mt: 1000, t: 1000 },
+    energy: { j: 1, kj: 1e3, mj: 1e6, kcal: 4184, cal: 4.184, kwh: 3.6e6, btu: 1055.056 },
+    power: { w: 1, kw: 1e3, mw: 1e6, hp: 745.7, tr: 3516.85, 'kcal/h': 1.16222, 'kcal/hr': 1.16222, 'btu/h': 0.29307, 'btu/hr': 0.29307 },
+    length: { m: 1, mm: 1e-3, cm: 1e-2, km: 1e3, inch: 0.0254, inches: 0.0254, ft: 0.3048, feet: 0.3048 },
+    volume: { l: 1e-3, litre: 1e-3, liter: 1e-3, litres: 1e-3, liters: 1e-3, ml: 1e-6, m3: 1, kl: 1, gallon: 3.785411784e-3, gallons: 3.785411784e-3, gal: 3.785411784e-3 },
+    viscosity: { cp: 1e-3, cps: 1e-3, 'mpa.s': 1e-3, 'pa.s': 1, poise: 0.1 },
+    density: { 'kg/m3': 1, 'g/ml': 1000, 'g/cc': 1000, 'g/cm3': 1000, 'lb/ft3': 16.0185 }
+  };
+  var TEMPU = { c: 'C', '°c': 'C', degc: 'C', celsius: 'C', f: 'F', '°f': 'F', degf: 'F', fahrenheit: 'F', k: 'K', kelvin: 'K' };
+  function unitOf(u) { u = u.replace(/\s+/g, ' ').trim().replace(/²/g, '2').replace(/³/g, '3'); if (TEMPU[u]) return ['temp', TEMPU[u]]; for (var dim in UNITS) if (UNITS[dim][u] != null) return [dim, u]; return null; }
+  function convert(low) {
+    var m = low.match(new RegExp('^(?:convert\\s+)?' + NUM + '\\s*([a-z°²³0-9/.\\s]{1,10}?)\\s+(?:to|in|into|=|as)\\s+([a-z°²³0-9/.\\s]{1,10}?)\\s*\\??$')); if (!m) return null;
+    var v = nm(m[1]), a = unitOf(m[2]), b = unitOf(m[3]); if (!a || !b || a[0] !== b[0]) return null;
+    var out;
+    if (a[0] === 'temp') { var c = a[1] === 'C' ? v : a[1] === 'F' ? (v - 32) * 5 / 9 : v - 273.15; out = b[1] === 'C' ? c : b[1] === 'F' ? c * 9 / 5 + 32 : c + 273.15; return [f2(v, 3) + ' °' + a[1].replace('K', '') + (a[1] === 'K' ? 'K' : ''), f2(out, 2) + (b[1] === 'K' ? ' K' : ' °' + b[1])]; }
+    out = v * UNITS[a[0]][a[1]] / UNITS[b[0]][b[1]];
+    return [f2(v, 4) + ' ' + m[2].trim(), (Math.abs(out) >= 0.01 || out === 0 ? f2(out, 4) : out.toExponential(3)) + ' ' + m[3].trim()];
+  }
+  function calcCard(kind, title, lines, link, linkText, chipsList) {
+    var d = document.createElement('div'); d.className = 'pg-ans';
+    d.innerHTML = '<div class="pg-ans-k">' + esc(kind) + '</div><b>' + esc(title) + '</b>' + lines.map(function (l) { return '<p>' + l + '</p>'; }).join('') + (link ? '<a class="pg-open" href="' + BASE + link + '">' + esc(linkText) + ' →</a>' : '');
+    log.appendChild(d); log.scrollTop = log.scrollHeight;
+    setChips((chipsList || []).concat([['Start over', 'restart']]));
+  }
+  var MOTORS = [0.37, 0.55, 0.75, 1.1, 1.5, 2.2, 3.7, 5.5, 7.5, 9.3, 11, 15, 18.5, 22, 30, 37, 45, 55, 75, 90, 110, 132, 160, 200, 250];
+  function calcAnswer(q) {
+    var low = q.toLowerCase().replace(/m³/g, 'm3').replace(/kg\/cm²/g, 'kg/cm2'), m;
+    // unit conversion
+    var cv = convert(low);
+    if (cv) { msg('Quick conversion:'); calcCard('Unit conversion', cv[0] + ' = ' + cv[1], [], null, '', [['Convert 1 bar to psi', 'q:1 bar to psi'], ['100 °C to °F', 'q:100 c to f']]); track('guide_calc', { type: 'convert', q: q.slice(0, 40) }); return true; }
+    // pump power
+    if (/pump|motor kw|shaft power/.test(low)) {
+      var fl = low.match(new RegExp(NUM + '\\s*(m3\\/h(?:r)?|m3\\/s|lpm|l\\/min|kl\\/h|gpm)')), hd = low.match(new RegExp(NUM + '\\s*m(?:\\s*(?:of\\s*)?(?:head|wc|lc))?(?![a-z0-9/])')) || low.match(new RegExp('head\\s*(?:of\\s*)?' + NUM));
+      if (fl && hd) {
+        var Q = nm(fl[1]) * UNITS.flow[fl[2].replace('m3/hr', 'm3/h')] * 3600, H = nm(hd[1]), ef = (m = low.match(new RegExp(NUM + '\\s*%'))) ? nm(m[1]) : 70, sg = (m = low.match(new RegExp('(?:sg|specific gravity|density)\\s*(?:of\\s*)?' + NUM))) ? nm(m[1]) : 1;
+        if (sg > 20) sg = sg / 1000; if (!(ef > 5 && ef <= 100)) ef = 70;
+        var Ph = Q * H * sg * 9.81 * 1000 / 3.6e6, Ps = Ph / (ef / 100), mot = MOTORS.filter(function (x) { return x >= Ps * 1.15; })[0];
+        msg('Quick pump power estimate:');
+        calcCard('Calculation', 'Pump power for ' + f2(Q, 2) + ' m³/h at ' + f2(H, 1) + ' m head', ['Hydraulic power: <b style="display:inline">' + f2(Ph, 2) + ' kW</b> (Q × H × SG / 367)', 'Shaft power at ' + f2(ef, 0) + ' % pump efficiency: <b style="display:inline">' + f2(Ps, 2) + ' kW</b>', 'Motor: about <b style="display:inline">' + (mot ? mot + ' kW' : 'over 250 kW') + '</b> (shaft power + 15 % margin, next standard size)', '<span class="pg-from">SG ' + f2(sg, 2) + (sg === 1 && !/sg|gravity|density/.test(low) ? ' assumed (water). Add "SG 0.87" or "70 %" to your question to change it.' : '') + '</span>'],
+          '/calculators/pump-power-calculator/', 'Full pump power calculator with NPSH', [['Same at 80 % efficiency', 'q:pump ' + f2(Q, 2).replace(/,/g, '') + ' m3/h ' + H + ' m head 80 %']]);
+        track('guide_calc', { type: 'pump' }); return true;
+      }
+    }
+    // LMTD
+    if (/lmtd|log mean/.test(low)) {
+      var ns = (low.match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+      if (ns.length >= 4) {
+        var co = /co-?current|parallel/.test(low), th1 = ns[0], th2 = ns[1], tc1 = ns[2], tc2 = ns[3];
+        var d1 = co ? th1 - tc1 : th1 - tc2, d2 = co ? th2 - tc2 : th2 - tc1, lm = Math.abs(d1 - d2) < 1e-9 ? d1 : (d1 - d2) / Math.log(d1 / d2);
+        msg('Quick LMTD:');
+        if (!(d1 > 0 && d2 > 0)) calcCard('Calculation', 'Temperature cross', ['With these temperatures the hot and cold streams cross (ΔT ' + f2(d1, 1) + ' and ' + f2(d2, 1) + ' K), so this flow arrangement cannot do the duty. Read as: hot in, hot out, cold in, cold out.'], '/articles/heat-exchanger-design-basics/', 'Heat exchanger design basics');
+        else calcCard('Calculation', 'LMTD = ' + f2(lm, 1) + ' K (' + (co ? 'co-current' : 'counter-current') + ')', ['Hot ' + th1 + ' → ' + th2 + ' °C, cold ' + tc1 + ' → ' + tc2 + ' °C', 'ΔT₁ = ' + f2(d1, 1) + ' K, ΔT₂ = ' + f2(d2, 1) + ' K; LMTD = (ΔT₁ − ΔT₂) / ln(ΔT₁/ΔT₂)', '<span class="pg-from">Numbers read in the order hot in, hot out, cold in, cold out.</span>'], '/articles/heat-exchanger-design-basics/', 'Heat exchanger design basics', [[co ? 'Counter-current instead' : 'Co-current instead', 'q:lmtd ' + (co ? '' : 'co-current ') + ns.slice(0, 4).join(' ')]]);
+        track('guide_calc', { type: 'lmtd' }); return true;
+      }
+    }
+    // heating / cooling a batch
+    if (/\b(heat|heating|cool|cooling|warm|chill)\b/.test(low) && (m = low.match(new RegExp(NUM + '\\s*(kg|tonnes?|tons?|mt|t|kl)\\b'))) && /from\s*-?\d/.test(low)) {
+      var mass = nm(m[1]) * (/^(kg)$/.test(m[2]) ? 1 : 1000), ft = low.match(new RegExp('from\\s*' + NUM + '\\s*(?:°?\\s*c)?\\s*(?:to|-)\\s*' + NUM));
+      if (ft) {
+        var T1 = nm(ft[1]), T2 = nm(ft[2]), cp = (m = low.match(new RegExp('cp\\s*(?:of\\s*|=\\s*)?' + NUM))) ? nm(m[1]) : (/water/.test(low) ? 4.18 : 2.0);
+        var tm = low.match(new RegExp('in\\s*' + NUM + '\\s*(h|hr|hrs|hours?|min|mins|minutes?)\\b')), th = tm ? nm(tm[1]) / (/^m/.test(tm[2]) ? 60 : 1) : NaN;
+        var Qkj = mass * cp * Math.abs(T2 - T1), cool = T2 < T1, lines = ['Heat: <b style="display:inline">' + f2(Qkj / 1000, 1) + ' MJ</b> (' + f2(Qkj / 3600, 1) + ' kWh) = m × c<sub>p</sub> × ΔT with c<sub>p</sub> ' + f2(cp, 2) + ' kJ/kg·K'];
+        if (isFinite(th) && th > 0) { var kw = Qkj / 3600 / th; lines.push('Average duty over ' + f2(th, 2) + ' h: <b style="display:inline">' + f2(kw, 1) + ' kW</b>' + (cool ? ' = ' + f2(kw / 3.517, 1) + ' TR' : '')); if (cool) lines.push('<span class="pg-from">With a fixed brine temperature the peak at the start is higher than the average; check it with the TR calculator.</span>'); else lines.push('Steam: about ' + f2(Qkj / 2100, 0) + ' kg at about 2,100 kJ/kg (3 to 4 bar g)'); }
+        else lines.push('<span class="pg-from">Add a time, for example "in 2 h", to get the duty in kW' + (cool ? ' and TR' : '') + '.</span>');
+        if (!/cp/.test(low)) lines.push('<span class="pg-from">c<sub>p</sub> ' + f2(cp, 2) + ' assumed' + (cp === 2 ? ' (typical organic solvent mixture)' : ' (water)') + '. Add "cp 1.8" to change it.</span>');
+        msg('Quick heat load:');
+        calcCard('Calculation', (cool ? 'Cool ' : 'Heat ') + f2(mass, 0) + ' kg from ' + T1 + ' to ' + T2 + ' °C', lines, cool ? '/calculators/batch-cooling-tr-calculator/' : '/process-modelling/heating-cooling-time-simulator/', cool ? 'TR calculator with peak load' : 'Heating time simulator with your jacket', [['How long will it take?', 'u:/process-modelling/heating-cooling-time-simulator/']]);
+        track('guide_calc', { type: 'heat' }); return true;
+      }
+    }
+    // vessel volume
+    if (/volume|capacity/.test(low) && /dia|diameter|\bid\b/.test(low)) {
+      var dm = low.match(new RegExp(NUM + '\\s*(mm|m)\\s*(?:dia|diameter|id)\\b')) || low.match(new RegExp('(?:dia|diameter|id)\\s*(?:of\\s*|=\\s*)?' + NUM + '\\s*(mm|m)?')),
+        hm = low.match(new RegExp(NUM + '\\s*(mm|m)\\s*(?:height|high|tall|ht|long|length|tl|t\\/t)\\b')) || low.match(new RegExp('(?:height|ht|length|tl|t\\/t|h)\\s*(?:of\\s*|=\\s*)?' + NUM + '\\s*(mm|m)?'));
+      if (dm && hm) {
+        var D = nm(dm[1]) * (dm[2] === 'mm' || (!dm[2] && nm(dm[1]) > 50) ? 1e-3 : 1), Hh = nm(hm[1]) * (hm[2] === 'mm' || (!hm[2] && nm(hm[1]) > 50) ? 1e-3 : 1);
+        var cyl = Math.PI / 4 * D * D * Hh, tori = 0.0809 * D * D * D, ell = Math.PI * D * D * D / 24;
+        msg('Quick vessel volume:');
+        calcCard('Calculation', 'Vessel ' + f2(D, 3) + ' m diameter × ' + f2(Hh, 3) + ' m straight side', ['Cylinder only: <b style="display:inline">' + f2(cyl * 1000, 0) + ' L</b> (' + f2(cyl, 3) + ' m³)', 'With two torispherical dished ends: about <b style="display:inline">' + f2((cyl + 2 * tori) * 1000, 0) + ' L</b>', 'With two 2:1 elliptical ends: about ' + f2((cyl + 2 * ell) * 1000, 0) + ' L', '<span class="pg-from">Straight-side height between the weld lines. Dished-end volumes are approximate (0.081 D³ torispherical, πD³/24 elliptical each).</span>'],
+          '/calculators/vessel-volume-calculator/', 'Volume at any level, exact dished ends');
+        track('guide_calc', { type: 'vessel' }); return true;
+      }
+    }
+    return false;
+  }
+
+  /* ---------- GATE question in the chat ---------- */
+  var GATE_URL = (CS && CS.getAttribute('data-gatebank')) || IDX_URL.replace(/data\/guide-index\.json$/, 'js/gate-bank.js');
+  var gateLoading = null, pending = null, GKEY = 'pce-guide-gate';
+  function loadGate() { if (window.GATE_BANK) return Promise.resolve(); if (!gateLoading) gateLoading = new Promise(function (res) { var sc = document.createElement('script'); sc.src = GATE_URL; sc.onload = res; sc.onerror = res; document.head.appendChild(sc); }); return gateLoading; }
+  function gscore() { try { return JSON.parse(localStorage.getItem(GKEY)) || { r: 0, t: 0, seen: [] }; } catch (e) { return { r: 0, t: 0, seen: [] }; } }
+  function gsave(s2) { try { localStorage.setItem(GKEY, JSON.stringify(s2)); } catch (e) {} }
+  var L = function (i) { return 'ABCD'[i]; };
+  function isGateAsk(low) { if (!/\b(gate|quiz|question of the day|daily question|practice question)\b/.test(low) && !/quiz me|test me/.test(low)) return false; var rest = low.replace(/\b(gate|ch|chemical|engineering|quiz|me|test|a|an|one|give|ask|another|next|new|random|daily|today'?s?|of|the|day|question|questions|practice|please|pls|now|more)\b/g, '').replace(/[^a-z0-9]/g, ''); return rest === ''; }
+  function askGate(daily) {
+    return loadGate().then(function () {
+      var B = window.GATE_BANK || []; if (!B.length) { msg('The GATE questions did not load. Open the practice page instead.'); recs([{ t: 'GATE practice questions', u: '/gate/practice/', k: 'GATE', d: '' }]); return; }
+      var sc = gscore(), q;
+      if (daily) { var day = Math.floor(Date.now() / 864e5); q = B[(day * 37) % B.length]; }
+      else { var left = B.filter(function (x) { return (sc.seen || []).indexOf(x.id) < 0; }); if (!left.length) { sc.seen = []; left = B; } q = left[Math.floor(Math.random() * left.length)]; }
+      pending = q;
+      var d = document.createElement('div'); d.className = 'pg-ans';
+      var opts = q.o ? '<ol type="A" style="margin:6px 0 4px 1.3em;padding:0">' + q.o.map(function (o) { return '<li>' + o + '</li>'; }).join('') + '</ol>' : '';
+      var how = q.t === 'MCQ' ? 'Tap A, B, C or D.' : q.t === 'MSQ' ? 'One or more are right: type the letters, for example "A, C".' : 'Type your number.';
+      d.innerHTML = '<div class="pg-ans-k">' + (daily ? 'GATE question of the day' : 'GATE practice question') + ' · ' + esc((window.GATE_SECS || {})[q.sec] || q.sec) + ' · ' + q.t + ' · ' + q.m + ' mark' + (q.m > 1 ? 's' : '') + '</div><p style="color:#ECE7D8">' + q.q + '</p>' + opts + '<span class="pg-from">' + how + (q.t === 'MCQ' ? ' Wrong answers cost ' + (q.m === 1 ? '1/3' : '2/3') + ' mark in the real exam.' : '') + '</span>';
+      log.appendChild(d); log.scrollTop = log.scrollHeight;
+      setChips(q.t === 'MCQ' ? [['A', 'a:0'], ['B', 'a:1'], ['C', 'a:2'], ['D', 'a:3'], ['Skip', 'q:another gate question']] : [['Show the answer', 'a:show'], ['Skip', 'q:another gate question']]);
+      track('guide_gate', { id: q.id, daily: daily ? 1 : 0 });
+    });
+  }
+  function keyText(q) { return q.t === 'MCQ' ? L(q.a) + ') ' + q.o[q.a] : q.t === 'MSQ' ? q.a.map(L).join(', ') : (q.a[0] === q.a[1] ? String(q.a[0]) : q.a[0] + ' to ' + q.a[1]) + (q.v != null ? ' (exact ' + (+q.v.toPrecision(5)) + ')' : ''); }
+  function gradeGate(input) {
+    var q = pending, s0 = String(input).trim().toLowerCase(), ok = null, given = s0, show = s0 === 'show';
+    if (!show) {
+      if (q.t === 'MCQ') { var mm = s0.match(/^\(?([a-d])\)?$/) || s0.match(/^option\s*([a-d])$/); if (/^a:\d$/.test(s0)) mm = [0, 'abcd'[+s0.slice(2)]]; if (!mm) return false; var i = 'abcd'.indexOf(mm[1]); ok = i === q.a; given = L(i); }
+      else if (q.t === 'MSQ') { var ls = s0.replace(/and/g, ',').match(/\b[a-d]\b/g); if (!ls || s0.replace(/[\sa-d,()and]/g, '') !== '') return false; var set = ls.map(function (c) { return 'abcd'.indexOf(c); }).filter(function (x, k, a) { return a.indexOf(x) === k; }); ok = set.length === q.a.length && q.a.every(function (x) { return set.indexOf(x) >= 0; }); given = set.sort().map(L).join(', '); }
+      else { var v = parseFloat(s0.replace(',', '.')); if (!isFinite(v) || !/^-?[\d.,]+\s*[a-z°%/]*$/.test(s0)) return false; ok = v >= q.a[0] - 1e-9 && v <= q.a[1] + 1e-9; given = String(v); }
+    }
+    var sc = gscore(); sc.seen = (sc.seen || []).concat([q.id]).slice(-120); if (!show) { sc.t++; if (ok) sc.r++; } gsave(sc);
+    var d = document.createElement('div'); d.className = 'pg-ans ' + (ok ? 'pg-def' : '');
+    d.innerHTML = '<div class="pg-ans-k">' + (show ? 'Answer' : ok ? 'Correct!' : 'Not quite') + '</div>' + (show ? '' : '<p>Your answer: ' + esc(given) + '</p>') + '<p><b style="display:inline">Answer: ' + esc(keyText(q)) + '</b></p><p>' + q.s + '</p><span class="pg-from">Your score in this browser: ' + sc.r + ' right out of ' + sc.t + ' tried.</span>';
+    log.appendChild(d); log.scrollTop = log.scrollHeight;
+    pending = null;
+    setChips([['Another question', 'q:another gate question'], ['More ' + ((window.GATE_SECS || {})[q.sec] || '') + ' questions', 'u:/gate/practice/?sec=' + q.sec], ['Full mock test', 'u:/gate/mock-test/'], ['Start over', 'restart']]);
+    track('guide_gate_answer', { id: q.id, ok: ok ? 1 : 0, show: show ? 1 : 0 });
+    return true;
+  }
+
   /* ---------- conversation ---------- */
-  var START = [['I need a calculator', 'calc'], ['Solvent properties', 'solv'], ['GATE preparation', 'gate'], ['Scale-up modelling', 'model'], ['Interview preparation', 'interview'], ['Process safety', 'safety'], ['How does equipment work?', 'equipment'], ['Something on the plant is wrong', 'fault']];
+  var START = [['I need a calculator', 'calc'], ['Solvent properties', 'solv'], ['GATE question of the day', 'q:gate question of the day'], ['GATE preparation', 'gate'], ['Scale-up modelling', 'model'], ['Interview preparation', 'interview'], ['Process safety', 'safety'], ['How does equipment work?', 'equipment'], ['Something on the plant is wrong', 'fault']];
   if (/^\/gate\//.test(PATH)) START = [['Take the mock test', 'u:/gate/mock-test/'], ['Practice questions', 'u:/gate/practice/'], ['Formula sheets', 'u:/gate/formula-sheets/'], ['GATE exam pattern', 'q:gate exam pattern marking'], ['Something else', 'more']];
   else if (/^\/solvents\//.test(PATH)) START = [['Flash point of a solvent', 'solv'], ['Boiling point under vacuum', 'q:boiling point under vacuum calculator'], ['Solvent swap', 'u:/process-modelling/solvent-swap-simulator/'], ['All solvents table', 'u:/solvents/'], ['Something else', 'more']];
   else if (/^\/process-modelling\//.test(PATH)) START = [['Fit my kinetics', 'u:/process-modelling/reaction-kinetics-fitting/'], ['Is my dosing safe?', 'u:/process-modelling/semi-batch-dosing-simulator/'], ['Heat-up time', 'u:/process-modelling/heating-cooling-time-simulator/'], ['What is MTSR?', 'q:what is mtsr'], ['Something else', 'more']];
@@ -316,9 +505,9 @@
     chips.querySelectorAll('.pg-chip').forEach(function (b) { b.addEventListener('click', function () { chip(b.dataset.v, b.textContent); }); });
   }
   var CANNED = {
-    calc: ['What do you want to calculate? Pick one or type it.', [['Boiling point under vacuum', 'q:boiling point vacuum calculator'], ['Pump power', 'q:pump power calculator'], ['Agitator scale-up', 'q:mixing scale up calculator'], ['Filtration time', 'q:filtration calculator'], ['Heat load', 'q:heat load calculator'], ['All calculators', 'u:/calculators/']]],
+    calc: ['Type it and I will work it out, for example “pump power 20 m3/h 30 m head”, “heat 5000 kg from 25 to 80 in 2 h”, “lmtd 150 90 30 70” or “5 bar to psi”. Or open a calculator:', [['Pump power 20 m3/h, 30 m', 'q:pump power 20 m3/h 30 m head'], ['Cool 4000 kg 40 to 5 °C in 3 h', 'q:cool 4000 kg from 40 to 5 in 3 h'], ['1 kg/cm2 to bar', 'q:1 kg/cm2 to bar'], ['Boiling point under vacuum', 'q:boiling point vacuum calculator'], ['Pump power', 'q:pump power calculator'], ['Agitator scale-up', 'q:mixing scale up calculator'], ['Filtration time', 'q:filtration calculator'], ['Heat load', 'q:heat load calculator'], ['All calculators', 'u:/calculators/']]],
     solv: ['Type a solvent and what you need, for example "flash point of toluene", "DMF TLV" or "methanol boiling point at 700 mm vacuum".', [['Flash point of toluene', 'q:flash point of toluene'], ['Acetone autoignition', 'q:acetone autoignition temperature'], ['DCM boiling point at 300 mmHg', 'q:dcm boiling point 300 mmHg'], ['Methanol TLV', 'q:methanol tlv'], ['All solvents table', 'u:/solvents/']]],
-    gate: ['GATE Chemical: a full mock test, 105 practice questions with solutions and formula sheets for every section.', [['Take the mock test', 'u:/gate/mock-test/'], ['Practice questions', 'u:/gate/practice/'], ['Formula sheets', 'u:/gate/formula-sheets/'], ['Exam pattern and syllabus', 'u:/gate/'], ['A question on LMTD', 'q:gate lmtd heat exchanger question']]],
+    gate: ['GATE Chemical: a full mock test, 105 practice questions with solutions and formula sheets for every section. Or answer one right here.', [['Question of the day', 'q:gate question of the day'], ['Random question', 'q:another gate question'], ['Take the mock test', 'u:/gate/mock-test/'], ['Practice questions', 'u:/gate/practice/'], ['Formula sheets', 'u:/gate/formula-sheets/'], ['Exam pattern and syllabus', 'u:/gate/'], ['A question on LMTD', 'q:gate lmtd heat exchanger question']]],
     model: ['Process modelling for scale-up: run your own lab data against the plant.', [['Fit reaction kinetics', 'u:/process-modelling/reaction-kinetics-fitting/'], ['Semi-batch dosing and MTSR', 'u:/process-modelling/semi-batch-dosing-simulator/'], ['Heating and cooling time', 'u:/process-modelling/heating-cooling-time-simulator/'], ['Mixing, Njs and kLa', 'u:/process-modelling/mixing-mass-transfer-scale-up/'], ['Solvent swap', 'u:/process-modelling/solvent-swap-simulator/']]],
     more: ['Sure. What else can I help with?', START_ALL],
     interview: ['Good luck! Start with the Top 50, or type any topic and I will find the questions.', [['Top 50 questions', 'u:/process-engineering-faq/#top50'], ['Distillation', 'q:distillation interview'], ['Heat transfer', 'q:heat exchanger lmtd interview'], ['Pumps', 'q:pump cavitation interview'], ['Safety', 'q:safety interview']]],
@@ -330,6 +519,7 @@
     msg(esc(label), 'you');
     if (v.indexOf('u:') === 0) { location.href = BASE + v.slice(2); return; }
     if (v.indexOf('q:') === 0) { answer(v.slice(2)); return; }
+    if (v.indexOf('a:') === 0) { if (pending) gradeGate(v === 'a:show' ? 'show' : v); return; }
     mode = v; var c = CANNED[v]; msg(c[0]); setChips(c[1]); track('guide_topic', { topic: v });
   }
   function followUps(q, top) {
@@ -343,10 +533,16 @@
     out.push(['Start over', 'restart']);
     return out.slice(0, 5);
   }
-  function answer(q) {
+  var hiNote = false;
+  function answer(q0) {
     load().then(function () {
+      if (pending) { if (gradeGate(q0)) return; pending = null; }
+      var nq = normalise(q0), q = nq.q;
+      if (nq.hindi && !hiNote) { hiNote = true; msg('I understand Hindi and Hinglish questions, and I answer in English.'); }
       var low = q.toLowerCase().trim();
-      if (/^(hi+|hello|hey|namaste|good (morning|evening|afternoon))\b/.test(low)) { msg('Hello! Ask me anything about the plant, for example “what is DSC”, “pump cavitation” or “filtration slow”.'); setChips(START); return; }
+      if (isGateAsk(low)) { askGate(/day|daily|today/.test(low)); lastQ = q; return; }
+      if (calcAnswer(q)) { lastQ = q; return; }
+      if (/^(hi+|hello|hey|namaste|good (morning|evening|afternoon))\b/.test(low)) { msg('Hello! Ask me anything, for example “flash point of toluene”, “pump power 20 m3/h 30 m head”, “1 bar to psi” or “give me a GATE question”.'); setChips(START); return; }
       if (/^(thanks|thank you|thx|ok|okay|great|nice)\b/.test(low)) { msg('Happy to help. Anything else?'); setChips(START); return; }
       if (/who (made|built|runs)|about (you|this site)|founder/.test(low)) { msg('PharmaChemE is run by Ankush Chopra, a chemical engineer.'); recs([{ t: 'About PharmaChemE', u: '/about/', k: 'Page', d: '' }]); return; }
       if (/custom|build (a|me)|automate|excel|spreadsheet/.test(low)) { recs([{ t: 'Custom tools for your plant', u: '/custom-solutions/', k: 'Service', d: 'Turn your spreadsheet calculation into a tool' }]); return; }
@@ -361,9 +557,9 @@
         var dm = suggest(qq);
         if (dm.length) {
           var fixed = qq.toLowerCase(); dm.forEach(function (p) { fixed = fixed.replace(p[0], p[1]); });
-          msg('I could not find “' + esc(qq) + '”. Did you mean <b>' + esc(fixed) + '</b>?'); setChips([['Yes, search “' + fixed + '”', 'q:' + fixed], ['Start over', 'restart']]);
+          msg('I could not find “' + esc(qq) + '”. Did you mean <b>' + esc(fixed) + '</b>?'); track('guide_unanswered', { q: qq.slice(0, 80), suggested: fixed.slice(0, 60) }); setChips([['Yes, search “' + fixed + '”', 'q:' + fixed], ['Start over', 'restart']]);
         } else if (!g.length) {
-          msg('I could not find that on the site. Try fewer or different words, or search the site with Google.');
+          msg('I could not find that on the site. Try fewer or different words, or search the site with Google.'); track('guide_unanswered', { q: qq.slice(0, 80) });
           recs([{ t: 'Search pharmacheme.in with Google', href: 'https://www.google.com/search?q=' + encodeURIComponent('site:pharmacheme.in ' + qq), k: 'Google', d: qq }, { t: 'Custom tools for your plant', u: '/custom-solutions/', k: 'Service', d: 'Ask for a calculator built for your process' }]);
           setChips(START);
         }
@@ -378,10 +574,20 @@
         setChips(followUps(qq, r[0]));
       }
       lastQ = qq;
-      track('guide_query', { q: qq.slice(0, 60), results: r.length, top: r[0] ? r[0].u : '', def: g[0] || '' });
+      track('guide_query', { q: qq.slice(0, 60), results: r.length, top: r[0] ? r[0].u : '', def: g[0] || '', answered: r.length || g.length ? 1 : 0 });
     });
   }
   CANNED.restart = ['Sure. What else can I help with?', START_ALL];
+  var micBtn = $('.pg-mic'), rec = null;
+  if (micBtn) micBtn.addEventListener('click', function () {
+    if (rec) { rec.stop(); return; }
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition; rec = new SR(); rec.lang = 'en-IN'; rec.interimResults = false; rec.maxAlternatives = 1;
+    micBtn.classList.add('on'); micBtn.setAttribute('aria-label', 'Listening… tap to stop');
+    rec.onresult = function (e) { var t = e.results[0][0].transcript; input.value = t; msg(esc(t), 'you'); input.value = ''; answer(t); track('guide_voice'); };
+    rec.onerror = function (e) { if (e.error !== 'aborted') msg(e.error === 'not-allowed' ? 'Microphone access is blocked. Allow it in the browser to ask by voice.' : 'I could not hear that. Try again or type your question.'); };
+    rec.onend = function () { rec = null; micBtn.classList.remove('on'); micBtn.setAttribute('aria-label', 'Ask by voice'); };
+    try { rec.start(); } catch (e) { rec = null; micBtn.classList.remove('on'); }
+  });
   $('.pg-form').addEventListener('submit', function (e) { e.preventDefault(); var q = input.value.trim(); if (!q) return; input.value = ''; msg(esc(q), 'you'); answer(q); });
 
   /* ---------- keep the chat above the on-screen keyboard ---------- */
@@ -417,5 +623,13 @@
 
   if (RM) root.classList.remove('idle');
   if (stored() === '1' || MINI) root.classList.add('min');
-  else setTimeout(function () { if (!root.classList.contains('open') && !root.classList.contains('min')) { $('.pg-hi').classList.add('on'); setTimeout(hideHi, 9000); } }, 1800);
+  var IKEY = 'pce-guide-intro', introSeen = (function () { try { return localStorage.getItem(IKEY) === '1'; } catch (e) { return true; } })();
+  if (!introSeen) {
+    var hi = $('.pg-hi'), EX = [['Flash point of toluene', 'flash point of toluene'], ['Pump power 20 m³/h, 30 m', 'pump power 20 m3/h 30 m head'], ['Give me a GATE question', 'gate question of the day']];
+    hi.innerHTML = 'Hi! I am your plant guide. Ask me anything, for example:' + EX.map(function (e) { return '<button type="button" class="pg-ex" data-q="' + esc(e[1]) + '">' + esc(e[0]) + '</button>'; }).join('') + '<button type="button" class="pg-open">Or type your own</button>';
+    if (root.classList.contains('min')) hi.classList.add('mini');
+    hi.querySelectorAll('.pg-ex').forEach(function (b) { b.addEventListener('click', function () { hi.classList.remove('mini'); open(); msg(esc(b.textContent), 'you'); answer(b.dataset.q); track('guide_intro_pick', { q: b.dataset.q }); }); });
+    hi.querySelector('.pg-open').addEventListener('click', function () { hi.classList.remove('mini'); open(); });
+    setTimeout(function () { if (!root.classList.contains('open')) { hi.classList.add('on'); try { localStorage.setItem(IKEY, '1'); } catch (e) {} setTimeout(function () { hideHi(); hi.classList.remove('mini'); }, 12000); } }, 2200);
+  } else if (!root.classList.contains('min')) setTimeout(function () { if (!root.classList.contains('open') && !root.classList.contains('min')) { $('.pg-hi').classList.add('on'); setTimeout(hideHi, 9000); } }, 1800);
 })();

@@ -1,0 +1,7 @@
+---
+layout: null
+sitemap: false
+---
+[{% for p in site.pages %}{% if p.title and p.noindex != true and p.sitemap != false and p.guide_index != false %}{% unless p.url contains 'PCCPL' or p.url contains '/admin' or p.url contains 'get-test' or p.url contains '/assets/' or p.url contains '.json' or p.url contains '.xml' or p.url contains '.txt' %}{"t":{{ p.title | jsonify }},"u":{{ p.url | jsonify }},"s":{{ p.description | default: "" | jsonify }}},
+{% endunless %}{% endif %}{% endfor %}{% for p in site.articles %}{"t":{{ p.title | jsonify }},"u":{{ p.url | jsonify }},"s":{{ p.description | default: "" | jsonify }}},
+{% endfor %}null]

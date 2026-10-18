@@ -9,6 +9,7 @@ plugins:
 
 exclude:
   - README.md
+  - tools
 
 collections:
   articles:
