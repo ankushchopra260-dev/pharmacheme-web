@@ -1,0 +1,22 @@
+---
+layout: default
+title: "Process Calculations Formula Sheet for GATE Chemical Engineering"
+description: "GATE CH process calculations formula sheet: the key equations, typical values and common traps. about 5 to 8 marks in the paper. With 7 practice questions."
+breadcrumbs:
+  - label: "GATE Chemical Engineering"
+    url: /gate/
+  - label: "Formula sheets"
+    url: /gate/formula-sheets/
+  - label: "Process Calculations"
+    url: /gate/formula-sheets/process-calculations/
+---
+<link rel="stylesheet" href="{{ '/assets/css/gate.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container gt-head"><h1>Process Calculations: GATE CH formula sheet</h1><p>Material and energy balances, recycle, bypass and purge, and the phase rule. These marks are often the easiest in the paper if you draw the block diagram first. <b>Weight in the paper: about 5 to 8 marks.</b></p><nav class="gt-nav" aria-label="GATE section"><a href="{{ '/gate/' | relative_url }}">Overview</a><a href="{{ '/gate/formula-sheets/' | relative_url }}" aria-current="page">Formula sheets</a><a href="{{ '/gate/practice/' | relative_url }}">Practice questions</a><a href="{{ '/gate/mock-test/' | relative_url }}">Mock test</a></nav></div>
+<div class="container article-body">
+  <section class="fs-sec"><h2>Balances</h2><div class="fs-row"><div class="k">General balance</div><div class="f">Accumulation = In − Out + Generation − Consumption<small>Steady state: accumulation = 0</small></div></div><div class="fs-row"><div class="k">Degrees of freedom</div><div class="f">DOF = unknowns − independent equations<small>Solve when DOF = 0</small></div></div><div class="fs-row"><div class="k">Tie component</div><div class="f">Use a species that passes unchanged between streams to link them<small>Inerts, N<sub>2</sub> in combustion, dry air in drying</small></div></div></section><section class="fs-sec"><h2>Recycle, bypass and purge</h2><div class="fs-row"><div class="k">Single-pass vs overall conversion</div><div class="f">X<sub>sp</sub> = (reactor in − reactor out)/reactor in; X<sub>overall</sub> = (fresh in − process out)/fresh in</div></div><div class="fs-row"><div class="k">Purge for inerts</div><div class="f">Inert in fresh feed = purge flow × inert fraction in recycle<small>Purge composition = recycle composition</small></div></div></section><section class="fs-sec"><h2>Combustion</h2><div class="fs-row"><div class="k">Theoretical oxygen</div><div class="f">For complete combustion of all C to CO<sub>2</sub> and H to H<sub>2</sub>O<small>Excess air % = (O<sub>2</sub> fed − theoretical)/theoretical × 100</small></div></div><div class="fs-row"><div class="k">Air</div><div class="f">21 mol% O<sub>2</sub>, 79 mol% N<sub>2</sub>: N<sub>2</sub>/O<sub>2</sub> = 3.76<small>Orsat (dry) analysis excludes H<sub>2</sub>O</small></div></div></section><section class="fs-sec"><h2>Energy and phase rule</h2><div class="fs-row"><div class="k">Sensible heat</div><div class="f">Q = m ∫c<sub>p</sub> dT</div></div><div class="fs-row"><div class="k">Heat of reaction</div><div class="f">ΔH<sub>r</sub> = Σ ν ΔH<sub>f</sub>(products) − Σ ν ΔH<sub>f</sub>(reactants)<small>Hess law</small></div></div><div class="fs-row"><div class="k">Gibbs phase rule</div><div class="f">F = C − P + 2 (non-reacting); F = C − P + 2 − r (with r independent reactions)<small>Triple point of a pure substance: F = 0</small></div></div><div class="fs-row"><div class="k">Humidity</div><div class="f">H = 0.622 p<sub>w</sub>/(P − p<sub>w</sub>) kg/kg dry air<small>Relative humidity = p<sub>w</sub>/p<sub>sat</sub></small></div></div></section>
+  <div class="fs-trap"><b>Common traps</b><ul><li>Dry-basis flue gas: leave water out of the total.</li><li>Use moles, not mass, for reaction balances.</li><li>Excess air is based on the oxygen needed for complete combustion, even if combustion is incomplete.</li></ul></div>
+  <p><a class="btn btn-primary" href="{{ '/gate/practice/' | relative_url }}?sec=PC">Practise 7 Process Calculations questions</a></p>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a><a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a><a href="{{ '/gate/formula-sheets/' | relative_url }}">All formula sheets</a><a href="{{ '/gate/mock-test/' | relative_url }}">Full mock test</a></div>
+</div>

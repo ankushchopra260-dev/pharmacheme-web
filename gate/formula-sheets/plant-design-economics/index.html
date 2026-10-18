@@ -1,0 +1,22 @@
+---
+layout: default
+title: "Plant Design and Economics Formula Sheet for GATE Chemical Engineering"
+description: "GATE CH plant design and economics formula sheet: the key equations, typical values and common traps. about 4 to 6 marks in the paper. With 7 practice questions."
+breadcrumbs:
+  - label: "GATE Chemical Engineering"
+    url: /gate/
+  - label: "Formula sheets"
+    url: /gate/formula-sheets/
+  - label: "Plant Design and Economics"
+    url: /gate/formula-sheets/plant-design-economics/
+---
+<link rel="stylesheet" href="{{ '/assets/css/gate.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+
+<div class="container gt-head"><h1>Plant Design and Economics: GATE CH formula sheet</h1><p>Cost estimation, depreciation, profitability and the time value of money, optimisation and batch scheduling. <b>Weight in the paper: about 4 to 6 marks.</b></p><nav class="gt-nav" aria-label="GATE section"><a href="{{ '/gate/' | relative_url }}">Overview</a><a href="{{ '/gate/formula-sheets/' | relative_url }}" aria-current="page">Formula sheets</a><a href="{{ '/gate/practice/' | relative_url }}">Practice questions</a><a href="{{ '/gate/mock-test/' | relative_url }}">Mock test</a></nav></div>
+<div class="container article-body">
+  <section class="fs-sec"><h2>Costs</h2><div class="fs-row"><div class="k">Six-tenths rule</div><div class="f">C<sub>2</sub> = C<sub>1</sub>(Q<sub>2</sub>/Q<sub>1</sub>)<sup>0.6</sup></div></div><div class="fs-row"><div class="k">Cost index</div><div class="f">C<sub>now</sub> = C<sub>then</sub> × I<sub>now</sub>/I<sub>then</sub><small>CEPCI, Marshall & Swift</small></div></div><div class="fs-row"><div class="k">Lang factor</div><div class="f">Fixed capital ≈ Lang factor × delivered equipment cost<small>About 3.1 solids, 3.6 solid–fluid, 4.7 fluid plants</small></div></div></section><section class="fs-sec"><h2>Depreciation</h2><div class="fs-row"><div class="k">Straight line</div><div class="f">d = (V − V<sub>s</sub>)/n</div></div><div class="fs-row"><div class="k">Declining balance</div><div class="f">Book value = V(1 − f)<sup>n</sup></div></div><div class="fs-row"><div class="k">Sum-of-years digits</div><div class="f">d<sub>j</sub> = (n − j + 1)/(n(n + 1)/2) × (V − V<sub>s</sub>)</div></div></section><section class="fs-sec"><h2>Time value of money</h2><div class="fs-row"><div class="k">Compound interest</div><div class="f">F = P(1 + i)<sup>n</sup>; P = F/(1 + i)<sup>n</sup></div></div><div class="fs-row"><div class="k">Capital recovery</div><div class="f">A = P i(1 + i)<sup>n</sup>/((1 + i)<sup>n</sup> − 1)</div></div><div class="fs-row"><div class="k">Payback period</div><div class="f">Fixed capital / annual cash flow (profit after tax + depreciation)</div></div><div class="fs-row"><div class="k">Rate of return and DCF</div><div class="f">DCFRR: interest rate at which NPV = 0</div></div></section><section class="fs-sec"><h2>Optimisation and scheduling</h2><div class="fs-row"><div class="k">Optimum pipe diameter</div><div class="f">Minimise pumping cost + annualised pipe cost</div></div><div class="fs-row"><div class="k">Optimum insulation</div><div class="f">Minimise heat-loss cost + annualised insulation cost</div></div><div class="fs-row"><div class="k">Batch scheduling</div><div class="f">Overlapping batches: cycle time set by the longest step (bottleneck)<small>Makespan ≈ sum of first batch steps + (n − 1) × bottleneck</small></div></div></section>
+  <div class="fs-trap"><b>Common traps</b><ul><li>Depreciation is a non-cash expense: add it back for cash flow.</li><li>Interest compounded more often than yearly: i<sub>eff</sub> = (1 + r/m)<sup>m</sup> − 1.</li></ul></div>
+  <p><a class="btn btn-primary" href="{{ '/gate/practice/' | relative_url }}?sec=PD">Practise 7 Plant Design and Economics questions</a></p>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time and debottlenecking</a><a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a><a href="{{ '/gate/formula-sheets/' | relative_url }}">All formula sheets</a><a href="{{ '/gate/mock-test/' | relative_url }}">Full mock test</a></div>
+</div>

@@ -118,6 +118,13 @@
         - { title: "RO, DG, Power Factor & VFDs", url: /articles/water-and-power-utilities/ }
 - title: Videos
   url: /videos/
+- title: GATE
+  url: /gate/
+  children:
+    - { title: "GATE CH overview and syllabus", url: /gate/ }
+    - { title: "Formula sheets", url: /gate/formula-sheets/ }
+    - { title: "Practice questions", url: /gate/practice/ }
+    - { title: "Full mock test", url: /gate/mock-test/ }
 - title: Interview
   url: /process-engineering-faq/
 - title: Process Safety
