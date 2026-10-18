@@ -1,0 +1,126 @@
+---
+layout: default
+title: "Process Modelling for Scale-up: What It Is and How to Start"
+seo_title: "Process Modelling for Scale-up: Free Tools | PharmaChemE"
+description: "What process modelling does in pharma and chemical scale-up, the five questions it answers, and how to start with free tools and your own lab data."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Process Modelling for Scale-up
+    url: /articles/process-modelling-for-scale-up/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Process Modelling for Scale-up: What It Is and How to Start",
+        "description": "What process modelling software does in pharma and fine chemical scale-up, the questions it answers, and how to start with free tools and lab data.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" },
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "What is process modelling software used for?", "acceptedAnswer": { "@type": "Answer", "text": "Process modelling software is used mainly in pharmaceutical, agrochemical and fine chemical process development. Engineers fit kinetics from lab data and predict how reactions, mixing, heat transfer, distillation, crystallisation, filtration and drying will behave at plant scale." } },
+          { "@type": "Question", "name": "Are there free process modelling tools?", "acceptedAnswer": { "@type": "Answer", "text": "No free tool covers everything a commercial package does, but the most common scale-up calculations can be done with free tools: kinetics fitting, semi-batch dosing and MTSR, heating and cooling time, mixing scale-up and solvent swap. PharmaChemE offers free browser tools for each of these." } },
+          { "@type": "Question", "name": "What data do I need to build a process model?", "acceptedAnswer": { "@type": "Answer", "text": "Conversion against time at two or three temperatures for the kinetics, heat of reaction and thermal stability data (RC1, DSC or ARC) for safety, and the plant equipment details: volumes, jacket area, U value, agitator geometry and utility temperatures." } }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Process Modelling for Scale-up: What It Is and How to Start</h1>
+  <p class="article-meta">Chemical Engineering &middot; Scale-up &middot; <span class="art-updated">Updated October 2026</span></p>
+
+  <p class="art-lede">Most process development groups in big pharma companies run a process model before a new step goes to the plant. A few lab runs give the kinetics, the model adds the plant equipment, and the team sees the batch time, heat load, accumulation and solvent use before committing a single kilogram. Many engineers have never had access to the software. This article explains what process modelling does, the five questions it answers on almost every project, and how to start with free tools and your own lab data.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What a process model is</a><span>Basics</span></li>
+    <li><a href="#software">What commercial software does</a><span>Basics</span></li>
+    <li><a href="#five">Five questions a model answers</a><span>Working level</span></li>
+    <li><a href="#path">A worked path from lab data to plant</a><span>Working level</span></li>
+    <li><a href="#limits">Where free tools stop</a><span>Going deeper</span></li>
+    <li><a href="#habits">Good modelling habits</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What a process model is <span class="lvl l1">Basics</span></h2>
+  <p>A process model is a set of equations that describes one step of the process, with numbers for the parts that depend on your chemistry and your equipment. The equations are standard chemical engineering: mole balances, heat balances, rate laws, vapour-liquid equilibrium and mixing correlations. What makes the model yours is the <strong>parameters</strong>:</p>
+  <ul>
+    <li><strong>From the lab</strong>: rate constants and activation energy, heat of reaction, solubility, thermal stability (TD24).</li>
+    <li><strong>From the plant</strong>: volumes, jacket area, U value, agitator type and speed, utility temperatures, distillation rate.</li>
+  </ul>
+  <p>Fit the lab parameters once, swap in the plant equipment, and the model predicts the plant batch. Change the dosing time, the temperature or the reactor and see the effect in seconds instead of running another trial.</p>
+
+  <h2 id="software">What commercial software does <span class="lvl l1">Basics</span></h2>
+  <p>Commercial process modelling packages used in pharma and fine chemicals come with libraries of template models for reactions, mixing and heat transfer, distillation and solvent swap, crystallisation, filtration and drying, plus tools to fit kinetic parameters to lab data and to map a design space. General flowsheet simulators are aimed more at continuous plants, while specialist tools cover single areas such as mixing.</p>
+  <p>These packages are licensed per company and cost real money, so most plant engineers, smaller companies and students never see them. The good news is that the calculations behind the everyday questions are not secret. They are textbook equations, and a browser can solve them.</p>
+
+  <h2 id="five">Five questions a model answers <span class="lvl l2">Working level</span></h2>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <thead><tr><th>Question</th><th>What the model does</th><th>Free tool</th></tr></thead>
+    <tbody>
+      <tr><td>How fast is the reaction at plant temperature?</td><td>Fits k and E<sub>a</sub> to conversion data, predicts the time to target conversion</td><td><a href="{{ '/process-modelling/reaction-kinetics-fitting/' | relative_url }}">Kinetics fitting</a></td></tr>
+      <tr><td>Is the dosing safe, and how fast can we dose?</td><td>Simulates heat release, accumulation and MTSR through the dose against the plant cooling</td><td><a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">Semi-batch dosing simulator</a></td></tr>
+      <tr><td>How long will heat-up and cool-down take?</td><td>Integrates the heat balance with the real jacket, utility and limits</td><td><a href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">Heating and cooling time</a></td></tr>
+      <tr><td>What agitator speed do we need?</td><td>Compares lab and plant P/V, solids suspension, kLa and heat transfer, and gives the speed for each scale-up rule</td><td><a href="{{ '/process-modelling/mixing-mass-transfer-scale-up/' | relative_url }}">Mixing and mass transfer</a></td></tr>
+      <tr><td>How much solvent does the swap need?</td><td>Simulates distillation with vapour-liquid equilibrium for put-and-take and constant-volume swaps</td><td><a href="{{ '/process-modelling/solvent-swap-simulator/' | relative_url }}">Solvent swap simulator</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="path">A worked path from lab data to plant <span class="lvl l2">Working level</span></h2>
+  <p>Take a typical exothermic coupling: substrate A in the reactor, reagent B dosed over a few hours.</p>
+  <ol>
+    <li><strong>Lab kinetics.</strong> Three runs at 40, 50 and 60 &deg;C, sampled for HPLC over four hours. Paste the conversions into the kinetics tool and try first, second and nth order. A second-order fit (A + B) gives R&sup2; above 0.999 at each temperature and an activation energy around 64 kJ/mol: the rate roughly doubles every 10 &deg;C.</li>
+    <li><strong>Heat and safety data.</strong> RC1 gives the heat of reaction (say 120 kJ/mol), DSC and ARC give a TD24 of 130 &deg;C, and the solvent boils at 65 &deg;C.</li>
+    <li><strong>Dosing at plant scale.</strong> Enter the plant charge, the dosing volume, the jacket area and the brine temperature in the dosing simulator. At 20 &deg;C with a 3-hour dose, the accumulation peaks at about 45 % and the MTSR at about 60 &deg;C: below the boiling point, but close. The tool finds that dosing faster than about 2.3 hours would push the MTSR past 65 &deg;C.</li>
+    <li><strong>Try alternatives.</strong> Raise the temperature to 30 &deg;C: the reaction keeps up with the dose, accumulation drops and the MTSR barely moves, but the peak cooling load rises. This trade-off is exactly what the model is for.</li>
+    <li><strong>The rest of the batch.</strong> Check the cool-down to 0 &deg;C with the heating and cooling simulator, the agitator speed for the slurry that forms with the mixing tool, and the swap from THF to toluene before crystallisation with the solvent swap simulator.</li>
+  </ol>
+  <p>None of this replaces the lab, but it tells you which experiments matter and stops surprises in the first plant batch.</p>
+
+  <h2 id="limits">Where free tools stop <span class="lvl l3">Going deeper</span></h2>
+  <p>Our tools cover single steps with standard models. Commercial packages go further, and are worth their cost when you need:</p>
+  <ul>
+    <li>Reaction networks with several parallel and consecutive reactions, impurity formation and parameter fitting with confidence intervals.</li>
+    <li>Crystallisation models that predict particle size distribution, and filtration, washing and drying models linked to it.</li>
+    <li>Design space and sensitivity maps across several variables for regulatory filings.</li>
+    <li>A validated, documented environment with model templates, training and support.</li>
+  </ul>
+  <p>If your company has a licence, use it. If not, the free tools answer most of the questions most of the time, and they are a good way to learn the thinking before you use the bigger software.</p>
+
+  <h2 id="habits">Good modelling habits <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Calibrate against the plant.</strong> Before trusting a heat-up prediction, run the model for a past batch in the same reactor and adjust U until it matches the batch record.</li>
+    <li><strong>Keep the data range in mind.</strong> A rate constant fitted at 40 to 60 &deg;C is reliable at 45 &deg;C, less so at 90 &deg;C.</li>
+    <li><strong>Vary one input at a time.</strong> If a small change in an uncertain input (U, k, kLa) changes the answer a lot, that input needs a better measurement.</li>
+    <li><strong>Write down the assumptions</strong> next to the result: ideal mixing, constant temperature, ideal VLE. The next person needs to know what the model can and cannot say.</li>
+    <li><strong>Check safety separately.</strong> A model screens the risk. The decision still needs a proper thermal safety assessment and HAZOP.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is process modelling software used for?</h3>
+  <p>Process modelling software is used mainly in pharmaceutical, agrochemical and fine chemical process development. Engineers fit kinetics from lab data and predict how reactions, mixing, heat transfer, distillation, crystallisation, filtration and drying will behave at plant scale.</p>
+  <h3>Are there free process modelling tools?</h3>
+  <p>No free tool covers everything a commercial package does, but the most common scale-up calculations can be done with free tools: kinetics fitting, semi-batch dosing and MTSR, heating and cooling time, mixing scale-up and solvent swap. Our <a href="{{ '/process-modelling/' | relative_url }}">process modelling tools</a> cover each of these.</p>
+  <h3>What data do I need to build a process model?</h3>
+  <p>Conversion against time at two or three temperatures for the kinetics, heat of reaction and thermal stability data (RC1, DSC or ARC) for safety, and the plant equipment details: volumes, jacket area, U value, agitator geometry and utility temperatures.</p>
+
+  <div class="related-box">
+    <h3>Try the tools</h3>
+    <a href="{{ '/process-modelling/' | relative_url }}">All process modelling tools</a>
+    <a href="{{ '/process-modelling/reaction-kinetics-fitting/' | relative_url }}">Kinetics fitting</a>
+    <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">Semi-batch dosing simulator</a>
+    <h3>Related Articles</h3>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+  </div>
+</div>
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

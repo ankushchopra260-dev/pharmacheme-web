@@ -1,0 +1,96 @@
+---
+layout: default
+title: "Mixing and Mass Transfer Scale-up"
+seo_title: "Mixing Scale-up: Njs, kLa and Heat Transfer | PharmaChemE"
+description: "Free mixing scale-up toolbox: compare lab and plant P/V, just-suspended speed Njs, kLa and process-side heat transfer, and plant speed for each scale-up rule."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Mixing and Mass Transfer Scale-up",
+        "description": "Free mixing scale-up toolbox: compare lab and plant P/V, just-suspended speed Njs, kLa and process-side heat transfer, and plant speed for each scale-up rule.",
+        "url": "https://www.pharmacheme.in/process-modelling/mixing-mass-transfer-scale-up/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the just-suspended speed Njs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The lowest agitator speed at which no particle stays on the vessel base for more than 1 to 2 seconds (Zwietering). Below it, solids settle; well above it, extra power adds little to mass transfer from the particles."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does kLa change on scale-up?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At the same P/V and superficial gas velocity, kLa from van't Riet stays about the same. At the same vvm the superficial velocity rises with vessel size, so kLa usually rises if P/V is kept. For headspace hydrogenation without a sparger, kLa usually falls on scale-up."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Process Modelling"
+    url: /process-modelling/
+  - label: "Mixing and Mass Transfer Scale-up"
+    url: /process-modelling/mixing-mass-transfer-scale-up/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Mixing and mass transfer scale-up</h1>
+  <p>Enter the lab vessel and the plant vessel side by side. The toolbox compares power per volume, blend time, the speed needed to suspend solids (Njs), the gas-liquid mass transfer coefficient (kLa) and the process-side heat transfer coefficient, then gives the plant speed you need to keep each one the same.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="pm-tool" data-tool="mixing"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>The correlations</h2>
+<ul>
+<li><b>Power</b>: P = N<sub>p</sub> &rho; N<sup>3</sup> D<sup>5</sup>, turbulent power numbers by impeller (editable).</li>
+<li><b>Just-suspended speed</b> (Zwietering): N<sub>js</sub> = S &nu;<sup>0.1</sup> (g&Delta;&rho;/&rho;<sub>L</sub>)<sup>0.45</sup> X<sup>0.13</sup> d<sub>p</sub><sup>0.2</sup> D<sup>&minus;0.85</sup>, with X = 100 &times; mass of solids / mass of liquid. S depends on the impeller and geometry.</li>
+<li><b>kLa</b> (van&rsquo;t Riet, sparged vessels): coalescing 0.026 (P<sub>g</sub>/V)<sup>0.4</sup> v<sub>s</sub><sup>0.5</sup>; non-coalescing 0.002 (P<sub>g</sub>/V)<sup>0.7</sup> v<sub>s</sub><sup>0.2</sup> (s<sup>&minus;1</sup>, SI units).</li>
+<li><b>Process-side heat transfer</b> (Uhl and Gray form): Nu = C Re<sup>2/3</sup> Pr<sup>1/3</sup>, with Nu based on the vessel diameter and C about 0.73 for a Rushton turbine, 0.53 for a pitched-blade turbine, 0.40 for a hydrofoil and 0.36 for an anchor. The retreat-curve value is an estimate.</li>
+<li><b>Blend time</b>: &theta;<sub>95</sub> = 5.2 (T/D)<sup>2</sup> / (N<sub>p</sub><sup>1/3</sup> N), turbulent, liquid height about equal to the diameter.</li>
+</ul>
+<h2>Calibrate with the lab</h2>
+<p>Correlations are only as good as their constants. Two simple lab observations make the plant prediction far more reliable: the speed at which no solid rests on the base for more than 1 to 2 seconds (enter it as the lab Njs and the tool back-calculates S), and if gas matters, a measured kLa. Keep the plant geometry similar (same D/T, impeller type and clearance) for the scaling to hold.</p>
+<h2>Which rule to use</h2>
+<p>No single speed keeps everything the same on scale-up. Keep N/N<sub>js</sub> for slurries and crystallisation, P/V for blending and gas dispersion, tip speed for shear-sensitive crystals, and look at blend time when fast competing reactions are involved. For more on the rules, read <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up from lab to plant</a>.</p>
+  <h2>Frequently asked questions</h2>
+  <h3>What is the just-suspended speed Njs?</h3><p>The lowest agitator speed at which no particle stays on the vessel base for more than 1 to 2 seconds (Zwietering). Below it, solids settle; well above it, extra power adds little to mass transfer from the particles.</p><h3>How does kLa change on scale-up?</h3><p>At the same P/V and superficial gas velocity, kLa from van't Riet stays about the same. At the same vvm the superficial velocity rises with vessel size, so kLa usually rises if P/V is kept. For headspace hydrogenation without a sparger, kLa usually falls on scale-up.</p>
+  <p class="pm-small">A free screening tool for engineers and students. Results depend on the inputs and the model assumptions shown; confirm critical decisions with lab data and a proper process safety review.</p>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing scale-up calculator</a><a href="{{ '/articles/agitator-design/' | relative_url }}">Agitator design</a><a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">Gas-liquid reactions and kLa</a><a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a><a href="{{ '/process-modelling/' | relative_url }}">All process modelling tools</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>

@@ -1,0 +1,96 @@
+---
+layout: default
+title: "Semi-batch Dosing Simulator"
+seo_title: "Semi-batch Dosing Simulator: Accumulation, MTSR | PharmaChemE"
+description: "Free semi-batch dosing simulator: heat release, accumulation and MTSR during dosing from your kinetics, cooling capacity check and shortest safe dosing time."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Semi-batch Dosing Simulator",
+        "description": "Free semi-batch dosing simulator: heat release, accumulation and MTSR during dosing from your kinetics, cooling capacity check and shortest safe dosing time.",
+        "url": "https://www.pharmacheme.in/process-modelling/semi-batch-dosing-simulator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is accumulation in a semi-batch reaction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The dosed reagent that has not yet reacted. If cooling fails, it can still react and release its heat, so the MTSR rises with accumulation. It is highest when the reaction is slow compared with the dosing rate."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you choose the dosing time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Long enough that the jacket can remove the heat at the peak and the MTSR stays below the MTT and TD24 throughout, with a margin. Use the \"Find the shortest safe dosing time\" button, then add a margin for plant reality."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Process Modelling"
+    url: /process-modelling/
+  - label: "Semi-batch Dosing Simulator"
+    url: /process-modelling/semi-batch-dosing-simulator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Semi-batch dosing simulator</h1>
+  <p>Dose reagent B into substrate A and watch what happens through the dose: how much heat the reaction gives, whether the jacket can remove it, how much unreacted reagent builds up, and how hot the batch would get if cooling failed at any moment (the MTSR). One click finds the shortest dosing time that keeps the MTSR below your limits.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="pm-tool" data-tool="dosing"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>How it works</h2>
+<p>The tool integrates the mole balances for A and B with the dosing profile and the rate law (second order, rate = k[A][B], or first order in B), with k following Arrhenius. The reactor is assumed to stay at the set temperature.</p>
+<div class="formula-box">MTSR(t) = T<sub>r</sub> + n<sub>unreacted</sub>(t) &times; (&minus;&Delta;H<sub>r</sub>) / (m(t) c<sub>p</sub>)</div>
+<ul>
+<li><b>Accumulation</b> is the reagent that has been dosed but has not reacted yet, as a percentage of the limiting reagent. It is the fuel for a runaway if cooling fails.</li>
+<li><b>Cooling needed</b> = heat of reaction + heat to bring the feed to the reaction temperature. <b>Cooling available</b> = U A (T<sub>r</sub> &minus; T<sub>coolant</sub>), with the wetted area growing as the volume rises.</li>
+<li><b>Stoessel class</b> compares the highest MTSR with the MTT (usually the boiling point) and TD24, the same screening as our <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel class calculator</a>.</li>
+</ul>
+<h2>Where the numbers come from</h2>
+<p>Fit k and E<sub>a</sub> from lab samples with the <a href="{{ '/process-modelling/reaction-kinetics-fitting/' | relative_url }}">kinetics fitting tool</a>, or from RC1 heat flow. ΔH<sub>r</sub> comes from RC1, and TD24 from DSC or ARC data. If you only have RC1 accumulation at one dosing time, use the <a href="{{ '/calculators/reagent-addition-time-calculator/' | relative_url }}">addition time calculator</a>.</p>
+<h2>Colder is not always safer</h2>
+<p>Lower the reaction temperature in the tool and watch the accumulation rise. A slower reaction lets dosed reagent pile up, so a cooling failure late in the dose can release more heat than at a higher temperature. The right temperature keeps the reaction fast enough to consume the reagent as it is added, while the MTSR stays below the limits.</p>
+  <h2>Frequently asked questions</h2>
+  <h3>What is accumulation in a semi-batch reaction?</h3><p>The dosed reagent that has not yet reacted. If cooling fails, it can still react and release its heat, so the MTSR rises with accumulation. It is highest when the reaction is slow compared with the dosing rate.</p><h3>How do you choose the dosing time?</h3><p>Long enough that the jacket can remove the heat at the peak and the MTSR stays below the MTT and TD24 throughout, with a margin. Use the "Find the shortest safe dosing time" button, then add a margin for plant reality.</p>
+  <p class="pm-small">A free screening tool for engineers and students. Results depend on the inputs and the model assumptions shown; confirm critical decisions with lab data and a proper process safety review.</p>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch reactions explained</a><a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes</a><a href="{{ '/calculators/reagent-addition-time-calculator/' | relative_url }}">Addition time from RC1</a><a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read DSC, ARC and RC1</a><a href="{{ '/process-modelling/' | relative_url }}">All process modelling tools</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>

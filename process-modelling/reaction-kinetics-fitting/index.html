@@ -1,0 +1,101 @@
+---
+layout: default
+title: "Reaction Kinetics Fitting"
+seo_title: "Reaction Kinetics Fitting: Rate Constant, Ea | PharmaChemE"
+description: "Free reaction kinetics fitting tool: paste conversion vs time at several temperatures, fit rate constant and activation energy, and predict plant batch time."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Reaction Kinetics Fitting",
+        "description": "Free reaction kinetics fitting tool: paste conversion vs time at several temperatures, fit rate constant and activation energy, and predict plant batch time.",
+        "url": "https://www.pharmacheme.in/process-modelling/reaction-kinetics-fitting/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you find the activation energy from lab data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fit the rate constant k at each temperature, then plot ln k against 1/T (in kelvin). The slope is -Ea/R, so Ea = -slope x 8.314 J/mol·K. You need at least two temperatures; three or more give a check on the fit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you predict batch time at a different temperature?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Calculate k at the new temperature from the Arrhenius equation, then use the integrated rate law to find the time to the target conversion. Stay within about 15 °C of the lab data to avoid large extrapolation."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Process Modelling"
+    url: /process-modelling/
+  - label: "Reaction Kinetics Fitting"
+    url: /process-modelling/reaction-kinetics-fitting/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Reaction kinetics fitting</h1>
+  <p>Paste HPLC or GC conversion results from lab runs at two or more temperatures. The tool fits the rate constant at each temperature, draws the Arrhenius plot to get the activation energy, and predicts the time to your target conversion at the plant temperature. It is the first step of any process model.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="pm-tool" data-tool="kinetics"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>How it works</h2>
+<ul>
+<li><b>First order</b>: X = 1 &minus; e<sup>&minus;kt</sup>.</li>
+<li><b>Second order, A + B</b>, with M = [B]<sub>0</sub>/[A]<sub>0</sub>: ln[(M &minus; X)/(M(1 &minus; X))] = [A]<sub>0</sub>(M &minus; 1) k t (and X = k[A]<sub>0</sub>t/(1 + k[A]<sub>0</sub>t) when M = 1).</li>
+<li><b>nth order</b>: (1 &minus; X)<sup>1&minus;n</sup> = 1 + (n &minus; 1) k [A]<sub>0</sub><sup>n&minus;1</sup> t, with n fitted across all temperatures.</li>
+</ul>
+<p>For each temperature, k is found by least squares on conversion. With two or more temperatures, a straight line through ln k against 1/T gives the activation energy: <b>ln k = ln A &minus; E<sub>a</sub>/(RT)</b>.</p>
+<h2>Getting good data</h2>
+<ul>
+<li>Run at least three temperatures, 10 to 15 &deg;C apart, around the planned plant temperature.</li>
+<li>Take 6 to 10 samples per run, more at the start when conversion changes fastest, and quench each sample immediately.</li>
+<li>Keep the temperature steady. Add the reagent quickly (or all at once) so the start time is clear.</li>
+<li>Use the same stoichiometry and concentration as the plant process.</li>
+</ul>
+<p>The sample data loaded in the tool is made up for illustration. Replace it with your own.</p>
+<h2>Reading the result</h2>
+<p>Try each rate law and keep the one with the highest R² at every temperature and no pattern in the misfit. A rate that changes about 2&times; per 10 &deg;C is typical (E<sub>a</sub> around 50 to 70 kJ/mol). Use the fitted k and E<sub>a</sub> in the <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">semi-batch dosing simulator</a> to check heat release and accumulation at plant scale.</p>
+  <h2>Frequently asked questions</h2>
+  <h3>How do you find the activation energy from lab data?</h3><p>Fit the rate constant k at each temperature, then plot ln k against 1/T (in kelvin). The slope is -Ea/R, so Ea = -slope x 8.314 J/mol·K. You need at least two temperatures; three or more give a check on the fit.</p><h3>How do you predict batch time at a different temperature?</h3><p>Calculate k at the new temperature from the Arrhenius equation, then use the integrated rate law to find the time to the target conversion. Stay within about 15 °C of the lab data to avoid large extrapolation.</p>
+  <p class="pm-small">A free screening tool for engineers and students. Results depend on the inputs and the model assumptions shown; confirm critical decisions with lab data and a proper process safety review.</p>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">Semi-batch dosing simulator</a><a href="{{ '/articles/reactor-selection/' | relative_url }}">Reactor selection</a><a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">Gas-liquid reactions and kLa</a><a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a><a href="{{ '/process-modelling/' | relative_url }}">All process modelling tools</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>

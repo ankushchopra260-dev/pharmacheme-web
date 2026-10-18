@@ -69,8 +69,20 @@
       save(X, rows, slug(title), [34, 18, 18, 18, 18, 18, 18]);
     });
   }
+  /* simulation tools: { title, sub, inputs:[[label,value,unit]], results:[[label,value,unit]], notes:[html], tables:[{name, head, rows}] } */
+  function dataBook(spec) {
+    return load().then(X => {
+      const rows = []; header(rows, spec.title, spec.sub);
+      rows.push(['Inputs', 'Value', 'Unit']); spec.inputs.forEach(r => rows.push([strip(r[0]), typeof r[1] === 'number' ? r[1] : strip(r[1]), strip(r[2])])); rows.push([]);
+      rows.push(['Results', 'Value', 'Unit']); spec.results.forEach(r => rows.push([strip(r[0]), strip(r[1]), strip(r[2])]));
+      const notes = (spec.notes || []).map(strip).filter(Boolean); if (notes.length) { rows.push([]); rows.push(['Notes']); notes.forEach(n => rows.push([n])); }
+      const wb = X.utils.book_new(), ws = X.utils.aoa_to_sheet(rows); ws['!cols'] = [46, 22, 26, 30].map(w => ({ wch: w })); X.utils.book_append_sheet(wb, ws, 'Summary');
+      (spec.tables || []).forEach(t => { const s2 = X.utils.aoa_to_sheet([t.head].concat(t.rows.map(r => r.map(c => typeof c === 'number' ? c : strip(c))))); s2['!cols'] = t.head.map(h => ({ wch: Math.max(14, strip(h).length + 2) })); X.utils.book_append_sheet(wb, s2, String(t.name).slice(0, 31)); });
+      X.writeFile(wb, slug(spec.title));
+    });
+  }
   function fail(btn, e) { btn.disabled = false; btn.textContent = 'Download Excel'; alert(e.message || 'Download failed. Please try again.'); }
-  window.PCME_XL = { calcSheet, fromTables, fail };
+  window.PCME_XL = { calcSheet, fromTables, dataBook, fail };
   function addTableButton() {
     const mount = document.getElementById('calc-mount') || document.getElementById('panels'); if (!mount || mount.dataset.xl) return; mount.dataset.xl = 1;
     const bar = document.createElement('div'); bar.className = 'xl-bar';

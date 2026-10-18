@@ -1,0 +1,133 @@
+---
+layout: default
+title: "Process Modelling Tools for Scale-up"
+seo_title: "Free Process Modelling Tools for Scale-up | PharmaChemE"
+description: "Free process modelling tools for lab-to-plant scale-up: heating and cooling time, semi-batch dosing, kinetics fitting, mixing scale-up and solvent swap."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Process modelling tools for scale-up",
+    "url": "https://www.pharmacheme.in/process-modelling/",
+    "hasPart": [
+      {
+        "@type": "WebApplication",
+        "name": "Heating and Cooling Time Simulator",
+        "url": "https://www.pharmacheme.in/process-modelling/heating-cooling-time-simulator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "name": "Semi-batch Dosing Simulator",
+        "url": "https://www.pharmacheme.in/process-modelling/semi-batch-dosing-simulator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "name": "Reaction Kinetics Fitting",
+        "url": "https://www.pharmacheme.in/process-modelling/reaction-kinetics-fitting/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "name": "Mixing and Mass Transfer Scale-up",
+        "url": "https://www.pharmacheme.in/process-modelling/mixing-mass-transfer-scale-up/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "name": "Solvent Swap Simulator",
+        "url": "https://www.pharmacheme.in/process-modelling/solvent-swap-simulator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Process Modelling"
+    url: /process-modelling/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Process modelling for scale-up</h1>
+  <p>Simple models answer most lab-to-plant questions before the first plant batch: how long the heat-up takes, whether the dosing is safe, how fast the reaction runs at plant temperature, what agitator speed suspends the solids, and how much solvent a swap needs. These five tools run in your browser, free, with your own data, and every result downloads to Excel.</p>
+</div>
+<section class="section" style="padding-top:8px;">
+  <div class="container">
+    <div class="grid-cards">
+      <a class="category-card" href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">
+        <span class="icon">&#127777;&#65039;</span>
+        <h3>Heating and Cooling Time Simulator</h3>
+        <p>How long a jacketed batch takes to heat or cool, with the temperature curve, jacket duty and steam or TR.</p>
+        <span class="card-link">Open &rarr;</span>
+      </a>
+      <a class="category-card" href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">
+        <span class="icon">&#9879;&#65039;</span>
+        <h3>Semi-batch Dosing Simulator</h3>
+        <p>Heat release, accumulation and MTSR through the dose, and the shortest safe dosing time.</p>
+        <span class="card-link">Open &rarr;</span>
+      </a>
+      <a class="category-card" href="{{ '/process-modelling/reaction-kinetics-fitting/' | relative_url }}">
+        <span class="icon">&#128200;</span>
+        <h3>Reaction Kinetics Fitting</h3>
+        <p>Paste conversion against time, get k and the activation energy, and predict the plant batch time.</p>
+        <span class="card-link">Open &rarr;</span>
+      </a>
+      <a class="category-card" href="{{ '/process-modelling/mixing-mass-transfer-scale-up/' | relative_url }}">
+        <span class="icon">&#127744;</span>
+        <h3>Mixing and Mass Transfer Scale-up</h3>
+        <p>Lab against plant: P/V, Njs for solids, kLa for gas and process-side h, plus the plant speed for each scale-up rule.</p>
+        <span class="card-link">Open &rarr;</span>
+      </a>
+      <a class="category-card" href="{{ '/process-modelling/solvent-swap-simulator/' | relative_url }}">
+        <span class="icon">&#128260;</span>
+        <h3>Solvent Swap Simulator</h3>
+        <p>Put-and-take against constant-volume distillation: solvent used, distillate, time and the end temperature.</p>
+        <span class="card-link">Open &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+<div class="container article-body" style="margin-top:8px;">
+  <h2>A typical workflow</h2>
+  <ol>
+    <li><b>Fit the kinetics</b> from two or three lab runs at different temperatures.</li>
+    <li><b>Simulate the dosing</b> at plant scale with the fitted k and E<sub>a</sub>, the heat of reaction from RC1 and the plant jacket. Check accumulation, MTSR and the cooling margin.</li>
+    <li><b>Check the heat-up and cool-down</b> steps so the batch record times are realistic.</li>
+    <li><b>Check the mixing</b>: solids suspension for slurries, kLa for gas reactions, and the process-side heat transfer coefficient for the jacket.</li>
+    <li><b>Plan the solvent swap</b> and compare put-and-take with constant-volume distillation.</li>
+  </ol>
+  <p>New to process modelling? Read <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">process modelling for scale-up: what it is and how to start</a>.</p>
+  <p class="pm-small">These are screening tools built on standard textbook correlations. They do not replace lab work, reaction calorimetry or a process safety assessment.</p>
+</div>

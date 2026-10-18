@@ -58,7 +58,7 @@ structured_data: |
   }#sth-root #priority-canvas { touch-action: none; cursor: pointer; }#sth-root #priority-prompt { font-weight: 700; font-size: 0.95rem; color: #1B2A3A; margin-top: 10px; text-align: center; }#sth-root #priority-explain { font-size: 0.8rem; color: #5A6B7A; text-align: center; margin-top: 6px; max-width: 380px; min-height: 2.2em; }#sth-root #start-overlay, #sth-root #end-overlay {
     position: fixed; inset: 0; background: rgba(11,22,34,0.96); z-index: 30;
     display: flex; align-items: center; justify-content: center; padding: 20px;
-  }#sth-root .card { max-width: 420px; width: 100%; background: #16283C; border-radius: 12px; padding: 30px; text-align: center; color: #ECE7D8; }#sth-root .card h1 { font-family: 'Big Shoulders Display', sans-serif; font-size: 1.8rem; margin: 0 0 8px; }#sth-root .card h1 span { color: #FDBE53; }#sth-root .card p { font-size: 0.88rem; color: #9FB2C4; line-height: 1.6; }#sth-root .bigbtn {
+  }#sth-root .card { max-width: 420px; width: 100%; background: #16283C; border-radius: 12px; padding: 30px; text-align: center; color: #ECE7D8; }#sth-root .card h1, #sth-root .card h2 { font-family: 'Big Shoulders Display', sans-serif; font-size: 1.8rem; margin: 0 0 8px; }#sth-root .card h1 span, #sth-root .card h2 span { color: #FDBE53; }#sth-root .card p { font-size: 0.88rem; color: #9FB2C4; line-height: 1.6; }#sth-root .bigbtn {
     margin-top: 18px; padding: 14px 30px; background: #FDBE53; color: #0B1622; border: none;
     border-radius: 8px; font-weight: 800; font-size: 1rem; cursor: pointer;
   }#sth-root .stat-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin: 8px 0; }#sth-root .stat-row b { color: #FDBE53; }#sth-root .bar-track { background: #0B1622; border-radius: 6px; height: 10px; overflow: hidden; margin-top: 3px; }#sth-root .bar-fill { height: 100%; background: #4CD97B; }
@@ -84,7 +84,7 @@ structured_data: |
 
 <div id="end-overlay" style="display:none;">
   <div class="card">
-    <h1>SHIFT <span>COMPLETE</span></h1>
+    <h2>SHIFT <span>COMPLETE</span></h2>
     <p id="end-msg"></p>
     <div class="stat-row"><span>Final Score</span><b id="end-score">0</b></div>
     <div style="margin-top:14px; text-align:left;">

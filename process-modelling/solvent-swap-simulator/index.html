@@ -1,0 +1,99 @@
+---
+layout: default
+title: "Solvent Swap Simulator"
+seo_title: "Solvent Swap Simulator: Constant Volume vs Put-Take | PharmaChemE"
+description: "Free solvent swap simulator: compare put-and-take and constant-volume distillation for 86 solvents, with solvent used, distillate, time and residual solvent."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Solvent Swap Simulator",
+        "description": "Free solvent swap simulator: compare put-and-take and constant-volume distillation for 86 solvents, with solvent used, distillate, time and residual solvent.",
+        "url": "https://www.pharmacheme.in/process-modelling/solvent-swap-simulator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which is better, put-and-take or constant-volume solvent swap?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Constant-volume distillation usually needs much less new solvent and less distillation time, because the new solvent is added continuously while the old one is at its highest concentration. Put-and-take is simpler where there is no metering pump or reliable level control."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much solvent does a solvent swap need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on the relative volatility of the two solvents, the minimum stirrable volume and the residual limit. For a well-separated pair, a constant-volume swap typically needs about 1.5 to 3 times the held volume of new solvent; azeotropes can need far more."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Process Modelling"
+    url: /process-modelling/
+  - label: "Solvent Swap Simulator"
+    url: /process-modelling/solvent-swap-simulator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Solvent swap simulator</h1>
+  <p>Changing from one solvent to another in the reactor is one of the longest steps in many API processes. Choose the two solvents, the pressure and the volumes, and the simulator works out how much new solvent and distillation time each method needs to bring the old solvent below your limit.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="pm-tool" data-tool="swap"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>How it works</h2>
+<p>The batch is treated as a single-stage still (no column). At each step the bubble point is found from Raoult&rsquo;s law with Antoine vapour pressures, the vapour composition is y<sub>A</sub> = x<sub>A</sub> P<sub>A</sub><sup>sat</sup>/P, and a small amount of vapour is removed.</p>
+<ul>
+<li><b>Put-and-take</b>: distil down to the minimum stirrable volume, refill with the new solvent to the maximum volume, repeat until the residual target is met.</li>
+<li><b>Constant volume</b>: distil down to a set level, then feed the new solvent at the same rate as the distillate so the level stays constant.</li>
+</ul>
+<p>Constant volume almost always needs less new solvent because every litre of distillate removes old solvent at its highest concentration. Put-and-take is simpler to run without a dosing pump and level control.</p>
+<h2>Limits of the model</h2>
+<ul>
+<li>It assumes an ideal mixture. Alcohols or water with hydrocarbons, esters, ketones, ethers or chlorinated solvents often form azeotropes, which make the swap harder than shown. The tool warns you about likely pairs.</li>
+<li>The dissolved product is ignored. It raises the boiling point a little and may crystallise as the solvent changes, so check solubility at each stage.</li>
+<li>A real reactor gives some reflux on the walls and vapour line, so the separation is slightly better than a single stage. Confirm the end point by GC.</li>
+</ul>
+<p>Vapour pressure data is from our <a href="{{ '/solvents/' | relative_url }}">solvent data pages</a>. For the background, read <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">solvent selection and solvent swaps</a>.</p>
+  <h2>Frequently asked questions</h2>
+  <h3>Which is better, put-and-take or constant-volume solvent swap?</h3><p>Constant-volume distillation usually needs much less new solvent and less distillation time, because the new solvent is added continuously while the old one is at its highest concentration. Put-and-take is simpler where there is no metering pump or reliable level control.</p><h3>How much solvent does a solvent swap need?</h3><p>It depends on the relative volatility of the two solvents, the minimum stirrable volume and the residual limit. For a well-separated pair, a constant-volume swap typically needs about 1.5 to 3 times the held volume of new solvent; azeotropes can need far more.</p>
+  <p class="pm-small">A free screening tool for engineers and students. Results depend on the inputs and the model assumptions shown; confirm critical decisions with lab data and a proper process safety review.</p>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent selection and swaps</a><a href="{{ '/solvents/' | relative_url }}">Solvent data</a><a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent recovery calculator</a><a href="{{ '/articles/distillation-basics/' | relative_url }}">Distillation basics</a><a href="{{ '/process-modelling/' | relative_url }}">All process modelling tools</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/swap-solvents.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>

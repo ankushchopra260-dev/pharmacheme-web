@@ -1,0 +1,31 @@
+/* PharmaChemE process modelling tools (uses the ut- calculator styles from utilities.css) */
+.pm-card .ut-hd h2 { margin: 0; font-family: var(--f-display); font-size: 1.2rem; color: var(--paper); }
+.pm-in { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.pm-gh { grid-column: 1 / -1; margin: 6px 0 -4px; font: 700 .78rem var(--f-sans); color: var(--brass); letter-spacing: .02em; border-bottom: 1px solid var(--grid-line); padding-bottom: 4px; }
+.pm-gh:first-child { margin-top: 0; }
+.pm-wide { grid-column: 1 / -1; }
+.pm-in textarea { font: 500 .85rem/1.45 var(--f-mono, monospace); color: var(--paper); background: var(--bg-deep); border: 1px solid #2C4C6C; border-radius: 6px; padding: 8px 10px; width: 100%; resize: vertical; }
+.pm-in textarea:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
+.pm-act { justify-self: start; }
+.pm-more { padding: 6px 18px 14px; border-top: 1px solid var(--grid-line); display: grid; gap: 14px; }
+.pm-more:empty { display: none; }
+.pm-chart { min-width: 0; }
+.pm-fig { margin: 8px 0 0; position: relative; background: var(--bg-deep); border: 1px solid var(--grid-line); border-radius: 8px; padding: 10px 10px 8px; }
+.pm-fig figcaption { font: 600 .9rem var(--f-sans); color: var(--paper); margin: 0 0 4px 4px; }
+.pm-svg { width: 100%; height: auto; display: block; touch-action: pan-y; }
+.pm-grid { stroke: #1D3752; stroke-width: 1; }
+.pm-tk { fill: #8FA5BA; font: 11px var(--f-mono, monospace); }
+.pm-ax { fill: #9FB2C4; font: 12px var(--f-sans, sans-serif); }
+.pm-hl { font: 600 11px var(--f-sans, sans-serif); }
+.pm-cross { stroke: #9FB2C4; stroke-width: 1; stroke-dasharray: 3 3; }
+.pm-leg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .8rem; color: #B9C8D6; margin: 4px 4px 0; }
+.pm-leg i, .pm-tip i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.pm-tip { position: absolute; top: 36px; left: 60px; background: rgba(11,22,34,.94); border: 1px solid #2C4C6C; border-radius: 6px; padding: 6px 9px; font-size: .78rem; color: var(--paper); display: grid; gap: 2px; pointer-events: none; z-index: 2; }
+.pm-tip[hidden] { display: none; }
+.pm-h { font-size: 1rem; color: var(--paper); margin: 8px 0 0; }
+.pm-small { color: var(--muted); font-size: .85rem; margin: 0; }
+.pm-det summary { cursor: pointer; color: var(--brass); font-size: .88rem; }
+.pm-more .ut-table { margin: 6px 0 4px; }
+.pm-hub { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin: 18px 0 10px; }
+@media (max-width: 560px) { .pm-more { padding: 6px 10px 12px; } .pm-fig { padding: 8px 4px 6px; } .pm-in { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 380px) { .pm-in { grid-template-columns: 1fr; } }

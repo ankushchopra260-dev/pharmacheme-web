@@ -43,7 +43,7 @@ structured_data: |
 #rw-root .rw-screen { display:none; }
 #rw-root .rw-screen.on { display:block; animation:rwIn 0.25s ease; }
 @keyframes rwIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-#rw-root h2, #rw-root h3, #rw-root .rw-disp { font-family:var(--f-display, 'Big Shoulders Display', sans-serif); letter-spacing:0.02em; }
+#rw-root h1, #rw-root h2, #rw-root h3, #rw-root .rw-disp { font-family:var(--f-display, 'Big Shoulders Display', sans-serif); letter-spacing:0.02em; }
 #rw-root .rw-card { background:var(--rw-panel); border:1px solid var(--rw-line); border-radius:14px; padding:20px; }
 #rw-root .rw-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:10px; border:none; cursor:pointer;
   background:var(--rw-gold); color:#0B1622; font-weight:700; font-size:15px; }
@@ -57,8 +57,8 @@ structured_data: |
 
 /* home */
 #rw-home .rw-hero { text-align:center; padding:34px 20px 26px; }
-#rw-home .rw-hero h2 { font-size:clamp(34px, 7vw, 58px); margin:0; line-height:1; }
-#rw-home .rw-hero h2 span { color:var(--rw-mtsr); }
+#rw-home .rw-hero h1, #rw-home .rw-hero h2 { font-size:clamp(34px, 7vw, 58px); margin:0; line-height:1; }
+#rw-home .rw-hero h1 span, #rw-home .rw-hero h2 span { color:var(--rw-mtsr); }
 #rw-home .rw-hero p { max-width:620px; margin:12px auto 0; color:var(--rw-muted); line-height:1.6; }
 #rw-home .rw-steps { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-top:8px; }
 #rw-home .rw-step { cursor:pointer; text-align:left; transition:border-color 0.2s, transform 0.2s; position:relative; }
@@ -161,7 +161,7 @@ structured_data: |
 <section id="rw-home" class="rw-screen on">
   <div class="rw-hero">
     <div class="rw-muted rw-disp" style="letter-spacing:0.2em; font-size:14px;">PROCESS SAFETY GAME</div>
-    <h2>RUNAWAY<span>!</span></h2>
+    <h1>RUNAWAY<span>!</span></h1>
     <p>The cooling will fail. It always does, at the worst moment. Learn the Stoessel criticality diagram, then design four reactions, modelled on real reaction types, so that when the cooling goes, nothing else does.</p>
   </div>
   <div class="rw-steps">

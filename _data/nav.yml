@@ -24,6 +24,14 @@
         - { title: "Centrifuge Cake Weight", url: /calculators/centrifuge-cake-weight-calculator/ }
         - { title: "Drying Agent Requirement", url: /calculators/drying-agent-calculator/ }
         - { title: "Packed Scrubber Sizing", url: /calculators/packed-scrubber-calculator/ }
+    - title: "Process modelling (scale-up)"
+      children:
+        - { title: "All modelling tools", url: /process-modelling/ }
+        - { title: "Heating & Cooling Time", url: /process-modelling/heating-cooling-time-simulator/ }
+        - { title: "Semi-batch Dosing Simulator", url: /process-modelling/semi-batch-dosing-simulator/ }
+        - { title: "Kinetics Fitting", url: /process-modelling/reaction-kinetics-fitting/ }
+        - { title: "Mixing & Mass Transfer", url: /process-modelling/mixing-mass-transfer-scale-up/ }
+        - { title: "Solvent Swap Simulator", url: /process-modelling/solvent-swap-simulator/ }
     - title: "Materials and properties"
       children:
         - { title: "Mixture Density & Viscosity", url: /calculators/solvent-mixture-density-viscosity-calculator/ }

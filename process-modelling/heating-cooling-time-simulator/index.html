@@ -1,0 +1,95 @@
+---
+layout: default
+title: "Heating and Cooling Time Simulator"
+seo_title: "Batch Heating and Cooling Time Simulator | PharmaChemE"
+description: "Free batch heating and cooling time simulator for jacketed reactors: temperature curve, jacket duty, steam use and TR, for steam, brine or glass-lined vessels."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Heating and Cooling Time Simulator",
+        "description": "Free batch heating and cooling time simulator for jacketed reactors: temperature curve, jacket duty, steam use and TR, for steam, brine or glass-lined vessels.",
+        "url": "https://www.pharmacheme.in/process-modelling/heating-cooling-time-simulator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ankush Chopra"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the heating time of a batch reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With a fixed jacket temperature, t = (m cp / UA) x ln((Tu - T0)/(Tu - Ttarget)). For limited utility flow, glass-lined ΔT limits, agitator heat or losses, step through time numerically as this simulator does."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is heating slower near the target temperature?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The jacket duty is proportional to the temperature difference between jacket and batch. As the batch approaches the utility temperature the difference shrinks, so the last few degrees take the longest."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Process Modelling"
+    url: /process-modelling/
+  - label: "Heating and Cooling Time Simulator"
+    url: /process-modelling/heating-cooling-time-simulator/
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+
+<div class="container ut-head">
+  <h1>Batch heating and cooling time simulator</h1>
+  <p>How long will the batch take to reach temperature? Enter the batch, the jacket and the utility, and the simulator steps through time to give the temperature curve, the jacket duty and the steam or refrigeration needed. It handles a steam jacket, brine or water with limited flow, and glass-lined vessels where the jacket must stay within a set ΔT of the batch.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="pm-tool" data-tool="heatcool"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>How it works</h2>
+<div class="formula-box">m c<sub>p</sub> dT/dt = Q<sub>jacket</sub> + P<sub>agitator</sub> &minus; UA<sub>loss</sub> (T &minus; T<sub>amb</sub>)</div>
+<ul>
+<li><b>Fixed utility temperature</b> (condensing steam, high-flow brine): Q = UA (T<sub>u</sub> &minus; T). The time has a closed form, t = (m c<sub>p</sub>/UA) ln[(T<sub>u</sub> &minus; T<sub>0</sub>)/(T<sub>u</sub> &minus; T<sub>target</sub>)], which the tool shows as a check.</li>
+<li><b>Limited utility flow</b>: the utility warms or cools as it passes through the jacket, so Q = &#7745;c<sub>p,u</sub> (T<sub>u</sub> &minus; T)(1 &minus; e<sup>&minus;UA/&#7745;c<sub>p,u</sub></sup>). Low flow can be the real bottleneck, not the area.</li>
+<li><b>Glass-lined, ΔT-limited</b>: the jacket follows the batch at the allowed ΔT, so the duty is constant until the utility temperature is reached.</li>
+</ul>
+<h2>Why plant batches heat and cool slower than the lab</h2>
+<p>The time scales with m c<sub>p</sub>/UA. Volume grows with the cube of the vessel size but jacket area only with the square, so a 10 KL reactor has roughly one tenth of the area per kg of a 10 L lab reactor. A step that heats in 20 minutes in the lab can take hours in the plant. Use this tool before tech transfer to set realistic heat-up and cool-down times in the batch record.</p>
+<h2>Getting U and the area</h2>
+<p>Take the wetted area from the <a href="{{ '/calculators/vessel-volume-calculator/' | relative_url }}">vessel volume calculator</a> or the reactor drawing, and U from the <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">overall U calculator</a>. Better still, back-calculate U from a past batch: run the simulator with the plant's real start and end temperatures and adjust U until the time matches the batch record.</p>
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate the heating time of a batch reactor?</h3><p>With a fixed jacket temperature, t = (m cp / UA) x ln((Tu - T0)/(Tu - Ttarget)). For limited utility flow, glass-lined ΔT limits, agitator heat or losses, step through time numerically as this simulator does.</p><h3>Why is heating slower near the target temperature?</h3><p>The jacket duty is proportional to the temperature difference between jacket and batch. As the batch approaches the utility temperature the difference shrinks, so the last few degrees take the longest.</p>
+  <p class="pm-small">A free screening tool for engineers and students. Results depend on the inputs and the model assumptions shown; confirm critical decisions with lab data and a proper process safety review.</p>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall U calculator</a><a href="{{ '/calculators/batch-cooling-tr-calculator/' | relative_url }}">TR to cool a batch</a><a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load and recovery time</a><a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">Jacket and limpet coil design</a><a href="{{ '/process-modelling/' | relative_url }}">All process modelling tools</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>
