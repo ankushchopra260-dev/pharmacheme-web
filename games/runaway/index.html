@@ -399,8 +399,8 @@ const SLIDES = [
     <p>Two questions decide whether this is a non-event or a disaster:</p><ol><li><b>How hot can it get</b> from the reaction that is still waiting to happen?</li><li><b>What happens at that temperature?</b> Does it boil? Does something decompose?</li></ol>
     <p>The <b>Stoessel criticality diagram</b> answers both with just four temperatures. Let’s meet them.</p>` },
   { t:'ΔT<sub>ad</sub>: the adiabatic temperature rise', h:`<p>If all the remaining reaction heat goes into the batch, the temperature rises by</p><div class="rw-eq">ΔT<sub>ad</sub> = (−ΔH<sub>r</sub>) × c / c<sub>p</sub></div>
-    <p>−ΔH<sub>r</sub> is the heat of reaction (kJ/mol), c the concentration (mol per kg of batch) and c<sub>p</sub> the heat capacity (kJ/kg·K).</p>
-    <p><b>Example:</b> 150 kJ/mol × 2 mol/kg ÷ 1.8 kJ/kg·K = <b>167 K</b>. Start at 25 °C and you could end up near 190 °C.</p><p>Diluting the batch lowers c, so it lowers ΔT<sub>ad</sub>.</p>` },
+    <p>−ΔH<sub>r</sub> is the heat of reaction (kcal/mol), c the concentration (mol per kg of batch) and c<sub>p</sub> the heat capacity (kcal/kg·°C).</p>
+    <p><b>Example:</b> 36 kcal/mol × 2 mol/kg ÷ 0.43 kcal/kg·°C = <b>167 °C</b>. Start at 25 °C and you could end up near 190 °C.</p><p>Diluting the batch lowers c, so it lowers ΔT<sub>ad</sub>.</p>` },
   { t:'T<sub>p</sub> and MTSR', h:`<p><b>T<sub>p</sub></b> is the process temperature you run at.</p><p><b>MTSR</b> (Maximum Temperature of the Synthesis Reaction) is how hot the batch gets if the cooling fails at the worst moment:</p>
     <div class="rw-eq">MTSR = T<sub>p</sub> + X<sub>acc</sub> × ΔT<sub>ad</sub></div><p><b>X<sub>acc</sub></b> is the <b>accumulation</b>: the fraction of reagent that has been added but has not reacted yet. It is the “stored” energy.</p>
     <ul><li><b>Batch</b> (all charged at once): X<sub>acc</sub> = 1 at the start, so MTSR = T<sub>p</sub> + ΔT<sub>ad</sub>.</li><li><b>Semi-batch</b> (reagent dosed): if the reaction keeps up with the dosing, X<sub>acc</sub> stays small and so does MTSR.</li></ul>
@@ -452,8 +452,8 @@ const QUIZ = [
     e:'MTSR is the Maximum Temperature of the Synthesis Reaction: the temperature the batch reaches if the cooling fails at the worst moment and all the reagent that has built up reacts adiabatically.' },
   { q:'In a semi-batch reaction, MTSR = T<sub>p</sub> + X × ΔT<sub>ad</sub>. What is X?', o:['The conversion at the end of the batch','The fraction of reagent dosed so far','The accumulation: reagent added but not yet reacted','The dilution factor'], a:2,
     e:'X is the accumulation, the unreacted reagent in the reactor. That is the heat still waiting to be released when the cooling fails. Reagent that has already reacted can no longer heat the batch.' },
-  { q:'−ΔH<sub>r</sub> = 150 kJ/mol, concentration 2 mol/kg, c<sub>p</sub> = 1.8 kJ/kg·K. What is ΔT<sub>ad</sub>?', o:['83 K','167 K','300 K','540 K'], a:1,
-    e:'ΔT<sub>ad</sub> = 150 × 2 / 1.8 = 167 K. That is the rise if the whole charge reacts with no cooling.' },
+  { q:'−ΔH<sub>r</sub> = 36 kcal/mol, concentration 2 mol/kg, c<sub>p</sub> = 0.43 kcal/kg·°C. What is ΔT<sub>ad</sub>?', o:['83 °C','167 °C','300 °C','540 °C'], a:1,
+    e:'ΔT<sub>ad</sub> = 36 × 2 / 0.43 = 167 °C. That is the rise if the whole charge reacts with no cooling.' },
   { q:'For a reactor open to atmosphere through a condenser, MTT is usually…', o:['The jacket design temperature','The boiling point of the reaction mass','TD24','The flash point of the solvent'], a:1,
     e:'At atmospheric pressure the batch cannot get hotter than its boiling point while there is solvent to evaporate. For a closed reactor, MTT is the temperature at which the pressure reaches the relief set pressure.' },
   { q:'TD24 is the temperature at which…', o:['the main reaction is complete in 24 h','the time to maximum rate of the decomposition (TMR<sub>ad</sub>) is 24 hours','the batch boils within 24 hours','the reactor must be inspected every 24 hours'], a:1,
@@ -462,12 +462,12 @@ const QUIZ = [
     e:'40 < 75 < 82 < 150: MTSR stays below the boiling point, and TD24 is above both. Class 1, the safest case.' },
   { q:'T<sub>p</sub> = 20 °C, MTSR = 110 °C, MTT = 66 °C (THF), TD24 = 180 °C. Which class, and what is your safety barrier?', o:['Class 2: nothing to worry about','Class 3: the batch boils, so the reflux condenser must handle the vapour','Class 4: decomposition is certain','Class 5: redesign'], a:1,
     e:'MTT < MTSR < TD24 is Class 3. The batch will boil after a cooling failure; boiling stops the temperature at 66 °C, but only if the condenser and vent can take the vapour flow.' },
-  { q:'A semi-batch reaction is dosed at 10 °C instead of 40 °C, same dosing rate, “to be safer”. What usually happens to MTSR?', o:['It falls by 30 K','It stays the same','It can rise, because the slow reaction lets reagent accumulate','It becomes equal to MTT'], a:2,
+  { q:'A semi-batch reaction is dosed at 10 °C instead of 40 °C, same dosing rate, “to be safer”. What usually happens to MTSR?', o:['It falls by 30 °C','It stays the same','It can rise, because the slow reaction lets reagent accumulate','It becomes equal to MTT'], a:2,
     e:'At low temperature the reaction is slow, so the dosed reagent piles up. The higher accumulation can push MTSR far above the value at 40 °C. Colder is not automatically safer: many real runaways started this way.' },
   { q:'Which situation is Class 5?', o:['MTSR is below the boiling point and below TD24','The batch boils before it reaches TD24','TD24 is below MTSR and below MTT, so the decomposition can start before boiling steps in','MTSR equals T<sub>p</sub>'], a:2,
     e:'In Class 5 the decomposition can be triggered and boiling cannot intervene first. Typical answers: change the process (slower dosing, a different temperature, dilution), or add reliable emergency measures such as a quench or dump tank.' },
-  { q:'TMR<sub>ad</sub> is 24 h at 120 °C (E<sub>a</sub> = 100 kJ/mol). At 140 °C it is roughly…', o:['22 h','12 h','6 h','30 s'], a:2,
-    e:'TMR<sub>ad</sub> falls exponentially with temperature. For E<sub>a</sub> = 100 kJ/mol, 20 K hotter cuts it by a factor of about 4, to around 6 h. That is why a few degrees above TD24 matter so much.' },
+  { q:'TMR<sub>ad</sub> is 24 h at 120 °C (E<sub>a</sub> = 24 kcal/mol). At 140 °C it is roughly…', o:['22 h','12 h','6 h','30 s'], a:2,
+    e:'TMR<sub>ad</sub> falls exponentially with temperature. For E<sub>a</sub> = 24 kcal/mol, 20 °C hotter cuts it by a factor of about 4, to around 6 h. That is why a few degrees above TD24 matter so much.' },
 ];
 let qi = 0, qs = 0;
 // Fisher-Yates shuffle so the correct option isn't always in the same
@@ -534,18 +534,18 @@ function updateDesign(){
   PRE = rwPresim(LV, D);
   $('rw-v-tp').textContent = D.Tp+' °C';
   $('rw-v-td').textContent = D.tDose ? D.tDose+' h (semi-batch)' : 'all at once (batch)';
-  $('rw-v-dil').textContent = D.dil.toFixed(1)+'× (ΔTad '+fmt(LV.dTad/D.dil)+' K)';
+  $('rw-v-dil').textContent = D.dil.toFixed(1)+'× (ΔTad '+fmt(LV.dTad/D.dil)+' °C)';
   const P = PRE, tgt = LV.target, lost = !!P.lost;
   const cell = (lab, val, c) => `<div class="${c || ''}">${lab}<b>${val}</b></div>`;
   $('rw-read').innerHTML =
     cell('MTSR', fmt(P.MTSR)+' °C', P.cls >= 4 ? 'bad' : P.cls === 3 ? 'warn' : 'good') +
     cell('Max accumulation', fmt(P.accMax*100)+' %', P.accMax > 0.4 ? 'bad' : P.accMax > 0.2 ? 'warn' : '') +
     cell('Time per tonne product', lost ? 'out of control' : P.effTime ? fmt(P.effTime, 1)+' h' : '> 40 h', lost ? 'bad' : P.effTime && P.effTime <= tgt.time ? 'good' : 'warn') +
-    cell('Peak heat vs cooling', fmt(P.peakGen)+' / '+fmt(P.capAtPeak)+' K/h', P.peakGen > P.capAtPeak*0.98 ? 'bad' : P.peakGen > P.capAtPeak*0.8 ? 'warn' : 'good') +
+    cell('Peak heat vs cooling', fmt(P.peakGen)+' / '+fmt(P.capAtPeak)+' °C/h', P.peakGen > P.capAtPeak*0.98 ? 'bad' : P.peakGen > P.capAtPeak*0.8 ? 'warn' : 'good') +
     cell('TMRad at MTSR', fmtH(P.tmrMTSR), P.tmrMTSR < 8 ? 'bad' : P.tmrMTSR < 24 ? 'warn' : 'good') +
     cell('Target', 'Class ≤ '+tgt.cls+', ≤ '+tgt.time+' h');
   let m, c;
-  if (lost){ m = `🔥 <b>Out of control even with the cooling working.</b> The reaction releases heat faster than the jacket can remove it (peak ${fmt(P.peakGen)} K/h). Dose more slowly or dilute.`; c = 'bad'; }
+  if (lost){ m = `🔥 <b>Out of control even with the cooling working.</b> The reaction releases heat faster than the jacket can remove it (peak ${fmt(P.peakGen)} °C/h). Dose more slowly or dilute.`; c = 'bad'; }
   else if (P.trips){ m = `⚠️ The high-temperature interlock had to pause dosing ${P.trips}× : the cooling is at its limit. Dose more slowly, dilute, or raise T<sub>p</sub> (more driving force to the coolant).`; c = 'warn'; }
   else { m = CLASS_TXT[P.cls]; c = P.cls <= 2 ? 'good' : P.cls === 3 ? 'warn' : 'bad'; }
   if (!lost && P.cls >= 4 && P.accMax > 0.4 && D.tDose > 0) m += ' <b>Hint:</b> '+fmt(P.accMax*100)+' % of the dosed reagent has not reacted yet. Is the reaction too slow at this temperature?';
@@ -729,7 +729,7 @@ function showResult(){
   track('game_completed', { game: 'runaway', level: LV.id, stars: stars, outcome: end });
   const TITLE = { safe:['✅ No runaway', 'The temperature rose to '+fmt(S.maxT)+' °C and stopped there. TMR<sub>ad</sub> at that temperature is '+fmtH(rwTMR(LV, S.maxT))+', plenty of time to restore cooling.'],
     reflux:['🌡️ It boiled, and the condenser held', 'The batch reached its boiling point ('+fmt(P.MTT)+' °C). Evaporating solvent took the heat away and the reflux condenser returned it. The boiling barrier worked, this time. Was the condenser really rated for that vapour load?'],
-    disc:['💥 Rupture disc burst', 'The batch boiled faster than the condenser could handle (heat release far above its '+LV.condK+' K/h). The pressure rose and the rupture disc burst, venting solvent vapour to the catch pot and scrubber.'],
+    disc:['💥 Rupture disc burst', 'The batch boiled faster than the condenser could handle (heat release far above its '+LV.condK+' °C/h). The pressure rose and the rupture disc burst, venting solvent vapour to the catch pot and scrubber.'],
     runaway:['☠️ Thermal runaway', 'The temperature passed TD24 ('+P.TD24+' °C) and the decomposition took off. In a real plant: a violent gas release, possible vessel rupture.'],
     quenched:['🛟 Quenched in time', 'You dumped the batch into the quench tank before the decomposition ran away. The batch is lost, but nobody is hurt and the plant is intact. Better: a design that never needs the quench.'] }[end];
   const lessons = [];
@@ -755,8 +755,8 @@ function showResult(){
 function showBrief(){
   const L = LV;
   $('rw-rcard').innerHTML = `<div class="rw-muted rw-disp" style="letter-spacing:0.12em;">REACTION ${LI + 1} · BRIEFING</div><h2>${L.name}</h2><div class="rw-brief"><p>${L.brief}</p>
-    <table><tr><td>Reaction</td><td>${L.reaction}</td></tr><tr><td>ΔT<sub>ad</sub> (undiluted)</td><td>${L.dTad} K</td></tr><tr><td>TD24 (from DSC / ARC)</td><td>${L.TD24} °C</td></tr>
-    <tr><td>MTT (boiling point)</td><td>${L.solvents.map(s => s.bp+' °C').join(' / ')}</td></tr><tr><td>Coolant</td><td>${L.coolant}</td></tr><tr><td>Reflux condenser capacity</td><td>${L.condK} K/h</td></tr>
+    <table><tr><td>Reaction</td><td>${L.reaction}</td></tr><tr><td>ΔT<sub>ad</sub> (undiluted)</td><td>${L.dTad} °C</td></tr><tr><td>TD24 (from DSC / ARC)</td><td>${L.TD24} °C</td></tr>
+    <tr><td>MTT (boiling point)</td><td>${L.solvents.map(s => s.bp+' °C').join(' / ')}</td></tr><tr><td>Coolant</td><td>${L.coolant}</td></tr><tr><td>Reflux condenser capacity</td><td>${L.condK} °C/h</td></tr>
     <tr><td>Your target</td><td>class ≤ ${L.target.cls}, ≤ ${L.target.time} h per tonne</td></tr></table>
     <p class="rw-muted" style="font-size:13.5px;">The current settings are the old procedure. Change T<sub>p</sub>, dosing time${L.solvents.length > 1 ? ', solvent' : ''} and dilution, then run the batch. The cooling <b>will</b> fail at the worst moment.</p></div>
     <div class="rw-row" style="margin-top:14px;"><button class="rw-btn" id="rw-bok">Got it →</button></div>`;

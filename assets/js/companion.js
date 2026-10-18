@@ -107,7 +107,7 @@
   }
   /* quick definitions: answer "what is X" straight away, and widen the search to the long name */
   var GL = {
-    dsc: ['DSC', 'Differential scanning calorimetry', 'A few mg of sample is heated next to an empty reference; the difference in heat flow shows melting and exotherms, their onset temperature and energy (J/g). It is the first thermal-safety screen.', 'differential scanning calorimetry thermogram'],
+    dsc: ['DSC', 'Differential scanning calorimetry', 'A few mg of sample is heated next to an empty reference; the difference in heat flow shows melting and exotherms, their onset temperature and energy (kcal/kg). It is the first thermal-safety screen.', 'differential scanning calorimetry thermogram'],
     arc: ['ARC', 'Accelerating rate calorimeter', 'An adiabatic test (heat, wait, search). Once the sample self-heats, the heaters follow it so no heat is lost, giving the self-heat rate, pressure, TMRad and kinetics close to a large vessel.', 'accelerating rate calorimeter adiabatic'],
     tsu: ['TSU', 'Thermal screening unit', 'A closed ~8 mL test cell heated in a ramp with a pressure transducer. It shows the exotherm onset and how much gas the sample makes, which DSC cannot.', 'thermal screening unit pressure gas'],
     rc1: ['RC1', 'Reaction calorimeter', 'A jacketed lab reactor run like the plant process. The heat balance gives the heat release rate as you dose, total reaction heat, cp and accumulation.', 'reaction calorimeter calorimetry accumulation'],
@@ -117,7 +117,7 @@
     td24: ['TD24', 'Temperature with TMRad of 24 h', 'The start temperature at which a runaway would reach maximum rate in 24 hours. Keep the MTSR below it.', 'td24 tmrad time to maximum rate'],
     mtsr: ['MTSR', 'Maximum temperature of the synthesis reaction', 'The highest temperature the batch could reach if cooling failed and all accumulated reagent reacted: process temperature plus accumulation × ΔTad.', 'maximum temperature synthesis reaction accumulation stoessel'],
     mtt: ['MTT', 'Maximum technical temperature', 'Usually the boiling point of the mixture in an open system, or the pressure-relief set temperature in a closed one. Used in Stoessel classes.', 'maximum technical temperature stoessel'],
-    adiabatic: ['ΔTad', 'Adiabatic temperature rise', 'How hot the batch would get if all the reaction heat stayed in it: ΔTad = Q′ / c′p. Above about 200 K is high severity.', 'adiabatic temperature rise severity'],
+    adiabatic: ['ΔTad', 'Adiabatic temperature rise', 'How hot the batch would get if all the reaction heat stayed in it: ΔTad = Q′ / c′p. Above about 200 °C is high severity.', 'adiabatic temperature rise severity'],
     hazop: ['HAZOP', 'Hazard and operability study', 'A team review of each part of the P&ID using guide words (no, more, less, reverse…) to find deviations, their causes, consequences and safeguards.', 'hazop hazard operability guide words'],
     lopa: ['LOPA', 'Layer of protection analysis', 'A semi-quantitative check of whether the independent protection layers reduce a scenario risk enough.', 'layer of protection analysis'],
     psv: ['PSV', 'Pressure safety valve', 'A spring-loaded valve that opens at its set pressure to protect a vessel from overpressure.', 'pressure safety relief valve'],
@@ -361,7 +361,8 @@
     var out;
     if (a[0] === 'temp') { var c = a[1] === 'C' ? v : a[1] === 'F' ? (v - 32) * 5 / 9 : v - 273.15; out = b[1] === 'C' ? c : b[1] === 'F' ? c * 9 / 5 + 32 : c + 273.15; return [f2(v, 3) + ' °' + a[1].replace('K', '') + (a[1] === 'K' ? 'K' : ''), f2(out, 2) + (b[1] === 'K' ? ' K' : ' °' + b[1])]; }
     out = v * UNITS[a[0]][a[1]] / UNITS[b[0]][b[1]];
-    return [f2(v, 4) + ' ' + m[2].trim(), (Math.abs(out) >= 0.01 || out === 0 ? f2(out, 4) : out.toExponential(3)) + ' ' + m[3].trim()];
+    var dp = Math.abs(out) >= 1000 ? 0 : Math.abs(out) >= 100 ? 1 : Math.abs(out) >= 1 ? 3 : 4;
+    return [f2(v, 4) + ' ' + m[2].trim(), (Math.abs(out) >= 0.01 || out === 0 ? f2(out, dp) : out.toExponential(3)) + ' ' + m[3].trim()];
   }
   function calcCard(kind, title, lines, link, linkText, chipsList) {
     var d = document.createElement('div'); d.className = 'pg-ans';
@@ -395,8 +396,8 @@
         var co = /co-?current|parallel/.test(low), th1 = ns[0], th2 = ns[1], tc1 = ns[2], tc2 = ns[3];
         var d1 = co ? th1 - tc1 : th1 - tc2, d2 = co ? th2 - tc2 : th2 - tc1, lm = Math.abs(d1 - d2) < 1e-9 ? d1 : (d1 - d2) / Math.log(d1 / d2);
         msg('Quick LMTD:');
-        if (!(d1 > 0 && d2 > 0)) calcCard('Calculation', 'Temperature cross', ['With these temperatures the hot and cold streams cross (ΔT ' + f2(d1, 1) + ' and ' + f2(d2, 1) + ' K), so this flow arrangement cannot do the duty. Read as: hot in, hot out, cold in, cold out.'], '/articles/heat-exchanger-design-basics/', 'Heat exchanger design basics');
-        else calcCard('Calculation', 'LMTD = ' + f2(lm, 1) + ' K (' + (co ? 'co-current' : 'counter-current') + ')', ['Hot ' + th1 + ' → ' + th2 + ' °C, cold ' + tc1 + ' → ' + tc2 + ' °C', 'ΔT₁ = ' + f2(d1, 1) + ' K, ΔT₂ = ' + f2(d2, 1) + ' K; LMTD = (ΔT₁ − ΔT₂) / ln(ΔT₁/ΔT₂)', '<span class="pg-from">Numbers read in the order hot in, hot out, cold in, cold out.</span>'], '/articles/heat-exchanger-design-basics/', 'Heat exchanger design basics', [[co ? 'Counter-current instead' : 'Co-current instead', 'q:lmtd ' + (co ? '' : 'co-current ') + ns.slice(0, 4).join(' ')]]);
+        if (!(d1 > 0 && d2 > 0)) calcCard('Calculation', 'Temperature cross', ['With these temperatures the hot and cold streams cross (ΔT ' + f2(d1, 1) + ' and ' + f2(d2, 1) + ' °C), so this flow arrangement cannot do the duty. Read as: hot in, hot out, cold in, cold out.'], '/articles/heat-exchanger-design-basics/', 'Heat exchanger design basics');
+        else calcCard('Calculation', 'LMTD = ' + f2(lm, 1) + ' °C (' + (co ? 'co-current' : 'counter-current') + ')', ['Hot ' + th1 + ' → ' + th2 + ' °C, cold ' + tc1 + ' → ' + tc2 + ' °C', 'ΔT₁ = ' + f2(d1, 1) + ' °C, ΔT₂ = ' + f2(d2, 1) + ' °C; LMTD = (ΔT₁ − ΔT₂) / ln(ΔT₁/ΔT₂)', '<span class="pg-from">Numbers read in the order hot in, hot out, cold in, cold out.</span>'], '/articles/heat-exchanger-design-basics/', 'Heat exchanger design basics', [[co ? 'Counter-current instead' : 'Co-current instead', 'q:lmtd ' + (co ? '' : 'co-current ') + ns.slice(0, 4).join(' ')]]);
         track('guide_calc', { type: 'lmtd' }); return true;
       }
     }
@@ -404,12 +405,13 @@
     if (/\b(heat|heating|cool|cooling|warm|chill)\b/.test(low) && (m = low.match(new RegExp(NUM + '\\s*(kg|tonnes?|tons?|mt|t|kl)\\b'))) && /from\s*-?\d/.test(low)) {
       var mass = nm(m[1]) * (/^(kg)$/.test(m[2]) ? 1 : 1000), ft = low.match(new RegExp('from\\s*' + NUM + '\\s*(?:°?\\s*c)?\\s*(?:to|-)\\s*' + NUM));
       if (ft) {
-        var T1 = nm(ft[1]), T2 = nm(ft[2]), cp = (m = low.match(new RegExp('cp\\s*(?:of\\s*|=\\s*)?' + NUM))) ? nm(m[1]) : (/water/.test(low) ? 4.18 : 2.0);
+        var T1 = nm(ft[1]), T2 = nm(ft[2]), cp = (m = low.match(new RegExp('cp\\s*(?:of\\s*|=\\s*)?' + NUM))) ? nm(m[1]) : (/water/.test(low) ? 1.0 : 0.5);
+        if (cp > 1.5) cp = cp / 4.1868; // a cp typed in kJ/kg·K
         var tm = low.match(new RegExp('in\\s*' + NUM + '\\s*(h|hr|hrs|hours?|min|mins|minutes?)\\b')), th = tm ? nm(tm[1]) / (/^m/.test(tm[2]) ? 60 : 1) : NaN;
-        var Qkj = mass * cp * Math.abs(T2 - T1), cool = T2 < T1, lines = ['Heat: <b style="display:inline">' + f2(Qkj / 1000, 1) + ' MJ</b> (' + f2(Qkj / 3600, 1) + ' kWh) = m × c<sub>p</sub> × ΔT with c<sub>p</sub> ' + f2(cp, 2) + ' kJ/kg·K'];
-        if (isFinite(th) && th > 0) { var kw = Qkj / 3600 / th; lines.push('Average duty over ' + f2(th, 2) + ' h: <b style="display:inline">' + f2(kw, 1) + ' kW</b>' + (cool ? ' = ' + f2(kw / 3.517, 1) + ' TR' : '')); if (cool) lines.push('<span class="pg-from">With a fixed brine temperature the peak at the start is higher than the average; check it with the TR calculator.</span>'); else lines.push('Steam: about ' + f2(Qkj / 2100, 0) + ' kg at about 2,100 kJ/kg (3 to 4 bar g)'); }
-        else lines.push('<span class="pg-from">Add a time, for example "in 2 h", to get the duty in kW' + (cool ? ' and TR' : '') + '.</span>');
-        if (!/cp/.test(low)) lines.push('<span class="pg-from">c<sub>p</sub> ' + f2(cp, 2) + ' assumed' + (cp === 2 ? ' (typical organic solvent mixture)' : ' (water)') + '. Add "cp 1.8" to change it.</span>');
+        var Qk = mass * cp * Math.abs(T2 - T1), cool = T2 < T1, lines = ['Heat: <b style="display:inline">' + f2(Qk, 0) + ' kcal</b> = m × c<sub>p</sub> × ΔT with c<sub>p</sub> ' + f2(cp, 2) + ' kcal/kg·°C'];
+        if (isFinite(th) && th > 0) { var kh = Qk / th; lines.push('Average duty over ' + f2(th, 2) + ' h: <b style="display:inline">' + f2(kh, 0) + ' kcal/h</b>' + (cool ? ' = ' + f2(kh / 3024, 1) + ' TR' : '')); if (cool) lines.push('<span class="pg-from">With a fixed brine temperature the peak at the start is higher than the average; check it with the TR calculator.</span>'); else lines.push('Steam: about ' + f2(Qk / 500, 0) + ' kg at about 500 kcal/kg latent heat (3 to 4 bar g)'); }
+        else lines.push('<span class="pg-from">Add a time, for example "in 2 h", to get the duty in kcal/h' + (cool ? ' and TR' : '') + '.</span>');
+        if (!/cp/.test(low)) lines.push('<span class="pg-from">c<sub>p</sub> ' + f2(cp, 2) + ' kcal/kg·°C assumed' + (cp === 0.5 ? ' (typical organic solvent mixture)' : ' (water)') + '. Add "cp 0.45" to change it.</span>');
         msg('Quick heat load:');
         calcCard('Calculation', (cool ? 'Cool ' : 'Heat ') + f2(mass, 0) + ' kg from ' + T1 + ' to ' + T2 + ' °C', lines, cool ? '/calculators/batch-cooling-tr-calculator/' : '/process-modelling/heating-cooling-time-simulator/', cool ? 'TR calculator with peak load' : 'Heating time simulator with your jacket', [['How long will it take?', 'u:/process-modelling/heating-cooling-time-simulator/']]);
         track('guide_calc', { type: 'heat' }); return true;
@@ -505,7 +507,7 @@
     chips.querySelectorAll('.pg-chip').forEach(function (b) { b.addEventListener('click', function () { chip(b.dataset.v, b.textContent); }); });
   }
   var CANNED = {
-    calc: ['Type it and I will work it out, for example “pump power 20 m3/h 30 m head”, “heat 5000 kg from 25 to 80 in 2 h”, “lmtd 150 90 30 70” or “5 bar to psi”. Or open a calculator:', [['Pump power 20 m3/h, 30 m', 'q:pump power 20 m3/h 30 m head'], ['Cool 4000 kg 40 to 5 °C in 3 h', 'q:cool 4000 kg from 40 to 5 in 3 h'], ['1 kg/cm2 to bar', 'q:1 kg/cm2 to bar'], ['Boiling point under vacuum', 'q:boiling point vacuum calculator'], ['Pump power', 'q:pump power calculator'], ['Agitator scale-up', 'q:mixing scale up calculator'], ['Filtration time', 'q:filtration calculator'], ['Heat load', 'q:heat load calculator'], ['All calculators', 'u:/calculators/']]],
+    calc: ['Type it and I will work it out, for example “pump power 20 m3/h 30 m head”, “heat 5000 kg from 25 to 80 in 2 h”, “lmtd 150 90 30 70” or “5 bar to psi”. Or open a calculator:', [['Pump power 20 m3/h, 30 m', 'q:pump power 20 m3/h 30 m head'], ['Cool 4000 kg 40 to 5 °C in 3 h', 'q:cool 4000 kg from 40 to 5 in 3 h'], ['100 kW to kcal/h', 'q:100 kw to kcal/h'], ['Boiling point under vacuum', 'q:boiling point vacuum calculator'], ['Pump power', 'q:pump power calculator'], ['Agitator scale-up', 'q:mixing scale up calculator'], ['Filtration time', 'q:filtration calculator'], ['Heat load', 'q:heat load calculator'], ['All calculators', 'u:/calculators/']]],
     solv: ['Type a solvent and what you need, for example "flash point of toluene", "DMF TLV" or "methanol boiling point at 700 mm vacuum".', [['Flash point of toluene', 'q:flash point of toluene'], ['Acetone autoignition', 'q:acetone autoignition temperature'], ['DCM boiling point at 300 mmHg', 'q:dcm boiling point 300 mmHg'], ['Methanol TLV', 'q:methanol tlv'], ['All solvents table', 'u:/solvents/']]],
     gate: ['GATE Chemical: a full mock test, 105 practice questions with solutions and formula sheets for every section. Or answer one right here.', [['Question of the day', 'q:gate question of the day'], ['Random question', 'q:another gate question'], ['Take the mock test', 'u:/gate/mock-test/'], ['Practice questions', 'u:/gate/practice/'], ['Formula sheets', 'u:/gate/formula-sheets/'], ['Exam pattern and syllabus', 'u:/gate/'], ['A question on LMTD', 'q:gate lmtd heat exchanger question']]],
     model: ['Process modelling for scale-up: run your own lab data against the plant.', [['Fit reaction kinetics', 'u:/process-modelling/reaction-kinetics-fitting/'], ['Semi-batch dosing and MTSR', 'u:/process-modelling/semi-batch-dosing-simulator/'], ['Heating and cooling time', 'u:/process-modelling/heating-cooling-time-simulator/'], ['Mixing, Njs and kLa', 'u:/process-modelling/mixing-mass-transfer-scale-up/'], ['Solvent swap', 'u:/process-modelling/solvent-swap-simulator/']]],

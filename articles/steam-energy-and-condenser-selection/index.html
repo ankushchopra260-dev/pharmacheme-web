@@ -34,7 +34,7 @@ structured_data: |
             "name": "How much heat does steam give in a jacket?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Essentially its latent heat, about 2,000 to 2,250 kJ/kg depending on pressure, because the condensate leaves through the trap with its sensible heat."
+              "text": "Essentially its latent heat, about 480 to 540 kcal/kg depending on pressure, because the condensate leaves through the trap with its sensible heat."
             }
           },
           {
@@ -76,7 +76,7 @@ structured_data: |
   </ol></nav>
 
   <h2 id="steam">What steam gives you <span class="lvl l1">Basics</span></h2>
-  <p>The enthalpy of saturated steam has two parts. <strong>Sensible heat</strong> (h<sub>f</sub>) is what it took to heat the water to boiling. <strong>Latent heat</strong> (h<sub>fg</sub>) is what it took to boil it. In a jacket or coil, steam condenses and gives up its latent heat; the condensate leaves through the trap still carrying its sensible heat. So the useful heat per kg in ordinary heating is the latent heat, about 2,100 kJ/kg at typical process pressures.</p>
+  <p>The enthalpy of saturated steam has two parts. <strong>Sensible heat</strong> (h<sub>f</sub>) is what it took to heat the water to boiling. <strong>Latent heat</strong> (h<sub>fg</sub>) is what it took to boil it. In a jacket or coil, steam condenses and gives up its latent heat; the condensate leaves through the trap still carrying its sensible heat. So the useful heat per kg in ordinary heating is the latent heat, about 500 kcal/kg at typical process pressures.</p>
   <figure class="art-fig" data-fig="steamsplit">
     <figcaption>Try it: raise the steam pressure. The total enthalpy hardly changes, but more of it is sensible heat that leaves with the condensate, and the latent heat per kg falls.</figcaption>
   </figure>
@@ -85,8 +85,8 @@ structured_data: |
   <p>Higher pressure gives a higher temperature, so a bigger temperature difference and faster heating. But it gives less latent heat per kg, and the hot condensate carries more energy away (recoverable only as flash steam). The rule: <strong>use the lowest steam pressure that gives the temperature difference you need</strong>. Many plants distribute at 8&ndash;10 barg to keep pipe sizes small and reduce to 2&ndash;4 barg at the users. Remember the product's wall temperature limit and the glass-lined vessel's thermal shock limits when choosing.</p>
 
   <h2 id="use">Steam consumption for a duty <span class="lvl l2">Working level</span></h2>
-  <div class="formula-box">Steam (kg/h) = Q (kW) &times; 3,600 / h<sub>fg</sub> (kJ/kg) &times; (1 + losses)</div>
-  <p>100 kW of heating at 3 barg (h<sub>fg</sub> &asymp; 2,133 kJ/kg) needs about 169 kg/h of steam, plus 10&ndash;15 % for losses from the vessel and lines. To distil 1,850 kg of toluene, about 666 MJ of latent heat, needs roughly 360 kg of steam with losses. See <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">material and energy balance</a> and the <a href="{{ '/utilities/steam-boiler/' | relative_url }}">steam and boiler calculators</a>.</p>
+  <div class="formula-box">Steam (kg/h) = Q (kcal/h) / h<sub>fg</sub> (kcal/kg) &times; (1 + losses)</div>
+  <p>86,000 kcal/h of heating at 3 barg (h<sub>fg</sub> &asymp; 509 kcal/kg) needs about 169 kg/h of steam, plus 10&ndash;15 % for losses from the vessel and lines. To distil 1,850 kg of toluene, about 1,59,000 kcal of latent heat, needs roughly 360 kg of steam with losses. See <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">material and energy balance</a> and the <a href="{{ '/utilities/steam-boiler/' | relative_url }}">steam and boiler calculators</a>.</p>
   <p>Wet steam (with water droplets), a failed trap that waterlogs the jacket, or air in the steam all reduce the heat delivered. If a jacket heats slowly, check the trap and the condensate drain before blaming the steam pressure.</p>
 
   <h2 id="cond">Selecting a reactor condenser <span class="lvl l2">Working level</span></h2>
@@ -94,9 +94,9 @@ structured_data: |
   <div class="formula-box">Duty = vapour rate &times; [&lambda; + c<sub>p</sub> (T<sub>condensing</sub> &minus; T<sub>condensate</sub>)] &nbsp;&nbsp; Area = Duty / (U &times; LMTD)</div>
   <ol>
     <li><strong>Start from the reboil rate</strong>: the jacket heat input at full steam sets the maximum vapour rate. A condenser sized for the &ldquo;normal&rdquo; rate will be overloaded the first time someone opens the steam valve fully.</li>
-    <li><strong>Use the latent heat of the solvent</strong> at the condensing temperature: methanol (about 1,100 kJ/kg) needs three times the condenser of toluene (about 363 kJ/kg) for the same mass.</li>
+    <li><strong>Use the latent heat of the solvent</strong> at the condensing temperature: methanol (about 263 kcal/kg) needs three times the condenser of toluene (about 87 kcal/kg) for the same mass.</li>
     <li><strong>Check the approach</strong> to the cooling water outlet: with 32/37 &deg;C water, solvents boiling below about 50 &deg;C (MDC, acetone at reduced pressure) need chilled water or brine.</li>
-    <li><strong>Choose U</strong> realistically: condensing organic vapour on cooling water is typically 400&ndash;800 W/m&sup2;K, lower with non-condensables. Add 15&ndash;25 % margin.</li>
+    <li><strong>Choose U</strong> realistically: condensing organic vapour on cooling water is typically 345&ndash;690 kcal/h&middot;m&sup2;&middot;&deg;C, lower with non-condensables. Add 15&ndash;25 % margin.</li>
     <li><strong>Choose the type</strong>: shell-and-tube with vapour on the shell side for most duties; graphite or glass for corrosive vapours; vertical condensers drain better.</li>
   </ol>
   <p>The condenser sizing part of the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a> does this sum, with cooling water flow and area.</p>
@@ -116,7 +116,7 @@ structured_data: |
 
   <h2 id="faq">Questions people ask</h2>
   <h3>How much heat does steam give in a jacket?</h3>
-  <p>Its latent heat: about 2,000&ndash;2,250 kJ/kg depending on pressure.</p>
+  <p>Its latent heat: about 480&ndash;540 kcal/kg depending on pressure.</p>
   <h3>Why use low-pressure steam for heating?</h3>
   <p>More latent heat per kg and less energy lost with the condensate.</p>
   <h3>How do you size a reactor condenser?</h3>

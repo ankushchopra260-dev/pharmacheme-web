@@ -99,10 +99,10 @@ structured_data: |
   <ul>
     <li><strong>Endotherms</strong> (downward peaks): melting, boiling, desolvation. Not hazards themselves, but a melt just before a decomposition often means the decomposition is fast.</li>
     <li><strong>Onset</strong>: where the exotherm leaves the baseline. It depends on heating rate and sensitivity. A DSC at 5 &deg;C/min detects onset much later than the temperature at which a large, insulated plant batch would start to self-heat. It is a marker, never a safe operating limit.</li>
-    <li><strong>Energy</strong>: the area of the exotherm in J/g. Dividing by heat capacity gives the adiabatic temperature rise: 650 J/g &divide; 1.8 J/g&middot;K &asymp; 360 K. As a rough guide many companies use, below about 100 J/g is low severity, above about 500 J/g is high, and very high energies (roughly 800 J/g and up) call for explosive-property testing.</li>
+    <li><strong>Energy</strong>: the area of the exotherm, reported by the instrument in J/g (divide by 4.19 for kcal/kg). Dividing by heat capacity gives the adiabatic temperature rise: 155 kcal/kg (650 J/g) &divide; 0.43 kcal/kg&middot;&deg;C &asymp; 360 &deg;C. As a rough guide many companies use, below about 24 kcal/kg (100 J/g) is low severity, above about 120 kcal/kg (500 J/g) is high, and very high energies (roughly 190 kcal/kg, 800 J/g, and up) call for explosive-property testing.</li>
     <li><strong>Peak shape</strong>: a sharp, narrow peak means a fast reaction once started; a broad one, a slower one.</li>
   </ul>
-  <p>You will hear of the &ldquo;100 K rule&rdquo;: keep the process at least 100 &deg;C below the DSC onset. It is a crude screen and can be unsafe for autocatalytic decompositions and large batches. Use it only to decide whether more testing is needed.</p>
+  <p>You will hear of the &ldquo;100 &deg;C rule&rdquo;: keep the process at least 100 &deg;C below the DSC onset. It is a crude screen and can be unsafe for autocatalytic decompositions and large batches. Use it only to decide whether more testing is needed.</p>
 
   <h2 id="tsu">TSU: screening for gas <span class="lvl l2">Working level</span></h2>
   <p>A thermal screening unit (TSU) heats a few grams of sample in a closed metal cell, usually at a slow ramp (often around 1&ndash;2 &deg;C/min), recording both temperature and pressure. It fills the gap between DSC and ARC. The pressure trace is the valuable part:</p>
@@ -115,7 +115,7 @@ structured_data: |
   <h2 id="rc1">RC1: the reaction as it runs <span class="lvl l2">Working level</span></h2>
   <p>A reaction calorimeter such as the RC1 is a small jacketed reactor that runs the real process (same charges, temperatures and dosing) and measures the heat flow from the difference between reactor and jacket temperatures: q = UA &times; (T<sub>r</sub> &minus; T<sub>j</sub>). A calibration heater of known power, fired before and after the reaction, gives UA. From one run you get:</p>
   <ul>
-    <li><strong>Reaction heat</strong> &Delta;H<sub>r</sub> in kJ/mol, from integrating the heat flow, and the adiabatic temperature rise.</li>
+    <li><strong>Reaction heat</strong> &Delta;H<sub>r</sub> in kcal/mol, from integrating the heat flow, and the adiabatic temperature rise.</li>
     <li><strong>Heat release rate</strong>: the plateau during dosing tells you the cooling the plant must provide per kg.</li>
     <li><strong>Thermal conversion and accumulation</strong>: heat still coming out after dosing stops is unreacted material. That gives the MTSR. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a>.</li>
     <li>With a gas flow meter on the vent, <strong>gas evolution rate</strong> during the reaction.</li>
@@ -136,7 +136,7 @@ structured_data: |
     <li>For every exothermic step, run RC1 under the planned dosing to get heat, accumulation and MTSR.</li>
     <li>Combine MTSR, MTT and TD24 into the criticality class, and size relief for the worst credible case.</li>
   </ol>
-  <div class="art-note"><b>On the plant</b><p>Ask for the raw curves, not only the summary table. A table that says &ldquo;onset 228 &deg;C, 650 J/g&rdquo; hides whether the exotherm was sharp, whether a melt came first, and whether the sample was in a sealed crucible. Five minutes with the trace answers most of the questions a HAZOP will ask.</p></div>
+  <div class="art-note"><b>On the plant</b><p>Ask for the raw curves, not only the summary table. A table that says &ldquo;onset 228 &deg;C, 650 J/g (155 kcal/kg)&rdquo; hides whether the exotherm was sharp, whether a melt came first, and whether the sample was in a sealed crucible. Five minutes with the trace answers most of the questions a HAZOP will ask.</p></div>
 
   <h2>Mistakes I see most often</h2>
   <ul>

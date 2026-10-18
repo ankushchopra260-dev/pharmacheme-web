@@ -4,9 +4,9 @@
   'use strict';
   const F = (x, d) => (isFinite(x) ? Number(x).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d }) : '–');
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const PATM = 1.01325, TR = 3.517; // bar abs, kW per ton of refrigeration
+  const PATM = 1.01325, TR = 3.517, TRK = 3024, KJ = 4.1868; // bar abs, kW per TR, kcal/h per TR, kJ per kcal
 
-  /* Saturated steam (bar abs): T °C, hf, hfg, hg kJ/kg */
+  /* Saturated steam (bar abs): T °C, hf, hfg, hg kJ/kg (shown on the site in kcal/kg) */
   const ST = [[1.01325, 100.0, 419.1, 2256.7, 2675.8], [1.5, 111.4, 467.1, 2226.5, 2693.6], [2, 120.2, 504.7, 2201.6, 2706.3], [2.5, 127.4, 535.4, 2181.5, 2716.9], [3, 133.5, 561.4, 2163.2, 2724.7], [4, 143.6, 604.7, 2133.0, 2737.6],
     [5, 151.8, 640.1, 2107.4, 2747.5], [6, 158.8, 670.4, 2085.0, 2755.5], [7, 165.0, 697.1, 2064.9, 2762.0], [8, 170.4, 720.9, 2046.5, 2767.5], [9, 175.4, 742.6, 2029.5, 2772.1],
     [10, 179.9, 762.6, 2013.6, 2776.2], [11, 184.1, 781.1, 1998.5, 2779.7], [12, 188.0, 798.4, 1984.3, 2782.7], [13, 191.6, 814.7, 1970.7, 2785.4], [14, 195.0, 830.1, 1957.7, 2787.8],
@@ -19,7 +19,7 @@
   }
   const FUELS = { coal: ['Indian coal', 4000, 'kg', 75, 8], impcoal: ['Imported coal', 5800, 'kg', 80, 12], briq: ['Biomass briquette', 3800, 'kg', 72, 7],
     husk: ['Rice husk', 3200, 'kg', 70, 5], fo: ['Furnace oil', 10200, 'kg', 85, 55], hsd: ['HSD (diesel)', 10800, 'kg', 85, 105], png: ['Natural gas / PNG', 9500, 'Sm³', 88, 50] };
-  const COOL = { water: ['Water', 4.186, 1000], g30: ['Glycol 30 % (MEG)', 3.70, 1040], g40: ['Glycol 40 % (MEG)', 3.50, 1055], custom: ['Other (type cp and density)', 3.0, 1100] };
+  const COOL = { water: ['Water', 1.0, 1000], g30: ['Glycol 30 % (MEG)', 0.88, 1040], g40: ['Glycol 40 % (MEG)', 0.84, 1055], custom: ['Other (type cp and density)', 0.72, 1100] };
 
   const C = {};
   /* ---------------- Steam & boiler ---------------- */
@@ -38,8 +38,8 @@
       const s = steam(v.P), hfw = 4.186 * v.Tfw, dh = s.hg - hfw, u = FUELS[v.fuel][2];
       const fuel = v.S * dh / (v.eff / 100 * v.gcv * 4.1868), er = v.S / fuel, day = fuel * v.hrs, cost = day * v.price, perT = cost / (v.S * v.hrs / 1000);
       return { rows: [['Fuel consumption', F(fuel, 0), u + '/h'], ['Fuel per day', F(day / 1000, 2), (u === 'kg' ? 't' : '1,000 Sm³') + '/day'],
-        ['Evaporation ratio', F(er, 2), 'kg steam per ' + u + ' fuel'], ['Heat added per kg steam', F(dh, 0), 'kJ/kg'], ['Fuel cost', '₹ ' + F(cost, 0), 'per day'], ['Steam cost (fuel only)', '₹ ' + F(perT, 0), 'per tonne']],
-        notes: [[`Saturated steam at ${v.P} barg is ${F(s.T, 1)} °C with h<sub>g</sub> = ${F(s.hg, 0)} kJ/kg.`]].concat(s.clipped ? [['Pressure is outside 0 to 20 barg; the steam table end value is used.', 'warn']] : []) };
+        ['Evaporation ratio', F(er, 2), 'kg steam per ' + u + ' fuel'], ['Heat added per kg steam', F(dh / KJ, 0), 'kcal/kg'], ['Fuel cost', '₹ ' + F(cost, 0), 'per day'], ['Steam cost (fuel only)', '₹ ' + F(perT, 0), 'per tonne']],
+        notes: [[`Saturated steam at ${v.P} barg is ${F(s.T, 1)} °C with h<sub>g</sub> = ${F(s.hg / KJ, 0)} kcal/kg.`]].concat(s.clipped ? [['Pressure is outside 0 to 20 barg; the steam table end value is used.', 'warn']] : []) };
     } };
   C.boilerEff = { title: 'Boiler efficiency, direct method', sub: 'From measured steam and fuel over the same period',
     inputs: [
@@ -49,7 +49,7 @@
     run(v) {
       const s = steam(v.P), dh = s.hg - 4.186 * v.Tfw, eff = v.S * dh / (v.fu * v.gcv * 4.1868) * 100, er = v.S / v.fu;
       const band = eff > 95 ? ['Above 95 % is not possible on GCV: check the steam meter, fuel weight or GCV.', 'bad'] : eff < 65 ? ['Low. Check excess air, unburnt carbon in ash, blowdown and insulation.', 'warn'] : ['Within the usual range for this kind of boiler.', 'good'];
-      return { rows: [['Boiler efficiency', F(eff, 1), '%'], ['Evaporation ratio', F(er, 2), 'kg steam per unit fuel'], ['Heat to steam', F(v.S * dh / 3600, 0), 'kW']], notes: [band] };
+      return { rows: [['Boiler efficiency', F(eff, 1), '%'], ['Evaporation ratio', F(er, 2), 'kg steam per unit fuel'], ['Heat to steam', F(v.S * dh / KJ, 0), 'kcal/h']], notes: [band] };
     } };
   C.flash = { title: 'Flash steam from condensate', sub: 'How much condensate flashes when its pressure drops',
     inputs: [
@@ -59,7 +59,7 @@
       if (v.P2 >= v.P1) return { rows: [], notes: [['The flash pressure must be lower than the condensate pressure.', 'bad']] };
       const a = steam(v.P1), b = steam(v.P2), x = Math.max(0, (a.hf - b.hf) / b.hfg), fl = x * v.m;
       return { rows: [['Flash fraction', F(x * 100, 1), '%'], ['Flash steam', F(fl, 0), 'kg/h'], ['Low-pressure steam value', '₹ ' + F(fl / 1000 * v.cost * v.hrs / 1e5, 2), 'lakh per year']],
-        notes: [[`h<sub>f</sub> falls from ${F(a.hf, 0)} to ${F(b.hf, 0)} kJ/kg; that heat boils off part of the condensate.`], ['Recovered only if a flash vessel feeds a low-pressure user; otherwise it vents.']] };
+        notes: [[`h<sub>f</sub> falls from ${F(a.hf / KJ, 0)} to ${F(b.hf / KJ, 0)} kcal/kg; that heat boils off part of the condensate.`], ['Recovered only if a flash vessel feeds a low-pressure user; otherwise it vents.']] };
     } };
   C.condensate = { title: 'Condensate recovery savings', sub: 'Fuel and water saved by returning hot condensate',
     inputs: [
@@ -71,7 +71,7 @@
     run(v) {
       const q = v.m * 4.186 * (v.Tc - v.Tm), fuel = q / (v.eff / 100 * v.gcv * 4.1868), u = FUELS[v.fuel][2];
       const fc = fuel * v.price * v.hrs, wc = v.m / 1000 * v.wat * v.hrs;
-      return { rows: [['Heat recovered', F(q / 3600, 0), 'kW'], ['Fuel saved', F(fuel, 1), u + '/h'], ['Fuel saving', '₹ ' + F(fc / 1e5, 2), 'lakh per year'],
+      return { rows: [['Heat recovered', F(q / KJ, 0), 'kcal/h'], ['Fuel saved', F(fuel, 1), u + '/h'], ['Fuel saving', '₹ ' + F(fc / 1e5, 2), 'lakh per year'],
         ['Water saved', F(v.m / 1000 * 24, 0), 'm³/day'], ['Water and treatment saving', '₹ ' + F(wc / 1e5, 2), 'lakh per year'], ['Total', '₹ ' + F((fc + wc) / 1e5, 2), 'lakh per year']],
         notes: [['Each 6 °C rise in feed water temperature saves roughly 1 % of boiler fuel.']] };
     } };
@@ -95,7 +95,7 @@
       if (R <= 0 || A <= 0) return { rows: [], notes: [['Hot water must be warmer than cold water, and cold water warmer than the wet bulb.', 'bad']] };
       const eff = R / (R + A) * 100, kw = v.Q * 1000 / 3600 * 4.186 * R, E = 0.00085 * 1.8 * v.Q * R;
       const note = A < 2.5 ? ['An approach under about 2.5 °C is hard to reach; check the wet bulb reading.', 'warn'] : A > 6 ? ['A wide approach usually means fouled fill, poor distribution or low air flow.', 'warn'] : ['Approach is in the normal 3 to 5 °C band.', 'good'];
-      return { rows: [['Range', F(R, 1), '°C'], ['Approach', F(A, 1), '°C'], ['Effectiveness', F(eff, 0), '%'], ['Heat rejected', F(kw, 0), 'kW'], ['Heat rejected', F(kw / TR, 0), 'TR'], ['Evaporation loss', F(E, 2), 'm³/h']], notes: [note] };
+      return { rows: [['Range', F(R, 1), '°C'], ['Approach', F(A, 1), '°C'], ['Effectiveness', F(eff, 0), '%'], ['Heat rejected', F(kw * 3600 / KJ, 0), 'kcal/h'], ['Heat rejected', F(kw / TR, 0), 'TR'], ['Evaporation loss', F(E, 2), 'm³/h']], notes: [note] };
     } };
   C.ctWater = { title: 'Make-up, blowdown and cycles of concentration', sub: 'Water balance of a cooling tower',
     inputs: [
@@ -113,21 +113,21 @@
         notes: [[`Going from ${F(coc, 1)} to ${F(coc + 1, 1)} cycles would cut make-up to ${F(E * (coc + 1) / coc, 2)} m³/h (blowdown ${F(Math.max(0, E / coc - D), 2)} m³/h).`], ['Higher cycles need good chemical treatment for scale and corrosion.']] };
     } };
   C.cwFlow = { title: 'Cooling water flow for a heat load', sub: 'How much water a condenser or cooler needs',
-    inputs: [{ k: 'kw', label: 'Heat to remove', unit: 'kW', v: 350 }, { k: 'dT', label: 'Water temperature rise', unit: '°C', v: 5 }],
-    run(v) { const q = v.kw * 3600 / (4.186 * v.dT) / 1000; return { rows: [['Water flow', F(q, 1), 'm³/h'], ['Heat load', F(v.kw / TR, 1), 'TR'], ['Heat load', F(v.kw * 860, 0), 'kcal/h']], notes: [['Q (m³/h) = kW × 3,600 ÷ (4.186 × ΔT × 1,000).']] }; } };
+    inputs: [{ k: 'kc', label: 'Heat to remove', unit: 'kcal/h', v: 300000 }, { k: 'dT', label: 'Water temperature rise', unit: '°C', v: 5 }],
+    run(v) { const q = v.kc / (1.0 * v.dT) / 1000; return { rows: [['Water flow', F(q, 1), 'm³/h'], ['Heat load', F(v.kc / TRK, 1), 'TR']], notes: [['Q (m³/h) = heat (kcal/h) ÷ (1 kcal/kg·°C × ΔT × 1,000 kg/m³). 1 TR = 3,024 kcal/h.']] }; } };
 
   /* ---------------- Chillers & VAM ---------------- */
   const coolInputs = [{ k: 'fl', label: 'Fluid', type: 'sel', v: 'water', opts: Object.entries(COOL).map(([k, c]) => [k, c[0]]) },
-    { k: 'cp', label: 'Specific heat', unit: 'kJ/kg·K', v: 4.186 }, { k: 'rho', label: 'Density', unit: 'kg/m³', v: 1000 }];
+    { k: 'cp', label: 'Specific heat', unit: 'kcal/kg·°C', v: 1.0 }, { k: 'rho', label: 'Density', unit: 'kg/m³', v: 1000 }];
   C.chillerTR = { title: 'Chiller load and kW/TR', sub: 'Tonnage from flow and ΔT, then efficiency from power',
     inputs: [{ k: 'Q', label: 'Chilled water or brine flow', unit: 'm³/h', v: 120 }, { k: 'Tin', label: 'Return (inlet) temperature', unit: '°C', v: 12 }, { k: 'Tout', label: 'Supply (outlet) temperature', unit: '°C', v: 7 }]
       .concat(coolInputs, [{ k: 'kw', label: 'Chiller power input (measured)', unit: 'kW', v: 140 }]),
     onSel: (k, v) => k === 'fl' ? { cp: COOL[v][1], rho: COOL[v][2] } : null,
     run(v) {
       const dT = v.Tin - v.Tout; if (dT <= 0) return { rows: [], notes: [['Return must be warmer than supply.', 'bad']] };
-      const kwth = v.Q * v.rho / 3600 * v.cp * dT, tr = kwth / TR, kwtr = v.kw / tr, cop = kwth / v.kw;
+      const kwth = v.Q * v.rho / 3600 * v.cp * KJ * dT, tr = kwth / TR, kwtr = v.kw / tr, cop = kwth / v.kw;
       const band = v.Tout < 0 ? ['Brine at sub-zero temperatures needs much more power per TR; compare with chillers at the same temperature.', 'warn'] : kwtr < 0.55 ? ['Very good, or check the meters.', 'good'] : kwtr <= 0.8 ? ['Typical of a water-cooled screw or centrifugal chiller.', 'good'] : kwtr <= 1.3 ? ['Typical of an air-cooled chiller, or a water-cooled one with fouled tubes or a warm condenser.', 'warn'] : ['High. Check condenser water temperature, refrigerant charge and part-load running.', 'bad'];
-      return { rows: [['Cooling delivered', F(tr, 1), 'TR'], ['Cooling delivered', F(kwth, 0), 'kW'], ['Specific power', F(kwtr, 2), 'kW/TR'], ['COP', F(cop, 2), ''], ['Heat to cooling tower', F((kwth + v.kw) / TR, 0), 'TR (approx.)']], notes: [band] };
+      return { rows: [['Cooling delivered', F(tr, 1), 'TR'], ['Cooling delivered', F(v.Q * v.rho * v.cp * dT, 0), 'kcal/h'], ['Specific power', F(kwtr, 2), 'kW/TR'], ['COP', F(cop, 2), ''], ['Heat to cooling tower', F((kwth + v.kw) / TR, 0), 'TR (approx.)']], notes: [band] };
     } };
   const VAM = { de: ['Double-effect, steam (8–9 barg)', 1.3, 8], se: ['Single-effect, steam (≈1 barg)', 0.7, 1], hw: ['Single-effect, hot water (85–95 °C)', 0.7, null] };
   C.vam = { title: 'VAM steam or hot-water consumption', sub: 'Vapour absorption machine: heat input for a cooling load',
@@ -136,8 +136,8 @@
       { k: 'dT', label: 'Hot water temperature drop', unit: '°C', v: 10, show: v => v.type === 'hw' }],
     onSel: (k, v) => k === 'type' ? Object.assign({ cop: VAM[v][1] }, VAM[v][2] != null ? { P: VAM[v][2] } : {}) : null,
     run(v) {
-      const kwc = v.tr * TR, heat = kwc / v.cop, ct = kwc + heat, rows = [['Heat input', F(heat, 0), 'kW']];
-      if (v.type === 'hw') rows.push(['Hot water flow', F(heat * 3600 / (4.186 * v.dT) / 1000, 1), 'm³/h']);
+      const kwc = v.tr * TR, heat = kwc / v.cop, ct = kwc + heat, rows = [['Heat input', F(heat * 3600 / KJ, 0), 'kcal/h']];
+      if (v.type === 'hw') rows.push(['Hot water flow', F(heat * 3600 / KJ / (1.0 * v.dT) / 1000, 1), 'm³/h']);
       else { const s = steam(v.P), kg = heat * 3600 / s.hfg; rows.push(['Steam consumption', F(kg, 0), 'kg/h'], ['Specific steam', F(kg / v.tr, 2), 'kg/h per TR']); }
       rows.push(['Heat to cooling tower', F(ct / TR, 0), 'TR'], ['Cooling tower size vs cooling load', F(ct / kwc, 2), '× (electric chiller ≈ 1.2–1.25 ×)']);
       return { rows, notes: [['A VAM rejects its heat input as well as the cooling load, so it needs a bigger cooling tower and more condenser water than an electric chiller.']] };
@@ -296,48 +296,48 @@
       ['p4', 'Step 4, % of gross', `{s4}/{Vg}*100`, '%'], ['c4', 'Step 4', `IF({s4}<{Vmin},"Below minimum stir",IF({s4}>{Vmax},"Overfills","OK"))`, ''],
       ['lo', 'Smallest scale factor', `{Vmin}/MIN({s1},{s2},{s3},{s4})`, '×'], ['hi', 'Largest scale factor', `{Vmax}/MAX({s1},{s2},{s3},{s4})`, '×']] };
 
-  const WALLS = { ss: ['Stainless steel', 8, 16, 0], cs: ['Carbon steel', 10, 50, 0], gl: ['Glass-lined steel', 12, 50, 1.5], hast: ['Hastelloy', 8, 10, 0] };
+  const WALLS = { ss: ['Stainless steel', 8, 14, 0], cs: ['Carbon steel', 10, 43, 0], gl: ['Glass-lined steel', 12, 43, 1.5], hast: ['Hastelloy', 8, 8.6, 0] }; // k in kcal/h·m·°C
   C.overallU = { title: 'Overall heat transfer coefficient (U)', sub: 'From the film coefficients, wall and fouling',
-    inputs: [{ k: 'hp', label: 'Process-side film coefficient', unit: 'W/m²K', v: 800 }, { k: 'hj', label: 'Jacket-side film coefficient', unit: 'W/m²K', v: 2000 },
-      { k: 'wall', label: 'Wall', type: 'sel', v: 'gl', opts: Object.entries(WALLS).map(([k, w]) => [k, w[0]]) }, { k: 't', label: 'Steel wall thickness', unit: 'mm', v: 12 }, { k: 'k', label: 'Wall conductivity', unit: 'W/m·K', v: 50 },
-      { k: 'tg', label: 'Glass thickness (0 if none)', unit: 'mm', v: 1.5 }, { k: 'rf', label: 'Total fouling allowance', unit: 'm²K/W', v: 0.0004 }],
+    inputs: [{ k: 'hp', label: 'Process-side film coefficient', unit: 'kcal/h·m²·°C', v: 700 }, { k: 'hj', label: 'Jacket-side film coefficient', unit: 'kcal/h·m²·°C', v: 1700 },
+      { k: 'wall', label: 'Wall', type: 'sel', v: 'gl', opts: Object.entries(WALLS).map(([k, w]) => [k, w[0]]) }, { k: 't', label: 'Steel wall thickness', unit: 'mm', v: 12 }, { k: 'k', label: 'Wall conductivity', unit: 'kcal/h·m·°C', v: 43 },
+      { k: 'tg', label: 'Glass thickness (0 if none)', unit: 'mm', v: 1.5 }, { k: 'rf', label: 'Total fouling allowance', unit: 'm²·h·°C/kcal', v: 0.00035 }],
     onSel: (k, val) => k === 'wall' ? { t: WALLS[val][1], k: WALLS[val][2], tg: WALLS[val][3] } : null,
     run(v) {
-      const r = [1 / v.hp, v.t / 1000 / v.k, v.tg / 1000 / 1.0, v.rf, 1 / v.hj], R = r.reduce((a, b) => a + b, 0), p = x => F(x / R * 100, 0) + ' %';
-      return { rows: [['Overall U', F(1 / R, 0), 'W/m²K'], ['Process film share', p(r[0]), 'of resistance'], ['Wall share', p(r[1]), 'of resistance'], ['Glass share', p(r[2]), 'of resistance'], ['Fouling share', p(r[3]), 'of resistance'], ['Jacket film share', p(r[4]), 'of resistance']],
-        notes: [['Improve the largest share first. Glass is taken as 1.0 W/m·K. Typical process films in agitated reactors are 300–1,500 W/m²K.']] };
+      const r = [1 / v.hp, v.t / 1000 / v.k, v.tg / 1000 / 0.86, v.rf, 1 / v.hj], R = r.reduce((a, b) => a + b, 0), p = x => F(x / R * 100, 0) + ' %';
+      return { rows: [['Overall U', F(1 / R, 0), 'kcal/h·m²·°C'], ['Process film share', p(r[0]), 'of resistance'], ['Wall share', p(r[1]), 'of resistance'], ['Glass share', p(r[2]), 'of resistance'], ['Fouling share', p(r[3]), 'of resistance'], ['Jacket film share', p(r[4]), 'of resistance']],
+        notes: [['Improve the largest share first. Glass is taken as 0.86 kcal/h·m·°C. Typical process films in agitated reactors are 250–1,300 kcal/h·m²·°C. 1 kcal/h·m²·°C = 1.163 W/m²·K.']] };
     },
-    xl: [['R', 'Total resistance', `1/{hp}+{t}/1000/{k}+{tg}/1000/1+{rf}+1/{hj}`, 'm²K/W'], ['U', 'Overall U', `1/{R}`, 'W/m²K'],
-      ['s1', 'Process film share', `1/{hp}/{R}*100`, '%'], ['s2', 'Wall share', `{t}/1000/{k}/{R}*100`, '%'], ['s3', 'Glass share', `{tg}/1000/{R}*100`, '%'], ['s4', 'Fouling share', `{rf}/{R}*100`, '%'], ['s5', 'Jacket film share', `1/{hj}/{R}*100`, '%']] };
+    xl: [['R', 'Total resistance', `1/{hp}+{t}/1000/{k}+{tg}/1000/0.86+{rf}+1/{hj}`, 'm²·h·°C/kcal'], ['U', 'Overall U', `1/{R}`, 'kcal/h·m²·°C'],
+      ['s1', 'Process film share', `1/{hp}/{R}*100`, '%'], ['s2', 'Wall share', `{t}/1000/{k}/{R}*100`, '%'], ['s3', 'Glass share', `{tg}/1000/0.86/{R}*100`, '%'], ['s4', 'Fouling share', `{rf}/{R}*100`, '%'], ['s5', 'Jacket film share', `1/{hj}/{R}*100`, '%']] };
 
   const SOLV = { tol: ['Toluene', 363, 1.70, 110.6], meoh: ['Methanol', 1100, 2.53, 64.7], etoh: ['Ethanol', 841, 2.44, 78.3], ipa: ['IPA', 667, 2.60, 82.3], ace: ['Acetone', 518, 2.17, 56.1],
     water: ['Water', 2257, 4.18, 100], mdc: ['MDC (dichloromethane)', 330, 1.19, 39.6], etac: ['Ethyl acetate', 367, 1.92, 77.1], thf: ['THF', 410, 1.72, 66], hep: ['n-Heptane', 317, 2.24, 98.4], chx: ['Cyclohexane', 358, 1.85, 80.7] };
   C.batchTR = { title: 'Refrigeration needed to cool a batch', sub: 'Average and peak TR, brine flow and the UA the jacket must give',
-    inputs: [{ k: 'm', label: 'Batch mass', unit: 'kg', v: 4000 }, { k: 'cp', label: 'Batch cp', unit: 'kJ/kg·K', v: 2.0 }, { k: 'T1', label: 'Start temperature', unit: '°C', v: 40 }, { k: 'T2', label: 'Final temperature', unit: '°C', v: 5 },
+    inputs: [{ k: 'm', label: 'Batch mass', unit: 'kg', v: 4000 }, { k: 'cp', label: 'Batch cp', unit: 'kcal/kg·°C', v: 0.48 }, { k: 'T1', label: 'Start temperature', unit: '°C', v: 40 }, { k: 'T2', label: 'Final temperature', unit: '°C', v: 5 },
       { k: 't', label: 'Cooling time wanted', unit: 'h', v: 3 }, { k: 'Tb', label: 'Brine supply temperature', unit: '°C', v: -10 }, { k: 'dTb', label: 'Brine temperature rise', unit: '°C', v: 5 },
-      { k: 'cb', label: 'Brine cp', unit: 'kJ/kg·K', v: 3.5 }, { k: 'q', label: 'Other heat (reaction, agitator)', unit: 'kW', v: 5 }, { k: 'loss', label: 'Losses and margin', unit: '%', v: 15 }],
+      { k: 'cb', label: 'Brine cp', unit: 'kcal/kg·°C', v: 0.84 }, { k: 'q', label: 'Other heat (reaction, agitator)', unit: 'kcal/h', v: 4300 }, { k: 'loss', label: 'Losses and margin', unit: '%', v: 15 }],
     run(v) {
       if (!(v.T1 > v.T2 && v.T2 > v.Tb)) return { rows: [], notes: [['Need start > final > brine temperature.', 'bad']] };
-      const avg = (v.m * v.cp * (v.T1 - v.T2) / (v.t * 3600) + v.q) * (1 + v.loss / 100), r = Math.log((v.T1 - v.Tb) / (v.T2 - v.Tb)), peak = (v.m * v.cp * (v.T1 - v.T2) / (v.t * 3600) * (v.T1 - v.Tb) * r / (v.T1 - v.T2) + v.q) * (1 + v.loss / 100);
-      const UA = v.m * v.cp * r / (v.t * 3600), bf = peak / (v.cb * v.dTb) * 3.6;
-      return { rows: [['Average load', F(avg / TR, 1), 'TR'], ['Peak load (start of cooling)', F(peak / TR, 1), 'TR'], ['Peak load', F(peak, 0), 'kW'], ['Brine flow at peak', F(bf, 1), 'm³/h'], ['UA the jacket must give', F(UA, 2), 'kW/K']],
+      const avg = (v.m * v.cp * (v.T1 - v.T2) / v.t + v.q) * (1 + v.loss / 100), r = Math.log((v.T1 - v.Tb) / (v.T2 - v.Tb)), peak = (v.m * v.cp * (v.T1 - v.T2) / v.t * (v.T1 - v.Tb) * r / (v.T1 - v.T2) + v.q) * (1 + v.loss / 100);
+      const UA = v.m * v.cp * r / v.t, bf = peak / (v.cb * v.dTb) / 1000;
+      return { rows: [['Average load', F(avg / TRK, 1), 'TR'], ['Peak load (start of cooling)', F(peak / TRK, 1), 'TR'], ['Peak load', F(peak, 0), 'kcal/h'], ['Brine flow at peak', F(bf, 1), 'm³/h'], ['UA the jacket must give', F(UA, 0), 'kcal/h·°C']],
         notes: [['With a fixed jacket area, cooling is fastest at the start and slows as the batch approaches the brine temperature, so the chiller must cover the peak, not the average. Divide the UA by your U to get the area needed (overall U and area calculators on this page).']] };
     },
-    xl: [['r', 'ln((T1−Tb)/(T2−Tb))', `LN(({T1}-{Tb})/({T2}-{Tb}))`, ''], ['avg', 'Average load', `({m}*{cp}*({T1}-{T2})/({t}*3600)+{q})*(1+{loss}/100)/3.517`, 'TR'],
-      ['pk', 'Peak load', `({m}*{cp}*({T1}-{T2})/({t}*3600)*({T1}-{Tb})*{r}/({T1}-{T2})+{q})*(1+{loss}/100)`, 'kW'], ['pkTR', 'Peak load', `{pk}/3.517`, 'TR'],
-      ['bf', 'Brine flow at peak', `{pk}/({cb}*{dTb})*3.6`, 'm³/h'], ['UA', 'UA the jacket must give', `{m}*{cp}*{r}/({t}*3600)`, 'kW/K']] };
+    xl: [['r', 'ln((T1−Tb)/(T2−Tb))', `LN(({T1}-{Tb})/({T2}-{Tb}))`, ''], ['avg', 'Average load', `({m}*{cp}*({T1}-{T2})/{t}+{q})*(1+{loss}/100)/3024`, 'TR'],
+      ['pk', 'Peak load', `({m}*{cp}*({T1}-{T2})/{t}*({T1}-{Tb})*{r}/({T1}-{T2})+{q})*(1+{loss}/100)`, 'kcal/h'], ['pkTR', 'Peak load', `{pk}/3024`, 'TR'],
+      ['bf', 'Brine flow at peak', `{pk}/({cb}*{dTb})/1000`, 'm³/h'], ['UA', 'UA the jacket must give', `{m}*{cp}*{r}/{t}`, 'kcal/h·°C']] };
 
   C.addTime = { title: 'Reagent addition time from RC1 data', sub: 'Shortest safe dosing time for the plant cooling, and the MTSR',
-    inputs: [{ k: 'm', label: 'Batch mass at end of dosing', unit: 'kg', v: 3000 }, { k: 'cp', label: 'Batch cp', unit: 'kJ/kg·K', v: 1.8 }, { k: 'Hr', label: 'Reaction heat (RC1)', unit: 'kJ per kg batch', v: 260 },
+    inputs: [{ k: 'm', label: 'Batch mass at end of dosing', unit: 'kg', v: 3000 }, { k: 'cp', label: 'Batch cp', unit: 'kcal/kg·°C', v: 0.43 }, { k: 'Hr', label: 'Reaction heat (RC1)', unit: 'kcal per kg batch', v: 62 },
       { k: 'acc', label: 'Accumulation at end of dosing (RC1)', unit: '%', v: 15 }, { k: 'Tp', label: 'Reaction temperature', unit: '°C', v: 60 }, { k: 'MTT', label: 'MTT (boiling point or limit)', unit: '°C', v: 111 },
-      { k: 'U', label: 'Overall U', unit: 'W/m²K', v: 350 }, { k: 'A', label: 'Wetted jacket area', unit: 'm²', v: 9 }, { k: 'Tj', label: 'Coolant temperature', unit: '°C', v: 30 }, { k: 'use', label: 'Use this much of the cooling', unit: '%', v: 70 }],
+      { k: 'U', label: 'Overall U', unit: 'kcal/h·m²·°C', v: 300 }, { k: 'A', label: 'Wetted jacket area', unit: 'm²', v: 9 }, { k: 'Tj', label: 'Coolant temperature', unit: '°C', v: 30 }, { k: 'use', label: 'Use this much of the cooling', unit: '%', v: 70 }],
     run(v) {
-      const Q = v.m * v.Hr, cool = v.U * v.A * (v.Tp - v.Tj) / 1000, usable = cool * v.use / 100, td = Q * (1 - v.acc / 100) / usable / 3600, dTad = v.Hr / v.cp, mtsr = v.Tp + v.acc / 100 * dTad;
-      return { rows: [['Shortest dosing time', F(td, 1), 'h'], ['Cooling capacity', F(cool, 0), 'kW'], ['Heat release at that time', F(usable, 0), 'kW'], ['Adiabatic temperature rise', F(dTad, 0), '°C'], ['MTSR', F(mtsr, 0), '°C']],
+      const Q = v.m * v.Hr, cool = v.U * v.A * (v.Tp - v.Tj), usable = cool * v.use / 100, td = Q * (1 - v.acc / 100) / usable, dTad = v.Hr / v.cp, mtsr = v.Tp + v.acc / 100 * dTad;
+      return { rows: [['Shortest dosing time', F(td, 1), 'h'], ['Cooling capacity', F(cool, 0), 'kcal/h'], ['Heat release at that time', F(usable, 0), 'kcal/h'], ['Adiabatic temperature rise', F(dTad, 0), '°C'], ['MTSR', F(mtsr, 0), '°C']],
         notes: [mtsr >= v.MTT ? ['MTSR is above the MTT: a cooling failure would boil the batch or exceed the limit. Lower the accumulation (dose slower or hotter, if the chemistry allows) and check the relief case.', 'bad'] : ['MTSR stays below the MTT.', 'good'],
           ['Accumulation depends on the dosing time. Confirm with an RC1 run at the chosen time before using it in the plant.']] };
     },
-    xl: [['Q', 'Total reaction heat', `{m}*{Hr}`, 'kJ'], ['cool', 'Cooling capacity', `{U}*{A}*({Tp}-{Tj})/1000`, 'kW'], ['td', 'Shortest dosing time', `{Q}*(1-{acc}/100)/({cool}*{use}/100)/3600`, 'h'],
+    xl: [['Q', 'Total reaction heat', `{m}*{Hr}`, 'kcal'], ['cool', 'Cooling capacity', `{U}*{A}*({Tp}-{Tj})`, 'kcal/h'], ['td', 'Shortest dosing time', `{Q}*(1-{acc}/100)/({cool}*{use}/100)`, 'h'],
       ['dT', 'Adiabatic temperature rise', `{Hr}/{cp}`, '°C'], ['mtsr', 'MTSR', `{Tp}+{acc}/100*{dT}`, '°C'], ['ok', 'MTSR below MTT?', `IF({mtsr}<{MTT},"Yes","No")`, '']] };
 
   /* ---------------- Process: agitation, properties, drying, scrubbing ---------------- */

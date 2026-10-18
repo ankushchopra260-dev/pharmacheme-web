@@ -38,7 +38,7 @@ structured_data: |
             "name": "How do you find the activation energy from lab data?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Fit the rate constant k at each temperature, then plot ln k against 1/T (in kelvin). The slope is -Ea/R, so Ea = -slope x 8.314 J/mol·K. You need at least two temperatures; three or more give a check on the fit."
+              "text": "Fit the rate constant k at each temperature, then plot ln k against 1/T, with T absolute (°C + 273.15). The slope is -Ea/R, so Ea = -slope x 1.987 cal/mol·°C, giving Ea in cal/mol (divide by 1,000 for kcal/mol). You need at least two temperatures; three or more give a check on the fit."
             }
           },
           {
@@ -88,9 +88,9 @@ breadcrumbs:
 </ul>
 <p>The sample data loaded in the tool is made up for illustration. Replace it with your own.</p>
 <h2>Reading the result</h2>
-<p>Try each rate law and keep the one with the highest R² at every temperature and no pattern in the misfit. A rate that changes about 2&times; per 10 &deg;C is typical (E<sub>a</sub> around 50 to 70 kJ/mol). Use the fitted k and E<sub>a</sub> in the <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">semi-batch dosing simulator</a> to check heat release and accumulation at plant scale.</p>
+<p>Try each rate law and keep the one with the highest R² at every temperature and no pattern in the misfit. A rate that changes about 2&times; per 10 &deg;C is typical (E<sub>a</sub> around 12 to 17 kcal/mol). Use the fitted k and E<sub>a</sub> in the <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">semi-batch dosing simulator</a> to check heat release and accumulation at plant scale.</p>
   <h2>Frequently asked questions</h2>
-  <h3>How do you find the activation energy from lab data?</h3><p>Fit the rate constant k at each temperature, then plot ln k against 1/T (in kelvin). The slope is -Ea/R, so Ea = -slope x 8.314 J/mol·K. You need at least two temperatures; three or more give a check on the fit.</p><h3>How do you predict batch time at a different temperature?</h3><p>Calculate k at the new temperature from the Arrhenius equation, then use the integrated rate law to find the time to the target conversion. Stay within about 15 °C of the lab data to avoid large extrapolation.</p>
+  <h3>How do you find the activation energy from lab data?</h3><p>Fit the rate constant k at each temperature, then plot ln k against 1/T, with T absolute (°C + 273.15). The slope is -Ea/R, so Ea = -slope x 1.987 cal/mol·°C, giving Ea in cal/mol (divide by 1,000 for kcal/mol). You need at least two temperatures; three or more give a check on the fit.</p><h3>How do you predict batch time at a different temperature?</h3><p>Calculate k at the new temperature from the Arrhenius equation, then use the integrated rate law to find the time to the target conversion. Stay within about 15 °C of the lab data to avoid large extrapolation.</p>
   <p class="pm-small">A free screening tool for engineers and students. Results depend on the inputs and the model assumptions shown; confirm critical decisions with lab data and a proper process safety review.</p>
   <div class="related-box">
     <h3>Related</h3>

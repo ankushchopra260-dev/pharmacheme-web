@@ -15,9 +15,9 @@ structured_data: |
         "description": "Sensible and latent heat, jacket heat transfer, wetted area and occupancy, heat-up and cool-down time, and solvent recovery time for batch reactors.",
         "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "dateModified": "2026-10-17" },
       { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate the heat-up time of a jacketed reactor?", "acceptedAnswer": { "@type": "Answer", "text": "With the jacket at a constant temperature Tj, time = (M x cp / (U x A)) x ln((Tj - T0) / (Tj - T)). For 4,000 kg of batch (cp 2 kJ/kg K), U = 350 W/m2K and 9 m2 of wetted area, heating from 30 to 80 C on 3 barg steam takes about 25 minutes." } },
+        { "@type": "Question", "name": "How do you calculate the heat-up time of a jacketed reactor?", "acceptedAnswer": { "@type": "Answer", "text": "With the jacket at a constant temperature Tj, time = (M x cp / (U x A)) x ln((Tj - T0) / (Tj - T)). For 4,000 kg of batch (cp 0.48 kcal/kg C), U = 300 kcal/h m2 C and 9 m2 of wetted area, heating from 30 to 80 C on 3 barg steam takes about 25 minutes." } },
         { "@type": "Question", "name": "Why does cooling a batch take longer than heating it?", "acceptedAnswer": { "@type": "Answer", "text": "Because the driving temperature difference is smaller. Cooling water at 32 C has only 8 C of driving force left when the batch reaches 40 C, so the last few degrees are slow. The same batch that heats in 25 minutes on steam can take over an hour to cool from 80 to 40 C." } },
-        { "@type": "Question", "name": "How do you calculate solvent recovery time?", "acceptedAnswer": { "@type": "Answer", "text": "Recovery time = solvent to recover (kg) / vapour rate (kg/h), where vapour rate = heat duty (kW) x 3,600 / latent heat (kJ/kg). 500 kg of solvent with a latent heat of 360 kJ/kg at 40 kW takes about 1.25 hours of boiling." } }
+        { "@type": "Question", "name": "How do you calculate solvent recovery time?", "acceptedAnswer": { "@type": "Answer", "text": "Recovery time = solvent to recover (kg) / vapour rate (kg/h), where vapour rate = heat duty (kcal/h) / latent heat (kcal/kg). 500 kg of solvent with a latent heat of 86 kcal/kg at 34,400 kcal/h takes about 1.25 hours of boiling." } }
       ] }
     ]
   }
@@ -42,18 +42,18 @@ structured_data: |
   <p><strong>Just need the number?</strong> The <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load &amp; Recovery Calculator</a> works it out, including wetted area from reactor occupancy.</p>
 
   <h2 id="need">How much heat does the batch need? <span class="lvl l1">Basics</span></h2>
-  <p>Heat goes into a batch in two ways. <strong>Sensible heat</strong> raises its temperature; you can feel it, hence the name. <strong>Latent heat</strong> changes liquid into vapour without changing the temperature; it is hidden, which is what &ldquo;latent&rdquo; means. A boiling batch can take heat all day and stay at the same temperature, because every kilojoule is going into vapour.</p>
+  <p>Heat goes into a batch in two ways. <strong>Sensible heat</strong> raises its temperature; you can feel it, hence the name. <strong>Latent heat</strong> changes liquid into vapour without changing the temperature; it is hidden, which is what &ldquo;latent&rdquo; means. A boiling batch can take heat all day and stay at the same temperature, because every kilocalorie is going into vapour.</p>
   <div class="formula-box">
-    Sensible heat Q = M &times; c<sub>p</sub> &times; &Delta;T &nbsp;&nbsp;(kJ)<br>
-    Latent heat Q = m<sub>vapour</sub> &times; &lambda; &nbsp;&nbsp;(kJ)
+    Sensible heat Q = M &times; c<sub>p</sub> &times; &Delta;T &nbsp;&nbsp;(kcal)<br>
+    Latent heat Q = m<sub>vapour</sub> &times; &lambda; &nbsp;&nbsp;(kcal)
   </div>
-  <p>For a sense of scale: heating 1 kg of water by 1 &deg;C takes 4.2 kJ, but boiling it off takes 2,257 kJ. For toluene the numbers are about 1.7 kJ to warm it 1 &deg;C and 360 kJ to boil it. Boiling is where the energy goes.</p>
+  <p>For a sense of scale: heating 1 kg of water by 1 &deg;C takes 1 kcal, but boiling it off takes 539 kcal. For toluene the numbers are about 0.41 kcal to warm it 1 &deg;C and 86 kcal to boil it. Boiling is where the energy goes.</p>
 
   <h2 id="flow">How fast can the jacket deliver it? <span class="lvl l1">Basics</span></h2>
   <p>Heat flows from the jacket into the batch through the reactor wall, and the rate depends on three things:</p>
   <div class="formula-box">
-    Q (W) = U &times; A &times; &Delta;T
-    <small>U: overall heat transfer coefficient (W/m&sup2;K), how easily heat crosses the wall. A: wetted area (m&sup2;), only the part of the wall with liquid behind it. &Delta;T: jacket temperature minus batch temperature.</small>
+    Q (kcal/h) = U &times; A &times; &Delta;T
+    <small>U: overall heat transfer coefficient (kcal/h&middot;m&sup2;&middot;&deg;C), how easily heat crosses the wall. A: wetted area (m&sup2;), only the part of the wall with liquid behind it. &Delta;T: jacket temperature minus batch temperature.</small>
   </div>
   <p>That last term is the one people underestimate. Heat flow is proportional to the temperature difference, so as the batch gets close to the jacket temperature, heat flow tails off. That single fact explains most of what follows.</p>
   <figure class="art-fig">
@@ -79,9 +79,9 @@ structured_data: |
     <small>M &times; c<sub>p</sub> / (U &times; A) is the batch's time constant: the bigger the batch or the worse the heat transfer, the slower it responds.</small>
   </div>
   <h3>Worked example</h3>
-  <p>A 5 KL glass-lined reactor with 4,000 kg of batch (c<sub>p</sub> &asymp; 2.0 kJ/kg&middot;K), 9 m&sup2; of wetted area and U &asymp; 350 W/m&sup2;K. Heat from 30 to 80 &deg;C on 3 barg steam (143.6 &deg;C):</p>
+  <p>A 5 KL glass-lined reactor with 4,000 kg of batch (c<sub>p</sub> &asymp; 0.48 kcal/kg&middot;&deg;C), 9 m&sup2; of wetted area and U &asymp; 300 kcal/h&middot;m&sup2;&middot;&deg;C. Heat from 30 to 80 &deg;C on 3 barg steam (143.6 &deg;C):</p>
   <div class="formula-box">
-    M c<sub>p</sub> / UA = 4,000 &times; 2.0 / (0.35 &times; 9) &asymp; 2,540 s &asymp; 42 min<br>
+    M c<sub>p</sub> / UA = 4,000 &times; 0.48 / (300 &times; 9) &asymp; 0.71 h &asymp; 42 min<br>
     t = 42 &times; ln[(143.6 &minus; 30) / (143.6 &minus; 80)] = 42 &times; ln(1.79) &asymp; 25 min
   </div>
   <p>Now cool it back from 80 to 40 &deg;C with cooling water at 32 &deg;C:</p>
@@ -92,13 +92,13 @@ structured_data: |
   </figure>
 
   <h2 id="recovery">Solvent recovery time <span class="lvl l2">Working level</span></h2>
-  <p>Once the batch is boiling, the temperature stops rising and every kilowatt goes into vapour:</p>
+  <p>Once the batch is boiling, the temperature stops rising and every kcal from the jacket goes into vapour:</p>
   <div class="formula-box">
-    Vapour rate (kg/h) = Heat duty (kW) &times; 3,600 / &lambda; (kJ/kg)<br>
+    Vapour rate (kg/h) = Heat duty (kcal/h) / &lambda; (kcal/kg)<br>
     Recovery time (h) = solvent to recover (kg) / vapour rate (kg/h)
   </div>
-  <p>500 kg of solvent with &lambda; = 360 kJ/kg, and a jacket that can deliver 40 kW at the boiling temperature:</p>
-  <div class="formula-box">Vapour rate = 40 &times; 3,600 / 360 = 400 kg/h &nbsp;&rarr;&nbsp; time = 500 / 400 &asymp; 1.25 h</div>
+  <p>500 kg of solvent with &lambda; = 86 kcal/kg, and a jacket that can deliver 34,400 kcal/h at the boiling temperature:</p>
+  <div class="formula-box">Vapour rate = 34,400 / 86 = 400 kg/h &nbsp;&rarr;&nbsp; time = 500 / 400 &asymp; 1.25 h</div>
   <p>Add the heat-up time before boiling starts, and expect the last part to be slower than the first: the wetted area shrinks and, with mixed solvents, the boiling point rises as the light solvent leaves. The <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">solvent recovery article</a> covers boiling points under vacuum and the condenser side.</p>
 
   <h2 id="area">Wetted area and reactor occupancy <span class="lvl l3">Going deeper</span></h2>
@@ -113,7 +113,7 @@ structured_data: |
   <h2 id="u">What sets U, and how it decays <span class="lvl l3">Going deeper</span></h2>
   <p>U is not one property; it is several resistances in series, like resistors in a circuit:</p>
   <div class="formula-box">1/U = 1/h<sub>inside</sub> + wall thickness / k<sub>wall</sub> + 1/h<sub>jacket</sub> + fouling resistances</div>
-  <p>The biggest one wins. In a glass-lined reactor the glass layer (k &asymp; 1 W/mK) is a large resistance, so U is typically 250&ndash;400 W/m&sup2;K. In stainless steel with good agitation and steam, 500&ndash;800 is common. Viscous batches, poor agitation and scale in the jacket all pull it down.</p>
+  <p>The biggest one wins. In a glass-lined reactor the glass layer (k &asymp; 0.86 kcal/h&middot;m&middot;&deg;C) is a large resistance, so U is typically 215&ndash;345 kcal/h&middot;m&sup2;&middot;&deg;C. In stainless steel with good agitation and steam, 430&ndash;690 is common. Viscous batches, poor agitation and scale in the jacket all pull it down.</p>
   <p>The practical check: record the heat-up time of a standard batch when the reactor is clean. If the same batch takes 30 % longer a year later, U has dropped by about 30 %, and the jacket probably needs descaling. Hot water jackets scale faster than steam jackets because of the hard water circulating through them.</p>
 
   <h2>Mistakes I see most often</h2>
@@ -131,7 +131,7 @@ structured_data: |
   <h3>Why does cooling take longer than heating?</h3>
   <p>The driving force is smaller. Cooling water at 32 &deg;C has only 8 &deg;C of driving force when the batch is at 40 &deg;C, while steam at 144 &deg;C still has over 60 &deg;C when the batch reaches 80 &deg;C.</p>
   <h3>How do you calculate solvent recovery time?</h3>
-  <p>Vapour rate = heat duty &times; 3,600 / latent heat; time = solvent mass / vapour rate. 500 kg at 360 kJ/kg and 40 kW takes about 1.25 hours of boiling.</p>
+  <p>Vapour rate = heat duty / latent heat; time = solvent mass / vapour rate. 500 kg at 86 kcal/kg and 34,400 kcal/h takes about 1.25 hours of boiling.</p>
 
   <div class="related-box">
     <h3>Try the Calculator</h3>

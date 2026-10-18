@@ -67,14 +67,14 @@ structured_data: |
   <p>Every loss calculation needs this one number. The fuel part of it comes from an energy balance on the boiler:</p>
   <div class="formula-box">
     Heat per kg of steam = h<sub>g</sub> (at boiler pressure) &minus; h<sub>fw</sub> (feed water)<br>
-    Fuel per tonne of steam = 1,000 &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV &times; 4.1868)<br>
+    Fuel per tonne of steam = 1,000 &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV)<br>
     Fuel cost per tonne of steam = Fuel per tonne &times; fuel price
   </div>
-  <p>h<sub>g</sub> comes from steam tables (about 2,780 kJ/kg at 10 barg), h<sub>fw</sub> &asymp; 4.186 &times; feed water temperature, &eta; is the boiler efficiency and GCV the fuel's gross calorific value in kcal/kg.</p>
+  <p>h<sub>g</sub> comes from steam tables (about 664 kcal/kg at 10 barg), h<sub>fw</sub> &asymp; 1 &times; feed water temperature (kcal/kg), &eta; is the boiler efficiency and GCV the fuel's gross calorific value in kcal/kg.</p>
   <h3>Worked example</h3>
   <div class="formula-box">
-    10 barg steam, feed water 80 &deg;C: 2,780 &minus; 335 = 2,445 kJ/kg<br>
-    Coal at 4,000 kcal/kg, 75 % efficient: fuel = 1,000 &times; 2,445 / (0.75 &times; 4,000 &times; 4.1868) &asymp; 195 kg per tonne of steam<br>
+    10 barg steam, feed water 80 &deg;C: 664 &minus; 80 = 584 kcal/kg<br>
+    Coal at 4,000 kcal/kg, 75 % efficient: fuel = 1,000 &times; 584 / (0.75 &times; 4,000) &asymp; 195 kg per tonne of steam<br>
     At &#8377;8/kg: about &#8377;1,560 per tonne of steam (fuel only)
   </div>
   <p>The same steam from furnace oil at 10,200 kcal/kg, 85 % efficient and &#8377;55/kg costs about &#8377;3,700 per tonne. Add power for the FD/ID fans and feed pumps, water treatment, chemicals, ash handling, labour and maintenance, and the full cost is usually 15&ndash;30 % higher than the fuel cost alone. Use the full cost when you value savings.</p>
@@ -97,7 +97,7 @@ structured_data: |
   <div class="formula-box">
     Blowdown (% of steam) = TDS<sub>feed</sub> / (TDS<sub>boiler, max</sub> &minus; TDS<sub>feed</sub>) &times; 100
   </div>
-  <p>With 150 ppm feed water and a 3,000 ppm limit, blowdown is about 5.3 % of the steam. For a 5 t/h boiler at 10 barg that is about 263 kg/h of water at 184 &deg;C, carrying (781 &minus; 335) kJ/kg more heat than the feed water, about 33 kW or roughly 0.7 % of the fuel. Better feed water (more condensate return, a softener or RO) reduces it at the source; automatic TDS control and a flash vessel with a heat exchanger on continuous blowdown recover most of the rest.</p>
+  <p>With 150 ppm feed water and a 3,000 ppm limit, blowdown is about 5.3 % of the steam. For a 5 t/h boiler at 10 barg that is about 263 kg/h of water at 184 &deg;C, carrying (187 &minus; 80) kcal/kg more heat than the feed water, about 28,000 kcal/h or roughly 0.7 % of the fuel. Better feed water (more condensate return, a softener or RO) reduces it at the source; automatic TDS control and a flash vessel with a heat exchanger on continuous blowdown recover most of the rest.</p>
 
   <h2 id="traps">Steam traps and leaks <span class="lvl l2">Working level</span></h2>
   <p>A trap that fails open passes live steam into the condensate line. Napier's formula gives an upper estimate of the steam through an orifice:</p>
@@ -123,7 +123,7 @@ structured_data: |
     <li>the treated water itself, and its softener or RO cost;</li>
     <li>chemicals and blowdown, because condensate has almost no dissolved solids.</li>
   </ul>
-  <p>Returning 3 t/h of condensate at 90 &deg;C instead of 30 &deg;C make-up recovers about 209 kW, roughly 60 kg/h of coal in a 75 % efficient boiler, plus 72 m&sup3; a day of treated water. A rule of thumb worth remembering: every 6 &deg;C rise in feed water temperature saves about 1 % of boiler fuel.</p>
+  <p>Returning 3 t/h of condensate at 90 &deg;C instead of 30 &deg;C make-up recovers about 1,80,000 kcal/h, roughly 60 kg/h of coal in a 75 % efficient boiler, plus 72 m&sup3; a day of treated water. A rule of thumb worth remembering: every 6 &deg;C rise in feed water temperature saves about 1 % of boiler fuel.</p>
   <p>Condensate from process heat exchangers can pick up product if a tube leaks. Return it through a conductivity or TOC monitor with a dump valve, rather than sending it all to drain.</p>
 
   <h2 id="audit">A steam audit checklist <span class="lvl l3">Going deeper</span></h2>

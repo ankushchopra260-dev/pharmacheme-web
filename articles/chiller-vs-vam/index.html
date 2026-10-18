@@ -57,16 +57,16 @@ structured_data: |
   </figure>
   <h2 id="measure">Measuring a chiller in the field <span class="lvl l2">Working level</span></h2>
   <div class="formula-box">
-    Cooling (kW) = flow (m&sup3;/h) &times; &rho; / 3,600 &times; c<sub>p</sub> &times; (T<sub>return</sub> &minus; T<sub>supply</sub>)<br>
-    TR = kW / 3.517 &nbsp;&nbsp; (water: TR &asymp; m&sup3;/h &times; &Delta;T / 3.024)<br>
-    kW/TR = compressor power / TR &nbsp;&nbsp; COP = cooling kW / power kW = 3.517 / (kW/TR)
+    Cooling (kcal/h) = flow (m&sup3;/h) &times; &rho; &times; c<sub>p</sub> &times; (T<sub>return</sub> &minus; T<sub>supply</sub>)<br>
+    TR = kcal/h / 3,024 &nbsp;&nbsp; (water: TR &asymp; m&sup3;/h &times; &Delta;T / 3.024)<br>
+    kW/TR = compressor power (kW) / TR &nbsp;&nbsp; COP = cooling (kcal/h) / (power kW &times; 860) = 3.517 / (kW/TR)
   </div>
   <h3>Example 1: water chiller</h3>
-  <p>120 m&sup3;/h of chilled water from 12 &deg;C to 7 &deg;C: 120 &times; 5 / 3.024 &asymp; 198 TR (698 kW). The compressor draws 140 kW: 0.71 kW/TR, COP 5.0. That is a normal water-cooled screw chiller.</p>
+  <p>120 m&sup3;/h of chilled water from 12 &deg;C to 7 &deg;C: 120 &times; 5 / 3.024 &asymp; 198 TR (6,00,000 kcal/h). The compressor draws 140 kW: 0.71 kW/TR, COP 5.0. That is a normal water-cooled screw chiller.</p>
   <h3>Example 2: glycol brine</h3>
-  <p>60 m&sup3;/h of 30 % ethylene glycol (&rho; &asymp; 1,040 kg/m&sup3;, c<sub>p</sub> &asymp; 3.7 kJ/kg&middot;K) from 0 &deg;C to &minus;5 &deg;C:</p>
+  <p>60 m&sup3;/h of 30 % ethylene glycol (&rho; &asymp; 1,040 kg/m&sup3;, c<sub>p</sub> &asymp; 0.88 kcal/kg&middot;&deg;C) from 0 &deg;C to &minus;5 &deg;C:</p>
   <div class="formula-box">
-    Cooling = 60 &times; 1,040 / 3,600 &times; 3.7 &times; 5 &asymp; 321 kW &asymp; 91 TR<br>
+    Cooling = 60 &times; 1,040 &times; 0.88 &times; 5 &asymp; 2,74,600 kcal/h &asymp; 91 TR<br>
     Compressor power 180 kW &rarr; about 2.0 kW/TR
   </div>
   <p>That is not a bad chiller. Making cold at &minus;5 &deg;C simply takes far more work than at 7 &deg;C, so only compare brine chillers with other brine chillers at the same temperatures. And use the right c<sub>p</sub>: treating glycol as water here would overstate the load by about 9 %.</p>
@@ -74,11 +74,11 @@ structured_data: |
 
   <h2 id="vam">VAM steam and hot water consumption <span class="lvl l2">Working level</span></h2>
   <div class="formula-box">
-    Heat input (kW) = TR &times; 3.517 / COP<br>
-    Steam (kg/h) = heat input &times; 3,600 / h<sub>fg</sub> at the supply pressure<br>
-    Hot water (m&sup3;/h) = heat input &times; 3,600 / (4.186 &times; &Delta;T &times; 1,000)
+    Heat input (kcal/h) = TR &times; 3,024 / COP<br>
+    Steam (kg/h) = heat input / h<sub>fg</sub> (kcal/kg) at the supply pressure<br>
+    Hot water (m&sup3;/h) = heat input / (1 &times; &Delta;T &times; 1,000)
   </div>
-  <p>A 200 TR double-effect VAM (COP 1.3) on 8 barg steam needs 200 &times; 3.517 / 1.3 &asymp; 541 kW, about 960 kg/h of steam or 4.8 kg/h per TR. A 100 TR single-effect machine (COP 0.7) on 90 &deg;C hot water cooled by 10 &deg;C needs about 502 kW, or 43 m&sup3;/h of hot water: a good use for DG jacket water, hot condensate or process cooling water that would otherwise go to a cooling tower.</p>
+  <p>A 200 TR double-effect VAM (COP 1.3) on 8 barg steam needs 200 &times; 3,024 / 1.3 &asymp; 4,65,000 kcal/h, about 960 kg/h of steam or 4.8 kg/h per TR. A 100 TR single-effect machine (COP 0.7) on 90 &deg;C hot water cooled by 10 &deg;C needs about 4,32,000 kcal/h, or 43 m&sup3;/h of hot water: a good use for DG jacket water, hot condensate or process cooling water that would otherwise go to a cooling tower.</p>
 
   <h2 id="tower">The cooling tower each one needs <span class="lvl l2">Working level</span></h2>
   <p>Both machines reject their heat to the cooling tower: the cooling load plus whatever drove the machine.</p>

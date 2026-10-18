@@ -46,25 +46,25 @@ breadcrumbs:
 
   <h2>Chiller tonnage and efficiency</h2>
   <div class="formula-box">
-    Cooling (kW) = flow (m&sup3;/h) &times; &rho; / 3,600 &times; c<sub>p</sub> &times; &Delta;T<br>
-    TR = Cooling (kW) / 3.517 &nbsp;(for water: TR &asymp; m&sup3;/h &times; &Delta;T / 3.024)<br>
-    kW/TR = power input (kW) / TR &nbsp;&nbsp; COP = cooling (kW) / power input (kW)
+    Cooling (kcal/h) = flow (m&sup3;/h) &times; &rho; &times; c<sub>p</sub> &times; &Delta;T<br>
+    TR = Cooling (kcal/h) / 3,024 &nbsp;(for water: TR &asymp; m&sup3;/h &times; &Delta;T / 3.024)<br>
+    kW/TR = power input (kW) / TR &nbsp;&nbsp; COP = cooling (kcal/h) / (power input kW &times; 860)
   </div>
-  <p>One ton of refrigeration (TR) is 3.517 kW, the heat to melt one short ton of ice in a day. Use a calibrated flow meter or a clamp-on ultrasonic meter and accurate temperature sensors: at a 5 &deg;C difference, a 0.25 &deg;C sensor error is a 5 % error in TR.</p>
+  <p>One ton of refrigeration (TR) is 3,024 kcal/h, the heat to melt one short ton of ice in a day. Use a calibrated flow meter or a clamp-on ultrasonic meter and accurate temperature sensors: at a 5 &deg;C difference, a 0.25 &deg;C sensor error is a 5 % error in TR.</p>
   <h3>Worked example</h3>
   <div class="formula-box">
-    120 m&sup3;/h of water, 12 &deg;C &rarr; 7 &deg;C: cooling = 120 &times; 1,000 / 3,600 &times; 4.186 &times; 5 &asymp; 698 kW &asymp; 198 TR<br>
+    120 m&sup3;/h of water, 12 &deg;C &rarr; 7 &deg;C: cooling = 120 &times; 1,000 &times; 1 &times; 5 = 6,00,000 kcal/h &asymp; 198 TR<br>
     Measured power 140 kW &rarr; 140 / 198 &asymp; 0.71 kW/TR, COP &asymp; 5.0
   </div>
-  <p>For glycol or brine, choose the fluid in the calculator: a 30 % glycol has a specific heat of about 3.7 kJ/kg&middot;K, so the same flow and &Delta;T carries about 8 % less heat than water.</p>
+  <p>For glycol or brine, choose the fluid in the calculator: a 30 % glycol has a specific heat of about 0.88 kcal/kg&middot;&deg;C, so the same flow and &Delta;T carries about 8 % less heat than water.</p>
 
   <h2>VAM steam and heat input</h2>
   <div class="formula-box">
-    Heat input (kW) = TR &times; 3.517 / COP<br>
-    Steam (kg/h) = Heat input &times; 3,600 / h<sub>fg</sub> at the steam pressure<br>
+    Heat input (kcal/h) = TR &times; 3,024 / COP<br>
+    Steam (kg/h) = Heat input / h<sub>fg</sub> (kcal/kg) at the steam pressure<br>
     Heat to cooling tower = cooling + heat input = TR &times; (1 + 1/COP)
   </div>
-  <p>A 200 TR double-effect machine with COP 1.3 on 8 barg steam needs about 541 kW of heat, or about 960 kg/h of steam (4.8 kg/h per TR). Its cooling tower must reject about 1.77 times the cooling load, against about 1.2&ndash;1.25 times for an electric chiller, so a VAM needs a bigger tower, more condenser water and a bigger condenser water pump.</p>
+  <p>A 200 TR double-effect machine with COP 1.3 on 8 barg steam needs about 4,65,000 kcal/h of heat, or about 960 kg/h of steam (4.8 kg/h per TR). Its cooling tower must reject about 1.77 times the cooling load, against about 1.2&ndash;1.25 times for an electric chiller, so a VAM needs a bigger tower, more condenser water and a bigger condenser water pump.</p>
 
   <h2>Electric chiller or VAM?</h2>
   <p>Compare the yearly power cost of the chiller (TR &times; kW/TR &times; hours &times; &#8377;/kWh) with the VAM's steam cost plus its pump and fan power. The break-even steam cost tells you how cheap steam must be before the VAM wins. With 0.85 kW/TR including the chiller's share of pumps and fans, power at &#8377;8/kWh and a VAM using 4.6 kg/h per TR, the break-even is about &#8377;1,200 per tonne of steam. Steam from a coal or biomass boiler can come close to this; waste heat or back-pressure steam from a turbine easily beats it.</p>

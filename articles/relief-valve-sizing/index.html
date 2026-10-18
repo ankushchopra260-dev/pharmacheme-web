@@ -73,16 +73,16 @@ structured_data: |
     <small>A<sub>wetted</sub>: wetted area in m&sup2;, counted up to 7.6 m above grade. F: environment factor, 1.0 for a bare vessel, lower with approved insulation. Without adequate drainage, the constant is 70,900.</small></div>
   <p>Take a 6 m&sup3; reactor holding toluene with a wetted area of about 12 m&sup2;, set at 3 barg:</p>
   <ol>
-    <li>Q = 43,200 &times; 12<sup>0.82</sup> &asymp; 43,200 &times; 7.67 &asymp; 331 kW.</li>
-    <li>Relieving pressure = 3 &times; 1.21 + 1.01 &asymp; 4.64 bar abs. Toluene boils at about 175 &deg;C at this pressure, where its latent heat is about 310 kJ/kg.</li>
-    <li>Relief load = 331 / 310 &asymp; 1.07 kg/s, about 3,850 kg/h of toluene vapour.</li>
+    <li>Q = 43,200 &times; 12<sup>0.82</sup> W (API 521 constant, in watts) &asymp; 331 kW &asymp; 2,84,600 kcal/h.</li>
+    <li>Relieving pressure = 3 &times; 1.21 + 1.01 &asymp; 4.64 bar abs. Toluene boils at about 175 &deg;C at this pressure, where its latent heat is about 74 kcal/kg.</li>
+    <li>Relief load = 2,84,600 / 74 &asymp; 3,850 kg/h of toluene vapour.</li>
   </ol>
 
   <h2 id="size">Sizing the orifice with API 520 <span class="lvl l2">Working level</span></h2>
   <p>For a gas or vapour in critical (choked) flow, which is almost always the case when the valve discharges to a header near atmospheric pressure:</p>
   <div class="formula-box">A = W / (C &times; K<sub>d</sub> &times; P<sub>1</sub> &times; K<sub>b</sub> &times; K<sub>c</sub>) &times; &radic;(T &times; Z / M)
     <small>A in mm&sup2;, W in kg/h, P<sub>1</sub> relieving pressure in kPa abs, T in K, M molar mass. C = 0.03948 &times; &radic;[k (2/(k+1))<sup>(k+1)/(k&minus;1)</sup>] from the ratio of specific heats k. K<sub>d</sub> = 0.975 for a preliminary valve size; K<sub>b</sub> = 1 for conventional valves with low back pressure; K<sub>c</sub> = 0.9 with a rupture disc upstream, otherwise 1.</small></div>
-  <p>For toluene, k &asymp; 1.09 gives C &asymp; 0.0247. With W = 3,850 kg/h, P<sub>1</sub> = 464 kPa, T = 448 K and Z taken as 1: A &asymp; 760 mm&sup2;, or 1.18 in&sup2;. Valves come in standard orifice sizes, labelled by letter in API 526, so the next size up is a <strong>J orifice</strong> (1.287 in&sup2;).</p>
+  <p>For toluene, k &asymp; 1.09 gives C &asymp; 0.0247. With W = 3,850 kg/h, P<sub>1</sub> = 464 kPa, T = 448 K (175 &deg;C + 273, the formula needs absolute temperature) and Z taken as 1: A &asymp; 760 mm&sup2;, or 1.18 in&sup2;. Valves come in standard orifice sizes, labelled by letter in API 526, so the next size up is a <strong>J orifice</strong> (1.287 in&sup2;).</p>
   <figure class="art-fig" data-fig="relief">
     <figcaption>Try it: change the load, set pressure or fluid and see the required area and the API orifice letter it needs. Switch between a process upset (10 % overpressure) and a fire (21 %).</figcaption>
   </figure>

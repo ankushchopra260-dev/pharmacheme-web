@@ -51,13 +51,13 @@ breadcrumbs:
     Fuel (kg/h) = S &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV &times; 4.1868)<br>
     Evaporation ratio = S / Fuel
   </div>
-  <p>S is steam flow (kg/h), h<sub>g</sub> the enthalpy of saturated steam at the boiler pressure (kJ/kg, from steam tables), h<sub>fw</sub> &asymp; 4.186 &times; feed water temperature (kJ/kg), &eta; the boiler efficiency as a fraction and GCV the fuel's gross calorific value in kcal/kg. The 4.1868 converts kcal to kJ.</p>
+  <p>S is steam flow (kg/h), h<sub>g</sub> the enthalpy of saturated steam at the boiler pressure (kcal/kg, from steam tables), h<sub>fw</sub> &asymp; 1 &times; feed water temperature (kcal/kg), &eta; the boiler efficiency as a fraction and GCV the fuel's gross calorific value in kcal/kg.</p>
   <h3>Worked example</h3>
   <p>5,000 kg/h of steam at 10 barg, feed water at 80 &deg;C, Indian coal at 4,000 kcal/kg, boiler efficiency 75 %:</p>
   <div class="formula-box">
-    h<sub>g</sub> at 10 barg (11 bar abs) &asymp; 2,780 kJ/kg; h<sub>fw</sub> = 4.186 &times; 80 &asymp; 335 kJ/kg<br>
-    Heat per kg = 2,780 &minus; 335 = 2,445 kJ/kg<br>
-    Fuel = 5,000 &times; 2,445 / (0.75 &times; 4,000 &times; 4.1868) &asymp; 973 kg/h &rarr; about 23 t/day<br>
+    h<sub>g</sub> at 10 barg (11 bar abs) &asymp; 664 kcal/kg; h<sub>fw</sub> = 1 &times; 80 = 80 kcal/kg<br>
+    Heat per kg = 664 &minus; 80 = 584 kcal/kg<br>
+    Fuel = 5,000 &times; 584 / (0.75 &times; 4,000) &asymp; 973 kg/h &rarr; about 23 t/day<br>
     Evaporation ratio = 5,000 / 973 &asymp; 5.1
   </div>
 
@@ -69,7 +69,7 @@ breadcrumbs:
   <p>Condensate leaving a trap is at the saturation temperature of the higher pressure. When it drops to the return line pressure it carries more heat than water can hold there, so part of it boils. From 8 barg to 0.5 barg about 12 % flashes: 2,000 kg/h of condensate gives roughly 250 kg/h of low-pressure steam. Collect it in a flash vessel and use it for a low-pressure heater, or it simply vents from the feed tank.</p>
 
   <h2>Condensate recovery</h2>
-  <p>Returned condensate saves treated water, chemicals and the fuel to heat cold make-up water. A rule of thumb: every 6 &deg;C rise in feed water temperature saves about 1 % of boiler fuel. Returning 3,000 kg/h at 90 &deg;C instead of 30 &deg;C make-up recovers about 209 kW, worth roughly 60 kg/h of coal.</p>
+  <p>Returned condensate saves treated water, chemicals and the fuel to heat cold make-up water. A rule of thumb: every 6 &deg;C rise in feed water temperature saves about 1 % of boiler fuel. Returning 3,000 kg/h at 90 &deg;C instead of 30 &deg;C make-up recovers about 1,80,000 kcal/h, worth roughly 60 kg/h of coal.</p>
 
   <h2>Steam leaks and failed traps</h2>
   <p>Napier's formula gives the steam through a sharp hole: m (kg/h) &asymp; 0.412 &times; d&sup2; (mm&sup2;) &times; P (bar abs). A 3 mm hole at 7 barg passes about 30 kg/h, around 240 tonnes a year. Treat it as an upper estimate for a trap blowing through; a proper trap survey with ultrasound or temperature tells you which ones.</p>

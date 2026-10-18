@@ -24,7 +24,7 @@ structured_data: |
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "How do you calculate the boiling point of a solvent under vacuum?", "acceptedAnswer": { "@type": "Answer", "text": "Rearrange the Antoine equation: Tb = B / (A - log10 P) - C, with P in mmHg and the A, B, C coefficients for that solvent. For toluene at 100 mmHg this gives about 52 C, against 110.6 C at atmospheric pressure." } },
-          { "@type": "Question", "name": "How do you calculate heat load for solvent recovery?", "acceptedAnswer": { "@type": "Answer", "text": "Heat duty (kW) = vaporisation rate (kg/s) x latent heat (kJ/kg). Recovering toluene at 500 kg/h with a latent heat of about 360 kJ/kg needs roughly 50 kW, before sensible heat and losses." } },
+          { "@type": "Question", "name": "How do you calculate heat load for solvent recovery?", "acceptedAnswer": { "@type": "Answer", "text": "Heat duty (kcal/h) = vaporisation rate (kg/h) x latent heat (kcal/kg). Recovering toluene at 500 kg/h with a latent heat of about 86 kcal/kg needs roughly 43,000 kcal/h, before sensible heat and losses." } },
           { "@type": "Question", "name": "Is mmHg the same as mbar?", "acceptedAnswer": { "@type": "Answer", "text": "No. 1 mmHg is about 1.333 mbar. Entering mbar into an Antoine equation fitted in mmHg gives the wrong boiling point." } },
           { "@type": "Question", "name": "Why can't I pull deeper vacuum to recover solvent faster?", "acceptedAnswer": { "@type": "Answer", "text": "Deeper vacuum lowers the boiling point, but the condenser must be colder than the vapour to condense it. Methanol at 50 mbar boils at about 3 C, so cooling water cannot condense it and the vapour goes to the vacuum pump." } }
         ]
@@ -102,24 +102,24 @@ structured_data: |
   <h2 id="heat">Heat load and recovery time <span class="lvl l2">Working level</span></h2>
   <p>Once the batch is boiling, almost all the heat goes into turning liquid into vapour. So the boiling duty is simply:</p>
   <div class="formula-box">
-    Heat duty (kW) = vapour rate (kg/s) &times; latent heat (kJ/kg)<br>
+    Heat duty (kcal/h) = vapour rate (kg/h) &times; latent heat (kcal/kg)<br>
     Recovery time (h) = solvent to recover (kg) / vapour rate (kg/h)
   </div>
   <h3>Worked example</h3>
-  <p>2,000 kg of toluene to strip at 100 mmHg, at a target 500 kg/h. Toluene's latent heat is about 360 kJ/kg (a little higher at 52 &deg;C than at 110 &deg;C, which is a small extra margin).</p>
+  <p>2,000 kg of toluene to strip at 100 mmHg, at a target 500 kg/h. Toluene's latent heat is about 86 kcal/kg (a little higher at 52 &deg;C than at 110 &deg;C, which is a small extra margin).</p>
   <div class="formula-box">
-    Vapour rate = 500 / 3,600 = 0.139 kg/s<br>
-    Boiling duty = 0.139 &times; 360 &asymp; 50 kW<br>
+    Vapour rate = 500 kg/h<br>
+    Boiling duty = 500 &times; 86 &asymp; 43,000 kcal/h<br>
     Time at that rate = 2,000 / 500 = 4 h
   </div>
-  <p>Before boiling starts, the batch has to be heated to 52 &deg;C. Heating 2,000 kg of toluene (c<sub>p</sub> &asymp; 1.7 kJ/kg&middot;K) from 30 &deg;C takes 2,000 &times; 1.7 &times; 22 &asymp; 75,000 kJ, about 21 kWh, roughly 25 minutes at 50 kW. Add the reactor steel and the product mass if they are significant, plus 5&ndash;10 % for losses.</p>
+  <p>Before boiling starts, the batch has to be heated to 52 &deg;C. Heating 2,000 kg of toluene (c<sub>p</sub> &asymp; 0.41 kcal/kg&middot;&deg;C) from 30 &deg;C takes 2,000 &times; 0.41 &times; 22 &asymp; 18,000 kcal, roughly 25 minutes at 43,000 kcal/h. Add the reactor steel and the product mass if they are significant, plus 5&ndash;10 % for losses.</p>
 
   <h2 id="jacket">Can the jacket supply it? <span class="lvl l2">Working level</span></h2>
-  <p>The 50 kW has to get through the reactor wall. The jacket can only deliver Q = U &times; A &times; &Delta;T, where U is the overall heat transfer coefficient, A the wetted jacket area and &Delta;T the difference between jacket medium and batch.</p>
+  <p>The 43,000 kcal/h has to get through the reactor wall. The jacket can only deliver Q = U &times; A &times; &Delta;T, where U is the overall heat transfer coefficient, A the wetted jacket area and &Delta;T the difference between jacket medium and batch.</p>
   <div class="formula-box">
     Hot water at 80 &deg;C, batch boiling at 52 &deg;C: &Delta;T = 28 &deg;C<br>
-    With U &asymp; 300 W/m&sup2;K (glass-lined, typical) and 6 m&sup2; wetted area:<br>
-    Q = 300 &times; 6 &times; 28 &asymp; 50 kW &nbsp;&rarr;&nbsp; just enough
+    With U &asymp; 260 kcal/h&middot;m&sup2;&middot;&deg;C (glass-lined, typical) and 6 m&sup2; wetted area:<br>
+    Q = 260 &times; 6 &times; 28 &asymp; 43,700 kcal/h &nbsp;&rarr;&nbsp; just enough
   </div>
   <p>At atmospheric pressure the same toluene boils at 110.6 &deg;C; hot water can't do it at all, and even 3 barg steam (144 &deg;C) gives only about 33 &deg;C of driving force. Vacuum is often what makes a recovery possible with the utilities the plant has.</p>
   <div class="art-note"><b>On the plant</b><p>The wetted area shrinks as the solvent comes off. A reactor that starts 80 % full may be 30 % full at the end, and the jacket loses most of its useful area just when you want to finish. That is why the last 20 % of a recovery always seems slow. The <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat Load calculator</a> averages the wetted area over the distillation for exactly this reason.</p></div>
@@ -130,11 +130,11 @@ structured_data: |
     <li>Toluene at 133 mbar boils at 52 &deg;C: cooling water at 32&ndash;37 &deg;C condenses it comfortably.</li>
     <li>Methanol at 50 mbar boils at about 3 &deg;C: cooling water cannot condense it. The vapour passes through the condenser and into the vacuum pump, where it dilutes the oil, or goes straight out of the vent.</li>
   </ul>
-  <p>For the toluene example, the condenser must remove the same 50 kW. With cooling water 32 &rarr; 37 &deg;C and vapour condensing at 52 &deg;C:</p>
+  <p>For the toluene example, the condenser must remove the same 43,000 kcal/h. With cooling water 32 &rarr; 37 &deg;C and vapour condensing at 52 &deg;C:</p>
   <div class="formula-box">
     LMTD = (20 &minus; 15) / ln(20/15) &asymp; 17.4 &deg;C<br>
-    Area = 50,000 / (400 &times; 17.4) &asymp; 7.2 m&sup2; (U &asymp; 400 W/m&sup2;K for a shell-and-tube condenser under vacuum)<br>
-    Cooling water = 50 / (4.186 &times; 5) &asymp; 2.4 kg/s &asymp; 8.6 m&sup3;/h
+    Area = 43,000 / (345 &times; 17.4) &asymp; 7.2 m&sup2; (U &asymp; 345 kcal/h&middot;m&sup2;&middot;&deg;C for a shell-and-tube condenser under vacuum)<br>
+    Cooling water = 43,000 / (1 &times; 5) &asymp; 8,600 kg/h &asymp; 8.6 m&sup3;/h
   </div>
   <p>Under vacuum, air leaking into the system blankets the condenser tubes and cuts U sharply. A small leak can halve the condenser's capacity, which you see as a rising vapour temperature at the condenser outlet and solvent in the vacuum pump. A secondary vent condenser on chilled water or brine, after the main condenser, is cheap insurance for low-boiling solvents.</p>
 
@@ -155,7 +155,7 @@ structured_data: |
   <h3>How do you calculate the boiling point of a solvent under vacuum?</h3>
   <p>Rearrange the Antoine equation: T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C, with P in mmHg and the solvent's A, B, C constants. Toluene at 100 mmHg boils at about 52 &deg;C.</p>
   <h3>How do you calculate heat load for solvent recovery?</h3>
-  <p>Heat duty (kW) = vapour rate (kg/s) &times; latent heat (kJ/kg). 500 kg/h of toluene needs about 50 kW, plus sensible heat to warm the batch and losses.</p>
+  <p>Heat duty (kcal/h) = vapour rate (kg/h) &times; latent heat (kcal/kg). 500 kg/h of toluene needs about 43,000 kcal/h, plus sensible heat to warm the batch and losses.</p>
   <h3>Is mmHg the same as mbar?</h3>
   <p>No. 1 mmHg &asymp; 1.333 mbar. Check which unit your Antoine constants were fitted in.</p>
   <h3>Why can't I pull deeper vacuum to recover faster?</h3>

@@ -58,7 +58,7 @@ structured_data: |
   </div>
   <p>Then compare the MTSR with two temperatures that matter: the <strong>MTT</strong>, the maximum technical temperature (usually the boiling point of the solvent, in an open or vented system), and <strong>TD24</strong>, the temperature at which a decomposition would reach its maximum rate in 24 hours. Those comparisons give the Stoessel criticality class, from 1 (MTSR below both) to 5.</p>
   <h3>Worked example</h3>
-  <p>A 3,000 kg batch in toluene with c<sub>p</sub> 1.8 kJ/kg&middot;K; the full dose releases 260 kJ per kg of batch. &Delta;T<sub>ad</sub> = 260 / 1.8 &asymp; 144 &deg;C. Toluene boils at 111 &deg;C; the decomposition TD24 is 140 &deg;C. The reaction runs at 60 &deg;C.</p>
+  <p>A 3,000 kg batch in toluene with c<sub>p</sub> 0.43 kcal/kg&middot;&deg;C; the full dose releases 62 kcal per kg of batch. &Delta;T<sub>ad</sub> = 62 / 0.43 &asymp; 144 &deg;C. Toluene boils at 111 &deg;C; the decomposition TD24 is 140 &deg;C. The reaction runs at 60 &deg;C.</p>
   <ul>
     <li>Dosed over <strong>4 hours</strong>: peak accumulation about 14 %, MTSR &asymp; 60 + 0.14 &times; 144 &asymp; 80 &deg;C. Below boiling: class 1.</li>
     <li>Dosed over <strong>1 hour</strong>: peak accumulation about 46 %, MTSR &asymp; 126 &deg;C. Above boiling but below TD24: class 3, relying on the solvent boiling to stop the temperature.</li>
@@ -74,7 +74,7 @@ structured_data: |
     Heat release rate &asymp; total reaction heat / dosing time<br>
     Cooling capacity = U &times; A &times; (T<sub>batch</sub> &minus; T<sub>jacket</sub>)
   </div>
-  <p>In the example, the total heat is 3,000 &times; 260 = 780 MJ. Over 4 hours that is about 54 kW; over 1 hour, about 217 kW. If the jacket can remove about 70 kW (U &times; A of 1.4 kW/K and 50 &deg;C between batch and cooling water), the 4-hour dosing is controllable and the 1-hour dosing is not: the temperature will rise even with the cooling working perfectly.</p>
+  <p>In the example, the total heat is 3,000 &times; 62 = 1,86,000 kcal. Over 4 hours that is about 46,500 kcal/h; over 1 hour, about 1,86,000 kcal/h. If the jacket can remove about 60,000 kcal/h (U &times; A of 1,200 kcal/h&middot;&deg;C and 50 &deg;C between batch and cooling water), the 4-hour dosing is controllable and the 1-hour dosing is not: the temperature will rise even with the cooling working perfectly.</p>
   <p>This check is why a dosing time that worked in the lab often fails at scale. The lab flask has ten times more cooling area per litre than a plant reactor, so it could absorb a fast addition that the plant cannot. The <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up article</a> explains why the area per volume falls.</p>
 
   <h2 id="colder">Why colder is not always safer <span class="lvl l3">Going deeper</span></h2>

@@ -66,29 +66,29 @@ var TOOLS = {
     var Q = g('q'), cp = g('cp'), Tp = g('tp'), acc = g('acc')/100, MTT = g('mtt'), TD = g('td24');
     var dT = Q/cp, M = Tp + acc*dT, c = stoessel(Tp, M, MTT, TD);
     var sev = dT > 200 ? ['high', 'bad'] : dT >= 50 ? ['medium', 'warn'] : ['low', 'good'];
-    $('.ps-out', t).innerHTML = cell('ΔT<sub>ad</sub>', f(dT)+' K') + cell('Severity (ΔT<sub>ad</sub>)', sev[0], sev[1]) + cell('MTSR', f(M)+' °C', c >= 4 ? 'bad' : c === 3 ? 'warn' : 'good') +
-      cell('Margin MTSR → TD24', f(TD - M)+' K', TD - M < 0 ? 'bad' : TD - M < 20 ? 'warn' : 'good') + cell('Stoessel class', '<span class="ps-cls c'+c+'">'+c+'</span>');
+    $('.ps-out', t).innerHTML = cell('ΔT<sub>ad</sub>', f(dT)+' °C') + cell('Severity (ΔT<sub>ad</sub>)', sev[0], sev[1]) + cell('MTSR', f(M)+' °C', c >= 4 ? 'bad' : c === 3 ? 'warn' : 'good') +
+      cell('Margin MTSR → TD24', f(TD - M)+' °C', TD - M < 0 ? 'bad' : TD - M < 20 ? 'warn' : 'good') + cell('Stoessel class', '<span class="ps-cls c'+c+'">'+c+'</span>');
     var v = $('.ps-verdict', t); v.className = 'ps-verdict '+(c <= 2 ? 'good' : c === 3 ? 'warn' : 'bad'); v.textContent = CLS[c];
   },
   dosing: function(t){
     var g = function(n){ return num($('[name='+n+']', t)); };
     var Qkg = g('q'), m = g('m'), U = g('u'), A = g('a'), Tr = g('tr'), Tc = g('tc'), margin = g('margin')/100;
-    var qex = U*A*(Tr - Tc)/1000, use = qex/(1 + margin), Qtot = Qkg*m, tmin = Qtot/use/3600, qneed = function(h){ return Qtot/(h*3600); };
-    $('.ps-out', t).innerHTML = cell('Cooling capacity q<sub>ex</sub>', f(qex, 1)+' kW') + cell('Usable after '+f(margin*100)+' % margin', f(use, 1)+' kW') + cell('Total heat released', f(Qtot/1000, 0)+' MJ') +
-      cell('Shortest dosing time', fH(tmin), 'warn') + cell('Heat flow at 2 h dosing', f(qneed(2), 1)+' kW', qneed(2) > use ? 'bad' : 'good');
+    var qex = U*A*(Tr - Tc), use = qex/(1 + margin), Qtot = Qkg*m, tmin = Qtot/use, qneed = function(h){ return Qtot/h; }; // kcal/h, kcal
+    $('.ps-out', t).innerHTML = cell('Cooling capacity q<sub>ex</sub>', f(qex, 0)+' kcal/h') + cell('Usable after '+f(margin*100)+' % margin', f(use, 0)+' kcal/h') + cell('Total heat released', f(Qtot, 0)+' kcal') +
+      cell('Shortest dosing time', fH(tmin), 'warn') + cell('Heat flow at 2 h dosing', f(qneed(2), 0)+' kcal/h', qneed(2) > use ? 'bad' : 'good');
     var v = $('.ps-verdict', t); v.className = 'ps-verdict '+(Tr <= Tc ? 'bad' : 'good');
     v.innerHTML = Tr <= Tc ? 'The coolant must be colder than the reaction mass.' : 'Dose over at least <b>'+fH(tmin)+'</b> (round up). This assumes the reaction keeps pace with the dosing, i.e. heat release follows the feed. If reagent accumulates, the heat release can peak later and higher. Check with reaction calorimetry.';
   },
   tmr: function(t){
     var g = function(n){ return num($('[name='+n+']', t)); };
-    var T0 = g('t0'), q0 = g('q0'), Ea = g('ea')*1000, cp = g('cp')*1000, Tx = g('tx');
+    var T0 = g('t0'), q0 = g('q0')*1.163, Ea = g('ea')*4186.8, cp = g('cp')*4186.8, Tx = g('tx'); // inputs in kcal/h·kg, kcal/mol, kcal/kg·°C
     var q = function(T){ return q0*Math.exp(Ea/R*(1/(T0 + 273.15) - 1/(T + 273.15))); };
     var tmr = function(T){ var K = T + 273.15; return cp*R*K*K/(q(T)*Ea)/3600; };
     var lo = -50, hi = 600; for (var i = 0; i < 80; i++){ var mid = (lo + hi)/2; if (tmr(mid) > 24) lo = mid; else hi = mid; }
     var TD24 = (lo + hi)/2, lo8 = -50, hi8 = 600; for (var j = 0; j < 80; j++){ var m8 = (lo8 + hi8)/2; if (tmr(m8) > 8) lo8 = m8; else hi8 = m8; }
     var tx = tmr(Tx);
     $('.ps-out', t).innerHTML = cell('TMR<sub>ad</sub> at '+f(T0)+' °C', fH(tmr(T0))) + cell('T<sub>D24</sub> (TMR = 24 h)', f(TD24)+' °C', 'warn') + cell('T<sub>D8</sub> (TMR = 8 h)', f((lo8 + hi8)/2)+' °C') +
-      cell('TMR<sub>ad</sub> at '+f(Tx)+' °C', fH(tx), tx < 8 ? 'bad' : tx < 24 ? 'warn' : 'good') + cell('Heat release at '+f(Tx)+' °C', f(q(Tx), 2)+' W/kg');
+      cell('TMR<sub>ad</sub> at '+f(Tx)+' °C', fH(tx), tx < 8 ? 'bad' : tx < 24 ? 'warn' : 'good') + cell('Heat release at '+f(Tx)+' °C', f(q(Tx)/1.163, 2)+' kcal/h·kg');
     var v = $('.ps-verdict', t), p = tx < 8 ? ['bad', 'High probability (screening): TMRad below 8 h at '+f(Tx)+' °C.'] : tx < 24 ? ['warn', 'Medium probability (screening): TMRad between 8 and 24 h at '+f(Tx)+' °C.'] : ['good', 'Low probability (screening): TMRad above 24 h at '+f(Tx)+' °C.'];
     v.className = 'ps-verdict '+p[0]; v.textContent = p[1]+' Zero-order, adiabatic approximation: a screening estimate only. Autocatalytic decompositions need different treatment, and real decisions need measured data.';
   },
@@ -115,8 +115,8 @@ var TOOLS = {
     var g = function(n){ return num($('[name='+n+']', t)); };
     var D = g('d'), h = g('h'), F = g('f'), lam = g('lam'), prompt = $('[name=prompt]', t).value === '1';
     var Aw = Math.PI*D*Math.min(h, 7.6) + 1.084*D*D;   // wetted shell (up to 7.6 m above grade) + 2:1 elliptical bottom head (≈ 1.084 D²)
-    var Q = (prompt ? 43200 : 70900)*F*Math.pow(Aw, 0.82), W = Q/1000/lam*3600;
-    $('.ps-out', t).innerHTML = cell('Wetted area A<sub>w</sub>', f(Aw, 1)+' m²') + cell('Heat input Q', f(Q/1000, 0)+' kW', 'warn') + cell('Vapour to relieve W', f(W, 0)+' kg/h', 'warn') + cell('Factor F', f(F, 3));
+    var Q = (prompt ? 43200 : 70900)*F*Math.pow(Aw, 0.82), W = Q/1000/(lam*4.1868)*3600; // Q in W, λ in kcal/kg
+    $('.ps-out', t).innerHTML = cell('Wetted area A<sub>w</sub>', f(Aw, 1)+' m²') + cell('Heat input Q', f(Q*0.8598, 0)+' kcal/h', 'warn') + cell('Vapour to relieve W', f(W, 0)+' kg/h', 'warn') + cell('Factor F', f(F, 3));
     $('.ps-verdict', t).className = 'ps-verdict'; $('.ps-verdict', t).innerHTML = 'Illustrative: use W = '+f(W, 0)+' kg/h in the vapour relief calculator above, with 21 % overpressure (fire case). Environmental credit, drainage and insulation factors need a proper scenario review.';
   },
   liquid: function(t){

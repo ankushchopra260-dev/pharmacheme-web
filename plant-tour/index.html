@@ -6697,7 +6697,7 @@ function leakPoolFire(c, pool){
   const Qrad = c.fire.chi*burn*c.fire.dhc;                              // kW
   const dist = q => Math.max(D/2, Math.sqrt(Qrad/(4*Math.PI*q)));
   return { D, H, mpp, burn, Qrad, qAt:(R) => Qrad/(4*Math.PI*Math.max(R, D/2)*Math.max(R, D/2)),
-           zones:[{ q:37.5, r:dist(37.5), label:'37.5 kW/m² — equipment damage, fatal' }, { q:12.5, r:dist(12.5), label:'12.5 kW/m² — wood ignites, 1% fatality in 1 min' }, { q:4, r:dist(4), label:'4 kW/m² — pain in 20 s, 2nd-degree burns' }] };
+           zones:[{ q:37.5, r:dist(37.5), label:'32,250 kcal/h·m² (37.5 kW/m²) — equipment damage, fatal' }, { q:12.5, r:dist(12.5), label:'10,750 kcal/h·m² (12.5 kW/m²) — wood ignites, 1% fatality in 1 min' }, { q:4, r:dist(4), label:'3,440 kcal/h·m² (4 kW/m²) — pain in 20 s, 2nd-degree burns' }] };
 }
 // ---------- whole scenario ----------
 function leakRun(s){
@@ -6842,7 +6842,7 @@ function leakEnsureUI(){
         <p><b>Pool:</b> fills the bund, or spreads to a 10 mm layer if there is no bund; evaporation by Mackay &amp; Matsugu. Liquefied gases (chlorine, ammonia): the whole release is taken as airborne (flash plus aerosol), a conservative assumption.</p>
         <p><b>Cloud:</b> Gaussian plume from a ground-level source, Pasquill–Gifford stability classes with Briggs open-country coefficients, steady state (conservative for short releases).</p>
         <p><b>Toxic limits:</b> 60-minute AEGLs. AEGL-1: discomfort, reversible. AEGL-2: serious or lasting effects, may impair escape. AEGL-3: life-threatening. <b>Flammable:</b> LFL, and ½ LFL as a margin for pockets of richer mixture.</p>
-        <p><b>Pool fire:</b> point-source radiation with fire-engineering burning rates and Thomas flame height. 37.5 kW/m²: equipment damage, fatal; 12.5: 1 % fatality in one minute; 4: pain within 20 s.</p>
+        <p><b>Pool fire:</b> point-source radiation with fire-engineering burning rates and Thomas flame height. 32,250 kcal/h·m² (37.5 kW/m²): equipment damage, fatal; 10,750 (12.5 kW/m²): 1 % fatality in one minute; 3,440 (4 kW/m²): pain within 20 s.</p>
         <p><b>Not modelled:</b> dense-gas slumping, buildings deflecting the cloud, terrain, indoor concentrations and explosions.</p>
       </details>
       <p class="lk-disc">For training and awareness only. Results are indicative screening estimates, not a substitute for a QRA or emergency-planning software such as ALOHA or PHAST.</p>
@@ -6966,7 +6966,7 @@ function leakDraw(){
     if (tip !== null){ const beyond = t.fp.xmax > LEAK_CLIP, lx = beyond ? LEAK_CLIP*(0.2 + 0.22*t.level) : tip;
       leakLabel('AEGL-'+t.level+' · '+leakFmtD(t.fp)+(beyond ? ' →' : ''), { x:S.x + G.d.x*lx, y:2.2, z:S.z + G.d.z*lx }, LEAK_ZC.tox[t.level-1]); } });
   if (r.fire){ r.fire.zones.slice().reverse().forEach((z, i) => { leakDisc(g, S, Math.min(z.r, LEAK_CLIP), LEAK_ZC.fire[2 - i], yz, 0.22); yz += 0.006; });
-    leakLabel('Pool fire · 4 kW/m² at '+Math.round(r.fire.zones[2].r)+' m', { x:S.x - G.d.x*r.fire.zones[2].r, y:2, z:S.z - G.d.z*r.fire.zones[2].r }, LEAK_ZC.fire[1]); }
+    leakLabel('Pool fire · 3,440 kcal/h·m² at '+Math.round(r.fire.zones[2].r)+' m', { x:S.x - G.d.x*r.fire.zones[2].r, y:2, z:S.z - G.d.z*r.fire.zones[2].r }, LEAK_ZC.fire[1]); }
   // pool
   const bfire = leakSiteById(s.site).kind === 'bldgfire';
   LEAK.fireBaseY = bfire ? P.y + 0.1 : 0.1;
@@ -7084,14 +7084,14 @@ function leakResults(){
   if (!bfire) r.tox.slice().reverse().forEach(t => { if (t) z += row(LEAK_ZC.tox[t.level-1], 'AEGL-'+t.level, leakPpmLabel(t.ppm), leakFmtD(t.fp), desc[t.level-1]); });
   if (c.aegl[0] == null && !bfire) z += row('#555', 'AEGL-1', 'n/a', 'n/a', 'Not set for this chemical');
   if (!bfire) r.flam.forEach((f, i) => z += row(i ? LEAK_ZC.hlfl : LEAK_ZC.lfl, f.key, leakPpmLabel(f.ppm), leakFmtD(f.fp), i ? 'Safety margin (pockets)' : 'Flash fire if ignited'));
-  if (r.fire) r.fire.zones.forEach((f, i) => z += row(LEAK_ZC.fire[i], f.q+' kW/m²', 'Pool fire', Math.round(f.r)+' m', f.label.split('—')[1].trim()));
+  if (r.fire) r.fire.zones.forEach((f, i) => z += row(LEAK_ZC.fire[i], Math.round(f.q * 860).toLocaleString('en-IN')+' kcal/h·m²', 'Pool fire', Math.round(f.r)+' m', f.label.split('—')[1].trim()));
   if (!c.lfl && !c.fire) z += `<tr><td colspan="3" class="lk-note">${c.name} is not a practical fire hazard here; the danger is toxic.</td></tr>`;
   else if (r.fire && !bfire) z += `<tr><td colspan="3" class="lk-note">Once the pool is burning, the vapour burns in the fire: the hazards are heat radiation and smoke, not a toxic or flammable cloud.</td></tr>`;
   else if (c.fire && !s.ignited && !bfire) z += `<tr><td colspan="3" class="lk-note">Tick “The pool catches fire” to see the pool-fire zones.</td></tr>`;
   $('lk-zones').innerHTML = z;
   // affected
   const sevIcon = e => e.sev >= 3 ? '🔴' : e.sev === 2 ? '🟠' : '🟡';
-  const describe = e => [e.tox ? 'AEGL-'+e.tox+' ('+leakPpmLabel(e.ppm)+')' : '', e.flam === 2 ? 'inside flammable cloud' : e.flam === 1 ? '½ LFL' : '', e.fire ? leakFmtN(e.q, 1)+' kW/m²' : ''].filter(Boolean).join(' · ');
+  const describe = e => [e.tox ? 'AEGL-'+e.tox+' ('+leakPpmLabel(e.ppm)+')' : '', e.flam === 2 ? 'inside flammable cloud' : e.flam === 1 ? '½ LFL' : '', e.fire ? Math.round(e.q * 860).toLocaleString('en-IN')+' kcal/h·m²' : ''].filter(Boolean).join(' · ');
   const hit = LEAK.aff.filter(a => a.e.sev > 0).sort((a, b) => b.e.sev - a.e.sev || b.e.ppm - a.e.ppm);
   const APs = leakPickAP(), ap = APs[0].e, apSel = APs[0], apOther = APs[1];
   const gt = ROADS && ROADS.gate ? leakExposure([{ x:ROADS.gate.cabin.x, z:ROADS.gate.cabin.z }]) : null;
@@ -7118,7 +7118,7 @@ function leakResults(){
   const parts = [];
   if (worst) parts.push(`<b style="color:${LEAK_ZC.tox[worst.level-1]}">AEGL-${worst.level}</b> to ${leakFmtD(worst.fp)}`);
   if (lfl) parts.push(`<b style="color:${LEAK_ZC.lfl}">LFL</b> to ${leakFmtD(lfl)}`);
-  if (r.fire) parts.push(`<b style="color:${LEAK_ZC.fire[1]}">12.5 kW/m²</b> to ${fireR} m`);
+  if (r.fire) parts.push(`<b style="color:${LEAK_ZC.fire[1]}">10,750 kcal/h·m²</b> to ${fireR} m`);
   if (!parts.length) parts.push('No zone reaches beyond the source');
   $('lk-verdict').innerHTML = `<div class="lk-v1">${c.name} · ${leakShort(site)} · wind from ${wf}, ${s.u} m/s, class ${s.stab}</div>
     <div class="lk-v2">${parts.join(' · ')}</div>
@@ -7243,7 +7243,7 @@ function erRoute(fromKey, ap){
   return a.concat(score(arcs[0]) <= score(arcs[1]) ? arcs[0] : arcs[1], b);
 }
 // Staging point for the fire tender: on the inner ring road or the perimeter fire road, with a clear line of sight to
-// the incident, upwind, and outside the danger zones (for a fire: outside 4.7 kW/m2, the limit for emergency work in
+// the incident, upwind, and outside the danger zones (for a fire: outside 4,040 kcal/h·m², the limit for emergency work in
 // protective clothing). Candidates on the perimeter road let the tender reach units on the outside of the site.
 function erStage(){
   const S = LEAK.S, G = LEAK.G, src = leakSiteById(LEAK.s.site), fire = LEAK.res.fire;
@@ -7355,7 +7355,7 @@ function erStart(){
     { t:10, text:`📢 PA: “Emergency at ${where}. Wind from the ${LEAK_DIR_NAMES[wf]}. Go to ${ap.id}, ${ap.where}. Keep crosswind and away from the ${isFire ? 'fire and smoke' : 'cloud'}.”` + (other.e.sev > 0 ? ` ${other.id} is not used: it is in the danger zone.` : '') },
     { t:14, text:'🚒 The Incident Controller takes charge. The fire tender and the emergency response team (ERT) leave the fire & safety yard.' },
     { t:Math.min(er.tArr - 1, 20), text:'📞 Mutual-aid fire brigade and the district emergency authority are informed' + (isFire ? '.' : '; the ambulance is called to the assembly point.') },
-    { t:er.tArr, text:`🚒 The fire tender sets up on the ${stage.ring === 'perim' ? 'perimeter fire road' : 'ring road'}, ${Math.round(stage.dist)} m from the ${isFire ? 'fire' : 'leak'}${isFire ? ' (outside 4.7 kW/m², the limit for crews in protective clothing)' : ', upwind'}, and connects to the hydrant.` },
+    { t:er.tArr, text:`🚒 The fire tender sets up on the ${stage.ring === 'perim' ? 'perimeter fire road' : 'ring road'}, ${Math.round(stage.dist)} m from the ${isFire ? 'fire' : 'leak'}${isFire ? ' (outside 4,040 kcal/h·m², the limit for crews in protective clothing)' : ', upwind'}, and connects to the hydrant.` },
     { t:er.tArr + 3, text:attack, fn:() => { er.streamOn = true; } },
     { t:er.tTeam0, text:isFire ? 'The ERT runs out a hose line and advances from upwind.' : 'The ERT, in SCBA and chemical suits, approaches from upwind.' },
     { t:er.tStop, text:stopText, fn:() => { LEAK.stopped = true; } },

@@ -29,7 +29,7 @@ structured_data: |
             "name": "How do you calculate the TR needed to cool a batch?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Average load = mass x cp x temperature drop / cooling time, divided by 3.517 kW per TR. With a fixed jacket the load is highest at the start, so size the chiller for the peak: average x (T1 - Tbrine) x ln((T1 - Tbrine)/(T2 - Tbrine)) / (T1 - T2)."
+              "text": "Average load (kcal/h) = mass x cp (kcal/kg C) x temperature drop / cooling time (h), divided by 3,024 kcal/h per TR. With a fixed jacket the load is highest at the start, so size the chiller for the peak: average x (T1 - Tbrine) x ln((T1 - Tbrine)/(T2 - Tbrine)) / (T1 - T2)."
             }
           }
         ]
@@ -56,11 +56,11 @@ breadcrumbs:
 <div class="container article-body" id="guide" style="margin-top:28px;">
   <h2>How it works</h2>
   <div class="formula-box">Average load = m c<sub>p</sub> (T<sub>1</sub> &minus; T<sub>2</sub>) / t &nbsp;&nbsp; Peak = average &times; (T<sub>1</sub> &minus; T<sub>b</sub>) ln[(T<sub>1</sub> &minus; T<sub>b</sub>)/(T<sub>2</sub> &minus; T<sub>b</sub>)] / (T<sub>1</sub> &minus; T<sub>2</sub>)</div>
-  <p>Cooling 4,000 kg (c<sub>p</sub> 2.0) from 40 to 5 &deg;C in 3 hours with &minus;10 &deg;C brine averages about 10 TR but peaks at about 16 TR at the start. Size the chiller and brine pump for the peak. 1 TR = 3.517 kW.</p>
+  <p>Cooling 4,000 kg (c<sub>p</sub> 0.48 kcal/kg&middot;&deg;C) from 40 to 5 &deg;C in 3 hours with &minus;10 &deg;C brine averages about 10 TR but peaks at about 16 TR at the start. Size the chiller and brine pump for the peak. 1 TR = 3,024 kcal/h.</p>
 
   <h2>Frequently asked questions</h2>
   <h3>How do you calculate the TR needed to cool a batch?</h3>
-  <p>Average load = mass x cp x temperature drop / cooling time, divided by 3.517 kW per TR. With a fixed jacket the load is highest at the start, so size the chiller for the peak: average x (T1 - Tbrine) x ln((T1 - Tbrine)/(T2 - Tbrine)) / (T1 - T2).</p>
+  <p>Average load (kcal/h) = mass x cp (kcal/kg C) x temperature drop / cooling time (h), divided by 3,024 kcal/h per TR. With a fixed jacket the load is highest at the start, so size the chiller for the peak: average x (T1 - Tbrine) x ln((T1 - Tbrine)/(T2 - Tbrine)) / (T1 - T2).</p>
 
   <div class="related-box">
     <h3>Related</h3>

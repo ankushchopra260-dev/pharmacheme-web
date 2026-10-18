@@ -10,7 +10,7 @@
   const hm = h => { if (!isFinite(h)) return '–'; const m = Math.round(h * 60); return Math.floor(m / 60) + ' h ' + String(m % 60).padStart(2, '0') + ' min'; };
   const C = { brass: '#C9A227', blue: '#5B9BFF', green: '#5FD07A', rust: '#E0785A', violet: '#B38CFF', teal: '#4FC3C7', muted: '#7F95AB' };
   const SER = [C.brass, C.blue, C.green, C.rust, C.violet, C.teal];
-  const R_GAS = 8.314;
+  const R_GAS = 8.314, KCAL = 4186.8, WK = 1.163, KH = 0.859845; // J per kcal, W/m²K per kcal/h·m²·°C, kcal/h per W
 
   /* ---------------- SVG line chart with hover readout ---------------- */
   function niceTicks(lo, hi, n) {
@@ -121,35 +121,35 @@
   TOOLS.heatcool = {
     title: 'Heating and cooling time simulator', sub: 'Batch temperature against time in a jacketed reactor, with the jacket duty and utility use',
     groups: [
-      { title: 'Batch', inputs: [{ k: 'm', label: 'Batch mass', unit: 'kg', v: 5000 }, { k: 'cp', label: 'Specific heat of the batch', unit: 'kJ/kg·K', v: 2.0 },
+      { title: 'Batch', inputs: [{ k: 'm', label: 'Batch mass', unit: 'kg', v: 5000 }, { k: 'cp', label: 'Specific heat of the batch', unit: 'kcal/kg·°C', v: 0.48 },
         { k: 'T0', label: 'Start temperature', unit: '°C', v: 25 }, { k: 'Tt', label: 'Target temperature', unit: '°C', v: 80 }] },
-      { title: 'Jacket', inputs: [{ k: 'U', label: 'Overall heat transfer coefficient U', unit: 'W/m²·K', v: 350 }, { k: 'A', label: 'Wetted jacket area', unit: 'm²', v: 10 },
+      { title: 'Jacket', inputs: [{ k: 'U', label: 'Overall heat transfer coefficient U', unit: 'kcal/h·m²·°C', v: 300 }, { k: 'A', label: 'Wetted jacket area', unit: 'm²', v: 10 },
         { k: 'mode', label: 'How the jacket is run', type: 'sel', wide: true, v: 'const', opts: [['const', 'Utility at a fixed temperature (steam, or high-flow brine)'], ['flow', 'Liquid utility with limited flow (water, brine, thermic fluid)'], ['dt', 'Glass-lined: jacket kept within a set ΔT of the batch']] },
         { k: 'Tu', label: 'Utility temperature (steam saturation or coolant supply)', unit: '°C', v: 140 },
         { k: 'F', label: 'Utility flow', unit: 'm³/h', v: 20, show: v => v.mode === 'flow' }, { k: 'rj', label: 'Utility density', unit: 'kg/m³', v: 1000, show: v => v.mode === 'flow' },
-        { k: 'cj', label: 'Utility specific heat', unit: 'kJ/kg·K', v: 4.18, show: v => v.mode === 'flow' },
-        { k: 'dT', label: 'Largest allowed jacket-to-batch ΔT', unit: 'K', v: 60, show: v => v.mode === 'dt' }] },
-      { title: 'Other heat in and out', inputs: [{ k: 'Pa', label: 'Agitator power into the batch', unit: 'kW', v: 3 }, { k: 'UL', label: 'Heat loss to surroundings (UA)', unit: 'W/K', v: 0 }, { k: 'Ta', label: 'Ambient temperature', unit: '°C', v: 30 }] }],
+        { k: 'cj', label: 'Utility specific heat', unit: 'kcal/kg·°C', v: 1.0, show: v => v.mode === 'flow' },
+        { k: 'dT', label: 'Largest allowed jacket-to-batch ΔT', unit: '°C', v: 60, show: v => v.mode === 'dt' }] },
+      { title: 'Other heat in and out', inputs: [{ k: 'Pa', label: 'Agitator power into the batch', unit: 'kW', v: 3 }, { k: 'UL', label: 'Heat loss to surroundings (UA)', unit: 'kcal/h·°C', v: 0 }, { k: 'Ta', label: 'Ambient temperature', unit: '°C', v: 30 }] }],
     run(v) {
       const heat = v.Tt > v.T0, notes = [];
       if (v.Tt === v.T0) return { rows: [], notes: [['Start and target temperatures are the same.', 'bad']] };
       if (!(v.m > 0 && v.cp > 0 && v.U > 0 && v.A > 0)) return { rows: [], notes: [['Mass, specific heat, U and area must be above zero.', 'bad']] };
       if (heat && v.Tu <= v.Tt) notes.push(['The utility is not hotter than the target, so the batch can only approach the utility temperature. Raise the utility temperature.', 'bad']);
       if (!heat && v.Tu >= v.Tt) notes.push(['The coolant is not colder than the target, so the batch can only approach the coolant temperature. Use a colder coolant.', 'bad']);
-      const UA = v.U * v.A, Cb = v.m * v.cp * 1000, Cj = v.F / 3600 * v.rj * v.cj * 1000;
+      const UA = v.U * WK * v.A, Cb = v.m * v.cp * KCAL, Cj = v.F / 3600 * v.rj * v.cj * KCAL;
       if (v.mode === 'flow' && !(Cj > 0)) return { rows: [], notes: [['Utility flow, density and specific heat must be above zero.', 'bad']] };
       const Qj = T => v.mode === 'flow' ? Cj * (v.Tu - T) * (1 - Math.exp(-UA / Cj)) : v.mode === 'dt' ? UA * clamp(v.Tu - T, -v.dT, v.dT) : UA * (v.Tu - T);
       const Tj = T => v.mode === 'flow' ? v.Tu - Qj(T) / Cj : v.mode === 'dt' ? T + clamp(v.Tu - T, -v.dT, v.dT) : v.Tu;
-      const f = T => (Qj(T) + v.Pa * 1000 - v.UL * (T - v.Ta)) / Cb;
+      const f = T => (Qj(T) + v.Pa * 1000 - v.UL * WK * (T - v.Ta)) / Cb;
       const tau = Cb / UA, dt = clamp(tau / 500, 0.5, 30), tmax = 72 * 3600;
-      let t = 0, T = v.T0, E = 0, peak = 0, reached = false, tr = NaN; const pts = [[0, T, Tj(T), Qj(T) / 1000]];
+      let t = 0, T = v.T0, E = 0, peak = 0, reached = false, tr = NaN; const pts = [[0, T, Tj(T), Qj(T) * KH]];
       const every = Math.max(1, Math.round(tmax / dt / 4000));
       for (let n = 1; t < tmax; n++) {
         const k1 = f(T), k2 = f(T + dt / 2 * k1), k3 = f(T + dt / 2 * k2), k4 = f(T + dt * k3), Tn = T + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
         const q = Qj(T); E += Math.abs(q) * dt; peak = Math.max(peak, Math.abs(q));
-        if (heat ? Tn >= v.Tt : Tn <= v.Tt) { tr = t + dt * (v.Tt - T) / (Tn - T); reached = true; T = v.Tt; t = tr; pts.push([t / 3600, T, Tj(T), Qj(T) / 1000]); break; }
+        if (heat ? Tn >= v.Tt : Tn <= v.Tt) { tr = t + dt * (v.Tt - T) / (Tn - T); reached = true; T = v.Tt; t = tr; pts.push([t / 3600, T, Tj(T), Qj(T) * KH]); break; }
         T = Tn; t += dt;
-        if (n % every === 0) pts.push([t / 3600, T, Tj(T), Qj(T) / 1000]);
+        if (n % every === 0) pts.push([t / 3600, T, Tj(T), Qj(T) * KH]);
         if (Math.abs(k1) * tau < 1e-4 && t > 5 * tau) break;
       }
       let Teq = NaN;
@@ -157,22 +157,22 @@
       const th = (reached ? tr : t) / 3600, Ekwh = E / 3.6e6, rows = [];
       rows.push([heat ? 'Time to heat to target' : 'Time to cool to target', reached ? hm(th) : 'not reached', reached ? '(' + F(th, 2) + ' h)' : '']);
       if (!reached) rows.push(['Batch levels off at about', F(Teq, 1), '°C']);
-      rows.push(['Average jacket duty', F(Ekwh / th, 1), 'kW'], ['Peak jacket duty (at the start)', F(peak / 1000, 1), 'kW']);
+      rows.push(['Average jacket duty', F(Ekwh / th * 1000 * KH, 0), 'kcal/h'], ['Peak jacket duty (at the start)', F(peak * KH, 0), 'kcal/h']);
       if (!heat) rows.push(['Peak refrigeration load', F(peak / 1000 / 3.517, 1), 'TR']);
-      rows.push(['Energy through the jacket', F(Ekwh, 0), 'kWh']);
+      rows.push(['Heat through the jacket', F(E / KCAL, 0), 'kcal']);
       if (heat && v.mode !== 'flow' && v.Tu > 100 && v.Tu < 300) { const hfg = 2257 * Math.pow((647.1 - (v.Tu + 273.15)) / (647.1 - 373.15), 0.38); rows.push(['Steam used (if the utility is saturated steam)', F(E / 1000 / hfg, 0), 'kg']); }
       if (v.mode === 'flow') rows.push(['Utility outlet temperature at the start', F(Tj(v.T0), 1), '°C']);
-      rows.push(['Time constant m·cp / UA', F(tau / 60, 0), 'min']);
+      rows.push(['Time constant m·c_p / UA', F(tau / 60, 0), 'min']);
       if (v.mode === 'const' && !v.Pa && !v.UL && reached) notes.push([`Check: with a fixed utility temperature the time is t = (m·c<sub>p</sub>/UA) × ln[(T<sub>u</sub> − T<sub>0</sub>)/(T<sub>u</sub> − T<sub>target</sub>)] = ${F(tau / 3600 * Math.log((v.Tu - v.T0) / (v.Tu - v.Tt)), 2)} h, the same as the simulation.`, 'good']);
       if (v.mode === 'const') notes.push(['A fixed utility temperature is right for condensing steam, and for brine only when its flow is high. If the brine warms up noticeably across the jacket, use the limited-flow option.']);
       if (v.mode === 'dt') notes.push(['The jacket is held within the allowed ΔT of the batch, which is how glass-lined vessels are protected from thermal shock. Take the allowed ΔT from your vessel maker\'s thermal shock chart.']);
       notes.push(['Heating and cooling slow down near the target because the driving ΔT shrinks. On scale-up the wetted area per kg falls, so the same batch takes longer in a bigger vessel. Get U from the <a href="/calculators/overall-heat-transfer-coefficient-calculator/">overall U calculator</a>.']);
-      const tbl = thin(pts, 40).map(p => [F(p[0], 2), F(p[1], 1), F(p[2], 1), F(p[3], 1)]);
+      const tbl = thin(pts, 40).map(p => [F(p[0], 2), F(p[1], 1), F(p[2], 1), F(p[3], 0)]);
       return { rows, notes,
         charts: [{ title: 'Batch and jacket temperature', xLabel: 'Time (h)', yLabel: 'Temperature (°C)', series: [{ name: 'Batch', color: C.brass, pts: pts.map(p => [p[0], p[1]]) }, { name: v.mode === 'flow' ? 'Utility outlet' : 'Jacket', color: heat ? C.rust : C.blue, pts: pts.map(p => [p[0], p[2]]), dash: true }], hlines: [{ y: v.Tt, label: 'Target', color: C.green }] },
-          { title: 'Jacket duty', xLabel: 'Time (h)', yLabel: 'Duty (kW)', series: [{ name: heat ? 'Heat into the batch' : 'Heat removed', color: heat ? C.rust : C.blue, pts: pts.map(p => [p[0], Math.abs(p[3])]) }], ymin: 0 }],
-        tables: [{ name: 'Profile', head: ['Time (h)', 'Batch (°C)', 'Jacket or outlet (°C)', 'Duty (kW)'], rows: pts.map(p => [+p[0].toFixed(4), +p[1].toFixed(2), +p[2].toFixed(2), +p[3].toFixed(2)]) }],
-        html: `<details class="pm-det"><summary>Show the profile as a table</summary>${tableHTML(['Time (h)', 'Batch (°C)', 'Jacket or outlet (°C)', 'Duty (kW)'], tbl)}</details>` };
+          { title: 'Jacket duty', xLabel: 'Time (h)', yLabel: 'Duty (kcal/h)', series: [{ name: heat ? 'Heat into the batch' : 'Heat removed', color: heat ? C.rust : C.blue, pts: pts.map(p => [p[0], Math.abs(p[3])]) }], ymin: 0 }],
+        tables: [{ name: 'Profile', head: ['Time (h)', 'Batch (°C)', 'Jacket or outlet (°C)', 'Duty (kcal/h)'], rows: pts.map(p => [+p[0].toFixed(4), +p[1].toFixed(2), +p[2].toFixed(2), Math.round(p[3])]) }],
+        html: `<details class="pm-det"><summary>Show the profile as a table</summary>${tableHTML(['Time (h)', 'Batch (°C)', 'Jacket or outlet (°C)', 'Duty (kcal/h)'], tbl)}</details>` };
     }
   };
 
@@ -183,17 +183,17 @@
   }
   function dosingSim(v, td, nstep) {
     const tot = td + Math.max(0, v.th), dt = tot / nstep, Tk = v.Tr + 273.15, Tref = v.Tref + 273.15;
-    const k = v.k * Math.exp(-v.Ea * 1000 / R_GAS * (1 / Tk - 1 / Tref));
+    const k = v.k * Math.exp(-v.Ea * KCAL / R_GAS * (1 / Tk - 1 / Tref));
     const FB = v.nB / td, FV = v.Vd / td, Fm = v.md / td, nlim = v.order === '2' ? Math.min(v.nA, v.nB) : v.nB;
     const vol = t => (v.V0 + FV * Math.min(t, td)) / 1000, mass = t => v.m0 + Fm * Math.min(t, td), area = t => v.A0 + (v.A1 - v.A0) * Math.min(t, td) / td;
     const rate = (t, a, b) => v.order === '2' ? k * Math.max(a, 0) * Math.max(b, 0) / vol(t) : k * Math.max(b, 0); // kmol/h
     const der = (t, a, b) => { const r = rate(t, a, b), feed = t < td ? FB : 0; return [v.order === '2' ? -r : 0, feed - r]; };
     let a = v.order === '2' ? v.nA : 0, b = 0, t = 0;
-    const pts = [], cap = t2 => v.U * area(t2) * (v.Tr - v.Tj) / 1000;
+    const pts = [], cap = t2 => v.U * area(t2) * (v.Tr - v.Tj); // kcal/h
     let maxM = -Infinity, tM = 0, maxAcc = 0, peakQ = 0, tQ = 0, peakNeed = 0, short = 0, convEndDose = NaN, t99 = NaN, reacted = 0;
     const every = Math.max(1, Math.floor(nstep / 600));
     for (let i = 0; i <= nstep; i++) {
-      const r = rate(t, a, b), qr = r * v.dH / 3.6, qf = t < td ? Fm / 3600 * v.cp * (v.Tf - v.Tr) : 0, need = qr + qf, c = cap(t);
+      const r = rate(t, a, b), qr = r * 1000 * v.dH, qf = t < td ? Fm * v.cp * (v.Tf - v.Tr) : 0, need = qr + qf, c = cap(t); // kcal/h
       const pot = v.order === '2' ? Math.min(a, b) : b, m = mass(t), mtsr = v.Tr + pot * 1000 * v.dH / (m * v.cp), acc = pot / nlim * 100, conv = reacted / nlim * 100;
       if (mtsr > maxM) { maxM = mtsr; tM = t; } if (acc > maxAcc) maxAcc = acc; if (qr > peakQ) { peakQ = qr; tQ = t; }
       if (need > peakNeed) peakNeed = need; if (need > c) short = Math.max(short, need - c);
@@ -217,9 +217,9 @@
       { title: 'Dosed reagent B', inputs: [{ k: 'md', label: 'Mass dosed', unit: 'kg', v: 900 }, { k: 'Vd', label: 'Volume dosed', unit: 'L', v: 1000 }, { k: 'nB', label: 'Reagent B dosed', unit: 'kmol', v: 4.0 },
         { k: 'td', label: 'Dosing time', unit: 'h', v: 3 }, { k: 'Tf', label: 'Feed temperature', unit: '°C', v: 25 }] },
       { title: 'Reaction', inputs: [{ k: 'order', label: 'Rate law', type: 'sel', wide: true, v: '2', opts: [['2', 'Second order: rate = k [A] [B]  (k in L/mol·h)'], ['1', 'First order in B: rate = k [B]  (k in 1/h)']] },
-        { k: 'k', label: 'Rate constant at the reference temperature', unit: 'L/mol·h or 1/h', v: 0.8 }, { k: 'Tref', label: 'Reference temperature', unit: '°C', v: 20 }, { k: 'Ea', label: 'Activation energy', unit: 'kJ/mol', v: 60 },
-        { k: 'dH', label: 'Heat of reaction (released, per mol of B)', unit: 'kJ/mol', v: 120 }, { k: 'cp', label: 'Specific heat of the mass', unit: 'kJ/kg·K', v: 1.8 }] },
-      { title: 'Process and cooling', inputs: [{ k: 'Tr', label: 'Reaction temperature', unit: '°C', v: 20 }, { k: 'th', label: 'Hold after dosing', unit: 'h', v: 4 }, { k: 'U', label: 'Overall U', unit: 'W/m²·K', v: 250 },
+        { k: 'k', label: 'Rate constant at the reference temperature', unit: 'L/mol·h or 1/h', v: 0.8 }, { k: 'Tref', label: 'Reference temperature', unit: '°C', v: 20 }, { k: 'Ea', label: 'Activation energy', unit: 'kcal/mol', v: 14.3 },
+        { k: 'dH', label: 'Heat of reaction (released, per mol of B)', unit: 'kcal/mol', v: 28.7 }, { k: 'cp', label: 'Specific heat of the mass', unit: 'kcal/kg·°C', v: 0.43 }] },
+      { title: 'Process and cooling', inputs: [{ k: 'Tr', label: 'Reaction temperature', unit: '°C', v: 20 }, { k: 'th', label: 'Hold after dosing', unit: 'h', v: 4 }, { k: 'U', label: 'Overall U', unit: 'kcal/h·m²·°C', v: 215 },
         { k: 'A0', label: 'Wetted area at the start', unit: 'm²', v: 6 }, { k: 'A1', label: 'Wetted area at the end of dosing', unit: 'm²', v: 8 }, { k: 'Tj', label: 'Coolant temperature in the jacket', unit: '°C', v: -5 }] },
       { title: 'Safety limits', inputs: [{ k: 'MTT', label: 'MTT (boiling point or highest technical temperature)', unit: '°C', v: 65 }, { k: 'TD24', label: 'TD24 of the reaction mass', unit: '°C', v: 130 }] }],
     run(v) {
@@ -227,11 +227,11 @@
       if (!(v.Tr > v.Tj)) return { rows: [], notes: [['The coolant must be colder than the reaction temperature.', 'bad']] };
       const s = dosingSim(v, v.td, 20000), cls = stoessel(s.maxM, v.MTT, v.TD24);
       const rows = [['Highest MTSR', F(s.maxM, 1), '°C at ' + F(s.tM, 2) + ' h'], ['Stoessel class (screening)', String(cls), ''], ['Highest accumulation', F(s.maxAcc, 1), '% of the limiting reagent'],
-        ['Peak heat of reaction', F(s.peakQ, 1), 'kW at ' + F(s.tQ, 2) + ' h'], ['Peak cooling needed (reaction + feed)', F(s.peakNeed, 1), 'kW'],
+        ['Peak heat of reaction', F(s.peakQ, 0), 'kcal/h at ' + F(s.tQ, 2) + ' h'], ['Peak cooling needed (reaction + feed)', F(s.peakNeed, 0), 'kcal/h'],
         ['Conversion at the end of dosing', F(s.convEndDose, 1), '%'], ['Conversion at the end of the hold', F(s.convEnd, 1), '%'], ['Time to 99 % conversion', isFinite(s.t99) ? F(s.t99, 2) : 'not reached', isFinite(s.t99) ? 'h from start of dosing' : 'in the time simulated'],
-        ['ΔT adiabatic, whole charge', F(s.dTad, 1), 'K'], ['MTSR if everything were charged at once', F(v.Tr + s.dTad, 1), '°C'], ['Rate constant at the reaction temperature', G(s.k), v.order === '2' ? 'L/mol·h' : '1/h']];
+        ['ΔT adiabatic, whole charge', F(s.dTad, 1), '°C'], ['MTSR if everything were charged at once', F(v.Tr + s.dTad, 1), '°C'], ['Rate constant at the reaction temperature', G(s.k), v.order === '2' ? 'L/mol·h' : '1/h']];
       const notes = [];
-      if (s.short > 0) notes.push([`The jacket cannot remove the heat at the peak: it falls short by ${F(s.short, 1)} kW. The reactor would heat up and the reaction would run faster. Dose more slowly, use colder coolant or run at a lower concentration.`, 'bad']);
+      if (s.short > 0) notes.push([`The jacket cannot remove the heat at the peak: it falls short by ${F(s.short, 0)} kcal/h. The reactor would heat up and the reaction would run faster. Dose more slowly, use colder coolant or run at a lower concentration.`, 'bad']);
       if (s.maxM > v.TD24) notes.push(['After a cooling failure the batch could reach TD24 and start the decomposition. Change the process before scale-up.', 'bad']);
       else if (s.maxM > v.MTT) notes.push(['After a cooling failure the batch would reach the MTT (usually boiling). Check that the condenser and vent can take the boil-up.', 'warn']);
       else notes.push(['MTSR stays below the MTT and TD24 throughout dosing.', 'good']);
@@ -249,10 +249,10 @@
         } }],
         actionMsg: this._msg,
         charts: [
-          { title: 'Heat of reaction and cooling', xLabel: 'Time from start of dosing (h)', yLabel: 'kW', ymin: 0, series: [{ name: 'Heat of reaction', color: C.rust, pts: P.map(p => [p[0], p[1]]) }, { name: 'Cooling needed', color: C.brass, pts: P.map(p => [p[0], p[2]]), dash: true }, { name: 'Cooling available', color: C.blue, pts: P.map(p => [p[0], p[3]]) }] },
+          { title: 'Heat of reaction and cooling', xLabel: 'Time from start of dosing (h)', yLabel: 'kcal/h', ymin: 0, series: [{ name: 'Heat of reaction', color: C.rust, pts: P.map(p => [p[0], p[1]]) }, { name: 'Cooling needed', color: C.brass, pts: P.map(p => [p[0], p[2]]), dash: true }, { name: 'Cooling available', color: C.blue, pts: P.map(p => [p[0], p[3]]) }] },
           { title: 'Accumulation and conversion', xLabel: 'Time from start of dosing (h)', yLabel: '% of limiting reagent', ymin: 0, ymax: 100, series: [{ name: 'Accumulation (unreacted)', color: C.rust, pts: P.map(p => [p[0], p[4]]) }, { name: 'Conversion', color: C.green, pts: P.map(p => [p[0], p[5]]) }] },
           { title: 'MTSR during dosing', xLabel: 'Time from start of dosing (h)', yLabel: 'Temperature (°C)', series: [{ name: 'MTSR', color: C.rust, pts: P.map(p => [p[0], p[6]]) }, { name: 'Reaction temperature', color: C.brass, pts: P.map(p => [p[0], v.Tr]) }], hlines: [{ y: v.MTT, label: 'MTT', color: C.blue }, { y: v.TD24, label: 'TD24', color: C.violet }] }],
-        tables: [{ name: 'Profile', head: ['Time (h)', 'Heat of reaction (kW)', 'Cooling needed (kW)', 'Cooling available (kW)', 'Accumulation (%)', 'Conversion (%)', 'MTSR (°C)'], rows: P.map(p => p.map(x => +x.toFixed(3))) }] };
+        tables: [{ name: 'Profile', head: ['Time (h)', 'Heat of reaction (kcal/h)', 'Cooling needed (kcal/h)', 'Cooling available (kcal/h)', 'Accumulation (%)', 'Conversion (%)', 'MTSR (°C)'], rows: P.map(p => p.map(x => +x.toFixed(3))) }] };
     }
   };
 
@@ -309,18 +309,18 @@
       if (temps.length >= 2) {
         const xs = stats.map(s => 1 / (s.T + 273.15)), ys = stats.map(s => Math.log(s.k)), mx = xs.reduce((a, b) => a + b) / xs.length, my = ys.reduce((a, b) => a + b) / ys.length;
         const sxy = xs.reduce((s, x, i) => s + (x - mx) * (ys[i] - my), 0), sxx = xs.reduce((s, x) => s + (x - mx) ** 2, 0), slope = sxy / sxx;
-        Ea = -slope * R_GAS / 1000; lnA = my - slope * mx; const syy = ys.reduce((s, y) => s + (y - my) ** 2, 0); r2A = temps.length > 2 && syy > 0 ? sxy * sxy / (sxx * syy) : NaN;
+        Ea = -slope * R_GAS / KCAL; lnA = my - slope * mx; const syy = ys.reduce((s, y) => s + (y - my) ** 2, 0); r2A = temps.length > 2 && syy > 0 ? sxy * sxy / (sxx * syy) : NaN;
       }
-      const kAt = T => temps.length >= 2 ? Math.exp(lnA - Ea * 1000 / R_GAS / (T + 273.15)) : stats[0].k;
+      const kAt = T => temps.length >= 2 ? Math.exp(lnA - Ea * KCAL / R_GAS / (T + 273.15)) : stats[0].k;
       const kp = kAt(v.Tp), Xt = clamp(v.Xt / 100, 0.01, 0.99999), tp = tFor(model, Xt, kp, n, CA0, M);
       const rows = [['Time to ' + F(v.Xt, 1) + ' % at ' + F(v.Tp, 0) + ' °C', isFinite(tp) ? hm(tp / 60) : 'not reachable', isFinite(tp) ? '(' + G(tp) + ' min)' : '']];
-      if (temps.length >= 2) rows.push(['Activation energy E_a', F(Ea, 1), 'kJ/mol'], ['Pre-exponential factor A', Math.exp(lnA).toExponential(3), kUnit], ['Rate constant at ' + F(v.Tp, 0) + ' °C', G(kp), kUnit], ['Rate change per 10 °C near ' + F(v.Tp, 0) + ' °C', '× ' + F(kAt(v.Tp + 10) / kp, 2), '']);
+      if (temps.length >= 2) rows.push(['Activation energy E_a', F(Ea, 1), 'kcal/mol'], ['Pre-exponential factor A', Math.exp(lnA).toExponential(3), kUnit], ['Rate constant at ' + F(v.Tp, 0) + ' °C', G(kp), kUnit], ['Rate change per 10 °C near ' + F(v.Tp, 0) + ' °C', '× ' + F(kAt(v.Tp + 10) / kp, 2), '']);
       else rows.push(['Rate constant at ' + F(temps[0], 0) + ' °C', G(stats[0].k), kUnit]);
       if (model === 'n') rows.push(['Fitted reaction order n', F(n, 2), '']);
       const notes = [], minR2 = Math.min(...stats.map(s => s.r2).filter(isFinite));
       if (temps.length < 2) notes.push(['Data at one temperature only, so the activation energy cannot be found and the prediction is only valid at ' + F(temps[0], 0) + ' °C. Add runs at two or more other temperatures.', 'warn']);
       if (isFinite(minR2) && minR2 < 0.97) notes.push(['The fit is poor at one or more temperatures (R² below 0.97). Try another rate law, check the starting ratio, or look for an induction period or a second reaction.', 'warn']);
-      if (isFinite(Ea) && (Ea < 20 || Ea > 200)) notes.push(['E<sub>a</sub> outside 20 to 200 kJ/mol is unusual for a chemical reaction. Check the data, or the reaction may be limited by mass transfer or dissolution.', 'warn']);
+      if (isFinite(Ea) && (Ea < 5 || Ea > 48)) notes.push(['E<sub>a</sub> outside 5 to 48 kcal/mol is unusual for a chemical reaction. Check the data, or the reaction may be limited by mass transfer or dissolution.', 'warn']);
       if (temps.length >= 2 && (v.Tp < temps[0] - 15 || v.Tp > temps[temps.length - 1] + 15)) notes.push(['The plant temperature is more than 15 °C outside your data, so the prediction is an extrapolation. Confirm with a run near the plant temperature.', 'warn']);
       if (isFinite(r2A)) notes.push([`Arrhenius line R² = ${F(r2A, 4)}. ` + (r2A > 0.98 ? 'The rate constants follow Arrhenius well.' : 'Scatter in the Arrhenius plot: check the temperature control in each run.'), r2A > 0.98 ? 'good' : 'warn']);
       notes.push(['Fitted by least squares on conversion, constant volume, isothermal batch. The plant batch time also includes heating, dosing and sampling. If the plant is slower than this, look at mixing, gas-liquid mass transfer or solids dissolution.']);
@@ -328,7 +328,7 @@
       const series = []; temps.forEach((T, i) => { const c = SER[i % SER.length]; series.push({ name: F(T, 0) + ' °C data', color: c, dots: true, pts: byT[T].map(d => [d[0], d[1] * 100]) }); series.push({ name: F(T, 0) + ' °C fit', color: c, pts: grid.map(t => [t, Xmodel(model, t, stats[i].k, n, CA0, M) * 100]) }); });
       series.push({ name: 'Prediction at ' + F(v.Tp, 0) + ' °C', color: '#ECE7D8', dash: true, pts: grid.map(t => [t, Xmodel(model, t, kp, n, CA0, M) * 100]) });
       const charts = [{ title: 'Conversion against time', xLabel: 'Time (min)', yLabel: 'Conversion (%)', ymin: 0, ymax: 100, series, hlines: [{ y: v.Xt, label: 'Target', color: C.green }] }];
-      if (temps.length >= 2) { const xa = stats.map(s => 1000 / (s.T + 273.15)), lo = Math.min(...xa), hi = Math.max(...xa); charts.push({ title: 'Arrhenius plot', xLabel: '1000 / T (1/K)', yLabel: 'ln k', series: [{ name: 'Fitted k', color: C.brass, dots: true, pts: stats.map((s, i) => [xa[i], Math.log(s.k)]) }, { name: 'Arrhenius line', color: C.blue, pts: [lo - 0.02, hi + 0.02].map(x => [x, lnA - Ea / R_GAS * x]) }] }); }
+      if (temps.length >= 2) { const xa = stats.map(s => 1000 / (s.T + 273.15)), lo = Math.min(...xa), hi = Math.max(...xa); charts.push({ title: 'Arrhenius plot', xLabel: '1000 / (T °C + 273.15)', yLabel: 'ln k', series: [{ name: 'Fitted k', color: C.brass, dots: true, pts: stats.map((s, i) => [xa[i], Math.log(s.k)]) }, { name: 'Arrhenius line', color: C.blue, pts: [lo - 0.02, hi + 0.02].map(x => [x, lnA - Ea * KCAL / R_GAS * x / 1000]) }] }); }
       const tb = stats.map(s => [F(s.T, 0) + ' °C', G(s.k) + ' ' + kUnit, String(s.n), F(s.r2, 4), F(s.rms, 2) + ' %']);
       return { rows, notes, charts,
         html: tableHTML(['Temperature', 'Fitted k', 'Points', 'R²', 'RMS error (conversion)'], tb),
@@ -344,7 +344,7 @@
     const Tm = v['T' + s], H = v['H' + s], D = v['D' + s], N = v['N' + s] / 60, Np = v['Np' + s], Ch = v['Ch' + s];
     const V = Math.PI / 4 * Tm * Tm * H, rho = v.rho, mu = v.mu / 1000, nu = mu / rho;
     const Re = rho * N * D * D / mu, P = Np * rho * N ** 3 * D ** 5, PV = P / V, tip = Math.PI * D * N, blend = 5.2 / (Math.pow(Np, 1 / 3) * N) * (Tm / D) ** 2;
-    const Pr = v.cpf * 1000 * mu / v.kf, h = Ch * Math.pow(Re, 2 / 3) * Math.pow(Pr, 1 / 3) * v.kf / Tm;
+    const kSI = v.kf * WK, Pr = v.cpf * KCAL * mu / kSI, h = Ch * Math.pow(Re, 2 / 3) * Math.pow(Pr, 1 / 3) * kSI / Tm / WK; // kcal/h·m²·°C
     let njsBase = NaN; if (v.ws > 0 && v.ws < 100 && v.rhos > rho) { const X = 100 * v.ws / (100 - v.ws); njsBase = Math.pow(nu, 0.1) * Math.pow(9.81 * (v.rhos - rho) / rho, 0.45) * Math.pow(X, 0.13) * Math.pow(v.dp * 1e-6, 0.2) * Math.pow(D, -0.85); }
     let kla = NaN, vs = NaN; if (v.vvm > 0) { vs = v.vvm * V / 60 / (Math.PI / 4 * Tm * Tm); const PgV = v.pg * PV; kla = (v.coal === 'c' ? 0.026 * Math.pow(PgV, 0.4) * Math.pow(vs, 0.5) : 0.002 * Math.pow(PgV, 0.7) * Math.pow(vs, 0.2)) * 3600; }
     return { Tm, H, D, N, Np, V, Re, P, PV, tip, blend, h, njsBase, kla, vs, torque: P / (2 * Math.PI * N) };
@@ -352,7 +352,7 @@
   TOOLS.mixing = {
     title: 'Mixing and mass transfer scale-up', sub: 'Compare a lab and a plant vessel: power, solids suspension (Njs), gas-liquid kLa and the process-side heat transfer coefficient',
     groups: [
-      { title: 'Liquid', inputs: [{ k: 'rho', label: 'Density', unit: 'kg/m³', v: 950 }, { k: 'mu', label: 'Viscosity', unit: 'cP', v: 1.5 }, { k: 'kf', label: 'Thermal conductivity', unit: 'W/m·K', v: 0.15 }, { k: 'cpf', label: 'Specific heat', unit: 'kJ/kg·K', v: 2.0 }] },
+      { title: 'Liquid', inputs: [{ k: 'rho', label: 'Density', unit: 'kg/m³', v: 950 }, { k: 'mu', label: 'Viscosity', unit: 'cP', v: 1.5 }, { k: 'kf', label: 'Thermal conductivity', unit: 'kcal/h·m·°C', v: 0.13 }, { k: 'cpf', label: 'Specific heat', unit: 'kcal/kg·°C', v: 0.48 }] },
       { title: 'Lab vessel', inputs: [{ k: 'T1', label: 'Vessel diameter', unit: 'm', v: 0.15 }, { k: 'H1', label: 'Liquid height', unit: 'm', v: 0.15 }, { k: 'i1', label: 'Impeller', type: 'sel', v: 'pbt', opts: impOpts, wide: true },
         { k: 'D1', label: 'Impeller diameter', unit: 'm', v: 0.06 }, { k: 'N1', label: 'Speed', unit: 'rpm', v: 600 }, { k: 'Np1', label: 'Power number Np', unit: '', v: 1.27 }, { k: 'Ch1', label: 'Heat transfer constant C', unit: '', v: 0.53 }] },
       { title: 'Plant vessel', inputs: [{ k: 'T2', label: 'Vessel diameter', unit: 'm', v: 2.0 }, { k: 'H2', label: 'Liquid height', unit: 'm', v: 2.0 }, { k: 'i2', label: 'Impeller', type: 'sel', v: 'pbt', opts: impOpts, wide: true },
@@ -370,12 +370,12 @@
       const nj1 = a.njsBase * S * 60, nj2 = b.njsBase * S * 60;
       const reg = Re => Re > 1e4 ? 'turbulent' : Re < 100 ? 'laminar' : 'transitional';
       const rows = [['Plant P/V', F(b.PV, 0), 'W/m³ (lab ' + F(a.PV, 0) + ')'], ['Plant speed / Njs', solids ? F(b.N * 60 / nj2, 2) : '–', solids ? '(lab ' + F(a.N * 60 / nj1, 2) + ')' : 'no solids'],
-        ['Plant blend time (95 %)', F(b.blend, 0), 's (lab ' + F(a.blend, 0) + ' s)'], ['Plant process-side h', F(b.h, 0), 'W/m²·K (lab ' + F(a.h, 0) + ')'],
+        ['Plant blend time (95 %)', F(b.blend, 0), 's (lab ' + F(a.blend, 0) + ' s)'], ['Plant process-side h', F(b.h, 0), 'kcal/h·m²·°C (lab ' + F(a.h, 0) + ')'],
         ['Plant kLa', isFinite(b.kla) ? F(b.kla, 0) : '–', isFinite(b.kla) ? '1/h (lab ' + F(a.kla, 0) + ')' : 'no gas'], ['Plant tip speed', F(b.tip, 2), 'm/s (lab ' + F(a.tip, 2) + ')']];
       const cmp = [['Liquid volume', F(a.V * 1000, 1) + ' L', F(b.V * 1000, 0) + ' L'], ['Reynolds number', F(a.Re, 0) + ' (' + reg(a.Re) + ')', F(b.Re, 0) + ' (' + reg(b.Re) + ')'], ['Tip speed', F(a.tip, 2) + ' m/s', F(b.tip, 2) + ' m/s'],
         ['Power', G(a.P) + ' W', G(b.P / 1000) + ' kW'], ['P/V', F(a.PV, 0) + ' W/m³', F(b.PV, 0) + ' W/m³'], ['Torque', G(a.torque) + ' N·m', G(b.torque) + ' N·m'], ['Blend time, 95 %', F(a.blend, 1) + ' s', F(b.blend, 1) + ' s'],
         ['Just-suspended speed Njs', solids ? F(nj1, 0) + ' rpm' : '–', solids ? F(nj2, 0) + ' rpm' : '–'], ['Speed / Njs', solids ? F(a.N * 60 / nj1, 2) : '–', solids ? F(b.N * 60 / nj2, 2) : '–'],
-        ['Process-side h (jacket wall)', F(a.h, 0) + ' W/m²·K', F(b.h, 0) + ' W/m²·K'], ['Superficial gas velocity', isFinite(a.vs) ? F(a.vs * 1000, 2) + ' mm/s' : '–', isFinite(b.vs) ? F(b.vs * 1000, 2) + ' mm/s' : '–'], ['kLa', isFinite(a.kla) ? F(a.kla, 0) + ' 1/h' : '–', isFinite(b.kla) ? F(b.kla, 0) + ' 1/h' : '–'],
+        ['Process-side h (jacket wall)', F(a.h, 0) + ' kcal/h·m²·°C', F(b.h, 0) + ' kcal/h·m²·°C'], ['Superficial gas velocity', isFinite(a.vs) ? F(a.vs * 1000, 2) + ' mm/s' : '–', isFinite(b.vs) ? F(b.vs * 1000, 2) + ' mm/s' : '–'], ['kLa', isFinite(a.kla) ? F(a.kla, 0) + ' 1/h' : '–', isFinite(b.kla) ? F(b.kla, 0) + ' 1/h' : '–'],
         ['Jacket area per m³ (flat-bottom estimate)', F((Math.PI * a.Tm * a.H + Math.PI / 4 * a.Tm ** 2) / a.V, 1) + ' m²/m³', F((Math.PI * b.Tm * b.H + Math.PI / 4 * b.Tm ** 2) / b.V, 1) + ' m²/m³']];
       // plant speed for each rule
       const r = v.rho, Np2 = v.Np2, D2 = b.D, V2 = b.V, at = N => { const c = Object.assign({}, v, { N2: N }); return vessel(c, '2'); };

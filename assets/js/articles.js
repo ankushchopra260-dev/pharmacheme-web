@@ -116,18 +116,18 @@
         vline.setAttribute('x1', q[0]); vline.setAttribute('x2', q[0]); vline.setAttribute('y1', q[1]); vline.setAttribute('y2', y0 + h); lab.setAttribute('x', q[0] + 10); lab.setAttribute('y', q[1] - 10); });
       lab.textContent = F(Tb, 1) + ' °C';
       const cond = Tb >= 42 ? ['Cooling water (32 °C) condenses it', ''] : Tb >= 17 ? ['Needs chilled water (≈7 °C) in the condenser', ''] : Tb >= -5 ? ['Needs brine (≈ −10 °C); vapour will reach the vacuum pump', 'hi'] : ['Too cold to condense on normal utilities', 'hi'];
-      rd.innerHTML = `<div class="hi"><span>Boils at</span><b>${F(Tb, 1)} °C</b></div><div><span>At atmospheric</span><b>${F(nbp, 1)} °C</b></div><div><span>Drop from vacuum</span><b>${F(nbp - Tb, 0)} °C</b></div><div><span>Latent heat (near nbp)</span><b>${F(L, 0)} kJ/kg</b></div><div class="${cond[1]}"><span>Condenser</span><b style="font-size:.9rem">${cond[0]}</b></div>`;
+      rd.innerHTML = `<div class="hi"><span>Boils at</span><b>${F(Tb, 1)} °C</b></div><div><span>At atmospheric</span><b>${F(nbp, 1)} °C</b></div><div><span>Drop from vacuum</span><b>${F(nbp - Tb, 0)} °C</b></div><div><span>Latent heat (near nbp)</span><b>${F(L / 4.1868, 0)} kcal/kg</b></div><div class="${cond[1]}"><span>Condenser</span><b style="font-size:.9rem">${cond[0]}</b></div>`;
     }
     sel.addEventListener('change', draw); ctl.querySelector('input').addEventListener('input', draw); draw();
   };
 
   /* Batch heat-up / cool-down with a jacket at constant temperature */
   M['heatup'] = function (fig) {
-    const c = C(), Mcp = 4000 * 2.0; // kJ/K
+    const c = C(), Mcp = 4000 * 0.48; // kcal/°C
     const svg = el('svg', { viewBox: '0 0 640 310', role: 'img', 'aria-label': 'Batch temperature against time for a jacketed reactor' });
     fig.insertBefore(svg, fig.querySelector('figcaption'));
     const ctl = controls(fig, `<button type="button" data-j="steam" aria-pressed="true">Steam, 3 barg</button><button type="button" data-j="hw" aria-pressed="false">Hot water, 90 °C</button><button type="button" data-j="cw" aria-pressed="false">Cool with cooling water</button>
-      <label>U <input type="range" min="150" max="600" step="10" value="350" aria-label="Overall heat transfer coefficient"> <output>350 W/m²K</output></label>`);
+      <label>U <input type="range" min="130" max="520" step="10" value="300" aria-label="Overall heat transfer coefficient"> <output>300 kcal/h·m²·°C</output></label>`);
     const rd = readout(fig);
     const { X, Y } = axes(svg, { x0: 64, y0: 14, w: 550, h: 240, xmax: 120, ymax: 160, xstep: 20, ystep: 20, xlab: 'Time (min)', ylab: 'Batch temperature (°C)' });
     const jl = el('line', { stroke: c.rust, 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, svg), jt = txt(svg, 0, 0, '', { fill: c.rust, 'font-size': 11 });
@@ -135,12 +135,12 @@
     const curve = el('path', { fill: 'none', stroke: c.brass, 'stroke-width': 3 }, svg), dot = el('circle', { r: 6, fill: c.ink }, svg);
     let J = 'steam', anim = 0;
     function draw() {
-      const U = +ctl.querySelector('input').value, A = 9, UA = U * A / 1000; // kW/K
+      const U = +ctl.querySelector('input').value, A = 9, UA = U * A; // kcal/h·°C
       const Tj = J === 'steam' ? 143.6 : J === 'hw' ? 90 : 32, T0 = J === 'cw' ? 80 : 30, Tt = J === 'cw' ? 40 : 80;
-      const tau = Mcp / UA / 60; // min
+      const tau = Mcp / UA * 60; // min
       const T = t => Tj + (T0 - Tj) * Math.exp(-t / tau);
       const tReach = tau * Math.log((Tj - T0) / (Tj - Tt));
-      ctl.querySelector('output').textContent = U + ' W/m²K';
+      ctl.querySelector('output').textContent = U + ' kcal/h·m²·°C';
       jl.setAttribute('x1', X(0)); jl.setAttribute('x2', X(120)); jl.setAttribute('y1', Y(Tj)); jl.setAttribute('y2', Y(Tj)); jt.setAttribute('x', X(120) - 4); jt.setAttribute('y', Y(Tj) - 6); jt.setAttribute('text-anchor', 'end'); jt.textContent = 'Jacket ' + F(Tj, 0) + ' °C';
       tl.setAttribute('x1', X(0)); tl.setAttribute('x2', X(120)); tl.setAttribute('y1', Y(Tt)); tl.setAttribute('y2', Y(Tt)); tt.setAttribute('x', X(2)); tt.setAttribute('y', Y(Tt) - 6); tt.textContent = 'Target ' + Tt + ' °C';
       const pts = []; for (let t = 0; t <= 120; t += 1) pts.push([X(t), Y(T(t))]); curve.setAttribute('d', path(pts));
@@ -148,7 +148,7 @@
       if (reduce) { dot.setAttribute('cx', X(tEnd)); dot.setAttribute('cy', Y(T(tEnd))); }
       else { const t0 = performance.now(); (function f(now) { if (id !== anim) return; const k = Math.min(1, (now - t0) / 1600), t = tEnd * k; dot.setAttribute('cx', X(t)); dot.setAttribute('cy', Y(T(t))); if (k < 1) requestAnimationFrame(f); })(t0); }
       const q0 = UA * Math.abs(Tj - T0), q1 = UA * Math.abs(Tj - Tt);
-      rd.innerHTML = `<div class="hi"><span>Time to ${Tt} °C</span><b>${isFinite(tReach) ? F(tReach, 0) + ' min' : 'never'}</b></div><div><span>Heat flow at start</span><b>${F(q0, 0)} kW</b></div><div><span>Heat flow near target</span><b>${F(q1, 0)} kW</b></div><div><span>Time constant M·cp/UA</span><b>${F(tau, 0)} min</b></div>`;
+      rd.innerHTML = `<div class="hi"><span>Time to ${Tt} °C</span><b>${isFinite(tReach) ? F(tReach, 0) + ' min' : 'never'}</b></div><div><span>Heat flow at start</span><b>${F(q0, 0)} kcal/h</b></div><div><span>Heat flow near target</span><b>${F(q1, 0)} kcal/h</b></div><div><span>Time constant M·cp/UA</span><b>${F(tau, 0)} min</b></div>`;
     }
     ctl.addEventListener('click', e => { const b = e.target.closest('button[data-j]'); if (!b) return; J = b.dataset.j; ctl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
     ctl.querySelector('input').addEventListener('input', draw); draw();
@@ -995,11 +995,11 @@
     const T = {
       dsc: { b: 'DSC', xl: 'Temperature (°C)', yl: 'Heat flow, exo up', xmax: 400, ymax: 5, ys: 1, xs: 50,
         f: x => -0.25 * Math.exp(-Math.pow((x - 118) / 6, 2)) * 6 + 2.6 * Math.exp(-Math.pow((x - 262) / 18, 2)) + 0.004 * (x - 20) * 0 + 0.15,
-        m: [[118, 0.15 - 1.5, 'Endotherm: melting', 'A peak downward (with exo up) is heat absorbed: melting, evaporation or desolvation. Note it, but it is not a hazard by itself.'], [228, 0.3, 'Onset', 'Where the curve leaves the baseline, about 228 °C here. Onset depends on ramp rate and sensitivity: a 5 K/min DSC reports a higher onset than a slow adiabatic test would. Never treat it as a safe temperature.'], [262, 2.75, 'Peak', 'Maximum heat release rate. A sharp, tall peak means a fast decomposition.'], [300, 1.2, 'Area = ΔH', 'The area under the exotherm is the energy: here about 650 J/g. Divide by heat capacity for the adiabatic temperature rise: 650 / 1.8 ≈ 360 K. Above about 500 J/g, treat as high energy and check for explosive properties.']] },
+        m: [[118, 0.15 - 1.5, 'Endotherm: melting', 'A peak downward (with exo up) is heat absorbed: melting, evaporation or desolvation. Note it, but it is not a hazard by itself.'], [228, 0.3, 'Onset', 'Where the curve leaves the baseline, about 228 °C here. Onset depends on ramp rate and sensitivity: a 5 °C/min DSC reports a higher onset than a slow adiabatic test would. Never treat it as a safe temperature.'], [262, 2.75, 'Peak', 'Maximum heat release rate. A sharp, tall peak means a fast decomposition.'], [300, 1.2, 'Area = ΔH', 'The area under the exotherm is the energy: here about 155 kcal/kg (650 J/g on the instrument). Divide by heat capacity for the adiabatic temperature rise: 155 / 0.43 ≈ 360 °C. Above about 120 kcal/kg (500 J/g), treat as high energy and check for explosive properties.']] },
       arc: { b: 'ARC', xl: 'Temperature (°C)', yl: 'Self-heat rate (°C/min, log)', xmax: 300, ymax: 4, ys: 1, xs: 50, log: true,
-        f: x => x < 150 ? NaN : Math.log10(0.02 * Math.exp((x - 150) / 13.5)) + 2, m: [[150, 0.3, 'Detected onset', 'Heat-wait-search steps up 5 K at a time; at 150 °C the sample self-heats faster than 0.02 °C/min and the calorimeter tracks it adiabatically.'], [210, 2.2, 'Runaway', 'The rate climbs exponentially: the classic shape of a runaway. Data like this give the time to maximum rate (TMR) at each temperature.'], [250, 3.2, 'Correct for φ', 'The bomb absorbs some heat, so the sample looks milder than it is. The phi factor φ = 1 + (m·cp)bomb/(m·cp)sample, often 1.5–3 in an ARC, corrects temperature rise and onset to plant conditions.'], [110, 1.2, 'TD24', 'Extrapolating the corrected data down to where TMR = 24 h gives TD24, the temperature the batch must stay below. It is typically well below the detected onset.']] },
+        f: x => x < 150 ? NaN : Math.log10(0.02 * Math.exp((x - 150) / 13.5)) + 2, m: [[150, 0.3, 'Detected onset', 'Heat-wait-search steps up 5 °C at a time; at 150 °C the sample self-heats faster than 0.02 °C/min and the calorimeter tracks it adiabatically.'], [210, 2.2, 'Runaway', 'The rate climbs exponentially: the classic shape of a runaway. Data like this give the time to maximum rate (TMR) at each temperature.'], [250, 3.2, 'Correct for φ', 'The bomb absorbs some heat, so the sample looks milder than it is. The phi factor φ = 1 + (m·cp)bomb/(m·cp)sample, often 1.5–3 in an ARC, corrects temperature rise and onset to plant conditions.'], [110, 1.2, 'TD24', 'Extrapolating the corrected data down to where TMR = 24 h gives TD24, the temperature the batch must stay below. It is typically well below the detected onset.']] },
       rc1: { b: 'RC1', xl: 'Time (h)', yl: 'Heat flow (W/kg)', xmax: 6, ymax: 40, ys: 10, xs: 1,
-        f: x => x < 1 ? 0 : x < 5 ? 22 * (1 - Math.exp(-(x - 1) * 4)) : 22 * Math.exp(-(x - 5) * 3.2), m: [[0.5, 3, 'Calibration', 'Before and after the reaction, a heater pulse with known power gives UA, so heat flow = UA × (Tr − Tj) can be calculated.'], [3, 24, 'Dosing plateau', 'With fast reaction, heat flow follows the dosing rate: a flat plateau. The height tells you the cooling the plant must supply per kg.'], [5.3, 14, 'Tail after dosing', 'Heat still released after dosing stops is unreacted material: the accumulation. A long tail means high accumulation and a higher MTSR.'], [4, 2, 'Integral = ΔHr', 'Integrating the curve gives the reaction heat in kJ/mol or kJ/kg, and the adiabatic temperature rise.']] },
+        f: x => x < 1 ? 0 : x < 5 ? 22 * (1 - Math.exp(-(x - 1) * 4)) : 22 * Math.exp(-(x - 5) * 3.2), m: [[0.5, 3, 'Calibration', 'Before and after the reaction, a heater pulse with known power gives UA, so heat flow = UA × (Tr − Tj) can be calculated.'], [3, 24, 'Dosing plateau', 'With fast reaction, heat flow follows the dosing rate: a flat plateau. The height tells you the cooling the plant must supply per kg.'], [5.3, 14, 'Tail after dosing', 'Heat still released after dosing stops is unreacted material: the accumulation. A long tail means high accumulation and a higher MTSR.'], [4, 2, 'Integral = ΔHr', 'Integrating the curve gives the reaction heat in kcal/mol or kcal/kg, and the adiabatic temperature rise.']] },
       tsu: { b: 'TSU', xl: 'Temperature (°C)', yl: 'Pressure (bar)', xmax: 300, ymax: 60, ys: 10, xs: 50,
         f: x => (x < 170 ? 1 + 0.02 * (x - 20) : 4 + 50 / (1 + Math.exp(-(x - 205) / 10))), m: [[100, 6, 'Vapour pressure', 'Below the onset, pressure rises gently with temperature as the solvent vapour pressure rises: this part is reversible.'], [180, 14, 'Exotherm and gas', 'Temperature and pressure both jump: decomposition with gas generation. The TSU gives onset, pressure rise and rates dT/dt and dP/dt from a few grams.'], [270, 52, 'Non-condensable gas', 'After cooling back to room temperature, the pressure that remains is permanent gas. Gas generation drives relief sizing and is often the bigger hazard than the heat.'], [60, 30, 'Screening tool', 'A TSU is a fast closed-cell screen, between DSC and ARC. Use it to flag hazards and decide what needs full ARC or RC1 testing.']] },
     };
@@ -1111,8 +1111,8 @@
       const Q = +i.value / 3600; o.textContent = i.value + ' m³/h'; svg.innerHTML = ''; let html = '';
       J.forEach((j, n) => { const v = j[1] ? Q / j[1] : 0.6, Re = 1000 * v * j[2] / mu, hDB = 0.023 * Math.pow(Re, 0.8) * Math.pow(Pr, 0.4) * k / j[2], h = Re < 6000 ? Math.max(350, hDB * Math.min(1, Re / 10000)) : hDB;
         const U = 1 / (1 / 1000 + 0.008 / 16 + 0.0002 + 1 / h), y = 20 + n * 46, w = U / 700 * 400;
-        txt(svg, 10, y + 15, j[0], { fill: c.ink, 'font-size': 12 }); el('rect', { x: 230, y: y + 2, width: w, height: 22, rx: 4, fill: [c.rust, c.blue, c.green][n] }, svg); txt(svg, 236 + w, y + 18, F(U, 0) + ' W/m²K', { fill: c.ink, 'font-weight': 700, 'font-size': 12 });
-        html += `<div${n === 2 ? ' class="hi"' : ''}><span>${j[0]}</span><b>${F(v, 2)} m/s, h ≈ ${F(h, 0)}</b></div>`; });
+        txt(svg, 10, y + 15, j[0], { fill: c.ink, 'font-size': 12 }); el('rect', { x: 230, y: y + 2, width: w, height: 22, rx: 4, fill: [c.rust, c.blue, c.green][n] }, svg); txt(svg, 236 + w, y + 18, F(U / 1.163, 0) + ' kcal/h·m²·°C', { fill: c.ink, 'font-weight': 700, 'font-size': 12 });
+        html += `<div${n === 2 ? ' class="hi"' : ''}><span>${j[0]}</span><b>${F(v, 2)} m/s, h ≈ ${F(h / 1.163, 0)} kcal/h·m²·°C</b></div>`; });
       txt(svg, 230, 160, 'Overall U, stainless reactor, agitated organic batch', { fill: c.mute, 'font-size': 11 });
       rd.innerHTML = html;
     }
@@ -1380,16 +1380,16 @@
     const svg = el('svg', { viewBox: '0 0 640 150', role: 'img', 'aria-label': 'Evaporation and feed capacity of an agitated thin film dryer' });
     fig.insertBefore(svg, fig.querySelector('figcaption'));
     const ctl = controls(fig, `<label>Heated area <input type="range" min="2" max="40" step="1" value="10" aria-label="Heated area in square metres"> <output></output></label>
-      <label>Overall U <input type="range" min="300" max="2000" step="50" value="800" aria-label="Overall U"> <output></output></label>
+      <label>Overall U <input type="range" min="250" max="1700" step="50" value="700" aria-label="Overall U in kcal per hour per square metre per degree C"> <output></output></label>
       <label>Steam minus product temperature <input type="range" min="20" max="100" step="5" value="60" aria-label="Temperature difference"> <output></output></label>
       <label>Feed solids <input type="range" min="10" max="60" step="1" value="35" aria-label="Feed solids percent"> <output></output></label>`);
     const [iA, iU, iT, iS] = ctl.querySelectorAll('input'), [oA, oU, oT, oS] = ctl.querySelectorAll('output'), rd = readout(fig);
     function draw() {
-      const A = +iA.value, U = +iU.value, dT = +iT.value, s = +iS.value / 100; oA.textContent = A + ' m²'; oU.textContent = U + ' W/m²K'; oT.textContent = dT + ' °C'; oS.textContent = Math.round(s * 100) + ' %';
-      const Q = U * A * dT / 1000, ev = Q / 2257 * 3600, frac = 1 - s / 0.95, feed = ev / frac, dry = feed * s / 0.95;
+      const A = +iA.value, U = +iU.value, dT = +iT.value, s = +iS.value / 100; oA.textContent = A + ' m²'; oU.textContent = U + ' kcal/h·m²·°C'; oT.textContent = dT + ' °C'; oS.textContent = Math.round(s * 100) + ' %';
+      const Q = U * A * dT, ev = Q / 539, frac = 1 - s / 0.95, feed = ev / frac, dry = feed * s / 0.95;
       svg.innerHTML = ''; const mx = Math.max(feed, 1), sc = 340 / mx;
       [['Feed it can take', feed, c.blue], ['Water evaporated', ev, c.brass], ['Dry salt out (5 % moisture)', dry, c.green]].forEach((r, k) => { const y = 12 + k * 40; txt(svg, 10, y + 16, r[0], { fill: c.ink, 'font-size': 12 }); el('rect', { x: 200, y, width: Math.max(2, r[1] * sc), height: 24, rx: 4, fill: r[2] }, svg); txt(svg, 206 + r[1] * sc, y + 17, F(r[1], 0) + ' kg/h', { fill: c.ink, 'font-weight': 700, 'font-size': 12 }); });
-      rd.innerHTML = `<div><span>Heat duty</span><b>${F(Q, 0)} kW</b></div><div><span>Heat flux</span><b>${F(Q / A, 1)} kW/m²</b></div><div class="hi"><span>Feed capacity</span><b>${F(feed, 0)} kg/h</b></div>`;
+      rd.innerHTML = `<div><span>Heat duty</span><b>${F(Q, 0)} kcal/h</b></div><div><span>Heat flux</span><b>${F(Q / A, 0)} kcal/h·m²</b></div><div class="hi"><span>Feed capacity</span><b>${F(feed, 0)} kg/h</b></div>`;
     }
     ctl.addEventListener('input', draw); draw();
   };
@@ -1404,12 +1404,12 @@
     function at(p) { let k = 0; while (k < ST.length - 2 && p > ST[k + 1][0]) k++; const a = ST[k], b = ST[k + 1], f = (p - a[0]) / (b[0] - a[0]); return [0, 1, 2, 3].map(j => a[j] + f * (b[j] - a[j])); }
     function draw() {
       const p = +i.value, s = at(p); o.textContent = p.toFixed(1) + ' barg'; svg.innerHTML = '';
-      const sc = 560 / 2800, hf = s[2], hfg = s[3];
+      const sc = 560 / 670, hf = s[2] / 4.1868, hfg = s[3] / 4.1868;
       el('rect', { x: 40, y: 30, width: hf * sc, height: 44, fill: c.blue }, svg); el('rect', { x: 40 + hf * sc, y: 30, width: hfg * sc, height: 44, fill: c.brass }, svg);
-      txt(svg, 46, 57, 'Sensible ' + F(hf, 0), { fill: '#0B1622', 'font-weight': 700, 'font-size': 12 }); txt(svg, 46 + hf * sc, 57, 'Latent ' + F(hfg, 0) + ' kJ/kg (released in the jacket)', { fill: '#0B1622', 'font-weight': 700, 'font-size': 12 });
-      [0, 500, 1000, 1500, 2000, 2500].forEach(v => { el('line', { x1: 40 + v * sc, y1: 80, x2: 40 + v * sc, y2: 86, stroke: c.mute }, svg); txt(svg, 40 + v * sc, 100, F(v, 0), { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); });
-      txt(svg, 320, 120, 'Enthalpy of saturated steam (kJ/kg from 0 °C water)', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
-      rd.innerHTML = `<div><span>Saturation temperature</span><b>${F(s[1], 1)} °C</b></div><div class="hi"><span>Latent heat</span><b>${F(hfg, 0)} kJ/kg</b></div><div><span>Steam for 100 kW of heating</span><b>${F(100 / hfg * 3600, 0)} kg/h</b></div>`;
+      txt(svg, 46, 57, 'Sensible ' + F(hf, 0), { fill: '#0B1622', 'font-weight': 700, 'font-size': 12 }); txt(svg, 46 + hf * sc, 57, 'Latent ' + F(hfg, 0) + ' kcal/kg (released in the jacket)', { fill: '#0B1622', 'font-weight': 700, 'font-size': 12 });
+      [0, 100, 200, 300, 400, 500, 600].forEach(v => { el('line', { x1: 40 + v * sc, y1: 80, x2: 40 + v * sc, y2: 86, stroke: c.mute }, svg); txt(svg, 40 + v * sc, 100, F(v, 0), { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 }); });
+      txt(svg, 320, 120, 'Enthalpy of saturated steam (kcal/kg from 0 °C water)', { 'text-anchor': 'middle', fill: c.mute, 'font-size': 11 });
+      rd.innerHTML = `<div><span>Saturation temperature</span><b>${F(s[1], 1)} °C</b></div><div class="hi"><span>Latent heat</span><b>${F(hfg, 0)} kcal/kg</b></div><div><span>Steam for 1,00,000 kcal/h of heating</span><b>${F(100000 / hfg, 0)} kg/h</b></div>`;
     }
     i.addEventListener('input', draw); draw();
   };

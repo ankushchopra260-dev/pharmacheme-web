@@ -2,7 +2,7 @@
 layout: default
 title: "Cooling Tower Calculations: Range, Approach, Evaporation, Blowdown, COC"
 seo_title: "Cooling Tower Calculator: Range, Approach, COC | PharmaChemE"
-description: "Free cooling tower calculators: range, approach, heat rejected in kW and TR, evaporation loss, make-up and blowdown from cycles of concentration."
+description: "Free cooling tower calculators: range, approach, heat rejected in kcal/h and TR, evaporation loss, make-up and blowdown from cycles of concentration."
 structured_data: |
   {
     "@context": "https://schema.org",
@@ -48,7 +48,7 @@ breadcrumbs:
     Range = T<sub>hot in</sub> &minus; T<sub>cold out</sub><br>
     Approach = T<sub>cold out</sub> &minus; T<sub>wet bulb</sub><br>
     Effectiveness = Range / (Range + Approach)<br>
-    Heat rejected (kW) = flow (kg/s) &times; 4.186 &times; Range
+    Heat rejected (kcal/h) = flow (kg/h) &times; 1 &times; Range
   </div>
   <p>Range is set by the plant's heat load and the water flow. Approach shows the tower's condition: a tower that held 4 &deg;C approach when new and now gives 7 &deg;C at the same wet bulb has fouled fill, blocked nozzles or weak fans.</p>
 
@@ -65,7 +65,7 @@ breadcrumbs:
   <p>500 m&sup3;/h circulation, hot water 37 &deg;C, cold water 32 &deg;C, wet bulb 28 &deg;C, COC 4, drift 0.02 %:</p>
   <div class="formula-box">
     Range = 5 &deg;C, approach = 4 &deg;C, effectiveness = 5 / 9 &asymp; 56 %<br>
-    Heat rejected = 500 &times; 1,000 / 3,600 &times; 4.186 &times; 5 &asymp; 2,907 kW &asymp; 827 TR<br>
+    Heat rejected = 500 &times; 1,000 &times; 5 = 25,00,000 kcal/h &asymp; 827 TR<br>
     Evaporation = 0.00085 &times; 1.8 &times; 500 &times; 5 &asymp; 3.8 m&sup3;/h<br>
     Blowdown = 3.8 / 3 &minus; 0.1 &asymp; 1.2 m&sup3;/h; make-up &asymp; 5.1 m&sup3;/h (about 122 m&sup3;/day)
   </div>
@@ -80,7 +80,7 @@ breadcrumbs:
     <tr><td>Drift loss</td><td>0.005&ndash;0.02 % (modern eliminators)</td><td>0.1&ndash;0.2 % on old towers without eliminators</td></tr>
     <tr><td>Cycles of concentration</td><td>3&ndash;6</td><td>Limited by hardness, silica and chloride in the make-up</td></tr>
   </table></div>
-  <p>The heat rejected is shown in kW and in refrigeration tons (1 TR = 3.517 kW). Some cooling tower makers rate towers in &ldquo;cooling tower tons&rdquo; of 15,000 BTU/h, which already includes the chiller's compressor heat, so check which ton a datasheet uses.</p>
+  <p>The heat rejected is shown in kcal/h and in refrigeration tons (1 TR = 3,024 kcal/h). Some cooling tower makers rate towers in &ldquo;cooling tower tons&rdquo; of 15,000 BTU/h, which already includes the chiller's compressor heat, so check which ton a datasheet uses.</p>
 
   <h2>Simple checks that save energy and water</h2>
   <ul>

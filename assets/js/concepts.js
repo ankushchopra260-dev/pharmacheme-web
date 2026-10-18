@@ -314,7 +314,7 @@
       curves: [{ f: function (p) { return tsat(p + 1.013); }, c: C.orange, label: 'saturated steam', lx: 5, dy: 24 }],
       points: function (p) { return [{ x: p, y: tsat(p + 1.013) }]; }
     },
-    read: function (p) { var T = tsat(p + 1.013); return 'P   = <b>' + fmt(p, 1) + '</b> bar g\nT   = <b>' + fmt(T, 0) + '</b> °C\nhfg ≈ ' + fmt(hfg(T), 0) + ' kJ/kg'; },
+    read: function (p) { var T = tsat(p + 1.013); return 'P   = <b>' + fmt(p, 1) + '</b> bar g\nT   = <b>' + fmt(T, 0) + '</b> °C\nhfg ≈ ' + fmt(hfg(T) / 4.1868, 0) + ' kcal/kg'; },
     note: 'Leave 10 to 20 °C between steam temperature and the process setpoint so the jacket can still drive heat in.'
   });
 
@@ -977,7 +977,7 @@
   function dur(s) { return s < 3600 ? fmt(s / 60, 0) + ' min' : fmt(s / 3600, 1) + ' h'; }
   def('area', {
     t: 'Area per Volume Falls on Scale-up', eq: 'Volume grows with D&sup3;, jacket area only with D&sup2;', eq2: 'A/V &prop; 1/D &nbsp; heat-up time &prop; V/(UA) &prop; D',
-    cap: 'Jacketed vessel, H = D, U = 300 W/m²K, heating 40 K', alt: 'Jacketed vessel growing as batch size increases',
+    cap: 'Jacketed vessel, H = D, U = 260 kcal/h·m²·°C, heating by 40 °C', alt: 'Jacketed vessel growing as batch size increases',
     sl: { label: 'Batch volume (log)', min: -3, max: 1.3, step: .01, v: -2.5, sweep: [-3, 1.3] }, val: function (s) { return Math.pow(10, s); }, rp: 'tr', period: 12,
     anim: function (ctx, w, h, dt, V, st) {
       var K = H.kit(ctx, w, h), g = geo(V), s = 14 + 56 * (lg(V) + 3) / 4.3, x = 50 - s / 2, y = 88 - s;
@@ -1055,7 +1055,7 @@
       st.d = st.d || []; st.de = (st.de || 0) + dt * r.Q / 25;
       while (st.de > 1) { st.de -= 1; st.d.push({ x: 20 + Math.random() * 60, y: 65 }); }
       st.d = st.d.filter(function (d) { d.y += dt * 20; K.fi(C.cream).circ(d.x, d.y, .8, true); return d.y < 80; });
-      K.tx('Q ' + fmt(r.Q, 0) + ' kW', 50, 88, { mono: 1, c: C.paper, sz: 4.2 });
+      K.tx('Q ' + fmt(r.Q * 860, 0) + ' kcal/h', 50, 88, { mono: 1, c: C.paper, sz: 4.2 });
     },
     graph: function (Tin) {
       return {
@@ -1066,7 +1066,7 @@
         points: function () { return [{ x: 0, y: Tin }, { x: 1, y: cond(Tin).Tout }]; }
       };
     },
-    read: function (Tin) { var r = cond(Tin), r25 = cond(25); return 'ΔTlm = <b>' + fmt(r.lm, 1) + '</b> K\nQ    = <b>' + fmt(r.Q, 0) + '</b> kW\n     ' + fmt(100 * r.Q / r25.Q, 0) + '% of duty at 25 °C'; },
+    read: function (Tin) { var r = cond(Tin), r25 = cond(25); return 'ΔTlm = <b>' + fmt(r.lm, 1) + '</b> °C\nQ    = <b>' + fmt(r.Q * 860, 0) + '</b> kcal/h\n     ' + fmt(100 * r.Q / r25.Q, 0) + '% of duty at 25 °C'; },
     note: 'Shaded area is the driving force. On a hot afternoon a condenser sized for 25 °C water can lose a third of its duty, and solvent slips through to the vacuum pump.'
   });
 
@@ -1216,7 +1216,7 @@
   /* ---------- heat of solution: NaOH in water ---------- */
   function dT(g) { return (g / 40) * 44.5 / ((1 + g / 1000) * 3.9); }
   def('dissolve', {
-    t: 'Heat of Solution', eq: 'Some solids and acids release heat as they dissolve', eq2: '&Delta;T &asymp; n &middot; |&Delta;H<sub>soln</sub>| / (m &middot; c<sub>p</sub>) &nbsp; NaOH: &minus;44.5 kJ/mol',
+    t: 'Heat of Solution', eq: 'Some solids and acids release heat as they dissolve', eq2: '&Delta;T &asymp; n &middot; |&Delta;H<sub>soln</sub>| / (m &middot; c<sub>p</sub>) &nbsp; NaOH: &minus;10.6 kcal/mol',
     cap: 'Sodium hydroxide pellets added to 1 L of water at 25 °C', alt: 'Beaker heating up as pellets dissolve',
     sl: { label: 'NaOH added (g per litre)', min: 0, max: 400, step: 5, v: 0, sweep: [0, 400] }, rp: 'tl',
     anim: function (ctx, w, h, dt, g, st) {
@@ -1230,11 +1230,11 @@
       K.tx(fmt(g, 0) + ' g/L', 47, 94, { mono: 1, c: C.paper, sz: 4 });
     },
     graph: {
-      x0: 0, x1: 400, y0: 0, y1: 90, xt: [0, 100, 200, 300, 400], yt: [0, 25, 50, 75], xl: 'NaOH added  (g per litre of water)', yl: 'Temperature rise  (K)',
+      x0: 0, x1: 400, y0: 0, y1: 90, xt: [0, 100, 200, 300, 400], yt: [0, 25, 50, 75], xl: 'NaOH added  (g per litre of water)', yl: 'Temperature rise  (°C)',
       hl: [{ y: 75, label: 'boils if started at 25 °C', c: C.red }],
       curves: [{ f: dT, c: C.orange }], points: function (g) { return [{ x: g, y: dT(g) }]; }
     },
-    read: function (g) { return 'NaOH = <b>' + fmt(g, 0) + '</b> g/L\nΔT   ≈ <b>' + fmt(dT(g), 0) + '</b> K\nT    ≈ ' + fmt(25 + dT(g), 0) + ' °C'; },
+    read: function (g) { return 'NaOH = <b>' + fmt(g, 0) + '</b> g/L\nΔT   ≈ <b>' + fmt(dT(g), 0) + '</b> °C\nT    ≈ ' + fmt(25 + dT(g), 0) + ' °C'; },
     note: 'Add the solid, or the concentrated acid, slowly into water with stirring and cooling, never water into acid. Values are approximate and ignore heat lost to the vessel.'
   });
 
@@ -1761,7 +1761,7 @@
   def('dsc', {
     t: 'DSC: Differential Scanning Calorimetry', eq: 'A few mg of sample and an empty reference are heated side by side; the heat-flow difference shows melting and exotherms',
     eq2: 'Q&prime; = &int; q dt (J/g) &nbsp; &Delta;T<sub>ad</sub> = Q&prime; / c&prime;<sub>p</sub>',
-    cap: 'Sealed high-pressure crucibles on a furnace, scanned at 5 K/min', alt: 'DSC furnace with sample and reference crucibles',
+    cap: 'Sealed high-pressure crucibles on a furnace, scanned at 5 °C/min', alt: 'DSC furnace with sample and reference crucibles',
     sl: { label: 'Furnace temperature (°C)', min: 30, max: 350, step: .5, v: 30, sweep: [30, 350] }, rp: 'tl', period: 14,
     anim: function (ctx, w, h, dt, T, st) {
       var K = H.kit(ctx, w, h); st.t = (st.t || 0) + dt; var q = dscQ(T), hot = clamp((T - 30) / 320, 0, 1);
@@ -1792,15 +1792,15 @@
         points: function () { return [{ x: T, y: dscQ(T) }]; }
       };
     },
-    read: function (T) { return 'T     = <b>' + fmt(T, 0) + '</b> °C\nq     = <b>' + fmt(Math.abs(dscQ(T)) < .005 ? 0 : dscQ(T), 2) + '</b> W/g\nexo   = <b>' + fmt(interp(DSC, T, 2), 0) + '</b> J/g\n(total ' + fmt(DSC_TOT, 0) + ' J/g)'; },
-    note: 'The peak area is the energy: here about ' + fmt(DSC_TOT, 0) + ' J/g, so with c′p ≈ 1.8 J/g·K the adiabatic rise would be about ' + fmt(DSC_TOT / 1.8, 0) + ' K. DSC is a quick screen. Its onset depends on scan rate and is far above the temperature at which a big insulated vessel can start to self-heat.',
+    read: function (T) { return 'T     = <b>' + fmt(T, 0) + '</b> °C\nq     = <b>' + fmt(Math.abs(dscQ(T)) < .005 ? 0 : dscQ(T), 2) + '</b> W/g\nexo   = <b>' + fmt(interp(DSC, T, 2) / 4.1868, 0) + '</b> kcal/kg\n(total ' + fmt(DSC_TOT / 4.1868, 0) + ' kcal/kg)'; },
+    note: 'The peak area is the energy: here about ' + fmt(DSC_TOT / 4.1868, 0) + ' kcal/kg (' + fmt(DSC_TOT, 0) + ' J/g on the instrument), so with c′p ≈ 0.43 kcal/kg·°C the adiabatic rise would be about ' + fmt(DSC_TOT / 1.8, 0) + ' °C. DSC is a quick screen. Its onset depends on scan rate and is far above the temperature at which a big insulated vessel can start to self-heat.',
     how: [
       { t: '<b>Axes.</b> Temperature runs left to right as the furnace heats at a steady rate. Up is heat <i>given out</i> by the sample (exo up); down is heat <i>taken in</i>. Always check the “exo” arrow on a real thermogram: some instruments plot it the other way.', y: [-0.1, 0.1], v: 60 },
       { t: '<b>Flat baseline.</b> Nothing is happening: the sample and the empty reference take the same heat.', x: [35, 100], v: 80 },
       { t: '<b>Dip = endotherm.</b> A sharp dip with a flat baseline either side is melting (or a solvent boiling off). It is not a safety concern by itself.', x: [105, 132], v: 118 },
       { t: '<b>Where it lifts off = onset.</b> The first rise above the baseline marks the onset, here about ' + fmt(DSC_ON, 0) + ' °C. It is only an apparent onset: a slower scan or a bigger sample would show it lower.', pt: [DSC_ON, 0], v: DSC_ON },
       { t: '<b>Peak height = how fast.</b> The higher and sharper the peak, the faster the heat comes out. A tall narrow peak is more violent than a low broad one with the same area.', pt: [260, dscQ(260)], v: 260 },
-      { t: '<b>Area = how much.</b> The shaded area under the peak, divided by the scan rate, is the energy in J/g (' + fmt(DSC_TOT, 0) + ' J/g here). Divide by c′p to get ΔTad: above about 200 K is high severity.', x: [DSC_ON, 330], v: 330 }
+      { t: '<b>Area = how much.</b> The shaded area under the peak, divided by the scan rate, is the energy, about ' + fmt(DSC_TOT / 4.1868, 0) + ' kcal/kg here (' + fmt(DSC_TOT, 0) + ' J/g on the instrument). Divide by c′p to get ΔTad: above about 200 °C is high severity.', x: [DSC_ON, 330], v: 330 }
     ]
   });
 
@@ -1882,7 +1882,7 @@
   function arcAt(t) { var lo = 0, hi = ARC.length - 1; if (t <= ARC[0][0]) return ARC[0]; if (t >= ARC[hi][0]) return ARC[hi]; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (ARC[m][0] <= t) lo = m; else hi = m; } return ARC[lo]; }
   def('arc', {
     t: 'ARC: Accelerating Rate Calorimeter', eq: 'Heat, wait, search: step the temperature until the sample heats itself, then keep the surroundings at the same temperature so no heat is lost',
-    eq2: 'self-heating detected at &gt; 0.02 K/min &nbsp; &Delta;T<sub>ad,true</sub> = &phi; &middot; &Delta;T<sub>measured</sub>',
+    eq2: 'self-heating detected at &gt; 0.02 °C/min &nbsp; &Delta;T<sub>ad,true</sub> = &phi; &middot; &Delta;T<sub>measured</sub>',
     cap: 'Sample bomb inside guard heaters that track its temperature', alt: 'ARC bomb inside a heated block',
     sl: { label: 'Test time (h)', min: 0, max: Math.ceil(ARC_END * 10) / 10, step: .01, v: 0, sweep: [0, ARC_END] }, rp: 'tl', period: 18,
     anim: function (ctx, w, h, dt, tt, st) {
@@ -1907,12 +1907,12 @@
         points: function () { var p = arcAt(tt); return [{ x: p[0], y: p[1] }]; }
       };
     },
-    read: function (tt) { var p = arcAt(tt); return 'mode = <b>' + p[2] + '</b>\nT    = <b>' + fmt(p[1], 1) + '</b> °C\nrate = <b>' + sig(Math.max(p[3], 0), 2) + '</b> K/min'; },
-    note: 'The staircase is heat-wait-search. Once the sample warms itself faster than 0.02 K/min, the guard heaters follow it, so no heat leaks away: just like the centre of a large, poorly cooled vessel. The steep climb gives the adiabatic rise, the self-heat rate and the TMRad. The thick bomb absorbs some heat, so results are scaled by the φ-factor.',
+    read: function (tt) { var p = arcAt(tt); return 'mode = <b>' + p[2] + '</b>\nT    = <b>' + fmt(p[1], 1) + '</b> °C\nrate = <b>' + sig(Math.max(p[3], 0), 2) + '</b> °C/min'; },
+    note: 'The staircase is heat-wait-search. Once the sample warms itself faster than 0.02 °C/min, the guard heaters follow it, so no heat leaks away: just like the centre of a large, poorly cooled vessel. The steep climb gives the adiabatic rise, the self-heat rate and the TMRad. The thick bomb absorbs some heat, so results are scaled by the φ-factor.',
     how: [
       { t: '<b>Axes.</b> Test time along the bottom (a run takes most of a day), sample temperature up the side.', y: [90, 110], v: 0.2 },
       { t: '<b>The staircase = heat-wait-search.</b> Each step is a 5 K heat, a wait to settle, then a search for self-heating. Flat treads mean nothing found yet.', x: [0, ARC_DET[0]], v: ARC_DET[0] * .5 },
-      { t: '<b>The red line = exotherm detected.</b> The first search where the sample warms itself faster than 0.02 K/min, here at about ' + fmt(ARC_DET[1], 0) + ' °C. That is a far more sensitive onset than DSC gives.', pt: [ARC_DET[0], ARC_DET[1]], v: ARC_DET[0] + .02 },
+      { t: '<b>The red line = exotherm detected.</b> The first search where the sample warms itself faster than 0.02 °C/min, here at about ' + fmt(ARC_DET[1], 0) + ' °C. That is a far more sensitive onset than DSC gives.', pt: [ARC_DET[0], ARC_DET[1]], v: ARC_DET[0] + .02 },
       { t: '<b>The slow curve = adiabatic self-heating.</b> No heat is lost, so the sample warms itself, slowly at first. Its slope is the self-heat rate.', x: [ARC_DET[0], ARC_END - 1.2], v: ARC_END - 2 },
       { t: '<b>The near-vertical part = maximum rate.</b> The time from any point on the curve to this spike is the TMRad at that temperature. The total rise, multiplied by φ, is the true ΔTad.', x: [ARC_END - 1, ARC_END], v: ARC_END - .05 }
     ]
