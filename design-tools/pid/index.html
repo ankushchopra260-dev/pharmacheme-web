@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "P&ID Drawing Tool: Free Online P&ID Maker with ISA Symbols"
-description: "Draw a P&ID in your browser: tanks, reactors, columns, centrifuges, dryers and 50+ more equipment symbols, valves, pumps and ISA 5.1 instruments. Start from a template, connect items with a click and download the drawing."
+description: "Draw a P&ID in your browser with an AutoCAD-style workspace: command line, OSNAP, ORTHO, layers, move, copy, rotate, mirror, an A3 sheet with title block, and export to PDF and DXF. 50+ equipment symbols, valves, pumps and ISA 5.1 instruments."
 breadcrumbs:
   - label: Design Tools
     url: /design-tools/
@@ -10,24 +10,48 @@ breadcrumbs:
 ---
 
 <link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
 
 <div class="container st-head">
   <h1>P&amp;ID Drawing Tool</h1>
-  <p>Pick a symbol, click to place it, and press Connect to join two items.</p>
+  <p>An AutoCAD-style workspace for P&amp;IDs: type commands, snap to nozzles, draw on an A3 sheet with a title block, and export to PDF or DXF. <a href="#how-to-use" style="color:var(--brass)">How to use it</a>.</p>
 </div>
 <div style="padding:0 12px;">
   <div id="sd-app" data-kind="pid"></div>
 </div>
 
 <div class="container article-body" style="margin-top:28px;">
-  <h2>How to draw a P&amp;ID</h2>
+  <h2 id="how-to-use">How to use the P&amp;ID tool</h2>
+  <p>The tool works like a simple AutoCAD: a toolbar on top, symbols on the left, the drawing sheet in the middle, a command line and a status bar at the bottom. Press <strong>How to use</strong> in the toolbar at any time to see these steps inside the tool.</p>
   <ol>
-    <li><strong>Start.</strong> Pick a blank sheet, or a ready setup: cooling water distribution, cooling tower loop, reactor, centrifuge and dryer, distillation column, steam and condensate, or a pump transfer.</li>
-    <li><strong>Place equipment.</strong> Click a symbol on the left, then click the sheet. The panel holds every item from the <a href="/equipment-instruments/">Equipment</a> guide; type in the search box to find one.</li>
-    <li><strong>Connect.</strong> Press <em>Connect</em>, click where the line starts, then where it goes. Click a line to branch off it with a tee, or empty space to add a bend point.</li>
-    <li><strong>Add valves, pumps and instruments.</strong> Click the symbol, then click the line (or the vessel for an instrument). Drag a valve along its line to move it.</li>
-    <li><strong>Edit.</strong> Click anything to change its tag, name, line service or size. Download the drawing as an image when you are done.</li>
+    <li><strong>Start.</strong> Pick a blank sheet or a ready setup, for example a reactor, distillation column or cooling water system. The drawing is saved in this browser, so you can close the page and come back to it.</li>
+    <li><strong>Place equipment.</strong> Click a symbol on the left, then click the sheet. Or type <code>I</code> and a name, for example <code>I reactor</code>, and press Enter. Hold Shift while clicking to place several.</li>
+    <li><strong>Draw lines.</strong> Press <em>Line</em> or type <code>L</code>. Click the first item, then the next. With OSNAP on, a yellow square marks each nozzle: click it to choose the side the line leaves from. Click an existing line to branch off it with a tee, or empty space to add a bend.</li>
+    <li><strong>Add valves, pumps and instruments.</strong> Pick one in the panel, then click the line (or the vessel, for an instrument). Drag a valve along its line to move it. Click a line to set its service, line number and size.</li>
+    <li><strong>Edit and arrange.</strong> Click anything to edit it in the card on the right. Drag a window to select several (left to right picks what is fully inside; right to left picks anything it touches), then use Move, Copy, Rotate, Mirror or Erase. Esc cancels, Ctrl+Z undoes.</li>
+    <li><strong>Work precisely.</strong> Keep SNAP on for a tidy 2.5 mm grid, ORTHO for straight horizontal or vertical moves, and OSNAP to land on nozzles and bends. When a command asks for a point, type <code>@50,0</code> to go 50 mm right, or just <code>50</code> to go 50 mm the way the cursor points.</li>
+    <li><strong>Move around the sheet.</strong> Scroll to zoom, drag with the right or middle mouse button to pan, and double-click empty space to see the whole drawing. <em>Full screen</em> gives you the whole window.</li>
+    <li><strong>Finish and export.</strong> Press <em>Title block</em> (or type <code>TB</code>) to fill in the company, title, drawing number, revision and names, and choose A3, A2 or A1. Then press <em>PDF</em> to plot the sheet, <em>DXF</em> to open it in AutoCAD, or <em>PNG</em> for an image.</li>
   </ol>
+  <p><strong>On a phone or tablet:</strong> tap <em>Symbols</em> to open the panel, tap to place and select, and drag with one finger to pan. The command line and keyboard shortcuts work best on a computer.</p>
+  <h2 id="commands">Commands and shortcuts</h2>
+  <p>Type a command anywhere over the drawing and press Enter, as in AutoCAD. Press Enter or Space again to repeat the last command, and Esc to cancel. Right-click works as Enter.</p>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Command</th><th>What it does</th></tr>
+    <tr><td><b>L</b></td><td>Line between two items. With OSNAP on, click a nozzle (yellow square) to fix the side the line leaves from.</td></tr>
+    <tr><td><b>I</b> name</td><td>Insert a symbol by name, for example <code>I reactor</code>, <code>I ball</code>, <code>I PT</code>.</td></tr>
+    <tr><td><b>T</b></td><td>Text note.</td></tr>
+    <tr><td><b>M</b>, <b>CO</b>, <b>RO</b>, <b>MI</b>, <b>E</b></td><td>Move, copy, rotate, mirror and erase. Select first, or the command asks you to select.</td></tr>
+    <tr><td><b>U</b>, <b>REDO</b></td><td>Undo and redo (Ctrl+Z, Ctrl+Y).</td></tr>
+    <tr><td><b>Z</b></td><td>Zoom: E extents, W window, I in, O out. Double-click empty space for extents.</td></tr>
+    <tr><td><b>P</b></td><td>Pan. You can also drag with the middle or right mouse button.</td></tr>
+    <tr><td><b>LA</b>, <b>TB</b></td><td>Layers on and off; title block and sheet size (A3, A2, A1).</td></tr>
+    <tr><td><b>PDF</b>, <b>DXF</b>, <b>PNG</b></td><td>Plot the sheet to PDF, export a DXF that opens in AutoCAD, or save an image.</td></tr>
+    <tr><td><b>F3 F7 F8 F9</b></td><td>OSNAP, GRID, ORTHO and SNAP on and off. The buttons in the status bar do the same.</td></tr>
+    <tr><td><b>Points</b></td><td>Click, or type <code>x,y</code>, <code>@dx,dy</code>, <code>@distance&lt;angle</code> or just a distance along the cursor. Units are mm on the sheet, Y up.</td></tr>
+  </table></div>
+  <p><strong>Selecting:</strong> click an object, Shift+click to add or remove, or drag a window. Left to right selects what is fully inside; right to left (green, dashed) also selects what it touches. Ctrl+A selects everything; Ctrl+C and Ctrl+V copy and paste.</p>
+  <p><strong>DXF:</strong> the file is AutoCAD R12 format in millimetres, with layers EQUIPMENT, PROCESS, UTILITY, VALVES, INSTRUMENTS, TEXT and BORDER, so it opens in AutoCAD, DraftSight, LibreCAD and most other CAD programs. Symbols come across as lines and polylines, not blocks.</p>
   <p>Your sheet is kept in this browser, so you can close the page and come back to it. Need a line size? Use the <a href="/design-tools/line-sizing/">Line Sizing calculator</a>.</p>
 </div>
 
