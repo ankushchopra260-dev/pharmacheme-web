@@ -8,6 +8,9 @@
   var FACE = (CS && CS.getAttribute('data-face')) || '/assets/img/guide-face.webp';
   var IDX_URL = (CS && CS.getAttribute('data-index')) || '/assets/data/guide-index.json';
   var BASE = (CS && CS.getAttribute('data-base')) || '';
+  var MINI = CS && CS.getAttribute('data-mini') === '1';
+  var FACTS_URL = (CS && CS.getAttribute('data-facts')) || IDX_URL.replace(/guide-index\.json$/, 'solvent-facts.json');
+  var PATH = location.pathname.replace(/\/+$/, '/');
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var KEY = 'pce-guide-min';
   function store(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
@@ -62,7 +65,7 @@
 
   var root = document.createElement('div'); root.className = 'pg idle'; root.setAttribute('role', 'complementary'); root.setAttribute('aria-label', 'Plant guide');
   root.innerHTML =
-    '<div class="pg-hi" aria-live="polite">Hi! Tell me what you are working on and I will point you to the right tool.<br><button type="button" class="pg-open">Ask me</button></div>' +
+    '<div class="pg-hi" aria-live="polite">Hi! Ask me anything: a solvent\u2019s flash point, a calculator, GATE prep or a plant problem.<br><button type="button" class="pg-open">Ask me</button></div>' +
     '<div class="pg-tools"><button type="button" class="pg-ic pg-min" aria-label="Minimise the guide" title="Minimise">\u2013</button></div>' +
     '<button type="button" class="pg-char" aria-label="Open the plant guide chat" aria-expanded="false"><img src="' + IMG + '" alt="" width="210" height="331"></button>' +
     '<section class="pg-chat" aria-label="Plant guide chat">' +
@@ -70,7 +73,7 @@
       '<button type="button" class="pg-ic pg-close" aria-label="Close the chat" title="Close">\u00d7</button><button type="button" class="pg-ic pg-min" aria-label="Minimise the guide" title="Minimise">\u2013</button></div>' +
       '<div class="pg-log" aria-live="polite"></div>' +
       '<div class="pg-chips"></div>' +
-      '<form class="pg-form"><label for="pg-in" style="position:absolute;left:-9999px">Ask the plant guide</label><input id="pg-in" type="text" autocomplete="off" placeholder="Ask anything, e.g. what is DSC?"><button type="submit">Send</button></form>' +
+      '<form class="pg-form"><label for="pg-in" style="position:absolute;left:-9999px">Ask the plant guide</label><input id="pg-in" type="text" autocomplete="off" placeholder="e.g. flash point of toluene"><button type="submit">Send</button></form>' +
       '<p class="pg-note">Answers come from pages on this site. Always check with your own engineering judgement.</p>' +
     '</section>' +
     '<button type="button" class="pg-mini" aria-label="Open the plant guide"><img src="' + FACE + '" alt=""></button>';
@@ -79,14 +82,14 @@
   var log = $('.pg-log'), chips = $('.pg-chips'), input = $('#pg-in'), charBtn = $('.pg-char');
 
   /* ---------- search engine: curated tool index + full-text site index + glossary ---------- */
-  var IDX = null, SITE = null, loading = null;
+  var IDX = null, SITE = null, FACTS = [], loading = null;
   var SITE_URL = (CS && CS.getAttribute('data-search')) || IDX_URL.replace(/guide-index\.json$/, 'site-search.json');
   function getJ(u) { return fetch(u).then(function (r) { return r.json(); }).catch(function () { return []; }); }
   function load() {
     if (IDX && SITE) return Promise.resolve();
-    if (!loading) loading = Promise.all([window.PCE_GUIDE_INDEX ? Promise.resolve(window.PCE_GUIDE_INDEX) : getJ(IDX_URL), window.PCE_SITE_INDEX ? Promise.resolve(window.PCE_SITE_INDEX) : getJ(SITE_URL)])
+    if (!loading) loading = Promise.all([window.PCE_GUIDE_INDEX ? Promise.resolve(window.PCE_GUIDE_INDEX) : getJ(IDX_URL), window.PCE_SITE_INDEX ? Promise.resolve(window.PCE_SITE_INDEX) : getJ(SITE_URL), getJ(FACTS_URL)])
       .then(function (a) {
-        IDX = a[0] || []; SITE = a[1] || [];
+        IDX = a[0] || []; SITE = a[1] || []; FACTS = a[2] || [];
         var byU = {}; SITE.forEach(function (r) { if (!byU[r.u] || !byU[r.u].h) byU[r.u] = byU[r.u] || r; });
         IDX.forEach(function (it) { var r = byU[it.u]; if (r) { r.w = (r.w || '') + ' ' + (it.w || '') + ' ' + it.t; r.cur = 1; } else SITE.push({ t: it.t, u: it.u, k: it.k, s: it.d || '', x: '', w: it.w || '', cur: 1 }); });
         prep(); });
@@ -136,9 +139,20 @@
     bod: ['BOD', 'Biochemical oxygen demand', 'Oxygen used by bacteria to break down organics in water over 5 days; shows the biodegradable load.', 'biochemical oxygen demand effluent'],
     stoessel: ['Stoessel classes', 'Criticality classes 1 to 5', 'Ranks a process by comparing four temperatures: process temperature, MTSR, MTT and TD24. Class 1 is safe; 5 is the worst.', 'stoessel criticality class mtsr td24'],
     reynolds: ['Re', 'Reynolds number', 'Ratio of inertia to viscous forces: Re = ρvD/μ. Below ~2300 flow is laminar, above ~4000 turbulent.', 'reynolds number laminar turbulent'],
+    flash: ['Flash point', 'Flash point', 'The lowest liquid temperature at which the vapour above it can be ignited by a flame. Below room temperature means the vapour space is flammable in normal plant conditions.', 'flash point flammable closed cup'],
+    autoignition: ['AIT', 'Autoignition temperature', 'The temperature at which a vapour-air mixture ignites by itself with no spark or flame. Keep hot surfaces (steam lines, motors) well below it.', 'autoignition temperature ignition hot surface'],
+    ait: ['AIT', 'Autoignition temperature', 'The temperature at which a vapour-air mixture ignites by itself with no spark or flame.', 'autoignition temperature'],
+    tlv: ['TLV', 'Threshold limit value', 'The ACGIH airborne exposure limit: TWA is the 8-hour average a worker can breathe day after day; STEL is a 15-minute limit.', 'threshold limit value exposure twa stel'],
+    loc: ['LOC', 'Limiting oxygen concentration', 'The oxygen level below which a vapour or dust cannot burn, whatever its concentration. Nitrogen inerting keeps oxygen safely below it.', 'limiting oxygen concentration inerting nitrogen'],
+    njs: ['Njs', 'Just-suspended speed', 'The lowest agitator speed at which no solid stays on the vessel base for more than 1 to 2 seconds (Zwietering).', 'just suspended speed solids suspension zwietering'],
+    accumulation: ['Accumulation', 'Unreacted dosed reagent', 'In a semi-batch reaction, the reagent dosed but not yet reacted. It sets the MTSR if cooling fails.', 'accumulation semi batch dosing mtsr'],
+    gate: ['GATE', 'Graduate Aptitude Test in Engineering', 'The national exam for M.Tech admissions and PSU jobs. The Chemical Engineering (CH) paper has 65 questions for 100 marks in 3 hours.', 'gate chemical engineering exam mock practice'],
+    nat: ['NAT', 'Numerical answer type', 'A GATE question where you type a number; any value inside the accepted range scores. No negative marking.', 'numerical answer type gate'],
+    msq: ['MSQ', 'Multiple select question', 'A GATE question where one or more options are correct; you must pick all of them. No negative marking and no partial marks.', 'multiple select question gate'],
+    antoine: ['Antoine equation', 'Vapour pressure equation', 'log10 P = A - B/(C + T). Used to find a solvent\'s boiling point at any vacuum.', 'antoine vapour pressure boiling point vacuum'],
     gmp: ['GMP', 'Good manufacturing practice', 'The quality rules for making pharmaceuticals: documented, controlled and consistent processes.', 'good manufacturing practice']
   };
-  var GLA = { 'differential scanning calorimetry': 'dsc', 'accelerating rate calorimeter': 'arc', 'accelerating rate calorimetry': 'arc', 'thermal screening unit': 'tsu', 'reaction calorimetry': 'rc', 'reaction calorimeter': 'rc1', 'time to maximum rate': 'tmrad', 'adiabatic temperature rise': 'adiabatic', 'delta t ad': 'adiabatic', 'dtad': 'adiabatic', 'net positive suction head': 'npsh', 'variable frequency drive': 'vfd', 'lock out tag out': 'loto', 'permit to work': 'ptw', 'plug flow': 'pfr', 'material of construction': 'moc', 'stoessel class': 'stoessel', 'criticality class': 'stoessel', 're number': 'reynolds', 'reynolds number': 'reynolds', 'p and id': 'p&id', 'pid diagram': 'p&id', 'filter dryer': 'anfd', 'thin film dryer': 'atfd' };
+  var GLA = { 'differential scanning calorimetry': 'dsc', 'accelerating rate calorimeter': 'arc', 'accelerating rate calorimetry': 'arc', 'thermal screening unit': 'tsu', 'reaction calorimetry': 'rc', 'reaction calorimeter': 'rc1', 'time to maximum rate': 'tmrad', 'adiabatic temperature rise': 'adiabatic', 'delta t ad': 'adiabatic', 'dtad': 'adiabatic', 'net positive suction head': 'npsh', 'variable frequency drive': 'vfd', 'lock out tag out': 'loto', 'permit to work': 'ptw', 'plug flow': 'pfr', 'material of construction': 'moc', 'stoessel class': 'stoessel', 'criticality class': 'stoessel', 're number': 'reynolds', 'reynolds number': 'reynolds', 'p and id': 'p&id', 'pid diagram': 'p&id', 'filter dryer': 'anfd', 'thin film dryer': 'atfd', 'flash point': 'flash', 'autoignition temperature': 'autoignition', 'auto ignition': 'autoignition', 'ignition temperature': 'autoignition', 'exposure limit': 'tlv', 'limiting oxygen': 'loc', 'just suspended': 'njs', 'antoine equation': 'antoine' };
   var STOP = { a: 1, an: 1, the: 1, i: 1, me: 1, my: 1, to: 1, of: 1, for: 1, in: 1, on: 1, and: 1, or: 1, is: 1, are: 1, how: 1, what: 1, whats: 1, do: 1, does: 1, can: 1, want: 1, need: 1, help: 1, with: 1, about: 1, please: 1, find: 1, show: 1, should: 1, which: 1, it: 1, this: 1, that: 1, be: 1, at: 1, from: 1, get: 1, some: 1, any: 1, tell: 1, explain: 1, mean: 1, meaning: 1, define: 1, definition: 1, why: 1, when: 1, where: 1, we: 1, you: 1, your: 1, use: 1, used: 1, will: 1, by: 1, as: 1, its: 1, was: 1, there: 1, than: 1, then: 1, so: 1, if: 1, not: 1, no: 1, has: 1, have: 1, also: 1, more: 1, all: 1, one: 1, two: 1 };
   var ALIAS = { calc: 'calculator', calculate: 'calculator', calculation: 'calculator', calculations: 'calculator', filtration: 'filter', filtering: 'filter', drying: 'dryer', dry: 'dryer', drier: 'dryer', distil: 'distillation', distill: 'distillation', evaporation: 'evaporator', mixing: 'mix', agitation: 'agitator', stirrer: 'agitator', exothermic: 'exotherm', calorimetry: 'calorimeter', boiling: 'boil', bp: 'boil', temp: 'temperature', centrifugation: 'centrifuge', crystallisation: 'crystallization', crystallise: 'crystallization', crystallize: 'crystallization', vaccum: 'vacuum', vacum: 'vacuum', presure: 'pressure', cavitating: 'cavitation', runaways: 'runaway' };
   function stem(w) { w = ALIAS[w] || w; if (w.length > 4 && /ies$/.test(w)) w = w.slice(0, -3) + 'y'; else if (w.length > 4 && /s$/.test(w) && !/(ss|us|is)$/.test(w)) w = w.slice(0, -1); return w; }
@@ -164,7 +178,7 @@
     low.split(' ').forEach(function (w) { if (GL[w] && hits.indexOf(w) < 0) hits.push(w); });
     return hits;
   }
-  var TYPE_BONUS = { Calculator: .6, Section: .3, Tool: .5, Lesson: .4, 'Process safety': .25, Equipment: .3, Instrument: .25, Agitator: .2, Game: .2, Article: .3, Interview: 0, Page: 0, Videos: -.3, Animation: -.2 };
+  var TYPE_BONUS = { 'Solvent data': .5, GATE: .4, 'GATE question': 0, Calculator: .6, Section: .3, Tool: .5, Lesson: .4, 'Process safety': .25, Equipment: .3, Instrument: .25, Agitator: .2, Game: .2, Article: .3, Interview: 0, Page: 0, Videos: -.3, Animation: -.2 };
   function search(q, prefer) {
     var g = glossFor(q), qw = words(q), extra = [];
     g.forEach(function (k) { words(GL[k][1] + ' ' + GL[k][3]).forEach(function (w) { if (qw.indexOf(w) < 0 && extra.indexOf(w) < 0) extra.push(w); }); });
@@ -186,6 +200,8 @@
       s += TYPE_BONUS[r.k] || 0;
       if (prefer === 'interview' && r.k === 'Interview') s += 2.5;
       if (prefer === 'calc' && (r.k === 'Calculator' || r.k === 'Tool')) s += 2.5;
+      if (prefer === 'gate' && (r.k === 'GATE' || r.k === 'GATE question')) s += 4;
+      if (prefer !== 'gate' && r.k === 'GATE question') s -= 1;
       if (r.cur) s += .3;
       res.push([s, r]);
     });
@@ -232,8 +248,48 @@
     return BASE + r.u;
   }
 
+  /* ---------- instant solvent answers from the solvent data pages ---------- */
+  var PROPS = [[/flash/, 'Flash point'], [/auto ?ignit|\bait\b|ignition temp/, 'Autoignition temperature'], [/\blel\b|\buel\b|flammab|explosive limit|explosion limit/, 'Flammable limits (LEL to UEL)'],
+    [/\btlv\b|exposure|\btwa\b|\bstel\b|\bppm\b|limit value/, 'Exposure limit (TLV)'], [/melt|freez|\bmp\b/, 'Melting point'], [/vapou?r pressure/, 'Vapour pressure at 20 °C'], [/boil|\bbp\b|b\.p/, 'Boiling point'],
+    [/densit|specific gravity|\bsg\b/, 'Density at 20 °C'], [/molecular weight|mol(ar)? (wt|mass)|\bmw\b|\bm\.w/, 'Molecular weight'], [/\bcas\b/, 'CAS number'], [/formula/, 'Formula'],
+    [/\bich\b|residual|q3c/, 'ICH Q3C residual solvent'], [/water|miscib|soluble/, 'With water'], [/cancer|carcino|iarc/, 'Cancer (IARC)'], [/health|toxic|hazard|effect/, 'Main health effects'], [/skin/, 'Skin absorption']];
+  function findSolvent(low) {
+    var best = null, bl = 0;
+    FACTS.forEach(function (f) { f.a.forEach(function (a) { var al = a.toLowerCase(); if (al.length > bl && new RegExp('(^|[^a-z0-9])' + al.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '($|[^a-z0-9])').test(low)) { best = f; bl = al.length; } }); });
+    return best;
+  }
+  function bpAt(f, q) {
+    var m = q.match(/(\d+(?:\.\d+)?)\s*(mm ?hg|mmhg|torr|mbar|kpa|bar|mm)\b/i); if (!m) return null;
+    var v = +m[1], u = m[2].toLowerCase().replace(/\s/g, ''), mm = u === 'mbar' ? v * 0.750062 : u === 'kpa' ? v * 7.50062 : u === 'bar' ? v * 750.062 : v, vac = /vac/i.test(q) && (u === 'mmhg' || u === 'mm' || u === 'torr') && v < 760;
+    var abs = vac && !/abs/i.test(q) ? 760 - mm : mm; if (!(abs > 0.5 && abs < 3000)) return null;
+    var T = f.ant[1] / (f.ant[0] - Math.log10(abs)) - f.ant[2];
+    return { T: T, abs: abs, vac: vac && !/abs/i.test(q), raw: m[0] };
+  }
+  function solventAnswer(q) {
+    var low = q.toLowerCase(); if (!FACTS.length) return false;
+    var f = findSolvent(low);
+    if (!f) { var pm = PATH.match(/^\/solvents\/([a-z0-9-]+)\/$/); if (pm && PROPS.some(function (p) { return p[0].test(low); })) f = FACTS.filter(function (x) { return x.s === pm[1]; })[0]; }
+    if (!f) return false;
+    var props = PROPS.filter(function (p) { return p[0].test(low); }).map(function (p) { return p[1]; }).filter(function (p, i, a) { return a.indexOf(p) === i && f.f[p]; });
+    var d = document.createElement('div'); d.className = 'pg-ans pg-def'; var body = '';
+    var bp = /boil|\bbp\b|vac|mm ?hg|torr|mbar/.test(low) ? bpAt(f, q) : null;
+    if (bp) body += '<p><b style="display:inline">' + bp.T.toFixed(1) + ' °C</b> at ' + (bp.vac ? Math.round(760 - bp.abs) + ' mmHg vacuum (' + Math.round(bp.abs) + ' mmHg absolute)' : Math.round(bp.abs) + ' mmHg absolute') + ', from the Antoine equation.</p>';
+    if (!props.length && !bp) props = ['Boiling point', 'Flash point', 'Autoignition temperature', 'Exposure limit (TLV)'].filter(function (p) { return f.f[p]; });
+    body += props.map(function (p) { return '<p><span class="pg-from" style="display:inline">' + esc(p) + ':</span> ' + esc(f.f[p]) + '</p>'; }).join('');
+    d.innerHTML = '<div class="pg-ans-k">Solvent data</div><b>' + esc(f.n) + '</b>' + body + '<a class="pg-open" href="' + BASE + '/solvents/' + f.s + '/">All ' + esc(f.n.split(' (')[0]) + ' data, boiling point under vacuum and safety →</a>';
+    msg('From our solvent data:'); log.appendChild(d); log.scrollTop = log.scrollHeight;
+    d.querySelector('a').addEventListener('click', function () { track('guide_pick', { url: '/solvents/' + f.s + '/', from: 'solvent' }); });
+    setChips([['Flash point', 'q:flash point of ' + f.a[f.a.length - 1]], ['Boiling point at 100 mmHg', 'q:' + f.a[f.a.length - 1] + ' boiling point 100 mmHg'], ['TLV and health', 'q:' + f.a[f.a.length - 1] + ' tlv health'], ['All solvents table', 'u:/solvents/'], ['Start over', 'restart']]);
+    track('guide_query', { q: q.slice(0, 60), solvent: f.s, props: props.join(',') });
+    return true;
+  }
+
   /* ---------- conversation ---------- */
-  var START = [['I need a calculator', 'calc'], ['Interview preparation', 'interview'], ['Process safety', 'safety'], ['How does equipment work?', 'equipment'], ['Something on the plant is wrong', 'fault']];
+  var START = [['I need a calculator', 'calc'], ['Solvent properties', 'solv'], ['GATE preparation', 'gate'], ['Scale-up modelling', 'model'], ['Interview preparation', 'interview'], ['Process safety', 'safety'], ['How does equipment work?', 'equipment'], ['Something on the plant is wrong', 'fault']];
+  if (/^\/gate\//.test(PATH)) START = [['Take the mock test', 'u:/gate/mock-test/'], ['Practice questions', 'u:/gate/practice/'], ['Formula sheets', 'u:/gate/formula-sheets/'], ['GATE exam pattern', 'q:gate exam pattern marking'], ['Something else', 'more']];
+  else if (/^\/solvents\//.test(PATH)) START = [['Flash point of a solvent', 'solv'], ['Boiling point under vacuum', 'q:boiling point under vacuum calculator'], ['Solvent swap', 'u:/process-modelling/solvent-swap-simulator/'], ['All solvents table', 'u:/solvents/'], ['Something else', 'more']];
+  else if (/^\/process-modelling\//.test(PATH)) START = [['Fit my kinetics', 'u:/process-modelling/reaction-kinetics-fitting/'], ['Is my dosing safe?', 'u:/process-modelling/semi-batch-dosing-simulator/'], ['Heat-up time', 'u:/process-modelling/heating-cooling-time-simulator/'], ['What is MTSR?', 'q:what is mtsr'], ['Something else', 'more']];
+  var START_ALL = [['I need a calculator', 'calc'], ['Solvent properties', 'solv'], ['GATE preparation', 'gate'], ['Scale-up modelling', 'model'], ['Interview preparation', 'interview'], ['Process safety', 'safety'], ['Something on the plant is wrong', 'fault']];
   var mode = '', lastQ = '';
   function msg(html, who) { var d = document.createElement('div'); d.className = 'pg-m ' + (who === 'you' ? 'pg-you' : 'pg-bot'); d.innerHTML = html; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
   function recs(list) {
@@ -260,7 +316,11 @@
     chips.querySelectorAll('.pg-chip').forEach(function (b) { b.addEventListener('click', function () { chip(b.dataset.v, b.textContent); }); });
   }
   var CANNED = {
-    calc: ['What do you want to calculate? Pick one or type it.', [['Boiling point under vacuum', 'q:boiling point vacuum calculator'], ['Pump power', 'q:pump power calculator'], ['Agitator scale-up', 'q:mixing scale up calculator'], ['Filtration time', 'q:filtration calculator'], ['Heat load', 'q:heat load calculator']]],
+    calc: ['What do you want to calculate? Pick one or type it.', [['Boiling point under vacuum', 'q:boiling point vacuum calculator'], ['Pump power', 'q:pump power calculator'], ['Agitator scale-up', 'q:mixing scale up calculator'], ['Filtration time', 'q:filtration calculator'], ['Heat load', 'q:heat load calculator'], ['All calculators', 'u:/calculators/']]],
+    solv: ['Type a solvent and what you need, for example "flash point of toluene", "DMF TLV" or "methanol boiling point at 700 mm vacuum".', [['Flash point of toluene', 'q:flash point of toluene'], ['Acetone autoignition', 'q:acetone autoignition temperature'], ['DCM boiling point at 300 mmHg', 'q:dcm boiling point 300 mmHg'], ['Methanol TLV', 'q:methanol tlv'], ['All solvents table', 'u:/solvents/']]],
+    gate: ['GATE Chemical: a full mock test, 105 practice questions with solutions and formula sheets for every section.', [['Take the mock test', 'u:/gate/mock-test/'], ['Practice questions', 'u:/gate/practice/'], ['Formula sheets', 'u:/gate/formula-sheets/'], ['Exam pattern and syllabus', 'u:/gate/'], ['A question on LMTD', 'q:gate lmtd heat exchanger question']]],
+    model: ['Process modelling for scale-up: run your own lab data against the plant.', [['Fit reaction kinetics', 'u:/process-modelling/reaction-kinetics-fitting/'], ['Semi-batch dosing and MTSR', 'u:/process-modelling/semi-batch-dosing-simulator/'], ['Heating and cooling time', 'u:/process-modelling/heating-cooling-time-simulator/'], ['Mixing, Njs and kLa', 'u:/process-modelling/mixing-mass-transfer-scale-up/'], ['Solvent swap', 'u:/process-modelling/solvent-swap-simulator/']]],
+    more: ['Sure. What else can I help with?', START_ALL],
     interview: ['Good luck! Start with the Top 50, or type any topic and I will find the questions.', [['Top 50 questions', 'u:/process-engineering-faq/#top50'], ['Distillation', 'q:distillation interview'], ['Heat transfer', 'q:heat exchanger lmtd interview'], ['Pumps', 'q:pump cavitation interview'], ['Safety', 'q:safety interview']]],
     safety: ['Safety first. Ask me anything, for example "what is DSC" or "runaway reaction".', [['DSC, ARC, RC1 tests', 'q:dsc arc rc1 thermal testing'], ['Runaway reaction', 'q:runaway reaction cooling failure'], ['Relief sizing', 'q:relief vent sizing'], ['Flash point of solvents', 'q:flash point flammable'], ['Incident case studies', 'u:/process-safety/#cases']]],
     equipment: ['Which equipment? Type its name, for example "centrifuge", "ANFD" or "rotameter".', [['Reactor', 'q:batch reactor'], ['Centrifuge', 'q:centrifuge'], ['Dryers', 'q:dryer'], ['Vacuum pump', 'q:vacuum pump'], ['Instruments', 'u:/equipment-instruments/#instrumentation']]],
@@ -292,9 +352,10 @@
       if (/custom|build (a|me)|automate|excel|spreadsheet/.test(low)) { recs([{ t: 'Custom tools for your plant', u: '/custom-solutions/', k: 'Service', d: 'Turn your spreadsheet calculation into a tool' }]); return; }
       /* a short follow-up like "and ARC?" keeps the last topic's intent */
       var qq = /^(and|what about|how about)\s+/i.test(low) ? low.replace(/^(and|what about|how about)\s+/i, '') : q;
-      var pref = /interview|question|viva|fresher/.test(low) ? 'interview' : /calculat|calculator|how much|sizing|size /.test(low) ? 'calc' : mode === 'interview' ? 'interview' : mode === 'calc' ? 'calc' : '';
+      if (solventAnswer(q)) { lastQ = q; return; }
+      var pref = /\bgate\b/.test(low) ? 'gate' : /interview|question|viva|fresher/.test(low) ? 'interview' : /calculat|calculator|how much|sizing|size /.test(low) ? 'calc' : mode === 'interview' ? 'interview' : mode === 'calc' ? 'calc' : '';
       var g = glossFor(qq);
-      var r = search(qq.replace(/\binterview\b|\bquestions?\b|\bviva\b|\bcalculators?\b/gi, ' '), pref);
+      var r = search(qq.replace(/\binterview\b|\bquestions?\b|\bviva\b|\bcalculators?\b|\bgate\b/gi, ' ') || qq, pref);
       if (g.length) glossCard(g[0]);
       if (!r.length) {
         var dm = suggest(qq);
@@ -320,7 +381,7 @@
       track('guide_query', { q: qq.slice(0, 60), results: r.length, top: r[0] ? r[0].u : '', def: g[0] || '' });
     });
   }
-  CANNED.restart = ['Sure. What else can I help with?', START];
+  CANNED.restart = ['Sure. What else can I help with?', START_ALL];
   $('.pg-form').addEventListener('submit', function (e) { e.preventDefault(); var q = input.value.trim(); if (!q) return; input.value = ''; msg(esc(q), 'you'); answer(q); });
 
   /* ---------- keep the chat above the on-screen keyboard ---------- */
@@ -343,9 +404,9 @@
     if (!started) { started = true; load(); msg('Hi, I am your plant guide. What are you working on?'); setChips(START); }
     if (!touch) setTimeout(function () { input.focus({ preventScroll: true }); }, 50); fitChat(); track('guide_open');
   }
-  function close() { root.classList.remove('open'); charBtn.setAttribute('aria-expanded', 'false'); charBtn.focus({ preventScroll: true }); }
+  function close() { root.classList.remove('open'); charBtn.setAttribute('aria-expanded', 'false'); if (MINI) { root.classList.add('min'); $('.pg-mini').focus({ preventScroll: true }); } else charBtn.focus({ preventScroll: true }); }
   function minimise() { root.classList.remove('open'); root.classList.add('min'); store('1'); hideHi(); $('.pg-mini').focus({ preventScroll: true }); track('guide_minimise'); }
-  function restore() { root.classList.remove('min'); store('0'); open(); }
+  function restore() { root.classList.remove('min'); if (!MINI) store('0'); open(); }
   function hideHi() { $('.pg-hi').classList.remove('on'); }
   charBtn.addEventListener('click', function () { if (root.classList.contains('open')) close(); else open(); });
   $('.pg-open').addEventListener('click', open);
@@ -355,6 +416,6 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('open')) close(); });
 
   if (RM) root.classList.remove('idle');
-  if (stored() === '1') root.classList.add('min');
+  if (stored() === '1' || MINI) root.classList.add('min');
   else setTimeout(function () { if (!root.classList.contains('open') && !root.classList.contains('min')) { $('.pg-hi').classList.add('on'); setTimeout(hideHi, 9000); } }, 1800);
 })();
