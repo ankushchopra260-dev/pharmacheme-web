@@ -96,7 +96,8 @@ for slug in sorted(d for d in os.listdir(f'{R}/solvents') if os.path.isfile(f'{R
     r = sw.get(slug) or [slug, h1, 0, 0] + ([float(x) for x in cm.groups()] if cm else [None, None, None])
     name = r[1]; short = name.split(' (')[0]; abbr = name.split('(')[1].rstrip(')') if '(' in name else ''
     also = re.search(r'Also called ([^.<]+)\.', body)
-    al = [short, abbr, h1.split(' and ')[0].split(' (')[0]] + ([a.strip() for a in re.split(r',\s|;|/| or ', also.group(1)) if a.strip()] if also else [])
+    cas = re.findall(r'\b\d{2,7}-\d{2}-\d\b', rows.get('CAS number', ''))
+    al = [short, abbr, h1.split(' and ')[0].split(' (')[0]] + cas + ([a.strip() for a in re.split(r',\s|;|/| or ', also.group(1)) if a.strip()] if also else [])
     facts.append({'n': name, 's': slug, 'a': sorted(set(a for a in al if len(a) >= 2 and 'isomer' not in a), key=len, reverse=True), 'f': rows, 'ant': ([r[4], r[5], r[6]] if r[4] is not None else None)})
 json.dump(facts, open(f'{R}/assets/data/solvent-facts.json', 'w'), ensure_ascii=False, separators=(',', ':'))
 print('solvents', len(facts))

@@ -26,7 +26,8 @@
     const rows = [...document.querySelectorAll('.sv-list tbody tr')], groups = [...document.querySelectorAll('.sv-group')], none = document.getElementById('sv-none');
     q.addEventListener('input', () => {
       const w = q.value.toLowerCase().trim(); let n = 0;
-      rows.forEach(r => { const ok = !w || r.dataset.q.includes(w); r.classList.toggle('hide', !ok); if (ok) n++; });
+      const cas = /^[\d-]{4,}$/.test(w) ? w.replace(/-/g, '') : null;
+      rows.forEach(r => { const ok = !w || r.dataset.q.includes(w) || (cas && r.dataset.q.replace(/-/g, '').includes(cas)); r.classList.toggle('hide', !ok); if (ok) n++; });
       groups.forEach(g => g.classList.toggle('hide', !g.querySelector('tbody tr:not(.hide)')));
       none.hidden = n > 0;
     });
