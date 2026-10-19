@@ -58,7 +58,7 @@ structured_data: |
     ]
   }
 ---
-<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>How to Read DSC, ARC, RC1 and TSU Data</h1>
@@ -162,4 +162,4 @@ structured_data: |
     <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes</a>
   </div>
 </div>
-<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

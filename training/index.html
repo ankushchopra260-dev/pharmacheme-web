@@ -6,7 +6,7 @@ breadcrumbs:
   - label: Training
     url: /training/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/live-plant.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/live-plant.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <style>
 .tr-topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
 .tr-topic { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 4px; padding: 22px; }

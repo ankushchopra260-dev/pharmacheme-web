@@ -53,9 +53,9 @@
 </script>
 {% endif %}
 
-<link rel="stylesheet" href="{{ '/assets/css/pharmacheme-core.css' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/css/site-shell.css' | relative_url }}">
-{% if page.needs_ocl %}<script type="module" src="{{ '/assets/js/ocl-engine.js' | relative_url }}"></script>{% endif %}
+<link rel="stylesheet" href="{{ '/assets/css/pharmacheme-core.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/site-shell.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+{% if page.needs_ocl %}<script type="module" src="{{ '/assets/js/ocl-engine.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
 
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z76ED9VEJR"></script>
@@ -75,13 +75,13 @@
 {% if page.url contains '/articles/' and page.url != '/articles/' %}{% include author-box.html %}{% endif %}
 
 {% include footer.html %}
-<script src="{{ '/assets/js/cards.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/xl-export.js' | relative_url }}"></script>
-{% unless page.guide == false or page.noindex %}<script src="{{ '/assets/js/companion.js' | relative_url }}" data-img="{{ '/assets/img/guide.webp' | relative_url }}" data-face="{{ '/assets/img/guide-face.webp' | relative_url }}" data-index="{{ '/assets/data/guide-index.json' | relative_url }}" data-search="{{ '/assets/data/site-search.json' | relative_url }}" data-facts="{{ '/assets/data/solvent-facts.json' | relative_url }}"{% if page.url != '/' %} data-mini="1"{% endif %} defer></script>{% endunless %}
+<script src="{{ '/assets/js/cards.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/xl-export.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+{% unless page.guide == false or page.noindex %}<script src="{{ '/assets/js/companion.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-img="{{ '/assets/img/guide.webp' | relative_url }}" data-face="{{ '/assets/img/guide-face.webp' | relative_url }}" data-index="{{ '/assets/data/guide-index.json' | relative_url }}" data-search="{{ '/assets/data/site-search.json' | relative_url }}" data-facts="{{ '/assets/data/solvent-facts.json' | relative_url }}"{% if page.url != '/' %} data-mini="1"{% endif %} defer></script>{% endunless %}
 
-{% if page.needs_troubleshooter %}<script src="{{ '/assets/js/troubleshooter-scenarios.js' | relative_url }}"></script>{% endif %}
-{% if page.needs_calculators %}<script src="{{ '/assets/js/calculators.js' | relative_url }}"></script>{% endif %}
-{% if page.needs_plant_operator %}<script src="{{ '/assets/js/plant-operator.js' | relative_url }}"></script>{% endif %}
+{% if page.needs_troubleshooter %}<script src="{{ '/assets/js/troubleshooter-scenarios.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
+{% if page.needs_calculators %}<script src="{{ '/assets/js/calculators.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
+{% if page.needs_plant_operator %}<script src="{{ '/assets/js/plant-operator.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
 {% if page.calc_init %}<script>{{ page.calc_init }}</script>{% endif %}
 </body>
 </html>

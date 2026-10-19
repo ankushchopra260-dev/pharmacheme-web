@@ -32,7 +32,7 @@ breadcrumbs:
   - label: "Morpholine"
     url: /solvents/morpholine/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container sv-head">
   <h1>Morpholine: boiling point under vacuum and properties</h1>
@@ -136,4 +136,4 @@ breadcrumbs:
   </div>
 </div>
 
-<script src="{{ '/assets/js/solvents.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/solvents.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

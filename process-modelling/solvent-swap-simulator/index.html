@@ -59,8 +59,8 @@ breadcrumbs:
   - label: "Solvent Swap Simulator"
     url: /process-modelling/solvent-swap-simulator/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container ut-head">
   <h1>Solvent swap simulator</h1>
@@ -95,5 +95,5 @@ breadcrumbs:
   </div>
 </div>
 
-<script src="{{ '/assets/js/swap-solvents.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/swap-solvents.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/process-models.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

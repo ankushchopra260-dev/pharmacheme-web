@@ -26,8 +26,8 @@ breadcrumbs:
   - label: "Mock test"
     url: /gate/mock-test/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/gate.css' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/gate.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container gt-head"><h1>GATE CH mock test</h1><p>A full-length mock in the real pattern: 65 questions, 100 marks, 3 hours, with the on-screen calculator and negative marking. Each attempt draws a new set from our question bank.</p><nav class="gt-nav" aria-label="GATE section"><a href="{{ '/gate/' | relative_url }}">Overview</a><a href="{{ '/gate/formula-sheets/' | relative_url }}">Formula sheets</a><a href="{{ '/gate/practice/' | relative_url }}">Practice questions</a><a href="{{ '/gate/mock-test/' | relative_url }}" aria-current="page">Mock test</a></nav></div>
 <div class="container"><div id="gate-app" data-mode="mock" data-practice="{{ '/gate/practice/' | relative_url }}"></div></div>
@@ -52,6 +52,6 @@ breadcrumbs:
   <p>Weak in a section? Revise its <a href="{{ '/gate/formula-sheets/' | relative_url }}">formula sheet</a>, then work through the <a href="{{ '/gate/practice/' | relative_url }}">practice questions</a> for that section.</p>
   <p class="mute">This is a practice mock written for PharmaChemE, not an official GATE paper. The real GATE score is normalised; this mock shows raw marks. For official information, see the <a href="https://gate2027.iitm.ac.in/" target="_blank" rel="noopener">GATE 2027 site</a>.</p>
 </div>
-<script src="{{ '/assets/js/gate-anim.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/gate-bank.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/gate.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/gate-anim.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/gate-bank.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/gate.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

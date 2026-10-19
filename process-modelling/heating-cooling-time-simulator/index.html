@@ -59,8 +59,8 @@ breadcrumbs:
   - label: "Heating and Cooling Time Simulator"
     url: /process-modelling/heating-cooling-time-simulator/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container ut-head">
   <h1>Batch heating and cooling time simulator</h1>
@@ -92,4 +92,4 @@ breadcrumbs:
   </div>
 </div>
 
-<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/process-models.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

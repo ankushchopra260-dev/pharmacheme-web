@@ -58,7 +58,7 @@ structured_data: |
     ]
   }
 ---
-<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>LOPA and SIL Basics</h1>
@@ -154,4 +154,4 @@ structured_data: |
     <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
   </div>
 </div>
-<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

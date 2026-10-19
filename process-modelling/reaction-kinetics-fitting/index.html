@@ -59,8 +59,8 @@ breadcrumbs:
   - label: "Reaction Kinetics Fitting"
     url: /process-modelling/reaction-kinetics-fitting/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container ut-head">
   <h1>Reaction kinetics fitting</h1>
@@ -98,4 +98,4 @@ breadcrumbs:
   </div>
 </div>
 
-<script src="{{ '/assets/js/process-models.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/process-models.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

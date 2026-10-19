@@ -32,7 +32,7 @@ structured_data: |
     ]
   }
 ---
-<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Gas Scrubbing Agents: Which Liquid for Which Gas</h1>
@@ -152,4 +152,4 @@ structured_data: |
     <a href="{{ '/process-safety/toxic-and-flammable-releases/' | relative_url }}">Toxic and flammable releases</a>
   </div>
 </div>
-<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -9,7 +9,7 @@ breadcrumbs:
   - label: "Chemical Mixing Hazard Checker"
     url: /process-safety/chemical-mixing-hazards/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/process-safety.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-safety.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <style>
   .mx-wrap { max-width: 980px; }
   .mx-in label { display: block; color: var(--muted); font-size: .86rem; margin-bottom: 6px; }
@@ -87,4 +87,4 @@ breadcrumbs:
   <a href="{{ '/solvents/' | relative_url }}">Solvent and reagent data</a>
 </div>
 </article>
-<script src="{{ '/assets/js/mixing-hazards.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/mixing-hazards.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

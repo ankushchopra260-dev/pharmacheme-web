@@ -9,7 +9,7 @@ breadcrumbs:
     url: /process-safety/exercises/
 ---
 
-<link rel="stylesheet" href="/assets/css/process-safety.css">
+<link rel="stylesheet" href="/assets/css/process-safety.css?v={{ site.time | date: '%s' }}">
 <article class="ps-article"><div class="ps-kicker">Process Safety · Worked exercises</div><h1>Worked exercises</h1><p class="ps-intro">Four plant-style problems that combine the lessons. Try them on paper first, then open the solutions. The numbers are invented for teaching.</p><p class="ps-scope" role="note">Educational overview. The principles here are general and simplified, and the figures and rules of thumb are typical values, not limits for your plant. Decisions need process-specific data, the applicable codes and standards, and a qualified assessment.</p>
 <h2>Exercise 1 · Shortest dosing time for a semi-batch reaction</h2>
 <p>A + B → P is to run semi-batch at <b>60 °C</b> in toluene (boiling point 111 °C). In the reaction calorimeter, with 1.2 kg of final reaction mass, B was dosed over 2.5 h and the heat flow stayed roughly constant at <b>30.1 kcal/h</b> during the addition. c′<sub>p</sub> = 0.44 kcal/kg·°C. In the plant, the final mass is <b>3,000 kg</b>; the jacket gives U = 215 kcal/h·m²·°C over A = 5.5 m², with brine at 10 °C. The calorimeter showed a maximum accumulation of <b>25 %</b>; ARC gives T<sub>D24</sub> = 150 °C for the final mass.</p>
@@ -48,4 +48,4 @@ breadcrumbs:
 <p><b>3.</b> P<sub>1</sub> = 350 × 1.21 + 101.3 ≈ 525 kPa(a). C = 0.03948·√(k·(2/(k+1))<sup>(k+1)/(k−1)</sup>) ≈ 0.0256. A = W/(C·K<sub>d</sub>·P<sub>1</sub>)·√(T·Z/M) ≈ <b>543 mm²</b>, about <b>26 mm</b> diameter: select the next standard orifice (API letter “F”, 198 mm², is too small; “H”, 506 mm², is just short; “J”, 830 mm², fits).</p></div></details>
 <p class="ps-src">Check it with the <a href="/process-safety/emergency-relief-vent-sizing/">relief calculators</a>.</p>
 <div class="ps-pager"><a href="/process-safety/toxic-and-flammable-releases/"><span>← LESSON 9</span>Toxic and flammable releases</a><a href="/process-safety/quiz/" style="text-align:right;"><span>NEXT →</span>Process safety quiz</a></div></article>
-<script src="/assets/js/process-safety.js"></script>
+<script src="/assets/js/process-safety.js?v={{ site.time | date: '%s' }}"></script>

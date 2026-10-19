@@ -43,7 +43,7 @@ breadcrumbs:
   - label: "Batch Size Feasibility Calculator"
     url: /calculators/batch-size-calculator/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container ut-head">
   <h1>Batch Size Feasibility Calculator</h1>
@@ -70,4 +70,4 @@ breadcrumbs:
   </div>
 </div>
 
-<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/utilities.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

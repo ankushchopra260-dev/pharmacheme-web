@@ -22,7 +22,7 @@ breadcrumbs:
     url: /design-tools/line-sizing/
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container st-head">
   <h1>Line Sizing Calculator</h1>
@@ -60,5 +60,5 @@ breadcrumbs:
   <p style="color:var(--muted);font-size:.92rem;">Results are estimates for planning and checking. Final line sizes should follow your design basis.</p>
 </div>
 
-<script src="{{ '/assets/js/line-network-engine.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/line-size.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/line-network-engine.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/line-size.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -36,8 +36,8 @@ structured_data: |
   }
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container st-head">
   <h1>PFD Drawing Tool</h1>
@@ -82,6 +82,6 @@ structured_data: |
   <p>A PFD shows what the process does: the main equipment, the process streams and their flows. The <a href="/design-tools/pid/">P&amp;ID tool</a> adds the valves, instruments and utility lines.</p>
 </div>
 
-<script src="{{ '/assets/js/line-network-engine.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/line-network-symbols.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/sheet-draw.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/line-network-engine.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/line-network-symbols.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/sheet-draw.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

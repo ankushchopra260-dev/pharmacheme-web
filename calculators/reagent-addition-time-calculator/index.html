@@ -43,7 +43,7 @@ breadcrumbs:
   - label: "Reagent Addition Time from RC1 Data"
     url: /calculators/reagent-addition-time-calculator/
 ---
-<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container ut-head">
   <h1>Reagent Addition Time from RC1 Data</h1>
@@ -71,4 +71,4 @@ breadcrumbs:
   </div>
 </div>
 
-<script src="{{ '/assets/js/utilities.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/utilities.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
