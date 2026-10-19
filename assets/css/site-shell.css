@@ -394,3 +394,15 @@ a.video-card[href*="/shorts/"] img,
 .pf-none { flex-basis: 100%; margin: 0; color: var(--muted); font-size: .88rem; }
 .pf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pf-hide { display: none !important; }
+
+/* pages with their own search box: one search only */
+body.has-page-search .nav-search-btn { display: none; }
+.pf-site { flex-basis: 100%; margin-top: 4px; border: 1px solid var(--grid-line); border-radius: 8px; overflow: hidden; }
+.pf-site:empty { display: none; }
+.pf-site p { margin: 0; padding: 8px 14px; color: var(--muted); font-size: .78rem; background: var(--bg-deep, #0B1622); }
+.pf-site a { display: block; padding: 8px 14px; border-top: 1px solid var(--grid-line); text-decoration: none; }
+.pf-site a:hover { background: var(--panel); }
+.pf-site b { display: block; color: var(--paper); font-size: .9rem; font-weight: 600; }
+.pf-site span { display: block; color: var(--muted); font-size: .78rem; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-site em { font-style: normal; color: var(--brass); font-size: .7rem; margin-right: 6px; }
+@media (min-width: 1181px) and (max-width: 1580px) { .site-nav-inner .nav-search-btn { order: 2; } }
