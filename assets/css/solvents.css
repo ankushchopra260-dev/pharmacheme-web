@@ -45,3 +45,8 @@
 .sv-gloss dt { font-weight: 700; color: var(--paper); margin-top: 14px; }
 .sv-gloss dd { margin: 4px 0 0; color: var(--muted); line-height: 1.6; }
 .sv-index > .article-body { padding-left: 0; padding-right: 0; }
+
+/* NFPA 704 diamond */
+.nfpa-wrap { display: flex; align-items: center; gap: 10px; }
+.nfpa { width: 52px; height: 52px; flex: none; }
+.nfpa-wrap small { display: block; margin-top: 3px; }
