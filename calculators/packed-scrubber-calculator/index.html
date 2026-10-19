@@ -59,6 +59,41 @@ breadcrumbs:
   <div class="formula-box">D = &radic;(4Q/&pi;u) &nbsp;&nbsp; NTU = ln[1/(1 &minus; &eta;)] &nbsp;&nbsp; Packed height = NTU &times; HTU</div>
   <p>500 Nm&sup3;/h at 40 &deg;C and a design velocity of 1.2 m/s gives a column of about 410 mm. 99 % removal is 4.6 transfer units; with HTU = 0.5 m that is 2.3 m of packing, 2.8 m with margin. A 5 kg/h HCl peak uses about 5.5 kg/h of NaOH, 55 kg/h of 10 % solution. Check the velocity against the packing supplier's flooding chart. Background: <a href="{{ '/articles/scrubber-design/' | relative_url }}">scrubber design for process vents</a>.</p>
 
+  <h2 id="htu">What NTU and HTU mean</h2>
+  <p>The packed height is split into two parts: how hard the separation is, and how good the packing is.</p>
+  <ul>
+    <li><b>NTU (number of transfer units)</b> measures how hard the job is. With a fast reaction in excess reagent (acid gas into caustic) there is no back-pressure of the gas over the liquor, and NTU = ln(C<sub>in</sub>/C<sub>out</sub>) = ln[1/(1 &minus; &eta;)]. 90 % removal is 2.3 units, 99 % is 4.6, 99.9 % is 6.9. Each extra &ldquo;9&rdquo; adds about 2.3 units.</li>
+    <li><b>HTU (height of a transfer unit)</b> measures how good the packing is: the height of packing that gives one transfer unit. Small, well-wetted packing has a low HTU; large packing, poor liquid distribution or a slow reaction gives a high HTU.</li>
+    <li><b>Packed height</b> = NTU &times; HTU. The calculator adds 20 % for distribution losses and ageing of the packing.</li>
+  </ul>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Packing and duty</th><th>Typical HTU</th></tr>
+    <tr><td>25 to 38 mm plastic Pall rings or saddles, fast acid-gas reaction (HCl, HBr, Cl<sub>2</sub>, SO<sub>2</sub>, NH<sub>3</sub> into acid)</td><td>0.3 to 0.5 m</td></tr>
+    <tr><td>50 mm rings or saddles, same duty</td><td>0.5 to 0.7 m</td></tr>
+    <tr><td>75 to 90 mm high-capacity random packing</td><td>0.7 to 1.0 m</td></tr>
+    <tr><td>Structured packing</td><td>0.2 to 0.4 m</td></tr>
+    <tr><td>Slower duties: SO<sub>2</sub> near bisulphite (pH below 9), H<sub>2</sub>S into weak caustic, NOx, phosgene</td><td>0.8 to 1.5 m, or ask the packing supplier</td></tr>
+  </table></div>
+  <p>If you are unsure, take 0.5 m for 25 to 50 mm plastic packing on an acid-gas duty, then confirm with the packing supplier&rsquo;s HTU data for your gas and liquor. For a slow or reversible absorption the simple NTU formula under-estimates the height; that design needs the equilibrium curve or the supplier.</p>
+
+  <h2 id="inputs">How to choose the inputs</h2>
+  <div class="ut-table-wrap"><table class="ut-table">
+    <tr><th>Input</th><th>How to estimate it</th><th>Typical values</th></tr>
+    <tr><td>Total vent gas flow</td><td>Add up everything leaving the vent at the worst moment: nitrogen sweep or blanket, air or vapour displaced while charging liquid (1 m<sup>3</sup>/h of liquid displaces 1 m<sup>3</sup>/h of gas), and the gas evolved by the reaction (kmol/h &times; 22.4 = Nm<sup>3</sup>/h). Add fan inleakage if the scrubber runs under suction.</td><td>Batch vents: 100 to 1,000 Nm<sup>3</sup>/h; room or hood extraction is much more</td></tr>
+    <tr><td>Gas temperature</td><td>Temperature at the scrubber inlet, after any condenser.</td><td>30 to 60 &deg;C</td></tr>
+    <tr><td>Pollutant load at peak</td><td>From the reaction and the fastest addition or heating rate. Example: SOCl<sub>2</sub> + ROH &rarr; RCl + SO<sub>2</sub> + HCl gives 0.54 kg SO<sub>2</sub> and 0.31 kg HCl per kg thionyl chloride, so dosing 100 kg/h gives 54 kg/h SO<sub>2</sub> and 31 kg/h HCl at peak. Multiply by 1.5 to 2 for surges, such as gas dissolved in the mass coming off at once on warming.</td><td>Take the worst minute, not the batch average</td></tr>
+    <tr><td>Removal efficiency</td><td>&eta; = 1 &minus; C<sub>out</sub>/C<sub>in</sub>. C<sub>in</sub> = load &divide; gas flow; C<sub>out</sub> = your emission limit from the consent to operate. Example: 5 kg/h HCl in 500 Nm<sup>3</sup>/h is 10,000 mg/Nm<sup>3</sup>; with a 20 mg/Nm<sup>3</sup> limit, &eta; = 99.8 % (NTU 6.2).</td><td>99 to 99.9 %</td></tr>
+    <tr><td>Design gas velocity</td><td>Superficial velocity in the empty column. It sets the diameter. Stay at 60 to 80 % of the flooding velocity from the packing supplier&rsquo;s chart.</td><td>1.0 to 1.5 m/s for 25 to 50 mm plastic packing; up to 2 m/s for large packing</td></tr>
+    <tr><td>HTU</td><td>See the table above.</td><td>0.5 m as a first guess</td></tr>
+    <tr><td>Liquid wetting rate</td><td>Liquor flow per m<sup>2</sup> of column area. It must be above the minimum wetting rate of the packing, or the packing runs partly dry and the HTU rises. Plastic packing wets poorly and needs more.</td><td>Minimum 5 to 10; design 12 to 20 m<sup>3</sup>/m<sup>2</sup>&middot;h</td></tr>
+    <tr><td>Reagent strength</td><td>Strong liquor lasts longer but salts crystallise sooner, and spray carry-over is more corrosive.</td><td>NaOH or KOH 5 to 10 %; H<sub>2</sub>SO<sub>4</sub> 5 to 10 %; H<sub>2</sub>O<sub>2</sub> 3 to 5 %</td></tr>
+    <tr><td>Gas released per batch</td><td>Total gas from the reaction over the whole batch, from the mole balance.</td><td>&ndash;</td></tr>
+    <tr><td>Liquor charge in the tank</td><td>Working volume of the recirculation tank. Size it so one charge covers at least one full batch with reserve, and so the tank holds a few minutes of recirculation flow.</td><td>Often 1 to 3 m<sup>3</sup> for a batch plant</td></tr>
+    <tr><td>Change-out strength</td><td>Free reagent left when the liquor is changed, checked by titration or pH. It is the reserve for an upset.</td><td>NaOH 2 to 3 %; H<sub>2</sub>SO<sub>4</sub> about 1 %</td></tr>
+    <tr><td>Design excess</td><td>Margin on the reagent for analysis error, side reactions and CO<sub>2</sub> pick-up.</td><td>10 to 25 %</td></tr>
+  </table></div>
+  <p>Also check the pressure drop across the packing (usually 15 to 40 mm water column per metre at design flow) against the fan, and fit a mist eliminator above the packing to stop caustic carry-over.</p>
+
   <h2>Scrubbing agent for each gas</h2>
   <p>HCl, HBr, SO<sub>2</sub>, Cl<sub>2</sub>, Br<sub>2</sub>, phosgene, HCN, H<sub>2</sub>S and mercaptans go to caustic soda; HF to KOH (sodium fluoride scales the packing); ammonia to dilute sulphuric acid; NO and NO<sub>2</sub> to hydrogen peroxide followed by caustic. The reagent per kg of gas comes from the reaction: for chlorine, Cl<sub>2</sub> + 2NaOH, so 2 &times; 40.0 / 70.9 = 1.13 kg NaOH per kg. H<sub>2</sub>, CO and butane are not removed by any liquid scrubber; the calculator says so and points to the <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}#notscrub">standard practice for those gases</a>. Full table: <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}">gas scrubbing agents</a>.</p>
   <h2>How long a liquor charge lasts</h2>
