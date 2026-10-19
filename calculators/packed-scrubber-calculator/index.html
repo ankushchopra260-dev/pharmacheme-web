@@ -1,8 +1,8 @@
 ---
 layout: default
-title: "Packed Scrubber Sizing Calculator: Diameter, Packed Height, Caustic Use"
+title: "Packed Scrubber Sizing Calculator: Diameter, Height, Scrubbing Solution"
 seo_title: "Packed Scrubber Sizing Calculator | PharmaChemE"
-description: "Free packed scrubber calculator for process vents: column diameter, packed height from transfer units, liquor flow and caustic use. Excel download."
+description: "Pick the gas and get the scrubbing agent, reaction, column diameter, packed height and solution needed: NaOH, KOH, H2SO4 or H2O2. Batches per charge, heat."
 structured_data: |
   {
     "@context": "https://schema.org",
@@ -47,7 +47,7 @@ breadcrumbs:
 
 <div class="container ut-head">
   <h1>Packed Scrubber Sizing Calculator</h1>
-  <p>Column diameter, packed height, liquor flow and reagent use for a packed scrubber on a process vent. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+  <p>Select the gas: the calculator picks the scrubbing agent and shows the reaction. It then sizes the column (diameter, packed height, liquor flow) and works out the scrubbing solution: reagent at peak, reagent per batch, batches per liquor charge, heat release and salt build-up. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
 </div>
 
 <div class="container ut-grid">
@@ -58,6 +58,11 @@ breadcrumbs:
   <h2>How it works</h2>
   <div class="formula-box">D = &radic;(4Q/&pi;u) &nbsp;&nbsp; NTU = ln[1/(1 &minus; &eta;)] &nbsp;&nbsp; Packed height = NTU &times; HTU</div>
   <p>500 Nm&sup3;/h at 40 &deg;C and a design velocity of 1.2 m/s gives a column of about 410 mm. 99 % removal is 4.6 transfer units; with HTU = 0.5 m that is 2.3 m of packing, 2.8 m with margin. A 5 kg/h HCl peak uses about 5.5 kg/h of NaOH, 55 kg/h of 10 % solution. Check the velocity against the packing supplier's flooding chart. Background: <a href="{{ '/articles/scrubber-design/' | relative_url }}">scrubber design for process vents</a>.</p>
+
+  <h2>Scrubbing agent for each gas</h2>
+  <p>HCl, HBr, SO<sub>2</sub>, Cl<sub>2</sub>, Br<sub>2</sub>, phosgene, HCN, H<sub>2</sub>S and mercaptans go to caustic soda; HF to KOH (sodium fluoride scales the packing); ammonia to dilute sulphuric acid; NO and NO<sub>2</sub> to hydrogen peroxide followed by caustic. The reagent per kg of gas comes from the reaction: for chlorine, Cl<sub>2</sub> + 2NaOH, so 2 &times; 40.0 / 70.9 = 1.13 kg NaOH per kg. H<sub>2</sub>, CO and butane are not removed by any liquid scrubber; the calculator says so and points to the <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}#notscrub">standard practice for those gases</a>. Full table: <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}">gas scrubbing agents</a>.</p>
+  <h2>How long a liquor charge lasts</h2>
+  <p>Usable reagent = liquor charge &times; (starting strength &minus; change-out strength). Batches = usable reagent &divide; reagent per batch including the design excess, rounded down. Example: 2,000 kg of 10 % NaOH changed out at 2 % holds 160 kg usable NaOH; 60 kg of HCl per batch uses 66 kg, or 79 kg with 20 % excess, so the charge covers 2 batches. Each batch also releases about 51,000 kcal, a 28 &deg;C rise in that liquor if it is not cooled.</p>
 
   <h2>Frequently asked questions</h2>
   <h3>How do you size a packed scrubber?</h3>

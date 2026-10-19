@@ -374,23 +374,68 @@
     },
     xl: [['kg', 'Solvent mass', `{V}*{rho}/1000`, 'kg'], ['water', 'Water to remove', `{kg}*({w0}-{w1})/1E6`, 'kg'], ['ab', 'Absorbent needed', `{water}/({cap}/100)*{sf}`, 'kg']] };
 
-  const POL = { hcl: ['HCl → NaOH', 40 / 36.46, 'NaOH'], so2: ['SO₂ → NaOH (to sulphite)', 80 / 64.07, 'NaOH'], cl2: ['Cl₂ → NaOH (to hypochlorite)', 80 / 70.9, 'NaOH'], nh3: ['NH₃ → H₂SO₄', 98.08 / 34.06, 'H₂SO₄'] };
-  C.scrubber = { title: 'Packed scrubber sizing', sub: 'Column diameter, packed height, liquor flow and reagent use',
-    inputs: [{ k: 'Q', label: 'Gas flow', unit: 'Nm³/h', v: 500 }, { k: 'T', label: 'Gas temperature', unit: '°C', v: 40 }, { k: 'pol', label: 'Gas and reagent', type: 'sel', v: 'hcl', opts: Object.entries(POL).map(([k, p]) => [k, p[0]]) },
-      { k: 'st', label: 'Reagent per kg of gas', unit: 'kg/kg', v: +(40 / 36.46).toFixed(3) }, { k: 'pm', label: 'Pollutant load (peak)', unit: 'kg/h', v: 5 }, { k: 'eff', label: 'Removal efficiency', unit: '%', v: 99 },
+  // gas -> [label, MW, agent, agent MW, mol agent per mol gas, reaction, heat kcal per mol gas, product, product kg per kmol gas, saturation % (0 = none), default strength %, note]
+  const POL = {
+    hcl: ['HCl (hydrogen chloride)', 36.46, 'NaOH', 40.00, 1, 'HCl + NaOH → NaCl + H₂O', 31.2, 'NaCl', 58.44, 26, 10, 'A water stage first can recover hydrochloric acid; caustic polishes the outlet.'],
+    hbr: ['HBr (hydrogen bromide)', 80.91, 'NaOH', 40.00, 1, 'HBr + NaOH → NaBr + H₂O', 33.7, 'NaBr', 102.89, 48, 10, ''],
+    hf: ['HF (hydrogen fluoride)', 20.01, 'KOH', 56.11, 1, 'HF + KOH → KF + H₂O', 27.5, 'KF', 58.10, 48, 10, 'KOH, not NaOH: sodium fluoride saturates at about 4 % and scales the packing. No glass or glass-lined parts.'],
+    so2: ['SO₂ (sulphur dioxide)', 64.07, 'NaOH', 40.00, 2, 'SO₂ + 2NaOH → Na₂SO₃ + H₂O', 39.3, 'Na₂SO₃', 126.04, 23, 10, 'Below about pH 9 sulphite turns to bisulphite and SO₂ starts to slip: change out on pH.'],
+    cl2: ['Cl₂ (chlorine)', 70.90, 'NaOH', 40.00, 2, 'Cl₂ + 2NaOH → NaCl + NaOCl + H₂O', 23.9, 'NaCl + NaOCl', 132.88, 26, 10, 'Keep free caustic and the liquor below about 40 °C (chlorate forms when hot). Never let this liquor meet acid or ammonia.'],
+    br2: ['Br₂ (bromine)', 159.81, 'NaOH', 40.00, 2, 'Br₂ + 2NaOH → NaBr + NaOBr + H₂O', 17.3, 'NaBr + NaOBr', 221.8, 40, 10, 'Sodium bisulphite or thiosulphate can be used instead to reduce bromine to bromide.'],
+    cocl2: ['COCl₂ (phosgene)', 98.92, 'NaOH', 40.00, 4, 'COCl₂ + 4NaOH → Na₂CO₃ + 2NaCl + 2H₂O', 106.1, 'Na₂CO₃ + 2NaCl', 222.87, 17, 10, 'Generous excess, good contact time, phosgene detection at the outlet and a back-up destruct system (wet activated carbon).'],
+    no2: ['NO₂ (nitrogen dioxide)', 46.01, 'H₂O₂', 34.01, 0.5, '2NO₂ + H₂O₂ → 2HNO₃', 34.7, 'HNO₃', 63.01, 0, 5, 'The nitric acid formed is neutralised in a following caustic stage.'],
+    no: ['NO (nitric oxide)', 30.01, 'H₂O₂', 34.01, 1.5, '2NO + 3H₂O₂ → 2HNO₃ + 2H₂O', 71, 'HNO₃', 63.01, 0, 5, 'NO is barely soluble: the peroxide must oxidise it before it can be absorbed. Then neutralise the acid with caustic.'],
+    hcn: ['HCN (hydrogen cyanide)', 27.03, 'NaOH', 40.00, 1, 'HCN + NaOH → NaCN + H₂O (then NaCN + NaOCl → NaOCN + NaCl)', 9.6, 'NaCN', 49.01, 37, 10, 'Keep pH above 11 in absorption. Then oxidise with hypochlorite (2.75 kg NaOCl per kg HCN) at pH above 10, or toxic cyanogen chloride forms.'],
+    nh3: ['NH₃ (ammonia)', 17.03, 'H₂SO₄', 98.08, 0.5, '2NH₃ + H₂SO₄ → (NH₄)₂SO₄', 20.6, '(NH₄)₂SO₄', 66.07, 43, 10, 'Water absorbs ammonia but releases it again when warm; acid fixes it as ammonium sulphate. Same for volatile amines.'],
+    h2s: ['H₂S (hydrogen sulphide)', 34.08, 'NaOH', 40.00, 1, 'H₂S + NaOH → NaHS + H₂O', 12.6, 'NaHS', 56.06, 37, 10, 'Spent liquor gives H₂S back with acid: keep it away from acid drains, or oxidise the sulphide with hypochlorite or peroxide.'],
+    mesh: ['CH₃SH (methyl mercaptan)', 48.11, 'NaOH', 40.00, 1, 'CH₃SH + NaOH → CH₃SNa + H₂O', 10, 'CH₃SNa', 70.09, 40, 10, 'Odour threshold in the ppb range: follow with hypochlorite oxidation.'],
+    co2: ['CO₂ (carbon dioxide, if it reaches a caustic scrubber)', 44.01, 'NaOH', 40.00, 2, 'CO₂ + 2NaOH → Na₂CO₃ + H₂O', 26.2, 'Na₂CO₃', 105.99, 17, 10, 'CO₂ is normally vented, not scrubbed. In a caustic scrubber it only uses caustic and sodium carbonate crystallises above about 17 %.'],
+    so3: ['SO₃ (sulphur trioxide)', 80.06, 'none', 0, 0, 'SO₃ + H₂O → H₂SO₄ (in 98 % sulphuric acid)', 0, '', 0, 0, 10, 'Not for a caustic packed scrubber: SO₃ forms a fine acid mist that passes through. Absorb in 98 % H₂SO₄ and fit a candle-filter mist eliminator.'],
+    h2: ['H₂ (hydrogen)', 2.016, 'none', 0, 0, 'Not absorbed by any scrubbing liquor', 0, '', 0, 0, 10, 'Do not scrub. Dedicated nitrogen-swept vent below 25 % of LEL (about 1 % H₂), hydrogen-rated (IIC) flame arrester, safe discharge height; flare or catalytic recombiner for large flows. Keep it out of the scrubber fan.'],
+    co: ['CO (carbon monoxide)', 28.01, 'none', 0, 0, 'Not absorbed; destroyed by oxidation: 2CO + O₂ → 2CO₂', 0, '', 0, 0, 10, 'Do not scrub. Thermal or catalytic oxidiser or flare; small flows diluted through a stack checked for dispersion; fixed CO detectors (TLV 25 ppm).'],
+    butane: ['Butane and light hydrocarbons', 58.12, 'none', 0, 0, 'Not absorbed by aqueous liquors', 0, '', 0, 0, 10, 'Do not scrub. Recover by refrigerated condensation, then thermal oxidiser or flare; nitrogen-swept header with flame arrester. Heavier than air.'],
+  };
+  const SCR_CP = 0.9; // kcal/kg.degC, dilute liquor
+  C.scrubber = { title: 'Packed scrubber sizing and scrubbing solution', sub: 'Pick the gas: the scrubbing agent and reaction follow, then the column size and the solution needed',
+    inputs: [{ k: 'pol', label: 'Gas to remove', type: 'sel', v: 'hcl', opts: Object.entries(POL).map(([k, p]) => [k, p[0]]) },
+      { k: 'Q', label: 'Total vent gas flow', unit: 'Nm³/h', v: 500 }, { k: 'T', label: 'Gas temperature', unit: '°C', v: 40 },
+      { k: 'pm', label: 'Pollutant load at peak', unit: 'kg/h', v: 5 }, { k: 'eff', label: 'Removal efficiency', unit: '%', v: 99 },
       { k: 'u', label: 'Design gas velocity', unit: 'm/s', v: 1.2 }, { k: 'htu', label: 'Height of a transfer unit (HTU)', unit: 'm', v: 0.5 }, { k: 'wr', label: 'Liquid wetting rate', unit: 'm³/m²·h', v: 12 },
-      { k: 'cs', label: 'Reagent strength', unit: 'wt %', v: 10 }],
-    onSel: (k, val) => k === 'pol' ? { st: +POL[val][1].toFixed(3) } : null,
+      { k: 'st', label: 'Reagent per kg of gas (from the reaction)', unit: 'kg/kg', v: +(40 / 36.46).toFixed(3), show: v => POL[v.pol][2] !== 'none' },
+      { k: 'cs', label: 'Reagent strength in the liquor', unit: 'wt %', v: 10, show: v => POL[v.pol][2] !== 'none' },
+      { k: 'mb', label: 'Gas released per batch', unit: 'kg', v: 60, show: v => POL[v.pol][2] !== 'none' },
+      { k: 'M', label: 'Liquor charge in the tank', unit: 'kg', v: 2000, show: v => POL[v.pol][2] !== 'none' },
+      { k: 'cmin', label: 'Change-out (minimum free) strength', unit: 'wt %', v: 2, show: v => POL[v.pol][2] !== 'none' },
+      { k: 'ex', label: 'Design excess on the reagent', unit: '%', v: 20, show: v => POL[v.pol][2] !== 'none' }],
+    onSel: (k, val) => k === 'pol' && POL[val][2] !== 'none' ? { st: +(POL[val][4] * POL[val][3] / POL[val][1]).toFixed(3), cs: POL[val][10], cmin: POL[val][2] === 'H₂O₂' ? 0.5 : POL[val][2] === 'H₂SO₄' ? 1 : 2 } : null,
     run(v) {
+      const P = POL[v.pol], ag = P[2], none = ag === 'none';
       if (!(v.eff > 0 && v.eff < 100)) return { rows: [], notes: [['Efficiency must be between 0 and 100 %.', 'bad']] };
+      const head = [`<b>Scrubbing agent:</b> ${none ? 'none: a liquid scrubber does not remove this gas' : ag + ' solution'}<br><b>Reaction:</b> ${P[5]}`, 'lead'];
+      if (none) return { rows: [], notes: [head, [P[11], 'bad'], ['See <a href="/articles/gas-scrubbing-agents/#notscrub">standard practice for gases you cannot scrub</a>.']] };
       const Qa = v.Q * (273.15 + v.T) / 273.15 / 3600, D = Math.sqrt(4 * Qa / (Math.PI * v.u)), A = Math.PI * D * D / 4, ntu = Math.log(1 / (1 - v.eff / 100)), Z = ntu * v.htu, re = v.pm * v.st;
+      const heatPk = v.pm / P[1] * 1000 * P[6];
+      const perBatch = v.mb * v.st, design = perBatch * (1 + v.ex / 100), usable = v.M * (v.cs - v.cmin) / 100;
+      const nb = design > 0 ? Math.floor(usable / design) : 0, heatB = v.mb / P[1] * 1000 * P[6], dT = v.M > 0 ? heatB / (v.M * SCR_CP) : NaN;
+      const minCharge = (v.cs > v.cmin) ? design / ((v.cs - v.cmin) / 100) : NaN;
+      const prod = v.mb / P[1] * P[8], nbx = Math.max(nb, 1), pct = 100 * nbx * prod / (v.M + nbx * v.mb);
+      const notes = [head];
+      if (!(v.cs > v.cmin)) notes.push(['The change-out strength must be lower than the starting strength.', 'bad']);
+      else if (nb < 1) notes.push([`This liquor charge cannot take even one batch: use at least ${F(minCharge, 0)} kg of ${F(v.cs, 0)} % liquor, a stronger liquor, or smaller batches.`, 'bad']);
+      if (P[9] && pct > 0.8 * P[9]) notes.push([`${P[7]} reaches about ${F(pct, 1)} % at change-out, close to saturation (about ${P[9]} %): solids can block packing and nozzles. Change out earlier or use a more dilute liquor.`, 'warn']);
+      if (dT > 15) notes.push([`A batch heats the liquor by about ${F(dT, 0)} °C with no cooling. Hot liquor absorbs worse and can release the gas again: cool the recirculation loop or use a bigger charge.`, 'warn']);
+      if (P[11]) notes.push([P[11]]);
+      notes.push(['NTU = ln(1/(1−η)) assumes a fast reaction with no back-pressure of the gas over the liquor, true for acid gases in excess reagent. Check the gas velocity against the packing supplier\'s flooding chart (aim for 60–80 % of flood). Heats are from standard enthalpies of formation, about ±10 %.']);
       return { rows: [['Column diameter', F(D * 1000, 0), 'mm'], ['Packed height (NTU × HTU)', F(Z, 2), 'm'], ['With 20 % margin', F(Z * 1.2, 2), 'm'], ['Recirculation flow', F(v.wr * A, 1), 'm³/h'],
-        ['Number of transfer units', F(ntu, 2), ''], [POL[v.pol][2] + ' used at peak', F(re, 2), 'kg/h'], [F(v.cs, 0) + ' % solution used at peak', F(re / (v.cs / 100), 1), 'kg/h']],
-        notes: [['NTU = ln(1/(1−η)) assumes a fast reaction with no back-pressure of the gas over the liquor, true for acid gases in excess caustic. Check the gas velocity against the packing supplier\'s flooding chart (aim for 60–80 % of flood) and keep free reagent in the liquor.']] };
+        ['Number of transfer units', F(ntu, 2), ''], [ag + ' used at peak', F(re, 2), 'kg/h'], [F(v.cs, 0) + ' % solution used at peak', F(re / (v.cs / 100), 1), 'kg/h'], ['Heat released at peak', F(heatPk, 0), 'kcal/h'],
+        [ag + ' used per batch (with excess)', F(design, 1), 'kg'], ['Batches per liquor charge', isFinite(nb) ? String(nb) : '–', 'before change-out'], ['Minimum charge for one batch', F(minCharge, 0), 'kg of ' + F(v.cs, 0) + ' % liquor'],
+        ['Heat per batch', F(heatB, 0), 'kcal'], ['Liquor temperature rise per batch', F(dT, 1), '°C, no cooling'], [P[7] + ' formed per batch', F(prod, 1), 'kg']], notes };
     },
     xl: [['Qa', 'Actual gas flow', `{Q}*(273.15+{T})/273.15/3600`, 'm³/s'], ['D', 'Column diameter', `SQRT(4*{Qa}/(PI()*{u}))*1000`, 'mm'], ['A', 'Column area', `PI()*({D}/1000)^2/4`, 'm²'],
       ['ntu', 'Number of transfer units', `LN(1/(1-{eff}/100))`, ''], ['Z', 'Packed height', `{ntu}*{htu}`, 'm'], ['Z2', 'With 20 % margin', `{Z}*1.2`, 'm'], ['L', 'Recirculation flow', `{wr}*{A}`, 'm³/h'],
-      ['re', 'Reagent used at peak', `{pm}*{st}`, 'kg/h'], ['sol', 'Reagent solution used at peak', `{re}/({cs}/100)`, 'kg/h']] };
+      ['re', 'Reagent used at peak', `{pm}*{st}`, 'kg/h'], ['sol', 'Reagent solution used at peak', `{re}/({cs}/100)`, 'kg/h'],
+      ['design', 'Reagent per batch with excess', `{mb}*{st}*(1+{ex}/100)`, 'kg'], ['usable', 'Usable reagent above change-out', `{M}*({cs}-{cmin})/100`, 'kg'], ['nb', 'Batches per liquor charge', `ROUNDDOWN({usable}/{design},0)`, 'batches'],
+      ['minc', 'Minimum charge for one batch', `{design}/(({cs}-{cmin})/100)`, 'kg']] };
 
   /* ---------------- render ---------------- */
   function mount(el) {
@@ -403,7 +448,7 @@
       const ins = c.inputs.filter(i => !i.show || i.show(v)), r = c.run(v);
       xb.disabled = true; xb.textContent = 'Preparing…';
       window.PCME_XL.calcSheet({ title: c.title, sub: c.sub, inputs: ins.map(i => ({ k: i.k, label: i.label, unit: i.type === 'sel' ? 'type one of: ' + i.opts.map(o => o[0]).join(', ') : i.unit, value: v[i.k], text: i.type === 'sel' ? (i.opts.find(o => o[0] === v[i.k]) || [, ''])[1] : '' })),
-        xl: c.xl, rows: r.rows, notes: (r.notes || []).map(n => n[0]) })
+        xl: r.rows.length ? c.xl : null, rows: r.rows, notes: (r.notes || []).map(n => n[0]) })
         .then(() => { xb.disabled = false; xb.textContent = 'Download Excel'; }, e => window.PCME_XL.fail(xb, e));
     });
     function drawInputs() {
@@ -415,7 +460,8 @@
       const bad = c.inputs.filter(i => i.type !== 'sel' && (!i.show || i.show(v)) && !isFinite(v[i.k]));
       if (bad.length) { out.innerHTML = '<p class="ut-empty">Fill in every value to see the result.</p>'; return; }
       const r = c.run(v);
-      out.innerHTML = (r.rows.length ? `<dl class="ut-res">${r.rows.map((x, j) => `<div${j === 0 ? ' class="lead"' : ''}><dt>${esc(x[0])}</dt><dd>${esc(x[1])} <small>${esc(x[2])}</small></dd></div>`).join('')}</dl>` : '') +
+      const leadN = (r.notes || []).filter(n => n[1] === 'lead'); r.notes = (r.notes || []).filter(n => n[1] !== 'lead');
+      out.innerHTML = leadN.map(n => `<p class="ut-note lead">${n[0]}</p>`).join('') + (r.rows.length ? `<dl class="ut-res">${r.rows.map((x, j) => `<div${j === 0 ? ' class="lead"' : ''}><dt>${esc(x[0])}</dt><dd>${esc(x[1])} <small>${esc(x[2])}</small></dd></div>`).join('')}</dl>` : '') +
         (r.notes || []).map(n => `<p class="ut-note ${n[1] || ''}">${n[0]}</p>`).join('');
     }
     form.addEventListener('input', e => { const k = e.target.dataset.k; if (!k) return; const spec = c.inputs.find(i => i.k === k);
