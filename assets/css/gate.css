@@ -150,3 +150,18 @@
 .gs-item details summary { cursor: pointer; color: var(--brass, #C9A227); font-size: .9rem; }
 .gs-item details[open] { background: var(--panel, #122234); border-left: 3px solid var(--brass, #C9A227); padding: 6px 12px; border-radius: 4px; }
 .gs-item details p { margin: 6px 0; }
+
+/* animated explanations (gate-anim.js) */
+.ga-fig { margin: 16px 0 6px; background: #0E1B2A; border: 1px solid var(--grid-line); border-radius: 10px; padding: 12px 14px 10px; max-width: 640px; }
+.ga-sheet { margin: 4px 0 26px; }
+.ga-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.ga-head b { color: var(--paper); font-size: .95rem; }
+.ga-head span { color: var(--muted); font-size: .76rem; }
+.ga-fig svg { display: block; width: 100%; height: auto; font-family: var(--f-sans); }
+.ga-cap { min-height: 3em; margin: 6px 0 8px; color: var(--paper); font-size: .9rem; line-height: 1.5; }
+.ga-ctl { display: flex; align-items: center; gap: 8px; }
+.ga-ctl button, #gate-app .ga-ctl button { width: 34px; height: 30px; padding: 0; font-size: .85rem; line-height: 1; color: var(--paper); background: #15283c; border: 1px solid #2C4C6C; border-radius: 6px; cursor: pointer; }
+.ga-ctl button:hover { border-color: var(--brass); }
+.ga-ctl button:focus-visible, .ga-ctl input:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.ga-ctl input { flex: 1; min-width: 0; accent-color: var(--brass); }
+.ga-step { color: var(--muted); font-size: .76rem; min-width: 34px; text-align: right; font-variant-numeric: tabular-nums; }

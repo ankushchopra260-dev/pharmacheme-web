@@ -88,12 +88,15 @@ print('records', len(out), 'added', len(new), 'pages added', len(pages), 'size K
 sw_txt = open(f'{R}/assets/js/swap-solvents.js', encoding='utf-8').read()
 sw = {r[0]: r for r in json.loads(sw_txt[sw_txt.index('=') + 1:].strip().rstrip(';'))}
 facts = []
-for slug, r in sorted(sw.items()):
+for slug in sorted(d for d in os.listdir(f'{R}/solvents') if os.path.isfile(f'{R}/solvents/{d}/index.html')):
     body = open(f'{R}/solvents/{slug}/index.html', encoding='utf-8').read()
     rows = dict((clean(a), clean(b)) for a, b in re.findall(r'<tr><th>([\s\S]*?)</th><td>([\s\S]*?)</td></tr>', body))
+    h1 = clean(re.search(r'<h1>([\s\S]*?)</h1>', body).group(1)).split(':')[0]
+    cm = re.search(r'data-a="([-\d.]+)" data-b="([-\d.]+)" data-c="([-\d.]+)"', body)
+    r = sw.get(slug) or [slug, h1, 0, 0] + ([float(x) for x in cm.groups()] if cm else [None, None, None])
     name = r[1]; short = name.split(' (')[0]; abbr = name.split('(')[1].rstrip(')') if '(' in name else ''
     also = re.search(r'Also called ([^.<]+)\.', body)
-    al = [short, abbr] + ([a.strip() for a in re.split(r',\s|;|/| or ', also.group(1)) if a.strip()] if also else [])
-    facts.append({'n': name, 's': slug, 'a': sorted(set(a for a in al if len(a) >= 2 and 'isomer' not in a), key=len, reverse=True), 'f': rows, 'ant': [r[4], r[5], r[6]]})
+    al = [short, abbr, h1.split(' and ')[0].split(' (')[0]] + ([a.strip() for a in re.split(r',\s|;|/| or ', also.group(1)) if a.strip()] if also else [])
+    facts.append({'n': name, 's': slug, 'a': sorted(set(a for a in al if len(a) >= 2 and 'isomer' not in a), key=len, reverse=True), 'f': rows, 'ant': ([r[4], r[5], r[6]] if r[4] is not None else None)})
 json.dump(facts, open(f'{R}/assets/data/solvent-facts.json', 'w'), ensure_ascii=False, separators=(',', ':'))
 print('solvents', len(facts))

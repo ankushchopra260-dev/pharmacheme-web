@@ -262,7 +262,7 @@
   var PROPS = [[/flash/, 'Flash point'], [/auto ?ignit|\bait\b|ignition temp/, 'Autoignition temperature'], [/\blel\b|\buel\b|flammab|explosive limit|explosion limit/, 'Flammable limits (LEL to UEL)'],
     [/\btlv\b|exposure|\btwa\b|\bstel\b|\bppm\b|limit value/, 'Exposure limit (TLV)'], [/melt|freez|\bmp\b/, 'Melting point'], [/vapou?r pressure/, 'Vapour pressure at 20 °C'], [/boil|\bbp\b|b\.p/, 'Boiling point'],
     [/densit|specific gravity|\bsg\b/, 'Density at 20 °C'], [/molecular weight|mol(ar)? (wt|mass)|\bmw\b|\bm\.w/, 'Molecular weight'], [/\bcas\b/, 'CAS number'], [/formula/, 'Formula'],
-    [/\bich\b|residual|q3c/, 'ICH Q3C residual solvent'], [/water|miscib|soluble/, 'With water'], [/cancer|carcino|iarc/, 'Cancer (IARC)'], [/health|toxic|hazard|effect/, 'Main health effects'], [/skin/, 'Skin absorption']];
+    [/\bich\b|residual|q3c/, 'ICH Q3C residual solvent'], [/water|miscib|solub/, 'With water'], [/specific heat|heat capacity|\bcp\b/, 'Specific heat (liquid, 25 °C)'], [/latent|heat of vapo|enthalpy of vapo|vapori[sz]ation heat/, 'Latent heat of vaporisation'], [/viscos/, 'Viscosity'], [/densit|specific gravity|\bsg\b/, 'Density'], [/melt|freez|\bmp\b/, 'Melting / freezing point'], [/specific heat|heat capacity|\bcp\b/, 'Specific heat (liquid)'], [/fire|react|flammab|explos/, 'Fire and reactivity'], [/vapou?r density|heavier than air|lighter than air/, 'Vapour density (air = 1)'], [/cancer|carcino|iarc/, 'Cancer (IARC)'], [/health|toxic|hazard|effect/, 'Main health effects'], [/skin/, 'Skin absorption']];
   function findSolvent(low) {
     var best = null, bl = 0;
     FACTS.forEach(function (f) { f.a.forEach(function (a) { var al = a.toLowerCase(); if (al.length > bl && new RegExp('(^|[^a-z0-9])' + al.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '($|[^a-z0-9])').test(low)) { best = f; bl = al.length; } }); });
@@ -271,7 +271,7 @@
   function bpAt(f, q) {
     var m = q.match(/(\d+(?:\.\d+)?)\s*(mm ?hg|mmhg|torr|mbar|kpa|bar|mm)\b/i); if (!m) return null;
     var v = +m[1], u = m[2].toLowerCase().replace(/\s/g, ''), mm = u === 'mbar' ? v * 0.750062 : u === 'kpa' ? v * 7.50062 : u === 'bar' ? v * 750.062 : v, vac = /vac/i.test(q) && (u === 'mmhg' || u === 'mm' || u === 'torr') && v < 760;
-    var abs = vac && !/abs/i.test(q) ? 760 - mm : mm; if (!(abs > 0.5 && abs < 3000)) return null;
+    var abs = vac && !/abs/i.test(q) ? 760 - mm : mm; if (!(abs > 0.5 && abs < 3000) || !f.ant) return null;
     var T = f.ant[1] / (f.ant[0] - Math.log10(abs)) - f.ant[2];
     return { T: T, abs: abs, vac: vac && !/abs/i.test(q), raw: m[0] };
   }
@@ -309,7 +309,7 @@
     var explicit = props.length > 0;
     if (!props.length && !bp) props = ['Boiling point', 'Flash point', 'Autoignition temperature', 'Exposure limit (TLV)'].filter(function (p) { return f.f[p]; });
     body += props.map(function (p) { return '<p><span class="pg-from" style="display:inline">' + esc(p) + ':</span> ' + esc(f.f[p]) + '</p>'; }).join('');
-    d.innerHTML = '<div class="pg-ans-k">Solvent data</div><b>' + esc(f.n) + '</b>' + body + '<a class="pg-open" href="' + BASE + '/solvents/' + f.s + '/">All ' + esc(f.n.split(' (')[0]) + ' data, boiling point under vacuum and safety →</a>';
+    d.innerHTML = '<div class="pg-ans-k">Solvent data</div><b>' + esc(f.n) + '</b>' + body + '<a class="pg-open" href="' + BASE + '/solvents/' + f.s + '/">All ' + esc(f.n.split(' (')[0]) + ' data' + (f.ant ? ', boiling point under vacuum' : '') + ' and safety →</a>';
     msg('From our solvent data:'); log.appendChild(d); log.scrollTop = log.scrollHeight;
     d.querySelector('a').addEventListener('click', function () { track('guide_pick', { url: '/solvents/' + f.s + '/', from: 'solvent' }); });
     CTX.solvent = f; if (explicit) CTX.props = props;

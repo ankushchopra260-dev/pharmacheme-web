@@ -13,7 +13,7 @@ structured_data: |
         "name": "What is the boiling point of diisopropylamine under vacuum?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "From the Antoine equation, diisopropylamine boils at about 33.8 °C at 100 mmHg absolute (660 mmHg vacuum), 20.5 °C at 50 mmHg absolute and 5.2 °C at 20 mmHg absolute. At atmospheric pressure it boils at 83.9 °C."
+          "text": "From the Antoine equation, diisopropylamine boils at about 29.7 °C at 100 mmHg absolute (660 mmHg vacuum), 16.3 °C at 50 mmHg absolute and 1.2 °C at 20 mmHg absolute. At atmospheric pressure it boils at 83.9 °C."
         }
       },
       {
@@ -50,7 +50,8 @@ breadcrumbs:
       <tr><th>Density at 20 &deg;C</th><td>0.717 g/mL (717 kg/m&sup3;)</td></tr>
       <tr><th>Melting point</th><td>&minus;61 &deg;C</td></tr>
       <tr><th>Boiling point</th><td>83.9 &deg;C at 760 mmHg</td></tr>
-      <tr><th>Vapour pressure at 20 &deg;C</th><td>48 mmHg (65 mbar)</td></tr>
+      <tr><th>Vapour pressure at 20 &deg;C</th><td>61 mmHg (82 mbar)</td></tr>
+      <tr><th>Specific heat (liquid, 25 &deg;C)</th><td>0.50 kcal/kg&middot;&deg;C (2.10 kJ/kg&middot;K)</td></tr><tr><th>Latent heat of vaporisation</th><td>72 kcal/kg at 83.9 &deg;C (300 kJ/kg)</td></tr><tr><th>Viscosity</th><td>0.4 cP at 25 &deg;C</td></tr><tr><th>Vapour density (air = 1)</th><td>3.5 (heavier than air: vapour collects in pits, drains and low areas)</td></tr>
       <tr><th>With water</th><td>Partly miscible</td></tr>
       <tr class="sv-sec"><th colspan="2">Fire and explosion</th></tr>
       <tr><th>Flash point</th><td>about -20 &deg;C (closed cup)</td></tr>
@@ -64,9 +65,9 @@ breadcrumbs:
       <tr><th>ICH Q3C residual solvent</th><td>Not classified in ICH Q3C</td></tr>
       <tr><th>Solvent family</th><td><a href="{{ '/solvents/' | relative_url }}#amines-and-acids">Amines and acids</a></td></tr>
     </table>
-    <p class="sv-mute sv-src">Fire data from IEC 60079-20-1 and NFPA 497; exposure limits are 8-hour TWA and 15-minute STEL values from the Ontario table, which follows ACGIH TLVs (via the open-source <i>chemicals</i> data library). TLVs are revised every year: check the current ACGIH booklet, your SDS and the Factories Act limits for your state.</p>
+    <p class="sv-mute sv-src">Specific heat, latent heat, viscosity and water solubility are typical literature values (CRC Handbook of Chemistry and Physics and supplier data sheets); vapour density = molecular weight / 28.96. Fire data from IEC 60079-20-1 and NFPA 497; exposure limits are 8-hour TWA and 15-minute STEL values from the Ontario table, which follows ACGIH TLVs (via the open-source <i>chemicals</i> data library). TLVs are revised every year: check the current ACGIH booklet, your SDS and the Factories Act limits for your state.</p>
   </section>
-  <section class="sv-calc" data-a="6.89567" data-b="1118.39" data-c="194.663" data-name="Diisopropylamine" aria-labelledby="sv-calc-h">
+  <section class="sv-calc" data-a="6.00129" data-b="768.0" data-c="162.217" data-name="Diisopropylamine" aria-labelledby="sv-calc-h">
     <h2 id="sv-calc-h">Boiling point at your vacuum</h2>
     <div class="sv-row">
       <label>Pressure <input type="number" step="any" inputmode="decimal" value="100" class="sv-p" aria-label="Pressure"></label>
@@ -86,15 +87,15 @@ breadcrumbs:
   <p>&ldquo;Vacuum&rdquo; on a plant gauge is usually read as mmHg below atmosphere; the boiling point depends on the <em>absolute</em> pressure, which is 760 minus the gauge reading at sea level.</p>
   <div class="sv-scroll"><table class="sv-table sv-grid">
     <thead><tr><th>Absolute pressure (mmHg / torr)</th><th>Absolute pressure (mbar)</th><th>Vacuum gauge (mmHg)</th><th>Boiling point</th></tr></thead>
-    <tbody><tr><td>760</td><td>1,013</td><td>0</td><td>83.9 &deg;C</td></tr><tr><td>500</td><td>667</td><td>260</td><td>71.8 &deg;C</td></tr><tr><td>300</td><td>400</td><td>460</td><td>58.4 &deg;C</td></tr><tr><td>200</td><td>267</td><td>560</td><td>48.7 &deg;C</td></tr><tr><td>150</td><td>200</td><td>610</td><td>42.3 &deg;C</td></tr><tr><td>100</td><td>133</td><td>660</td><td>33.8 &deg;C</td></tr><tr><td>75</td><td>100</td><td>685</td><td>28.1 &deg;C</td></tr><tr><td>50</td><td>67</td><td>710</td><td>20.5 &deg;C</td></tr><tr><td>30</td><td>40</td><td>730</td><td>11.7 &deg;C</td></tr><tr><td>20</td><td>27</td><td>740</td><td>5.2 &deg;C</td></tr><tr><td>10</td><td>13</td><td>750</td><td>-5.0 &deg;C</td></tr><tr><td>5</td><td>7</td><td>755</td><td>-14.2 &deg;C</td></tr></tbody>
+    <tbody><tr><td>760</td><td>1,013</td><td>0</td><td>83.9 &deg;C</td></tr><tr><td>500</td><td>667</td><td>260</td><td>70.3 &deg;C</td></tr><tr><td>300</td><td>400</td><td>460</td><td>55.7 &deg;C</td></tr><tr><td>200</td><td>267</td><td>560</td><td>45.3 &deg;C</td></tr><tr><td>150</td><td>200</td><td>610</td><td>38.6 &deg;C</td></tr><tr><td>100</td><td>133</td><td>660</td><td>29.7 &deg;C</td></tr><tr><td>75</td><td>100</td><td>685</td><td>23.9 &deg;C</td></tr><tr><td>50</td><td>67</td><td>710</td><td>16.3 &deg;C</td></tr><tr><td>30</td><td>40</td><td>730</td><td>7.5 &deg;C</td></tr><tr><td>20</td><td>27</td><td>740</td><td>1.2 &deg;C</td></tr><tr><td>10</td><td>13</td><td>750</td><td>-8.7 &deg;C</td></tr><tr><td>5</td><td>7</td><td>755</td><td>-17.4 &deg;C</td></tr></tbody>
   </table></div>
 
   <h2>Vapour pressure</h2>
   <div class="sv-scroll"><table class="sv-table sv-grid">
     <thead><tr><th>Temperature</th><th>Vapour pressure (mmHg)</th><th>Vapour pressure (mbar)</th></tr></thead>
-    <tbody><tr><td>20 &deg;C</td><td>48</td><td>65</td></tr><tr><td>25 &deg;C</td><td>64</td><td>85</td></tr><tr><td>40 &deg;C</td><td>135</td><td>180</td></tr><tr><td>60 &deg;C</td><td>319</td><td>426</td></tr></tbody>
+    <tbody><tr><td>20 &deg;C</td><td>61</td><td>82</td></tr><tr><td>25 &deg;C</td><td>79</td><td>106</td></tr><tr><td>40 &deg;C</td><td>160</td><td>213</td></tr><tr><td>60 &deg;C</td><td>351</td><td>468</td></tr></tbody>
   </table></div>
-  <div class="formula-box">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; A = 6.89567, B = 1118.39, C = 194.663
+  <div class="formula-box">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; A = 6.00129, B = 768.0, C = 162.217
     <small>P in mmHg, T in &deg;C. Antoine constants from the same data as the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>. Accuracy falls well outside the normal working range, and very low temperatures are not shown.</small></div>
 
   <h2>On the plant</h2>
@@ -130,7 +131,7 @@ breadcrumbs:
     <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent recovery calculator (heat load, recovery time, condenser, vacuum pump)</a>
     <a href="{{ '/calculators/solvent-mixture-density-viscosity-calculator/' | relative_url }}">Solvent mixture density and viscosity</a>
     <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent swap and solvent selection</a>
-    <a href="{{ '/solvents/' | relative_url }}">All 86 solvents</a>
+    <a href="{{ '/solvents/' | relative_url }}">All 95 solvents</a>
   </div>
 </div>
 
