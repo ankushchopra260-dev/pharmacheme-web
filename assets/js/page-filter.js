@@ -17,37 +17,39 @@
     const q = bar.querySelector('input'), cnt = bar.querySelector('.pf-count'), none = bar.querySelector('.pf-none');
     const groups = GROUPS ? [...document.querySelectorAll(GROUPS)] : [];
     const txt = items.map(el => ((el.innerText || el.textContent) + ' ' + (el.getAttribute('href') || '') + ' ' + (el.dataset.q || '')).toLowerCase());
+    // section data (same file as the header search), limited to this tab: URLs under this page's path, never the page itself
+    const ss = document.getElementById('siteSearch'), SRC = ss && ss.dataset.src, BASE = (ss && ss.dataset.base) || '';
+    const TAB = location.pathname.replace(BASE, '').replace(/index\.html$/, '');
+    const hrefOf = el => { const a = el.matches('a') ? el : el.querySelector('a'); if (!a) return ''; try { return new URL(a.href, location.href).pathname.replace(BASE, '').replace(/index\.html$/, ''); } catch (e) { return ''; } };
+    const hrefs = items.map(hrefOf), here = new Set(hrefs);
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    let DATA = null, loading = false;
+    function records(words) {
+      if (!SRC || words.join('').length < 3) return null;
+      if (!DATA) { if (!loading) { loading = true; fetch(SRC).then(r => r.json()).then(d => { DATA = d; run(); }).catch(() => { }); } return null; }
+      const out = [];
+      for (const r of DATA) {
+        const u = (r.u || '').split('#')[0]; if (!u.startsWith(TAB) || u === TAB) continue;
+        const t = (r.t || '').toLowerCase(), all = t + ' ' + (r.s || '').toLowerCase() + ' ' + (r.w || '').toLowerCase() + ' ' + (r.x || '').toLowerCase();
+        if (words.every(w => all.includes(w))) out.push([words.every(w => t.includes(w)) ? 0 : 1, r.h ? 1 : 0, r, u]);
+      }
+      return out.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    }
     function run() {
       const words = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+      const recs = words.length ? records(words) : null;
+      const inside = new Set((recs || []).map(x => x[3]));   // pages whose content matches
       let n = 0;
-      items.forEach((el, i) => { const ok = !words.length || words.every(w => txt[i].includes(w)); el.classList.toggle('pf-hide', !ok); if (ok) n++; });
+      items.forEach((el, i) => { const ok = !words.length || words.every(w => txt[i].includes(w)) || inside.has(hrefs[i]); el.classList.toggle('pf-hide', !ok); if (ok) n++; });
       groups.forEach(g => { const has = !words.length || [...g.querySelectorAll(ITEMS)].some(el => !el.classList.contains('pf-hide')); g.classList.toggle('pf-hide', !has);
         if (HEADS) { let p = g.previousElementSibling; while (p && p.matches(HEADS)) { p.classList.toggle('pf-hide', !has); p = p.previousElementSibling; } } });
-      cnt.textContent = words.length ? n + ' of ' + items.length : '';
-      none.hidden = !words.length || n > 0;
-      site(words);
-    }
-    // whole-site results under the box (same data as the header search)
-    const ss = document.getElementById('siteSearch'), SRC = ss && ss.dataset.src, BASE = (ss && ss.dataset.base) || '';
-    let DATA = null, loading = false;
-    const hrefOf = el => { const a = el.matches('a') ? el : el.querySelector('a'); return a ? (a.getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '') : ''; };
-    const here = new Set(items.map(hrefOf));
-    const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    function site(words) {
+      // pages in this section that have no card here (for example single GATE questions)
+      const seen = new Set(), extra = [];
+      for (const [, , r, u] of recs || []) { if (here.has(u) || seen.has(r.u)) continue; seen.add(r.u); extra.push(r); if (extra.length >= 6) break; }
       const box = bar.querySelector('.pf-site');
-      if (!words.length || words.join('').length < 3 || !SRC) { box.innerHTML = ''; return; }
-      if (!DATA) { if (!loading) { loading = true; fetch(SRC).then(r => r.json()).then(d => { DATA = d; run(); }).catch(() => { }); } return; }
-      const res = [];
-      for (const r of DATA) {
-        const t = (r.t || '').toLowerCase(), all = t + ' ' + (r.s || '') .toLowerCase() + ' ' + (r.w || '').toLowerCase() + ' ' + (r.x || '').toLowerCase();
-        if (!words.every(w => all.includes(w))) continue;
-        const u = (r.u || '').split('#')[0]; if (here.has(u) || here.has(BASE + u)) continue;
-        res.push([words.every(w => t.includes(w)) ? 0 : 1, r.h ? 1 : 0, r]);
-      }
-      res.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-      const seen = new Set(), top = [];
-      for (const [, , r] of res) { if (seen.has(r.u)) continue; seen.add(r.u); top.push(r); if (top.length >= 6) break; }
-      box.innerHTML = top.length ? '<p>Elsewhere on the site</p>' + top.map(r => `<a href="${esc(BASE + r.u)}"><b><em>${esc(r.k || '')}</em>${esc(String(r.t).replace(/\s+(Basics|Working level|Going deeper)$/, ''))}</b><span>${esc(r.s || '')}</span></a>`).join('') : '';
+      box.innerHTML = extra.length ? '<p>Also in this section</p>' + extra.map(r => `<a href="${esc(BASE + r.u)}"><b><em>${esc(r.k || '')}</em>${esc(String(r.t).replace(/\s+(Basics|Working level|Going deeper)$/, ''))}</b><span>${esc(r.s || '')}</span></a>`).join('') : '';
+      cnt.textContent = words.length ? n + ' of ' + items.length : '';
+      none.hidden = !words.length || n > 0 || extra.length > 0;
     }
     q.addEventListener('input', run);
     q.addEventListener('keydown', e => { if (e.key === 'Escape') { q.value = ''; run(); } });
