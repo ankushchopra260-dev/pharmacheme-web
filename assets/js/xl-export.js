@@ -17,8 +17,8 @@
     let js = f.replace(/\{(\w+)\}/g, (_, k) => typeof vals[k] === 'string' ? JSON.stringify(vals[k]) : '(' + vals[k] + ')');
     js = js.replace(/<>/g, '!=').replace(/(?<![<>!=])=(?!=)/g, '==').replace(/\^/g, '**').replace(/\bPI\(\)/g, 'Math.PI')
       .replace(/\bSQRT\(/g, 'Math.sqrt(').replace(/\bLN\(/g, 'Math.log(').replace(/\bEXP\(/g, 'Math.exp(').replace(/\bMIN\(/g, 'Math.min(').replace(/\bMAX\(/g, 'Math.max(').replace(/\bABS\(/g, 'Math.abs(')
-      .replace(/\bIF\(/g, '__IF(').replace(/\bOR\(/g, '__OR(');
-    try { return Function('__IF', '__OR', '"use strict";return (' + js + ')')((c, a, b) => c ? a : b, (...a) => a.some(Boolean)); } catch (e) { return null; }
+      .replace(/\bIF\(/g, '__IF(').replace(/\bOR\(/g, '__OR(').replace(/\bROUNDDOWN\(/g, '__RD(');
+    try { return Function('__IF', '__OR', '__RD', '"use strict";return (' + js + ')')((c, a, b) => c ? a : b, (...a) => a.some(Boolean), (x, d) => { const f = Math.pow(10, d || 0); return Math.trunc(x * f) / f; }); } catch (e) { return null; }
   }
   function header(rows, title, sub) {
     rows.push([title]); if (sub) rows.push([sub]);

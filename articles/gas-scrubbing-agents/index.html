@@ -1,0 +1,155 @@
+---
+layout: default
+title: "Gas Scrubbing Agents: Which Liquid for Which Gas (HCl, SO2, Cl2, NOx, HCN, H2S...)"
+seo_title: "Gas Scrubbing Agents: HCl, SO2, Cl2, NOx, HCN | PharmaChemE"
+description: "Which scrubbing liquid for HCl, HF, SO2, SO3, Cl2, phosgene, NOx, HCN, NH3 and H2S, with kg of agent per kg of gas, and how to handle H2, CO and butane."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Gas Scrubbing Agents
+    url: /articles/gas-scrubbing-agents/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Gas Scrubbing Agents: Which Liquid for Which Gas",
+        "description": "Scrubbing liquid, reaction and agent consumption for common process vent gases, and the gases a wet scrubber cannot treat.",
+        "author": { "@type": "Person", "name": "Ankush Chopra" },
+        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
+        "datePublished": "2026-10-19"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Why is HF scrubbed with KOH and not NaOH?", "acceptedAnswer": { "@type": "Answer", "text": "Sodium fluoride has low solubility (about 4 g per 100 mL water) and crystallises on packing and nozzles. Potassium fluoride is very soluble, so KOH keeps the scrubber clean." } },
+          { "@type": "Question", "name": "Can a caustic scrubber remove carbon monoxide or hydrogen?", "acceptedAnswer": { "@type": "Answer", "text": "No. CO, hydrogen and light hydrocarbons such as butane are hardly soluble and do not react with scrubbing liquors. They need dilution and safe venting, a flare or a thermal oxidiser." } },
+          { "@type": "Question", "name": "How should hydrogen from a reaction be vented?", "acceptedAnswer": { "@type": "Answer", "text": "Through a dedicated nitrogen-swept vent, kept below 25 % of the LEL (about 1 % hydrogen), with a hydrogen-rated flame arrester at a safe discharge point. Large continuous flows go to a flare or catalytic recombiner. It is never sent through the acid-gas scrubber fan." } },
+          { "@type": "Question", "name": "How much NaOH does it take to scrub chlorine?", "acceptedAnswer": { "@type": "Answer", "text": "About 1.13 kg of NaOH per kg of chlorine (Cl2 + 2NaOH gives NaCl + NaOCl + H2O), plus excess so the liquor stays alkaline." } }
+        ]
+      }
+    ]
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Gas Scrubbing Agents: Which Liquid for Which Gas</h1>
+  <p class="article-meta">Process Safety &middot; Emissions &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A scrubber is only as good as the liquid in it. Caustic soda handles most acid gases, but HF, NOx, HCN, SO<sub>3</sub> and mercaptans each need something more, and some gases cannot be scrubbed at all. This table gives the usual agent for each gas, the reaction, how much agent each kg of gas uses, and the traps.</p>
+
+  <div style="max-width:200px;margin:0 0 24px;"><a class="video-card" href="https://www.youtube.com/shorts/0AzlMJVJQFs" target="_blank" rel="noopener">
+    <div class="video-thumb-wrap"><img src="https://img.youtube.com/vi/0AzlMJVJQFs/hqdefault.jpg" alt="Industrial gas scrubbing video thumbnail" loading="lazy"><span class="video-play">&#9658;</span></div>
+    <div class="video-title">Watch: Industrial Gas Scrubbing (YouTube Short)</div>
+  </a></div>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#table">Scrubbing agent table</a><span>Basics</span></li>
+    <li><a href="#notscrub">Hydrogen, CO, CO<sub>2</sub> and butane: standard practice</a><span>Working level</span></li>
+    <li><a href="#consume">Working out agent consumption (with calculator)</a><span>Working level</span></li>
+    <li><a href="#rules">Rules for every scrubber</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="table">Scrubbing agent table <span class="lvl l1">Basics</span></h2>
+  <p>Consumption is the stoichiometric amount of 100 % agent per kg of gas. Charge more than this: keep a reserve so the liquor never runs out during a peak.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Gas</th><th>Scrubbing agent</th><th>Reaction</th><th>Agent per kg gas</th><th>Notes</th></tr>
+    <tr><td>HCl (hydrogen chloride)</td><td>Water, then NaOH</td><td>HCl + NaOH &rarr; NaCl + H<sub>2</sub>O</td><td>1.10 kg NaOH</td><td>Very soluble: a water stage can recover usable hydrochloric acid; the caustic stage polishes the outlet.</td></tr>
+    <tr><td>HBr (hydrogen bromide)</td><td>Water, then NaOH</td><td>HBr + NaOH &rarr; NaBr + H<sub>2</sub>O</td><td>0.49 kg NaOH</td><td>As HCl.</td></tr>
+    <tr><td>HF (hydrogen fluoride)</td><td>KOH</td><td>HF + KOH &rarr; KF + H<sub>2</sub>O</td><td>2.80 kg KOH</td><td>KOH, not NaOH: sodium fluoride is poorly soluble and scales the packing; KF stays dissolved. Use HF-resistant materials (no glass).</td></tr>
+    <tr><td>SO<sub>2</sub> (sulphur dioxide)</td><td>NaOH</td><td>SO<sub>2</sub> + 2NaOH &rarr; Na<sub>2</sub>SO<sub>3</sub> + H<sub>2</sub>O</td><td>1.25 kg NaOH (0.62 kg if it goes to bisulphite)</td><td>As the caustic is used up, sulphite turns to bisulphite and SO<sub>2</sub> starts to slip: change at a set pH.</td></tr>
+    <tr><td>SO<sub>3</sub> (sulphur trioxide)</td><td>98 % H<sub>2</sub>SO<sub>4</sub> absorber + mist eliminator</td><td>SO<sub>3</sub> + H<sub>2</sub>O &rarr; H<sub>2</sub>SO<sub>4</sub></td><td>&ndash;</td><td>In water or caustic SO<sub>3</sub> forms a fine sulphuric acid mist that passes straight through a packed scrubber. Absorb in strong acid and fit a candle filter or fibre-bed mist eliminator.</td></tr>
+    <tr><td>Cl<sub>2</sub> (chlorine)</td><td>NaOH (cold, dilute)</td><td>Cl<sub>2</sub> + 2NaOH &rarr; NaCl + NaOCl + H<sub>2</sub>O</td><td>1.13 kg NaOH</td><td>Keep free caustic: if the pH drops, chlorine breaks through and the hypochlorite decomposes. Keep the liquor below about 40 &deg;C to limit chlorate formation; the reaction releases about 0.34 kcal per g of Cl<sub>2</sub> (about 24 kcal per mol).</td></tr>
+    <tr><td>Br<sub>2</sub> (bromine)</td><td>NaOH, or sodium bisulphite</td><td>Br<sub>2</sub> + 2NaOH &rarr; NaBr + NaOBr + H<sub>2</sub>O</td><td>0.50 kg NaOH</td><td>Bisulphite or thiosulphate reduces bromine to bromide and avoids hypobromite.</td></tr>
+    <tr><td>COCl<sub>2</sub> (phosgene)</td><td>NaOH (excess), or ammonia; wet activated carbon for emergency destruction</td><td>COCl<sub>2</sub> + 4NaOH &rarr; Na<sub>2</sub>CO<sub>3</sub> + 2NaCl + 2H<sub>2</sub>O</td><td>1.62 kg NaOH</td><td>Hydrolysis in plain water is too slow to rely on. Use caustic with good contact time, phosgene detectors at the outlet, and a back-up destruct system. The CO<sub>2</sub> formed also uses caustic.</td></tr>
+    <tr><td>NO<sub>2</sub> and NOx</td><td>H<sub>2</sub>O<sub>2</sub> solution, then NaOH</td><td>2NO<sub>2</sub> + H<sub>2</sub>O<sub>2</sub> &rarr; 2HNO<sub>3</sub><br>2NO + 3H<sub>2</sub>O<sub>2</sub> &rarr; 2HNO<sub>3</sub> + 2H<sub>2</sub>O</td><td>0.37 kg H<sub>2</sub>O<sub>2</sub> per kg NO<sub>2</sub>; 1.70 kg per kg NO</td><td>NO is barely soluble and must be oxidised first. Peroxide does this and turns NOx into nitric acid; a caustic stage then neutralises it. Caustic alone removes NO<sub>2</sub> poorly and NO hardly at all.</td></tr>
+    <tr><td>HCN (hydrogen cyanide)</td><td>NaOH (pH above 11), then NaOCl</td><td>HCN + NaOH &rarr; NaCN + H<sub>2</sub>O<br>NaCN + NaOCl &rarr; NaOCN + NaCl</td><td>1.48 kg NaOH; then 2.75 kg NaOCl per kg HCN</td><td>Absorb as cyanide in strong alkali, then oxidise to cyanate. Keep pH above about 10 during oxidation: at lower pH toxic cyanogen chloride forms. Permanganate is an alternative oxidant. Treat any cyanide-bearing vent this way.</td></tr>
+    <tr><td>NH<sub>3</sub> (ammonia)</td><td>Dilute H<sub>2</sub>SO<sub>4</sub> (or water)</td><td>2NH<sub>3</sub> + H<sub>2</sub>SO<sub>4</sub> &rarr; (NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub></td><td>2.88 kg H<sub>2</sub>SO<sub>4</sub></td><td>Water absorbs ammonia well, but it comes back out as the water warms or strengthens. Acid fixes it as a salt. Same for volatile amines.</td></tr>
+    <tr><td>H<sub>2</sub>S (hydrogen sulphide)</td><td>NaOH (pH above 10), optionally NaOCl or H<sub>2</sub>O<sub>2</sub></td><td>H<sub>2</sub>S + NaOH &rarr; NaHS + H<sub>2</sub>O</td><td>1.17 kg NaOH (2.35 kg to Na<sub>2</sub>S)</td><td>Spent liquor gives H<sub>2</sub>S back if it meets acid: never mix it with acid drains. Oxidising the sulphide removes this risk and the smell.</td></tr>
+    <tr><td>CH<sub>3</sub>SH (methyl mercaptan) and other thiols</td><td>NaOH, then NaOCl</td><td>CH<sub>3</sub>SH + NaOH &rarr; CH<sub>3</sub>SNa + H<sub>2</sub>O</td><td>0.83 kg NaOH</td><td>Odour threshold is in the ppb range. Caustic alone holds mercaptide only while the pH stays high; hypochlorite oxidation destroys it.</td></tr>
+  </table></div>
+
+  <h2 id="notscrub">Hydrogen, CO, CO<sub>2</sub> and butane: standard practice <span class="lvl l2">Working level</span></h2>
+  <p>These gases neither dissolve nor react in scrubbing liquors, so a scrubber does nothing for them. Routing them through one gives false comfort, and for flammable gases it can add an ignition source (the fan). Standard practice is to keep them out of the acid-gas scrubber and handle them by dilution, safe venting, recovery or combustion.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Gas</th><th>Main hazard</th><th>Standard practice</th></tr>
+    <tr><td>H<sub>2</sub> (hydrogen)</td><td>Flammable from 4 to 75 % in air; very low ignition energy; rises quickly</td><td>Dedicated hydrogen vent, nitrogen dilution, flame arrester, safe discharge point; flare or catalytic oxidation for large continuous flows</td></tr>
+    <tr><td>CO (carbon monoxide)</td><td>Toxic (TLV 25 ppm), no smell; flammable from 12.5 to 74 %</td><td>Thermal or catalytic oxidiser, or flare; small flows diluted and vented through a stack with a dispersion check; fixed CO detectors</td></tr>
+    <tr><td>CO<sub>2</sub> (carbon dioxide)</td><td>Asphyxiant; heavier than air</td><td>Vent to a safe place outdoors; keep it off the caustic scrubber or size the caustic for it</td></tr>
+    <tr><td>Butane, propane and light hydrocarbons</td><td>Flammable from about 1.8 % (butane); heavier than air, collects in pits and drains</td><td>Recover by refrigerated condensation where worthwhile; otherwise thermal oxidiser or flare; nitrogen-swept vent header with flame arrester</td></tr>
+  </table></div>
+
+  <h3>Hydrogen</h3>
+  <p>Hydrogen comes from hydrogenations, hydride and metal quenches (NaH, LiAlH<sub>4</sub>, NaBH<sub>4</sub>, sodium), and metals in acid.</p>
+  <ul>
+    <li><b>Dilute:</b> sweep the vent with nitrogen so the gas stays below 25 % of the LEL, that is about 1 % hydrogen. Size the nitrogen flow for the peak hydrogen rate, for example the first minutes of a hydride quench.</li>
+    <li><b>Separate vent:</b> do not route hydrogen into the acid-gas scrubber header or through its fan unless they are designed and zoned for flammable gas. Keep hydrogen vents away from oxidiser and air vents.</li>
+    <li><b>Discharge safely:</b> vent at a safe height above the roof, away from air intakes, lights and other ignition sources. Fit a flame arrester rated for hydrogen (gas group IIC) at the outlet, and earth the vent line.</li>
+    <li><b>Large flows:</b> continuous hydrogen streams go to a flare or a catalytic recombiner.</li>
+    <li><b>Before opening:</b> purge hydrogenation reactors with vacuum&ndash;nitrogen cycles until the hydrogen and oxygen readings are within the permit limits.</li>
+    <li><b>Detect:</b> fixed hydrogen detectors near the reactor and the vent outlet.</li>
+  </ul>
+
+  <h3>Carbon monoxide</h3>
+  <p>CO comes from oxalyl chloride reactions, formic acid decomposition, carbonylations and incomplete combustion.</p>
+  <ul>
+    <li><b>Destroy it where flows are significant:</b> a thermal oxidiser (typically 800 to 1,000 &deg;C with about 1 s residence time), a catalytic oxidiser, or a flare oxidises it to CO<sub>2</sub> (2CO + O<sub>2</sub> &rarr; 2CO<sub>2</sub>).</li>
+    <li><b>Small flows:</b> dilute and discharge through a stack high enough for the ground-level concentration to stay well below the exposure limit; check this with a dispersion estimate.</li>
+    <li><b>Never indoors:</b> no CO vent may discharge inside a building or near an air intake.</li>
+    <li><b>Detect:</b> fixed CO detectors, alarming below 25 ppm, in the reactor area and near the discharge. CO has no smell.</li>
+  </ul>
+
+  <h3>Butane and other light hydrocarbons</h3>
+  <p>Butane comes from LPG handling, aerosol filling and as a by-product (for example from n-butyllithium, or tert-butyl group removal giving isobutylene).</p>
+  <ul>
+    <li><b>Recover first:</b> a refrigerated condenser recovers liquid where the quantity justifies it.</li>
+    <li><b>Then destroy:</b> send what remains to a thermal oxidiser or flare.</li>
+    <li><b>Small vents:</b> discharge through a flame arrester at a safe point. A flame arrester only stops flashback into the vent line; it does not treat the gas.</li>
+    <li><b>Header design:</b> nitrogen-swept header with an oxygen analyser, so the mixture stays outside the flammable range.</li>
+    <li><b>Low points:</b> butane is twice as heavy as air, so check pits, drains and trenches, and classify the area under the zone (ATEX) rules.</li>
+  </ul>
+
+  <h3>Carbon dioxide</h3>
+  <p>CO<sub>2</sub> comes from carbonate neutralisations, Boc deprotections and phosgene or chloroformate chemistry. Vent it to a safe place outdoors. In a caustic scrubber it uses caustic (CO<sub>2</sub> + 2NaOH &rarr; Na<sub>2</sub>CO<sub>3</sub> + H<sub>2</sub>O, 1.82 kg NaOH per kg), and sodium carbonate crystallises above about 17 %. So either keep CO<sub>2</sub>-rich vents off the caustic scrubber or include the CO<sub>2</sub> in the caustic sizing (the calculator below can do this). It is an asphyxiant and heavier than air: check enclosed spaces and pits.</p>
+
+  <h2 id="consume">Working out agent consumption <span class="lvl l2">Working level</span></h2>
+  <p>Take the reaction and the molar masses. For chlorine: Cl<sub>2</sub> + 2NaOH, so 2 &times; 40.0 kg NaOH per 70.9 kg Cl<sub>2</sub>, or 1.13 kg NaOH per kg Cl<sub>2</sub>.</p>
+  <p>Example: a step releases 45 kg of SO<sub>2</sub> per batch into a 2,500 kg charge of 10 % NaOH (250 kg NaOH).</p>
+  <ul>
+    <li>Each batch uses 45 &times; 1.25 = 56 kg NaOH.</li>
+    <li>Keeping a 2 % free-caustic reserve (50 kg NaOH) leaves 200 kg usable, enough for 3 batches, not 4.</li>
+  </ul>
+  <p>Remember that other gases in the same vent use caustic too: HCl from the same step, and any CO<sub>2</sub>.</p>
+  <p>Use the <a href="{{ '/calculators/scrubber-solution-calculator/' | relative_url }}">scrubber solution calculator</a> for your own gases: it adds up several gases in one vent, applies a design excess, and gives batches per charge, heat release and salt saturation.</p>
+
+  <h2 id="rules">Rules for every scrubber <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>One liquor, compatible vents:</strong> hypochlorite from a chlorine scrubber meeting acid gives chlorine, and meeting ammonia gives chloramines. Sulphide liquor meeting acid gives H<sub>2</sub>S. Check vent combinations with the <a href="{{ '/process-safety/chemical-mixing-hazards/' | relative_url }}">chemical mixing hazard checker</a>.</li>
+    <li><strong>Size for the peak:</strong> the first minutes of a thionyl chloride distillation or a quench, not the batch average.</li>
+    <li><strong>Watch the heat:</strong> neutralisation releases about 13.7 kcal per mol. A hot liquor absorbs worse and can drive gases such as NH<sub>3</sub> and SO<sub>2</sub> back out.</li>
+    <li><strong>Measure, don&rsquo;t smell:</strong> change the liquor at a set free-caustic or pH value, and put outlet detectors on toxic gases (HCN, phosgene, Cl<sub>2</sub>).</li>
+    <li><strong>Validate special chemistry:</strong> oxidative treatments (cyanide, mercaptans, NOx) need tested pH, dose and contact time before use.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is HF scrubbed with KOH and not NaOH?</h3>
+  <p>Sodium fluoride has low solubility (about 4 g per 100 mL water) and crystallises on packing and nozzles. Potassium fluoride is very soluble, so KOH keeps the scrubber clean.</p>
+  <h3>Can a caustic scrubber remove carbon monoxide or hydrogen?</h3>
+  <p>No. CO, hydrogen and light hydrocarbons such as butane are hardly soluble and do not react with scrubbing liquors. They need dilution and safe venting, a flare or a thermal oxidiser.</p>
+  <h3>How should hydrogen from a reaction be vented?</h3>
+  <p>Through a dedicated nitrogen-swept vent, kept below 25 % of the LEL (about 1 % hydrogen), with a hydrogen-rated flame arrester at a safe discharge point. Large continuous flows go to a flare or catalytic recombiner. It is never sent through the acid-gas scrubber fan.</p>
+  <h3>How much NaOH does it take to scrub chlorine?</h3>
+  <p>About 1.13 kg of NaOH per kg of chlorine, plus excess so the liquor stays alkaline.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/scrubber-solution-calculator/' | relative_url }}">Scrubber solution calculator</a>
+    <a href="{{ '/articles/scrubber-design/' | relative_url }}">Scrubber design for process vents</a>
+    <a href="{{ '/process-safety/chemical-mixing-hazards/' | relative_url }}">Chemical mixing hazard checker</a>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench design</a>
+    <a href="{{ '/process-safety/toxic-and-flammable-releases/' | relative_url }}">Toxic and flammable releases</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}"></script>

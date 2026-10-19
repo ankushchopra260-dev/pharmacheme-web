@@ -1,0 +1,77 @@
+---
+layout: default
+title: "Scrubber Solution Calculator: Caustic, KOH, Acid and Peroxide for Vent Gases"
+seo_title: "Scrubber Solution Calculator: NaOH, KOH | PharmaChemE"
+description: "Work out how much NaOH, KOH, H2SO4 or H2O2 a scrubber needs for HCl, SO2, Cl2, HF, phosgene, NOx, HCN, NH3 or H2S: batches per charge, heat and salts."
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Scrubber Solution Calculator
+    url: /calculators/scrubber-solution-calculator/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Scrubber Solution Calculator",
+    "applicationCategory": "EngineeringApplication",
+    "operatingSystem": "Any (web browser)",
+    "isAccessibleForFree": true,
+    "description": "Scrubbing agent consumption, batches per liquor charge, heat release and salt formation for acid gases, ammonia and NOx.",
+    "author": { "@type": "Person", "name": "Ankush Chopra" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}">
+<style>
+  .scr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 16px; margin: 16px 0; }
+  .scr-grid label, .scr-kg { display: flex; flex-direction: column; gap: 6px; color: var(--muted); font-size: .86rem; }
+  .scr-grid input, .scr-grid select, .scr-row select, .scr-row input { padding: 9px 10px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); border-radius: 6px; font-size: .95rem; width: 100%; box-sizing: border-box; }
+  .scr-grid input:focus, .scr-grid select:focus, .scr-row select:focus, .scr-row input:focus { outline: 2px solid var(--brass); outline-offset: 1px; }
+  .scr-h { color: var(--paper); font-size: 1.05rem; margin: 18px 0 8px; }
+  .scr-row { display: grid; grid-template-columns: 1fr 170px 34px; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .scr-kg { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; }
+  .scr-kg input { width: 90px; }
+  .scr-rm { height: 36px; background: none; border: 1px solid var(--grid-line); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 1.1rem; }
+  .scr-addbtn { font-size: .86rem; padding: 7px 14px; border-radius: 999px; background: none; border: 1px solid var(--brass); color: var(--brass); cursor: pointer; }
+  .scr-addbtn:hover { background: rgba(201,162,39,.12); }
+  .scr-rm:hover { border-color: var(--rust); color: var(--rust); }
+  .scr-res { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 18px 0 12px; }
+  .scr-kpi { background: var(--panel); border: 1px solid var(--grid-line); border-top: 3px solid var(--brass); border-radius: 8px; padding: 12px 14px; }
+  .scr-kpi span { display: block; color: var(--muted); font-size: .8rem; }
+  .scr-kpi b { display: block; color: var(--paper); font-size: 1.45rem; margin: 4px 0; }
+  .scr-kpi small { color: var(--muted); font-size: .78rem; line-height: 1.4; }
+  .scr-tab { width: 100%; border-collapse: collapse; font-size: .86rem; margin: 6px 0; }
+  .scr-tab th, .scr-tab td { border-bottom: 1px solid var(--grid-line); padding: 7px 8px; text-align: left; color: var(--paper); }
+  .scr-tab th { color: var(--muted); font-weight: 600; }
+  .scr-mute { color: var(--muted); font-size: .84rem; }
+  .scr-warn { color: #E07A6A; }
+  .scr-notes { border-left: 3px solid var(--brass); padding: 4px 14px; margin: 12px 0; }
+  .scr-notes p { color: var(--paper); font-size: .9rem; line-height: 1.55; margin: 6px 0; }
+  .scr-tabwrap { overflow-x: auto; }
+  @media (max-width: 560px) { .scr-row { grid-template-columns: 1fr 34px; } .scr-row .scr-kg { grid-column: 1; } .scr-row .scr-rm { grid-row: 1; grid-column: 2; } .scr-tab { display: block; overflow-x: auto; white-space: nowrap; } }
+</style>
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Scrubber Solution Calculator</h1>
+  <p class="art-lede">How much caustic, KOH, sulphuric acid or peroxide does your vent scrubber need? Enter the gases released per batch and the liquor in the tank. The calculator gives the agent used, how many batches one charge can take before change-out, the heat released, and whether the salt formed will start to crystallise.</p>
+
+  <div id="scr-app"><noscript>Turn on JavaScript to use the calculator.</noscript></div>
+
+  <h2>How the calculation works</h2>
+  <ul>
+    <li><b>Agent used</b> = kg of gas &divide; its molar mass &times; mol of agent per mol of gas &times; molar mass of the agent. For HCl with NaOH: 40.00 / 36.46 = 1.10 kg NaOH per kg HCl.</li>
+    <li><b>Usable agent</b> = liquor charge &times; (starting strength &minus; change-out strength). Changing out at a set minimum strength keeps reserve capacity for an upset.</li>
+    <li><b>Batches per charge</b> = usable agent &divide; agent per batch including the design excess, rounded down.</li>
+    <li><b>Heat</b> comes from standard enthalpies of formation for the gas reacting with the aqueous agent (about &plusmn;10 %). The temperature rise assumes no cooling and a liquor specific heat of about 0.9 kcal/kg&middot;&deg;C.</li>
+    <li><b>Product at change-out</b> is compared with the saturation limit of the salt. NaF, Na<sub>2</sub>CO<sub>3</sub> and Na<sub>2</sub>SO<sub>3</sub> are the usual causes of blocked packing.</li>
+  </ul>
+  <p>Gases such as H<sub>2</sub>, CO, CO<sub>2</sub> and butane are not removed by a liquid scrubber. See <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}#notscrub">standard practice for gases you cannot scrub</a>.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}">Gas scrubbing agents: which liquid for which gas</a>
+    <a href="{{ '/articles/scrubber-design/' | relative_url }}">Scrubber design for process vents</a>
+    <a href="{{ '/process-safety/chemical-mixing-hazards/' | relative_url }}">Chemical mixing hazard checker</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/scrubber-calc.js' | relative_url }}"></script>
