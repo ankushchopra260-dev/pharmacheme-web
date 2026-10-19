@@ -385,3 +385,12 @@ a.video-card[href*="/shorts/"] img,
 .site-search-res .none { padding: 12px 14px; color: var(--muted); font-size: .86rem; border-top: 1px solid var(--grid-line); }
 @media (max-width: 1180px) { .site-search { right: 0; width: 100%; border-radius: 0; border-left: 0; border-right: 0; } }
 @media print { .nav-search-btn, .site-search { display: none !important; } }
+
+/* in-page search bar (page-filter.js): sits in the page flow, never over the content */
+.pf-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 14px 0 18px; max-width: 560px; }
+.pf-bar input { flex: 1 1 260px; min-width: 0; padding: 10px 14px; font-size: .95rem; color: var(--paper); background: var(--bg-deep, #0B1622); border: 1px solid var(--grid-line); border-radius: 8px; }
+.pf-bar input:focus { outline: 2px solid var(--brass); outline-offset: 1px; border-color: var(--brass); }
+.pf-count { color: var(--muted); font-size: .82rem; }
+.pf-none { flex-basis: 100%; margin: 0; color: var(--muted); font-size: .88rem; }
+.pf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pf-hide { display: none !important; }

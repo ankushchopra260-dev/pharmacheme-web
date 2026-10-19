@@ -37,19 +37,23 @@
         - { title: "Mixture Density & Viscosity", url: /calculators/solvent-mixture-density-viscosity-calculator/ }
         - { title: "Corrosion Coupon", url: /calculators/corrosion-coupon-calculator/ }
         - { title: "Materials Compatibility", url: /calculators/materials-compatibility/ }
+        - { title: "Chemical Mixing Hazards", url: /process-safety/chemical-mixing-hazards/ }
 - title: Solvents
   url: /solvents/
   children:
-    - { title: "Alcohols (15)", url: "/solvents/#alcohols" }
+    - { title: "Alcohols (17)", url: "/solvents/#alcohols" }
     - { title: "Ketones (5)", url: "/solvents/#ketones" }
     - { title: "Esters (11)", url: "/solvents/#esters" }
-    - { title: "Ethers (11)", url: "/solvents/#ethers" }
+    - { title: "Ethers (12)", url: "/solvents/#ethers" }
     - { title: "Aromatic hydrocarbons (7)", url: "/solvents/#aromatic-hydrocarbons" }
     - { title: "Aliphatic hydrocarbons (7)", url: "/solvents/#aliphatic-hydrocarbons" }
-    - { title: "Chlorinated solvents (8)", url: "/solvents/#chlorinated-solvents" }
+    - { title: "Chlorinated solvents (9)", url: "/solvents/#chlorinated-solvents" }
     - { title: "Polar aprotic solvents (9)", url: "/solvents/#polar-aprotic-solvents" }
-    - { title: "Amines and acids (12)", url: "/solvents/#amines-and-acids" }
+    - { title: "Amines and acids (15)", url: "/solvents/#amines-and-acids" }
     - { title: "Water (1)", url: "/solvents/#water" }
+    - { title: "Other solvents (3)", url: "/solvents/#other-solvents" }
+    - { title: "Acids, alkalis and reagents (14)", url: "/solvents/#acids-alkalis-and-reagents" }
+    - { title: "Reactive reagents (26)", url: "/solvents/#reactive-reagents" }
 - title: Design Tools
   url: /design-tools/
   children:
