@@ -1072,10 +1072,14 @@ function computeHeatLoadRecovery(cfg) {
   const Q_effective = Math.min(Q_avail, Q_jacket);
   const Q_actual = Q_effective * (1 - num(cfg.jacketLossPct) / 100);
   const recoveryTime = cfg.jacketAreaBasis !== "User Entered" && volEnd < 0 ? NaN : Qtotal / Q_actual;
+  // Steam consumption: steam supplies the heat before losses; condensate leaves at saturation (latent heat only).
+  const isSteam = cfg.heatingType !== "Hot Water";
+  const steamBatch = isSteam ? Qtotal / (1 - num(cfg.jacketLossPct) / 100) / steamRow.latent : null;
+  const steamRate = isSteam && isFinite(recoveryTime) ? steamBatch / recoveryTime : null;
 
   return {
     Tb, D, areaStart, areaEnd, occWarn, jacketArea, jacketAreaCalc, ffeA, effectiveArea, Qtotal, Q_avail, Q_jacket, recoveryTime,
-    hwAvailDT, hwMean, hwJacketDT, hwStatus, hwMessage,
+    hwAvailDT, hwMean, hwJacketDT, hwStatus, hwMessage, steamBatch, steamRate, steamLatent: steamRow.latent,
   };
 }
 
@@ -1268,6 +1272,7 @@ const SR_FIELD_DEFS = {
       ["Heat available (utility)", (m) => `${fmt(m.Q_avail)} Kcal/hr`],
       ["Heat transferable (jacket)", (m) => `${fmt(m.Q_jacket)} Kcal/hr`],
       ["Recovery time", (m) => `<span style="color:${!isFinite(m.recoveryTime) || m.recoveryTime <= 0 ? "var(--rust)" : "var(--brass)"}">${fmt(m.recoveryTime)} Hr</span>`],
+      ["Steam consumption", (m) => m.steamBatch === null ? "N/A (Hot water)" : `${fmt(m.steamBatch)} kg per batch<div style="color:var(--muted); font-size:0.7rem;">Average ${fmt(m.steamRate)} kg/hr; latent heat ${fmt(m.steamLatent)} kcal/kg, losses included</div>`],
     ],
   },
   condenser: {

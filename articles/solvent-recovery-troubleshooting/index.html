@@ -1,0 +1,162 @@
+---
+layout: default
+title: "Why Is Solvent Recovery Taking Longer Than Expected? A Troubleshooting Guide"
+seo_title: "Slow Solvent Recovery: Causes and Checks | PharmaChemE"
+description: "Why solvent distillation is slower than planned: poor vacuum, condenser limits, weak heating, fouled jackets, falling level, high boilers. Checks and fixes."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Solvent Recovery Troubleshooting
+    url: /articles/solvent-recovery-troubleshooting/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Why Is Solvent Recovery Taking Longer Than Expected? A Troubleshooting Guide",
+        "description": "Causes of slow batch solvent recovery and how to find them: vacuum, condenser, heating medium, jacket fouling, wetted area, composition and foaming.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-19",
+        "dateModified": "2026-10-19"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is solvent recovery taking longer than expected?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Almost always one of three limits: not enough heat reaching the batch (cool or low-flow hot water, low steam pressure, waterlogged or fouled jacket, falling wetted area), a boiling point higher than planned (usually poor vacuum, or high boilers building up), or a condenser that cannot keep up, which pushes the pressure up. Measure the distillate rate, pressure at the reactor and the temperatures to find which."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does poor vacuum slow down a distillation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A lot, because it raises the boiling point and cuts the temperature difference across the jacket. Recovering 3,000 L of toluene with 80 C hot water takes about 3.4 h at 100 mbar (boils at 45 C) but about 7 h at 200 mbar (boils at 62 C)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I know if the condenser is the bottleneck?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The pressure rises when you add heat, the condenser vapour outlet or vent is warm, the coolant temperature rise is small or the coolant is warm, and solvent appears at the vacuum pump. A healthy condenser holds the pressure steady as the boil-up increases."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-19
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Why Is Solvent Recovery Taking Longer Than Expected?</h1>
+  <p class="article-meta">Plant Engineering &middot; Solvent Recovery &middot; Troubleshooting</p>
+
+  <p class="art-lede">A slow solvent recovery almost always comes down to one of three limits: not enough heat reaching the batch, a boiling point higher than planned (usually poor vacuum), or a condenser that can't keep up. A few readings taken during the distillation tell you which one, and the fix follows from that.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#limits">The three limits</a></li>
+    <li><a href="#readings">Readings to take first</a></li>
+    <li><a href="#example">Worked example: 3.4 hours planned, 7 hours actual</a></li>
+    <li><a href="#causes">Causes, checks and fixes</a></li>
+    <li><a href="#prevent">Keeping the next batch on time</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="limits">The three limits</h2>
+  <p>Distillation rate = heat delivered to the batch &divide; latent heat of the solvent. The heat delivered is U &times; A &times; &Delta;T across the jacket, and none of it counts unless the condenser can turn the vapour back into liquid. So the batch runs at the pace of the weakest of these:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Limit</th><th>What sets it</th><th>Typical sign</th></tr>
+    <tr><td>Heat supply</td><td>Hot water temperature and flow, steam pressure, jacket U and wetted area A</td><td>Jacket outlet close to inlet temperature but low distillate; or batch never reaches a full boil</td></tr>
+    <tr><td>Driving force</td><td>Boiling point of the batch, set by the pressure in the reactor and the batch composition</td><td>Vapour temperature higher than planned for the solvent</td></tr>
+    <tr><td>Condensing</td><td>Condenser area, coolant temperature and flow, non-condensable gas</td><td>Pressure climbs as heating increases; warm vent; solvent at the vacuum pump</td></tr>
+  </table></div>
+
+  <h2 id="readings">Readings to take first</h2>
+  <p>Take these in the middle of the distillation, once the batch is boiling steadily:</p>
+  <ol>
+    <li><b>Distillate rate:</b> receiver level change over 15 to 30 minutes, converted to kg/h.</li>
+    <li><b>Pressure at the reactor</b>, not at the vacuum pump. A big difference between the two points to a restriction or an overloaded condenser.</li>
+    <li><b>Vapour temperature</b> at the reactor top and the <b>batch temperature</b>.</li>
+    <li><b>Jacket inlet and outlet temperatures</b> and the hot water flow, or the steam pressure at the jacket (not at the header).</li>
+    <li><b>Condenser coolant inlet and outlet temperatures</b>, and whether the vent line after the condenser is warm.</li>
+    <li><b>Batch level</b> against the top of the jacket.</li>
+  </ol>
+  <p>Compare the vapour temperature with the boiling point of the solvent at the measured pressure. The <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">boiling point under vacuum calculator</a> or the <a href="{{ '/solvents/' | relative_url }}">solvent data pages</a> give it. If they match, the gauge is right and the batch is boiling as expected for that pressure.</p>
+
+  <h2 id="example">Worked example: 3.4 hours planned, 7 hours actual</h2>
+  <p>A batch distils 3,000 L of toluene (2,601 kg) from 30 &deg;C under vacuum, with 80 &deg;C hot water, an average wetted area of 8 m&sup2; and a jacket U of 250 kcal/h&middot;m&sup2;&middot;&deg;C. Toluene latent heat is about 84 kcal/kg and c<sub>p</sub> 0.41 kcal/kg&middot;&deg;C.</p>
+  <div class="formula-box">
+    Planned at 100 mbar: toluene boils at 45.3 &deg;C<br>
+    Heat = 2,601 &times; (0.41 &times; 15.3 + 84) &asymp; 2,34,800 kcal<br>
+    Jacket duty = 250 &times; 8 &times; (80 &minus; 45.3) &asymp; 69,500 kcal/h &rarr; about 3.4 h (770 kg/h)
+  </div>
+  <p>The batch actually takes about 7 hours. Mid-way, the distillate rate is about 370 kg/h, the reactor pressure gauge reads 200 mbar and the vapour is at 62 &deg;C. First, check what U the jacket is actually giving:</p>
+  <div class="formula-box">
+    Heat going in &asymp; 370 &times; 84 &asymp; 31,100 kcal/h<br>
+    Apparent U = 31,100 / (8 &times; (80 &minus; 62)) &asymp; 216 kcal/h&middot;m&sup2;&middot;&deg;C
+  </div>
+  <p>That is close to the design 250, so the jacket is fine. The problem is the pressure. At 200 mbar toluene boils at 62 &deg;C, so the temperature difference across the jacket falls from about 35 &deg;C to 18 &deg;C and the recovery time roughly doubles to 7 hours. The next step is the vacuum: check for an air leak with a rate-of-rise test, check the pump on its own, and check whether the condenser is letting vapour through to the pump.</p>
+  <p>If instead the apparent U had come out at about 150, with the pressure at 100 mbar as planned, the jacket would be the problem (fouling, poor circulation, or air or condensate in a steam jacket). That case gives about 5.6 hours.</p>
+
+  <h2 id="causes">Causes, checks and fixes</h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Cause</th><th>How to confirm</th><th>Fix</th><th>Tool</th></tr>
+    <tr><td>Air leak or weak vacuum pump</td><td>Pressure above plan; rate-of-rise test with the pump isolated; liquid ring seal water warm</td><td>Find and fix leaks (manway, sight glass, sampling valves); cool the seal water; service the pump</td><td><a href="{{ '/articles/vacuum-systems/' | relative_url }}">Vacuum systems</a></td></tr>
+    <tr><td>Condenser overloaded</td><td>Pressure rises when heating increases; vent warm; small coolant &Delta;T or warm coolant</td><td>Colder or more coolant, clean the tubes, vent non-condensables, add a vent condenser, or limit the heating to what the condenser can take</td><td><a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Condenser sizing</a></td></tr>
+    <tr><td>Hot water too cool or low flow</td><td>Supply below setpoint; small temperature drop across the jacket with low flow</td><td>Raise supply temperature or flow; check pump and strainer</td><td><a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load and recovery</a></td></tr>
+    <tr><td>Steam jacket waterlogged or air-bound</td><td>Jacket temperature below the saturation temperature for its pressure; trap cold or blowing</td><td>Test and repair traps; fit an air vent at the jacket top; check the condensate line is not lifting against back-pressure</td><td><a href="{{ '/calculators/steam-heating-calculator/' | relative_url }}">Steam to heat a batch</a></td></tr>
+    <tr><td>Fouled wall or product crust</td><td>Apparent U well below past batches at the same conditions</td><td>Clean the reactor; check the agitator speed; avoid letting product dry on the wall</td><td><a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall U</a></td></tr>
+    <tr><td>Falling wetted area</td><td>Rate fine at the start, falls steadily as the level drops below the jacket</td><td>Expected: plan for it. Concentrate in a smaller vessel, use a limpet coil low down, or recover the last part in an FFE or ATFD</td><td><a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load (occupancy)</a></td></tr>
+    <tr><td>High boilers, water or salts building up</td><td>Vapour temperature creeps above the solvent's boiling point near the end</td><td>Expected for mixtures: plan the end temperature; check feed composition and any azeotrope</td><td><a href="{{ '/process-modelling/solvent-swap-simulator/' | relative_url }}">Solvent swap simulator</a></td></tr>
+    <tr><td>Foaming or bumping</td><td>Operators throttle heating or vacuum to stop carry-over</td><td>Slower vacuum ramp, antifoam if allowed, keep agitation on, avoid superheating</td><td><a href="{{ '/articles/distillation-basics/' | relative_url }}">Distillation basics</a></td></tr>
+    <tr><td>Restricted vapour line</td><td>Reactor pressure well above condenser pressure</td><td>Larger vapour line, clear blockages, check partly closed valves and demisters</td><td><a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing</a></td></tr>
+    <tr><td>Agitator stopped or slow</td><td>Batch temperature uneven; low U</td><td>Run the agitator through the distillation, at a speed that keeps the wall wetted</td><td><a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing scale-up</a></td></tr>
+  </table></div>
+
+  <h2 id="prevent">Keeping the next batch on time</h2>
+  <ul>
+    <li>Plan the recovery time before the batch with the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load and recovery calculator</a>, and note which limit it expects.</li>
+    <li>Fit a pressure gauge on the reactor itself, and record pressure, vapour temperature and receiver level every 30 minutes.</li>
+    <li>Keep a log of apparent U per batch. A steady fall is fouling; a sudden drop is usually a utility or vacuum problem.</li>
+    <li>Do a vacuum rate-of-rise test after any maintenance on manways, sight glasses or the vacuum line.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is solvent recovery taking longer than expected?</h3>
+  <p>Almost always one of three limits: not enough heat reaching the batch, a boiling point higher than planned (usually poor vacuum, or high boilers building up), or a condenser that can't keep up. Measure the distillate rate, the pressure at the reactor and the temperatures to find which.</p>
+  <h3>How much does poor vacuum slow down a distillation?</h3>
+  <p>A lot, because it raises the boiling point and cuts the temperature difference across the jacket. In the example above, the same toluene recovery takes about 3.4 h at 100 mbar and about 7 h at 200 mbar.</p>
+  <h3>How do I know if the condenser is the bottleneck?</h3>
+  <p>The pressure rises when you add heat, the vent is warm, the coolant is warm or barely warms up, and solvent appears at the vacuum pump. A healthy condenser holds the pressure steady as the boil-up increases.</p>
+
+  <div class="related-box">
+    <h3>Calculators</h3>
+    <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Solvent recovery: boiling point, condenser, vacuum pump</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load and recovery time</a>
+    <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall U</a>
+    <h3>Related articles</h3>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
+    <a href="{{ '/articles/vacuum-systems/' | relative_url }}">Vacuum systems in batch plants</a>
+    <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">Steam energy and condenser selection</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -409,3 +409,9 @@ body.has-page-search .nav-search-btn { display: none; }
 
 /* Last updated line under page content */
 .page-updated { max-width: 720px; margin: 0 auto 24px; padding: 0 20px; color: var(--muted); font-size: .84rem; }
+
+/* Short answer under a page heading: the 2-3 sentences search engines and AI tools quote */
+.quick-answer { margin: 14px 0 4px; padding: 12px 16px; border-left: 3px solid var(--brass); background: var(--panel); border-radius: 0 6px 6px 0; max-width: 820px; }
+.quick-answer h2 { margin: 0 0 4px; font-size: .95rem; color: var(--brass); letter-spacing: 0; }
+.quick-answer p, .calc-page-head .quick-answer p { margin: 0; line-height: 1.55; color: var(--paper); font-size: .95rem; max-width: none; }
+.quick-answer p + p { margin-top: 6px; }

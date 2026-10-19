@@ -13,6 +13,7 @@
       children:
         - { title: "Solvent Recovery (BP under vacuum)", url: /calculators/solvent-recovery-calculator/ }
         - { title: "Heat Load & Recovery", url: /calculators/heat-load-calculator/ }
+        - { title: "Steam to Heat a Batch", url: /calculators/steam-heating-calculator/ }
     - title: "Mixing and pumps"
       children:
         - { title: "Mixing Scale-up", url: /calculators/mixing-scale-up-calculator/ }
@@ -68,6 +69,7 @@
     - { title: "Chillers & VAM", url: /utilities/chillers-vam/ }
     - { title: "Compressed Air & Nitrogen", url: /utilities/compressed-air-nitrogen/ }
     - { title: "Water, DG & Power", url: /utilities/water-dg-power/ }
+    - { title: "MEE Steam Economy", url: /utilities/mee-steam-economy/ }
 - title: Games
   url: /games/
   children:
@@ -112,7 +114,7 @@
         - { title: "Agitator Design Basics", url: /articles/agitator-design/ }
     - title: "Plant engineering & operations"
       url: /articles/#plant-engineering-operations
-      count: 13
+      count: 14
       children:
         - { title: "How to Read a P&ID", url: /articles/how-to-read-a-pid/ }
         - { title: "Batch Cycle Time and Debottlenecking", url: /articles/batch-cycle-time-debottlenecking/ }

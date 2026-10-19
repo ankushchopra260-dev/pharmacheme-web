@@ -1,0 +1,132 @@
+---
+layout: default
+title: "Steam Consumption Calculator: Steam to Heat a Reactor Batch"
+seo_title: "Steam Consumption Calculator for Reactor Heating | PharmaChemE"
+description: "Free calculator for steam to heat a reactor: batch and vessel-metal heat, losses, kg of steam per batch and average kg/h. Download as Excel with formulas."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Steam Consumption Calculator for Reactor Heating",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate steam consumption for heating a reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Steam (kg) = (batch mass x cp x temperature rise + vessel metal mass x metal cp x temperature rise) x (1 + losses) / latent heat of the steam at the jacket pressure. Heating 5,000 kg (cp 0.5 kcal/kg C) and 3,000 kg of steel from 30 to 90 C with 2 barg steam (latent heat about 517 kcal/kg) and 10 % losses takes about 365 kg of steam."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is the latent heat used and not the total enthalpy of steam?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a jacket the steam condenses and the condensate leaves through the trap at about saturation temperature, so only the latent heat is given to the batch. The sensible heat left in the condensate goes back with it, or is recovered as flash steam."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does the batch heat slowly near the end?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat transfer depends on the difference between the steam and batch temperatures. As the batch approaches the steam temperature the difference falls, so the last few degrees take longest. Keep the final temperature at least 15 C below the steam temperature, or raise the steam pressure."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Steam to Heat a Batch"
+    url: /calculators/steam-heating-calculator/
+last_modified_at: 2026-10-19
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Steam Consumption Calculator for Reactor Heating</h1>
+  <p>Steam needed to heat a batch = heat to the batch and the vessel metal, plus losses, divided by the latent heat of the steam at the jacket pressure. For example, heating 5,000 kg of reaction mass (c<sub>p</sub> 0.5) in a reactor with 3,000 kg of steel from 30 to 90 &deg;C with 2 barg steam takes about 365 kg of steam, or 183 kg/h over 2 hours. Results update as you type, and the Download Excel button gives a sheet with live formulas.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="steamHeat"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>The formula</h2>
+  <div class="formula-box">
+    Q<sub>batch</sub> = m &times; c<sub>p</sub> &times; (T<sub>2</sub> &minus; T<sub>1</sub>)<br>
+    Q<sub>metal</sub> = m<sub>v</sub> &times; c<sub>p,v</sub> &times; (T<sub>2</sub> &minus; T<sub>1</sub>)<br>
+    Q<sub>total</sub> = (Q<sub>batch</sub> + Q<sub>metal</sub>) &times; (1 + losses/100)<br>
+    Steam = Q<sub>total</sub> / &lambda; &nbsp;&nbsp; Average rate = Steam / heating time
+    <small>m batch mass (kg), c<sub>p</sub> in kcal/kg&middot;&deg;C, m<sub>v</sub> the steel that heats up with the batch (shell, jacket, agitator), &lambda; latent heat of steam at the jacket pressure (kcal/kg).</small>
+  </div>
+
+  <h2>Worked example</h2>
+  <p>A reactor holds 5,000 kg of reaction mass with c<sub>p</sub> 0.5 kcal/kg&middot;&deg;C. About 3,000 kg of steel (c<sub>p</sub> 0.12) heats with it. The batch goes from 30 to 90 &deg;C in 2 hours on 2 barg steam, which condenses at 133.6 &deg;C with a latent heat of about 517 kcal/kg. Allow 10 % for losses from lagging, vents and traps.</p>
+  <div class="formula-box">
+    Q<sub>batch</sub> = 5,000 &times; 0.5 &times; 60 = 1,50,000 kcal<br>
+    Q<sub>metal</sub> = 3,000 &times; 0.12 &times; 60 = 21,600 kcal<br>
+    Q<sub>total</sub> = 1,71,600 &times; 1.10 = 1,88,760 kcal<br>
+    Steam = 1,88,760 / 517 &asymp; 365 kg per batch, or 0.073 kg per kg of batch<br>
+    Average rate = 365 / 2 &asymp; 183 kg/h
+  </div>
+  <p>The steam rate is highest at the start, when the batch is coldest and the temperature difference largest, so size the steam line and control valve for more than the average. Check whether the jacket can actually deliver the heat in the time you want with the <a href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">heating and cooling time simulator</a>.</p>
+
+  <h2>Typical values</h2>
+  <div style="overflow-x:auto;margin:12px 0 20px;"><table class="ut-table">
+    <thead><tr><th>Steam pressure, barg</th><th>Condenses at, &deg;C</th><th>Latent heat, kcal/kg</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>120.4</td><td>526</td></tr>
+      <tr><td>2</td><td>133.6</td><td>517</td></tr>
+      <tr><td>3</td><td>143.7</td><td>509</td></tr>
+      <tr><td>5</td><td>158.9</td><td>498</td></tr>
+    </tbody>
+  </table></div>
+  <p>Lower-pressure steam carries more latent heat per kg, so it is slightly more steam-efficient, but its lower temperature makes heating slower. Reaction masses are often 0.4 to 0.6 kcal/kg&middot;&deg;C for organic solvents and close to 1.0 for water-rich batches.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate steam consumption for heating a reactor?</h3>
+  <p>Steam (kg) = (batch heat + vessel metal heat) &times; (1 + losses) / latent heat at the jacket pressure. The worked example above gives about 365 kg for 5,000 kg heated from 30 to 90 &deg;C.</p>
+  <h3>Why is the latent heat used and not the total enthalpy of steam?</h3>
+  <p>In a jacket the steam condenses and the condensate leaves through the trap at about saturation temperature, so only the latent heat goes into the batch. The sensible heat left in the condensate goes back with it, or can be recovered as <a href="{{ '/utilities/steam-boiler/#flash-steam' | relative_url }}">flash steam</a>.</p>
+  <h3>Why does the batch heat slowly near the end?</h3>
+  <p>Heat transfer depends on the difference between steam and batch temperatures. As the batch approaches the steam temperature, the difference falls, so the last few degrees take longest. Keep the final temperature at least 15 &deg;C below the steam temperature, or raise the steam pressure.</p>
+  <h3>What about steam during distillation?</h3>
+  <p>Boiling off solvent needs its latent heat as well. Use the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load and recovery calculator</a>, which gives steam per batch for a solvent recovery.</p>
+
+  <h2>Engineering notes and assumptions</h2>
+  <p>Steady c<sub>p</sub> over the temperature range, no reaction heat, and condensate leaving at saturation. If the reaction is exothermic or endothermic during heating, add or subtract that heat. Losses of 5 to 15 % cover a lagged reactor with working traps; failed traps or bare surfaces can be much higher.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load and recovery calculator</a>
+    <a href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">Heating and cooling time simulator</a>
+    <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall U calculator</a>
+    <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam and boiler calculators</a>
+    <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">Steam energy and condenser selection</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

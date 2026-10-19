@@ -312,6 +312,69 @@
 
   const SOLV = { tol: ['Toluene', 363, 1.70, 110.6], meoh: ['Methanol', 1100, 2.53, 64.7], etoh: ['Ethanol', 841, 2.44, 78.3], ipa: ['IPA', 667, 2.60, 82.3], ace: ['Acetone', 518, 2.17, 56.1],
     water: ['Water', 2257, 4.18, 100], mdc: ['MDC (dichloromethane)', 330, 1.19, 39.6], etac: ['Ethyl acetate', 367, 1.92, 77.1], thf: ['THF', 410, 1.72, 66], hep: ['n-Heptane', 317, 2.24, 98.4], chx: ['Cyclohexane', 358, 1.85, 80.7] };
+  const SP_OPTS = [0.5, 1, 2, 3, 4, 5, 6, 8, 10].map(p => [String(p), p + ' barg (' + F(steam(p).T, 0) + ' °C)']);
+  C.steamHeat = { title: 'Steam to heat a batch', sub: 'Steam consumption for heating a reactor: batch, vessel metal and losses',
+    inputs: [{ k: 'm', label: 'Batch mass', unit: 'kg', v: 5000 }, { k: 'cp', label: 'Batch cp', unit: 'kcal/kg·°C', v: 0.5 }, { k: 'T1', label: 'Start temperature', unit: '°C', v: 30 }, { k: 'T2', label: 'Final temperature', unit: '°C', v: 90 },
+      { k: 'mv', label: 'Vessel metal heated (shell, jacket, agitator)', unit: 'kg', v: 3000 }, { k: 'cpv', label: 'Metal cp (steel 0.12)', unit: 'kcal/kg·°C', v: 0.12 },
+      { k: 'P', label: 'Steam pressure in the jacket', type: 'sel', v: '2', opts: SP_OPTS }, { k: 'lam', label: 'Latent heat at that pressure', unit: 'kcal/kg', v: 517 },
+      { k: 'loss', label: 'Heat losses (lagging, vent, trap)', unit: '%', v: 10 }, { k: 't', label: 'Heating time', unit: 'h', v: 2 }],
+    onSel: (k, val) => k === 'P' ? { lam: Math.round(steam(+val).hfg / KJ) } : null,
+    run(v) {
+      const s = steam(+v.P);
+      if (!(v.T2 > v.T1)) return { rows: [], notes: [['The final temperature must be above the start temperature.', 'bad']] };
+      const qb = v.m * v.cp * (v.T2 - v.T1), qv = v.mv * v.cpv * (v.T2 - v.T1), Q = (qb + qv) * (1 + v.loss / 100), S = Q / v.lam;
+      return { rows: [['Heat to the batch', F(qb, 0), 'kcal'], ['Heat to the vessel metal', F(qv, 0), 'kcal'], ['Total with losses', F(Q, 0), 'kcal'],
+        ['Steam needed', F(S, 0), 'kg per batch'], ['Steam per kg of batch', F(S / v.m, 3), 'kg/kg'], ['Average steam rate', F(S / v.t, 0), 'kg/h']],
+        notes: [[`Steam at ${v.P} barg condenses at ${F(s.T, 1)} °C. Each kg gives up its latent heat; the condensate is taken to leave the trap at saturation, so no sensible heat is counted.`],
+          s.T - v.T2 < 15 ? ['The final temperature is within 15 °C of the steam temperature, so the last part of the heating will be slow. Use higher-pressure steam or allow more time.', 'warn'] : ['The heating rate is highest at the start, when the batch is coldest, so the peak steam rate is above the average.']] };
+    },
+    xl: [['qb', 'Heat to the batch', `{m}*{cp}*({T2}-{T1})`, 'kcal'], ['qv', 'Heat to the vessel metal', `{mv}*{cpv}*({T2}-{T1})`, 'kcal'], ['Q', 'Total with losses', `({qb}+{qv})*(1+{loss}/100)`, 'kcal'],
+      ['S', 'Steam needed', `{Q}/{lam}`, 'kg per batch'], ['Sk', 'Steam per kg of batch', `{S}/{m}`, 'kg/kg'], ['Sr', 'Average steam rate', `{S}/{t}`, 'kg/h']] };
+
+  /* Multiple-effect evaporator (MEE): forward feed, equal driving force per effect.
+     Each effect: heat from the previous effect's vapour (live steam for effect 1), less losses, heats or flashes the incoming
+     liquor and evaporates water. Evaporation is linear in the live steam S, so S is solved directly. */
+  const LAMW = T => 597.3 - 0.566 * T; // latent heat of water, kcal/kg at T °C
+  const PWAT = T => 1.33322 * Math.pow(10, 8.07131 - 1730.63 / (233.426 + T)); // water vapour pressure, mbar
+  function meeSolve(v) {
+    const N = +v.N, s = steam(+v.P), Ts = s.T, lamS = s.hfg / KJ, E = v.F * (1 - v.xf / v.xp);
+    const dT = (Ts - v.Tl - N * v.bpr) / N, t = [], tv = [Ts];
+    for (let i = 1; i <= N; i++) { t[i] = tv[i - 1] - dT; tv[i] = t[i] - v.bpr; }
+    const run = S => { let L = v.F, Tin = v.Tf, heat = S * lamS; const V = [];
+      for (let i = 1; i <= N; i++) { const q = heat * (1 - v.loss / 100), w = (q - L * v.cp * (t[i] - Tin)) / LAMW(tv[i]); V.push(w); L -= w; Tin = t[i]; heat = w * LAMW(tv[i]); }
+      return V; };
+    const sum = a => a.reduce((x, y) => x + y, 0), V0 = sum(run(0)), S = (E - V0) / (sum(run(1)) - V0), V = run(S);
+    return { N, Ts, lamS, E, dT, t, tv, S, V, econ: E / S, feedShare: v.F * v.cp * (t[1] - v.Tf) / (S * lamS * (1 - v.loss / 100)) };
+  }
+  C.mee = { title: 'MEE steam economy', sub: 'Live steam, steam economy and condenser load for a forward-feed multiple-effect evaporator',
+    inputs: [{ k: 'F', label: 'Feed rate', unit: 'kg/h', v: 10000 }, { k: 'xf', label: 'Feed solids (TDS)', unit: '%', v: 5 }, { k: 'xp', label: 'Concentrate solids', unit: '%', v: 30 },
+      { k: 'N', label: 'Number of effects', type: 'sel', v: '4', opts: [1, 2, 3, 4, 5, 6, 7].map(n => [String(n), n + (n === 1 ? ' effect' : ' effects')]) },
+      { k: 'P', label: 'Live steam to the first effect', type: 'sel', v: '3', opts: SP_OPTS },
+      { k: 'Tl', label: 'Last-effect vapour temperature (sets the vacuum)', unit: '°C', v: 55 },
+      { k: 'bpr', label: 'Boiling point rise, average per effect', unit: '°C', v: 2 },
+      { k: 'Tf', label: 'Feed temperature entering the first effect', unit: '°C', v: 40 },
+      { k: 'cp', label: 'Liquor cp (dilute brine about 0.95)', unit: 'kcal/kg·°C', v: 0.95 },
+      { k: 'loss', label: 'Heat loss per effect', unit: '%', v: 3 },
+      { k: 'cw', label: 'Cooling water rise in the condenser', unit: '°C', v: 8 },
+      { k: 'cost', label: 'Your steam cost', unit: '₹ per tonne', v: 3000 }],
+    run(v) {
+      if (!(v.xp > v.xf && v.xf >= 0)) return { rows: [], notes: [['The concentrate solids must be higher than the feed solids.', 'bad']] };
+      const r = meeSolve(v);
+      if (!(r.dT > 0)) return { rows: [], notes: [[`There is no temperature difference left to drive the effects: the steam condenses at ${F(r.Ts, 1)} °C, but the last effect and the boiling point rises take up all of it. Use higher-pressure steam, a deeper vacuum or fewer effects.`, 'bad']] };
+      if (r.V.some(x => !(x > 0))) return { rows: [], notes: [['With this feed temperature the first effect only heats the feed and evaporates nothing. Preheat the feed or check the inputs.', 'bad']] };
+      const cond = r.V[r.N - 1] * LAMW(r.tv[r.N]);
+      const rows = [['Steam economy', F(r.econ, 2), 'kg water per kg steam'], ['Water evaporated', F(r.E, 0), 'kg/h'], ['Live steam', F(r.S, 0), 'kg/h'],
+        ['Steam per kg of water evaporated', F(1 / r.econ, 3), 'kg/kg'], ['Concentrate out', F(v.F - r.E, 0), 'kg/h'], ['Steam condenses at', F(r.Ts, 1), '°C'],
+        ['Driving force per effect', F(r.dT, 1), '°C'], ['Last-effect pressure', F(PWAT(r.tv[r.N]), 0), 'mbar abs']];
+      for (let i = 1; i <= r.N; i++) rows.push([`Effect ${i}: boils at ${F(r.t[i], 1)} °C`, F(r.V[i - 1], 0), 'kg/h evaporated']);
+      rows.push(['Condenser load', F(cond, 0), 'kcal/h'], ['Cooling water', F(cond / v.cw / 1000, 1), 'm³/h'], ['Steam cost per m³ evaporated', F(v.cost / r.econ, 0), '₹']);
+      const notes = [['Steam economy = water evaporated ÷ live steam. A well-run forward-feed MEE with feed preheating usually reaches about 0.8 to 0.9 times the number of effects.', 'lead']];
+      if (r.dT < 6) notes.push([`Only ${F(r.dT, 1)} °C of driving force per effect. The heating surface needed rises steeply below about 6 to 8 °C: fewer effects, higher steam pressure or a deeper vacuum.`, 'warn']);
+      if (r.feedShare > 0.15) notes.push([`The feed enters ${F(r.t[1] - v.Tf, 0)} °C below the first effect's boiling point, so about ${F(100 * r.feedShare, 0)} % of the live steam only heats the feed. Preheating it with hot condensate or vapour from a later effect raises the economy.`, 'warn']);
+      notes.push(['Model: forward feed, equal temperature difference per effect, latent heat of water at each effect, condensate leaving at saturation. Thermo- or mechanical vapour recompression (TVR, MVR) and feed preheating with live steam are not included. Use it to compare options; the supplier\'s heat and mass balance governs the design.']);
+      return { rows, notes };
+    } };
+
   C.batchTR = { title: 'Refrigeration needed to cool a batch', sub: 'Average and peak TR, brine flow and the UA the jacket must give',
     inputs: [{ k: 'm', label: 'Batch mass', unit: 'kg', v: 4000 }, { k: 'cp', label: 'Batch cp', unit: 'kcal/kg·°C', v: 0.48 }, { k: 'T1', label: 'Start temperature', unit: '°C', v: 40 }, { k: 'T2', label: 'Final temperature', unit: '°C', v: 5 },
       { k: 't', label: 'Cooling time wanted', unit: 'h', v: 3 }, { k: 'Tb', label: 'Brine supply temperature', unit: '°C', v: -10 }, { k: 'dTb', label: 'Brine temperature rise', unit: '°C', v: 5 },

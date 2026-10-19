@@ -1,0 +1,172 @@
+---
+layout: default
+title: "MEE Steam Economy Calculator: Multiple-Effect Evaporator Steam Use"
+seo_title: "MEE Steam Economy Calculator | PharmaChemE"
+description: "Free MEE steam economy calculator: live steam, kg water per kg steam, per-effect evaporation, condenser load and cost per m³ for a forward-feed evaporator."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "MEE Steam Economy Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is steam economy in an MEE?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Steam economy is the water evaporated divided by the live steam used, in kg per kg. A single effect gives a little under 1; each extra effect reuses the vapour of the one before, so a 4-effect evaporator with a preheated feed gives about 3."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate steam consumption of a multiple-effect evaporator?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Find the water to evaporate, E = F x (1 - feed solids / concentrate solids). Then do a heat balance on each effect: the heat from the previous effect's vapour heats or flashes the incoming liquor and evaporates water. Solve for the live steam that gives the total E. Live steam = E / steam economy."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is my MEE steam economy lower than design?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The usual causes are a cold feed, scaling or fouling of the tubes, non-condensable gases building up in the steam chests, poor vacuum in the last effect, condensate not draining, low or wet steam, and a higher boiling point rise as the liquor concentrates."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much steam does a 4-effect MEE need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For 10,000 kg/h of 5 % solids feed concentrated to 30 % (8,333 kg/h evaporated) with 3 barg steam and a 55 C last effect, about 3,580 kg/h with feed at 40 C (economy 2.33), or about 2,620 kg/h with the feed preheated to 90 C (economy 3.18)."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Utilities
+    url: /utilities/
+  - label: "MEE Steam Economy"
+    url: /utilities/mee-steam-economy/
+last_modified_at: 2026-10-19
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>MEE Steam Economy Calculator</h1>
+  <p>Steam economy is the water evaporated per kg of live steam. A multiple-effect evaporator (MEE) reuses the vapour from each effect to boil the next, so the economy rises with the number of effects. For example, a 4-effect MEE taking 10,000 kg/h of 5 % solids effluent to 30 % evaporates 8,333 kg/h. With 3 barg steam and a 55 &deg;C last effect it needs about 3,580 kg/h of steam (economy 2.33) when the feed is at 40 &deg;C, and about 2,620 kg/h (economy 3.18) when the feed is preheated to 90 &deg;C.</p>
+  <ul class="ut-jump">
+    <li><a href="#guide">How it works</a></li><li><a href="#example">Worked example</a></li><li><a href="#effects">Effects vs economy</a></li>
+    <li><a href="#low">Why economy falls</a></li><li><a href="#faq">Questions</a></li>
+  </ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" id="mee" data-calc="mee"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <p>In the first effect, live steam condenses in the calandria and boils the liquor. The vapour from that boiling becomes the heating steam for the second effect, which runs at a lower pressure so its liquor boils at a lower temperature. The chain continues to the last effect, whose vapour goes to a surface condenser under vacuum. Each kg of live steam therefore evaporates water several times over.</p>
+  <div class="formula-box">
+    Water to evaporate: E = F &times; (1 &minus; x<sub>F</sub> / x<sub>P</sub>)<br>
+    Each effect: q<sub>in</sub> &times; (1 &minus; loss) = L<sub>in</sub> &times; c<sub>p</sub> &times; (t<sub>i</sub> &minus; t<sub>in</sub>) + V<sub>i</sub> &times; &lambda;<sub>i</sub><br>
+    Heat into the next effect: q<sub>i+1</sub> = V<sub>i</sub> &times; &lambda;<sub>i</sub><br>
+    Steam economy = E / S &nbsp;&nbsp; Steam per kg water = S / E
+    <small>F feed (kg/h), x<sub>F</sub> and x<sub>P</sub> feed and concentrate solids (%), S live steam (kg/h), V<sub>i</sub> water evaporated in effect i, &lambda; latent heat (kcal/kg), t<sub>i</sub> boiling temperature of effect i. In forward feed the liquor moves to cooler effects, so the c<sub>p</sub> term is negative after the first effect: the liquor flashes and adds to the evaporation.</small>
+  </div>
+  <p>The calculator splits the temperature difference between the live steam and the last-effect vapour equally across the effects, after taking out the boiling point rise. It then balances each effect in turn and solves for the live steam that evaporates the required water. The boiling point rise (BPR) is how much hotter a salt solution boils than pure water at the same pressure; it eats into the driving force, more so as the liquor gets stronger.</p>
+
+  <h2 id="example">Worked example</h2>
+  <p>An ETP MEE takes 10,000 kg/h of effluent at 5 % TDS and concentrates it to 30 % before the ATFD. It has 4 effects in forward feed, 3 barg steam (condenses at 143.7 &deg;C), and a last-effect vapour temperature of 55 &deg;C (about 157 mbar abs). Average BPR is 2 &deg;C per effect, liquor c<sub>p</sub> 0.95 kcal/kg&middot;&deg;C, heat loss 3 % per effect, feed at 40 &deg;C.</p>
+  <div class="formula-box">
+    E = 10,000 &times; (1 &minus; 5/30) = 8,333 kg/h; concentrate 1,667 kg/h<br>
+    Driving force per effect = (143.7 &minus; 55 &minus; 4 &times; 2) / 4 = 20.2 &deg;C<br>
+    Effects boil at 123.5, 101.4, 79.2 and 57.0 &deg;C<br>
+    Evaporation by effect: 1,848 + 2,068 + 2,192 + 2,224 = 8,333 kg/h<br>
+    Live steam S = 3,583 kg/h; economy = 8,333 / 3,583 = 2.33<br>
+    Condenser load = 2,224 &times; 566 &asymp; 12.6 lakh kcal/h; cooling water at 8 &deg;C rise &asymp; 157 m&sup3;/h
+  </div>
+  <p>The first effect evaporates the least: about 45 % of the live steam goes only into heating the 40 &deg;C feed up to 123.5 &deg;C. Preheat the same feed to 90 &deg;C with hot condensate and the steam falls to about 2,620 kg/h (economy 3.18). At &#8377;3,000 per tonne of steam, that is about &#8377;1,290 versus &#8377;944 per m&sup3; evaporated.</p>
+
+  <h2 id="effects">Number of effects vs steam economy</h2>
+  <p>Same feed and conditions as the example, changing only the number of effects and the feed temperature:</p>
+  <div style="overflow-x:auto;margin:12px 0 20px;"><table class="ut-table">
+    <thead><tr><th>Effects</th><th>Driving force per effect, &deg;C</th><th>Economy, feed at 40 &deg;C</th><th>Economy, feed at 90 &deg;C</th><th>Live steam at 90 &deg;C feed, kg/h</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>86.7</td><td>0.84</td><td>0.93</td><td>8,914</td></tr>
+      <tr><td>2</td><td>42.4</td><td>1.47</td><td>1.77</td><td>4,704</td></tr>
+      <tr><td>3</td><td>27.6</td><td>1.95</td><td>2.51</td><td>3,316</td></tr>
+      <tr><td>4</td><td>20.2</td><td>2.33</td><td>3.18</td><td>2,622</td></tr>
+      <tr><td>5</td><td>15.7</td><td>2.63</td><td>3.78</td><td>2,203</td></tr>
+      <tr><td>6</td><td>12.8</td><td>2.89</td><td>4.34</td><td>1,921</td></tr>
+    </tbody>
+  </table></div>
+  <p>Each extra effect saves less steam than the one before, while the temperature difference per effect shrinks. That makes the heating surface, and the capital cost, of each effect larger. The economic number of effects is where the steam saved no longer pays for the extra surface. Feed preheating is often the cheaper first step.</p>
+
+  <h2>Ways to raise steam economy</h2>
+  <ul>
+    <li><b>Preheat the feed</b> with hot condensate or with vapour from a later effect, so the first effect's steam goes into evaporation.</li>
+    <li><b>Add an effect</b> where the steam price justifies the extra surface and there is enough temperature difference.</li>
+    <li><b>Thermal vapour recompression (TVR):</b> a steam jet compresses part of the vapour back to heating pressure. It does the work of roughly one more effect.</li>
+    <li><b>Mechanical vapour recompression (MVR):</b> a fan or compressor recompresses the vapour, replacing most of the live steam with electricity.</li>
+    <li><b>Flash the condensate</b> from each effect into the next, and return clean first-effect condensate to the boiler.</li>
+  </ul>
+
+  <h2 id="low">Why plant steam economy falls below design</h2>
+  <div style="overflow-x:auto;margin:12px 0 20px;"><table class="ut-table">
+    <thead><tr><th>Cause</th><th>What you see</th><th>Check</th></tr></thead>
+    <tbody>
+      <tr><td>Scaling or fouling (CaSO<sub>4</sub>, silica, organics)</td><td>Steam rises over weeks; temperature difference across an effect grows</td><td>Track &Delta;T per effect; schedule cleaning by trend</td></tr>
+      <tr><td>Non-condensable gases in steam chests</td><td>Calandria temperature below saturation for its pressure</td><td>Vent lines open and sized; compare shell temperature with the steam table</td></tr>
+      <tr><td>Poor last-effect vacuum</td><td>Last effect boils hot; less driving force for all effects</td><td>Condenser cooling water temperature and flow; air leaks; vacuum pump</td></tr>
+      <tr><td>Condensate not draining</td><td>Waterlogged calandria, falling evaporation</td><td>Traps, condensate pumps, level in condensate pots</td></tr>
+      <tr><td>Cold or variable feed</td><td>First effect makes little vapour</td><td>Feed temperature at the first-effect inlet</td></tr>
+      <tr><td>Low or wet live steam</td><td>Less heat per kg; first effect starved</td><td>Pressure at the MEE, not at the boiler; separator before the control valve</td></tr>
+      <tr><td>Higher boiling point rise</td><td>Last effects slow down as the liquor thickens</td><td>Concentrate density or TDS against design</td></tr>
+    </tbody>
+  </table></div>
+  <p>To measure the plant economy, collect the first-effect condensate (live steam) and the total process condensate (water evaporated) over the same shift, and divide. Compare it with this calculator at the same feed rate, solids and temperatures.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>What is steam economy in an MEE?</h3>
+  <p>Steam economy is the water evaporated divided by the live steam used, in kg per kg. A single effect gives a little under 1; each extra effect reuses the vapour of the one before, so a 4-effect evaporator with a preheated feed gives about 3.</p>
+  <h3>How do you calculate steam consumption of a multiple-effect evaporator?</h3>
+  <p>Find the water to evaporate, E = F &times; (1 &minus; x<sub>F</sub>/x<sub>P</sub>). Then balance each effect: the heat from the previous effect's vapour heats or flashes the incoming liquor and evaporates water. Solve for the live steam that gives the total E. Live steam = E / economy.</p>
+  <h3>Why is my MEE steam economy lower than design?</h3>
+  <p>Usually a cold feed, scaled tubes, non-condensable gases in the steam chests, poor last-effect vacuum, condensate not draining, low or wet steam, or a higher boiling point rise as the liquor concentrates. The table above lists the checks.</p>
+
+  <h2>Engineering notes and assumptions</h2>
+  <p>Forward feed, equal temperature difference per effect, latent heat of water at each effect (&lambda; &asymp; 597.3 &minus; 0.566 T kcal/kg), condensate leaving each calandria at saturation, and a fixed heat loss per effect. Backward and mixed feed, TVR and MVR are not modelled. Live-steam feed preheating is not counted. Use the calculator to compare options and check plant performance; the evaporator supplier's heat and mass balance governs the design.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics: MEE, ATFD and zero liquid discharge</a>
+    <a href="{{ '/articles/falling-film-evaporator/' | relative_url }}">Falling film evaporator</a>
+    <a href="{{ '/articles/atfd-agitated-thin-film-dryer/' | relative_url }}">ATFD: agitated thin film dryer</a>
+    <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam and boiler calculators</a>
+    <a href="{{ '/utilities/cooling-tower/' | relative_url }}">Cooling tower calculations</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
