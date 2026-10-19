@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Chiller vs VAM: kW/TR, COP, VAM Steam Consumption and Running Cost",
+      {
+        "@type": "Article",
+        "headline": "Chiller vs VAM: kW/TR, COP, VAM Steam Consumption and Running Cost",
         "description": "Chiller TR, kW/TR and COP from field readings, VAM steam consumption, cooling tower size and running cost comparison.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is the difference between a chiller and a VAM?", "acceptedAnswer": { "@type": "Answer", "text": "An electric chiller uses a compressor driven by electricity. A vapour absorption machine (VAM) uses water as refrigerant and lithium bromide as absorbent, and is driven by heat: steam, hot water, exhaust gas or a burner. A VAM uses little electricity but much more heat, and needs a bigger cooling tower." } },
-        { "@type": "Question", "name": "How do you convert kW/TR to COP?", "acceptedAnswer": { "@type": "Answer", "text": "COP = 3.517 / (kW/TR). A chiller at 0.7 kW/TR has a COP of about 5.0." } },
-        { "@type": "Question", "name": "When is a VAM cheaper than an electric chiller?", "acceptedAnswer": { "@type": "Answer", "text": "When steam is cheaper than the break-even cost: (chiller kW/TR - VAM auxiliary kW/TR) x power cost / VAM steam per TR-hour. With 0.85 kW/TR, 0.15 kW/TR auxiliaries, 8 rupees/kWh and 4.6 kg steam per TR-hour, the break-even is about 1,200 rupees per tonne of steam." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between a chiller and a VAM?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An electric chiller uses a compressor driven by electricity. A vapour absorption machine (VAM) uses water as refrigerant and lithium bromide as absorbent, and is driven by heat: steam, hot water, exhaust gas or a burner. A VAM uses little electricity but much more heat, and needs a bigger cooling tower."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you convert kW/TR to COP?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "COP = 3.517 / (kW/TR). A chiller at 0.7 kW/TR has a COP of about 5.0."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When is a VAM cheaper than an electric chiller?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When steam is cheaper than the break-even cost: (chiller kW/TR - VAM auxiliary kW/TR) x power cost / VAM steam per TR-hour. With 0.85 kW/TR, 0.15 kW/TR auxiliaries, 8 rupees/kWh and 4.6 kg steam per TR-hour, the break-even is about 1,200 rupees per tonne of steam."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

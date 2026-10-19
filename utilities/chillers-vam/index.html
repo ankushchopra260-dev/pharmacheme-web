@@ -7,13 +7,52 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebApplication", "name": "Chiller and VAM Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate chiller TR from flow and temperature?", "acceptedAnswer": { "@type": "Answer", "text": "For water, TR = flow (m3/h) x temperature difference (C) / 3.024. 120 m3/h cooled from 12 C to 7 C is about 198 TR. For glycol or brine use the fluid's density and specific heat." } },
-        { "@type": "Question", "name": "What is a good kW/TR for a chiller?", "acceptedAnswer": { "@type": "Answer", "text": "About 0.55 to 0.65 kW/TR for a water-cooled centrifugal chiller, 0.65 to 0.8 for a water-cooled screw chiller and 1.0 to 1.3 for an air-cooled chiller, at normal chilled water temperatures. Brine chillers at sub-zero temperatures need much more." } },
-        { "@type": "Question", "name": "How much steam does a VAM use per TR?", "acceptedAnswer": { "@type": "Answer", "text": "A double-effect steam-fired VAM (COP about 1.3) uses about 4.5 to 5 kg/h of 8 barg steam per TR. A single-effect machine (COP about 0.7) uses about 8 kg/h of low-pressure steam per TR." } }
-      ] }
+      {
+        "@type": "WebApplication",
+        "name": "Chiller and VAM Calculators",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate chiller TR from flow and temperature?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For water, TR = flow (m3/h) x temperature difference (C) / 3.024. 120 m3/h cooled from 12 C to 7 C is about 198 TR. For glycol or brine use the fluid's density and specific heat."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a good kW/TR for a chiller?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "About 0.55 to 0.65 kW/TR for a water-cooled centrifugal chiller, 0.65 to 0.8 for a water-cooled screw chiller and 1.0 to 1.3 for an air-cooled chiller, at normal chilled water temperatures. Brine chillers at sub-zero temperatures need much more."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much steam does a VAM use per TR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A double-effect steam-fired VAM (COP about 1.3) uses about 4.5 to 5 kg/h of 8 barg steam per TR. A single-effect machine (COP about 0.7) uses about 8 kg/h of low-pressure steam per TR."
+            }
+          }
+        ]
+      }
     ]
   }
 breadcrumbs:
@@ -21,6 +60,7 @@ breadcrumbs:
     url: /utilities/
   - label: Chillers & VAM
     url: /utilities/chillers-vam/
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

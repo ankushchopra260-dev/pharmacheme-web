@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Batch Cycle Time and Debottlenecking: Finding the Real Bottleneck",
+      {
+        "@type": "Article",
+        "headline": "Batch Cycle Time and Debottlenecking: Finding the Real Bottleneck",
         "description": "Batch time vs cycle time, the bottleneck, Gantt charts, batches per week and practical debottlenecking.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is the difference between batch time and cycle time?", "acceptedAnswer": { "@type": "Answer", "text": "Batch time is how long one batch takes from first charge to packed product. Cycle time is the interval between successive batches, set by the slowest equipment (the bottleneck). In the example on this page, one batch takes 32.5 hours but a new batch can start every 14 hours." } },
-        { "@type": "Question", "name": "How do you find the bottleneck in a batch plant?", "acceptedAnswer": { "@type": "Answer", "text": "List the total occupancy of each piece of equipment per batch, including charging, cleaning, waiting for QC and transfer time. The equipment with the longest occupancy is the bottleneck, and it sets the cycle time." } },
-        { "@type": "Question", "name": "Does speeding up a non-bottleneck step increase output?", "acceptedAnswer": { "@type": "Answer", "text": "No. Shortening a step on equipment that is not the bottleneck shortens the batch time but not the cycle time, so batches per week stay the same. Only time saved on the bottleneck increases output." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between batch time and cycle time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Batch time is how long one batch takes from first charge to packed product. Cycle time is the interval between successive batches, set by the slowest equipment (the bottleneck). In the example on this page, one batch takes 32.5 hours but a new batch can start every 14 hours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you find the bottleneck in a batch plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "List the total occupancy of each piece of equipment per batch, including charging, cleaning, waiting for QC and transfer time. The equipment with the longest occupancy is the bottleneck, and it sets the cycle time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does speeding up a non-bottleneck step increase output?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Shortening a step on equipment that is not the bottleneck shortens the batch time but not the cycle time, so batches per week stay the same. Only time saved on the bottleneck increases output."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

@@ -15,20 +15,53 @@ structured_data: |
         "@type": "Article",
         "headline": "Mixing Scale-up Rules from Lab to Plant",
         "description": "Reynolds number, power number, tip speed and P/V scale-up rules, blend time, suspension and heat transfer at scale.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" },
-        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
-        "dateModified": "2026-10-17"
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "dateModified": "2026-10-18",
+        "datePublished": "2026-09-30"
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
-          { "@type": "Question", "name": "What are the main mixing scale-up rules?", "acceptedAnswer": { "@type": "Answer", "text": "For geometrically similar vessels, N2 = N1 x (D1/D2)^n. Constant tip speed uses n = 1, constant power per volume (P/V) uses n = 2/3 in the turbulent regime, and constant Reynolds number uses n = 2." } },
-          { "@type": "Question", "name": "Which scale-up rule should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Constant tip speed for shear-sensitive products such as crystals, constant P/V when blending, heat transfer or mass transfer matter most. Constant Reynolds number is rarely practical at large scale-up ratios." } },
-          { "@type": "Question", "name": "Why does blend time increase on scale-up?", "acceptedAnswer": { "@type": "Answer", "text": "In turbulent flow, blend time is inversely proportional to impeller speed for the same geometry. Plant agitators turn much slower than lab ones, so blending takes longer: about 5 times longer at constant P/V for a tenfold increase in impeller diameter." } }
+          {
+            "@type": "Question",
+            "name": "What are the main mixing scale-up rules?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For geometrically similar vessels, N2 = N1 x (D1/D2)^n. Constant tip speed uses n = 1, constant power per volume (P/V) uses n = 2/3 in the turbulent regime, and constant Reynolds number uses n = 2."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which scale-up rule should I use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Constant tip speed for shear-sensitive products such as crystals, constant P/V when blending, heat transfer or mass transfer matter most. Constant Reynolds number is rarely practical at large scale-up ratios."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does blend time increase on scale-up?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In turbulent flow, blend time is inversely proportional to impeller speed for the same geometry. Plant agitators turn much slower than lab ones, so blending takes longer: about 5 times longer at constant P/V for a tenfold increase in impeller diameter."
+            }
+          }
         ]
       }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

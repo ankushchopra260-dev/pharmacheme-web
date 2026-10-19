@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Crystallisation Scale-up: Solubility, Metastable Zone, Seeding and Cooling Profiles",
+      {
+        "@type": "Article",
+        "headline": "Crystallisation Scale-up: Solubility, Metastable Zone, Seeding and Cooling Profiles",
         "description": "Solubility, supersaturation, metastable zone width, seeding, cooling profiles, antisolvent addition, oiling out and scale-up.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is the metastable zone width?", "acceptedAnswer": { "@type": "Answer", "text": "The range of supersaturation, often expressed as degrees of undercooling below the saturation temperature, in which a clear solution does not nucleate on its own within a practical time. It typically ranges from a few degrees to 20 C and depends on cooling rate, agitation and impurities." } },
-        { "@type": "Question", "name": "When and how much should you seed?", "acceptedAnswer": { "@type": "Answer", "text": "Seed inside the metastable zone, usually about a quarter to a third of the way into it, with 0.5 to 2 % by weight of milled seed of the correct form, and hold for 30 to 60 minutes before cooling further so the seed starts growing." } },
-        { "@type": "Question", "name": "Why is cubic cooling better than linear cooling?", "acceptedAnswer": { "@type": "Answer", "text": "Early in the batch, the seed has little surface area to absorb supersaturation, so cooling must be slow. As crystals grow, they can absorb more, so cooling can speed up. A cubic profile matches this and keeps supersaturation low and even, which gives larger crystals and fewer fines." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the metastable zone width?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The range of supersaturation, often expressed as degrees of undercooling below the saturation temperature, in which a clear solution does not nucleate on its own within a practical time. It typically ranges from a few degrees to 20 C and depends on cooling rate, agitation and impurities."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When and how much should you seed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Seed inside the metastable zone, usually about a quarter to a third of the way into it, with 0.5 to 2 % by weight of milled seed of the correct form, and hold for 30 to 60 minutes before cooling further so the seed starts growing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is cubic cooling better than linear cooling?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Early in the batch, the seed has little surface area to absorb supersaturation, so cooling must be slow. As crystals grow, they can absorb more, so cooling can speed up. A cubic profile matches this and keeps supersaturation low and even, which gives larger crystals and fewer fines."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

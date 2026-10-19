@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Vacuum Systems in Batch Plants: Pumps, Pump-down Time and Air Leaks",
+      {
+        "@type": "Article",
+        "headline": "Vacuum Systems in Batch Plants: Pumps, Pump-down Time and Air Leaks",
         "description": "Vacuum pumps, pump-down time, air leaks, rate-of-rise test, condensers, solvent loss and troubleshooting.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "Why can't a liquid ring pump reach a deep vacuum?", "acceptedAnswer": { "@type": "Answer", "text": "The seal liquid boils at the pump's suction pressure. With water at 30 C the vapour pressure is about 42 mbar, so the pump cannot go much below 50 to 60 mbar. A colder seal, a different seal liquid, or an ejector or booster in front of the pump extends the range." } },
-        { "@type": "Question", "name": "How do you calculate vacuum pump-down time?", "acceptedAnswer": { "@type": "Answer", "text": "For an ideal pump with constant speed and no leak, t = (V / S) x ln(P0 / P1). For a 6 m3 vessel and a 250 m3/h pump from 1013 to 50 mbar, that is about 4.3 minutes. Real times are longer because pump speed falls near its limit and air leaks in." } },
-        { "@type": "Question", "name": "How do you measure an air leak into a vacuum system?", "acceptedAnswer": { "@type": "Answer", "text": "Use a rate-of-rise test: evacuate, isolate the pump and record how fast the pressure rises. Leak (kg/h) is about V x (dP / 1013) x 1.19 per unit time, with V in m3 and dP in mbar. A 6 m3 system rising 20 mbar in 10 minutes leaks about 0.85 kg/h of air." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why can't a liquid ring pump reach a deep vacuum?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The seal liquid boils at the pump's suction pressure. With water at 30 C the vapour pressure is about 42 mbar, so the pump cannot go much below 50 to 60 mbar. A colder seal, a different seal liquid, or an ejector or booster in front of the pump extends the range."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate vacuum pump-down time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For an ideal pump with constant speed and no leak, t = (V / S) x ln(P0 / P1). For a 6 m3 vessel and a 250 m3/h pump from 1013 to 50 mbar, that is about 4.3 minutes. Real times are longer because pump speed falls near its limit and air leaks in."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you measure an air leak into a vacuum system?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use a rate-of-rise test: evacuate, isolate the pump and record how fast the pressure rises. Leak (kg/h) is about V x (dP / 1013) x 1.19 per unit time, with V in m3 and dP in mbar. A 6 m3 system rising 20 mbar in 10 minutes leaks about 0.85 kg/h of air."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Consumption Norms and Cost per kg: From Lab Data to Plant Costing",
+      {
+        "@type": "Article",
+        "headline": "Consumption Norms and Cost per kg: From Lab Data to Plant Costing",
         "description": "Yield, consumption norms, solvent recovery, conversion cost, sensitivity and lab-to-plant differences.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is a consumption norm?", "acceptedAnswer": { "@type": "Answer", "text": "The quantity of each input needed per kilogram of finished product, for example 0.98 kg of starting material per kg, or 0.39 kg of toluene per kg. Norms are the basis for costing, purchasing and tracking plant performance." } },
-        { "@type": "Question", "name": "How is solvent consumption calculated?", "acceptedAnswer": { "@type": "Answer", "text": "Solvent consumed is the amount charged minus the amount recovered and reused, divided by the product made. 2,000 kg charged with 90 % recovery on 510 kg of product is 200 / 510 = 0.39 kg of solvent per kg of product." } },
-        { "@type": "Question", "name": "Which matters more for cost: yield or solvent recovery?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on the cost split. When raw materials dominate, as in most API steps, a few percent of yield is worth far more than a few percent of solvent recovery. In the example, 5 % more yield saves about 67 rupees per kg; 5 % more recovery saves about 18." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a consumption norm?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The quantity of each input needed per kilogram of finished product, for example 0.98 kg of starting material per kg, or 0.39 kg of toluene per kg. Norms are the basis for costing, purchasing and tracking plant performance."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is solvent consumption calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Solvent consumed is the amount charged minus the amount recovered and reused, divided by the product made. 2,000 kg charged with 90 % recovery on 510 kg of product is 200 / 510 = 0.39 kg of solvent per kg of product."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which matters more for cost: yield or solvent recovery?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on the cost split. When raw materials dominate, as in most API steps, a few percent of yield is worth far more than a few percent of solvent recovery. In the example, 5 % more yield saves about 67 rupees per kg; 5 % more recovery saves about 18."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

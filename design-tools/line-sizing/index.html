@@ -7,12 +7,44 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebApplication", "name": "Line Sizing Calculator", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you size a pipe line?", "acceptedAnswer": { "@type": "Answer", "text": "Take the smallest standard pipe size that keeps the velocity and the pressure drop per 100 m within the usual limits for that fluid: about 1 to 2.5 m/s and 0.4 bar/100 m for water, 15 to 30 m/s and 0.3 bar/100 m for steam, up to 10 m/s and 0.1 bar/100 m for compressed air." } },
-        { "@type": "Question", "name": "What pipe size for 50 m3/h of cooling water?", "acceptedAnswer": { "@type": "Answer", "text": "100 NB (4 inch) Schedule 40 carries 50 m3/h at about 1.6 m/s with roughly 0.25 bar pressure drop per 100 m, which is within the usual limits." } }
-      ] }
+      {
+        "@type": "WebApplication",
+        "name": "Line Sizing Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you size a pipe line?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Take the smallest standard pipe size that keeps the velocity and the pressure drop per 100 m within the usual limits for that fluid: about 1 to 2.5 m/s and 0.4 bar/100 m for water, 15 to 30 m/s and 0.3 bar/100 m for steam, up to 10 m/s and 0.1 bar/100 m for compressed air."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What pipe size for 50 m3/h of cooling water?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "100 NB (4 inch) Schedule 40 carries 50 m3/h at about 1.6 m/s with roughly 0.25 bar pressure drop per 100 m, which is within the usual limits."
+            }
+          }
+        ]
+      }
     ]
   }
 breadcrumbs:
@@ -20,6 +52,7 @@ breadcrumbs:
     url: /design-tools/
   - label: "Line Sizing Calculator"
     url: /design-tools/line-sizing/
+last_modified_at: 2026-10-18
 ---
 
 <link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}?v={{ site.time | date: '%s' }}">

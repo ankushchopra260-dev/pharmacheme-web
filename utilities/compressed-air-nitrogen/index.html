@@ -7,13 +7,52 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebApplication", "name": "Compressed Air and Nitrogen Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How much does a compressed air leak cost?", "acceptedAnswer": { "@type": "Answer", "text": "A 3 mm hole at 7 barg leaks about 0.43 m3/min of free air. At 6.5 kW per m3/min that is about 2.8 kW, roughly 1.8 lakh rupees a year at 8 rupees per kWh over 8,000 hours." } },
-        { "@type": "Question", "name": "How do you size an air receiver?", "acceptedAnswer": { "@type": "Answer", "text": "Volume (m3) = air demand (m3/min free air) x time (min) x atmospheric pressure (1.013 bar) / allowed pressure drop (bar)." } },
-        { "@type": "Question", "name": "How many nitrogen purge cycles are needed?", "acceptedAnswer": { "@type": "Answer", "text": "Oxygen after n cycles = 21% x (low pressure / high pressure)^n, both absolute. Pressurising to 2 barg and venting to atmosphere cuts oxygen to about a third each cycle: 7% after one cycle, 2.3% after two." } }
-      ] }
+      {
+        "@type": "WebApplication",
+        "name": "Compressed Air and Nitrogen Calculators",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does a compressed air leak cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A 3 mm hole at 7 barg leaks about 0.43 m3/min of free air. At 6.5 kW per m3/min that is about 2.8 kW, roughly 1.8 lakh rupees a year at 8 rupees per kWh over 8,000 hours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you size an air receiver?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Volume (m3) = air demand (m3/min free air) x time (min) x atmospheric pressure (1.013 bar) / allowed pressure drop (bar)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many nitrogen purge cycles are needed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Oxygen after n cycles = 21% x (low pressure / high pressure)^n, both absolute. Pressurising to 2 barg and venting to atmosphere cuts oxygen to about a third each cycle: 7% after one cycle, 2.3% after two."
+            }
+          }
+        ]
+      }
     ]
   }
 breadcrumbs:
@@ -21,6 +60,7 @@ breadcrumbs:
     url: /utilities/
   - label: Compressed Air & Nitrogen
     url: /utilities/compressed-air-nitrogen/
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

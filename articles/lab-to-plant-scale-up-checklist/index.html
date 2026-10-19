@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Lab to Plant Scale-up: What Changes and a Practical Checklist",
+      {
+        "@type": "Article",
+        "headline": "Lab to Plant Scale-up: What Changes and a Practical Checklist",
         "description": "Surface area to volume, heat-up time, mixing, dosing, solids handling, sampling and a technology transfer checklist.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "Why does heat transfer get worse on scale-up?", "acceptedAnswer": { "@type": "Answer", "text": "Volume grows with the cube of size but jacket area only with the square, so area per litre falls with volume to the power minus one third. Going from a 1 L flask to a 6,000 L reactor gives about 18 times less cooling area per litre, so heating and cooling take roughly 18 times longer for the same temperature difference." } },
-        { "@type": "Question", "name": "What should a scale-up checklist cover?", "acceptedAnswer": { "@type": "Answer", "text": "Reaction safety data, heat removal, mixing and dosing, solids handling (filtration and drying), materials of construction, equipment fit (minimum stir volume and maximum fill), sampling and in-process controls, hold times, utilities, solvent recovery and waste, and documentation." } },
-        { "@type": "Question", "name": "Should the plant batch match the lab procedure exactly?", "acceptedAnswer": { "@type": "Answer", "text": "No. The chemistry should match, but times, addition methods and temperatures often need to change to suit the plant's heat transfer and mixing. Those changes should be tested in the lab under plant-like conditions first, for example by running the lab reaction with the plant's dosing time." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does heat transfer get worse on scale-up?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Volume grows with the cube of size but jacket area only with the square, so area per litre falls with volume to the power minus one third. Going from a 1 L flask to a 6,000 L reactor gives about 18 times less cooling area per litre, so heating and cooling take roughly 18 times longer for the same temperature difference."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should a scale-up checklist cover?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Reaction safety data, heat removal, mixing and dosing, solids handling (filtration and drying), materials of construction, equipment fit (minimum stir volume and maximum fill), sampling and in-process controls, hold times, utilities, solvent recovery and waste, and documentation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should the plant batch match the lab procedure exactly?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The chemistry should match, but times, addition methods and temperatures often need to change to suit the plant's heat transfer and mixing. Those changes should be tested in the lab under plant-like conditions first, for example by running the lab reaction with the plant's dosing time."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

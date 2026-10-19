@@ -7,13 +7,52 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebApplication", "name": "Cooling Tower Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is range and approach in a cooling tower?", "acceptedAnswer": { "@type": "Answer", "text": "Range is hot water temperature minus cold water temperature. Approach is cold water temperature minus the ambient wet bulb temperature. Effectiveness = range / (range + approach)." } },
-        { "@type": "Question", "name": "How do you calculate cooling tower evaporation loss?", "acceptedAnswer": { "@type": "Answer", "text": "Evaporation (m3/h) = 0.00085 x 1.8 x circulation (m3/h) x range (C), about 0.15% of the flow for every degree of range. 500 m3/h with a 5 C range evaporates about 3.8 m3/h." } },
-        { "@type": "Question", "name": "How do you calculate cooling tower blowdown?", "acceptedAnswer": { "@type": "Answer", "text": "Blowdown = evaporation / (cycles of concentration - 1), less the drift loss. Make-up = evaporation + blowdown + drift = evaporation x COC / (COC - 1)." } }
-      ] }
+      {
+        "@type": "WebApplication",
+        "name": "Cooling Tower Calculators",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is range and approach in a cooling tower?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Range is hot water temperature minus cold water temperature. Approach is cold water temperature minus the ambient wet bulb temperature. Effectiveness = range / (range + approach)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate cooling tower evaporation loss?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Evaporation (m3/h) = 0.00085 x 1.8 x circulation (m3/h) x range (C), about 0.15% of the flow for every degree of range. 500 m3/h with a 5 C range evaporates about 3.8 m3/h."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate cooling tower blowdown?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Blowdown = evaporation / (cycles of concentration - 1), less the drift loss. Make-up = evaporation + blowdown + drift = evaporation x COC / (COC - 1)."
+            }
+          }
+        ]
+      }
     ]
   }
 breadcrumbs:
@@ -21,6 +60,7 @@ breadcrumbs:
     url: /utilities/
   - label: Cooling Tower
     url: /utilities/cooling-tower/
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

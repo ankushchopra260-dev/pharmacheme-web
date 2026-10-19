@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Semi-Batch Reactions: Dosing Time, Accumulation and MTSR Explained",
+      {
+        "@type": "Article",
+        "headline": "Semi-Batch Reactions: Dosing Time, Accumulation and MTSR Explained",
         "description": "Accumulation, MTSR, dosing time, reaction temperature, cooling capacity and interlocks for semi-batch exothermic reactions.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is accumulation in a semi-batch reaction?", "acceptedAnswer": { "@type": "Answer", "text": "Accumulation is the fraction of dosed reagent that has not yet reacted. If cooling fails, that unreacted reagent can still react and release its heat. MTSR = process temperature + accumulation x adiabatic temperature rise." } },
-        { "@type": "Question", "name": "Is it safer to run an exothermic reaction colder?", "acceptedAnswer": { "@type": "Answer", "text": "Not always. A colder reaction is slower, so more reagent accumulates during dosing. In the example on this page, dosing over 4 hours at 60 C gives an MTSR of about 80 C, but the same dosing at 40 C gives about 126 C." } },
-        { "@type": "Question", "name": "How do you choose the dosing time?", "acceptedAnswer": { "@type": "Answer", "text": "Long enough that the heat release rate stays within the plant's cooling capacity, and long enough that accumulation keeps the MTSR below the boiling point and the decomposition onset (TD24). Reaction calorimetry (RC1) data are used to confirm it." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is accumulation in a semi-batch reaction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Accumulation is the fraction of dosed reagent that has not yet reacted. If cooling fails, that unreacted reagent can still react and release its heat. MTSR = process temperature + accumulation x adiabatic temperature rise."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it safer to run an exothermic reaction colder?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not always. A colder reaction is slower, so more reagent accumulates during dosing. In the example on this page, dosing over 4 hours at 60 C gives an MTSR of about 80 C, but the same dosing at 40 C gives about 126 C."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you choose the dosing time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Long enough that the heat release rate stays within the plant's cooling capacity, and long enough that accumulation keeps the MTSR below the boiling point and the decomposition onset (TD24). Reaction calorimetry (RC1) data are used to confirm it."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

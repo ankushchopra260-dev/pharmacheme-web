@@ -7,13 +7,52 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebApplication", "name": "Steam and Boiler Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate boiler fuel consumption?", "acceptedAnswer": { "@type": "Answer", "text": "Fuel (kg/h) = steam (kg/h) x (steam enthalpy - feed water enthalpy) / (boiler efficiency x fuel GCV). For 5,000 kg/h of steam at 10 barg with 80 C feed water, a 75% efficient boiler on 4,000 kcal/kg coal burns about 973 kg/h." } },
-        { "@type": "Question", "name": "What is evaporation ratio of a boiler?", "acceptedAnswer": { "@type": "Answer", "text": "Evaporation ratio is kg of steam made per kg of fuel burned. Typical values are about 4 to 5.5 for Indian coal, 3.5 to 4.5 for rice husk and 13 to 15 for furnace oil." } },
-        { "@type": "Question", "name": "How much flash steam does condensate produce?", "acceptedAnswer": { "@type": "Answer", "text": "Flash fraction = (hf at the high pressure - hf at the low pressure) / hfg at the low pressure. Condensate at 8 barg flashing to 0.5 barg releases about 12% of its mass as steam." } }
-      ] }
+      {
+        "@type": "WebApplication",
+        "name": "Steam and Boiler Calculators",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate boiler fuel consumption?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fuel (kg/h) = steam (kg/h) x (steam enthalpy - feed water enthalpy) / (boiler efficiency x fuel GCV). For 5,000 kg/h of steam at 10 barg with 80 C feed water, a 75% efficient boiler on 4,000 kcal/kg coal burns about 973 kg/h."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is evaporation ratio of a boiler?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Evaporation ratio is kg of steam made per kg of fuel burned. Typical values are about 4 to 5.5 for Indian coal, 3.5 to 4.5 for rice husk and 13 to 15 for furnace oil."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much flash steam does condensate produce?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Flash fraction = (hf at the high pressure - hf at the low pressure) / hfg at the low pressure. Condensate at 8 barg flashing to 0.5 barg releases about 12% of its mass as steam."
+            }
+          }
+        ]
+      }
     ]
   }
 breadcrumbs:
@@ -21,6 +60,7 @@ breadcrumbs:
     url: /utilities/
   - label: Steam & Boiler
     url: /utilities/steam-boiler/
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

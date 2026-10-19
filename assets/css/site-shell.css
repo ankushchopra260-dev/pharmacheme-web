@@ -406,3 +406,6 @@ body.has-page-search .nav-search-btn { display: none; }
 .pf-site span { display: block; color: var(--muted); font-size: .78rem; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pf-site em { font-style: normal; color: var(--brass); font-size: .7rem; margin-right: 6px; }
 @media (min-width: 1181px) and (max-width: 1580px) { .site-nav-inner .nav-search-btn { order: 2; } }
+
+/* Last updated line under page content */
+.page-updated { max-width: 720px; margin: 0 auto 24px; padding: 0 20px; color: var(--muted); font-size: .84rem; }

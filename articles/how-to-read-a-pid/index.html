@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "How to Read a P&ID: Symbols, Tags, Line Numbers and Instrument Loops",
+      {
+        "@type": "Article",
+        "headline": "How to Read a P&ID: Symbols, Tags, Line Numbers and Instrument Loops",
         "description": "Equipment tags, line numbers, valve and line symbols, ISA-5.1 instrument letters, control loops and interlocks on a P&ID.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is the difference between a PFD and a P&ID?", "acceptedAnswer": { "@type": "Answer", "text": "A PFD (process flow diagram) shows the main equipment, main streams and the heat and material balance. A P&ID shows every line, valve, instrument, control loop, interlock, vent, drain and utility connection needed to build and operate the plant." } },
-        { "@type": "Question", "name": "What does TIC mean on a P&ID?", "acceptedAnswer": { "@type": "Answer", "text": "Under ISA-5.1, the first letter is the measured variable and the following letters are functions. TIC is a temperature (T) indicating (I) controller (C). PSV is a pressure safety valve, LAH a level alarm high, FT a flow transmitter." } },
-        { "@type": "Question", "name": "How do you read a line number on a P&ID?", "acceptedAnswer": { "@type": "Answer", "text": "A line number usually combines size, service code, a sequence number and the piping class, for example 50-PS-101-A1: a 50 mm line carrying process solvent, line number 101, built to piping class A1. Some companies add insulation or tracing codes. The legend sheet defines the format." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between a PFD and a P&ID?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A PFD (process flow diagram) shows the main equipment, main streams and the heat and material balance. A P&ID shows every line, valve, instrument, control loop, interlock, vent, drain and utility connection needed to build and operate the plant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does TIC mean on a P&ID?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Under ISA-5.1, the first letter is the measured variable and the following letters are functions. TIC is a temperature (T) indicating (I) controller (C). PSV is a pressure safety valve, LAH a level alarm high, FT a flow transmitter."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you read a line number on a P&ID?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A line number usually combines size, service code, a sequence number and the piping class, for example 50-PS-101-A1: a 50 mm line carrying process solvent, line number 101, built to piping class A1. Some companies add insulation or tracing codes. The legend sheet defines the format."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

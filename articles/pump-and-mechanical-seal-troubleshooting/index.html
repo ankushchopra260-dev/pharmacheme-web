@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Pump and Mechanical Seal Troubleshooting: Causes, Checks and Fixes",
+      {
+        "@type": "Article",
+        "headline": "Pump and Mechanical Seal Troubleshooting: Causes, Checks and Fixes",
         "description": "Low flow, cavitation, overloading, vibration, hot bearings, best efficiency point, mechanical seals and seal plans.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "Why do mechanical seals fail?", "acceptedAnswer": { "@type": "Answer", "text": "Most failures come from the conditions around the seal rather than the seal itself: dry running, loss of flush or barrier fluid, vibration and misalignment, solids or crystallising product between the faces, and elastomers that are not compatible with the solvent." } },
-        { "@type": "Question", "name": "What is the safe operating range of a centrifugal pump?", "acceptedAnswer": { "@type": "Answer", "text": "Ideally 80 to 110 % of the best efficiency point flow, and generally within about 70 to 120 %. Far below it the pump recirculates internally, heats the liquid and vibrates; far above it, NPSH required rises and the motor can overload." } },
-        { "@type": "Question", "name": "How do you know a pump is cavitating?", "acceptedAnswer": { "@type": "Answer", "text": "A crackling noise like gravel in the casing, fluctuating discharge pressure and flow, a drop in head, and over time pitting on the impeller eye. It means the NPSH available is below what the pump needs." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why do mechanical seals fail?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most failures come from the conditions around the seal rather than the seal itself: dry running, loss of flush or barrier fluid, vibration and misalignment, solids or crystallising product between the faces, and elastomers that are not compatible with the solvent."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the safe operating range of a centrifugal pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ideally 80 to 110 % of the best efficiency point flow, and generally within about 70 to 120 %. Far below it the pump recirculates internally, heats the liquid and vibrates; far above it, NPSH required rises and the motor can overload."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you know a pump is cavitating?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A crackling noise like gravel in the casing, fluctuating discharge pressure and flow, a drop in head, and over time pitting on the impeller eye. It means the NPSH available is below what the pump needs."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

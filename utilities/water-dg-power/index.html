@@ -7,13 +7,52 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebApplication", "name": "Water, DG and Power Calculators", "applicationCategory": "EngineeringApplication", "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate the cost per unit of DG power?", "acceptedAnswer": { "@type": "Answer", "text": "Cost per kWh = diesel price per litre / kWh generated per litre. At 90 rupees per litre and 3.4 kWh per litre, DG power costs about 26.5 rupees per kWh." } },
-        { "@type": "Question", "name": "How do you calculate capacitor kVAR for power factor correction?", "acceptedAnswer": { "@type": "Answer", "text": "kVAR = kW x (tan of the present PF angle - tan of the target PF angle). For 800 kW raised from 0.82 to 0.98 power factor, about 396 kVAR." } },
-        { "@type": "Question", "name": "How do you calculate RO recovery?", "acceptedAnswer": { "@type": "Answer", "text": "Recovery = permeate flow / feed flow x 100. Salt rejection = (1 - permeate TDS / feed TDS) x 100." } }
-      ] }
+      {
+        "@type": "WebApplication",
+        "name": "Water, DG and Power Calculators",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the cost per unit of DG power?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cost per kWh = diesel price per litre / kWh generated per litre. At 90 rupees per litre and 3.4 kWh per litre, DG power costs about 26.5 rupees per kWh."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate capacitor kVAR for power factor correction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "kVAR = kW x (tan of the present PF angle - tan of the target PF angle). For 800 kW raised from 0.82 to 0.98 power factor, about 396 kVAR."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate RO recovery?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Recovery = permeate flow / feed flow x 100. Salt rejection = (1 - permeate TDS / feed TDS) x 100."
+            }
+          }
+        ]
+      }
     ]
   }
 breadcrumbs:
@@ -21,6 +60,7 @@ breadcrumbs:
     url: /utilities/
   - label: Water, DG & Power
     url: /utilities/water-dg-power/
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

@@ -16,21 +16,61 @@ structured_data: |
         "@type": "Article",
         "headline": "Solvent Recovery Calculation: Boiling Point Under Vacuum, Heat Load & Time",
         "description": "Boiling point at vacuum, heat load, recovery time, jacket and condenser checks for batch solvent recovery, with a toluene worked example.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" },
-        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
-        "dateModified": "2026-10-17"
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "dateModified": "2026-10-18",
+        "datePublished": "2026-09-30"
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
-          { "@type": "Question", "name": "How do you calculate the boiling point of a solvent under vacuum?", "acceptedAnswer": { "@type": "Answer", "text": "Rearrange the Antoine equation: Tb = B / (A - log10 P) - C, with P in mmHg and the A, B, C coefficients for that solvent. For toluene at 100 mmHg this gives about 52 C, against 110.6 C at atmospheric pressure." } },
-          { "@type": "Question", "name": "How do you calculate heat load for solvent recovery?", "acceptedAnswer": { "@type": "Answer", "text": "Heat duty (kcal/h) = vaporisation rate (kg/h) x latent heat (kcal/kg). Recovering toluene at 500 kg/h with a latent heat of about 86 kcal/kg needs roughly 43,000 kcal/h, before sensible heat and losses." } },
-          { "@type": "Question", "name": "Is mmHg the same as mbar?", "acceptedAnswer": { "@type": "Answer", "text": "No. 1 mmHg is about 1.333 mbar. Entering mbar into an Antoine equation fitted in mmHg gives the wrong boiling point." } },
-          { "@type": "Question", "name": "Why can't I pull deeper vacuum to recover solvent faster?", "acceptedAnswer": { "@type": "Answer", "text": "Deeper vacuum lowers the boiling point, but the condenser must be colder than the vapour to condense it. Methanol at 50 mbar boils at about 3 C, so cooling water cannot condense it and the vapour goes to the vacuum pump." } }
+          {
+            "@type": "Question",
+            "name": "How do you calculate the boiling point of a solvent under vacuum?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Rearrange the Antoine equation: Tb = B / (A - log10 P) - C, with P in mmHg and the A, B, C coefficients for that solvent. For toluene at 100 mmHg this gives about 52 C, against 110.6 C at atmospheric pressure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate heat load for solvent recovery?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat duty (kcal/h) = vaporisation rate (kg/h) x latent heat (kcal/kg). Recovering toluene at 500 kg/h with a latent heat of about 86 kcal/kg needs roughly 43,000 kcal/h, before sensible heat and losses."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is mmHg the same as mbar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. 1 mmHg is about 1.333 mbar. Entering mbar into an Antoine equation fitted in mmHg gives the wrong boiling point."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why can't I pull deeper vacuum to recover solvent faster?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Deeper vacuum lowers the boiling point, but the condenser must be colder than the vapour to condense it. Methanol at 50 mbar boils at about 3 C, so cooling water cannot condense it and the vapour goes to the vacuum pump."
+            }
+          }
         ]
       }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

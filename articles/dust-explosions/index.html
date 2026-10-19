@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Dust Explosions in Pharma and Chemical Plants: The Pentagon, Kst and Controls",
+      {
+        "@type": "Article",
+        "headline": "Dust Explosions in Pharma and Chemical Plants: The Pentagon, Kst and Controls",
         "description": "The explosion pentagon, Kst and Pmax, dust MIE, hybrid mixtures, secondary explosions, zoning and protection.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is Kst?", "acceptedAnswer": { "@type": "Answer", "text": "Kst is the dust deflagration index: the maximum rate of pressure rise in a standard 1 m3 test, normalised for volume, in bar.m/s. Dusts are classed St 1 (up to 200), St 2 (200 to 300) and St 3 (above 300). It is used to size explosion vents and suppression systems." } },
-        { "@type": "Question", "name": "What is a hybrid mixture?", "acceptedAnswer": { "@type": "Answer", "text": "A dust cloud combined with a flammable vapour, such as a solvent-wet powder being charged into a reactor or dried. Even vapour below its lower flammable limit can make the dust much easier to ignite and the explosion more violent, so hybrid mixtures must be treated as at least as hazardous as the vapour alone." } },
-        { "@type": "Question", "name": "What is a secondary dust explosion?", "acceptedAnswer": { "@type": "Answer", "text": "A small primary explosion inside equipment shakes loose dust layers from beams, ducts and floors, creating a large cloud that the flame then ignites. Secondary explosions cause most of the damage and deaths in major dust incidents, which is why housekeeping is a primary control." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Kst?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kst is the dust deflagration index: the maximum rate of pressure rise in a standard 1 m3 test, normalised for volume, in bar.m/s. Dusts are classed St 1 (up to 200), St 2 (200 to 300) and St 3 (above 300). It is used to size explosion vents and suppression systems."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a hybrid mixture?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A dust cloud combined with a flammable vapour, such as a solvent-wet powder being charged into a reactor or dried. Even vapour below its lower flammable limit can make the dust much easier to ignite and the explosion more violent, so hybrid mixtures must be treated as at least as hazardous as the vapour alone."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a secondary dust explosion?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A small primary explosion inside equipment shakes loose dust layers from beams, ducts and floors, creating a large cloud that the flame then ignites. Secondary explosions cause most of the damage and deaths in major dust incidents, which is why housekeeping is a primary control."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

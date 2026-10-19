@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "RO Recovery, DG Cost per Unit, Power Factor and VFD Savings",
+      {
+        "@type": "Article",
+        "headline": "RO Recovery, DG Cost per Unit, Power Factor and VFD Savings",
         "description": "RO recovery and rejection, DG cost per kWh, power factor correction, motor loading and VFD savings, with worked examples.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate DG cost per unit?", "acceptedAnswer": { "@type": "Answer", "text": "Cost per kWh = diesel price per litre / kWh generated per litre (from the energy meter and fuel log). At 90 rupees per litre and 3.4 kWh per litre, about 26.5 rupees per kWh." } },
-        { "@type": "Question", "name": "How do you calculate capacitor kVAR?", "acceptedAnswer": { "@type": "Answer", "text": "kVAR = kW x (tan(acos(present PF)) - tan(acos(target PF))). For 800 kW from 0.82 to 0.98 PF, about 396 kVAR." } },
-        { "@type": "Question", "name": "How much energy does a VFD save on a pump?", "acceptedAnswer": { "@type": "Answer", "text": "With mostly friction head, power falls with the cube of speed: at 70% flow a VFD needs about 34% of full power, compared with 80 to 90% for a throttled pump. Static head reduces the saving." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate DG cost per unit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cost per kWh = diesel price per litre / kWh generated per litre (from the energy meter and fuel log). At 90 rupees per litre and 3.4 kWh per litre, about 26.5 rupees per kWh."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate capacitor kVAR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "kVAR = kW x (tan(acos(present PF)) - tan(acos(target PF))). For 800 kW from 0.82 to 0.98 PF, about 396 kVAR."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much energy does a VFD save on a pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With mostly friction head, power falls with the cube of speed: at 70% flow a VFD needs about 34% of full power, compared with 80 to 90% for a throttled pump. Static head reduces the saving."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

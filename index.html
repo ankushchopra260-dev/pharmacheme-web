@@ -1,16 +1,40 @@
 ---
 layout: default
 title: "PharmaChemE: Chemical & Pharmaceutical Engineering Tools"
-description: "Engineering calculators, troubleshooting games, a molecule tool and articles for chemical and pharma plant engineers and students."
+seo_title: "Chemical Engineering Calculators & Solvent Data | PharmaChemE"
+description: "Free chemical and pharma plant calculators (batch size, heat load, pump power, solvent recovery) and property data for 136 solvents and reagents. No login."
 structured_data: |
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "PharmaChemE",
-    "url": "https://pharmacheme.in",
-    "description": "Engineering calculators, troubleshooting games, a molecule tool and articles for chemical and pharma plant engineers and students.",
-    "sameAs": ["https://youtube.com/@PharmaChemE"]
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.pharmacheme.in/#organization",
+        "name": "PharmaChemE",
+        "url": "https://www.pharmacheme.in/",
+        "logo": "https://www.pharmacheme.in/assets/img/logo.png",
+        "email": "pharmacheme.app@gmail.com",
+        "description": "Free calculators, solvent and reagent data, process safety lessons and articles for chemical and pharmaceutical plant engineers and students.",
+        "founder": {
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra"
+        },
+        "sameAs": [
+          "https://youtube.com/@PharmaChemE"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.pharmacheme.in/#website",
+        "name": "PharmaChemE",
+        "url": "https://www.pharmacheme.in/",
+        "inLanguage": "en-IN",
+        "publisher": {
+          "@id": "https://www.pharmacheme.in/#organization"
+        }
+      }
+    ]
   }
+last_modified_at: 2026-10-19
 ---
 
 <section class="hero">
@@ -133,7 +157,7 @@ structured_data: |
   <div class="container">
     <ul>
       <li><b>43</b> calculators &amp; models</li>
-      <li><b>55</b> articles</li>
+      <li><b>56</b> articles</li>
       <li><b>4</b> games</li>
       <li><b>102</b> equipment &amp; instruments explained</li>
       <li><b>26</b> videos</li>

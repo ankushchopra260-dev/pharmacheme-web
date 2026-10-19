@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Static Electricity and Solvent Fires: How Static Builds Up and How to Control It",
+      {
+        "@type": "Article",
+        "headline": "Static Electricity and Solvent Fires: How Static Builds Up and How to Control It",
         "description": "Charge generation and accumulation, spark energy against minimum ignition energy, bonding, earthing, filling, inerting and powder charging.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "Can static electricity ignite solvent vapour?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Most solvent vapours ignite with 0.1 to 1 mJ of spark energy. A person in ordinary shoes charged to 10 kV stores about 10 mJ, so a spark you can barely feel is many times what toluene or methanol vapour needs." } },
-        { "@type": "Question", "name": "What resistance is acceptable for earthing against static?", "acceptedAnswer": { "@type": "Answer", "text": "For static dissipation, a resistance to earth below 1 megohm is enough. For metal-to-metal bonds, a continuity check below 10 ohms is common practice because it shows the bond is real, not just touching." } },
-        { "@type": "Question", "name": "Why are toluene and hexane more hazardous for static than methanol?", "acceptedAnswer": { "@type": "Answer", "text": "They have very low electrical conductivity, so charge stays in the liquid for seconds to minutes even inside an earthed tank. Methanol and acetone conduct well, so charge leaks away quickly if the equipment is earthed." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can static electricity ignite solvent vapour?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Most solvent vapours ignite with 0.1 to 1 mJ of spark energy. A person in ordinary shoes charged to 10 kV stores about 10 mJ, so a spark you can barely feel is many times what toluene or methanol vapour needs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What resistance is acceptable for earthing against static?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For static dissipation, a resistance to earth below 1 megohm is enough. For metal-to-metal bonds, a continuity check below 10 ohms is common practice because it shows the bond is real, not just touching."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are toluene and hexane more hazardous for static than methanol?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "They have very low electrical conductivity, so charge stays in the liquid for seconds to minutes even inside an earthed tank. Methanol and acetone conduct well, so charge leaks away quickly if the equipment is earthed."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

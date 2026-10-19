@@ -16,23 +16,77 @@ structured_data: |
         "@type": "Article",
         "headline": "Pump Power Calculation: Formula, Worked Examples & Motor kW",
         "description": "Pump power calculation from the basics to plant practice: hydraulic, shaft and motor kW, total head, motor margins, pump curves, NPSH and field checks.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" },
-        "publisher": { "@type": "Organization", "name": "PharmaChemE" },
-        "dateModified": "2026-10-17"
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "dateModified": "2026-10-18",
+        "datePublished": "2026-09-30"
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
-          { "@type": "Question", "name": "What is the formula for pump power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = density (kg/m3) x 9.81 x flow (m3/s) x total head (m) / 1000. Divide by pump efficiency to get shaft power, and by motor efficiency to get motor input power." } },
-          { "@type": "Question", "name": "What is the pump capacity formula?", "acceptedAnswer": { "@type": "Answer", "text": "Q (m3/h) = 367 x shaft power (kW) x pump efficiency / (head (m) x SG). It gives the flow a pump can deliver at a given head and power; the pump curve gives the exact figure." } },
-          { "@type": "Question", "name": "What is the quick formula for pump power in kW from m3/h?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = Q (m3/h) x H (m) x SG / 367, where SG is specific gravity. For 50 m3/h of water at 30 m head this gives about 4.1 kW." } },
-          { "@type": "Question", "name": "What is the difference between hydraulic power and shaft power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power is the energy actually given to the fluid. Shaft power (brake power) is what the pump draws at its shaft, which is higher because of pump losses: shaft power = hydraulic power / pump efficiency." } },
-          { "@type": "Question", "name": "How do I convert pressure to head for a pump calculation?", "acceptedAnswer": { "@type": "Answer", "text": "Head (m) = pressure difference (Pa) / (density x 9.81). For example, 1 bar (100,000 Pa) of water is about 10.2 m of head." } },
-          { "@type": "Question", "name": "How much margin should a pump motor have?", "acceptedAnswer": { "@type": "Answer", "text": "A common rule (API 610) is a motor rated at least 125% of the pump's rated shaft power up to 22 kW, 115% from 22 to 55 kW and 110% above 55 kW, then the next standard motor size. Also check the shaft power at the end of the pump curve." } }
+          {
+            "@type": "Question",
+            "name": "What is the formula for pump power?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydraulic power (kW) = density (kg/m3) x 9.81 x flow (m3/s) x total head (m) / 1000. Divide by pump efficiency to get shaft power, and by motor efficiency to get motor input power."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the pump capacity formula?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Q (m3/h) = 367 x shaft power (kW) x pump efficiency / (head (m) x SG). It gives the flow a pump can deliver at a given head and power; the pump curve gives the exact figure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the quick formula for pump power in kW from m3/h?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydraulic power (kW) = Q (m3/h) x H (m) x SG / 367, where SG is specific gravity. For 50 m3/h of water at 30 m head this gives about 4.1 kW."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between hydraulic power and shaft power?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydraulic power is the energy actually given to the fluid. Shaft power (brake power) is what the pump draws at its shaft, which is higher because of pump losses: shaft power = hydraulic power / pump efficiency."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I convert pressure to head for a pump calculation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Head (m) = pressure difference (Pa) / (density x 9.81). For example, 1 bar (100,000 Pa) of water is about 10.2 m of head."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much margin should a pump motor have?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A common rule (API 610) is a motor rated at least 125% of the pump's rated shaft power up to 22 kW, 115% from 22 to 55 kW and 110% above 55 kW, then the next standard motor size. Also check the shaft power at the end of the pump curve."
+            }
+          }
         ]
       }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

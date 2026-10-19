@@ -11,16 +11,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "How to Calculate Filtration Performance",
+      {
+        "@type": "Article",
+        "headline": "How to Calculate Filtration Performance",
         "description": "Cake filtration equation, specific cake resistance from a bench trial, scale-up to a Nutsche filter, and fixes for slow cakes.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "dateModified": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate specific cake resistance?", "acceptedAnswer": { "@type": "Answer", "text": "Record filtrate volume V against time t in a bench trial, plot t/V against V and fit a straight line. Specific cake resistance alpha = 2 x slope x A^2 x deltaP / (mu x c), where A is filter area, deltaP the pressure difference, mu the filtrate viscosity and c the dry cake mass per volume of filtrate." } },
-        { "@type": "Question", "name": "What is a good specific cake resistance?", "acceptedAnswer": { "@type": "Answer", "text": "Below about 10^10 m/kg a cake filters fast, 10^10 to 10^11 is moderate, 10^11 to 10^12 is slow and above 10^12 is very slow, usually needing a change to the crystallisation, a filter aid or a different filter." } },
-        { "@type": "Question", "name": "Does doubling the pressure halve the filtration time?", "acceptedAnswer": { "@type": "Answer", "text": "Only for an incompressible cake. Many organic crystals and amorphous solids form compressible cakes whose resistance rises with pressure, so higher pressure gives much less benefit than expected and can even blind the cloth." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "dateModified": "2026-10-18",
+        "datePublished": "2026-09-30"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate specific cake resistance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Record filtrate volume V against time t in a bench trial, plot t/V against V and fit a straight line. Specific cake resistance alpha = 2 x slope x A^2 x deltaP / (mu x c), where A is filter area, deltaP the pressure difference, mu the filtrate viscosity and c the dry cake mass per volume of filtrate."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a good specific cake resistance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Below about 10^10 m/kg a cake filters fast, 10^10 to 10^11 is moderate, 10^11 to 10^12 is slow and above 10^12 is very slow, usually needing a change to the crystallisation, a filter aid or a different filter."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does doubling the pressure halve the filtration time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only for an incompressible cake. Many organic crystals and amorphous solids form compressible cakes whose resistance rises with pressure, so higher pressure gives much less benefit than expected and can even blind the cloth."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

@@ -11,14 +11,37 @@ structured_data: |
         "name": "Pump Power Calculator",
         "applicationCategory": "EngineeringApplication",
         "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
-        "publisher": { "@type": "Organization", "name": "PharmaChemE" }
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
-          { "@type": "Question", "name": "How do you calculate pump power?", "acceptedAnswer": { "@type": "Answer", "text": "Hydraulic power (kW) = density x 9.81 x flow (m3/s) x head (m) / 1000. Shaft power = hydraulic power / pump efficiency. Motor power = shaft power / motor efficiency." } },
-          { "@type": "Question", "name": "What motor size do I need for my pump?", "acceptedAnswer": { "@type": "Answer", "text": "Calculate the motor input power from flow, head and efficiencies, then pick the next standard motor rating above it. For 50 m3/h of water at 30 m head with 65% pump and 92% motor efficiency, motor power is about 6.8 kW, so a 7.5 kW motor is the usual choice." } }
+          {
+            "@type": "Question",
+            "name": "How do you calculate pump power?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydraulic power (kW) = density x 9.81 x flow (m3/s) x head (m) / 1000. Shaft power = hydraulic power / pump efficiency. Motor power = shaft power / motor efficiency."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What motor size do I need for my pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Calculate the motor input power from flow, head and efficiencies, then pick the next standard motor rating above it. For 50 m3/h of water at 30 m head with 65% pump and 92% motor efficiency, motor power is about 6.8 kW, so a 7.5 kW motor is the usual choice."
+            }
+          }
         ]
       }
     ]
@@ -34,6 +57,7 @@ breadcrumbs:
     url: /calculators/
   - label: Pump Power Calculator
     url: /calculators/pump-power-calculator/
+last_modified_at: 2026-10-04
 ---
 
 <div class="container calc-page-head">

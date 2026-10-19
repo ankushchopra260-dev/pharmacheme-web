@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Compressed Air and Nitrogen Calculations: Leak Cost, Compressor Power, Receiver Size and Nitrogen Purging",
+      {
+        "@type": "Article",
+        "headline": "Compressed Air and Nitrogen Calculations: Leak Cost, Compressor Power, Receiver Size and Nitrogen Purging",
         "description": "Air leak loss, leak test from load and unload times, compressor power, receiver size, and nitrogen for purging and blanketing.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you measure compressed air leakage?", "acceptedAnswer": { "@type": "Answer", "text": "With all air users stopped, time how long the compressor stays loaded (T) and unloaded (t) over several cycles. Leakage % = T / (T + t) x 100, and leak flow = leakage fraction x compressor capacity." } },
-        { "@type": "Question", "name": "How much power does reducing compressor pressure save?", "acceptedAnswer": { "@type": "Answer", "text": "Roughly 6 to 8% of compressor power for each 1 bar reduction around 7 barg. For a single-stage machine, dropping from 7.5 to 6.5 barg saves about 7.7% of the theoretical power." } },
-        { "@type": "Question", "name": "How much nitrogen does a pressure purge use?", "acceptedAnswer": { "@type": "Answer", "text": "Each cycle uses vessel volume x (high pressure - low pressure) / 1.013 Nm3. Purging a 6 m3 headspace to 2 barg twice uses about 24 Nm3 and brings oxygen to about 2.3%." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you measure compressed air leakage?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With all air users stopped, time how long the compressor stays loaded (T) and unloaded (t) over several cycles. Leakage % = T / (T + t) x 100, and leak flow = leakage fraction x compressor capacity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much power does reducing compressor pressure save?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Roughly 6 to 8% of compressor power for each 1 bar reduction around 7 barg. For a single-stage machine, dropping from 7.5 to 6.5 barg saves about 7.7% of the theoretical power."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much nitrogen does a pressure purge use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Each cycle uses vessel volume x (high pressure - low pressure) / 1.013 Nm3. Purging a 6 m3 headspace to 2 barg twice uses about 24 Nm3 and brings oxygen to about 2.3%."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

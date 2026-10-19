@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Steam System Efficiency: Boiler Fuel, Steam Cost, Traps, Condensate and Flash Steam",
+      {
+        "@type": "Article",
+        "headline": "Steam System Efficiency: Boiler Fuel, Steam Cost, Traps, Condensate and Flash Steam",
         "description": "How to calculate boiler fuel consumption, cost of steam, blowdown loss, steam trap losses, flash steam and condensate recovery savings.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" } },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate the cost of steam?", "acceptedAnswer": { "@type": "Answer", "text": "Fuel cost per tonne of steam = 1,000 x (steam enthalpy - feed water enthalpy) / (boiler efficiency x GCV x 4.1868) x fuel price. For 10 barg steam, 80 C feed water, 75% efficiency and coal at 4,000 kcal/kg costing 8 rupees/kg, the fuel cost is about 1,560 rupees per tonne of steam." } },
-        { "@type": "Question", "name": "How do you calculate boiler blowdown?", "acceptedAnswer": { "@type": "Answer", "text": "Blowdown as a percentage of steam = feed water TDS / (maximum boiler water TDS - feed water TDS) x 100. With 150 ppm feed water and a 3,000 ppm limit, blowdown is about 5.3% of the steam flow." } },
-        { "@type": "Question", "name": "How much steam does a failed steam trap lose?", "acceptedAnswer": { "@type": "Answer", "text": "Napier's formula gives an upper estimate: kg/h = 0.412 x orifice diameter (mm) squared x pressure (bar abs). A trap blowing through a 2 mm seat at 7 barg loses up to about 13 kg/h." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the cost of steam?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fuel cost per tonne of steam = 1,000 x (steam enthalpy - feed water enthalpy) / (boiler efficiency x GCV x 4.1868) x fuel price. For 10 barg steam, 80 C feed water, 75% efficiency and coal at 4,000 kcal/kg costing 8 rupees/kg, the fuel cost is about 1,560 rupees per tonne of steam."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate boiler blowdown?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Blowdown as a percentage of steam = feed water TDS / (maximum boiler water TDS - feed water TDS) x 100. With 150 ppm feed water and a 3,000 ppm limit, blowdown is about 5.3% of the steam flow."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much steam does a failed steam trap lose?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Napier's formula gives an upper estimate: kg/h = 0.412 x orifice diameter (mm) squared x pressure (bar abs). A trap blowing through a 2 mm seat at 7 barg loses up to about 13 kg/h."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

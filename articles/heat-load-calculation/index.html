@@ -11,16 +11,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "How to Calculate Heat Load & Recovery Time",
+      {
+        "@type": "Article",
+        "headline": "How to Calculate Heat Load & Recovery Time",
         "description": "Sensible and latent heat, jacket heat transfer, wetted area and occupancy, heat-up and cool-down time, and solvent recovery time for batch reactors.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "dateModified": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate the heat-up time of a jacketed reactor?", "acceptedAnswer": { "@type": "Answer", "text": "With the jacket at a constant temperature Tj, time = (M x cp / (U x A)) x ln((Tj - T0) / (Tj - T)). For 4,000 kg of batch (cp 0.48 kcal/kg C), U = 300 kcal/h m2 C and 9 m2 of wetted area, heating from 30 to 80 C on 3 barg steam takes about 25 minutes." } },
-        { "@type": "Question", "name": "Why does cooling a batch take longer than heating it?", "acceptedAnswer": { "@type": "Answer", "text": "Because the driving temperature difference is smaller. Cooling water at 32 C has only 8 C of driving force left when the batch reaches 40 C, so the last few degrees are slow. The same batch that heats in 25 minutes on steam can take over an hour to cool from 80 to 40 C." } },
-        { "@type": "Question", "name": "How do you calculate solvent recovery time?", "acceptedAnswer": { "@type": "Answer", "text": "Recovery time = solvent to recover (kg) / vapour rate (kg/h), where vapour rate = heat duty (kcal/h) / latent heat (kcal/kg). 500 kg of solvent with a latent heat of 86 kcal/kg at 34,400 kcal/h takes about 1.25 hours of boiling." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "dateModified": "2026-10-18",
+        "datePublished": "2026-09-30"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the heat-up time of a jacketed reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With the jacket at a constant temperature Tj, time = (M x cp / (U x A)) x ln((Tj - T0) / (Tj - T)). For 4,000 kg of batch (cp 0.48 kcal/kg C), U = 300 kcal/h m2 C and 9 m2 of wetted area, heating from 30 to 80 C on 3 barg steam takes about 25 minutes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does cooling a batch take longer than heating it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because the driving temperature difference is smaller. Cooling water at 32 C has only 8 C of driving force left when the batch reaches 40 C, so the last few degrees are slow. The same batch that heats in 25 minutes on steam can take over an hour to cool from 80 to 40 C."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate solvent recovery time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Recovery time = solvent to recover (kg) / vapour rate (kg/h), where vapour rate = heat duty (kcal/h) / latent heat (kcal/kg). 500 kg of solvent with a latent heat of 86 kcal/kg at 34,400 kcal/h takes about 1.25 hours of boiling."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

@@ -11,16 +11,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Centrifuge Cake Weight & G-Force Calculation",
+      {
+        "@type": "Article",
+        "headline": "Centrifuge Cake Weight & G-Force Calculation",
         "description": "G-force, cake weight per load, lip limit, centrifugal driving pressure and dewatering in a basket centrifuge.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "dateModified": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "How do you calculate G-force in a centrifuge?", "acceptedAnswer": { "@type": "Answer", "text": "G = 1.118 x 10^-5 x r (cm) x N^2 (rpm), or G = 1.12 x r (mm) x (N/1000)^2. A 1,200 mm basket (600 mm radius) at 1,000 rpm gives about 670 G at the basket wall." } },
-        { "@type": "Question", "name": "How do you calculate cake weight in a basket centrifuge?", "acceptedAnswer": { "@type": "Answer", "text": "Cake volume = basket height x (pi/4) x (D^2 - (D - 2t)^2), where D is basket diameter and t cake thickness. Cake weight = volume x bulk density of the wet cake. A 1.2 m x 0.6 m basket with a 120 mm cake at 700 kg/m3 holds about 171 kg." } },
-        { "@type": "Question", "name": "Why does a centrifuge dewater better than a Nutsche filter?", "acceptedAnswer": { "@type": "Answer", "text": "The spinning liquid layer presses on the cake with a pressure of rho x omega^2 x (r_wall^2 - r_liquid^2) / 2, often 5 to 10 bar at normal speeds, against at most about 1 bar for a vacuum filter, so more liquid is driven out of the cake." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "dateModified": "2026-10-18",
+        "datePublished": "2026-09-30"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate G-force in a centrifuge?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "G = 1.118 x 10^-5 x r (cm) x N^2 (rpm), or G = 1.12 x r (mm) x (N/1000)^2. A 1,200 mm basket (600 mm radius) at 1,000 rpm gives about 670 G at the basket wall."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate cake weight in a basket centrifuge?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cake volume = basket height x (pi/4) x (D^2 - (D - 2t)^2), where D is basket diameter and t cake thickness. Cake weight = volume x bulk density of the wet cake. A 1.2 m x 0.6 m basket with a 120 mm cake at 700 kg/m3 holds about 171 kg."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does a centrifuge dewater better than a Nutsche filter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The spinning liquid layer presses on the cake with a pressure of rho x omega^2 x (r_wall^2 - r_liquid^2) / 2, often 5 to 10 bar at normal speeds, against at most about 1 bar for a vacuum filter, so more liquid is driven out of the cake."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

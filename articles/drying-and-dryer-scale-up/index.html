@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Drying and Dryer Scale-up: Drying Curves, Dryer Types and Endpoints",
+      {
+        "@type": "Article",
+        "headline": "Drying and Dryer Scale-up: Drying Curves, Dryer Types and Endpoints",
         "description": "Drying periods, lab vs plant drying time, dryer types, temperature limits, residual solvents and drying endpoints.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "Why does drying take so much longer in the plant than in the lab?", "acceptedAnswer": { "@type": "Answer", "text": "In a contact dryer, heat enters through the wall and has to reach every kilogram of cake. A plant bed is ten to twenty times deeper than a lab tray, so heat transfer area per kilogram is much smaller, and drying takes correspondingly longer. In the example, 1.4 hours in the lab becomes about 22 hours in the plant." } },
-        { "@type": "Question", "name": "What are the constant-rate and falling-rate periods?", "acceptedAnswer": { "@type": "Answer", "text": "In the constant-rate period the particle surfaces are wet and solvent evaporates as fast as heat arrives. Below the critical moisture content, solvent must first move out from inside the particles, the rate falls, and the product temperature rises toward the jacket temperature." } },
-        { "@type": "Question", "name": "How do you know drying is complete?", "acceptedAnswer": { "@type": "Answer", "text": "By LOD or residual solvent analysis against the specification. Useful online signs are the product temperature approaching the jacket temperature, the vacuum reaching its no-load level, and condensate collection stopping." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does drying take so much longer in the plant than in the lab?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a contact dryer, heat enters through the wall and has to reach every kilogram of cake. A plant bed is ten to twenty times deeper than a lab tray, so heat transfer area per kilogram is much smaller, and drying takes correspondingly longer. In the example, 1.4 hours in the lab becomes about 22 hours in the plant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the constant-rate and falling-rate periods?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In the constant-rate period the particle surfaces are wet and solvent evaporates as fast as heat arrives. Below the critical moisture content, solvent must first move out from inside the particles, the rate falls, and the product temperature rises toward the jacket temperature."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you know drying is complete?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "By LOD or residual solvent analysis against the specification. Useful online signs are the product temperature approaching the jacket temperature, the vacuum reaching its no-load level, and condensate collection stopping."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

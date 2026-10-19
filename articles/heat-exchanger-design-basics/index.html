@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Heat Exchanger Design Basics: Duty, LMTD, U Value, Fouling and Area",
+      {
+        "@type": "Article",
+        "headline": "Heat Exchanger Design Basics: Duty, LMTD, U Value, Fouling and Area",
         "description": "Heat duty, LMTD, counter-current vs co-current, U values, fouling factors, F correction and a worked sizing example.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is LMTD?", "acceptedAnswer": { "@type": "Answer", "text": "The log mean temperature difference is the effective average temperature difference between the hot and cold streams along an exchanger: LMTD = (dT1 - dT2) / ln(dT1 / dT2), where dT1 and dT2 are the temperature differences at the two ends." } },
-        { "@type": "Question", "name": "Why is counter-current flow better than co-current?", "acceptedAnswer": { "@type": "Answer", "text": "Counter-current gives a higher LMTD for the same inlet and outlet temperatures, so it needs less area, and it allows the cold outlet to be hotter than the hot outlet. In the example on this page, counter-current gives 51 C against 46.5 C for co-current." } },
-        { "@type": "Question", "name": "What is a fouling factor?", "acceptedAnswer": { "@type": "Answer", "text": "A fouling factor is an extra thermal resistance added at design to allow for deposits that build up in service: 1/U_dirty = 1/U_clean + Rf. A fouling allowance of 0.00058 m2 h C/kcal reduces a clean U of 430 kcal/h m2 C to 345 kcal/h m2 C, so the exchanger needs 25 % more area." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is LMTD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The log mean temperature difference is the effective average temperature difference between the hot and cold streams along an exchanger: LMTD = (dT1 - dT2) / ln(dT1 / dT2), where dT1 and dT2 are the temperature differences at the two ends."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is counter-current flow better than co-current?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Counter-current gives a higher LMTD for the same inlet and outlet temperatures, so it needs less area, and it allows the cold outlet to be hotter than the hot outlet. In the example on this page, counter-current gives 51 C against 46.5 C for co-current."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a fouling factor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A fouling factor is an extra thermal resistance added at design to allow for deposits that build up in service: 1/U_dirty = 1/U_clean + Rf. A fouling allowance of 0.00058 m2 h C/kcal reduces a clean U of 430 kcal/h m2 C to 345 kcal/h m2 C, so the exchanger needs 25 % more area."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

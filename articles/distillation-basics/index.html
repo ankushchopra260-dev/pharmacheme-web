@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Distillation Basics: Relative Volatility, Reflux Ratio and Theoretical Stages",
+      {
+        "@type": "Article",
+        "headline": "Distillation Basics: Relative Volatility, Reflux Ratio and Theoretical Stages",
         "description": "Vapour-liquid equilibrium, relative volatility, theoretical stages, McCabe-Thiele, minimum reflux, Fenske, reflux ratio and batch distillation.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is relative volatility?", "acceptedAnswer": { "@type": "Answer", "text": "Relative volatility (alpha) is how much more the light component prefers the vapour than the heavy component. For an ideal mixture it is roughly the ratio of the two vapour pressures. Above about 2 the separation is easy; below about 1.2 it is hard and expensive." } },
-        { "@type": "Question", "name": "What is the minimum reflux ratio?", "acceptedAnswer": { "@type": "Answer", "text": "The lowest reflux ratio at which the separation is possible at all, needing an infinite number of stages. Practical columns run at about 1.2 to 1.5 times the minimum reflux ratio." } },
-        { "@type": "Question", "name": "How do you convert theoretical stages to real trays?", "acceptedAnswer": { "@type": "Answer", "text": "Divide the theoretical stages by the overall tray efficiency, typically 0.5 to 0.8. For packed columns, multiply the theoretical stages by the HETP (height equivalent to a theoretical plate), typically 0.3 to 0.6 m for structured packing." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is relative volatility?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Relative volatility (alpha) is how much more the light component prefers the vapour than the heavy component. For an ideal mixture it is roughly the ratio of the two vapour pressures. Above about 2 the separation is easy; below about 1.2 it is hard and expensive."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the minimum reflux ratio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The lowest reflux ratio at which the separation is possible at all, needing an infinite number of stages. Practical columns run at about 1.2 to 1.5 times the minimum reflux ratio."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you convert theoretical stages to real trays?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Divide the theoretical stages by the overall tray efficiency, typically 0.5 to 0.8. For packed columns, multiply the theoretical stages by the HETP (height equivalent to a theoretical plate), typically 0.3 to 0.6 m for structured packing."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

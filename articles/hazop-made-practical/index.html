@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "HAZOP Made Practical: Nodes, Guidewords, Deviations and Actions",
+      {
+        "@type": "Article",
+        "headline": "HAZOP Made Practical: Nodes, Guidewords, Deviations and Actions",
         "description": "What a HAZOP is, nodes, guidewords and parameters, causes, consequences, safeguards, risk ranking, batch HAZOP and running a good session.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is a HAZOP?", "acceptedAnswer": { "@type": "Answer", "text": "A HAZOP (hazard and operability study) is a structured team review of a process design. The team takes each part of the plant (a node), applies guidewords such as No, More, Less and Reverse to process parameters such as flow, temperature and pressure, and for each meaningful deviation asks what could cause it, what would happen and what protects against it." } },
-        { "@type": "Question", "name": "What are the HAZOP guidewords?", "acceptedAnswer": { "@type": "Answer", "text": "The basic guidewords are No (or Not), More, Less, As well as, Part of, Reverse and Other than. For batch processes, timing and sequence guidewords such as Early, Late, Before and After are also used." } },
-        { "@type": "Question", "name": "Who should be in a HAZOP team?", "acceptedAnswer": { "@type": "Answer", "text": "An independent facilitator, a scribe, the process engineer who knows the design, someone from operations who knows how the plant is really run, and instrument, maintenance and safety specialists as needed. Typically five to eight people." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a HAZOP?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A HAZOP (hazard and operability study) is a structured team review of a process design. The team takes each part of the plant (a node), applies guidewords such as No, More, Less and Reverse to process parameters such as flow, temperature and pressure, and for each meaningful deviation asks what could cause it, what would happen and what protects against it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the HAZOP guidewords?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The basic guidewords are No (or Not), More, Less, As well as, Part of, Reverse and Other than. For batch processes, timing and sequence guidewords such as Early, Late, Before and After are also used."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who should be in a HAZOP team?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An independent facilitator, a scribe, the process engineer who knows the design, someone from operations who knows how the plant is really run, and instrument, maintenance and safety specialists as needed. Typically five to eight people."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

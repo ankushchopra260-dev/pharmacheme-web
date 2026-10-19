@@ -1,18 +1,78 @@
 ---
 layout: default
 title: About PharmaChemE
-description: "Calculators and tools for chemical and pharmaceutical engineers, built around day-to-day plant calculations."
+seo_title: "About PharmaChemE and Ankush Chopra, Chemical Engineer"
+description: "Who makes PharmaChemE: Ankush Chopra, a chemical engineer in API and agrochemical manufacturing. How the calculators and data are built, checked and corrected."
 breadcrumbs:
   - label: About
     url: /about/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "@id": "https://www.pharmacheme.in/about/#page",
+        "url": "https://www.pharmacheme.in/about/",
+        "name": "About PharmaChemE",
+        "about": {
+          "@id": "https://www.pharmacheme.in/#organization"
+        },
+        "mainEntity": {
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+        "name": "Ankush Chopra",
+        "url": "https://www.pharmacheme.in/about/",
+        "jobTitle": "Chemical engineer",
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Thapar University"
+        },
+        "knowsAbout": [
+          "Process engineering",
+          "Technology transfer",
+          "Detailed engineering",
+          "API manufacturing",
+          "Agrochemical manufacturing",
+          "Process safety",
+          "Scale-up"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/ankushchopra260/",
+          "https://youtube.com/@PharmaChemE"
+        ],
+        "worksFor": {
+          "@id": "https://www.pharmacheme.in/#organization"
+        }
+      }
+    ]
+  }
+last_modified_at: 2026-10-19
 ---
 
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>About PharmaChemE</h1>
-  <p>PharmaChemE makes tools for chemical and pharmaceutical engineering: calculators, troubleshooting practice, a molecule tool and articles, built around the calculations that come up in day-to-day process and production work.</p>
-  <p>It covers process, pharmaceutical and chemical engineering calculations, troubleshooting, chemistry and digital engineering tools. The aim is to take calculations that usually sit buried in spreadsheets or textbooks and make them quick to use and easy to trust.</p>
+  <p>PharmaChemE makes tools for chemical and pharmaceutical engineering: calculators, solvent and reagent data, process safety lessons, troubleshooting practice, a molecule tool and articles, built around the calculations that come up in day-to-day process and production work.</p>
+  <p>The aim is to take calculations that usually sit buried in spreadsheets or textbooks and make them quick to use and easy to trust. Everything is free and needs no login.</p>
   <p>PharmaChemE also publishes chemical engineering videos on <a href="https://youtube.com/@PharmaChemE" style="color:var(--brass);">YouTube</a>. You can also walk through a 3D <a href="{{ '/plant-tour/' | relative_url }}" style="color:var(--brass);">Virtual Plant Tour</a> of a chemical plant.</p>
 
-  <h2>Who's Behind It</h2>
+  <h2 id="ankush-chopra">Who's Behind It</h2>
   <p>PharmaChemE brings plant experience and AI-assisted development together. It is directed, reviewed and maintained by <strong><a href="https://www.linkedin.com/in/ankushchopra260/" target="_blank" rel="noopener">Ankush Chopra</a></strong>, a chemical engineer (Thapar University).</p>
+  <p>Ankush works in API and agrochemical manufacturing, in process engineering, technology transfer and detailed engineering. The topics on this site come from that work: batch reactors, solvent recovery, utilities, scale-up and process safety.</p>
+
+  <h2>How the content is made and checked</h2>
+  <ul>
+    <li><b>Methods are shown.</b> Calculator pages give the formula, the units and the assumptions behind the result, so you can check a number by hand.</li>
+    <li><b>Units follow plant practice.</b> Heat and energy are in kcal, temperatures in &deg;C. Electrical power stays in kW.</li>
+    <li><b>Dates are shown.</b> Every page shows when it was last updated.</li>
+    <li><b>AI assistance is disclosed.</b> Articles and tools are written and built with AI assistance, then reviewed for plant accuracy.</li>
+    <li><b>Results are estimates.</b> Calculators and data are for screening and learning. Check plant decisions against your own data, the supplier's SDS and a qualified engineer.</li>
+  </ul>
+
+  <h2>Corrections</h2>
+  <p>If you find a wrong number, a missing assumption or a better source, please <a href="{{ '/contact/' | relative_url }}" style="color:var(--brass);">write to us</a> or email <a href="mailto:pharmacheme.app@gmail.com" style="color:var(--brass);">pharmacheme.app@gmail.com</a>. Corrections are made on the page and its &ldquo;Last updated&rdquo; date changes.</p>
 </div>

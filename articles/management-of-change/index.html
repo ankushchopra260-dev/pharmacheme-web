@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Management of Change (MOC): What Counts as a Change and How to Review It",
+      {
+        "@type": "Article",
+        "headline": "Management of Change (MOC): What Counts as a Change and How to Review It",
         "description": "What counts as a change, replacement in kind, temporary and organisational changes, MOC steps, PSSR and Flixborough.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is a replacement in kind?", "acceptedAnswer": { "@type": "Answer", "text": "A replacement that meets the original design specification exactly: same material, rating, size, function and performance. It does not need an MOC. Anything that differs from the specification, even if it seems better, is a change." } },
-        { "@type": "Question", "name": "Do temporary changes need MOC?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Temporary changes need the same hazard review as permanent ones, plus a defined end date and a check that the plant is returned to its original state. Many serious accidents, including Flixborough in 1974, began with a temporary modification." } },
-        { "@type": "Question", "name": "What is a pre-startup safety review?", "acceptedAnswer": { "@type": "Answer", "text": "A check before the changed equipment or process is put into service, confirming that it was built as approved, that procedures, drawings and training are updated, and that actions from the hazard review are closed." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a replacement in kind?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A replacement that meets the original design specification exactly: same material, rating, size, function and performance. It does not need an MOC. Anything that differs from the specification, even if it seems better, is a change."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do temporary changes need MOC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Temporary changes need the same hazard review as permanent ones, plus a defined end date and a check that the plant is returned to its original state. Many serious accidents, including Flixborough in 1974, began with a temporary modification."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a pre-startup safety review?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A check before the changed equipment or process is put into service, confirming that it was built as approved, that procedures, drawings and training are updated, and that actions from the hazard review are closed."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 

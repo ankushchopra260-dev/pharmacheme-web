@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="any">
+<link rel="icon" type="image/png" href="{{ '/assets/img/icon-512.png' | relative_url }}">
+<link rel="apple-touch-icon" href="{{ '/assets/img/apple-touch-icon.png' | relative_url }}">
 <title>{% if page.seo_title %}{{ page.seo_title }}{% elsif page.title %}{{ page.title }} | PharmaChemE{% else %}PharmaChemE: Chemical &amp; Pharmaceutical Engineering Tools{% endif %}</title>
 <meta name="description" content="{{ page.description | default: site.description }}">
 <link rel="canonical" href="{{ page.url | absolute_url }}">
@@ -72,6 +75,7 @@
 {% include breadcrumbs.html %}
 
 {{ content }}
+{% if page.last_modified_at and page.url != '/' %}<p class="container page-updated">Last updated <time datetime="{{ page.last_modified_at | date: '%Y-%m-%d' }}">{{ page.last_modified_at | date: '%-d %B %Y' }}</time></p>{% endif %}
 {% if page.url contains '/articles/' and page.url != '/articles/' %}{% include author-box.html %}{% endif %}
 
 {% include footer.html %}

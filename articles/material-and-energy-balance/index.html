@@ -12,16 +12,57 @@ structured_data: |
   {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Article", "headline": "Material and Energy Balance for Batch Plants: A Practical Guide",
+      {
+        "@type": "Article",
+        "headline": "Material and Energy Balance for Batch Plants: A Practical Guide",
         "description": "Boundaries, batch mass balance, closure, component balances for solvents and a batch energy balance for distillation.",
-        "author": { "@type": "Person", "name": "Ankush Chopra" }, "publisher": { "@type": "Organization", "name": "PharmaChemE" }, "datePublished": "2026-10-17" },
-      { "@type": "FAQPage", "mainEntity": [
-        { "@type": "Question", "name": "What is mass balance closure?", "acceptedAnswer": { "@type": "Answer", "text": "Closure is total measured outputs divided by total inputs, as a percentage. A well-measured batch closes within about 97 to 103 %. A lower closure means streams are missing or mismeasured, often vent losses, hold-up in equipment or unrecorded washes." } },
-        { "@type": "Question", "name": "How do you calculate steam needed for a distillation?", "acceptedAnswer": { "@type": "Answer", "text": "Add the sensible heat to bring the batch to boiling and the latent heat of the solvent distilled, then divide by the latent heat of steam at the jacket pressure (about 500 kcal/kg at 3 to 4 barg) and add 10 to 15 % for losses. Distilling 1,850 kg of toluene needs roughly 360 kg of steam." } },
-        { "@type": "Question", "name": "Why does a component balance matter more than a total balance?", "acceptedAnswer": { "@type": "Answer", "text": "A total balance can close while individual components do not, because errors cancel. A component balance on the solvent, the product or water shows exactly where each is lost, which is what you need to reduce consumption." } }
-      ] }
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-17",
+        "dateModified": "2026-10-18"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is mass balance closure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Closure is total measured outputs divided by total inputs, as a percentage. A well-measured batch closes within about 97 to 103 %. A lower closure means streams are missing or mismeasured, often vent losses, hold-up in equipment or unrecorded washes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate steam needed for a distillation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Add the sensible heat to bring the batch to boiling and the latent heat of the solvent distilled, then divide by the latent heat of steam at the jacket pressure (about 500 kcal/kg at 3 to 4 barg) and add 10 to 15 % for losses. Distilling 1,850 kg of toluene needs roughly 360 kg of steam."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does a component balance matter more than a total balance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A total balance can close while individual components do not, because errors cancel. A component balance on the solvent, the product or water shows exactly where each is lost, which is what you need to reduce consumption."
+            }
+          }
+        ]
+      }
     ]
   }
+last_modified_at: 2026-10-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
