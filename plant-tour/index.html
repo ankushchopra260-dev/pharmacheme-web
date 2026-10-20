@@ -7584,10 +7584,15 @@ init();
 (function(){
   if (!/[?&]embed=1/.test(location.search)) return;
   document.body.classList.add('pt-embed');
+  // In a small frame (the home page on a phone) the fly-through runs as a clean preview: no buttons, captions or labels.
+  const fit = () => document.body.classList.toggle('pt-embed-small', window.innerWidth < 720 || window.innerHeight < 460);
+  fit(); window.addEventListener('resize', fit);
   try { setSidebarCollapsed(true, false); } catch(e) {}
   window.addEventListener('load', function(){ setTimeout(function(){ try { startCinematic('fly'); } catch(e) {} }, 1200); });
 })();
 </script>
-<style>body.pt-embed #sidebar-toggle-btn, body.pt-embed #sidebar-backdrop { display:none; }</style>
+<style>body.pt-embed #sidebar-toggle-btn, body.pt-embed #sidebar-backdrop { display:none; }
+body.pt-embed-small #mode-bar, body.pt-embed-small #cine-bar, body.pt-embed-small #hud-loc, body.pt-embed-small #label-layer,
+body.pt-embed-small #drag-hint, body.pt-embed-small #reset-btn, body.pt-embed-small #anim-menu { display:none !important; }</style>
 </body>
 </html>
