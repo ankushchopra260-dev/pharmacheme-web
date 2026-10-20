@@ -415,3 +415,17 @@ body.has-page-search .nav-search-btn { display: none; }
 .quick-answer h2 { margin: 0 0 4px; font-size: .95rem; color: var(--brass); letter-spacing: 0; }
 .quick-answer p, .calc-page-head .quick-answer p { margin: 0; line-height: 1.55; color: var(--paper); font-size: .95rem; max-width: none; }
 .quick-answer p + p { margin-top: 6px; }
+
+/* Install as an app (PWA) */
+.footer-install { display: inline-block; margin-top: 6px; padding: 6px 12px; background: none; border: 1px solid var(--brass); border-radius: 4px; color: var(--brass); font: inherit; font-size: .9rem; cursor: pointer; text-align: left; }
+.footer-install:hover { background: var(--brass); color: var(--bg-deep); }
+#pce-install-bar { position: fixed; left: 10px; right: 84px; bottom: 12px; z-index: 900; display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 12px; background: var(--panel); border: 1px solid var(--brass); border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.45); color: var(--paper); font-size: .86rem; line-height: 1.35; }
+#pce-install-bar img { border-radius: 8px; flex: none; }
+#pce-install-bar span { flex: 1; }
+#pce-install-bar b { color: var(--paper); }
+#pce-install-bar .pce-bar-go { flex: none; padding: 8px 12px; background: var(--brass); color: var(--bg-deep); border: 0; border-radius: 6px; font-weight: 600; font-size: .86rem; cursor: pointer; }
+#pce-install-bar .pce-bar-x { flex: none; background: none; border: 0; color: var(--muted); font-size: 1.4rem; line-height: 1; padding: 4px 6px; cursor: pointer; }
+.pce-sheet { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; justify-content: center; }
+.pce-sheet[hidden] { display: none; }
+.pce-sheet-box { width: min(480px, 100%); margin: 0 10px 14px; padding: 18px 20px; background: var(--panel); border: 1px solid var(--brass); border-radius: 12px; color: var(--paper); }
+.pce-sheet-box ol { margin: 10px 0 14px 18px; padding: 0; line-height: 1.6; }
