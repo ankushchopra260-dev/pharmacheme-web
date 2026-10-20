@@ -1,0 +1,136 @@
+---
+layout: default
+title: "Technology Transfer: The Documents and Steps from R&D to the Plant"
+seo_title: "Technology Transfer: Documents and Steps, R&D to Plant | PharmaChemE"
+description: "What a good technology transfer contains: the TT dossier, equipment mapping, gap and risk assessment, trial and validation batches, and how to close the transfer."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Technology Transfer from R&D to Plant"
+    url: /articles/technology-transfer-documents/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Technology Transfer: The Documents and Steps from R&D to the Plant",
+        "description": "What a good technology transfer contains: the TT dossier, equipment mapping, gap and risk assessment, trial and validation batches, and how to close the transfer.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a technology transfer dossier?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The package R&D hands to the plant: route, procedure, critical parameters, specifications and methods, safety data, yields, impurity profiles, hold times and waste details."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many process validation batches are needed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Traditionally three consecutive commercial batches, but current guidance asks for enough batches to demonstrate the process is reproducible, based on process knowledge and risk."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is equipment mapping?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Assigning each process step to specific plant equipment and checking volume, temperature, MOC, agitation, heat transfer and filtration capacity."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Technology Transfer from R&amp;D to Plant</h1>
+  <p class="article-meta">Plant Departments &middot; Technology Transfer &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Technology transfer is where a lab process becomes a plant process. Done well, the first plant batch behaves like the lab. Done badly, the plant spends months rediscovering what R&amp;D already knew. The difference is mostly in the documents and in the conversations around them.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#dossier">What R&amp;D hands over</a><span>Basics</span></li>
+    <li><a href="#map">Equipment mapping and batch size</a><span>Basics</span></li>
+    <li><a href="#gap">Gap and risk assessment</a><span>Working level</span></li>
+    <li><a href="#batches">Trial, exhibit and validation batches</a><span>Working level</span></li>
+    <li><a href="#close">Closing the transfer</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="dossier">What R&amp;D hands over <span class="lvl l1">Basics</span></h2>
+  <p>A <strong>technology transfer dossier</strong> usually contains:</p>
+<ul>
+<li>The route, reaction scheme and stoichiometry of each step, with molecular weights and mole ratios.</li>
+<li>A detailed lab procedure with quantities, order and rates of addition, temperatures, times and in-process checks.</li>
+<li>Critical process parameters and their proven ranges, and the reasoning behind them.</li>
+<li>Specifications and methods for raw materials, intermediates and the product, with the analytical method transfer plan.</li>
+<li>Safety data: DSC, reaction calorimetry, gas evolution, hazardous reagents and quench procedures.</li>
+<li>Expected yields, impurity profile at each stage, hold-time data, and the composition of each waste stream.</li>
+<li>Known problems: what went wrong in the lab and how it was solved.</li>
+</ul>
+
+  <h2 id="map">Equipment mapping and batch size <span class="lvl l1">Basics</span></h2>
+  <p>The plant team maps each step to real equipment: which reactor, which filter, which dryer. For each piece the question is whether the volume, temperature range, MOC, agitation, heat transfer and filtration area fit. The batch size is set by the most limiting step, often a filtration or the largest volume during a work-up. The <a href="{{ '/calculators/batch-size-calculator/' | relative_url }}">batch size calculator</a> and <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">batch cycle time</a> article help here.</p>
+
+  <h2 id="gap">Gap and risk assessment <span class="lvl l2">Working level</span></h2>
+  <p>A structured comparison of lab and plant finds the gaps: dosing that took 10 minutes in the lab will take 3 hours in the plant; a phase separation done in a funnel must happen in a reactor with a sight glass; a 2 cm filter cake becomes 30 cm. Each gap is scored for risk (an FMEA format works well) and closed by a study, a design change or a control. The <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">scale-up checklist</a> lists the usual gaps.</p>
+<p>A process safety review, often a <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP</a>, is done on the plant P&amp;ID before the first batch.</p>
+
+  <h2 id="batches">Trial, exhibit and validation batches <span class="lvl l2">Working level</span></h2>
+  <p>The first plant batch is a <strong>trial batch</strong>, usually at reduced scale with R&amp;D present, to confirm the process behaves as predicted. Then come registration (exhibit) batches if a filing is needed, and <strong>process validation batches</strong>, traditionally three consecutive batches at commercial scale meeting all criteria, with enhanced sampling. Each batch&rsquo;s learnings go into the batch record before the next.</p>
+
+  <h2 id="close">Closing the transfer <span class="lvl l3">Going deeper</span></h2>
+  <p>A transfer is complete when a technology transfer report compares planned and actual results (yield, quality, cycle time, consumption norms, effluent), lists deviations and their resolution, and records the final batch record, specifications and cleaning procedure. Continued process verification then trends the CPPs and quality results batch after batch, so drift is seen early.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Put the R&amp;D chemist and the shift chemist in front of the reactor together during the trial batch. Half of what matters, such as what the mass looks like when the crystallisation starts, never makes it into a document.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Transferring a lab procedure without hold-time and waste data.</li>
+    <li>Scaling dosing time by volume and forgetting cooling capacity.</li>
+    <li>No HAZOP on the plant P&amp;ID before the first batch.</li>
+    <li>Validation before the process is understood.</li>
+    <li>Closing the transfer without a report, so the learning is lost.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a technology transfer dossier?</h3>
+  <p>The package R&D hands to the plant: route, procedure, critical parameters, specifications and methods, safety data, yields, impurity profiles, hold times and waste details.</p>
+  <h3>How many process validation batches are needed?</h3>
+  <p>Traditionally three consecutive commercial batches, but current guidance asks for enough batches to demonstrate the process is reproducible, based on process knowledge and risk.</p>
+  <h3>What is equipment mapping?</h3>
+  <p>Assigning each process step to specific plant equipment and checking volume, temperature, MOC, agitation, heat transfer and filtration capacity.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/process-rd-route-selection/' | relative_url }}">Process R&amp;D: route selection</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and GMP</a>
+    <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time and debottlenecking</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

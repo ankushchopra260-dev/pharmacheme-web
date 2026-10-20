@@ -1,0 +1,139 @@
+---
+layout: default
+title: "Raw Material Management: Specifications, Vendor Qualification, Sampling and Release"
+seo_title: "Raw Material Management in Pharma Plants | PharmaChemE"
+description: "How raw materials are controlled in an API plant: specifications, vendor qualification, receipt and quarantine, sampling and release, consumption norms and inventory planning."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Raw Material Management"
+    url: /articles/raw-material-management/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Raw Material Management: Specifications, Vendor Qualification, Sampling and Release",
+        "description": "How raw materials are controlled in an API plant: specifications, vendor qualification, receipt and quarantine, sampling and release, consumption norms and inventory planning.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a key starting material?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The material that becomes a significant structural part of the API and from which GMP controls apply. It needs the tightest specification and vendor control."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is raw material sampled even with a supplier CoA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GMP requires the user to verify identity and quality. A qualified vendor may allow reduced testing, but identity is always confirmed and full testing is repeated periodically."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a retest date?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The date after which a material must be re-examined to confirm it is still suitable before use."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Raw Material Management</h1>
+  <p class="article-meta">Plant Departments &middot; Raw Materials &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Raw materials are usually the largest part of the cost of an API, and a wrong or poor-quality material can spoil a batch long before anyone notices. Good raw material management connects purchase, stores, QC and production so the right material is in the right place, approved, at the right time.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#spec">Start with the specification</a><span>Basics</span></li>
+    <li><a href="#vendor">Vendor qualification</a><span>Basics</span></li>
+    <li><a href="#receipt">Receipt, quarantine, sampling and release</a><span>Working level</span></li>
+    <li><a href="#norms">Consumption norms and yield</a><span>Working level</span></li>
+    <li><a href="#inv">Inventory planning</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="spec">Start with the specification <span class="lvl l1">Basics</span></h2>
+  <p>Each raw material has a specification agreed between R&amp;D, QC and purchase: purity or assay, specific impurities that matter to the process (for example water in a reagent that will be used with an acid chloride, or a metal that poisons a catalyst), physical form and pack size. A key starting material, the first material that becomes part of the API structure, gets the tightest controls because its impurities can carry through to the product.</p>
+<p>A specification copied from a supplier&rsquo;s catalogue usually misses the parameter your chemistry is sensitive to. Ask R&amp;D: which impurity in this material has caused trouble in the lab?</p>
+
+  <h2 id="vendor">Vendor qualification <span class="lvl l1">Basics</span></h2>
+  <p>Approved materials come only from <strong>approved vendors</strong>. Qualification typically includes a questionnaire, samples tested against the specification, a trial batch at plant scale, and for critical materials an audit of the vendor&rsquo;s site. A second source is qualified the same way. Changing vendor for a key starting material is a <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">change control</a> and may need regulatory notification.</p>
+
+  <h2 id="receipt">Receipt, quarantine, sampling and release <span class="lvl l2">Working level</span></h2>
+  <ol>
+<li><strong>Receipt:</strong> check the vehicle, seals, labels, quantity, the supplier&rsquo;s certificate of analysis, and that the vendor is approved for that material.</li>
+<li><strong>Quarantine:</strong> the material gets a GRN and an internal lot number and is labelled &ldquo;Quarantine&rdquo; in a segregated area or a locked system status.</li>
+<li><strong>Sampling:</strong> QC samples a defined number of containers (a common plan is &radic;n + 1 containers for a lot of n) in a sampling booth for materials that need protection.</li>
+<li><strong>Testing and release:</strong> the material is tested (full or reduced testing for qualified vendors with periodic full checks) and labelled &ldquo;Approved&rdquo; or &ldquo;Rejected&rdquo;. Only approved material is dispensed.</li>
+</ol>
+<p>Approved materials carry a <strong>retest date</strong>. Material past it is retested before use, not simply used.</p>
+
+  <h2 id="norms">Consumption norms and yield <span class="lvl l2">Working level</span></h2>
+  <p>The <strong>consumption norm</strong> is the planned kg of each raw material per kg of product. Comparing actual consumption with the norm batch by batch shows losses early: a solvent norm creeping up points to <a href="{{ '/articles/solvent-recovery-troubleshooting/' | relative_url }}">recovery problems</a>; a reagent above norm may mean a weighing error, a poor assay or a side reaction. The <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">consumption norms</a> article covers how to set and track them.</p>
+
+  <h2 id="inv">Inventory planning <span class="lvl l3">Going deeper</span></h2>
+  <p>Inventory is a balance between running out (a stopped plant) and holding too much (cash locked up, retest dates expiring, storage limits). The usual tools:</p>
+<ul>
+<li><strong>Requirement from the production plan:</strong> batches planned &times; norm per batch, plus losses.</li>
+<li><strong>Lead time and safety stock:</strong> reorder when stock falls to (daily use &times; lead time) + safety stock. Imported or single-source materials need more safety stock.</li>
+<li><strong>ABC analysis:</strong> the few high-value materials (A) get tight, frequent control; the many low-value ones (C) simpler rules.</li>
+<li><strong>Storage limits:</strong> flammable solvents are limited by licence and tank capacity, not just by cash. Plan deliveries around them.</li>
+</ul>
+
+  <div class="art-note"><b>On the plant</b><p>When a batch misbehaves, the first raw-material question is &ldquo;new lot or new vendor?&rdquo;. Keep a simple table of which lots went into which batches; it saves days in an investigation.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Specifications that do not include the impurity the process is sensitive to.</li>
+    <li>Buying from a cheaper, unqualified source in a hurry.</li>
+    <li>Using material past its retest date.</li>
+    <li>Not reconciling actual consumption against norms every batch.</li>
+    <li>Ignoring storage licence limits when ordering solvents.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a key starting material?</h3>
+  <p>The material that becomes a significant structural part of the API and from which GMP controls apply. It needs the tightest specification and vendor control.</p>
+  <h3>Why is raw material sampled even with a supplier CoA?</h3>
+  <p>GMP requires the user to verify identity and quality. A qualified vendor may allow reduced testing, but identity is always confirmed and full testing is repeated periodically.</p>
+  <h3>What is a retest date?</h3>
+  <p>The date after which a material must be re-examined to confirm it is still suitable before use.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a>
+    <a href="{{ '/articles/chemical-warehouse-storage/' | relative_url }}">Chemical warehouse and storage</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and GMP</a>
+    <a href="{{ '/calculators/batch-size-calculator/' | relative_url }}">Batch size calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,141 @@
+---
+layout: default
+title: "Chemical Warehouse Management: Storage, Segregation, FEFO and Dispensing"
+seo_title: "Chemical Warehouse: Storage, Segregation, FEFO, Dispensing | PharmaChemE"
+description: "How to run a warehouse for chemicals and APIs: status labelling, segregation of incompatible materials, flammable solvent storage, FIFO and FEFO, dispensing and reconciliation."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Chemical Warehouse Management"
+    url: /articles/chemical-warehouse-storage/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Chemical Warehouse Management: Storage, Segregation, FEFO and Dispensing",
+        "description": "How to run a warehouse for chemicals and APIs: status labelling, segregation of incompatible materials, flammable solvent storage, FIFO and FEFO, dispensing and reconciliation.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between FIFO and FEFO?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "FIFO issues the oldest received stock first; FEFO issues the stock with the earliest expiry or retest date first. FEFO is preferred where shelf lives differ."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which materials should never be stored together?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Oxidisers with flammables, acids with bases, acids with cyanides or sulphides, and water-reactive materials with aqueous materials. Check section 10 of the SDS for each material."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is warehouse temperature mapping done?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "To find the warmest and coldest spots so that materials with storage conditions are kept where those conditions are actually met."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Chemical Warehouse Management</h1>
+  <p class="article-meta">Plant Departments &middot; Warehouse &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">A chemical warehouse is not just a store. It holds flammable, corrosive, toxic and reactive materials side by side, keeps GMP status for every container, and feeds the plant with exactly weighed charges. Most of its rules exist because something went wrong somewhere.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#status">Every container has a status</a><span>Basics</span></li>
+    <li><a href="#seg">Segregation of incompatible materials</a><span>Basics</span></li>
+    <li><a href="#solv">Flammable solvents</a><span>Working level</span></li>
+    <li><a href="#fefo">FIFO, FEFO and stock accuracy</a><span>Working level</span></li>
+    <li><a href="#disp">Dispensing and reconciliation</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="status">Every container has a status <span class="lvl l1">Basics</span></h2>
+  <p>Each container shows its material, lot number and status: <strong>Quarantine</strong>, <strong>Approved</strong>, <strong>Rejected</strong> or <strong>Under test</strong>. Rejected material is kept in a locked, separate area until it is returned or destroyed. In a warehouse management system the status is controlled in software, but a physical label still matters for anyone walking the floor.</p>
+
+  <h2 id="seg">Segregation of incompatible materials <span class="lvl l1">Basics</span></h2>
+  <p>Store materials by hazard, not by alphabet. The classic separations:</p>
+<ul>
+<li><strong>Oxidisers</strong> (nitrates, peroxides, hypochlorite, permanganate) away from flammables and organics.</li>
+<li><strong>Acids away from bases</strong>, and acids away from cyanides and sulphides, which release toxic gas.</li>
+<li><strong>Water-reactive materials</strong> (sodium metal, hydrides, acid chlorides, thionyl chloride) in dry areas, away from sprinklers where possible and from aqueous materials.</li>
+<li><strong>Pyrophoric</strong> catalysts kept wet and in closed containers.</li>
+<li><strong>Toxic and highly potent</strong> materials in a restricted area.</li>
+</ul>
+<p>The safety data sheet (section 7, handling and storage, and section 10, stability and reactivity) is the starting point. A simple compatibility chart at the entrance helps everyone. The <a href="{{ '/calculators/materials-compatibility/' | relative_url }}">materials compatibility tool</a> covers what containers and gaskets can hold.</p>
+
+  <h2 id="solv">Flammable solvents <span class="lvl l2">Working level</span></h2>
+  <p>Solvents in drums and tanks bring the most risk. In India, petroleum products and many flammable liquids are covered by the Petroleum Rules and licensing by PESO, with limits on quantity and separation distances; the site&rsquo;s licence states what may be stored where. Good practice:</p>
+<ul>
+<li>Drum stores with ventilation, flameproof electrics, bunding and spill kits.</li>
+<li>Earthing and bonding for drum transfer; see <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity and solvent fires</a>.</li>
+<li>Tank farms with dykes, nitrogen blanketing where needed, and breather valves sized for <a href="{{ '/articles/storage-tank-breathing-losses/' | relative_url }}">breathing losses</a>.</li>
+<li>No storage of solvents in production areas beyond the shift requirement.</li>
+</ul>
+
+  <h2 id="fefo">FIFO, FEFO and stock accuracy <span class="lvl l2">Working level</span></h2>
+  <p><strong>FIFO</strong> (first in, first out) issues the oldest lot first. <strong>FEFO</strong> (first expiry, first out) issues the lot that expires or reaches retest first, which matters when lots arrive with different shelf lives. Bin cards or system locations, regular cycle counts and immediate recording of every movement keep the stock accurate; an inaccurate stock is how a plant runs short of a material the system says it has.</p>
+
+  <h2 id="disp">Dispensing and reconciliation <span class="lvl l3">Going deeper</span></h2>
+  <p>Dispensing turns approved stock into weighed charges for a specific batch. It is done in a dispensing booth with extraction (often a downflow booth for powders), on calibrated balances checked daily, with each charge labelled for the batch, double-checked and recorded. Potent materials need containment. Afterwards, issued, used and returned quantities are reconciled; an unexplained difference is a deviation.</p>
+<p>Finished API is stored according to its label conditions (for example below 25 &deg;C, protected from light), with temperature and humidity monitored and mapped across the store so the worst spot is known.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Walk the store once a week with the SDS sections 7 and 10 of the five most hazardous materials in hand. Misplaced pallets and leaking drums are found by walking, not by the system.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Storing by supplier or alphabet instead of hazard.</li>
+    <li>Rejected material left in the approved area.</li>
+    <li>Drum transfers without earthing.</li>
+    <li>Issuing the newest lot because it is easiest to reach.</li>
+    <li>Balances not checked before dispensing.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between FIFO and FEFO?</h3>
+  <p>FIFO issues the oldest received stock first; FEFO issues the stock with the earliest expiry or retest date first. FEFO is preferred where shelf lives differ.</p>
+  <h3>Which materials should never be stored together?</h3>
+  <p>Oxidisers with flammables, acids with bases, acids with cyanides or sulphides, and water-reactive materials with aqueous materials. Check section 10 of the SDS for each material.</p>
+  <h3>Why is warehouse temperature mapping done?</h3>
+  <p>To find the warmest and coldest spots so that materials with storage conditions are kept where those conditions are actually met.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/raw-material-management/' | relative_url }}">Raw material management</a>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+    <a href="{{ '/articles/storage-tank-breathing-losses/' | relative_url }}">Storage tank breathing losses</a>
+    <a href="{{ '/calculators/materials-compatibility/' | relative_url }}">Materials compatibility tool</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

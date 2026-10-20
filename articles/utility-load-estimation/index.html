@@ -1,0 +1,133 @@
+---
+layout: default
+title: "Utility Load Estimation for a New Plant Block: Steam, Cooling, Power and Nitrogen"
+seo_title: "Utility Load Estimation: Steam, Chilling, Power, Nitrogen | PharmaChemE"
+description: "How to estimate utility loads for a new or expanded block: peak and average duties per equipment, diversity, steam, cooling water, chilled water and brine, power, nitrogen, compressed air and water."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Utility Load Estimation for a New Block"
+    url: /articles/utility-load-estimation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Utility Load Estimation for a New Plant Block: Steam, Cooling, Power and Nitrogen",
+        "description": "How to estimate utility loads for a new or expanded block: peak and average duties per equipment, diversity, steam, cooling water, chilled water and brine, power, nitrogen, compressed air and water.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I convert a cooling duty to TR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Divide the duty in kcal/h by 3,024."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a diversity factor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The ratio of the combined actual peak load to the sum of individual peak loads, less than 1 because not all equipment peaks together."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much steam does a heating duty need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Duty in kcal/h divided by the latent heat of steam at the supply pressure, about 517 kcal/kg at 2 kg/cm2 g."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Utility Load Estimation for a New Block</h1>
+  <p class="article-meta">Plant Departments &middot; Utilities &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Undersized utilities are one of the most common reasons a new block cannot reach its capacity. Oversized ones waste capital and run inefficiently. A utility load estimate done equipment by equipment, with honest peak and average figures and a sensible diversity, avoids both.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#list">Start with a load list</a><span>Basics</span></li>
+    <li><a href="#heat">Steam, cooling water, chilled water and brine</a><span>Basics</span></li>
+    <li><a href="#div">Diversity</a><span>Working level</span></li>
+    <li><a href="#other">Power, nitrogen, air, vacuum and water</a><span>Working level</span></li>
+    <li><a href="#check">Check against the utility block</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="list">Start with a load list <span class="lvl l1">Basics</span></h2>
+  <p>For every consumer, list the utility, the peak load, the average load over a batch and the hours of use. Sources: the energy balance for heating and cooling, nameplate or calculated power for motors, and process requirements for nitrogen, vacuum and water. A spreadsheet row per equipment per utility is enough.</p>
+
+  <h2 id="heat">Steam, cooling water, chilled water and brine <span class="lvl l1">Basics</span></h2>
+  <p>Heating and cooling duties come from the batch energy balance in kcal/h. For steam, kg/h = duty &divide; latent heat at the supply pressure (about 517 kcal/kg at 2 kg/cm&sup2; g). For cooling media, flow in m&sup3;/h = duty &divide; (density &times; cp &times; &Delta;T &divide; 1000); for water with a 5 &deg;C rise that is duty &divide; 5,000. Chilled water and brine loads convert to TR at 3,024 kcal/h per TR. The <a href="{{ '/calculators/steam-heating-calculator/' | relative_url }}">steam heating calculator</a> and <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load calculator</a> help with the batch duties.</p>
+<p>Peak duty matters: cooling a reaction mass from reflux at the start of a cooldown draws far more than the batch average. Use the peak for headers and control valves and a realistic combined peak for the plant.</p>
+
+  <h2 id="div">Diversity <span class="lvl l2">Working level</span></h2>
+  <p>Not every reactor heats or cools at the same moment. The <strong>diversity factor</strong> (combined peak &divide; sum of individual peaks) is less than 1. Estimate it from the occupancy chart: line up the batches as they will actually run and add up the loads hour by hour. Without that, factors of 0.6&ndash;0.8 are common assumptions for multi-reactor batch blocks, but a block with synchronised batches or one dominant consumer needs the real profile.</p>
+
+  <h2 id="other">Power, nitrogen, air, vacuum and water <span class="lvl l2">Working level</span></h2>
+  <ul>
+<li><strong>Power:</strong> motor kW &times; load factor; add HVAC, lighting and the chiller and air compressor power that the new loads create in the utility block.</li>
+<li><strong>Nitrogen:</strong> inerting purges, blanketing, pressure transfers and filter drying; peaks are short but large (<a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and LOC</a>).</li>
+<li><strong>Compressed air:</strong> instruments, pneumatic pumps and tools.</li>
+<li><strong>Vacuum:</strong> distillation and drying loads (<a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a>).</li>
+<li><strong>Water:</strong> process water, purified water if needed, cooling tower make-up and cleaning.</li>
+</ul>
+
+  <h2 id="check">Check against the utility block <span class="lvl l3">Going deeper</span></h2>
+  <p>Compare the new combined peak with spare capacity in each utility: boiler and steam header, chillers and brine plants, cooling tower, transformer and DG, nitrogen and air plants. Distance matters too: long headers need line sizing for the new flow (<a href="{{ '/articles/line-sizing-and-pressure-drop/' | relative_url }}">line sizing</a>). Add a margin for future products, typically stated explicitly (for example 20 %) so it is not added twice by different people.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Ask the utility team for real logged peaks from the existing plant, not nameplate capacities. A chiller rated at 200 TR that delivers 150 TR on a summer afternoon is a 150 TR chiller for planning.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Using batch average duties to size headers.</li>
+    <li>Adding margins at every step so the total is double what is needed.</li>
+    <li>Ignoring the extra load the new block puts on chillers and compressors.</li>
+    <li>Nameplate capacity assumed available in summer.</li>
+    <li>No check of header sizes for the new flows.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do I convert a cooling duty to TR?</h3>
+  <p>Divide the duty in kcal/h by 3,024.</p>
+  <h3>What is a diversity factor?</h3>
+  <p>The ratio of the combined actual peak load to the sum of individual peak loads, less than 1 because not all equipment peaks together.</p>
+  <h3>How much steam does a heating duty need?</h3>
+  <p>Duty in kcal/h divided by the latent heat of steam at the supply pressure, about 517 kcal/kg at 2 kg/cm2 g.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">Water and power utilities</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chillers and VAM</a>
+    <a href="{{ '/articles/process-engineering-deliverables/' | relative_url }}">Process engineering deliverables</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

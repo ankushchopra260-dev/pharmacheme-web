@@ -1,0 +1,131 @@
+---
+layout: default
+title: "Maintenance Planning in Chemical Plants: Preventive, Predictive, MTBF and MTTR"
+seo_title: "Maintenance Planning: PM, CBM, MTBF, MTTR | PharmaChemE"
+description: "How to plan maintenance in a chemical or pharma plant: breakdown, preventive and condition-based maintenance, criticality ranking, MTBF, MTTR and availability, spares and GMP requirements."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Maintenance Planning: Preventive, Predictive, MTBF and MTTR"
+    url: /articles/maintenance-planning-mtbf-mttr/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Maintenance Planning in Chemical Plants: Preventive, Predictive, MTBF and MTTR",
+        "description": "How to plan maintenance in a chemical or pharma plant: breakdown, preventive and condition-based maintenance, criticality ranking, MTBF, MTTR and availability, spares and GMP requirements.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is MTBF calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Total operating time divided by the number of failures in that time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is availability?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The fraction of time equipment is able to run: MTBF divided by (MTBF + MTTR)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is condition-based maintenance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Maintenance triggered by measured condition, such as vibration, temperature, oil quality or wall thickness, rather than by a fixed time interval."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Maintenance Planning: Preventive, Predictive, MTBF and MTTR</h1>
+  <p class="article-meta">Plant Departments &middot; Maintenance &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Maintenance decides whether the plant runs when production needs it. Good maintenance is mostly invisible: the planned job done on time, the spare on the shelf, the bearing changed before it seized. This article covers the strategies and the few numbers that tell you if they are working.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#types">Breakdown, preventive and predictive</a><span>Basics</span></li>
+    <li><a href="#crit">Criticality decides the strategy</a><span>Basics</span></li>
+    <li><a href="#nums">MTBF, MTTR and availability</a><span>Working level</span></li>
+    <li><a href="#rca">Repeated failures</a><span>Working level</span></li>
+    <li><a href="#gmp">Spares, safety and GMP</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="types">Breakdown, preventive and predictive <span class="lvl l1">Basics</span></h2>
+  <ul>
+<li><strong>Breakdown (run to failure):</strong> fix it when it fails. Acceptable for cheap, non-critical items with a spare available.</li>
+<li><strong>Preventive (time-based):</strong> service at fixed intervals or running hours: lubrication, seal and gasket changes, filter changes, calibration.</li>
+<li><strong>Predictive or condition-based:</strong> measure condition and act when it deteriorates: vibration on pumps and agitators, thermography of electrical panels, oil analysis on gearboxes, ultrasonic thickness on vessels and lines.</li>
+</ul>
+
+  <h2 id="crit">Criticality decides the strategy <span class="lvl l1">Basics</span></h2>
+  <p>Rank each asset by the consequence of its failure: safety and environment, product quality, production loss, and repair cost. Critical items (the only reactor for a bottleneck step, the brine chiller, the main vacuum pump, the scrubber fan) get condition monitoring, strategic spares and priority. Low-criticality items can run to failure. This puts effort where it matters.</p>
+
+  <h2 id="nums">MTBF, MTTR and availability <span class="lvl l2">Working level</span></h2>
+  <p><strong>MTBF</strong> (mean time between failures) = total operating time &divide; number of failures. <strong>MTTR</strong> (mean time to repair) = total repair time &divide; number of repairs. <strong>Availability</strong> = MTBF &divide; (MTBF + MTTR).</p>
+<p>Example: a pump runs 4,000 hours in a period with 4 failures and 32 hours of total repair time. MTBF = 1,000 h, MTTR = 8 h, availability = 1,000 &divide; 1,008 = 99.2 %. Rising MTBF shows reliability is improving; falling MTTR shows the repair process (spares, skills, access) is improving.</p>
+
+  <h2 id="rca">Repeated failures <span class="lvl l2">Working level</span></h2>
+  <p>The same equipment failing again and again is the best place to invest effort. Record each failure with its cause, not just &ldquo;seal replaced&rdquo;. Common root causes in chemical plants: pumps running far from their best efficiency point, wrong seal flush plan, misalignment, corrosion from the wrong MOC, and dry running. See <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">pump and seal troubleshooting</a> and <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">glass-lined reactor care</a>.</p>
+
+  <h2 id="gmp">Spares, safety and GMP <span class="lvl l3">Going deeper</span></h2>
+  <p>Keep critical spares based on lead time and consequence of failure, not just usage. All work follows <a href="{{ '/articles/permit-to-work-and-isolation/' | relative_url }}">permit to work and isolation</a>. In GMP areas, maintenance on product-contact equipment is recorded in the equipment log, may need change control if anything is changed, and the equipment is cleaned and released by QA before use. Calibration of critical instruments follows a schedule with out-of-tolerance results investigated for impact on batches made since the last good calibration.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Put the five worst bad actors, the equipment with the most breakdown hours last quarter, on the wall of the maintenance office with their MTBF. Fixing those five usually does more than any new system.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Same preventive schedule for every asset regardless of criticality.</li>
+    <li>Failures recorded without a cause.</li>
+    <li>Critical spares with long lead times not stocked.</li>
+    <li>Calibration failures not checked for batch impact.</li>
+    <li>Equipment returned to production without cleaning and release.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How is MTBF calculated?</h3>
+  <p>Total operating time divided by the number of failures in that time.</p>
+  <h3>What is availability?</h3>
+  <p>The fraction of time equipment is able to run: MTBF divided by (MTBF + MTTR).</p>
+  <h3>What is condition-based maintenance?</h3>
+  <p>Maintenance triggered by measured condition, such as vibration, temperature, oil quality or wall thickness, rather than by a fixed time interval.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and mechanical seal troubleshooting</a>
+    <a href="{{ '/articles/permit-to-work-and-isolation/' | relative_url }}">Permit to work and isolation</a>
+    <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">Glass-lined reactor care</a>
+    <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">Instrumentation basics</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

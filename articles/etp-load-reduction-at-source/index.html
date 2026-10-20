@@ -1,0 +1,133 @@
+---
+layout: default
+title: "Reducing ETP Load at Source: COD, TDS and Solvent in Effluent"
+seo_title: "Reduce ETP Load at Source: COD, TDS and Solvent | PharmaChemE"
+description: "How process and plant teams can cut effluent COD, salt and volume before it reaches the ETP: load accounting, solvent stripping, salt reduction, washing practice and stream segregation."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Reducing ETP Load at Source"
+    url: /articles/etp-load-reduction-at-source/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Reducing ETP Load at Source: COD, TDS and Solvent in Effluent",
+        "description": "How process and plant teams can cut effluent COD, salt and volume before it reaches the ETP: load accounting, solvent stripping, salt reduction, washing practice and stream segregation.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I estimate COD from a solvent concentration?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Multiply the solvent concentration in mg/L by its theoretical oxygen demand: about 1.5 for methanol, 2.1 for ethanol, 2.2 for acetone, 3.1 for toluene (kg O2 per kg solvent)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is salt so expensive to treat?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Dissolved salt does not break down; it must be evaporated out in an MEE and dried in an ATFD, which uses steam and creates solid waste for disposal."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is counter-current washing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Reusing the last, cleanest wash of one batch as the first wash of the next, so less fresh water is used for the same cleanliness."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Reducing ETP Load at Source</h1>
+  <p class="article-meta">Plant Departments &middot; Effluent Treatment &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">An ETP can only treat what it receives. The cheapest kilogram of COD or salt is the one never sent to it. This article is about the decisions made in the production block and in R&amp;D that set the ETP&rsquo;s load and its operating cost. The <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics</a> article covers the treatment steps themselves.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#acct">Account for load, stream by stream</a><span>Basics</span></li>
+    <li><a href="#solvent">Solvent in effluent is COD</a><span>Basics</span></li>
+    <li><a href="#salt">Salt (TDS) is decided in the chemistry</a><span>Working level</span></li>
+    <li><a href="#wash">Washing and cleaning practice</a><span>Working level</span></li>
+    <li><a href="#seg">Segregate at the block</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="acct">Account for load, stream by stream <span class="lvl l1">Basics</span></h2>
+  <p>Make a table of every effluent stream from every product: volume per batch, COD, TDS and the main solvent, and multiply by batches per month. COD load in kg = volume in m&sup3; &times; COD in mg/L &divide; 1000. Sorting the table by load almost always shows that a handful of streams carry most of the COD and salt. Those are where effort pays.</p>
+
+  <h2 id="solvent">Solvent in effluent is COD <span class="lvl l1">Basics</span></h2>
+  <p>Dissolved solvent is often the biggest single COD contributor. Each kg of methanol needs about 1.5 kg of oxygen to oxidise completely, so 1 % methanol in water is roughly 15,000 mg/L of COD from the solvent alone; ethanol is about 2.1 kg O&#8322; per kg and acetone about 2.2. Recovering solvent from aqueous layers by distillation or a steam stripper both cuts COD and returns solvent to use. The <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a> helps size the batch distillation.</p>
+
+  <h2 id="salt">Salt (TDS) is decided in the chemistry <span class="lvl l2">Working level</span></h2>
+  <p>Every neutralisation makes salt, and salt ends up in the MEE and ATFD, the most expensive part of the ETP. Ways to reduce it:</p>
+<ul>
+<li>Use the minimum excess of acid and base; follow the stoichiometry in the <a href="{{ '/molecules/reaction/' | relative_url }}">reaction builder</a>.</li>
+<li>Choose reagents that leave less salt or a recoverable by-product (for example recovering ammonium sulphate or sodium sulphate as a saleable product where quality allows).</li>
+<li>Reuse dilute brine washes for the next batch&rsquo;s first wash where QC agrees.</li>
+<li>Recycle mother liquors when the impurity build-up allows.</li>
+</ul>
+
+  <h2 id="wash">Washing and cleaning practice <span class="lvl l2">Working level</span></h2>
+  <p>Washings are usually low in concentration but high in volume. Counter-current washing (the last, cleanest wash of one batch becomes the first wash of the next), measured wash volumes instead of &ldquo;wash till clear&rdquo;, and cleaning procedures validated for the minimum effective volume cut volume a lot. Spills and leaks of mother liquor into floor drains are a hidden high-COD stream; keep floor drains separate from process drains.</p>
+
+  <h2 id="seg">Segregate at the block <span class="lvl l3">Going deeper</span></h2>
+  <p>Collect high-COD and high-TDS streams in labelled, dedicated tanks at the production block, analyse each batch, and send them to stripping or evaporation; send low-strength washings to biological treatment. Mixing a small strong stream into a large weak one dilutes it but does not reduce the load, and it turns an easy evaporation job into a large, difficult one.</p>
+<p>Report effluent performance as load per kg of product (kg COD/kg, kg TDS/kg, m&sup3; effluent/kg). This makes products comparable and shows whether an improvement is real or only a dilution.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Ask R&amp;D for the expected composition of every aqueous layer in a new process before it comes to the plant. It is much easier to design a recovery step into the process than to bolt one on after the ETP complains.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Measuring concentration, not load.</li>
+    <li>Sending solvent-rich aqueous layers straight to the ETP.</li>
+    <li>Using large acid or base excesses &ldquo;to be safe&rdquo;.</li>
+    <li>Washing by eye instead of by volume.</li>
+    <li>Process drains and floor drains connected together.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do I estimate COD from a solvent concentration?</h3>
+  <p>Multiply the solvent concentration in mg/L by its theoretical oxygen demand: about 1.5 for methanol, 2.1 for ethanol, 2.2 for acetone, 3.1 for toluene (kg O2 per kg solvent).</p>
+  <h3>Why is salt so expensive to treat?</h3>
+  <p>Dissolved salt does not break down; it must be evaporated out in an MEE and dried in an ATFD, which uses steam and creates solid waste for disposal.</p>
+  <h3>What is counter-current washing?</h3>
+  <p>Reusing the last, cleanest wash of one batch as the first wash of the next, so less fresh water is used for the same cleanliness.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics</a>
+    <a href="{{ '/utilities/mee-steam-economy/' | relative_url }}">MEE steam economy calculator</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

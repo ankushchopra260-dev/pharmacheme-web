@@ -1,0 +1,137 @@
+---
+layout: default
+title: "OPEX in API Plants: Where the Conversion Cost Goes and How to Reduce It"
+seo_title: "OPEX Reduction in API and Chemical Plants | PharmaChemE"
+description: "Where operating cost goes in an API plant and how to reduce it: cost buckets, yield and solvent recovery, cycle time, utilities, effluent and a structured way to run cost projects."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Reducing OPEX in API Plants"
+    url: /articles/opex-reduction-api-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "OPEX in API Plants: Where the Conversion Cost Goes and How to Reduce It",
+        "description": "Where operating cost goes in an API plant and how to reduce it: cost buckets, yield and solvent recovery, cycle time, utilities, effluent and a structured way to run cost projects.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is conversion cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Everything spent to turn raw materials into product: utilities, manpower, maintenance, effluent and overheads, usually expressed per kg of product."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which OPEX lever is usually largest in API plants?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yield and raw material consumption, including solvent recovery, usually outweigh utility savings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is payback calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Payback in years = investment divided by annual saving."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Reducing OPEX in API Plants</h1>
+  <p class="article-meta">Plant Departments &middot; Operational Excellence &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Operating expenditure decides whether a product makes money. In API manufacturing most of it is fixed by raw materials and yield, but the conversion cost, everything the plant spends to turn materials into product, is where engineers have the most control. This article shows where to look.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#buckets">The cost buckets</a><span>Basics</span></li>
+    <li><a href="#yield">Yield and recovery first</a><span>Basics</span></li>
+    <li><a href="#time">Cycle time</a><span>Working level</span></li>
+    <li><a href="#util">Utilities and effluent</a><span>Working level</span></li>
+    <li><a href="#run">Running cost projects</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="buckets">The cost buckets <span class="lvl l1">Basics</span></h2>
+  <ul>
+<li><strong>Raw materials:</strong> reagents, starting materials, catalysts and solvents, net of recovery. Usually the largest share.</li>
+<li><strong>Utilities:</strong> steam, power, chilled water and brine, cooling water, nitrogen, compressed air.</li>
+<li><strong>Effluent and waste:</strong> ETP operation, MEE and ATFD steam, incineration and hazardous waste disposal.</li>
+<li><strong>Manpower, maintenance and overheads</strong> spread over batches; so a shorter cycle time lowers cost per kg.</li>
+</ul>
+<p>The <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">consumption norms and cost per kg</a> article shows how to build the cost sheet.</p>
+
+  <h2 id="yield">Yield and recovery first <span class="lvl l1">Basics</span></h2>
+  <p>One percent of yield on an expensive step is usually worth more than any utility project. Look for losses in mother liquors (can a second crop or recycle recover product?), in transfers and filters, in drying (dust), and in rework. Solvent is the next lever: a recovery rate going from 85 % to 92 % cuts fresh solvent purchase by about half of what it was. See <a href="{{ '/articles/solvent-recovery-troubleshooting/' | relative_url }}">solvent recovery troubleshooting</a>.</p>
+
+  <h2 id="time">Cycle time <span class="lvl l2">Working level</span></h2>
+  <p>If a plant is sold out, every hour removed from the bottleneck step is extra output at almost no cost. Typical gains: faster heat-up and cool-down with better utility temperatures, parallel operations, shorter filtration by changing the crystallisation, removing waiting for QC by faster in-process methods. The <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">debottlenecking</a> article covers the method.</p>
+
+  <h2 id="util">Utilities and effluent <span class="lvl l2">Working level</span></h2>
+  <ul>
+<li>Steam: condensate recovery, trap maintenance, insulation, right pressure for the duty (<a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">steam system efficiency</a>).</li>
+<li>Chilling: use cooling tower water or chilled water before brine; each lower level costs more power per kcal (<a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">chillers and VAM</a>).</li>
+<li>Power: variable speed drives on pumps and fans, leaks in compressed air (<a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">compressed air and nitrogen</a>).</li>
+<li>Effluent: reduce load at source (<a href="{{ '/articles/etp-load-reduction-at-source/' | relative_url }}">ETP load reduction</a>).</li>
+</ul>
+
+  <h2 id="run">Running cost projects <span class="lvl l3">Going deeper</span></h2>
+  <p>A simple structure keeps cost work honest: a baseline from at least several months of actual data; an idea list with estimated saving, investment and effort; a quality and regulatory check (a change in solvent, vendor or process step needs change control and may need a filing); a trial; and a measured result against the baseline. Payback = investment &divide; annual saving. Track realised savings, not promised ones, and revisit the norms so the gain does not drift away.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Before starting a cost project, write down the cost per kg from the books and from your own calculation. If they disagree by more than a few percent, find out why first; the gap often hides the real saving.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Chasing small utility savings while yield losses go unnoticed.</li>
+    <li>Counting savings that were never measured.</li>
+    <li>Changing solvent or vendor without change control.</li>
+    <li>Improving a step that is not the bottleneck.</li>
+    <li>Letting norms drift back after a project ends.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is conversion cost?</h3>
+  <p>Everything spent to turn raw materials into product: utilities, manpower, maintenance, effluent and overheads, usually expressed per kg of product.</p>
+  <h3>Which OPEX lever is usually largest in API plants?</h3>
+  <p>Yield and raw material consumption, including solvent recovery, usually outweigh utility savings.</p>
+  <h3>How is payback calculated?</h3>
+  <p>Payback in years = investment divided by annual saving.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a>
+    <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time and debottlenecking</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/articles/etp-load-reduction-at-source/' | relative_url }}">Reducing ETP load at source</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

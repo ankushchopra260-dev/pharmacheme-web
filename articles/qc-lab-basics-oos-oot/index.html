@@ -1,0 +1,147 @@
+---
+layout: default
+title: "QC Lab Basics for Plant Engineers: Specifications, HPLC, GC, OOS and OOT"
+seo_title: "QC Lab Basics: Specifications, HPLC, GC, OOS and OOT | PharmaChemE"
+description: "What the QC lab tests and why: specifications, sampling, HPLC and GC, loss on drying, water and residual solvents, method validation, OOS and OOT investigations."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "QC Lab Basics for Plant Engineers"
+    url: /articles/qc-lab-basics-oos-oot/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "QC Lab Basics for Plant Engineers: Specifications, HPLC, GC, OOS and OOT",
+        "description": "What the QC lab tests and why: specifications, sampling, HPLC and GC, loss on drying, water and residual solvents, method validation, OOS and OOT investigations.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between OOS and OOT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "OOS is a result outside the specification limit. OOT is within the limit but out of line with the trend of previous results. Both need investigation; OOS can lead to batch rejection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do residual solvent tests use headspace GC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heating the sample in a sealed vial and injecting only the vapour measures the volatile solvents without putting the non-volatile API on the GC column."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is system suitability?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A check run before each analysis, such as resolution, injection repeatability and peak tailing, to show the instrument and method are working properly on that day."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>QC Lab Basics for Plant Engineers</h1>
+  <p class="article-meta">Plant Departments &middot; Quality Control &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Every batch leaves the plant on the strength of a QC report. Engineers who understand what the lab measures, how sure it is, and what happens when a result fails can design processes that pass first time and help the lab when they don&rsquo;t. This article walks through the QC lab from the plant side.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#spec">What a specification is</a><span>Basics</span></li>
+    <li><a href="#sampling">Sampling: where most errors start</a><span>Basics</span></li>
+    <li><a href="#instruments">HPLC, GC and the other workhorses</a><span>Working level</span></li>
+    <li><a href="#validation">Method validation in one paragraph</a><span>Working level</span></li>
+    <li><a href="#oos">OOS and OOT: what happens when a result fails</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="spec">What a specification is <span class="lvl l1">Basics</span></h2>
+  <p>A <strong>specification</strong> is the list of tests, methods and acceptance limits a material must meet. There are specifications for raw materials, intermediates, the final API, packing materials and even process water. A typical API specification covers:</p>
+<ul>
+<li><strong>Description and identification:</strong> appearance, IR spectrum or HPLC retention time matching a reference standard.</li>
+<li><strong>Assay:</strong> how much of the material is the compound itself, usually by HPLC or titration.</li>
+<li><strong>Related substances (impurities):</strong> each known impurity, any unknown impurity and the total, by HPLC.</li>
+<li><strong>Residual solvents:</strong> by headspace GC, against the limits of ICH Q3C.</li>
+<li><strong>Water content</strong> (Karl Fischer) or <strong>loss on drying</strong>, <strong>sulphated ash</strong>, elemental impurities (ICH Q3D), and physical tests such as particle size or polymorph when the customer needs them.</li>
+</ul>
+<p>The limits are not arbitrary: they come from the registered dossier, the pharmacopoeia, safety qualification of impurities, and what the customer&rsquo;s formulation needs.</p>
+
+  <h2 id="sampling">Sampling: where most errors start <span class="lvl l1">Basics</span></h2>
+  <p>A result can only be as good as the sample. A sample must represent the whole batch: taken with a clean, dry, compatible tool, from the right places (top, middle and bottom of a drum or several bags of a lot), in a labelled container, and protected from moisture and light where needed. In-process samples from a reactor need the line flushed first so the sample is not the stale liquid sitting in the dip leg.</p>
+<p>Many &ldquo;failures&rdquo; turn out to be sampling problems: a wet sample from the top of a dryer, a mother liquor sample that crystallised in the bottle, or a sample taken before the batch was homogeneous.</p>
+
+  <h2 id="instruments">HPLC, GC and the other workhorses <span class="lvl l2">Working level</span></h2>
+  <ul>
+<li><strong>HPLC</strong> separates the components in a liquid sample on a column and measures each peak, usually by UV. It gives assay and impurity profile. The peak area is compared with a reference standard of known purity.</li>
+<li><strong>GC</strong> does the same for volatile compounds. <strong>Headspace GC</strong> heats the sample in a sealed vial and injects only the vapour above it, which is how residual solvents are measured.</li>
+<li><strong>Karl Fischer titration</strong> measures water specifically; loss on drying measures everything that leaves on heating (water and solvent), so the two can differ.</li>
+<li><strong>Titration, IR, UV, melting point, specific optical rotation, particle size (laser diffraction) and XRD</strong> complete the toolkit.</li>
+</ul>
+<p>Every instrument must be <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">qualified</a> and calibrated, and before each sequence a <strong>system suitability</strong> test (resolution between critical peaks, repeatability of injections, tailing) proves the system is working on that day.</p>
+
+  <h2 id="validation">Method validation in one paragraph <span class="lvl l2">Working level</span></h2>
+  <p>An analytical method must be shown to be fit for purpose before it is used for release. ICH Q2(R2), adopted in 2023 together with ICH Q14 on analytical procedure development, lists the characteristics to demonstrate: specificity, accuracy, precision (repeatability and intermediate precision), linearity and range, detection and quantitation limits for impurities, and robustness. When a method moves from R&amp;D to the plant QC lab, a <strong>method transfer</strong> shows the receiving lab gets equivalent results on the same samples.</p>
+
+  <h2 id="oos">OOS and OOT: what happens when a result fails <span class="lvl l3">Going deeper</span></h2>
+  <p>An <strong>out-of-specification (OOS)</strong> result is outside the approved limit. An <strong>out-of-trend (OOT)</strong> result is within limits but unusual compared with previous batches or stability time points. Both are investigated, following the approach in the US FDA guidance on OOS investigations:</p>
+<ol>
+<li><strong>Phase I, laboratory investigation:</strong> the analyst and supervisor check for an obvious lab error: wrong dilution, standard preparation, integration, instrument fault, system suitability. Only a documented, assignable lab error allows the result to be invalidated.</li>
+<li><strong>Phase II, full-scale investigation:</strong> if no lab error is found, the investigation moves to production: the batch record, deviations, equipment, raw materials, and similar batches. Retesting follows a predefined plan; testing until a passing result appears is not acceptable.</li>
+<li><strong>Conclusion and CAPA:</strong> the root cause, the impact on this and other batches, and the corrective and preventive actions.</li>
+</ol>
+<p>The plant&rsquo;s part is to give honest, complete information quickly: what was different in this batch, even if it seemed small.</p>
+
+  <div class="art-note"><b>On the plant</b><p>When a new impurity appears, ask QC for the relative retention time and a rough mass from LC-MS if available. Combined with the chemistry and the batch record (a longer hold, a higher temperature, a different lot of reagent) it often points to the step where it formed.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Sampling before the batch is homogeneous or from the wrong point.</li>
+    <li>Treating loss on drying and water content as the same thing.</li>
+    <li>Retesting until the result passes.</li>
+    <li>Changing the process without telling QC, so the method meets an impurity it was never validated for.</li>
+    <li>Not keeping reference and retained samples properly.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between OOS and OOT?</h3>
+  <p>OOS is a result outside the specification limit. OOT is within the limit but out of line with the trend of previous results. Both need investigation; OOS can lead to batch rejection.</p>
+  <h3>Why do residual solvent tests use headspace GC?</h3>
+  <p>Heating the sample in a sealed vial and injecting only the vapour measures the volatile solvents without putting the non-volatile API on the GC column.</p>
+  <h3>What is system suitability?</h3>
+  <p>A check run before each analysis, such as resolution, injection repeatability and peak tailing, to show the instrument and method are working properly on that day.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification: DQ, IQ, OQ, PQ</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and GMP: deviations, CAPA and change control</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

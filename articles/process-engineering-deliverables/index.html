@@ -1,0 +1,132 @@
+---
+layout: default
+title: "Process Engineering in a Chemical Plant: Role and Deliverables"
+seo_title: "Process Engineering Role and Deliverables: BFD, PFD, Equipment List | PharmaChemE"
+description: "What a process engineer does in a pharma or chemical plant: BFD and PFD, mass and energy balance, equipment sizing and occupancy, utility load, line sizing, P&ID inputs and plant support."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "What Process Engineering Delivers"
+    url: /articles/process-engineering-deliverables/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Process Engineering in a Chemical Plant: Role and Deliverables",
+        "description": "What a process engineer does in a pharma or chemical plant: BFD and PFD, mass and energy balance, equipment sizing and occupancy, utility load, line sizing, P&ID inputs and plant support.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between a BFD and a PFD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A BFD shows steps as blocks with main flows. A PFD shows actual equipment, operating conditions and main control loops; a P&ID adds every line, valve and instrument."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is an occupancy chart?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A time chart showing which equipment each step occupies and for how long, used to find the bottleneck and batches per month."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does a process engineer do after commissioning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Plant support: yield, cycle time and consumption improvement, troubleshooting, capacity studies and feasibility for new products."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>What Process Engineering Delivers</h1>
+  <p class="article-meta">Plant Departments &middot; Process Engineering &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Process engineering sits between chemistry and the plant. It turns a procedure into equipment, flows and numbers that projects can build and production can run, and then keeps improving the running plant. This article lists the deliverables and the order they come in.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#bfd">Block flow diagram</a><span>Basics</span></li>
+    <li><a href="#mb">Mass and energy balance</a><span>Basics</span></li>
+    <li><a href="#pfd">PFD, equipment list and occupancy</a><span>Working level</span></li>
+    <li><a href="#sizing">Sizing and specifications</a><span>Working level</span></li>
+    <li><a href="#pid">P&amp;ID inputs and the running plant</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="bfd">Block flow diagram <span class="lvl l1">Basics</span></h2>
+  <p>The <strong>BFD</strong> is the first picture: one block per step (reaction, work-up, isolation, drying, recovery), arrows for main streams with quantities per batch, and the solvents and wastes leaving each step. It is quick to draw, and it is where the first mass balance is closed. Everyone, including management, can read it.</p>
+
+  <h2 id="mb">Mass and energy balance <span class="lvl l1">Basics</span></h2>
+  <p>For each step: what goes in, what comes out, and where every kg goes, including solvent losses and effluent. The energy balance gives heating and cooling duties, peak and average, which size utilities and set cycle times. See <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">material and energy balance</a> and the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load calculator</a>.</p>
+
+  <h2 id="pfd">PFD, equipment list and occupancy <span class="lvl l2">Working level</span></h2>
+  <p>The <strong>PFD</strong> shows the main equipment with key operating conditions and the major control loops. With it comes the <strong>equipment list</strong> (capacity, MOC, design pressure and temperature, agitator and jacket details) and an <strong>occupancy chart</strong>, a time chart of which equipment each step uses and for how long. The occupancy chart reveals the bottleneck and the achievable batches per month; see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">batch cycle time and debottlenecking</a>.</p>
+
+  <h2 id="sizing">Sizing and specifications <span class="lvl l2">Working level</span></h2>
+  <ul>
+<li>Reactors: working volume at the largest step, with enough freeboard, and jacket area for the duty (<a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">jacket and limpet coil design</a>).</li>
+<li>Agitators: type and power for the duty (<a href="{{ '/articles/agitator-design/' | relative_url }}">agitator design</a>).</li>
+<li>Heat exchangers and condensers (<a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">heat exchanger basics</a>).</li>
+<li>Pumps, lines and pressure drop (<a href="{{ '/articles/line-sizing-and-pressure-drop/' | relative_url }}">line sizing</a>), vacuum systems, scrubbers, filters and dryers.</li>
+<li>Relief devices for each overpressure scenario (<a href="{{ '/articles/relief-valve-sizing/' | relative_url }}">relief valve sizing</a>).</li>
+</ul>
+
+  <h2 id="pid">P&amp;ID inputs and the running plant <span class="lvl l3">Going deeper</span></h2>
+  <p>Process engineering supplies the control philosophy, interlocks, instrument ranges and line list for the <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">P&amp;ID</a>, takes part in the HAZOP, and writes commissioning and start-up procedures. Once the plant runs, the job shifts to support: yield and cycle-time improvement, consumption norms, troubleshooting, capacity studies for new products and feasibility for the next expansion.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Keep one live spreadsheet per product with the batch mass balance, utility duties and occupancy. Every question from management, costing, the ETP or projects can be answered from it in minutes.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Sizing from the lab procedure without a closed mass balance.</li>
+    <li>Using average duties where the peak sets the equipment.</li>
+    <li>No occupancy chart, so the real bottleneck is found after commissioning.</li>
+    <li>Freeboard ignored for foaming or gassing steps.</li>
+    <li>Documents not updated after plant changes.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between a BFD and a PFD?</h3>
+  <p>A BFD shows steps as blocks with main flows. A PFD shows actual equipment, operating conditions and main control loops; a P&ID adds every line, valve and instrument.</p>
+  <h3>What is an occupancy chart?</h3>
+  <p>A time chart showing which equipment each step occupies and for how long, used to find the bottleneck and batches per month.</p>
+  <h3>What does a process engineer do after commissioning?</h3>
+  <p>Plant support: yield, cycle time and consumption improvement, troubleshooting, capacity studies and feasibility for new products.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+    <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">How to read a P&amp;ID</a>
+    <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time and debottlenecking</a>
+    <a href="{{ '/articles/utility-load-estimation/' | relative_url }}">Utility load estimation for a new block</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

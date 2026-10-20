@@ -1,0 +1,134 @@
+---
+layout: default
+title: "Process R&D: Route Selection and Developing a Process for Scale"
+seo_title: "Process R&D: Route Selection and Development for Scale | PharmaChemE"
+description: "How process R&D chooses a synthetic route and turns it into a scalable process: route selection criteria, design of experiments, critical parameters, safety screening and impurity control."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Process R&D: Route Selection and Development"
+    url: /articles/process-rd-route-selection/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Process R&D: Route Selection and Developing a Process for Scale",
+        "description": "How process R&D chooses a synthetic route and turns it into a scalable process: route selection criteria, design of experiments, critical parameters, safety screening and impurity control.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is process mass intensity?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The total mass of all materials used (reagents, solvents, water) per kg of product. Lower is better; it is a simple measure of how wasteful a process is."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a critical process parameter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A parameter whose variation affects a critical quality attribute of the product, so it must be controlled within a proven range."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do DoE instead of changing one factor at a time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DoE finds the effects of several factors and their interactions with fewer experiments, which one-factor-at-a-time cannot do."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Process R&amp;D: Route Selection and Development</h1>
+  <p class="article-meta">Plant Departments &middot; Research and Development &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Medicinal chemists make a compound once; process chemists find a way to make it a thousand times, safely, cheaply and to the same quality. The decisions taken in the R&amp;D lab fix most of the plant&rsquo;s cost, waste and risk. This article covers how a good process is chosen and developed.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#route">Choosing the route</a><span>Basics</span></li>
+    <li><a href="#dev">From a working reaction to a robust process</a><span>Basics</span></li>
+    <li><a href="#doe">Critical parameters and DoE</a><span>Working level</span></li>
+    <li><a href="#safety">Safety screening</a><span>Working level</span></li>
+    <li><a href="#imp">Impurity fate and purge</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="route">Choosing the route <span class="lvl l1">Basics</span></h2>
+  <p>Several routes usually lead to the same molecule. They are compared on:</p>
+<ul>
+<li><strong>Number of steps and overall yield:</strong> five steps at 80 % give 33 %; seven at 90 % give 48 %.</li>
+<li><strong>Cost and availability of starting materials</strong>, and how many sources exist.</li>
+<li><strong>Safety:</strong> energetic reagents (azides, nitro compounds, peroxides), highly exothermic steps, toxic gases, cryogenic temperatures.</li>
+<li><strong>Waste and solvents:</strong> process mass intensity (kg of all inputs per kg of product), salt formed, solvent classes under ICH Q3C.</li>
+<li><strong>Quality:</strong> where impurities form and whether later steps can remove them; genotoxic (mutagenic) impurity risk under ICH M7.</li>
+<li><strong>Plant fit:</strong> equipment, MOC and operations available. A route needing &minus;78 &deg;C or a hydrogenation at 50 bar may not fit the plant.</li>
+</ul>
+
+  <h2 id="dev">From a working reaction to a robust process <span class="lvl l1">Basics</span></h2>
+  <p>Development makes each step reliable: concentration high enough for good productivity, a workable order and rate of addition, a work-up that separates cleanly, an isolation that filters and dries well, and solvents that can be recovered. Each step is run several times to show it is reproducible, then at larger lab scale (1&ndash;5 L jacketed reactors) under conditions that resemble the plant.</p>
+
+  <h2 id="doe">Critical parameters and DoE <span class="lvl l2">Working level</span></h2>
+  <p>Not every parameter matters equally. <strong>Critical process parameters</strong> (CPPs) are those whose variation affects a critical quality attribute (purity, a specific impurity, polymorph, particle size). Design of experiments (DoE) varies several parameters together in a planned set of runs, finding the important effects and interactions with far fewer experiments than one-factor-at-a-time. The output is a <strong>proven acceptable range</strong> for each CPP, which becomes the range in the batch record.</p>
+
+  <h2 id="safety">Safety screening <span class="lvl l2">Working level</span></h2>
+  <p>Before scale-up, each step is screened for thermal hazards: DSC on reaction mixtures and isolated intermediates, reaction calorimetry (RC1) for heat of reaction and accumulation, and adiabatic tests (ARC) for runaway behaviour. The results decide whether a step is dosing-controlled, how fast it can be dosed and what the cooling must handle. See <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC, RC1 and TSU</a> and <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a>.</p>
+
+  <h2 id="imp">Impurity fate and purge <span class="lvl l3">Going deeper</span></h2>
+  <p>For each impurity, R&amp;D works out where it forms, whether it reacts on, and how much each later step removes (the purge factor). Spiking studies, adding a known amount of an impurity and measuring how much survives, prove the control strategy. Mutagenic impurities need special attention: they must be controlled to very low levels, either by testing or by showing the process purges them reliably.</p>
+
+  <div class="art-note"><b>On the plant</b><p>The plant questions R&amp;D should answer before a process leaves the lab: how long can each intermediate be held, what happens if dosing stops halfway, how does the filter cake behave at 30 cm instead of 2 cm, and what is in every aqueous layer.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Choosing the route with the fewest steps without checking safety and waste.</li>
+    <li>Optimising yield at a concentration the plant cannot stir or filter.</li>
+    <li>Skipping thermal screening because the lab batch &ldquo;behaved&rdquo;.</li>
+    <li>Not studying hold times.</li>
+    <li>No data on impurity purge, so every new impurity becomes a crisis.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is process mass intensity?</h3>
+  <p>The total mass of all materials used (reagents, solvents, water) per kg of product. Lower is better; it is a simple measure of how wasteful a process is.</p>
+  <h3>What is a critical process parameter?</h3>
+  <p>A parameter whose variation affects a critical quality attribute of the product, so it must be controlled within a proven range.</p>
+  <h3>Why do DoE instead of changing one factor at a time?</h3>
+  <p>DoE finds the effects of several factors and their interactions with fewer experiments, which one-factor-at-a-time cannot do.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">Process modelling for scale-up</a>
+    <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read DSC, ARC, RC1 and TSU</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

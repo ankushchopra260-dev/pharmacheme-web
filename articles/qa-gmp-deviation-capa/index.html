@@ -1,0 +1,135 @@
+---
+layout: default
+title: "QA and GMP for Plant Engineers: Deviations, CAPA, Change Control and Batch Records"
+seo_title: "QA and GMP: Deviations, CAPA, Change Control | PharmaChemE"
+description: "How quality assurance works in an API plant: GMP basics, batch manufacturing records, deviations, root cause and CAPA, change control, and the quality risk management behind them."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "QA and GMP for Plant Engineers"
+    url: /articles/qa-gmp-deviation-capa/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "QA and GMP for Plant Engineers: Deviations, CAPA, Change Control and Batch Records",
+        "description": "How quality assurance works in an API plant: GMP basics, batch manufacturing records, deviations, root cause and CAPA, change control, and the quality risk management behind them.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between QA and QC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "QC tests materials and products against specifications. QA owns the system: procedures, batch record review, deviations, change control, audits and final release."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does CAPA stand for?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Corrective and preventive action: corrective action fixes the problem that occurred, preventive action stops it recurring."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is ALCOA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A data-integrity principle: records must be attributable, legible, contemporaneous, original and accurate. ALCOA+ adds complete, consistent, enduring and available."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>QA and GMP for Plant Engineers</h1>
+  <p class="article-meta">Plant Departments &middot; Quality Assurance &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Quality control tests the product; quality assurance makes sure the whole system that made it can be trusted. For engineers, QA shows up as signatures, deviation forms and change controls. Understanding why each exists makes them faster to complete and far more useful.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#gmp">GMP in one idea</a><span>Basics</span></li>
+    <li><a href="#bmr">The batch manufacturing record</a><span>Basics</span></li>
+    <li><a href="#dev">Deviations: recording what went differently</a><span>Working level</span></li>
+    <li><a href="#capa">Root cause and CAPA</a><span>Working level</span></li>
+    <li><a href="#cc">Change control and quality risk management</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="gmp">GMP in one idea <span class="lvl l1">Basics</span></h2>
+  <p>Good Manufacturing Practice asks one thing: <strong>can you prove every batch was made the approved way, by trained people, on qualified equipment, from approved materials, and that nothing unrecorded happened?</strong> For APIs the international reference is ICH Q7; in India the revised Schedule M of the Drugs Rules applies, and export customers bring their own regulators (US FDA, EU, WHO and others).</p>
+<p>The practical consequence is &ldquo;if it isn&rsquo;t written, it didn&rsquo;t happen&rdquo;. Records must be attributable, legible, contemporaneous, original and accurate, the ALCOA principle, which also applies to electronic data from DCS, balances and instruments.</p>
+
+  <h2 id="bmr">The batch manufacturing record <span class="lvl l1">Basics</span></h2>
+  <p>The <strong>BMR</strong> (or BPR) is the step-by-step instruction for a batch that becomes its record as it is filled in: materials dispensed with lot numbers, equipment used, each charge with quantity and time, temperatures, in-process results, yields, and the signatures of the person doing and the person checking each critical step. A well-written BMR reads like the process: one action per step, the target and the range, and space to record the actual.</p>
+<p>Engineers write BMR steps after <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">technology transfer</a>. A range that the plant cannot actually hold (for example &ldquo;add over 30&ndash;35 minutes&rdquo; with a manual valve) will produce deviations every batch.</p>
+
+  <h2 id="dev">Deviations: recording what went differently <span class="lvl l2">Working level</span></h2>
+  <p>A <strong>deviation</strong> is any departure from an approved instruction or specification: a temperature excursion, a wrong sequence, an equipment breakdown mid-batch, a missed sample. It is raised at once, contained (hold the batch, segregate material), classified by impact (critical, major, minor) and investigated. Planned deviations, approved in advance for a one-off change, are different from unplanned ones discovered after the fact.</p>
+
+  <h2 id="capa">Root cause and CAPA <span class="lvl l2">Working level</span></h2>
+  <p>A deviation is closed with a <strong>root cause</strong> and <strong>corrective and preventive actions</strong>. Corrective action fixes this occurrence; preventive action stops it happening again here or elsewhere. Useful tools:</p>
+<ul>
+<li><strong>5 Whys:</strong> keep asking why until you reach something you can change in the system, not a person.</li>
+<li><strong>Fishbone (Ishikawa):</strong> man, machine, method, material, measurement and environment as headings for possible causes.</li>
+<li><strong>Data:</strong> trend the same parameter over previous batches; a cause that also appeared in good batches is not the cause.</li>
+</ul>
+<p>&ldquo;Operator error&rdquo; followed by &ldquo;operator retrained&rdquo; is the weakest CAPA. Ask why the system allowed the error: confusing instruction, missing interlock, poor label, tiredness at the end of a long shift.</p>
+
+  <h2 id="cc">Change control and quality risk management <span class="lvl l3">Going deeper</span></h2>
+  <p>Any change that could affect the product, from a new vendor or a larger reactor to a modified cleaning procedure, goes through <strong>change control</strong>: describe the change, assess the impact (quality, regulatory filing, validation, safety, customers), approve it, implement it with any required studies, and verify it worked. It is the GMP twin of the process-safety <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a>; many sites link the two forms.</p>
+<p>The depth of assessment follows <strong>quality risk management</strong> (ICH Q9(R1)): severity, probability and detectability scored with a tool such as FMEA, so effort goes where risk is highest. ICH Q10 places all of this in a pharmaceutical quality system with management review.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Write the deviation description so a stranger can understand it a year later: what was expected, what happened, when it was found, what was done immediately. Most of the time lost on deviations goes into reconstructing facts that were not written down on the day.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Filling the BMR at the end of the shift instead of as each step is done.</li>
+    <li>Closing every deviation with retraining.</li>
+    <li>Making a &ldquo;small&rdquo; change without change control because it seemed obviously safe.</li>
+    <li>Ranges in the BMR that the equipment cannot hold.</li>
+    <li>Not trending deviations, so the same one returns every month.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between QA and QC?</h3>
+  <p>QC tests materials and products against specifications. QA owns the system: procedures, batch record review, deviations, change control, audits and final release.</p>
+  <h3>What does CAPA stand for?</h3>
+  <p>Corrective and preventive action: corrective action fixes the problem that occurred, preventive action stops it recurring.</p>
+  <h3>What is ALCOA?</h3>
+  <p>A data-integrity principle: records must be attributable, legible, contemporaneous, original and accurate. ALCOA+ adds complete, consistent, enduring and available.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/qc-lab-basics-oos-oot/' | relative_url }}">QC lab basics, OOS and OOT</a>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

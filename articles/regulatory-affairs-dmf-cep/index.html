@@ -1,0 +1,137 @@
+---
+layout: default
+title: "Regulatory Affairs Basics for API Plants: DMF, CEP, Impurities and Post-Approval Changes"
+seo_title: "Regulatory Affairs Basics: DMF, CEP, Post-Approval Changes | PharmaChemE"
+description: "What regulatory affairs does for an API manufacturer: US DMF, EU ASMF and CEP, the CTD structure, impurity guidelines, and why plant changes need regulatory assessment."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Regulatory Affairs Basics for API Plants"
+    url: /articles/regulatory-affairs-dmf-cep/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Regulatory Affairs Basics for API Plants: DMF, CEP, Impurities and Post-Approval Changes",
+        "description": "What regulatory affairs does for an API manufacturer: US DMF, EU ASMF and CEP, the CTD structure, impurity guidelines, and why plant changes need regulatory assessment.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a DMF?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A Drug Master File: a confidential submission to the US FDA describing the manufacture and control of a drug substance, referenced by customers in their applications."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a CEP?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A Certificate of Suitability issued by the EDQM showing an API meets its European Pharmacopoeia monograph, usable in many markets instead of a full file."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does a solvent change need regulatory review?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It can change the impurity and residual solvent profile and is part of the filed process, so it may need notification or approval before use."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Regulatory Affairs Basics for API Plants</h1>
+  <p class="article-meta">Plant Departments &middot; Regulatory Affairs &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">An API can only be sold for a medicine if regulators have the details of how it is made. Regulatory affairs writes and maintains those files, and it is the department that turns a plant change into a filing, or warns that a change cannot be made quickly. Engineers who know the basics avoid nasty surprises.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#files">The main filings</a><span>Basics</span></li>
+    <li><a href="#ctd">What is in the file</a><span>Basics</span></li>
+    <li><a href="#imp">Impurities: the questions regulators ask</a><span>Working level</span></li>
+    <li><a href="#changes">Why plant changes need regulatory assessment</a><span>Working level</span></li>
+    <li><a href="#life">Lifecycle and inspections</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="files">The main filings <span class="lvl l1">Basics</span></h2>
+  <ul>
+<li><strong>US Drug Master File (DMF), Type II:</strong> a confidential file with the US FDA describing the manufacture and control of the API. The customer&rsquo;s product application refers to it.</li>
+<li><strong>EU Active Substance Master File (ASMF):</strong> similar, with an applicant&rsquo;s part shared with the customer and a restricted part that only regulators see.</li>
+<li><strong>Certificate of Suitability (CEP):</strong> issued by the EDQM when an API meets its European Pharmacopoeia monograph; customers in Europe and many other markets can use it instead of a full file.</li>
+<li>National registrations in other markets, often based on the same core data.</li>
+</ul>
+
+  <h2 id="ctd">What is in the file <span class="lvl l1">Basics</span></h2>
+  <p>Files follow the Common Technical Document format; the API section (3.2.S) covers general information, manufacturer and site, the description of the process with flow diagrams and process controls, control of materials including starting materials, critical steps and intermediates, process validation, characterisation and impurities, specifications and analytical methods with validation, reference standards, container closure and stability data.</p>
+
+  <h2 id="imp">Impurities: the questions regulators ask <span class="lvl l2">Working level</span></h2>
+  <ul>
+<li><strong>ICH Q3A:</strong> reporting, identification and qualification thresholds for organic impurities in new drug substances.</li>
+<li><strong>ICH Q3C:</strong> residual solvent classes and limits.</li>
+<li><strong>ICH Q3D:</strong> elemental impurities, including metal catalysts.</li>
+<li><strong>ICH M7:</strong> mutagenic impurities, controlled to very low levels on a risk basis, and the nitrosamine requirements that followed.</li>
+</ul>
+<p>These connect directly to the plant: a new solvent, a different catalyst or a change in quench can introduce something the file does not cover.</p>
+
+  <h2 id="changes">Why plant changes need regulatory assessment <span class="lvl l2">Working level</span></h2>
+  <p>Once a file is approved, changes are classified by their potential impact. Changing a starting material supplier, the route, a solvent, a critical parameter range, a specification, the manufacturing site or a major piece of equipment can require a notification or prior approval in one or more markets, with supporting data such as comparative batches and stability. Some changes take many months to approve. That is why every change control in a regulated plant includes a regulatory impact question, answered by regulatory affairs; see <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and change control</a>.</p>
+
+  <h2 id="life">Lifecycle and inspections <span class="lvl l3">Going deeper</span></h2>
+  <p>Files are kept current with annual reports or updates, and ICH Q12 provides tools for managing post-approval changes more predictably. Regulators also inspect the site against what is filed: an inspector will compare the batch record, equipment and procedures with the file, so the plant and the file must tell the same story.</p>
+
+  <div class="art-note"><b>On the plant</b><p>Before a trial with a new solvent, vendor or larger reactor in a registered process, a two-line email to regulatory affairs asking &ldquo;is this filed?&rdquo; costs nothing and can save months.</p></div>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Treating regulatory affairs as a typing department at the end.</li>
+    <li>Plant changes made before the regulatory impact is known.</li>
+    <li>Batch records that no longer match the filed process.</li>
+    <li>New solvents or catalysts introduced without impurity assessment.</li>
+    <li>Stability not started for changes that need it.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a DMF?</h3>
+  <p>A Drug Master File: a confidential submission to the US FDA describing the manufacture and control of a drug substance, referenced by customers in their applications.</p>
+  <h3>What is a CEP?</h3>
+  <p>A Certificate of Suitability issued by the EDQM showing an API meets its European Pharmacopoeia monograph, usable in many markets instead of a full file.</p>
+  <h3>Why does a solvent change need regulatory review?</h3>
+  <p>It can change the impurity and residual solvent profile and is part of the filed process, so it may need notification or approval before use.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and GMP</a>
+    <a href="{{ '/articles/qc-lab-basics-oos-oot/' | relative_url }}">QC lab basics</a>
+    <a href="{{ '/articles/process-rd-route-selection/' | relative_url }}">Process R&amp;D</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
