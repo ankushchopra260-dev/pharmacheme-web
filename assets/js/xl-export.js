@@ -46,12 +46,14 @@
   const toNum = x => (typeof x === 'string' && /^-?[\d,]+(\.\d+)?$/.test(x.trim()) && /\d/.test(x)) ? +x.replace(/,/g, '') : x;
 
   // evaluate an Excel formula in JS so the file opens with values already shown
-  function ev(f, vals) {
+  // supports + - * / ^, comparisons, IF AND OR MIN MAX ABS SQRT LN LOG10 EXP PI ROUNDDOWN and VLOOKUP into the workbook's data tables
+  function ev(f, vals, tables) {
     let js = f.replace(/\{(\w+)\}/g, (_, k) => typeof vals[k] === 'string' ? JSON.stringify(vals[k]) : '(' + vals[k] + ')');
     js = js.replace(/<>/g, '!=').replace(/(?<![<>!=])=(?!=)/g, '==').replace(/\^/g, '**').replace(/\bPI\(\)/g, 'Math.PI')
-      .replace(/\bSQRT\(/g, 'Math.sqrt(').replace(/\bLN\(/g, 'Math.log(').replace(/\bEXP\(/g, 'Math.exp(').replace(/\bMIN\(/g, 'Math.min(').replace(/\bMAX\(/g, 'Math.max(').replace(/\bABS\(/g, 'Math.abs(')
-      .replace(/\bIF\(/g, '__IF(').replace(/\bOR\(/g, '__OR(').replace(/\bROUNDDOWN\(/g, '__RD(');
-    try { return Function('__IF', '__OR', '__RD', '"use strict";return (' + js + ')')((c, a, b) => c ? a : b, (...a) => a.some(Boolean), (x, d) => { const f = Math.pow(10, d || 0); return Math.trunc(x * f) / f; }); } catch (e) { return null; }
+      .replace(/\bSQRT\(/g, 'Math.sqrt(').replace(/\bLN\(/g, 'Math.log(').replace(/\bLOG10\(/g, 'Math.log10(').replace(/\bEXP\(/g, 'Math.exp(').replace(/\bMIN\(/g, 'Math.min(').replace(/\bMAX\(/g, 'Math.max(').replace(/\bABS\(/g, 'Math.abs(')
+      .replace(/\bIF\(/g, '__IF(').replace(/\bAND\(/g, '__AND(').replace(/\bOR\(/g, '__OR(').replace(/\bROUNDDOWN\(/g, '__RD(').replace(/\bVLOOKUP\(/g, '__VL(').replace(/\b([A-Z][A-Z_0-9]*)(?=\s*,\s*\d+\s*,\s*FALSE)/g, '"$1"').replace(/\bFALSE\b/g, 'false').replace(/\bTRUE\b/g, 'true');
+    const VL = (key, name, col) => { const t = (tables || {})[name]; if (!t) return null; const r = t.find(x => String(x[0]) === String(key)); return r ? r[col - 1] : null; };
+    try { return Function('__IF', '__AND', '__OR', '__RD', '__VL', '"use strict";return (' + js + ')')((c, a, b) => c ? a : b, (...a) => a.every(Boolean), (...a) => a.some(Boolean), (x, d) => { const f = Math.pow(10, d || 0); return Math.trunc(x * f) / f; }, VL); } catch (e) { return null; }
   }
 
   /* ---------- sheet building blocks ---------- */
@@ -233,8 +235,75 @@
     await save(wb, slug(spec.title));
   }
 
+  /* ---------- 4. comparison calculators (one column per case) with live formulas ----------
+     spec: { title, sub, cases:[label], sections:[{title, rows:[{k,label,unit, values:[] (inputs) | f:'formula with {k}', values?:[cached], helper?:bool, list?:[..]|range name}]}],
+             tables:{NAME:{head:[], rows:[[...]]}}, notes:[html] } */
+  async function caseSheet(spec) {
+    const X = await load(), { wb, img } = await book(X);
+    wb.calcProperties.fullCalcOnLoad = true;
+    const n = spec.cases.length, colL = i => String.fromCharCode(67 + i); // C, D, E...
+    const ws = newSheet(wb, 'Calculation', img, [46, 16].concat(Array(Math.max(2, n)).fill(18)));
+    titleBlock(ws, spec.title, spec.sub);
+    // data sheet for look-up tables
+    const tables = {};
+    let ds = null;
+    if (spec.tables && Object.keys(spec.tables).length) {
+      ds = newSheet(wb, 'Data', img, [26, 14, 14, 14, 14, 14]);
+      titleBlock(ds, 'Look-up data used by the formulas', 'Read only');
+      for (const [name, t] of Object.entries(spec.tables)) {
+        tables[name] = t.rows;
+        section(ds, t.title || name); headRow(ds, t.head);
+        const r0 = ds._r;
+        t.rows.forEach(r => { const rr = ds._r++; r.forEach((v, i) => { const c = ds.getCell(rr, i + 1); c.value = v; c.border = box; c.font = { name: 'Arial', size: 9 }; }); });
+        const last = ds._r - 1, lastCol = String.fromCharCode(64 + t.head.length);
+        wb.definedNames.add(`Data!$A$${r0}:$${lastCol}$${last}`, name);
+        wb.definedNames.add(`Data!$A$${r0}:$A$${last}`, name + '_KEYS');
+        ds._r++;
+      }
+    }
+    const ref = spec.cases.map(() => ({})), vals = spec.cases.map(() => ({}));
+    let firstSection = true;
+    for (const sec of spec.sections) {
+      const isInput = sec.rows.every(r => r.f == null);
+      section(ws, sec.title + (isInput && firstSection ? ': change the yellow cells' : ''));
+      if (firstSection || sec.head) headRow(ws, ['Parameter', 'Unit'].concat(spec.cases.map(strip)));
+      firstSection = false;
+      for (const row of sec.rows) {
+        const r = ws._r;
+        const cells = [strip(row.label), strip(row.unit || '')];
+        dataRow(ws, cells);
+        spec.cases.forEach((_, ci) => {
+          const c = ws.getCell(r, 3 + ci); let v;
+          if (row.f == null) { // input
+            v = row.values[ci]; v = typeof v === 'string' ? toNum(v) : v; if (v === '' || v == null) v = null;
+            c.value = v; c.protection = { locked: false }; c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: INFILL } };
+            c.font = { name: 'Arial', size: 10, bold: true, color: { argb: INFONT } }; c.numFmt = 'General';
+            c.alignment = { horizontal: typeof v === 'number' ? 'right' : 'left', vertical: 'middle' };
+            if (row.list) c.dataValidation = Array.isArray(row.list)
+              ? { type: 'list', allowBlank: true, formulae: ['"' + row.list.join(',') + '"'], showErrorMessage: true, errorTitle: 'PharmaChemE', error: 'Pick one of: ' + row.list.join(', ') }
+              : { type: 'list', allowBlank: true, formulae: [row.list], showErrorMessage: true, errorTitle: 'PharmaChemE', error: 'Pick a value from the list' };
+          } else {
+            const xf = row.f.replace(/\{(\w+)\}/g, (_, k) => ref[ci][k] || k);
+            v = row.values && row.values[ci] !== undefined ? row.values[ci] : ev(row.f, vals[ci], tables);
+            const res = (typeof v === 'number' && !isFinite(v)) || v == null ? undefined : v;
+            c.value = res === undefined ? { formula: xf } : { formula: xf, result: res };
+            c.numFmt = NUM; c.alignment = { horizontal: 'right', vertical: 'middle' };
+            c.font = row.helper ? { name: 'Arial', size: 9, italic: true, color: { argb: 'FF6B7280' } } : { name: 'Arial', size: 10, bold: true, color: { argb: NAVY } };
+          }
+          ref[ci][row.k] = colL(ci) + r; vals[ci][row.k] = v;
+        });
+        if (row.helper) ws.getCell(r, 1).font = { name: 'Arial', size: 9, italic: true, color: { argb: 'FF6B7280' } };
+      }
+      ws._r++;
+    }
+    notesBlock(ws, spec.notes);
+    footer(ws, 'Only the yellow input cells can be changed; results update automatically. Grey italic rows are intermediate steps.');
+    await protect(ws); if (ds) { footer(ds); await protect(ds); }
+    await save(wb, slug(spec.title));
+  }
+
   function fail(btn, e) { btn.disabled = false; btn.textContent = 'Download Excel'; alert((e && e.message) || 'Download failed. Please try again.'); }
-  window.PCME_XL = { calcSheet, fromTables, dataBook, fail };
+  window.PCME_XL = { calcSheet, fromTables, dataBook, caseSheet, fail, ev };
 
   function addTableButton() {
     const mount = document.getElementById('calc-mount') || document.getElementById('panels'); if (!mount || mount.dataset.xl) return; mount.dataset.xl = 1;
@@ -246,7 +315,8 @@
       if (!mount.querySelector('table')) { alert('Nothing to export on this page yet.'); return; }
       btn.disabled = true; btn.textContent = 'Preparing…';
       const h1 = document.querySelector('h1');
-      fromTables(mount, h1 ? h1.textContent.trim() : document.title).then(() => { btn.disabled = false; btn.textContent = 'Download Excel'; }, e => fail(btn, e));
+      const spec = window.PCME_XL_CASES && window.PCME_XL_CASES();
+      (spec ? caseSheet(spec) : fromTables(mount, h1 ? h1.textContent.trim() : document.title)).then(() => { btn.disabled = false; btn.textContent = 'Download Excel'; }, e => fail(btn, e));
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(addTableButton, 0)); else setTimeout(addTableButton, 0);

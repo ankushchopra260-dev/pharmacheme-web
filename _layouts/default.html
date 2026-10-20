@@ -94,7 +94,7 @@
 {% unless page.guide == false or page.noindex %}<script src="{{ '/assets/js/companion.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-img="{{ '/assets/img/guide.webp' | relative_url }}" data-face="{{ '/assets/img/guide-face.webp' | relative_url }}" data-index="{{ '/assets/data/guide-index.json' | relative_url }}" data-search="{{ '/assets/data/site-search.json' | relative_url }}" data-facts="{{ '/assets/data/solvent-facts.json' | relative_url }}"{% if page.url != '/' %} data-mini="1"{% endif %} defer></script>{% endunless %}
 
 {% if page.needs_troubleshooter %}<script src="{{ '/assets/js/troubleshooter-scenarios.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
-{% if page.needs_calculators %}<script src="{{ '/assets/js/calculators.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
+{% if page.needs_calculators %}<script src="{{ '/assets/js/calculators.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script><script src="{{ '/assets/js/xl-specs.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
 {% if page.needs_plant_operator %}<script src="{{ '/assets/js/plant-operator.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
 {% if page.calc_init %}<script>{{ page.calc_init }}</script>{% endif %}
 </body>
