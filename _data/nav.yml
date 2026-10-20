@@ -36,6 +36,7 @@
     - title: "Materials and properties"
       children:
         - { title: "Mixture Density & Viscosity", url: /calculators/solvent-mixture-density-viscosity-calculator/ }
+        - { title: "Hydrogen Solubility", url: /calculators/hydrogen-solubility-calculator/ }
         - { title: "Corrosion Coupon", url: /calculators/corrosion-coupon-calculator/ }
         - { title: "Materials Compatibility", url: /calculators/materials-compatibility/ }
         - { title: "Chemical Mixing Hazards", url: /process-safety/chemical-mixing-hazards/ }

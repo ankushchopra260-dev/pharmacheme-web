@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-19"
+        "dateModified": "2026-10-20"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-20
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -87,7 +87,7 @@ last_modified_at: 2026-10-19
   <h2 id="kla">k<sub>L</sub>a and the transfer rate <span class="lvl l1">Basics</span></h2>
   <div class="formula-box">Rate of transfer = k<sub>L</sub>a &times; (C* &minus; C)
     <small>k<sub>L</sub>a: volumetric mass transfer coefficient (1/s), the product of the liquid-film coefficient k<sub>L</sub> and the bubble surface area per volume a. C*: gas solubility at the interface; C: dissolved concentration in the bulk.</small></div>
-  <p>C* follows Henry's law: proportional to the gas partial pressure. Hydrogen is poorly soluble; in methanol roughly 0.004 mol/L per bar. At 5 bar, C* &asymp; 0.02 mol/L. With k<sub>L</sub>a = 0.1 s<sup>&minus;1</sup>, the maximum transfer rate (when C is near zero) is 0.1 &times; 0.02 &times; 3,600 &asymp; 7 mol/L per hour.</p>
+  <p>C* follows Henry's law: proportional to the gas partial pressure. Hydrogen is poorly soluble; in methanol roughly 0.004 mol/L per bar (the <a href="{{ '/calculators/hydrogen-solubility-calculator/' | relative_url }}">hydrogen solubility calculator</a> gives it for 16 solvents). At 5 bar, C* &asymp; 0.02 mol/L. With k<sub>L</sub>a = 0.1 s<sup>&minus;1</sup>, the maximum transfer rate (when C is near zero) is 0.1 &times; 0.02 &times; 3,600 &asymp; 7 mol/L per hour.</p>
 
   <h2 id="limit">Which step limits the rate? <span class="lvl l2">Working level</span></h2>
   <p>Compare the maximum transfer rate with the rate the catalyst could achieve if hydrogen were plentiful (the kinetic rate):</p>
@@ -139,6 +139,7 @@ last_modified_at: 2026-10-19
 
   <div class="related-box">
     <h3>Related</h3>
+    <a href="{{ '/calculators/hydrogen-solubility-calculator/' | relative_url }}">Hydrogen solubility in solvents calculator</a>
     <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">Hydrogenation safety</a>
     <a href="{{ '/articles/agitator-design/' | relative_url }}">Agitator design</a>
     <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>

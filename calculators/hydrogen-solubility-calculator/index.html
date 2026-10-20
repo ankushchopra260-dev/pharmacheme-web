@@ -1,0 +1,171 @@
+---
+layout: default
+title: "Hydrogen Solubility Calculator: H₂ in Solvents vs Pressure and Temperature"
+seo_title: "Hydrogen Solubility in Solvents Calculator | PharmaChemE"
+description: "Hydrogen solubility in methanol, ethanol, IPA, toluene, THF, water and 10 more solvents at any pressure and temperature, from measured Henry's constants."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Hydrogen Solubility Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much hydrogen dissolves in methanol?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "About 8 mg per litre for each bar of hydrogen partial pressure at 25 C (mole fraction 1.6 x 10^-4 at 1 atm; Henry's constant about 626 MPa, Katayama and Nitta 1976). At 4 bar g hydrogen and 25 C that is about 39 mg/L, or 77 g in 2,000 L of methanol."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does hydrogen solubility increase with temperature?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In organic solvents, yes: hydrogen dissolves endothermically, so the mole fraction rises by roughly 15 to 25 % from 25 to 50 C (Brunner 1985). In water it falls from 0 to about 50 C and then rises slowly. The solvent's rising vapour pressure takes away part of the gain at a fixed total pressure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which solvent dissolves the most hydrogen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Non-polar hydrocarbons such as n-hexane and n-octane dissolve the most per mole (mole fraction about 7 x 10^-4 at 1 atm, 25 C). Per litre, methanol and acetone are also high because their molecules are small. Water dissolves the least, about 1.6 mg/L per atm at 25 C."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate hydrogen solubility at high pressure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use Henry's law: x = p(H2) / H(T), where p(H2) is the total absolute pressure minus the solvent vapour pressure and H(T) is the Henry's constant at the temperature. It stays close to linear up to about 100 bar for hydrogen in common solvents."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Hydrogen Solubility"
+    url: /calculators/hydrogen-solubility-calculator/
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<style>
+  .h2-st { display: inline-block; font: 600 .72rem var(--f-sans); padding: 2px 8px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .h2-in { color: #6FCB9F; border-color: #6FCB9F; } .h2-ext { color: var(--brass); border-color: var(--brass); } .h2-far { color: #E07A6A; border-color: #E07A6A; }
+  .h2-sel td { background: rgba(201,162,39,.10); }
+  .ut-table a { color: var(--brass); }
+  #h2-calc h2 { color: var(--paper); font-size: 1.2rem; }
+  #h2-calc > p { color: var(--muted); }
+</style>
+
+<div class="container ut-head">
+  <h1>Hydrogen Solubility in Solvents</h1>
+  <p>Hydrogen dissolves according to Henry's law: the mole fraction in the liquid equals the hydrogen partial pressure divided by a Henry's constant that depends on the solvent and temperature. At 25 &deg;C, each bar of hydrogen dissolves about 8 mg/L in methanol, 6 mg/L in toluene, 6 mg/L in IPA and only 1.6 mg/L in water. Pick a solvent, temperature and pressure below; every constant comes from published measurements, and the result says whether you are inside the measured range.</p>
+</div>
+
+<div class="container" id="h2-calc" data-base="{{ '' | relative_url }}"><noscript>Turn on JavaScript to use the calculator.</noscript></div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>The method</h2>
+  <div class="formula-box">
+    p<sub>H2</sub> = P<sub>total, abs</sub> &minus; p<sub>vap, solvent</sub>(T)<br>
+    x<sub>H2</sub> = p<sub>H2</sub> / H(T) &nbsp;&nbsp; ln H = a + b/T (fitted to the measured points)<br>
+    C (mol per L of solvent) = x / (1 &minus; x) &times; &rho; / M &nbsp;&nbsp; mg/L = C &times; 2.016 &times; 1000
+    <small>H in MPa, &rho; solvent density (kg/m&sup3;), M solvent molar mass (g/mol). Vapour pressure from the Antoine constants on our solvent pages. Water uses the IUPAC evaluated equation ln x = &minus;48.1611 + 55.2845/(T/100) + 16.8893 ln(T/100) at 1 atm.</small>
+  </div>
+
+  <h2>Worked example</h2>
+  <p>A hydrogenation in 2,000 L of methanol at 25 &deg;C under 4 bar g hydrogen.</p>
+  <div class="formula-box">
+    Total pressure = 4 + 1.013 = 5.013 bar a; methanol vapour pressure at 25 &deg;C = 0.169 bar<br>
+    p<sub>H2</sub> = 4.844 bar = 0.4844 MPa; H(25 &deg;C) = 626 MPa<br>
+    x = 0.4844 / 626 = 7.74 &times; 10<sup>&minus;4</sup><br>
+    C = 7.74 &times; 10<sup>&minus;4</sup> &times; 792 / 32.04 = 0.0191 mol/L = 38.6 mg/L<br>
+    In 2,000 L: about 77 g of dissolved hydrogen
+  </div>
+  <p>77 g is tiny next to what a reaction consumes: reducing 1 kmol of a nitro group to an amine takes 3 kmol, about 6 kg, of hydrogen. The liquid holds less than 2 % of that at any moment, so the gas must keep dissolving as fast as it reacts. That is why plant hydrogenations are usually limited by gas&ndash;liquid mass transfer (k<sub>L</sub>a), not by how much hydrogen the solvent can hold. See <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">gas&ndash;liquid reactions and kLa</a>.</p>
+
+  <h2>Reference values at 25 &deg;C</h2>
+  <p>Per bar of hydrogen partial pressure, sorted by mg/L. The mole fraction is at 1 atm (101.325 kPa) hydrogen.</p>
+  <div style="overflow-x:auto;"><table class="ut-table">
+    <thead><tr><th>Solvent</th><th>x &times; 10<sup>4</sup> at 1 atm, 25 &deg;C</th><th>mg/L per bar, 25 &deg;C</th><th>mg/L per bar, 50 &deg;C</th><th>Measured range</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td><a href="{{ '/solvents/n-hexane/' | relative_url }}">n-Hexane</a></td><td>7.13</td><td>10.8</td><td>12.6</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/n-octane/' | relative_url }}">n-Octane</a></td><td>6.76</td><td>8.3</td><td>9.6</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/methanol/' | relative_url }}">Methanol</a></td><td>1.62</td><td>8.0</td><td>8.9*</td><td>&minus;20&ndash;25 &deg;C</td><td>[2]</td></tr>
+      <tr><td><a href="{{ '/solvents/acetone/' | relative_url }}">Acetone</a></td><td>2.87</td><td>7.7</td><td>9.6</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/ethanol/' | relative_url }}">Ethanol</a></td><td>2.04</td><td>7.0</td><td>7.8*</td><td>&minus;20&ndash;25 &deg;C</td><td>[2]</td></tr>
+      <tr><td>n-Decane</td><td>6.73</td><td>6.9</td><td>8.1</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/acetonitrile/' | relative_url }}">Acetonitrile</a></td><td>1.78</td><td>6.8</td><td>8.3</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/thf/' | relative_url }}">THF</a></td><td>2.70</td><td>6.6</td><td>8.2</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/n-propanol/' | relative_url }}">n-Propanol</a></td><td>2.33</td><td>6.2</td><td>6.9*</td><td>&minus;20&ndash;25 &deg;C</td><td>[2]</td></tr>
+      <tr><td><a href="{{ '/solvents/isopropanol/' | relative_url }}">Isopropanol (IPA)</a></td><td>2.30*</td><td>6.0*</td><td>7.3</td><td>50&ndash;126 &deg;C</td><td>[3]</td></tr>
+      <tr><td><a href="{{ '/solvents/toluene/' | relative_url }}">Toluene</a></td><td>3.15</td><td>5.9</td><td>7.1</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/n-butanol/' | relative_url }}">n-Butanol</a></td><td>2.65</td><td>5.8</td><td>6.4*</td><td>&minus;20&ndash;25 &deg;C</td><td>[2]</td></tr>
+      <tr><td><a href="{{ '/solvents/1-4-dioxane/' | relative_url }}">1,4-Dioxane</a></td><td>1.84</td><td>4.3</td><td>5.4</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/dmf/' | relative_url }}">DMF</a></td><td>1.47</td><td>3.8</td><td>4.7</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/nmp/' | relative_url }}">NMP</a></td><td>1.41</td><td>2.9</td><td>3.6</td><td>25&ndash;100 &deg;C</td><td>[1]</td></tr>
+      <tr><td><a href="{{ '/solvents/water/' | relative_url }}">Water</a></td><td>0.141</td><td>1.56</td><td>1.44</td><td>0&ndash;80 &deg;C</td><td>[4]</td></tr>
+    </tbody>
+  </table></div>
+  <p><small>* Outside the measured temperature range of that source: extrapolated with the van 't Hoff fit. mg/L per bar is per litre of solvent and excludes the solvent's vapour pressure.</small></p>
+
+  <h2>What the numbers show</h2>
+  <ul>
+    <li><b>Pressure:</b> solubility rises in direct proportion to the hydrogen partial pressure. Doubling the pressure doubles the dissolved hydrogen and, at the same k<sub>L</sub>a, the maximum transfer rate.</li>
+    <li><b>Temperature:</b> in organic solvents hydrogen dissolves <i>better</i> when hot, about 15&ndash;25 % more at 50 &deg;C than at 25 &deg;C. In water it is the opposite up to about 50 &deg;C. At a fixed total pressure the solvent's vapour pressure eats into the hydrogen partial pressure, so methanol or acetone near their boiling points gain little.</li>
+    <li><b>Solvent:</b> per mole, hydrocarbons dissolve the most and polar aprotic solvents (DMF, NMP) the least. Per litre, small molecules like methanol and acetone come out high.</li>
+    <li><b>Water in the solvent:</b> water dissolves 2 to 7 times less hydrogen per litre than these solvents, so a wet solvent holds less than the dry one.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How much hydrogen dissolves in methanol?</h3>
+  <p>About 8 mg/L per bar of hydrogen at 25 &deg;C (mole fraction 1.6 &times; 10<sup>&minus;4</sup> at 1 atm). At 4 bar g and 25 &deg;C that is about 39 mg/L, or 77 g in 2,000 L.</p>
+  <h3>Does hydrogen solubility increase with temperature?</h3>
+  <p>In organic solvents, yes, by roughly 15&ndash;25 % from 25 to 50 &deg;C. In water it falls from 0 to about 50 &deg;C, then rises slowly.</p>
+  <h3>Which solvent dissolves the most hydrogen?</h3>
+  <p>Hydrocarbons per mole (n-hexane about 7 &times; 10<sup>&minus;4</sup> at 1 atm, 25 &deg;C). Per litre, hexane, methanol and acetone are high. Water is lowest, about 1.6 mg/L per atm.</p>
+
+  <h2>Sources</h2>
+  <ol>
+    <li>Brunner E., &ldquo;Solubility of hydrogen in 10 organic solvents at 298.15, 323.15, and 373.15 K&rdquo;, <i>J. Chem. Eng. Data</i> 30 (1985) 269&ndash;273. Measured up to 10&ndash;14 MPa.</li>
+    <li>Katayama T., Nitta T., &ldquo;Solubilities of hydrogen and nitrogen in alcohols and n-hexane&rdquo;, <i>J. Chem. Eng. Data</i> 21 (1976) 194&ndash;195. Henry's constants from &minus;60 to 25 &deg;C; methanol cross-checked against Liu et al., <i>J. Chem. Eng. Data</i> 41 (1996), about 620 MPa at 20 &deg;C.</li>
+    <li>Jaatinen S., Touronen J., Karinen R., Uusi-Kyyny P., Alopaeus V., &ldquo;Hydrogen solubility in furfural and 2-propanol&rdquo;, <i>J. Chem. Thermodyn.</i> 112 (2017) 1&ndash;6. Henry's constants derived here from their 5&ndash;12.5 MPa data.</li>
+    <li>Young C.L. (ed.), <i>IUPAC Solubility Data Series</i> vol. 5/6, Hydrogen and Deuterium (1981): evaluated equation for hydrogen in water, 273&ndash;353 K.</li>
+  </ol>
+
+  <h2>Engineering notes and assumptions</h2>
+  <p>Henry's law with a constant fitted as ln H = a + b/T to the measured points; no pressure correction (good to about 100 bar). Pure, dry solvents; dissolved reactants, products, salts and water change the result. Densities at 20 &deg;C. Accuracy is about &plusmn;5&ndash;10 % inside the measured range and worse outside it, which the calculator flags. Solvents without a published source we could verify (ethyl acetate, acetic acid, DCM, cyclohexane) are left out rather than estimated.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">Gas&ndash;liquid reactions and kLa: hydrogenation scale-up</a>
+    <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">Hydrogenation safety</a>
+    <a href="{{ '/process-modelling/mixing-mass-transfer-scale-up/' | relative_url }}">Mixing and mass-transfer scale-up</a>
+    <a href="{{ '/solvents/' | relative_url }}">Solvent and reagent data</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/h2-solubility.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
