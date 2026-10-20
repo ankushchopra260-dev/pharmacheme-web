@@ -97,12 +97,13 @@
         - { title: "LOPA and SIL Basics", url: /articles/lopa-and-sil-basics/ }
     - title: "Scale-up & reaction engineering"
       url: /articles/#scale-up-reaction-engineering
-      count: 9
+      count: 10
       children:
         - { title: "Lab to Plant Scale-up Checklist", url: /articles/lab-to-plant-scale-up-checklist/ }
         - { title: "Semi-Batch Dosing and Accumulation", url: /articles/semi-batch-dosing-accumulation/ }
         - { title: "Crystallisation Scale-up", url: /articles/crystallisation-scale-up/ }
         - { title: "Gas-Liquid Reactions and kLa", url: /articles/gas-liquid-mass-transfer-kla/ }
+        - { title: "Hydrogen Solubility in Solvents", url: /articles/hydrogen-solubility-in-solvents/ }
         - { title: "Continuous and Flow Chemistry", url: /articles/continuous-flow-chemistry/ }
     - title: "Process design"
       url: /articles/#process-design

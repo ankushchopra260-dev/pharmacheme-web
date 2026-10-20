@@ -80,6 +80,7 @@
 {% include breadcrumbs.html %}
 
 {{ content }}
+{% unless page.url == '/' or page.noindex %}<div class="container share-row" aria-label="Share this page"><span>Share this page</span><a class="sh-wa" data-share="wa" href="#" rel="noopener">WhatsApp</a><a class="sh-li" data-share="li" href="#" rel="noopener">LinkedIn</a><button type="button" data-share="copy">Copy link</button><button type="button" data-share="native" hidden>More&hellip;</button></div>{% endunless %}
 {% if page.last_modified_at and page.url != '/' %}<p class="container page-updated">Last updated <time datetime="{{ page.last_modified_at | date: '%Y-%m-%d' }}">{{ page.last_modified_at | date: '%-d %B %Y' }}</time></p>{% endif %}
 {% if page.url contains '/articles/' and page.url != '/articles/' %}{% include author-box.html %}{% endif %}
 
@@ -89,6 +90,7 @@
 {% if page.page_search %}<script src="{{ '/assets/js/page-filter.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-items="{{ page.page_search.items }}" data-groups="{{ page.page_search.groups }}" data-heads="{{ page.page_search.heads }}" data-ph="{{ page.page_search.placeholder }}"></script>{% endif %}
 <script src="{{ '/assets/js/site-search.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 <script src="{{ '/assets/js/pwa.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+<script src="{{ '/assets/js/share.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
 {% unless page.guide == false or page.noindex %}<script src="{{ '/assets/js/companion.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-img="{{ '/assets/img/guide.webp' | relative_url }}" data-face="{{ '/assets/img/guide-face.webp' | relative_url }}" data-index="{{ '/assets/data/guide-index.json' | relative_url }}" data-search="{{ '/assets/data/site-search.json' | relative_url }}" data-facts="{{ '/assets/data/solvent-facts.json' | relative_url }}"{% if page.url != '/' %} data-mini="1"{% endif %} defer></script>{% endunless %}
 
 {% if page.needs_troubleshooter %}<script src="{{ '/assets/js/troubleshooter-scenarios.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}

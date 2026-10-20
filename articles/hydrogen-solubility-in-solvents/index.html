@@ -1,0 +1,174 @@
+---
+layout: default
+title: "Hydrogen Solubility in Solvents: Pressure, Temperature and What It Means for Hydrogenation"
+seo_title: "Hydrogen Solubility in Solvents Explained | PharmaChemE"
+description: "How much hydrogen dissolves in methanol, toluene, THF, IPA and water, how pressure and temperature change it, and why hydrogenations are mass-transfer limited."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Hydrogen Solubility in Solvents
+    url: /articles/hydrogen-solubility-in-solvents/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Hydrogen Solubility in Solvents: Pressure, Temperature and What It Means for Hydrogenation",
+        "description": "Henry's law for hydrogen, the effect of pressure, temperature and solvent, how much hydrogen a batch holds, and the plant consequences.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-20",
+        "dateModified": "2026-10-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much hydrogen dissolves in a solvent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Very little: at 25 C and 1 bar of hydrogen, about 8 mg/L in methanol, 6 mg/L in toluene or IPA, and 1.6 mg/L in water. It rises in proportion to the hydrogen pressure, so 4 bar g gives about 39 mg/L in methanol."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does hydrogen dissolve better at higher temperature?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In organic solvents, yes: the mole fraction rises by roughly 15 to 25 % from 25 to 50 C. In water it falls slightly up to about 50 C. At a fixed total pressure the solvent's vapour pressure rises too and takes away part of the hydrogen partial pressure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is my hydrogenation slow at plant scale?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually because hydrogen cannot dissolve fast enough. The liquid holds only a few grams of hydrogen per cubic metre per bar, far less than the reaction consumes, so the rate is set by kLa times the solubility. Higher pressure and better gas dispersion help more than extra catalyst."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is dissolved hydrogen a hazard when the reactor is opened?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. When the pressure is released, dissolved hydrogen comes out of the liquid. That is why the reactor is vented to a safe place and purged with nitrogen, typically three cycles, until hydrogen is below a safe level before it is opened or the batch is filtered."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Hydrogen Solubility in Solvents</h1>
+  <p class="article-meta">Reaction Engineering &middot; Hydrogenation</p>
+
+  <p class="art-lede">Hydrogen barely dissolves in anything. At 25 &deg;C and 1 bar of hydrogen, a litre of methanol holds about 8 mg, toluene or IPA about 6 mg and water only 1.6 mg. The amount rises in proportion to pressure and, in organic solvents, slightly with temperature. Because the liquid holds so little, plant hydrogenations are almost always limited by how fast the gas dissolves, not by the catalyst.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#henry">Henry's law for hydrogen</a></li>
+    <li><a href="#pressure">Pressure: the strongest lever</a></li>
+    <li><a href="#temp">Temperature: the opposite of most gases</a></li>
+    <li><a href="#solvent">Which solvent holds the most</a></li>
+    <li><a href="#batch">How much hydrogen is in your batch</a></li>
+    <li><a href="#plant">What it means on the plant</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="henry">Henry's law for hydrogen</h2>
+  <p>At the pressures used in pharma and fine-chemical hydrogenations (up to about 100 bar), dissolved hydrogen follows Henry's law:</p>
+  <div class="formula-box">x<sub>H2</sub> = p<sub>H2</sub> / H(T) &nbsp;&nbsp; p<sub>H2</sub> = P<sub>total, abs</sub> &minus; p<sub>vap, solvent</sub>
+    <small>x mole fraction of hydrogen in the liquid; H Henry's constant (MPa), which depends on the solvent and temperature. Use the hydrogen partial pressure, not the gauge reading: add 1.013 bar to the gauge pressure and subtract the solvent's vapour pressure.</small></div>
+  <p>For hydrogen the Henry's constants are large: about 140 MPa in n-hexane, 320 MPa in toluene, 630 MPa in methanol and 7,200 MPa in water at 25 &deg;C. A large constant means low solubility. The <a href="{{ '/calculators/hydrogen-solubility-calculator/' | relative_url }}">hydrogen solubility calculator</a> has measured values for 16 solvents.</p>
+
+  <h2 id="pressure">Pressure: the strongest lever</h2>
+  <p>Solubility is directly proportional to the hydrogen partial pressure. In methanol at 25 &deg;C:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Hydrogen pressure</th><th>Dissolved H<sub>2</sub>, mg/L</th></tr>
+    <tr><td>1 bar g</td><td>14.7</td></tr>
+    <tr><td>4 bar g</td><td>38.6</td></tr>
+    <tr><td>10 bar g</td><td>86.4</td></tr>
+  </table></div>
+  <p>The gas&ndash;liquid transfer rate is k<sub>L</sub>a &times; (C* &minus; C), and C* is this solubility. So doubling the hydrogen pressure roughly doubles the maximum rate at which hydrogen can reach the catalyst. That is why a reaction that crawls at 2 bar g can run well at 8 bar g in the same reactor.</p>
+
+  <h2 id="temp">Temperature: the opposite of most gases</h2>
+  <p>Most gases dissolve less as the liquid warms. Hydrogen in organic solvents does the opposite: dissolving is slightly endothermic, so solubility rises with temperature. Brunner's measurements at BASF show the mole fraction rising by about 15&ndash;25 % from 25 to 50 &deg;C in ten common solvents. In water hydrogen solubility falls slightly up to about 50 &deg;C and then rises slowly.</p>
+  <p>At a fixed total pressure there is a catch: the solvent's vapour pressure also rises and takes a growing share of the headspace. In toluene at 4 bar g the dissolved hydrogen goes from 29 mg/L at 25 &deg;C to 36 mg/L at 60 &deg;C and 39 mg/L at 80 &deg;C. In methanol, whose vapour pressure climbs quickly, the gain stops at around 40&ndash;50 &deg;C (an estimate: the methanol data end at 25 &deg;C). In practice, temperature mostly speeds up the reaction itself; its effect on solubility is modest.</p>
+
+  <h2 id="solvent">Which solvent holds the most</h2>
+  <p>Per mole, non-polar solvents dissolve the most hydrogen: n-hexane about 7 &times; 10<sup>&minus;4</sup> mole fraction at 1 atm and 25 &deg;C, toluene 3.2 &times; 10<sup>&minus;4</sup>, DMF and NMP about 1.4 &times; 10<sup>&minus;4</sup>. Per litre the picture changes, because small molecules pack more moles into a litre:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Solvent</th><th>mg/L per bar H<sub>2</sub>, 25 &deg;C</th></tr>
+    <tr><td>n-Hexane</td><td>10.8</td></tr>
+    <tr><td>Methanol</td><td>8.0</td></tr>
+    <tr><td>Acetone</td><td>7.7</td></tr>
+    <tr><td>Ethanol</td><td>7.0</td></tr>
+    <tr><td>THF</td><td>6.6</td></tr>
+    <tr><td>Toluene</td><td>5.9</td></tr>
+    <tr><td>DMF</td><td>3.8</td></tr>
+    <tr><td>NMP</td><td>2.9</td></tr>
+    <tr><td>Water</td><td>1.6</td></tr>
+  </table></div>
+  <p>Between the common organic solvents the difference is at most two to three times, so a solvent change rarely rescues a slow hydrogenation on its own. Water is the outlier: a water-rich solvent mixture holds much less hydrogen than the dry solvent.</p>
+
+  <h2 id="batch">How much hydrogen is in your batch</h2>
+  <p>Take 2,000 L of methanol at 25 &deg;C under 4 bar g hydrogen:</p>
+  <div class="formula-box">
+    p<sub>H2</sub> = 5.013 &minus; 0.169 (methanol vapour pressure) = 4.84 bar<br>
+    x = 0.484 MPa / 626 MPa = 7.7 &times; 10<sup>&minus;4</sup> &rarr; 38.6 mg/L<br>
+    Dissolved hydrogen in 2,000 L &asymp; 77 g
+  </div>
+  <p>Now compare with what the reaction needs. Reducing 1 kmol of a nitro group to an amine consumes 3 kmol of hydrogen, about 6 kg. The liquid holds about 1 % of that at any moment. Every gram the catalyst uses must be replaced by fresh gas dissolving from the bubbles. With a k<sub>L</sub>a of 0.1 s<sup>&minus;1</sup>, the most methanol can take up at 4 bar g is roughly 7 mol of hydrogen per litre per hour. A large reactor with poor gas dispersion may reach only a tenth of that k<sub>L</sub>a. See <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">gas&ndash;liquid reactions and kLa</a> for the full picture.</p>
+
+  <h2 id="plant">What it means on the plant</h2>
+  <ul>
+    <li><b>Raise the pressure first.</b> It raises solubility, and with it the transfer rate, in direct proportion. Check the reactor's design pressure and the relief settings first.</li>
+    <li><b>Then improve gas dispersion.</b> A gas-inducing or hollow-blade impeller, a sparger under the impeller, and enough power per volume raise k<sub>L</sub>a far more than extra catalyst does.</li>
+    <li><b>Lab rates do not scale directly.</b> A small autoclave with a fast stirrer can have several times the plant k<sub>L</sub>a. If the lab reaction was already mass-transfer limited, the plant will be slower unless pressure or agitation make up the difference.</li>
+    <li><b>Dissolved hydrogen leaves when the pressure drops.</b> When the reactor is vented, hydrogen comes out of the liquid. Vent to a safe place and purge with nitrogen, typically three cycles, until hydrogen is below a safe level before opening the reactor or filtering the catalyst. See <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">hydrogenation safety</a>.</li>
+    <li><b>Samples fizz.</b> A sample taken under pressure releases dissolved hydrogen as it depressurises. Handle it as a flammable gas source.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How much hydrogen dissolves in a solvent?</h3>
+  <p>Very little: at 25 &deg;C and 1 bar of hydrogen, about 8 mg/L in methanol, 6 mg/L in toluene or IPA, and 1.6 mg/L in water. It rises in proportion to the hydrogen pressure.</p>
+  <h3>Does hydrogen dissolve better at higher temperature?</h3>
+  <p>In organic solvents, yes, by roughly 15&ndash;25 % from 25 to 50 &deg;C. In water it falls slightly up to about 50 &deg;C. At a fixed total pressure, the solvent's rising vapour pressure takes back part of the gain.</p>
+  <h3>Why is my hydrogenation slow at plant scale?</h3>
+  <p>Usually because hydrogen cannot dissolve fast enough. Higher pressure and better gas dispersion help more than extra catalyst.</p>
+  <h3>Is dissolved hydrogen a hazard when the reactor is opened?</h3>
+  <p>Yes: it comes out of the liquid as the pressure drops. Vent safely and purge with nitrogen before opening or filtering.</p>
+
+  <h2>Sources</h2>
+  <ol>
+    <li>Brunner E., <i>J. Chem. Eng. Data</i> 30 (1985) 269&ndash;273: hydrogen in 10 organic solvents at 298, 323 and 373 K.</li>
+    <li>Katayama T., Nitta T., <i>J. Chem. Eng. Data</i> 21 (1976) 194&ndash;195: hydrogen in alcohols and n-hexane.</li>
+    <li>Jaatinen S. et al., <i>J. Chem. Thermodyn.</i> 112 (2017) 1&ndash;6: hydrogen in 2-propanol.</li>
+    <li>Young C.L. (ed.), <i>IUPAC Solubility Data Series</i> vol. 5/6 (1981): hydrogen in water.</li>
+  </ol>
+
+  <div class="related-box">
+    <h3>Calculator</h3>
+    <a href="{{ '/calculators/hydrogen-solubility-calculator/' | relative_url }}">Hydrogen solubility calculator: 16 solvents, any pressure and temperature</a>
+    <h3>Related articles</h3>
+    <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">Gas&ndash;liquid reactions and kLa</a>
+    <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">Hydrogenation safety</a>
+    <a href="{{ '/articles/agitator-design/' | relative_url }}">Agitator design basics</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

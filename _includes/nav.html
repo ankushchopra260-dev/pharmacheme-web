@@ -30,6 +30,7 @@
       {%- endfor %}
       <li><a href="{{ '/plant-tour/' | relative_url }}" class="nav-cta">3D Plant Tour</a></li>
     </ul>
+    <button class="nav-share-btn" type="button" data-share-btn aria-label="Share this page"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="18" cy="5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="19" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.3 10.8 15.7 6.3M8.3 13.2l7.4 4.5" stroke="currentColor" stroke-width="2"/></svg></button>
     <button class="nav-search-btn" id="navSearchBtn" type="button" aria-label="Search the site" aria-expanded="false" aria-controls="siteSearch"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     <div class="site-search" id="siteSearch" hidden data-src="{{ '/assets/data/site-search.json' | relative_url }}" data-base="{{ '' | relative_url }}">
       <div class="site-search-bar"><input type="search" id="siteSearchQ" placeholder="Search calculators, articles, solvents, CAS no." autocomplete="off" aria-label="Search the site"><button type="button" class="site-search-x" id="siteSearchX" aria-label="Close search">&times;</button></div>
