@@ -60,7 +60,9 @@
   function showBar() {
     if (recentlyDismissed || document.getElementById('pce-install-bar')) return;
     const bar = document.createElement('div'); bar.id = 'pce-install-bar'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Install app');
-    bar.innerHTML = '<img src="/assets/img/icon-192.png" alt="" width="36" height="36">' + (mobile ? '<span><b>Get the PharmaChemE app</b><br>Free, no login, opens like an app</span>' : '<span><b>Install PharmaChemE on this computer</b><br>Opens in its own window, like a desktop app. Free, no login.</span>') + '<button type="button" class="pce-bar-go">Install</button><button type="button" class="pce-bar-x" aria-label="Not now">&times;</button>';
+    bar.innerHTML = '<img class="pce-bar-guide" src="/assets/img/guide-face.webp" alt="" width="52" height="52">' + (mobile
+      ? '<span><b>Keep me on your phone!</b><br>Install the PharmaChemE app. Free, no login.</span>'
+      : '<span><b>Keep me on your computer!</b><br>Install PharmaChemE: it opens in its own window, like a desktop app. Free, no login.</span>') + '<button type="button" class="pce-bar-go"><img src="/assets/img/icon-192.png" alt="" width="18" height="18">Install</button><button type="button" class="pce-bar-x" aria-label="Not now">&times;</button>';
     bar.querySelector('.pce-bar-go').onclick = install;
     bar.querySelector('.pce-bar-x').onclick = () => { set(); bar.remove(); track('pwa_bar_dismissed'); };
     document.body.appendChild(bar);

@@ -432,3 +432,6 @@ body.has-page-search .nav-search-btn { display: none; }
 .pce-sheet-note { margin: 0 0 14px; font-size: .82rem; color: var(--muted); }
 .pce-sheet-ok { padding: 8px 18px; background: var(--brass); color: var(--bg-deep); border: 0; border-radius: 6px; font: inherit; font-weight: 600; cursor: pointer; }
 @media (min-width: 821px) { #pce-install-bar { right: auto; left: 20px; bottom: 20px; width: 440px; font-size: .9rem; } }
+.pce-bar-guide { width: 52px; height: 52px; border-radius: 50% !important; border: 2px solid var(--brass); background: var(--bg-deep); object-fit: cover; }
+#pce-install-bar .pce-bar-go { display: inline-flex; align-items: center; gap: 6px; }
+#pce-install-bar .pce-bar-go img { border-radius: 4px; }
