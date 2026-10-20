@@ -431,3 +431,4 @@ body.has-page-search .nav-search-btn { display: none; }
 .pce-sheet-box ol { margin: 10px 0 14px 18px; padding: 0; line-height: 1.6; }
 .pce-sheet-note { margin: 0 0 14px; font-size: .82rem; color: var(--muted); }
 .pce-sheet-ok { padding: 8px 18px; background: var(--brass); color: var(--bg-deep); border: 0; border-radius: 6px; font: inherit; font-weight: 600; cursor: pointer; }
+@media (min-width: 821px) { #pce-install-bar { right: auto; left: 20px; bottom: 20px; width: 440px; font-size: .9rem; } }
