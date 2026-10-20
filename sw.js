@@ -32,7 +32,8 @@ self.addEventListener('fetch', e => {
   if (url.origin !== location.origin || SKIP.some(r => r.test(url.pathname))) return;
 
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(res => {
+    // Always check with the server (cheap if unchanged), so a new deploy shows at once instead of after the browser's 10-minute cache.
+    e.respondWith(fetch(req.url, { cache: 'no-cache', credentials: 'include' }).then(res => {
       if (res.ok) { const copy = res.clone(); caches.open(PAGES).then(c => c.put(req, copy)).then(() => trim(PAGES, MAX_PAGES)); }
       return res;
     }).catch(() => caches.match(req, { ignoreSearch: true }).then(r => r || caches.match(OFFLINE))));

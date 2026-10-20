@@ -34,7 +34,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-20
 ---
 
 <section class="hero">
@@ -57,7 +57,7 @@ last_modified_at: 2026-10-19
       <h2 id="lp-title">Walk through a working plant</h2>
       <p>A 3D chemical plant running live: production, distillation, utilities, tank farm and ETP. Watch the fly-through, or take control and walk around.</p>
     </div>
-    <div class="lp-frame" id="lp-frame" data-src="{{ '/plant-tour/' | relative_url }}?embed=1" style="background-image:url('{{ '/plant-tour/og-image.png' | relative_url }}')">
+    <div class="lp-frame" id="lp-frame" data-src="{{ '/plant-tour/' | relative_url }}?embed=1&amp;v={{ site.time | date: '%s' }}" style="background-image:url('{{ '/plant-tour/og-image.png' | relative_url }}')">
       <div class="lp-poster"><p>Loading the plant&hellip;</p></div>
       <button type="button" class="lp-shield" id="lp-shield" aria-label="Explore the virtual plant"><span>Click to explore</span></button>
       <span class="lp-badge"><i></i>Live</span>
