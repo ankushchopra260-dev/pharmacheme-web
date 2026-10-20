@@ -429,3 +429,5 @@ body.has-page-search .nav-search-btn { display: none; }
 .pce-sheet[hidden] { display: none; }
 .pce-sheet-box { width: min(480px, 100%); margin: 0 10px 14px; padding: 18px 20px; background: var(--panel); border: 1px solid var(--brass); border-radius: 12px; color: var(--paper); }
 .pce-sheet-box ol { margin: 10px 0 14px 18px; padding: 0; line-height: 1.6; }
+.pce-sheet-note { margin: 0 0 14px; font-size: .82rem; color: var(--muted); }
+.pce-sheet-ok { padding: 8px 18px; background: var(--brass); color: var(--bg-deep); border: 0; border-radius: 6px; font: inherit; font-weight: 600; cursor: pointer; }

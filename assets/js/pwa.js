@@ -24,7 +24,12 @@
     let d = document.getElementById('pce-ios-help');
     if (!d) {
       d = document.createElement('div'); d.id = 'pce-ios-help'; d.className = 'pce-sheet'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-label', 'Install PharmaChemE');
-      d.innerHTML = '<div class="pce-sheet-box"><b>Install PharmaChemE</b><ol><li>Tap the <b>Share</b> button in Safari (the square with an arrow).</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol><button type="button" class="btn btn-outline btn-sm">Got it</button></div>';
+      const steps = /crios/i.test(ua)
+        ? '<li>Tap the <b>Share</b> button at the top right of the address bar (the square with an arrow).</li><li>Scroll down and choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li>'
+        : /fxios|edgios/i.test(ua)
+          ? '<li>Open the browser menu and tap <b>Share</b>.</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li>'
+          : '<li>Tap the <b>Share</b> button in Safari (the square with an arrow).</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li>';
+      d.innerHTML = '<div class="pce-sheet-box"><b>Install PharmaChemE</b><ol>' + steps + '</ol><p class="pce-sheet-note">Needs iOS 16.4 or newer in Chrome, Edge or Firefox. On older iPhones, open the site in Safari.</p><button type="button" class="pce-sheet-ok">Got it</button></div>';
       d.addEventListener('click', e => { if (e.target === d || e.target.tagName === 'BUTTON') d.hidden = true; });
       document.body.appendChild(d);
     }
@@ -61,6 +66,6 @@
   window.addEventListener('appinstalled', () => { track('pwa_installed'); hideAll(); });
 
   document.addEventListener('DOMContentLoaded', () => {
-    if (ios && /safari/i.test(ua) && !/crios|fxios|edgios/i.test(ua)) { showButtons(); setTimeout(showBar, 15000); }
+    if (ios) { showButtons(); setTimeout(showBar, 15000); }
   });
 })();
