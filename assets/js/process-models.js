@@ -64,13 +64,13 @@
     hit.addEventListener('pointermove', move); hit.addEventListener('pointerleave', leave);
   }
 
-  /* ---------------- tool shell: inputs, results, charts, Excel ---------------- */
+  /* ---------------- tool shell: inputs, results, charts, PDF ---------------- */
   function shell(el, spec) {
     const v = {}; spec.groups.forEach(g => g.inputs.forEach(i => v[i.k] = i.v));
     el.innerHTML = `<div class="ut-card pm-card"><div class="ut-hd"><h2>${esc(spec.title)}</h2><p>${esc(spec.sub)}</p></div>
       <div class="ut-body"><form class="ut-in pm-in" autocomplete="off"></form><div class="ut-out" aria-live="polite"></div></div>
       <div class="pm-more"></div>
-      <div class="ut-tools"><button type="button" class="ut-xl">Download Excel</button><span>inputs, results and the full profile</span></div></div>`;
+      <div class="ut-tools"><button type="button" class="ut-xl">Download PDF</button><span>your inputs and results</span></div></div>`;
     const form = el.querySelector('form'), out = el.querySelector('.ut-out'), more = el.querySelector('.pm-more'), xb = el.querySelector('.ut-xl');
     let last = null, timer = 0;
     function drawInputs() {
@@ -108,7 +108,7 @@
       const ins = []; spec.groups.forEach(g => { if (g.show && !g.show(v)) return; g.inputs.forEach(i => { if (i.show && !i.show(v)) return; ins.push([i.label, i.type === 'sel' ? (i.opts.find(o => o[0] === v[i.k]) || [, v[i.k]])[1] : v[i.k], i.type === 'sel' || i.type === 'area' ? '' : (i.unit || '')]); }); });
       xb.disabled = true; xb.textContent = 'Preparing…';
       window.PCME_XL.dataBook({ title: spec.title, sub: spec.sub, inputs: ins, results: (last.rows || []).concat(last.xlRows || []), notes: (last.notes || []).map(n => n[0]), tables: last.tables || [] })
-        .then(() => { xb.disabled = false; xb.textContent = 'Download Excel'; }, e => window.PCME_XL.fail(xb, e));
+        .then(() => { xb.disabled = false; xb.textContent = 'Download PDF'; }, e => window.PCME_XL.fail(xb, e));
     });
     drawInputs(); calc();
   }

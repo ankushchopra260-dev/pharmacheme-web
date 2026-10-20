@@ -318,6 +318,28 @@
     $("mc-mat").innerHTML = GROUPS.map((g) => `<optgroup label="${g.name}">${g.mats.filter((m) => MATS.includes(m)).map((m) => `<option>${esc(m)}</option>`).join("")}</optgroup>`).join("");
     selMat = $("mc-mat").value;
     readUrl();
+    // "Download PDF": the stream check as shown, never the full rating table
+    window.PCME_PDF_CUSTOM = () => {
+      if (mode !== "stream") return { error: "Switch to \u201cCheck a process stream\u201d and add your chemicals to download a PDF." };
+      if (!stream.length) return { error: "Add one or more chemicals first." };
+      const label = (ev) => ev.verdict === "overtemp" ? "Above temp limit" : ev.verdict === "nodata" ? "Incomplete data" : ev.verdict ? RATING[ev.verdict].label : "No data";
+      const evs = MATS.map((m) => evaluate(m));
+      const order = { E: 0, G: 1, F: 2, N: 3, nodata: 4, overtemp: 5 };
+      evs.sort((x, y) => (order[x.verdict] ?? 6) - (order[y.verdict] ?? 6));
+      return { title: "Chemical\u2013material compatibility", sub: "Process stream check: each material rated by its worst result across the stream",
+        sections: [
+          { title: "Stream", head: ["Item", "Value"], widths: [0.35, 0.65], rows: [["Chemicals", stream.join(", ")], ["Temperature", tempC !== null ? tempC + " \u00b0C" : "Not given"]] },
+          { title: "Materials of construction", head: ["Material", "Rating", "Notes"], widths: [0.24, 0.18, 0.58], bold: [1], rows: evs.map((ev) => {
+            const n = [];
+            if (stream.length > 1 && ev.worst && ev.worst !== "E" && ev.verdict !== "overtemp" && ev.verdict !== "nodata") n.push("Limited by: " + ev.limiting.join(", "));
+            if (ev.missing.length) n.push("No data for: " + ev.missing.join(", "));
+            if (ev.overTemp) n.push(tempC + " \u00b0C is above the " + ev.lim.c + " \u00b0C service limit");
+            else if (ev.lim) n.push("Service limit " + ev.lim.c + " \u00b0C");
+            ev.warns.forEach((w) => n.push("\u26a0 " + w.text));
+            return [ev.mat, label(ev), n.join(". ")];
+          }) }],
+        notes: ["Ratings are a compiled starting reference, not a substitute for a vendor datasheet or in-house trial. Confirm against your actual concentration, temperature and duty before finalising the MOC.", "Fair ratings should be confirmed with a corrosion coupon test."] };
+    };
 
     mount.addEventListener("click", (e) => {
       const t = e.target;

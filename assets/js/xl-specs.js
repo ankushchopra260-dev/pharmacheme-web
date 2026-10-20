@@ -1,5 +1,5 @@
-/* PharmaChemE: live-formula Excel layouts for the comparison calculators (one column per case).
-   xl-export.js calls window.PCME_XL_CASES() when "Download Excel" is pressed; it returns the spec for whichever calculator is on the page.
+/* PharmaChemE: PDF report layouts for the comparison calculators (one column per case).
+   pdf-export.js calls window.PCME_XL_CASES() when "Download PDF" is pressed; it returns the spec for whichever calculator is on the page.
    Formulas mirror the functions in calculators.js. Look-ups (steam table, solvents, impellers, utilities) go on a read-only Data sheet. */
 (function () {
   'use strict';
@@ -7,7 +7,7 @@
   const col = (cases, f) => cases.map(f);
   const inp = (k, label, unit, cases, field, list) => ({ k, label, unit, values: col(cases, c => c[field || k]), list });
   const out = (k, label, unit, f, helper) => ({ k, label, unit, f, helper: !!helper });
-  const ANTOINE_NOTE = 'Boiling point from the Antoine equation, log10(P/torr) = A − B/(C + T), with constants from the Data sheet for the solvent named in each column.';
+  const ANTOINE_NOTE = 'Boiling point from the Antoine equation, log10(P/torr) = A − B/(C + T), for the solvent named in each column.';
 
   function solventTable() {
     const names = Object.keys(SOLVENT_DB).sort((a, b) => a.localeCompare(b));
@@ -132,7 +132,7 @@
           out('G', 'Shear rate (Camp–Stein)', '1/s', 'SQRT({PV}*1000/{mu})'),
           out('torque', 'Torque', 'N·m', '{P}/(2*PI()*{N})'),
           out('torqueV', 'Torque per volume', 'N·m/L', '{torque}/{rmVol}')] }],
-      notes: ['P = Np ρ N³ D⁵ summed over the three impellers (turbulent power numbers on the Data sheet). Blend time θ = 5.2 (T/D)² / (Np^(1/3) N).', 'For scale-up, match one criterion (P/V, tip speed or torque/V) across columns; no single basis keeps every row equal.'] };
+      notes: ['P = Np ρ N³ D⁵ summed over the three impellers (turbulent power numbers). Blend time θ = 5.2 (T/D)² / (Np^(1/3) N).', 'For scale-up, match one criterion (P/V, tip speed or torque/V) across columns; no single basis keeps every row equal.'] };
   }
 
   /* ---- Solvent recovery sub-tools ---- */
@@ -141,12 +141,12 @@
     const c = srCases[srSubActive], cases = c.map(x => x.label);
     const SOLV = solventTable();
     if (srSubActive === 'boiling') return { title: 'Boiling Point at Vacuum', sub: 'Antoine equation', cases, tables: { SOLVENTS: SOLV },
-      sections: [{ title: 'Inputs', rows: [inp('solvent', 'Solvent (pick from the list)', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum')] },
+      sections: [{ title: 'Inputs', rows: [inp('solvent', 'Solvent', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum')] },
         { title: 'Results', rows: antoineRows().concat([out('Tb', 'Boiling point at vacuum', '°C', tb)]) }], notes: [ANTOINE_NOTE] };
     if (srSubActive === 'condenser') {
       const U = c.map(x => +x.uCond > 0 ? +x.uCond : condenserU(x.hxType, x.condMoc));
       return { title: 'Condenser Sizing', sub: 'Duty, LMTD, area and utility flow', cases, tables: { SOLVENTS: SOLV, UTILITIES: { title: 'Condenser utilities', head: ['Utility', 'Typical inlet °C', 'Typical outlet °C', 'Density kg/m³', 'cp kcal/kg·°C'], rows: Object.entries(COND_UTILITIES).map(([k, u]) => [k, u.tin, u.tout, u.density, u.cp]) } },
-        sections: [{ title: 'Inputs', rows: [inp('solvent', 'Solvent (pick from the list)', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum'), inp('qty', 'Quantity distilled', 'L', c, 'qtyDistilled'),
+        sections: [{ title: 'Inputs', rows: [inp('solvent', 'Solvent', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum'), inp('qty', 'Quantity distilled', 'L', c, 'qtyDistilled'),
           inp('time', 'Recovery time', 'h', c, 'recoveryTime'), inp('rho', 'Density', 'kg/m³', c, 'density'), inp('lat', 'Latent heat', 'kcal/kg', c, 'latent'),
           { k: 'U', label: 'Overall U (from HX type and MOC on the website, or your value)', unit: 'kcal/m²·h·°C', values: U.map(u => Math.round(u)) },
           inp('util', 'Utility', '', c, 'condUtility', Object.keys(COND_UTILITIES)), inp('tin', 'Utility inlet', '°C', c, 'condTin'), inp('tout', 'Utility outlet', '°C', c, 'condTout'),
@@ -162,7 +162,7 @@
         notes: [ANTOINE_NOTE, 'Area = duty / (U × LMTD) plus the design margin. The vapour is taken to condense at its boiling point at the applied vacuum.'] };
     }
     if (srSubActive === 'vacuumpump') return { title: 'Vacuum Pump Capacity', sub: 'Leakage, evacuation and evaporation load', cases, tables: { SOLVENTS: SOLV },
-      sections: [{ title: 'Inputs', rows: [inp('solvent', 'Solvent (pick from the list)', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum'), inp('cap', 'Reactor capacity', 'L', c, 'capacity'),
+      sections: [{ title: 'Inputs', rows: [inp('solvent', 'Solvent', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum'), inp('cap', 'Reactor capacity', 'L', c, 'capacity'),
         inp('qty', 'Quantity distilled', 'L', c, 'qtyDistilled'), inp('time', 'Recovery time', 'h', c, 'recoveryTime'), inp('rho', 'Density', 'kg/m³', c, 'density'), inp('mw', 'Molecular weight', 'g/mol', c),
         inp('nz', 'Process nozzles on reactor', 'no.', c, 'nozzleCount'), inp('nzs', 'Average nozzle size', 'in', c, 'nozzleSize'), inp('g3', 'Gaskets, 3 inch', 'no.', c, 'gasket3in'), inp('g05', 'Gaskets, 1/2 inch', 'no.', c, 'gasket05in'),
         inp('gp', 'Reactor gasket perimeter', 'in', c, 'gasketPerimeter'), inp('vc', 'Valve count', 'no.', c, 'valveCount'), inp('vd', 'Valve diameter', 'in', c, 'valveDia'), inp('loss', 'Solvent loss to vacuum', '%', c, 'lossPct'), inp('evac', 'Evacuation time', 'h', c, 'evacTime')] },
@@ -183,7 +183,7 @@
         sections: [{ title: 'Inputs', rows: [inp('capL', 'Reactor capacity', 'L', c, 'capacity'), inp('U', 'Overall U', 'kcal/m²·h·°C', c, 'u'), inp('basis', 'Jacket area basis', '', c, 'jacketAreaBasis', ['Calculated', 'User Entered']),
           inp('L', 'Assumed straight length', 'm', c, 'jacketLength'), inp('occ', 'Reactor occupancy at start', '%', c, 'occupancy'), inp('aMan', 'Jacket area, user entered', 'm²', c, 'jacketAreaManual'),
           inp('ffe', 'FFE required', '', c, 'ffeRequired', ['YES', 'NO']), inp('ffeA', 'Proposed FFE area', 'm²', c, 'ffeArea'),
-          inp('solvent', 'Solvent (pick from the list)', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum'), inp('qty', 'Quantity distilled', 'L', c, 'qtyDistilled'),
+          inp('solvent', 'Solvent', '', c, 'solvent', 'SOLVENTS_KEYS'), inp('P', 'Vacuum applied', 'torr abs', c, 'vacuum'), inp('qty', 'Quantity distilled', 'L', c, 'qtyDistilled'),
           inp('T1', 'Initial mass temperature', '°C', c, 'initialTemp'), inp('rho', 'Density', 'kg/m³', c, 'density'), inp('cp', 'Specific heat, Cp', 'kcal/kg·°C', c, 'cp'), inp('lat', 'Latent heat', 'kcal/kg', c, 'latent'),
           inp('type', 'Heating utility', '', c, 'heatingType', ['Hot Water', 'Steam']), inp('hws', 'HW supply temperature', '°C', c, 'hwSupply'), inp('hwr', 'HW return temperature', '°C', c, 'hwReturn'), inp('hwf', 'HW flow rate', 'm³/h', c, 'hwFlow'),
           inp('sp', 'Steam pressure', 'kg/cm² g', c, 'steamPressure', STEAM_TABLE.map(r => +r.p)), inp('spd', 'Steam pipe diameter', 'in', c, 'steamPipeDia'), inp('sdt', 'Steam jacket ΔT', '°C', c, 'steamJacketDT'), inp('loss', 'Heat loss in transfer', '%', c, 'jacketLossPct')] },
@@ -220,7 +220,7 @@
       if (has('ft-table')) return filtration();
       if (has('su-table')) return scaleup();
       if (has('sr-comparison-table')) return solventRecovery();
-    } catch (e) { if (window.console) console.warn('Excel layout failed, using the table export', e); }
+    } catch (e) { if (window.console) console.warn('PDF layout failed, using the table export', e); }
     return null;
   };
 })();

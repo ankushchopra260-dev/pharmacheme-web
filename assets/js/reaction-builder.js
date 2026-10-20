@@ -349,7 +349,7 @@
     if (!R.some((c) => c.id === basisId)) basisId = R[0].id;
     const s = stoich(ready, basisId, basisAmt, basisUnit, yieldPct);
     html += `<h3 class="rb-h">Batch stoichiometry</h3>
-      <div class="pill-group rb-view"><button type="button" class="pill${viewMode === "table" ? " active" : ""}" data-rb-view="table">Table view</button><button type="button" class="pill${viewMode === "sheet" ? " active" : ""}" data-rb-view="sheet">Batch sheet view</button><button type="button" class="pill" id="rb-xlsx">Download Excel</button><span id="rb-xlsx-msg" class="rb-small"></span></div>
+      <div class="pill-group rb-view"><button type="button" class="pill${viewMode === "table" ? " active" : ""}" data-rb-view="table">Table view</button><button type="button" class="pill${viewMode === "sheet" ? " active" : ""}" data-rb-view="sheet">Batch sheet view</button><button type="button" class="pill" id="rb-xlsx">Download PDF</button><span id="rb-xlsx-msg" class="rb-small"></span></div>
       <div class="rb-basis">
         <label>Basis reactant <select id="rb-basis">${R.map((c) => `<option value="${c.id}"${c.id === basisId ? " selected" : ""}>${esc(nameOf(c))}</option>`).join("")}</select></label>
         <label>Amount (pure) <input id="rb-amt" type="number" step="any" min="0" value="${basisAmt}"></label>
@@ -418,18 +418,7 @@
       <div class="rb-small">Product quantities are theoretical (full conversion of the limiting reagent: ${esc(nameOf(s.rows.find((r) => r.c.id === s.limId).c))}). Excess/less is measured against the stoichiometric need for the basis amount.</div>`;
   }
 
-  // ---------- Excel export (ExcelJS, loaded on demand) ----------
-  const EXCELJS_URL = "https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js";
-  function loadExcelJS() {
-    if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
-    return new Promise((res, rej) => {
-      const sc = document.createElement("script");
-      sc.src = EXCELJS_URL; sc.async = true;
-      sc.onload = () => (window.ExcelJS ? res(window.ExcelJS) : rej(new Error("ExcelJS missing")));
-      sc.onerror = () => rej(new Error("load failed"));
-      document.head.appendChild(sc);
-    });
-  }
+  // ---------- PDF export (pdf-export.js) ----------
   function equationPNG() {
     return new Promise((resolve) => {
       const svg = equationSVG();
@@ -446,147 +435,22 @@
   }
   function colName(n) { let s = ""; n++; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; }
 
-  async function downloadExcel() {
+  async function downloadPDF() {
     const msg = $("rb-xlsx-msg");
     const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles) && c.coeff > 0);
     const s = stoich(ready, basisId, basisAmt, basisUnit, yieldPct);
     if (!s) return;
-    msg.textContent = "Preparing Excel\u2026";
-    let ExcelJS;
-    try { ExcelJS = await loadExcelJS(); } catch (e) { msg.textContent = "Couldn't load the Excel library. Check your connection and try again."; return; }
-    const wb = new ExcelJS.Workbook();
-    wb.creator = "PharmaChemE Reaction Builder";
-    const ws = wb.addWorksheet("Batch sheet", { views: [{ showGridLines: false }], pageSetup: { paperSize: 9, orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
-    const R = s.rows, P = s.prodRows;
-    // Column layout: A = labels, then reactants, arrow column, products
-    const colOf = {}; let ci = 1;
-    R.forEach((r) => { colOf[r.c.id] = ci++; });
-    const arrowCol = ci++;
-    P.forEach((r) => { colOf[r.c.id] = ci++; });
-    const lastCol = ci - 1;
-    ws.getColumn(1).width = 26;
-    for (let k = 2; k <= lastCol + 1; k++) ws.getColumn(k).width = 18;
-    ws.getColumn(arrowCol + 1).width = 6;
-    const A = (id) => colName(colOf[id]);          // column letter for a component
-    const thin = { style: "thin", color: { argb: "FF9E9E9E" } };
-
-    // Title
-    const title = (s.main ? nameOf(s.main) : "Reaction") + ": batch stoichiometry";
-    ws.mergeCells(1, 1, 1, lastCol + 1);
-    Object.assign(ws.getCell(1, 1), { value: title });
-    ws.getCell(1, 1).font = { bold: true, size: 13 };
-    ws.getCell(1, 1).alignment = { horizontal: "center" };
-    ws.getCell(1, 1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFCE4D6" } };
-    ws.getCell(1, 1).border = { top: thin, left: thin, bottom: thin, right: thin };
-
-    // Reaction scheme image
-    let r0 = 3;
+    if (!window.PCME_XL) { msg.textContent = "Download is not available on this page."; return; }
+    msg.textContent = "Preparing PDF\u2026";
+    const box = document.createElement("div"); box.innerHTML = sheetHTML(s);
+    const note = box.querySelector(".rb-small");
     const png = await equationPNG();
-    if (png) {
-      const id = wb.addImage({ base64: png.data, extension: "png" });
-      const maxW = Math.min(1100, 26 * 7 + lastCol * 18 * 7);
-      const sc = Math.min(1, maxW / png.w);
-      const w = png.w * sc, h = png.h * sc;
-      ws.addImage(id, { tl: { col: 0.2, row: 1.2 }, ext: { width: w, height: h } });
-      const rowsNeeded = Math.ceil(h / 20) + 1;
-      for (let k = 2; k < 2 + rowsNeeded; k++) ws.getRow(k).height = 15;
-      r0 = 2 + rowsNeeded + 1;
-    }
-
-    // Header: coefficient + name
-    const hdr = r0, rowNo = {};
-    const labels = ["Coefficient", "MW", "M Eq", "Qty (kg)", "Kmol", "Purity %", "Charge qty (kg)", "", "kmoles required", "Excess/less kmol", "Excess/less kg", "", "Limiting extent (kmol)", "Unreacted kg", "", "Yield %", "Qty at yield (kg)"];
-    ws.getCell(hdr, 1).value = "";
-    R.concat(P).forEach((r) => {
-      const cell = ws.getCell(hdr, colOf[r.c.id] + 1);
-      cell.value = nameOf(r.c) + (r.c.kind === "by" && r.c.role === "P" ? " (by-product)" : "");
-      cell.font = { bold: true }; cell.alignment = { horizontal: "center", wrapText: true };
-    });
-    ws.getCell(hdr, arrowCol + 1).value = "\u2192"; ws.getCell(hdr, arrowCol + 1).alignment = { horizontal: "center" };
-    ws.getCell(hdr, arrowCol + 1).font = { bold: true, size: 14 };
-    ws.getRow(hdr).height = 32;
-    labels.forEach((l, i) => { rowNo[l || "gap" + i] = hdr + 1 + i; ws.getCell(hdr + 1 + i, 1).value = l; if (l) ws.getCell(hdr + 1 + i, 1).font = { bold: true }; });
-    const RC = (label, id) => `${A(id)}${rowNo[label]}`;   // e.g. "B7"
-    const put = (label, id, v, fmt, input) => {
-      const cell = ws.getCell(rowNo[label], colOf[id] + 1);
-      cell.value = v;
-      if (fmt) cell.numFmt = fmt;
-      cell.alignment = { horizontal: "right" };
-      if (input) { cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFF2CC" } }; cell.font = { color: { argb: "FF1F4E79" } }; }
-    };
-    const b = s.basis, bK = RC("Kmol", b.id), bCo = RC("Coefficient", b.id);
-    // Reactants
-    R.forEach((r) => {
-      const id = r.c.id;
-      put("Coefficient", id, r.c.coeff, "0.###", true);
-      put("MW", id, r.mw, "0.000");
-      if (id === b.id) {
-        put("M Eq", id, 1, "0.00");
-        put("Qty (kg)", id, +r.pureKg.toFixed(4), "0.00", true);
-        put("Kmol", id, { formula: `${RC("Qty (kg)", id)}/${RC("MW", id)}` }, "0.0000");
-      } else {
-        put("M Eq", id, +r.eq.toFixed(4), "0.00", true);
-        put("Kmol", id, { formula: `${bK}*${RC("M Eq", id)}` }, "0.0000");
-        put("Qty (kg)", id, { formula: `${RC("Kmol", id)}*${RC("MW", id)}` }, "0.00");
-      }
-      put("Purity %", id, r.purity, "0.0", true);
-      put("Charge qty (kg)", id, { formula: `${RC("Qty (kg)", id)}/(${RC("Purity %", id)}/100)` }, "0.00");
-      put("kmoles required", id, { formula: `${bK}*${RC("Coefficient", id)}/${bCo}` }, "0.0000");
-      put("Excess/less kmol", id, { formula: `${RC("Kmol", id)}-${RC("kmoles required", id)}` }, "0.0000;[Red]-0.0000");
-      put("Excess/less kg", id, { formula: `${RC("Excess/less kmol", id)}*${RC("MW", id)}` }, "0.00;[Red]-0.00");
-      put("Unreacted kg", id, { formula: `(${RC("Kmol", id)}-$B$${rowNo["Limiting extent (kmol)"]}*${RC("Coefficient", id)})*${RC("MW", id)}` }, "0.00");
-    });
-    // Limiting extent = MIN(kmol / coefficient) over reactants
-    const extCell = ws.getCell(rowNo["Limiting extent (kmol)"], 2);
-    extCell.value = { formula: `MIN(${R.map((r) => `${RC("Kmol", r.c.id)}/${RC("Coefficient", r.c.id)}`).join(",")})` };
-    extCell.numFmt = "0.0000"; extCell.alignment = { horizontal: "right" };
-    const ext = `$B$${rowNo["Limiting extent (kmol)"]}`;
-    // Products
-    P.forEach((r) => {
-      const id = r.c.id;
-      put("Coefficient", id, r.c.coeff, "0.###", true);
-      put("MW", id, r.mw, "0.000");
-      put("Kmol", id, { formula: `${ext}*${RC("Coefficient", id)}` }, "0.0000");
-      put("Qty (kg)", id, { formula: `${RC("Kmol", id)}*${RC("MW", id)}` }, "0.00");
-      if (r.c.kind === "main") {
-        put("Yield %", id, yieldPct, "0.0", true);
-        put("Qty at yield (kg)", id, { formula: `${RC("Qty (kg)", id)}*${RC("Yield %", id)}/100` }, "0.00");
-      }
-    });
-    // Borders on the table block
-    for (let rr = hdr; rr <= hdr + labels.length; rr++) for (let cc = 1; cc <= lastCol + 1; cc++) {
-      const cell = ws.getCell(rr, cc);
-      cell.border = { top: rr === hdr ? thin : undefined, bottom: thin, left: cc === 1 ? thin : undefined, right: cc === lastCol + 1 ? thin : undefined };
-    }
-    // Mass balance
-    let mb = hdr + labels.length + 2;
-    const sumR = R.map((r) => RC("Qty (kg)", r.c.id)).join(",");
-    const sumU = R.map((r) => RC("Unreacted kg", r.c.id)).join(",");
-    const sumP = P.map((r) => RC("Qty (kg)", r.c.id)).join(",");
-    const mbRows = [
-      ["Mass balance (theoretical)", null],
-      ["In: pure reactants (kg)", `SUM(${sumR})`],
-      ["Out: products (kg)", `SUM(${sumP})`],
-      ["Out: unreacted excess (kg)", `SUM(${sumU})`],
-      ["Difference In \u2212 Out (kg)", `B${mb + 1}-B${mb + 2}-B${mb + 3}`],
-    ];
-    mbRows.forEach(([l, fml], i) => {
-      ws.getCell(mb + i, 1).value = l; ws.getCell(mb + i, 1).font = { bold: true };
-      if (fml) { const c = ws.getCell(mb + i, 2); c.value = { formula: fml }; c.numFmt = "0.00"; }
-    });
-    const nt = mb + mbRows.length + 1;
-    ws.getCell(nt, 1).value = "Yellow cells are inputs. Change them and the sheet recalculates. Product quantities assume full conversion of the limiting reagent.";
-    ws.getCell(nt, 1).font = { italic: true, color: { argb: "FF666666" } };
-    ws.getCell(nt + 1, 1).value = `Generated by PharmaChemE Reaction Builder (pharmacheme.in) on ${new Date().toISOString().slice(0, 10)}. Equation: ${ready.filter((c) => c.role === "R").map((c) => (c.coeff !== 1 ? c.coeff + " " : "") + analyze(c.smiles).formula).join(" + ")} \u2192 ${ready.filter((c) => c.role === "P").map((c) => (c.coeff !== 1 ? c.coeff + " " : "") + analyze(c.smiles).formula).join(" + ")}`;
-    ws.getCell(nt + 1, 1).font = { color: { argb: "FF666666" }, size: 9 };
-
-    const buf = await wb.xlsx.writeBuffer();
-    const blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = (s.main ? nameOf(s.main) : "reaction").replace(/[^A-Za-z0-9-]+/g, "_").slice(0, 60) + "_batch_sheet.xlsx";
-    document.body.appendChild(a); a.click(); a.remove();
-    msg.textContent = "";
+    const name = s.main ? nameOf(s.main) : "Reaction";
+    try {
+      await window.PCME_XL.fromTables(box, name + ": batch stoichiometry", { sub: "Reaction Builder batch sheet", offscreen: true, image: png, notes: note ? [note.textContent] : [],
+        file: name.replace(/[^A-Za-z0-9-]+/g, "_").slice(0, 60) + "_batch_sheet.pdf" });
+      msg.textContent = "";
+    } catch (e) { msg.textContent = (e && e.message) || "Download failed. Please try again."; }
   }
 
   function fracDigits(v) { return Math.abs(v - Math.round(v)) < 1e-9 ? 0 : 2; }
@@ -752,7 +616,7 @@
     mount.addEventListener("click", (e) => {
       const t = e.target;
       const vw = t.closest("[data-rb-view]"); if (vw) { viewMode = vw.dataset.rbView; save(); renderResults(); return; }
-      if (t.id === "rb-xlsx") { downloadExcel(); return; }
+      if (t.id === "rb-xlsx") { downloadPDF(); return; }
       const sg = t.closest("[data-rb-sugg]");
       if (sg) {
         const g = lastSugg[+sg.dataset.rbSugg]; if (!g) return;

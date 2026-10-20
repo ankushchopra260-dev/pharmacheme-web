@@ -74,7 +74,7 @@
         <label class="ut-f"><span>Hydrogen pressure <i>bar g</i></span><input data-k="P" type="number" step="any" inputmode="decimal"></label>
         <label class="ut-f"><span>Solvent in the reactor <i>L</i></span><input data-k="V" type="number" step="any" inputmode="decimal"></label>
       </form><div class="ut-out" aria-live="polite"></div></div>
-      <div class="ut-tools"><button type="button" class="ut-xl">Download Excel</button><small>all solvents and temperatures</small></div></div>
+      <div class="ut-tools"><button type="button" class="ut-xl">Download PDF</button><small>your inputs and result</small></div></div>
       <h2 style="margin-top:28px">All solvents at the same conditions</h2><p class="h2-cond"></p><div style="overflow-x:auto"><table class="ut-table h2-all"></table></div>
       <h2>Effect of temperature in <span class="h2-sname"></span></h2><p>At the same pressure. In organic solvents hydrogen dissolves <b>better when hot</b>, unlike most gases; at a fixed total pressure the rising vapour pressure takes back part of the gain.</p><div style="overflow-x:auto"><table class="ut-table h2-temp"></table></div>`;
     const form = el.querySelector('form'), out = el.querySelector('.ut-out');
@@ -117,7 +117,7 @@
         notes: ['x = p(H2) / H(T); p(H2) = total absolute pressure minus solvent vapour pressure (Antoine).', 'Source: ' + SRC[s.src]],
         tables: [{ name: 'All solvents', head: ['Solvent', 'mg/L', 'mmol/L', 'x', 'Henry MPa', 'Data'], rows: S.map(t => { const q = solve(t, v.T, v.P, v.V); return [t.name, +q.mgL.toFixed(2), +(q.molL * 1000).toFixed(2), q.x, +q.H.toFixed(1), q.st[1]]; }) },
           { name: s.name.slice(0, 25) + ' vs T', head: ['T °C', 'mg/L', 'x', 'Henry MPa', 'Vapour pressure bar a', 'Data'], rows: temps.map(T => { const q = solve(s, T, v.P, v.V); return [T, +q.mgL.toFixed(2), q.x, +q.H.toFixed(1), +(q.pv * 10).toFixed(4), q.st[1]]; }) }] })
-        .then(() => { b.disabled = false; b.textContent = 'Download Excel'; }, err => window.PCME_XL.fail(b, err));
+        .then(() => { b.disabled = false; b.textContent = 'Download PDF'; }, err => window.PCME_XL.fail(b, err));
     });
     run();
   }
