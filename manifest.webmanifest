@@ -1,5 +1,5 @@
 {
-  "name": "PharmaChemE: Chemical & Pharma Engineering Tools",
+  "name": "PharmaChemE",
   "short_name": "PharmaChemE",
   "description": "Free calculators, solvent and reagent data, process safety tools and articles for chemical and pharmaceutical plant engineers.",
   "id": "/",
@@ -7,18 +7,64 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#0B1622",
+  "background_color": "#000000",
   "theme_color": "#0B1622",
   "lang": "en-IN",
-  "categories": ["education", "productivity", "utilities"],
+  "categories": [
+    "education",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
-    { "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/assets/img/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "/assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ],
   "shortcuts": [
-    { "name": "Calculators", "url": "/calculators/", "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Solvent data", "url": "/solvents/", "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Process safety", "url": "/process-safety/", "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192" }] }
+    {
+      "name": "Calculators",
+      "url": "/calculators/",
+      "icons": [
+        {
+          "src": "/assets/img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Solvent data",
+      "url": "/solvents/",
+      "icons": [
+        {
+          "src": "/assets/img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Process safety",
+      "url": "/process-safety/",
+      "icons": [
+        {
+          "src": "/assets/img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }
