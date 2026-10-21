@@ -150,13 +150,13 @@
     LINK = spec.link || null;
     const L = await load(), R = Report(L, spec.title, spec.sub);
     const w = [R.CW * 0.46, R.CW * 0.2, R.CW * 0.34];
-    R.section('Inputs');
+    R.section('Results');
+    R.table(['Result', 'Value', 'Unit'], (spec.rows || []).map(r => [strip(r[0]), toNum(strip(r[1])), strip(r[2])]), w, { bold: [1] });
+    R.section('Inputs (backup data)');
     R.table(['Parameter', 'Value', 'Unit'], spec.inputs.map(i => {
       const sel = /^type one of: /.test(i.unit || '');
       return [strip(i.label), sel && i.text ? strip(i.text) : String(i.value == null ? '' : i.value), sel ? '' : strip(i.unit || '')];
     }), w, { numCols: [1] });
-    R.section('Results');
-    R.table(['Result', 'Value', 'Unit'], (spec.rows || []).map(r => [strip(r[0]), toNum(strip(r[1])), strip(r[2])]), w, { bold: [1] });
     R.notes(spec.notes);
     await R.finish(slug(spec.title));
   }
@@ -203,8 +203,8 @@
     const L = await load(), R = Report(L, spec.title, spec.sub);
     const w = [R.CW * 0.46, R.CW * 0.2, R.CW * 0.34];
     const val = v => typeof v === 'number' ? v : toNum(strip(v));
-    R.section('Inputs'); R.table(['Parameter', 'Value', 'Unit'], spec.inputs.map(r => [strip(r[0]), typeof r[1] === 'number' ? String(r[1]) : strip(r[1]), strip(r[2])]), w, { numCols: [1] });
     R.section('Results'); R.table(['Result', 'Value', 'Unit'], spec.results.map(r => [strip(r[0]), val(r[1]), strip(r[2])]), w, { bold: [1] });
+    R.section('Inputs (backup data)'); R.table(['Parameter', 'Value', 'Unit'], spec.inputs.map(r => [strip(r[0]), typeof r[1] === 'number' ? String(r[1]) : strip(r[1]), strip(r[2])]), w, { numCols: [1] });
     R.notes(spec.notes);
     await R.finish(slug(spec.title));
   }
@@ -218,6 +218,7 @@
     const first = n > 3 ? 62 : 66, unitW = 24, cw = (R.CW - first - unitW) / Math.max(1, n);
     const widths = [first, unitW].concat(Array(n).fill(cw));
     const head = ['Parameter', 'Unit'].concat(spec.cases.map(strip));
+    const out = [];
     for (const sec of spec.sections) {
       const rows = [];
       for (const row of sec.rows) {
@@ -231,10 +232,13 @@
         if (!row.helper) rows.push([strip(row.label), strip(row.unit || '')].concat(cells));
       }
       if (!rows.length) continue;
-      const isResult = sec.rows.some(r => r.f != null);
-      R.section(sec.title);
-      R.table(head, rows, widths, { bold: isResult ? Array.from({ length: n }, (_, i) => i + 2) : [], numCols: Array.from({ length: n }, (_, i) => i + 2), size: n > 5 ? 7.6 : 8.4 });
+      out.push({ title: sec.title, rows, isResult: sec.rows.some(r => r.f != null) });
     }
+    // results first, then the inputs as backup data
+    out.filter(o => o.isResult).concat(out.filter(o => !o.isResult)).forEach(o => {
+      R.section(o.isResult ? o.title : (/^inputs?$/i.test(o.title) ? 'Inputs (backup data)' : o.title + ' (backup data)'));
+      R.table(head, o.rows, widths, { bold: o.isResult ? Array.from({ length: n }, (_, i) => i + 2) : [], numCols: Array.from({ length: n }, (_, i) => i + 2), size: n > 5 ? 7.6 : 8.4 });
+    });
     R.notes(spec.notes);
     await R.finish(slug(spec.title));
   }

@@ -1784,7 +1784,7 @@ const SCALEUP_DEFAULTS = {
   type1: "pbt", d1: "920", nb1: "4", ang1: "45", b1: "184", np1: "",
   type2: "pbt", d2: "920", nb2: "4", ang2: "45", b2: "184", np2: "",
   type3: "pbt", d3: "920", nb3: "4", ang3: "45", b3: "184", np3: "",
-  nq1: "", nq2: "", nq3: "",
+  nq1: "", nq2: "", nq3: "", dir1: "down", dir2: "down", dir3: "down",
   fluidModel: "newtonian", plK: "", plN: "", ksUser: "",
   dp: "", rhoS: "", solidsWt: "", sUser: "",
   kTh: "", cpTh: "", muWall: "",
@@ -1881,10 +1881,12 @@ function computeReactorMetrics(r) {
     const P = covered === "full" ? Np * rho * Math.pow(N, 3) * Math.pow(d, 5) : 0;
     const Nq = t.custom ? num(r["nq" + i]) : t.Nq;
     const Q = covered === "full" && Nq > 0 ? Nq * N * d * d * d : 0; // m3/s
-    imps.push({ i, key, t, d, b, np, thetaDeg, hb, zBottom, zCentre, zTop, Re, Np, Np0, NpMax, covered, P, Nq, Q, muI,
+    const up = t.pitched && r["dir" + i] === "up";
+    imps.push({ i, key, t, d, b, np, thetaDeg, hb, up, flow: t.pitched ? (up ? "Axial / mixed (up-pumping)" : "Axial / mixed (down-pumping)") : t.flow, zBottom, zCentre, zTop, Re, Np, Np0, NpMax, covered, P, Nq, Q, muI,
       volToCover: suVolumeAtLevel(zTop, T, h) * 1000, tip: Math.PI * d * N });
   }
   const dipped = imps.filter((x) => x.covered === "full").length;
+  const upNoS = imps[0].up && num(r.solidsWt) > 0 && !(num(r.sUser) > 0);
   const Power = imps.reduce((s, x) => s + (isFinite(x.P) ? x.P : 0), 0);
   const first = imps[0];
   const dMax = Math.max(...imps.map((x) => x.d));
@@ -1903,7 +1905,7 @@ function computeReactorMetrics(r) {
   const wt = num(r.solidsWt), dp = num(r.dp) / 1e6, rhoS = num(r.rhoS);
   if (wt > 0 && wt < 100 && dp > 0 && rhoS > rho && first.d > 0 && !first.t.anchor) {
     if (num(r.sUser) > 0) { Sused = num(r.sUser); Ssrc = "entered"; }
-    else if (first.t.S) { Sused = first.t.S[0] * Math.pow(first.zCentre / T, first.t.S[1]); Ssrc = "estimated"; }
+    else if (first.t.S && !first.up) { Sused = first.t.S[0] * Math.pow(first.zCentre / T, first.t.S[1]); Ssrc = "estimated"; }
     const X = wt / (100 - wt) * 100, nu = muB / rho;
     if (Sused > 0) Njs = Sused * Math.pow(nu, 0.1) * Math.pow(dp, 0.2) * Math.pow(9.81 * (rhoS - rho) / rho, 0.45) * Math.pow(X, 0.13) * Math.pow(first.d, -0.85) * 60; // rpm
   }
@@ -1928,6 +1930,7 @@ function computeReactorMetrics(r) {
   const torqueV = torque / (V * 1000);
 
   const warns = [];
+  if (upNoS) warns.push("Bottom PBT is up-pumping: the built-in Zwietering S is for down-pumping, so enter S from trials or the vendor to get Njs.");
   if (nonNewt && imps.some((x) => !(x.muI > 0))) warns.push("Enter the Metzner–Otto constant ks for this impeller (no published value is built in for anchors or vendor impellers).");
   if (r.fluidModel === "powerlaw" && !nonNewt) warns.push("Power-law fluid selected: enter K and n.");
   if (occupancy > 100) warns.push("RM volume is more than the reactor capacity.");
@@ -1984,6 +1987,7 @@ const SCALEUP_INPUT_ROWS = [
       { label: "Diameter (mm)", field: "d" + i, type: "input", minImp: i },
       { label: "Number of blades", field: "nb" + i, type: "input", minImp: i, hideFor: ["anchor", "custom"] },
       { label: "Blade angle (° from horizontal; 90 = flat)", field: "ang" + i, type: "input", minImp: i, onlyFor: ["pbt"] },
+      { label: "Pumping direction", field: "dir" + i, type: "select", options: [["down", "Down-pumping"], ["up", "Up-pumping"]], minImp: i, onlyFor: ["pbt"] },
       { label: "Blade width (mm); anchor: arm height", field: "b" + i, type: "input", minImp: i, hideFor: ["custom"] },
       { label: "Power number from vendor", field: "np" + i, type: "input", minImp: i, onlyFor: ["custom"] },
       { label: "Flow number Nq from vendor (optional)", field: "nq" + i, type: "input", minImp: i, onlyFor: ["custom"] },
@@ -2182,15 +2186,16 @@ function suSketch(m) {
     [-1, 1].forEach((sd) => { const x = sd < 0 ? X(-a) + gp : X(a) - gp - bw; g += `<rect x="${x}" y="${Y(Htot - 0.05)}" width="${bw}" height="${Y(h + 0.05) - Y(Htot - 0.05)}" fill="#556270" opacity=".75"/>`; });
   }
   g += `<line x1="${X(0)}" y1="${Y(Htot) - 10}" x2="${X(0)}" y2="${Y(m.imps[0].zBottom)}" stroke="#cfd6dd" stroke-width="2"/>`;
-  const arrow = (d) => `<path d="${d}" fill="none" stroke="#C9A227" stroke-width="1.4" marker-end="url(#${id}m)"/>`;
+  const arrow = (d, rev) => `<path d="${d}" fill="none" stroke="#C9A227" stroke-width="1.4" ${rev ? `marker-start="url(#${id}m)"` : `marker-end="url(#${id}m)"`}/>`;
   // neighbours closer than one diameter interact: merged loops for axial pairs, no loop between radial pairs
   const close = (k1, k2) => { const p1 = m.imps[k1], p2 = m.imps[k2]; return p1 && p2 && p1.covered === "full" && p2.covered === "full" && !p1.t.anchor && !p2.t.anchor && (p2.zCentre - p1.zCentre) < Math.max(p1.d, p2.d); };
   const axial = (x) => x && x.t.pitched;
-  const mergedBelowAt = (k) => k > 0 && axial(m.imps[k]) && axial(m.imps[k - 1]) && close(k - 1, k);
+  const sameDir = (a, b) => a && b && !!a.up === !!b.up;
+  const mergedBelowAt = (k) => k > 0 && axial(m.imps[k]) && axial(m.imps[k - 1]) && sameDir(m.imps[k], m.imps[k - 1]) && close(k - 1, k);
   const radial = (x) => x && !x.t.pitched && !x.t.anchor && !x.t.custom;
   m.imps.forEach((x, k) => {
     const on = x.covered === "full", col = on ? "#ece7d8" : "#5b6670";
-    const mergeUp = axial(x) && axial(m.imps[k + 1]) && close(k, k + 1);     // this PBT hands its loop to the one above
+    const mergeUp = axial(x) && axial(m.imps[k + 1]) && sameDir(x, m.imps[k + 1]) && close(k, k + 1);     // this PBT hands its loop to the one above
     const mergedBelow = axial(x) && axial(m.imps[k - 1]) && close(k - 1, k); // this PBT carries the merged loop
     const noLoopUp = radial(x) && radial(m.imps[k + 1]) && close(k, k + 1);
     const noLoopDown = radial(x) && radial(m.imps[k - 1]) && close(k - 1, k);
@@ -2211,17 +2216,19 @@ function suSketch(m) {
     }
     if (x.t.pitched) {
       const dy = Math.min(hb, x.d * 0.3) / 2;
-      [-1, 1].forEach((sd) => { g += `<line x1="${X(sd * 0.04)}" y1="${Y(zc + dy)}" x2="${X(sd * r)}" y2="${Y(zc - dy)}" stroke="${col}" stroke-width="3"/>`; });
+      const tilt = x.up ? -1 : 1;
+      [-1, 1].forEach((sd) => { g += `<line x1="${X(sd * 0.04)}" y1="${Y(zc + tilt * dy)}" x2="${X(sd * r)}" y2="${Y(zc - tilt * dy)}" stroke="${col}" stroke-width="3"/>`; });
       if (on && !mergeUp) [-1, 1].forEach((sd) => {
         let j = k; while (mergedBelowAt(j)) j--;           // lowest PBT of a merged group
         const loZ = j === 0 ? 0 : (m.imps[j - 1].zCentre + m.imps[j].zCentre) / 2;
         const zLowest = m.imps[j].zCentre;
         const xi = sd * r * 0.6, xw = sd * (a - 0.06 * T), zlow = loZ + (zLowest - loZ) * 0.25, zhigh = zc + (hi - zc) * 0.75;
         // down-pumping loop: down from the blades, out along the bottom, up the wall, back in over the impeller
-        g += arrow(`M ${X(xi)} ${Y(zc - 0.02)} L ${X(xi)} ${Y(zlow + 0.05)} Q ${X(xi)} ${Y(zlow)} ${X(xi + (xw - xi) * 0.5)} ${Y(zlow)}`);
+        const rv = x.up; // up-pumping: same loop, flowing the other way
+        g += arrow(`M ${X(xi)} ${Y(zc - 0.02)} L ${X(xi)} ${Y(zlow + 0.05)} Q ${X(xi)} ${Y(zlow)} ${X(xi + (xw - xi) * 0.5)} ${Y(zlow)}`, rv);
         if (j !== k) g += `<text x="${X(sd * a * 0.45)}" y="${Y((zLowest + zc) / 2)}" text-anchor="middle" font-size="8" fill="#C9A227" font-family="sans-serif">one merged loop</text>`;
-        g += arrow(`M ${X(xw)} ${Y(zlow + 0.03)} L ${X(xw)} ${Y(zhigh - 0.03)}`);
-        g += arrow(`M ${X(xw - sd * 0.02)} ${Y(zhigh)} Q ${X(xi)} ${Y(zhigh)} ${X(xi * 0.9)} ${Y(zc + 0.05)}`);
+        g += arrow(`M ${X(xw)} ${Y(zlow + 0.03)} L ${X(xw)} ${Y(zhigh - 0.03)}`, rv);
+        g += arrow(`M ${X(xw - sd * 0.02)} ${Y(zhigh)} Q ${X(xi)} ${Y(zhigh)} ${X(xi * 0.9)} ${Y(zc + 0.05)}`, rv);
       });
     } else {
       const bh = Math.max(4, hb * sc);
@@ -2235,7 +2242,7 @@ function suSketch(m) {
       });
     }
   });
-  const leg = m.imps.slice().reverse().map((x, k) => `<text x="${W / 2}" y="${VH - 6 + k * 12}" text-anchor="middle" font-size="9.5" fill="${x.covered === "full" ? "#8a99a8" : "#5b6670"}" font-family="sans-serif">${x.i}: ${x.t.custom ? "vendor impeller" : x.t.label.replace(/ \(.*\)/, "")}${x.covered === "full" ? "" : " (not covered)"}</text>`).join("");
+  const leg = m.imps.slice().reverse().map((x, k) => `<text x="${W / 2}" y="${VH - 6 + k * 12}" text-anchor="middle" font-size="9.5" fill="${x.covered === "full" ? "#8a99a8" : "#5b6670"}" font-family="sans-serif">${x.i}: ${x.t.custom ? "vendor impeller" : x.t.label.replace(/ \(.*\)/, "")}${x.t.pitched ? (x.up ? ", up-pumping" : ", down-pumping") : ""}${x.covered === "full" ? "" : " (not covered)"}</text>`).join("");
   const VH2 = VH + (m.imps.length - 1) * 12;
   const lv = Math.min(Htot, Math.max(0, m.checkLevel != null ? m.checkLevel : zl));
   const marker = `<g class="su-lvl" transform="translate(0 ${Y(lv)})"><line x1="${pad - 8}" y1="0" x2="${W - pad + 8}" y2="0" stroke="#e8743b" stroke-width="1.6"/><path d="M ${pad - 10} -4 L ${pad - 4} 0 L ${pad - 10} 4 z" fill="#e8743b"/></g>`;
@@ -2258,7 +2265,7 @@ function suResultRows(maxImp) {
   for (let i = 1; i <= maxImp; i++) {
     const g = (m) => m.imps[i - 1];
     rows.push([`Impeller ${i}`]);
-    rows.push(["Flow pattern", (m) => (g(m) ? g(m).t.flow : "–")]);
+    rows.push(["Flow pattern", (m) => (g(m) ? g(m).flow : "–")]);
     rows.push(["Elevation: bottom edge / centre / top edge", (m) => (g(m) ? `${suN(g(m).zBottom * 1000)} / ${suN(g(m).zCentre * 1000)} / ${suN(g(m).zTop * 1000)} mm` : "–")]);
     rows.push(["Minimum RM volume to cover it", (m) => (g(m) ? `${suN(g(m).volToCover)} L` : "–")]);
     rows.push(["At the operating volume", (m) => (g(m) ? SU_COVER[g(m).covered] : "–")]);
