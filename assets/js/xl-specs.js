@@ -117,6 +117,7 @@
       const m = row.label.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
       const imp = row.field.match(/(\d)$/);
       const label = (imp ? `Impeller ${imp[1]}: ` : '') + (m ? m[1] : row.label);
+      if (c.every((r) => r[row.field] === '' || r[row.field] == null)) return; // optional input left blank
       inputs.push({ k: row.field, label, unit: m && !/;|from|0 if|optional|blank|=/.test(m[2]) ? m[2] : '', values: c.map((r) => {
         if (!suFieldUsed(row, r)) return '–';
         if (row.type === 'select') { const o = row.options.find(([v]) => v === String(r[row.field])); return o ? o[1] : r[row.field]; }
@@ -125,10 +126,10 @@
     });
     const sections = [{ title: 'Inputs', rows: inputs }];
     let cur = null;
-    suResultRows(maxImp).forEach(([label, fn], i) => {
+    suVisibleRows(maxImp, ms).forEach(([label, fn], i) => {
       if (/^Flow pattern$|^Sketch/.test(label)) return; // drawings stay on the page
       if (!fn) { cur = { title: label, rows: [] }; sections.push(cur); return; }
-      cur.rows.push({ k: 'r' + i, label, unit: '', f: '0', values: ms.map((m) => strip(fn(m))) });
+      cur.rows.push({ k: 'r' + i, label, unit: '', f: '0', values: ms.map((m) => { const v = fn(m); return v === undefined ? '–' : strip(v); }) });
     });
     return { title: 'Mixing / Scale-up Comparison', sub: 'Power from blade geometry, baffles and Reynolds number', cases: c.map((x) => x.label), sections,
       notes: ['Power number from the correlation of Furukawa, Kato et al., Int. J. Chem. Eng. 2012 (Kamei and Nagata type): paddles, pitched paddles, turbines and anchors, laminar to turbulent, partial or full baffling. Anchors are calculated without baffles.',

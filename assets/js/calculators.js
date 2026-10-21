@@ -2253,7 +2253,7 @@ function suResultRows(maxImp) {
     ["Liquid level at RM volume (from lowest point)", (m) => `${suN(m.H * 1000)} mm`],
     ["Occupancy", (m) => `${suN(m.occupancy)} %`],
     ["Impellers covered by liquid", (m) => `${m.dipped} of ${m.nImp}`],
-    ["Volume at the level marker", (m) => (m.volAtCheck == null ? "–" : `${suN(m.volAtCheck)} L at ${suN(m.checkLevel * 1000)} mm`)],
+    ["Volume at the level marker", (m) => (m.volAtCheck == null ? undefined : `${suN(m.volAtCheck)} L at ${suN(m.checkLevel * 1000)} mm`)],
   ];
   for (let i = 1; i <= maxImp; i++) {
     const g = (m) => m.imps[i - 1];
@@ -2278,22 +2278,29 @@ function suResultRows(maxImp) {
   rows.push(["Torque", (m) => `${suN(m.torque)} N·m`]);
   rows.push(["Torque/V", (m) => `${suN(m.torqueV)} N·m/L`]);
   rows.push(["Pumping and blending"]);
-  rows.push(["Pumping flow (covered impellers, Nq N D³)", (m) => (m.Qsum > 0 ? `${suN(m.Qsum * 3600)} m³/h` : "–")]);
-  rows.push(["Circulation time, batch volume / pumping flow", (m) => (isFinite(m.circTime) ? `${suN(m.circTime)} s` : "–")]);
+  rows.push(["Pumping flow (covered impellers, Nq N D³)", (m) => (m.Qsum > 0 ? `${suN(m.Qsum * 3600)} m³/h` : undefined)]);
+  rows.push(["Circulation time, batch volume / pumping flow", (m) => (isFinite(m.circTime) ? `${suN(m.circTime)} s` : undefined)]);
   rows.push(["Apparent viscosity at the impeller", (m) => `${suN(m.muB * 1000)} cP${m.nonNewt ? " (Metzner–Otto)" : ""}`]);
   rows.push(["Solids suspension"]);
-  rows.push(["Just-suspended speed, Njs (Zwietering)", (m) => (isFinite(m.Njs) ? `${suN(m.Njs)} rpm (S ${suN(m.Sused)}, ${m.Ssrc})` : "enter particle size, solid density and solids %")]);
-  rows.push(["Speed / Njs", (m) => (isFinite(m.Njs) ? `${suN(m.N * 60 / m.Njs)} — ${m.N * 60 >= m.Njs ? "solids suspended off the bottom" : "below Njs: solids settle on the bottom"}` : "–")]);
+  rows.push(["Just-suspended speed, Njs (Zwietering)", (m) => (isFinite(m.Njs) ? `${suN(m.Njs)} rpm (S ${suN(m.Sused)}, ${m.Ssrc})` : undefined)]);
+  rows.push(["Speed / Njs", (m) => (isFinite(m.Njs) ? `${suN(m.N * 60 / m.Njs)} — ${m.N * 60 >= m.Njs ? "solids suspended off the bottom" : "below Njs: solids settle on the bottom"}` : undefined)]);
   rows.push(["Heat transfer"]);
-  rows.push(["Batch-side film coefficient, h", (m) => (isFinite(m.hIn) ? `${suN(m.hIn)} kcal/h·m²·°C${m.hNote ? ` (${m.hNote})` : ""}` : "enter thermal conductivity and specific heat")]);
+  rows.push(["Batch-side film coefficient, h", (m) => (isFinite(m.hIn) ? `${suN(m.hIn)} kcal/h·m²·°C${m.hNote ? ` (${m.hNote})` : ""}` : undefined)]);
   rows.push(["Motor and shaft"]);
-  rows.push(["Motor power required (with losses and margin)", (m) => (isFinite(m.motorReq) ? `${suN(m.motorReq)} kW → next standard motor ${suN(m.motorStd)} kW` : "enter gearbox efficiency")]);
-  rows.push(["Gearbox output torque", (m) => `${suN(m.torque)} N·m`]);
-  rows.push(["Minimum shaft diameter for torsion, (16T/(π·τallow))^(1/3)", (m) => (isFinite(m.shaftMin) ? `${suN(m.shaftMin)} mm (torsion only; add bending from impeller loads and check critical speed with the vendor)` : "enter allowable shear stress")]);
-  rows.push(["Shaft torsional shear stress, 16T/(πd³)", (m) => (isFinite(m.shaftStress) ? `${suN(m.shaftStress)} MPa (compare with the vendor's allowable; bending and critical speed need the vendor)` : "enter shaft diameter")]);
+  rows.push(["Motor power required (with losses and margin)", (m) => (isFinite(m.motorReq) ? `${suN(m.motorReq)} kW → next standard motor ${suN(m.motorStd)} kW` : undefined)]);
+  rows.push(["Gearbox output torque", (m) => (isFinite(m.motorReq) || isFinite(m.shaftMin) || isFinite(m.shaftStress) ? `${suN(m.torque)} N·m` : undefined)]);
+  rows.push(["Minimum shaft diameter for torsion, (16T/(π·τallow))^(1/3)", (m) => (isFinite(m.shaftMin) ? `${suN(m.shaftMin)} mm (torsion only; add bending from impeller loads and check critical speed with the vendor)` : undefined)]);
+  rows.push(["Shaft torsional shear stress, 16T/(πd³)", (m) => (isFinite(m.shaftStress) ? `${suN(m.shaftStress)} MPa (compare with the vendor's allowable; bending and critical speed need the vendor)` : undefined)]);
   if (suMatch.crit) rows.push([`RPM to match ${SU_CRITS[suMatch.crit]} of column ${suMatch.ref + 1}`, (m) => (isFinite(m._match) ? `${suN(m._match)} rpm` : "–")]);
+  rows.push(["Notes"]);
   rows.push(["Checks", (m) => (m.warns.length ? m.warns.join(" ") : "No geometry warnings")]);
   return rows;
+}
+
+// drop optional rows that no column has data for, and section headings left empty
+function suVisibleRows(maxImp, metrics) {
+  const rows = suResultRows(maxImp).filter(([label, fn]) => !fn || metrics.some((m, i) => fn(m, i) !== undefined));
+  return rows.filter(([label, fn], i) => fn || (rows[i + 1] && rows[i + 1][1]));
 }
 
 function suRenderResults() {
@@ -2308,11 +2315,11 @@ function suRenderResults() {
   }
   const maxImp = Math.max(...metrics.map((m) => m.nImp));
   let html = suSectionRow("Results", n);
-  suResultRows(maxImp).forEach(([label, fn]) => {
+  suVisibleRows(maxImp, metrics).forEach(([label, fn]) => {
     if (!fn) { html += suSectionRow(label, n); return; }
     html += "<tr>" + suThCell(label, true);
     metrics.forEach((m, idx) => {
-      const v = fn(m, idx);
+      const v0 = fn(m, idx), v = v0 === undefined ? "–" : v0;
       const warn = label === "Checks" && m.warns.length;
       html += suTdCell(`<div style="color:${warn ? "var(--rust)" : "var(--brass)"}; font-family:${label === "Checks" ? "var(--f-sans)" : "var(--f-mono)"}; font-size:${label === "Checks" ? "0.78rem" : "0.95rem"}; max-width:34ch;">${v}</div>`);
     });
