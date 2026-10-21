@@ -1,0 +1,339 @@
+---
+layout: default
+title: "AI Basics for Chemical Engineers: Start Here (Tools, Prompts, Safe Use)"
+seo_title: "AI Basics for Chemical Engineers: Tools, Prompts | PharmaChemE"
+description: "AI explained for chemical and pharma engineers who have never used it: what it is, first prompts, a prompt builder, AI tools by role and safe-use rules."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: AI Basics for Chemical Engineers
+    url: /articles/ai-basics-for-chemical-engineers/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "AI Basics for Chemical Engineers: Start Here",
+        "description": "What AI is, first prompts, a prompt builder, AI tools by role and safe-use rules for chemical and pharma engineers.",
+        "keywords": "AI for chemical engineers, AI basics, AI tools, ChatGPT for engineers, prompt engineering, generative AI safety",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How can a chemical engineer start using AI?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Start with a general AI assistant approved by your company for everyday text work: explaining a concept, summarising a manual, drafting a report or writing a spreadsheet formula. Give it context, ask it to show its working and list assumptions, and check every number against a calculation or source."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which AI tools are used in the chemical industry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "General assistants (ChatGPT, Claude, Gemini, Microsoft Copilot) for text work; process-data analytics on top of historians (for example Seeq and TrendMiner); predictive maintenance software (for example Aspen Mtell); retrosynthesis tools for R&D (CAS SciFinder, Reaxys, AiZynthFinder); and Python, KNIME, JMP or Power BI for data analysis."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it safe to paste plant data into ChatGPT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only into tools your company has approved for that data. Do not paste confidential process data, recipes, batch records or customer names into public AI tools, and check every number the tool gives you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is AI the same as machine learning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Machine learning is one part of AI: models that learn a relationship from data. AI also includes computer vision, optimisation and generative AI such as chat assistants that read and write text."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<style>
+  .ai-box { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 12px; padding: 16px; margin: 18px 0 24px; }
+  .ai-box > h3 { margin: 0 0 4px; font-family: var(--f-display); color: var(--paper); font-size: 1.05rem; }
+  .ai-box > .ai-sub { margin: 0 0 14px; color: var(--muted); font-size: .86rem; }
+  /* ISA-95 pyramid */
+  .ai-pyr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 18px; align-items: start; }
+  .ai-levels { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .ai-lv { display: flex; align-items: center; justify-content: center; gap: 8px; height: 50px; border: 1px solid #2C4C6C; background: var(--bg-deep); color: var(--paper); cursor: pointer; font: 600 .9rem var(--f-sans); border-radius: 6px; padding: 0 10px; text-align: center; }
+  .ai-lv span { color: var(--muted); font-weight: 500; font-size: .78rem; }
+  .ai-lv:hover { border-color: var(--brass); }
+  .ai-lv[aria-pressed="true"] { background: var(--brass); color: #0B1622; border-color: var(--brass); }
+  .ai-lv[aria-pressed="true"] span { color: #2A2410; }
+  .ai-lv:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  .ai-lvpanel { background: var(--bg-deep); border: 1px solid var(--grid-line); border-radius: 10px; padding: 14px 16px; min-height: 260px; }
+  .ai-lvpanel h4 { margin: 0 0 8px; color: var(--brass); font-family: var(--f-display); font-size: 1rem; }
+  .ai-lvpanel dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; gap: 8px 12px; font-size: .88rem; }
+  .ai-lvpanel dt { color: var(--muted); }
+  .ai-lvpanel dd { margin: 0; color: var(--paper); }
+  /* use-case explorer */
+  .ai-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .ai-chip { padding: 7px 13px; border-radius: 999px; border: 1px solid #2C4C6C; background: var(--bg-deep); color: var(--paper); font: 600 .84rem var(--f-sans); cursor: pointer; }
+  .ai-chip[aria-pressed="true"] { background: var(--brass); border-color: var(--brass); color: #0B1622; }
+  .ai-stagefilter { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 14px; font-size: .84rem; color: var(--muted); align-items: center; }
+  .ai-stagefilter label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; color: var(--paper); }
+  .ai-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+  .ai-card { background: var(--bg-deep); border: 1px solid var(--grid-line); border-top: 3px solid var(--grid-line); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .ai-card.s1 { border-top-color: #6FCB9F; } .ai-card.s2 { border-top-color: var(--brass); } .ai-card.s3 { border-top-color: #E07A6A; }
+  .ai-card h4 { margin: 0; color: var(--paper); font-size: .98rem; }
+  .ai-card .ai-area { font-size: .74rem; color: var(--muted); }
+  .ai-card p { margin: 0; font-size: .86rem; line-height: 1.5; color: var(--paper); }
+  .ai-card .ai-k { color: var(--muted); }
+  .ai-card .ai-ex { font-size: .82rem; color: #C9D6E2; border-top: 1px dashed var(--grid-line); padding-top: 6px; margin-top: auto; }
+  .ai-card .ai-ex a { color: var(--brass); }
+  .ai-badge { display: inline-block; font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: 1px solid; width: fit-content; }
+  .ai-badge.s1 { color: #6FCB9F; border-color: #2E6B50; } .ai-badge.s2 { color: var(--brass); border-color: #7A6326; } .ai-badge.s3 { color: #E07A6A; border-color: #7A3F30; }
+  .ai-count { font-size: .84rem; color: var(--muted); margin: 0 0 10px; }
+  /* soft sensor demo */
+  .ai-ss svg { width: 100%; height: auto; display: block; background: var(--bg-deep); border: 1px solid var(--grid-line); border-radius: 8px; }
+  .ai-ctl { display: flex; flex-wrap: wrap; gap: 14px 22px; margin: 12px 0 6px; font-size: .86rem; color: var(--paper); align-items: center; }
+  .ai-ctl label { display: flex; flex-direction: column; gap: 4px; min-width: 200px; }
+  .ai-ctl input[type=range] { accent-color: var(--brass); }
+  .ai-ctl button { padding: 7px 14px; border-radius: 6px; border: 1px solid var(--brass); background: none; color: var(--brass); font-weight: 700; cursor: pointer; }
+  .ai-ctl button:hover { background: var(--brass); color: #0B1622; }
+  .ai-ssread { font-size: .88rem; color: var(--paper); margin: 6px 0 0; }
+  .ai-ssread b.bad { color: #E07A6A; } .ai-ssread b.ok { color: #6FCB9F; }
+  .ai-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .8rem; color: var(--muted); margin-top: 8px; }
+  .ai-legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 6px; }
+  /* maturity check */
+  .ai-q { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--grid-line); font-size: .9rem; color: var(--paper); }
+  .ai-yn { display: inline-flex; border: 1px solid #2C4C6C; border-radius: 6px; overflow: hidden; }
+  .ai-yn button { padding: 6px 14px; background: var(--bg-deep); color: var(--paper); border: 0; cursor: pointer; font-weight: 600; }
+  .ai-yn button + button { border-left: 1px solid #2C4C6C; }
+  .ai-yn button[aria-pressed="true"].y { background: #2E6B50; color: #fff; }
+  .ai-yn button[aria-pressed="true"].n { background: #7A3F30; color: #fff; }
+  .ai-result { margin-top: 14px; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--brass-dim); background: rgba(201,162,39,.07); }
+  .ai-result h4 { margin: 0 0 6px; color: var(--brass); font-family: var(--f-display); }
+  .ai-steps { display: flex; gap: 4px; margin: 8px 0 12px; }
+  .ai-steps span { flex: 1; height: 8px; border-radius: 4px; background: var(--grid-line); }
+  .ai-steps span.on { background: var(--brass); }
+  .ai-result ol { margin: 6px 0 0; padding-left: 20px; } .ai-result li { margin: 4px 0; }
+  .ai-do { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ai-do > div { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 8px; padding: 12px 14px; }
+  .ai-do h4 { margin: 0 0 6px; font-size: .95rem; } .ai-do .yes h4 { color: #6FCB9F; } .ai-do .no h4 { color: #E07A6A; }
+  .ai-do ul { margin: 0; padding-left: 18px; font-size: .88rem; } .ai-do li { margin: 4px 0; }
+  .ai-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0 22px; }
+  .ai-path { display: block; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--grid-line); background: var(--panel); text-decoration: none; color: var(--paper); }
+  .ai-path:hover { border-color: var(--brass); }
+  .ai-path b { display: block; color: var(--brass); font-family: var(--f-display); font-size: 1.05rem; margin-bottom: 4px; }
+  .ai-path span { color: var(--muted); font-size: .88rem; }
+  .ai-pb { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-bottom: 10px; }
+  .ai-pb label { display: flex; flex-direction: column; gap: 4px; font-size: .84rem; color: var(--muted); }
+  .ai-pb select, .ai-pb input { padding: 9px 10px; background: var(--bg-deep); color: var(--paper); border: 1px solid #2C4C6C; border-radius: 6px; font: inherit; font-size: .9rem; }
+  .ai-pb-out { width: 100%; box-sizing: border-box; padding: 12px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--brass-dim); border-radius: 8px; font: .88rem/1.5 var(--f-mono, monospace); resize: vertical; }
+  .ai-rolelist { margin: 0; padding-left: 20px; } .ai-rolelist li { margin: 6px 0; font-size: .9rem; color: var(--paper); }
+  @media (max-width: 760px) {
+    .ai-paths, .ai-pb { grid-template-columns: 1fr; }
+    .ai-pyr, .ai-do { grid-template-columns: 1fr; }
+    .ai-lvpanel dl { grid-template-columns: 1fr; gap: 2px; } .ai-lvpanel dd { margin-bottom: 8px; }
+    .ai-ctl label { min-width: 0; width: 100%; }
+  }
+</style>
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>AI Basics for Chemical Engineers: Start Here</h1>
+  <p class="article-meta">Plant Engineering &middot; Digitalization &middot; <span class="art-updated">October 2026</span></p>
+
+  <p class="art-lede">Never used AI at work? This page is for you. It explains the different kinds of AI in plain words, gives you five things to try this week, builds your first prompts for you, and shows which tools engineers in chemical and pharma plants actually use. When you are ready for real plant results, go on to <a style="color:var(--brass)" href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry: real plant examples</a>.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What &ldquo;AI&rdquo; means in a plant</a><span>Basics</span></li>
+    <li><a href="#new">Your first week with AI (prompt builder)</a><span>Basics</span></li>
+    <li><a href="#tools">AI tools for chemical engineers (tool finder)</a><span>Basics</span></li>
+    <li><a href="#genai">Generative AI at work: do and don&rsquo;t</a><span>Basics</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What &ldquo;AI&rdquo; means in a plant</h2>
+  <p>&ldquo;AI&rdquo; is used for very different tools. Knowing which one you are talking about decides the data you need, how you validate it and who can build it.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Type</th><th>What it does</th><th>Plant example</th></tr>
+    <tr><td><b>Machine learning (ML)</b></td><td>Learns a relationship from historical numbers: inputs to an output</td><td>Predict the impurity at end of batch from temperature, dosing rate and stirrer power</td></tr>
+    <tr><td><b>Anomaly detection</b></td><td>Learns what &ldquo;normal&rdquo; looks like and flags departures</td><td>A pump&rsquo;s vibration and bearing temperature drift weeks before failure</td></tr>
+    <tr><td><b>Computer vision</b></td><td>Recognises patterns in images or video</td><td>Label and packaging defects; PPE checks at a charging area</td></tr>
+    <tr><td><b>Optimisation</b> (incl. Bayesian optimisation)</td><td>Searches for the best settings with the fewest trials</td><td>Choosing the next lab experiment for a new route</td></tr>
+    <tr><td><b>Generative AI / large language models (LLMs)</b></td><td>Reads and writes text, code and summaries</td><td>Search SOPs and past deviations in plain language; draft a first version of a report</td></tr>
+    <tr><td><b>Digital twin</b></td><td>A model of the process (first-principles, data-driven or both) kept in step with live data</td><td>Try a new temperature profile on the model before the reactor</td></tr>
+  </table></div>
+  <p>Most of the value reported by plants so far comes from the first three, built on historian and lab data. Generative AI is newer, faster to try, and under the most regulatory caution in GMP areas.</p>
+
+  <h2 id="new">Your first week with AI</h2>
+  <p>You do not need to code or buy anything to start. A general AI assistant works like a very well-read colleague who answers instantly, writes fast and is sometimes confidently wrong. Use it for words and ideas; check every number yourself.</p>
+  <h3>Five things to try this week</h3>
+  <ol>
+    <li><b>Explain something.</b> &ldquo;Explain NPSH to a new production officer in five lines, with one plant example.&rdquo;</li>
+    <li><b>Summarise a manual.</b> Paste a non-confidential section of a pump or dryer manual and ask for the start-up checks as a list.</li>
+    <li><b>Draft a document.</b> &ldquo;Draft a one-page toolbox talk on static electricity when charging solvents.&rdquo; Then correct it.</li>
+    <li><b>Spreadsheet help.</b> &ldquo;Write an Excel formula that flags batches where yield is below 92% and cycle time above 30 h.&rdquo; Test it on a few rows you know.</li>
+    <li><b>Prepare questions.</b> &ldquo;Give me 15 what-if questions for a HAZOP of a solvent recovery column.&rdquo; Use them as prompts for your team, not as the HAZOP.</li>
+  </ol>
+  <div class="art-note"><b>Three rules from day one</b><p>Use only the AI tools your company has approved, and never paste confidential process data, recipes or customer names into public tools. Treat every number, regulation or reference as unverified until you have checked it. You remain responsible for anything you sign or send.</p></div>
+
+  <div class="ai-box">
+    <h3>Prompt builder</h3>
+    <p class="ai-sub">Good answers come from good prompts: say who you are, what you need, the context and the format. Pick options and copy the prompt into your company-approved AI assistant.</p>
+    <div class="ai-pb">
+      <label>I want to<select id="ai-pb-task">
+        <option value="explain">Explain a concept</option>
+        <option value="sop">Draft an SOP or work instruction</option>
+        <option value="sum">Summarise a document</option>
+        <option value="xl">Get help with Excel or data</option>
+        <option value="hazop">Brainstorm HAZOP what-if questions</option>
+        <option value="mail">Write an email or report</option>
+        <option value="rca">Structure a root-cause investigation</option>
+      </select></label>
+      <label>Topic<input id="ai-pb-topic" type="text" value="nitrogen blanketing of a solvent storage tank"></label>
+      <label>For (audience)<select id="ai-pb-aud"><option>a new graduate engineer</option><option>shift operators</option><option>the plant head</option><option>a QA reviewer</option><option>myself, as an experienced engineer</option></select></label>
+      <label>Plant context<select id="ai-pb-ctx"><option>an API (bulk drug) plant in India</option><option>a specialty chemicals plant</option><option>an agrochemical plant</option><option>a pilot plant</option></select></label>
+    </div>
+    <textarea id="ai-pb-out" class="ai-pb-out" rows="9" readonly aria-label="Generated prompt"></textarea>
+    <div class="ai-ctl"><button type="button" id="ai-pb-copy">Copy prompt</button><span id="ai-pb-msg" style="color:var(--muted);font-size:.84rem"></span></div>
+  </div>
+
+  <h2 id="tools">AI tools for chemical engineers</h2>
+  <p>The tools fall into five groups. The names below are examples of widely used products, not recommendations; check licensing, data handling and your company&rsquo;s IT and quality approval before using any of them with plant data.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Group</th><th>Examples</th><th>Good for</th><th>Watch out for</th></tr>
+    <tr><td><b>General AI assistants</b></td><td>ChatGPT (OpenAI), Claude (Anthropic), Gemini (Google), Microsoft Copilot (in Microsoft 365)</td><td>Explaining, drafting, summarising, formulas and small scripts, meeting notes</td><td>Confident wrong answers; confidential data in public versions; use enterprise accounts where available</td></tr>
+    <tr><td><b>Process-data analytics</b></td><td>Seeq, TrendMiner, analytics built on historians such as AVEVA PI; DCS vendors&rsquo; own analytics</td><td>Searching trends, golden batches, finding similar past events, soft sensors without heavy coding</td><td>Needs a historian with clean tags and batch context</td></tr>
+    <tr><td><b>Asset and maintenance AI</b></td><td>Aspen Mtell; vendor condition-monitoring platforms for rotating equipment</td><td>Early warning of pump, compressor and agitator failures</td><td>Needs sensor history and failure records from the CMMS</td></tr>
+    <tr><td><b>R&amp;D chemistry</b></td><td>CAS SciFinder retrosynthesis, Reaxys predictive retrosynthesis, IBM RXN for Chemistry, open-source AiZynthFinder and EDBO</td><td>Route ideas, reaction prediction, choosing the next experiment</td><td>Routes still need a chemist&rsquo;s judgement on safety, cost and scalability</td></tr>
+    <tr><td><b>Data analysis and dashboards</b></td><td>Python (pandas, scikit-learn), KNIME (visual, no-code), JMP, Minitab, Power BI, Excel</td><td>Cleaning data, statistics, multivariate analysis, building and testing models, sharing results</td><td>Validation and version control if the result feeds a GMP decision</td></tr>
+    <tr><td><b>Engineering and automation assistants</b></td><td>Generative AI assistants from automation vendors, such as Siemens Industrial Copilot for automation engineering</td><td>Drafting PLC code and documentation faster</td><td>Generated control code must go through normal review, testing and change control</td></tr>
+  </table></div>
+
+  <div class="ai-box">
+    <h3>Tool finder: what should I try first?</h3>
+    <p class="ai-sub">Pick your role. Suggestions are a starting point, ordered from easiest.</p>
+    <div class="ai-chips" id="ai-roles" role="group" aria-label="Your role"></div>
+    <div id="ai-rolebox" class="ai-lvpanel" aria-live="polite" style="min-height:0"></div>
+  </div>
+
+  <h2 id="genai">Generative AI at work: do and don&rsquo;t</h2>
+  <p>Chat assistants are the AI most engineers touch first. NIST&rsquo;s generative AI risk profile (NIST AI 600-1, July 2024) names &ldquo;confabulation&rdquo; as a core risk: the production of confidently stated but false content. In a plant, a confident wrong number is worse than no number.</p>
+  <div class="ai-do">
+    <div class="yes"><h4>Good uses (with review)</h4><ul>
+      <li>Searching your own SOPs, batch records and past deviations in plain language, with links back to the source document</li>
+      <li>A first draft of a report, training material or email that an expert then corrects</li>
+      <li>Summarising long documents: vendor manuals, regulations, literature</li>
+      <li>Writing and explaining spreadsheet formulas or small analysis scripts, then testing them on known data</li>
+      <li>Brainstorming what-if questions for a HAZOP pre-read</li>
+    </ul></div>
+    <div class="no"><h4>Keep it out of</h4><ul>
+      <li>Batch release, OOS conclusions and any decision a qualified person signs</li>
+      <li>Relief, safety-interlock and equipment sizing numbers without independent calculation</li>
+      <li>Reaction hazard conclusions: use calorimetry data (see <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">reading DSC, ARC and RC1</a>)</li>
+      <li>Confidential process data pasted into public tools: use company-approved, access-controlled systems</li>
+      <li>Citations you have not opened yourself</li>
+    </ul></div>
+  </div>
+
+  <div class="art-note"><b>Next step</b><p>See how plants use AI on real problems, with results, the data stack it needs and the GMP rules: <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry: real plant examples and use cases</a>.</p></div>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How can a chemical engineer start using AI?</h3>
+  <p>Start with a general AI assistant approved by your company for everyday text work: explaining a concept, summarising a manual, drafting a report or writing a spreadsheet formula. Give it context, ask it to show its working and list assumptions, and check every number against a calculation or source.</p>
+  <h3>Which AI tools are used in the chemical industry?</h3>
+  <p>General assistants (ChatGPT, Claude, Gemini, Microsoft Copilot) for text work; process-data analytics on top of historians (for example Seeq and TrendMiner); predictive maintenance software (for example Aspen Mtell); retrosynthesis tools for R&D (CAS SciFinder, Reaxys, AiZynthFinder); and Python, KNIME, JMP or Power BI for data analysis.</p>
+  <h3>Is it safe to paste plant data into ChatGPT?</h3>
+  <p>Only into tools your company has approved for that data. Do not paste confidential process data, recipes, batch records or customer names into public AI tools, and check every number the tool gives you.</p>
+  <h3>Is AI the same as machine learning?</h3>
+  <p>Machine learning is one part of AI: models that learn a relationship from data. AI also includes computer vision, optimisation and generative AI such as chat assistants that read and write text.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>NIST, <i>AI 600-1: Artificial Intelligence Risk Management Framework: Generative AI Profile</i>, July 2024 (<a href="https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf" rel="noopener">draft text</a>): &ldquo;confabulation&rdquo;.</li>
+    <li>Tools: <a href="https://www.cas.org/solutions/cas-scifinder-discovery-platform/retrosynthesis" rel="noopener">CAS SciFinder predictive retrosynthesis</a>; <a href="https://www.arcweb.com/node/111626" rel="noopener">ARC Advisory: AspenTech machine learning (Aspen Mtell)</a>; <a href="https://aws.amazon.com/blogs/industries/seeq-and-aspentech-accelerate-self-service-industrial-analytics-on-aws" rel="noopener">AWS: Seeq self-service industrial analytics</a>; <a href="https://www.iotworldtoday.com/iiot/siemens-debuts-generative-ai-powered-industrial-copilot-at-hannover-messe-2024" rel="noopener">Siemens Industrial Copilot, Hannover Messe 2024</a>.</li>
+    <li>Genheden S. et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7672904/" rel="noopener">AiZynthFinder: open-source software for retrosynthetic planning</a>, Journal of Cheminformatics (2020).</li>
+    <li>Shields B.J. et al., <a href="https://www.princeton.edu/news/2021/02/03/chemistry-and-computer-science-join-forces-apply-artificial-intelligence-chemical" rel="noopener">Bayesian reaction optimization as a tool for chemical synthesis</a> (EDBO), Nature 590 (2021).</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry: real plant examples</a>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA: deviations and CAPA</a>
+    <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">Instrumentation basics</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+
+  /* ---------- prompt builder ---------- */
+  var pbOut = $('ai-pb-out');
+  if (pbOut) {
+    var TASK = {
+      explain: function (t) { return 'Explain ' + t + '. Start with a two-line summary, then the principle, a worked plant example with numbers, and the three most common mistakes.'; },
+      sop: function (t) { return 'Draft a standard operating procedure for ' + t + '. Use sections: purpose, scope, responsibilities, safety precautions and PPE, step-by-step procedure with checks, abnormal situations and what to do, records. Mark any step where a value must come from our own data as [TO CONFIRM].'; },
+      sum: function (t) { return 'Summarise the document I will paste below about ' + t + '. Give: key points (max 8 bullets), any numbers and limits exactly as written with the section they come from, actions for the plant, and anything unclear. Do not add facts that are not in the document.'; },
+      xl: function (t) { return 'Help me with Excel for ' + t + '. Give the formula, explain each part, and show a small example table I can use to test it. If a pivot table or chart is better, say so.'; },
+      hazop: function (t) { return 'List what-if questions for a HAZOP of ' + t + ', grouped by guideword (more/less/no flow, high/low pressure, high/low temperature, wrong material, contamination, maintenance and start-up). For each, give a possible cause and consequence to discuss. These are discussion prompts for the team, not conclusions.'; },
+      mail: function (t) { return 'Write a short, clear email about ' + t + '. Start with the decision or request, then three supporting points with numbers where I give them, then next steps with owners and dates. Keep it under 200 words.'; },
+      rca: function (t) { return 'Help me structure a root-cause investigation for ' + t + '. Give a fishbone (6M) list of possible causes, the data or evidence to check for each, and three good 5-Why chains to test. Do not conclude the cause; list what would confirm or rule out each one.'; }
+    };
+    var build = function () {
+      var t = $('ai-pb-topic').value.trim() || 'my topic';
+      pbOut.value = 'You are helping a chemical engineer in ' + $('ai-pb-ctx').value + '. The answer is for ' + $('ai-pb-aud').value + '.\n\n' + TASK[$('ai-pb-task').value](t) +
+        '\n\nRules: use plain language and SI units; show calculations step by step; list every assumption; say clearly if you are not sure; ask me questions first if something important is missing; do not invent references or regulations.';
+    };
+    ['ai-pb-task', 'ai-pb-aud', 'ai-pb-ctx'].forEach(function (id) { $(id).addEventListener('change', build); });
+    $('ai-pb-topic').addEventListener('input', build);
+    $('ai-pb-copy').addEventListener('click', function () {
+      var m = $('ai-pb-msg'); var done = function () { m.textContent = 'Copied. Paste it into your approved AI assistant.'; setTimeout(function () { m.textContent = ''; }, 2500); };
+      if (navigator.clipboard) navigator.clipboard.writeText(pbOut.value).then(done, function () { pbOut.select(); m.textContent = 'Select the text and copy it.'; }); else { pbOut.select(); m.textContent = 'Select the text and copy it.'; }
+    });
+    build();
+  }
+
+  /* ---------- tool finder ---------- */
+  var ROLES = {
+    newbie: { t: 'Never used AI', l: ['A company-approved general assistant (ChatGPT, Claude, Gemini or Microsoft Copilot) for explanations and first drafts', 'The prompt builder on this page for your first ten prompts', 'Excel with AI help for formulas and charts, tested on data you know'] },
+    prod: { t: 'Production and process engineer', l: ['A general assistant for SOP drafts, shift reports and toolbox talks', 'Historian trend tools (and Seeq or TrendMiner if your site has them) to compare good and bad batches', 'Power BI or Excel for a daily yield, cycle-time and OEE view', 'A soft-sensor pilot for one slow lab result'] },
+    rd: { t: 'R&D and process chemist', l: ['Retrosynthesis ideas: CAS SciFinder or Reaxys (if licensed), IBM RXN or open-source AiZynthFinder', 'Bayesian optimisation (for example open-source EDBO) to pick the next experiment', 'A general assistant to summarise papers, always opening the original before citing'] },
+    maint: { t: 'Maintenance and reliability', l: ['Work-order text analysis in Excel or Python to find repeat failures', 'Condition monitoring on critical pumps, compressors and agitators', 'Predictive maintenance software such as Aspen Mtell or your vendor\u2019s platform once sensor and failure history exist'] },
+    qa: { t: 'QA, QC and regulatory', l: ['A general assistant for summarising guidelines and drafting non-critical documents, with qualified review', 'Deviation and complaint trending from QMS exports', 'GAMP AI guide and draft Annex 22 before any AI touches a GMP decision'] },
+    data: { t: 'Data and digital engineer', l: ['Python (pandas, scikit-learn) or KNIME on contextualised historian, LIMS and MES data', 'Batch-wise train and test splits, explainability (SHAP) and drift monitoring from day one', 'RAG on approved documents for knowledge search; OT connections designed to ISA/IEC 62443'] },
+    head: { t: 'Plant head or manager', l: ['The readiness self-check in the AI plant-examples article, with your team', 'One use case with money attached and a named business owner', 'A data owner, an OT cybersecurity owner and a policy on approved AI tools'] }
+  };
+  var rolesBox = $('ai-roles'), roleOut = $('ai-rolebox');
+  if (rolesBox) {
+    var showRole = function (k) {
+      Array.prototype.forEach.call(rolesBox.children, function (c) { c.setAttribute('aria-pressed', String(c.dataset.k === k)); });
+      roleOut.innerHTML = '<h4>' + esc(ROLES[k].t) + '</h4><ol class="ai-rolelist">' + ROLES[k].l.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>';
+    };
+    Object.keys(ROLES).forEach(function (k) { var b = document.createElement('button'); b.type = 'button'; b.className = 'ai-chip'; b.dataset.k = k; b.textContent = ROLES[k].t; b.addEventListener('click', function () { showRole(k); }); rolesBox.appendChild(b); });
+    showRole('newbie');
+  }
+
+})();
+</script>

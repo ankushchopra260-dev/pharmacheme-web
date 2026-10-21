@@ -1,8 +1,8 @@
 ---
 layout: default
-title: "AI in the Chemical Industry: Use Cases, AI Tools, Digitalization and GMP"
-seo_title: "AI in Chemical Industry: Use Cases, Tools, GMP | PharmaChemE"
-description: "AI in chemical and pharma plants for beginners and experts: AI tools, digitalization, use cases, real results, GMP (FDA, Annex 22) and a readiness check."
+title: "AI in the Chemical Industry: Real Plant Examples, Use Cases and GMP"
+seo_title: "AI in Chemical Industry: Real Plant Examples | PharmaChemE"
+description: "AI in chemical and pharma plants: real plant examples with results, use cases by department, the data stack, GMP rules (FDA, Annex 22) and a readiness check."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -14,9 +14,9 @@ structured_data: |
     "@graph": [
       {
         "@type": "Article",
-        "headline": "AI in the Chemical Industry: Use Cases, AI Tools, Digitalization and GMP",
-        "keywords": "AI in chemical industry, AI tools for chemical engineers, digitalization, Industry 4.0, predictive maintenance, soft sensor, digital twin, GMP Annex 22, generative AI",
-        "description": "How AI is used in chemical and pharma plants, the digital foundations it needs, real results, regulations and risks, with an interactive use-case explorer and maturity self-check.",
+        "headline": "AI in the Chemical Industry: Real Plant Examples, Use Cases and GMP",
+        "description": "Real examples of AI in chemical, pharma and process plants with reported results, use cases by department, the digital foundations, GMP rules and a readiness self-check.",
+        "keywords": "AI in chemical industry, AI case studies chemical plant, predictive maintenance, model predictive control, soft sensor, digital twin, Industry 4.0, digitalization, GMP Annex 22",
         "author": {
           "@type": "Person",
           "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
@@ -37,7 +37,15 @@ structured_data: |
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Do we need a big digital project before using AI in a plant?",
+            "name": "Which chemical plants are using AI, and with what results?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Published examples include DCM Shriram in Gujarat (AI-enabled process control and a generative-AI maintenance manager, with power costs down 32%), Jubilant Ingrevia in Gujarat (process variability down 60%), Covestro Barcelona (model predictive control, 2 to 3 days a year of unplanned downtime removed) and Shell (predictive maintenance on more than 10,000 pieces of equipment). Results are reported by the companies or vendors."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do we need a big digital project before using AI?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "No, but you need clean, time-stamped data for the problem you pick. Most plants start with one unit or one product, connect the historian, lab and batch data for it, and prove value there before scaling."
@@ -53,26 +61,10 @@ structured_data: |
           },
           {
             "@type": "Question",
-            "name": "How can a chemical engineer start using AI?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Start with a general AI assistant approved by your company for everyday text work: explaining a concept, summarising a manual, drafting a report or writing a spreadsheet formula. Give it context, ask it to show its working and list assumptions, and check every number against a calculation or source."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Which AI tools are used in the chemical industry?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "General assistants (ChatGPT, Claude, Gemini, Microsoft Copilot) for text work; process-data analytics on top of historians (for example Seeq and TrendMiner); predictive maintenance software (for example Aspen Mtell); retrosynthesis tools for R&D (CAS SciFinder, Reaxys, AiZynthFinder); and Python, KNIME, JMP or Power BI for data analysis."
-            }
-          },
-          {
-            "@type": "Question",
             "name": "What is the easiest first AI project in a chemical plant?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Projects where the data already exists and the decision stays with a person: predictive maintenance on critical rotating equipment, a soft sensor for a slow lab result, or text search across SOPs and past deviations."
+              "text": "Projects where the data already exists and a person still makes the decision: predictive maintenance on critical rotating equipment, a soft sensor for a slow lab result, or text search across SOPs and past deviations."
             }
           }
         ]
@@ -162,83 +154,57 @@ last_modified_at: 2026-10-21
     .ai-lvpanel dl { grid-template-columns: 1fr; gap: 2px; } .ai-lvpanel dd { margin-bottom: 8px; }
     .ai-ctl label { min-width: 0; width: 100%; }
   }
+
+  .ai-case { background: var(--bg-deep); border: 1px solid var(--grid-line); border-left: 4px solid var(--brass); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .ai-case h4 { margin: 0; color: var(--paper); font-size: 1rem; }
+  .ai-case .ai-where { font-size: .78rem; color: var(--muted); }
+  .ai-case p { margin: 0; font-size: .87rem; line-height: 1.5; color: var(--paper); }
+  .ai-case .ai-res { background: rgba(201,162,39,.08); border: 1px solid rgba(201,162,39,.3); border-radius: 6px; padding: 7px 9px; }
+  .ai-case .ai-res b { color: var(--brass); }
+  .ai-case .ai-src { font-size: .78rem; color: var(--muted); margin-top: auto; } .ai-case .ai-src a { color: var(--brass); }
+  .ai-tags { display: flex; flex-wrap: wrap; gap: 4px; } .ai-tags span { font-size: .7rem; padding: 1px 7px; border-radius: 999px; border: 1px solid #2C4C6C; color: #C9D6E2; }
+  .ai-fl { font-size: .8rem; color: var(--muted); margin: 6px 0 6px; }
+  details.ai-more { border: 1px solid var(--grid-line); border-radius: 10px; padding: 4px 16px; margin: 16px 0; background: var(--panel); }
+  details.ai-more > summary { cursor: pointer; padding: 10px 0; font-family: var(--f-display); color: var(--brass); font-size: 1.15rem; }
+  details.ai-more[open] > summary { border-bottom: 1px solid var(--grid-line); margin-bottom: 8px; }
 </style>
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>AI in the Chemical Industry: Use Cases, Tools and Digitalization</h1>
+  <h1>AI in the Chemical Industry: Real Plant Examples</h1>
   <p class="article-meta">Plant Engineering &middot; Digitalization &middot; <span class="art-updated">October 2026</span></p>
 
-  <p class="art-lede">Every conference now has an AI session, and every vendor has an AI product. On the plant floor the questions are simpler: which problems can AI actually solve here, what data does it need, what do the regulators expect, and where do we start on Monday? This article answers those questions with real results, the GMP rules as they stand in late 2026, and interactive tools: a prompt builder for first-time users, a data-stack explorer, a use-case finder, an AI tool finder and a readiness self-check. It is written for chemical and pharma engineers who have never used AI and for those who already build models.</p>
-
-  <div class="ai-paths">
-    <a href="#new" class="ai-path"><b>New to AI?</b><span>Start with what it is, your first prompts and the tools you can try today.</span></a>
-    <a href="#pro" class="ai-path"><b>Already using AI?</b><span>Jump to the practitioner notes: data splits, validation, RAG, drift and GMP.</span></a>
-  </div>
+  <p class="art-lede">What are chemical and pharma plants actually doing with AI, and what did it deliver? This article starts with real, sourced plant examples, then shows the data foundations they needed, the use cases by department, the GMP rules and how to start at your own site. New to AI? Read <a style="color:var(--brass)" href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics for chemical engineers</a> first: what AI is, your first prompts and the tools to try.</p>
 
   <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
-    <li><a href="#what">What &ldquo;AI&rdquo; means in a plant</a><span>Basics</span></li>
-    <li><a href="#new">Never used AI? Start here (prompt builder)</a><span>Beginner</span></li>
-    <li><a href="#digital">Digitalization comes first: the data stack</a><span>Basics</span></li>
+    <li><a href="#cases">Real plant examples (finder)</a><span>Start here</span></li>
+    <li><a href="#digital">Digitalization comes first: the data stack</a><span>Foundations</span></li>
     <li><a href="#uses">Use cases by department (explorer)</a><span>Working level</span></li>
-    <li><a href="#tools">AI tools for chemical engineers (tool finder)</a><span>Working level</span></li>
     <li><a href="#softsensor">How a soft sensor works (demo)</a><span>Working level</span></li>
-    <li><a href="#results">What companies report</a><span>Working level</span></li>
     <li><a href="#gmp">AI under GMP: FDA, EU Annex 22, GAMP</a><span>Going deeper</span></li>
-    <li><a href="#genai">Generative AI at work: do and don&rsquo;t</a><span>Going deeper</span></li>
-    <li><a href="#risks">What goes wrong</a><span>Going deeper</span></li>
-    <li><a href="#pro">For practitioners: building models that last</a><span>Expert</span></li>
     <li><a href="#roles">The people: plant digital transformation roles</a></li>
     <li><a href="#start">Readiness self-check and a 90-day start</a></li>
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="what">What &ldquo;AI&rdquo; means in a plant <span class="lvl l1">Basics</span></h2>
-  <p>&ldquo;AI&rdquo; is used for very different tools. Knowing which one you are talking about decides the data you need, how you validate it and who can build it.</p>
-  <div class="art-table-wrap"><table class="art-table">
-    <tr><th>Type</th><th>What it does</th><th>Plant example</th></tr>
-    <tr><td><b>Machine learning (ML)</b></td><td>Learns a relationship from historical numbers: inputs to an output</td><td>Predict the impurity at end of batch from temperature, dosing rate and stirrer power</td></tr>
-    <tr><td><b>Anomaly detection</b></td><td>Learns what &ldquo;normal&rdquo; looks like and flags departures</td><td>A pump&rsquo;s vibration and bearing temperature drift weeks before failure</td></tr>
-    <tr><td><b>Computer vision</b></td><td>Recognises patterns in images or video</td><td>Label and packaging defects; PPE checks at a charging area</td></tr>
-    <tr><td><b>Optimisation</b> (incl. Bayesian optimisation)</td><td>Searches for the best settings with the fewest trials</td><td>Choosing the next lab experiment for a new route</td></tr>
-    <tr><td><b>Generative AI / large language models (LLMs)</b></td><td>Reads and writes text, code and summaries</td><td>Search SOPs and past deviations in plain language; draft a first version of a report</td></tr>
-    <tr><td><b>Digital twin</b></td><td>A model of the process (first-principles, data-driven or both) kept in step with live data</td><td>Try a new temperature profile on the model before the reactor</td></tr>
-  </table></div>
-  <p>Most of the value reported by plants so far comes from the first three, built on historian and lab data. Generative AI is newer, faster to try, and under the most regulatory caution in GMP areas.</p>
-
-  <h2 id="new">Never used AI? Start here <span class="lvl l1">Beginner</span></h2>
-  <p>You do not need to code or buy anything to start. A general AI assistant works like a very well-read colleague who answers instantly, writes fast and is sometimes confidently wrong. Use it for words and ideas; check every number yourself.</p>
-  <h3>Five things to try this week</h3>
-  <ol>
-    <li><b>Explain something.</b> &ldquo;Explain NPSH to a new production officer in five lines, with one plant example.&rdquo;</li>
-    <li><b>Summarise a manual.</b> Paste a non-confidential section of a pump or dryer manual and ask for the start-up checks as a list.</li>
-    <li><b>Draft a document.</b> &ldquo;Draft a one-page toolbox talk on static electricity when charging solvents.&rdquo; Then correct it.</li>
-    <li><b>Spreadsheet help.</b> &ldquo;Write an Excel formula that flags batches where yield is below 92% and cycle time above 30 h.&rdquo; Test it on a few rows you know.</li>
-    <li><b>Prepare questions.</b> &ldquo;Give me 15 what-if questions for a HAZOP of a solvent recovery column.&rdquo; Use them as prompts for your team, not as the HAZOP.</li>
-  </ol>
-  <div class="art-note"><b>Three rules from day one</b><p>Use only the AI tools your company has approved, and never paste confidential process data, recipes or customer names into public tools. Treat every number, regulation or reference as unverified until you have checked it. You remain responsible for anything you sign or send.</p></div>
-
+  <h2 id="cases">Real plant examples <span class="lvl l1">Start here</span></h2>
+  <p>These are published examples from chemical, pharma and process plants, with what they did and what they report. Filter by sector or by what the AI does. Results are reported by the company, the vendor or the World Economic Forum&rsquo;s Global Lighthouse Network; they usually combine several digital tools, so read them as what is possible, not as a promise for one model.</p>
   <div class="ai-box">
-    <h3>Prompt builder</h3>
-    <p class="ai-sub">Good answers come from good prompts: say who you are, what you need, the context and the format. Pick options and copy the prompt into your company-approved AI assistant.</p>
-    <div class="ai-pb">
-      <label>I want to<select id="ai-pb-task">
-        <option value="explain">Explain a concept</option>
-        <option value="sop">Draft an SOP or work instruction</option>
-        <option value="sum">Summarise a document</option>
-        <option value="xl">Get help with Excel or data</option>
-        <option value="hazop">Brainstorm HAZOP what-if questions</option>
-        <option value="mail">Write an email or report</option>
-        <option value="rca">Structure a root-cause investigation</option>
-      </select></label>
-      <label>Topic<input id="ai-pb-topic" type="text" value="nitrogen blanketing of a solvent storage tank"></label>
-      <label>For (audience)<select id="ai-pb-aud"><option>a new graduate engineer</option><option>shift operators</option><option>the plant head</option><option>a QA reviewer</option><option>myself, as an experienced engineer</option></select></label>
-      <label>Plant context<select id="ai-pb-ctx"><option>an API (bulk drug) plant in India</option><option>a specialty chemicals plant</option><option>an agrochemical plant</option><option>a pilot plant</option></select></label>
-    </div>
-    <textarea id="ai-pb-out" class="ai-pb-out" rows="9" readonly aria-label="Generated prompt"></textarea>
-    <div class="ai-ctl"><button type="button" id="ai-pb-copy">Copy prompt</button><span id="ai-pb-msg" style="color:var(--muted);font-size:.84rem"></span></div>
+    <h3>Plant example finder</h3>
+    <p class="ai-sub" id="ai-case-count" aria-live="polite"></p>
+    <div class="ai-fl">Sector</div><div class="ai-chips" id="ai-sect" role="group" aria-label="Sector"></div>
+    <div class="ai-fl">What the AI does</div><div class="ai-chips" id="ai-appl" role="group" aria-label="Application"></div>
+    <div class="ai-cards" id="ai-cases"></div>
   </div>
+  <h3>What the successful examples have in common</h3>
+  <ul>
+    <li><b>Many small use cases, not one big model.</b> The lighthouse sites report 30 to 50 use cases each, built on the same data foundation.</li>
+    <li><b>The data came first.</b> Historians, connected lab and batch data and digital twins sit under almost every result.</li>
+    <li><b>People stay in charge.</b> Most uses advise operators, planners or maintenance teams; the decision stays with a person.</li>
+    <li><b>Skills were built in-house.</b> Jubilant Ingrevia reports reskilling more than 2,000 employees.</li>
+    <li><b>Results are measured in plant KPIs:</b> power and material cost, throughput, downtime, variability and emissions.</li>
+  </ul>
 
-  <h2 id="digital">Digitalization comes first: the data stack <span class="lvl l1">Basics</span></h2>
+  <h2 id="digital">Digitalization comes first: the data stack <span class="lvl l1">Foundations</span></h2>
   <p>AI is only as good as the data under it. ISA-95, the international standard for integrating business and manufacturing systems, describes a plant in five levels, from the physical process up to ERP. Most AI projects fail or stall not in the model but in getting clean, time-aligned data out of these levels. Tap a level.</p>
 
   <div class="ai-box" id="ai-pyr-box">
@@ -257,7 +223,6 @@ last_modified_at: 2026-10-21
     <li><b>Cybersecurity.</b> Connecting the control network to analytics or cloud tools opens a path into the plant. The ISA/IEC 62443 series sets out how asset owners, suppliers and integrators share responsibility for securing industrial control systems.</li>
   </ul>
   <div class="art-note"><b>On the plant</b><p>Before buying an AI platform, try this test: can someone pull last year&rsquo;s batches of one product, with the temperature trend, dosing record and final assay for each batch, into one spreadsheet in a day? If not, the first project is a data project, and it pays for itself in faster investigations even before any AI.</p></div>
-
   <h2 id="uses">Use cases by department <span class="lvl l2">Working level</span></h2>
   <p>Pick a department. Each card says what the use case does, the data it needs and how mature your data has to be. The examples link to their sources; figures marked &ldquo;potential&rdquo; are consultants&rsquo; estimates, not measured results.</p>
 
@@ -269,26 +234,6 @@ last_modified_at: 2026-10-21
     <p class="ai-count" id="ai-count" aria-live="polite"></p>
     <div class="ai-cards" id="ai-cards"></div>
   </div>
-
-  <h2 id="tools">AI tools for chemical engineers <span class="lvl l2">Working level</span></h2>
-  <p>The tools fall into five groups. The names below are examples of widely used products, not recommendations; check licensing, data handling and your company&rsquo;s IT and quality approval before using any of them with plant data.</p>
-  <div class="art-table-wrap"><table class="art-table">
-    <tr><th>Group</th><th>Examples</th><th>Good for</th><th>Watch out for</th></tr>
-    <tr><td><b>General AI assistants</b></td><td>ChatGPT (OpenAI), Claude (Anthropic), Gemini (Google), Microsoft Copilot (in Microsoft 365)</td><td>Explaining, drafting, summarising, formulas and small scripts, meeting notes</td><td>Confident wrong answers; confidential data in public versions; use enterprise accounts where available</td></tr>
-    <tr><td><b>Process-data analytics</b></td><td>Seeq, TrendMiner, analytics built on historians such as AVEVA PI; DCS vendors&rsquo; own analytics</td><td>Searching trends, golden batches, finding similar past events, soft sensors without heavy coding</td><td>Needs a historian with clean tags and batch context</td></tr>
-    <tr><td><b>Asset and maintenance AI</b></td><td>Aspen Mtell; vendor condition-monitoring platforms for rotating equipment</td><td>Early warning of pump, compressor and agitator failures</td><td>Needs sensor history and failure records from the CMMS</td></tr>
-    <tr><td><b>R&amp;D chemistry</b></td><td>CAS SciFinder retrosynthesis, Reaxys predictive retrosynthesis, IBM RXN for Chemistry, open-source AiZynthFinder and EDBO</td><td>Route ideas, reaction prediction, choosing the next experiment</td><td>Routes still need a chemist&rsquo;s judgement on safety, cost and scalability</td></tr>
-    <tr><td><b>Data analysis and dashboards</b></td><td>Python (pandas, scikit-learn), KNIME (visual, no-code), JMP, Minitab, Power BI, Excel</td><td>Cleaning data, statistics, multivariate analysis, building and testing models, sharing results</td><td>Validation and version control if the result feeds a GMP decision</td></tr>
-    <tr><td><b>Engineering and automation assistants</b></td><td>Generative AI assistants from automation vendors, such as Siemens Industrial Copilot for automation engineering</td><td>Drafting PLC code and documentation faster</td><td>Generated control code must go through normal review, testing and change control</td></tr>
-  </table></div>
-
-  <div class="ai-box">
-    <h3>Tool finder: what should I try first?</h3>
-    <p class="ai-sub">Pick your role. Suggestions are a starting point, ordered from easiest.</p>
-    <div class="ai-chips" id="ai-roles" role="group" aria-label="Your role"></div>
-    <div id="ai-rolebox" class="ai-lvpanel" aria-live="polite" style="min-height:0"></div>
-  </div>
-
   <h2 id="softsensor">How a soft sensor works <span class="lvl l2">Working level</span></h2>
   <p>A <b>soft sensor</b> estimates a variable that is slow or expensive to measure (an assay, an impurity, a moisture) from fast, cheap measurements the plant already logs (temperatures, pressures, flows, power). Kadlec and co-workers&rsquo; widely cited review describes data-driven soft sensors as an alternative to traditional ways of getting critical process variables, used for monitoring and control. The catch is drift: catalysts age, raw materials change, sensors foul, and the model slowly stops matching reality unless it is checked against lab results and recalibrated.</p>
 
@@ -305,22 +250,6 @@ last_modified_at: 2026-10-21
     <p class="ai-ssread" id="ai-ss-read"></p>
   </div>
   <p>In a real plant the check-and-recalibrate step is written into a procedure, with limits agreed in advance. Under GMP, that is exactly what draft Annex 22 asks for: defined performance metrics, monitoring in use, and change control when the model is updated.</p>
-
-  <h2 id="results">What companies report <span class="lvl l2">Working level</span></h2>
-  <p>Published results are mostly from large companies and from the World Economic Forum&rsquo;s Global Lighthouse Network, which recognises factories for scaled use of digital and AI technologies. Results are self-reported by the companies and combine several technologies, so treat them as what is possible, not what to expect from one model.</p>
-  <div class="art-table-wrap"><table class="art-table">
-    <tr><th>Who</th><th>What they did</th><th>Reported result</th></tr>
-    <tr><td>Shell (energy and chemicals)</td><td>Predictive maintenance with machine learning across upstream, manufacturing and integrated gas assets: control valves, pumps, compressors</td><td>More than 10,000 pieces of equipment monitored, over 3 million sensors, about 11,000 models in production, over 15 million predictions a day (March 2022)</td></tr>
-    <tr><td>Jubilant Ingrevia, Gujarat, India (specialty chemicals)</td><td>30+ use cases using AI, machine learning, IoT-based digital twins and predictive platforms</td><td>Process variability down 60%, production volume nearly doubled, 2,000+ employees reskilled (WEF Lighthouse, October 2024)</td></tr>
-    <tr><td>Dr. Reddy&rsquo;s, Bachupally, Hyderabad (pharma)</td><td>Advanced analytics, digital twins, IIoT, robotic process automation and digital performance management; 40+ use cases</td><td>43% manufacturing cost improvement, 30% shorter lead time, 41% lower energy use (WEF Lighthouse, October 2022)</td></tr>
-    <tr><td>Cipla, Indore (pharma, oral solids)</td><td>30+ use cases including IIoT, advanced analytics, natural language processing and robotic process automation</td><td>23% productivity rise, 28% lower specific greenhouse-gas emissions (WEF Lighthouse, October 2022)</td></tr>
-    <tr><td>SOCAR Carbamide, Azerbaijan (fertiliser)</td><td>AI and digital use cases in a urea plant</td><td>Throughput up 21%, natural gas efficiency up 24% (WEF Lighthouse, January 2026)</td></tr>
-    <tr><td>Bristol Myers Squibb, Devens, USA (biologics)</td><td>Digital and AI technologies across new product introduction</td><td>New product introduction time cut by 42% (WEF Lighthouse, January 2026)</td></tr>
-    <tr><td>University of Liverpool (research)</td><td>A mobile robot chemist that chooses its own next experiments</td><td>688 experiments in 8 days; found a photocatalyst mixture about six times more active, without human guidance (Nature, 2020)</td></tr>
-    <tr><td>Princeton and Bristol Myers Squibb (research)</td><td>Bayesian optimisation for reaction conditions (open-source EDBO)</td><td>More efficient and less biased than expert chemists on a test reaction (Nature, 2021)</td></tr>
-  </table></div>
-  <p>McKinsey&rsquo;s November 2024 estimates of <em>potential</em> impact in chemicals include more than 10% higher yield and throughput from operations AI, 30 to 40% higher maintenance labour productivity, and two- to threefold faster materials or molecule discovery. These are estimates, not measured plant results.</p>
-
   <h2 id="gmp">AI under GMP: FDA, EU Annex 22, GAMP <span class="lvl l3">Going deeper</span></h2>
   <p>Chemical plants outside GMP are governed by ordinary process safety and quality systems. Pharma plants have specific, fast-moving expectations. The status below is as of September 2026; check for updates before you rely on it.</p>
   <div class="art-table-wrap"><table class="art-table">
@@ -332,27 +261,7 @@ last_modified_at: 2026-10-21
     <tr><td>EU <b>AI Act</b></td><td>In force since 1 August 2024; obligations phase in</td><td>Prohibited practices from February 2025, general-purpose AI rules from August 2025, and most high-risk obligations scheduled from August 2026. Relevant if you sell into the EU or use AI in regulated products; most plant analytics is not classed as high-risk, but check your case.</td></tr>
   </table></div>
   <div class="art-note"><b>On the plant</b><p>The practical reading for a GMP site today: keep a person in the decision for anything that touches product quality, write the intended use before you build, freeze and version the model you validate, keep the test data locked away from the developers, and put model updates through change control like any other computerised system.</p></div>
-
-  <h2 id="genai">Generative AI at work: do and don&rsquo;t <span class="lvl l3">Going deeper</span></h2>
-  <p>Chat assistants are the AI most engineers touch first. NIST&rsquo;s generative AI risk profile (NIST AI 600-1, July 2024) names &ldquo;confabulation&rdquo; as a core risk: the production of confidently stated but false content. In a plant, a confident wrong number is worse than no number.</p>
-  <div class="ai-do">
-    <div class="yes"><h4>Good uses (with review)</h4><ul>
-      <li>Searching your own SOPs, batch records and past deviations in plain language, with links back to the source document</li>
-      <li>A first draft of a report, training material or email that an expert then corrects</li>
-      <li>Summarising long documents: vendor manuals, regulations, literature</li>
-      <li>Writing and explaining spreadsheet formulas or small analysis scripts, then testing them on known data</li>
-      <li>Brainstorming what-if questions for a HAZOP pre-read</li>
-    </ul></div>
-    <div class="no"><h4>Keep it out of</h4><ul>
-      <li>Batch release, OOS conclusions and any decision a qualified person signs</li>
-      <li>Relief, safety-interlock and equipment sizing numbers without independent calculation</li>
-      <li>Reaction hazard conclusions: use calorimetry data (see <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">reading DSC, ARC and RC1</a>)</li>
-      <li>Confidential process data pasted into public tools: use company-approved, access-controlled systems</li>
-      <li>Citations you have not opened yourself</li>
-    </ul></div>
-  </div>
-
-  <h2 id="risks">What goes wrong <span class="lvl l3">Going deeper</span></h2>
+  <details class="ai-more" id="risks"><summary>What goes wrong, and what helps</summary>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Problem</th><th>What it looks like</th><th>What helps</th></tr>
     <tr><td>Garbage in</td><td>Frozen transmitters, wrong units, manual entries typed late, missing time stamps</td><td>Data-quality checks before modelling; a named owner for tags and master data</td></tr>
@@ -363,8 +272,9 @@ last_modified_at: 2026-10-21
     <tr><td>Cyber exposure</td><td>New connections from the control network to cloud tools</td><td>Network segmentation and remote-access controls per ISA/IEC 62443</td></tr>
     <tr><td>Pilot purgatory</td><td>A successful pilot that never reaches the second unit</td><td>Pick use cases with a business owner and a repeatable data pipeline; measure savings in money</td></tr>
   </table></div>
+  </details>
 
-  <h2 id="pro">For practitioners: building models that last <span class="lvl l3">Expert</span></h2>
+  <details class="ai-more" id="pro"><summary>For practitioners: building models that last</summary>
   <p>If you already build models, the hard parts in a chemical plant are rarely the algorithm. These are the points that most often decide whether a model survives its first year.</p>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Topic</th><th>Practice that works in plants</th></tr>
@@ -378,6 +288,7 @@ last_modified_at: 2026-10-21
     <tr><td>Where it runs</td><td>Edge or on-site servers for control-adjacent, low-latency or connectivity-sensitive use; cloud for heavy training and cross-site analytics. Either way, design the OT connection with ISA/IEC 62443 zones and conduits.</td></tr>
     <tr><td>GMP lifecycle</td><td>Intended use, data provenance, frozen model version, independent test set, acceptance criteria, periodic review and change control: the same discipline as any computerised system, with the additions in GAMP&rsquo;s AI guide and draft Annex 22.</td></tr>
   </table></div>
+  </details>
 
   <h2 id="roles">The people: plant digital transformation roles</h2>
   <p>Plants are now hiring for this directly. A typical 2026 posting for a &ldquo;Plant Digital Transformation&rdquo; role at a manufacturing site in India asks for someone who can <b>bridge plant operations and digital technology</b>, and says plainly that it is <b>not a dashboarding or MIS job</b>: the person must take a problem from the shop floor through business case, solution, adoption and measured results. The technologies it lists are the ones in this article: IoT and IIoT, MES, automation, AI and machine learning, analytics and Power BI, SAP, and IT/OT integration.</p>
@@ -392,7 +303,6 @@ last_modified_at: 2026-10-21
     <tr><td>Scaling across lines and plants</td><td>The second unit costs less than the first</td><td>Repeatable data pipelines and standard templates</td></tr>
   </table></div>
   <div class="art-note"><b>On the plant</b><p>The engineers best placed for these roles are often not the data scientists but the process and production engineers who know where the plant loses money, and who learn enough about data to lead the people who build the models.</p></div>
-
   <h2 id="start">Readiness self-check and a 90-day start</h2>
   <p>Answer honestly for one plant or one block. The result is our own rough guide to what to do next, not a formal maturity standard.</p>
   <div class="ai-box">
@@ -409,20 +319,18 @@ last_modified_at: 2026-10-21
     <li><b>Weeks 7 to 10: simple model first.</b> Trend charts and regression before deep learning. Test on batches the model has not seen.</li>
     <li><b>Weeks 11 to 13: run it in advisory mode.</b> Operators see the prediction but decide as before. Compare, measure, and decide whether to scale, change or stop.</li>
   </ol>
-
   <h2 id="faq">Questions people ask</h2>
+  <h3>Which chemical plants are using AI, and with what results?</h3>
+  <p>Published examples include DCM Shriram in Gujarat (AI-enabled process control and a generative-AI maintenance manager, with power costs down 32%), Jubilant Ingrevia in Gujarat (process variability down 60%), Covestro Barcelona (model predictive control, 2 to 3 days a year of unplanned downtime removed) and Shell (predictive maintenance on more than 10,000 pieces of equipment). Results are reported by the companies or vendors.</p>
   <h3>Do we need a big digital project before using AI?</h3>
   <p>No, but you need clean, time-stamped data for the problem you pick. Most plants start with one unit or one product, connect the historian, lab and batch data for it, and prove value there before scaling.</p>
   <h3>Can AI be used in GMP manufacturing?</h3>
-  <p>Yes, with validation and human oversight. The EU draft Annex 22 covers static, trained models in critical GMP use and keeps generative AI out of critical decisions in the draft. FDA&rsquo;s draft guidance describes a risk-based credibility framework. Both were still drafts in September 2026.</p>
-  <h3>How can a chemical engineer start using AI?</h3>
-  <p>Start with a general AI assistant approved by your company for everyday text work: explaining a concept, summarising a manual, drafting a report or writing a spreadsheet formula. Give it context, ask it to show its working and list assumptions, and check every number. The <a href="#new">prompt builder</a> above helps.</p>
-  <h3>Which AI tools are used in the chemical industry?</h3>
-  <p>General assistants for text work; process-data analytics on top of historians; predictive maintenance software; retrosynthesis tools for R&amp;D; and Python, KNIME, JMP or Power BI for data analysis. See <a href="#tools">AI tools for chemical engineers</a>.</p>
-  <h3>What is the easiest first AI project?</h3>
+  <p>Yes, with validation and human oversight. The EU draft GMP Annex 22 (July 2025) covers static, trained models in critical GMP use and keeps generative AI out of critical decisions in the draft. FDA's January 2025 draft guidance describes a risk-based credibility framework. Both were still drafts in September 2026.</p>
+  <h3>What is the easiest first AI project in a chemical plant?</h3>
   <p>Projects where the data already exists and a person still makes the decision: predictive maintenance on critical rotating equipment, a soft sensor for a slow lab result, or text search across SOPs and past deviations.</p>
   <h3>Will AI replace process engineers?</h3>
   <p>The published lighthouse results come with reskilling, not fewer engineers: Jubilant Ingrevia reports reskilling more than 2,000 employees. The models need people who understand the chemistry to choose inputs, judge results and own the decisions.</p>
+  <p>Questions about getting started, prompts and tools are answered in <a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics for chemical engineers</a>.</p>
 
   <h2>Sources and further reading</h2>
   <ul class="art-sources">
@@ -442,11 +350,12 @@ last_modified_at: 2026-10-21
     <li>Shields B.J. et al., <a href="https://www.princeton.edu/news/2021/02/03/chemistry-and-computer-science-join-forces-apply-artificial-intelligence-chemical" rel="noopener">Bayesian reaction optimization as a tool for chemical synthesis</a>, Nature 590 (2021).</li>
     <li>Genheden S. et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7672904/" rel="noopener">AiZynthFinder: a fast, robust and flexible open-source software for retrosynthetic planning</a>, Journal of Cheminformatics (2020).</li>
     <li>Tools: <a href="https://www.cas.org/solutions/cas-scifinder-discovery-platform/retrosynthesis" rel="noopener">CAS SciFinder predictive retrosynthesis</a>; <a href="https://www.arcweb.com/node/111626" rel="noopener">ARC Advisory: AspenTech machine learning (Aspen Mtell) for asset management</a>; <a href="https://aws.amazon.com/blogs/industries/seeq-and-aspentech-accelerate-self-service-industrial-analytics-on-aws" rel="noopener">AWS: Seeq self-service industrial analytics</a>; <a href="https://www.iotworldtoday.com/iiot/siemens-debuts-generative-ai-powered-industrial-copilot-at-hannover-messe-2024" rel="noopener">Siemens Industrial Copilot, Hannover Messe 2024</a>.</li>
+    <li>Plant examples: <a href="https://www.weforum.org/press/2026/06/new-global-lighthouse-sites-demonstrate-how-ai-is-rewiring-manufacturing-and-supply-chains/" rel="noopener">WEF Global Lighthouse Network, June 2026</a> (DCM Shriram, Saudi Aramco Hawiyah NGL); <a href="https://www.emerson.com/documents/automation/case-study-covestro-increases-efficiency-of-polyester-production-using-advanced-process-control-deltav-en-10193330.pdf" rel="noopener">Emerson: Covestro Barcelona case study</a>; <a href="https://www.yokogawa.com/uk/library/resources/references/successstory-basf-ludwigshafen/" rel="noopener">Yokogawa: BASF Ludwigshafen</a>; <a href="https://www.biospace.com/business/drugmakers-hail-early-wins-in-ai-driven-transformation-of-manufacturing" rel="noopener">BioSpace: drugmakers&rsquo; early wins with AI in manufacturing</a> (AstraZeneca, Roche, Sanofi), August 2025.</li>
     <li>McKinsey &amp; Company, <a href="https://www.mckinsey.com/industries/chemicals/our-insights/how-ai-enables-new-possibilities-in-chemicals" rel="noopener">How AI enables new possibilities in chemicals</a>, November 2024.</li>
   </ul>
-
   <div class="related-box">
     <h3>Related</h3>
+    <a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics for chemical engineers</a>
     <a href="{{ '/articles/opex-reduction-api-plants/' | relative_url }}">OPEX reduction in API plants</a>
     <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA: deviations and CAPA</a>
     <a href="{{ '/articles/maintenance-planning-mtbf-mttr/' | relative_url }}">Maintenance planning, MTBF and MTTR</a>
@@ -462,50 +371,36 @@ last_modified_at: 2026-10-21
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
 
-  /* ---------- prompt builder ---------- */
-  var pbOut = $('ai-pb-out');
-  if (pbOut) {
-    var TASK = {
-      explain: function (t) { return 'Explain ' + t + '. Start with a two-line summary, then the principle, a worked plant example with numbers, and the three most common mistakes.'; },
-      sop: function (t) { return 'Draft a standard operating procedure for ' + t + '. Use sections: purpose, scope, responsibilities, safety precautions and PPE, step-by-step procedure with checks, abnormal situations and what to do, records. Mark any step where a value must come from our own data as [TO CONFIRM].'; },
-      sum: function (t) { return 'Summarise the document I will paste below about ' + t + '. Give: key points (max 8 bullets), any numbers and limits exactly as written with the section they come from, actions for the plant, and anything unclear. Do not add facts that are not in the document.'; },
-      xl: function (t) { return 'Help me with Excel for ' + t + '. Give the formula, explain each part, and show a small example table I can use to test it. If a pivot table or chart is better, say so.'; },
-      hazop: function (t) { return 'List what-if questions for a HAZOP of ' + t + ', grouped by guideword (more/less/no flow, high/low pressure, high/low temperature, wrong material, contamination, maintenance and start-up). For each, give a possible cause and consequence to discuss. These are discussion prompts for the team, not conclusions.'; },
-      mail: function (t) { return 'Write a short, clear email about ' + t + '. Start with the decision or request, then three supporting points with numbers where I give them, then next steps with owners and dates. Keep it under 200 words.'; },
-      rca: function (t) { return 'Help me structure a root-cause investigation for ' + t + '. Give a fishbone (6M) list of possible causes, the data or evidence to check for each, and three good 5-Why chains to test. Do not conclude the cause; list what would confirm or rule out each one.'; }
+  /* ---------- plant example finder ---------- */
+  var SECT = { all: 'All', chem: 'Chemicals', pharma: 'Pharma and biotech', energy: 'Oil, gas and fertiliser', rd: 'R&D labs' };
+  var APPL = { all: 'All', ctl: 'Process control and optimisation', maint: 'Maintenance', qual: 'Quality and deviations', energy: 'Energy and emissions', plan: 'Planning and supply', rd: 'Research' };
+  var CASES = [
+    { s: 'chem', a: ['ctl', 'maint', 'energy'], t: 'DCM Shriram', w: 'Caustic soda (chlor-alkali), Gujarat, India', d: 'AI-enabled process control and a generative-AI &ldquo;maintenance manager&rdquo;, among 45 digital solutions.', r: 'EBITDA up 11 percentage points; <b>power cost down 32%</b>, material cost down 15%, CO&#8322; down 14%.', src: 'WEF Global Lighthouse Network, June 2026', u: 'https://www.weforum.org/press/2026/06/new-global-lighthouse-sites-demonstrate-how-ai-is-rewiring-manufacturing-and-supply-chains/' },
+    { s: 'chem', a: ['ctl', 'qual'], t: 'Jubilant Ingrevia', w: 'Specialty chemicals, Gujarat, India', d: '30+ use cases using AI and machine learning, IoT-based digital twins and predictive platforms.', r: '<b>Process variability down 60%</b>; production volume nearly doubled; 2,000+ employees reskilled.', src: 'WEF Global Lighthouse Network, October 2024', u: 'https://www.outlookbusiness.com/news/jubilant-ingrevia-from-india-joins-wefs-global-lighthouse-network' },
+    { s: 'chem', a: ['ctl', 'maint'], t: 'Covestro Barcelona', w: 'Polyester resin, batch esterification in four reactors, Spain', d: 'Glycol carried up the column was plugging the overhead condenser, and reflux was hard to set by hand. Model predictive control (multivariable, model-based control) was built into the batch sequences.', r: '<b>2&ndash;3 days a year of unplanned downtime removed</b>; about 1% more throughput; less water and energy.', src: 'Emerson case study (vendor-reported)', u: 'https://www.emerson.com/documents/automation/case-study-covestro-increases-efficiency-of-polyester-production-using-advanced-process-control-deltav-en-10193330.pdf' },
+    { s: 'chem', a: ['qual'], t: 'BASF Ludwigshafen', w: 'Water treatment plant, Germany', d: 'Machine learning on DCS alarm and event logs showed how operators actually respond to alarms and compared it with the SOP.', r: 'Cause-and-effect links between alarms and operator actions found, as input to standardising procedures. No figures published.', src: 'Yokogawa success story, 2021', u: 'https://www.yokogawa.com/uk/library/resources/references/successstory-basf-ludwigshafen/' },
+    { s: 'energy', a: ['maint'], t: 'Shell', w: 'Upstream, manufacturing and integrated gas assets', d: 'Machine-learning predictive maintenance on control valves, pumps and compressors.', r: '<b>More than 10,000 pieces of equipment</b> monitored; over 3 million sensors; about 11,000 models; over 15 million predictions a day.', src: 'Shell and C3 AI, March 2022', u: 'https://www.businesswire.com/news/home/20220308005567/en/Shell-Achieves-Major-Milestone-Scales-Artificial-Intelligence-Predictive-Maintenance-to-10000-Pieces-of-Equipment-Using-C3-AI' },
+    { s: 'energy', a: ['ctl', 'maint', 'energy'], t: 'Saudi Aramco Hawiyah NGL', w: 'Gas and NGL complex, Saudi Arabia', d: 'Digital-twin optimisation and AI-enabled asset management across more than 50 use cases.', r: 'Production up 26%; product quality up 43%; <b>OEE up 44%</b>; CO&#8322; down 16%.', src: 'WEF Global Lighthouse Network, June 2026', u: 'https://www.weforum.org/press/2026/06/new-global-lighthouse-sites-demonstrate-how-ai-is-rewiring-manufacturing-and-supply-chains/' },
+    { s: 'energy', a: ['ctl', 'energy'], t: 'SOCAR Carbamide', w: 'Urea fertiliser plant, Sumqayit, Azerbaijan', d: 'AI and digital use cases in plant operations.', r: '<b>Throughput up 21%</b>; natural gas efficiency up 24%.', src: 'WEF Global Lighthouse Network, January 2026', u: 'https://www.weforum.org/press/2026/01/global-lighthouse-network-recognizes-23-new-sites-launches-ai-platform-for-industrial-transformation/' },
+    { s: 'pharma', a: ['ctl', 'energy', 'plan'], t: 'Dr. Reddy&rsquo;s Bachupally', w: 'Pharmaceutical manufacturing, Hyderabad, India', d: 'Advanced analytics, digital twins, IIoT, robotic process automation and digital performance management; 40+ use cases.', r: '<b>Manufacturing cost improved 43%</b>; lead time down 30%; energy use down 41%.', src: 'WEF Global Lighthouse Network, October 2022', u: 'https://manufacturingchemist.com/dr-reddy-s-hyderabad-factory-joins-global-lighthouse-network-204386' },
+    { s: 'pharma', a: ['ctl', 'energy', 'qual'], t: 'Cipla Indore', w: 'Oral solid dosage plant, Madhya Pradesh, India', d: '30+ use cases including IIoT, advanced analytics, natural language processing and robotic process automation.', r: 'Productivity up 23%; <b>specific greenhouse-gas emissions down 28%</b>.', src: 'WEF Global Lighthouse Network, October 2022', u: 'https://www.indianpharmapost.com/digitisation/lite/ciplas-indore-plant-joins-the-wefs-lighthouse-network-13148' },
+    { s: 'pharma', a: ['plan', 'ctl'], t: 'AstraZeneca', w: 'Pharma manufacturing and planning', d: 'Digital twins for raw-material planning; a China site with more than 30 digital tools and AI solutions.', r: '<b>Dispensing planning time down 90%</b>; at the China site output up 55% and lead time down 44%.', src: 'BioSpace, August 2025', u: 'https://www.biospace.com/business/drugmakers-hail-early-wins-in-ai-driven-transformation-of-manufacturing' },
+    { s: 'pharma', a: ['ctl', 'qual'], t: 'Roche', w: 'Biologics, cell-line production', d: 'Digital twins that predict cell age and growth in production cell lines.', r: '<b>Production yield up 10%</b>; quality up 40% (reported to investors, 2024).', src: 'BioSpace, August 2025', u: 'https://www.biospace.com/business/drugmakers-hail-early-wins-in-ai-driven-transformation-of-manufacturing' },
+    { s: 'pharma', a: ['qual'], t: 'Sanofi', w: 'Pharma manufacturing', d: 'AI for deviation management and a yield-analytics platform.', r: 'Closure time for minor deviations reduced &ldquo;drastically&rdquo;; &ldquo;consistently higher yields&rdquo;. No figures published.', src: 'BioSpace, August 2025', u: 'https://www.biospace.com/business/drugmakers-hail-early-wins-in-ai-driven-transformation-of-manufacturing' },
+    { s: 'pharma', a: ['plan'], t: 'Bristol Myers Squibb Devens', w: 'Biologics and cell therapy, USA', d: 'Digital and AI technologies across new product introduction.', r: '<b>New product introduction time down 42%</b>; emissions down more than 40%.', src: 'WEF Global Lighthouse Network, January 2026', u: 'https://www.weforum.org/press/2026/01/global-lighthouse-network-recognizes-23-new-sites-launches-ai-platform-for-industrial-transformation/' },
+    { s: 'rd', a: ['rd'], t: 'University of Liverpool', w: 'Mobile robot chemist', d: 'A robot that moves between lab instruments and an algorithm that chooses its next experiment.', r: '<b>688 experiments in 8 days</b>; found a photocatalyst mixture about six times more active, without human guidance.', src: 'Burger et al., Nature, 2020', u: 'https://news.liverpool.ac.uk/2020/07/08/experiment-too-big-hire-a-mobile-robot-scientist/' },
+    { s: 'rd', a: ['rd'], t: 'Princeton and Bristol Myers Squibb', w: 'Reaction optimisation', d: 'Bayesian optimisation (open-source EDBO) chooses the next set of reaction conditions.', r: 'More efficient and less biased than expert chemists on a test reaction.', src: 'Shields et al., Nature, 2021', u: 'https://www.princeton.edu/news/2021/02/03/chemistry-and-computer-science-join-forces-apply-artificial-intelligence-chemical' }
+  ];
+  var cSect = 'all', cAppl = 'all', sectBox = $('ai-sect'), applBox = $('ai-appl'), caseBox = $('ai-cases');
+  if (caseBox) {
+    var chips = function (box, map, cur, set) { Object.keys(map).forEach(function (k) { var b = document.createElement('button'); b.type = 'button'; b.className = 'ai-chip'; b.dataset.k = k; b.textContent = map[k]; b.setAttribute('aria-pressed', String(k === cur)); b.addEventListener('click', function () { Array.prototype.forEach.call(box.children, function (c) { c.setAttribute('aria-pressed', String(c === b)); }); set(k); drawCases(); }); box.appendChild(b); }); };
+    chips(sectBox, SECT, cSect, function (k) { cSect = k; }); chips(applBox, APPL, cAppl, function (k) { cAppl = k; });
+    var drawCases = function () {
+      var list = CASES.filter(function (c) { return (cSect === 'all' || c.s === cSect) && (cAppl === 'all' || c.a.indexOf(cAppl) >= 0); });
+      $('ai-case-count').textContent = list.length + ' of ' + CASES.length + ' examples. Tap a filter to narrow down.';
+      caseBox.innerHTML = list.map(function (c) { return '<div class="ai-case"><h4>' + c.t + '</h4><span class="ai-where">' + c.w + ' &middot; ' + esc(SECT[c.s]) + '</span><div class="ai-tags">' + c.a.map(function (x) { return '<span>' + esc(APPL[x]) + '</span>'; }).join('') + '</div><p>' + c.d + '</p><p class="ai-res">' + c.r + '</p><div class="ai-src">Source: <a href="' + c.u + '" target="_blank" rel="noopener">' + c.src + '</a></div></div>'; }).join('') || '<p class="ai-count">No examples match. Choose &ldquo;All&rdquo; in one of the filters.</p>';
     };
-    var build = function () {
-      var t = $('ai-pb-topic').value.trim() || 'my topic';
-      pbOut.value = 'You are helping a chemical engineer in ' + $('ai-pb-ctx').value + '. The answer is for ' + $('ai-pb-aud').value + '.\n\n' + TASK[$('ai-pb-task').value](t) +
-        '\n\nRules: use plain language and SI units; show calculations step by step; list every assumption; say clearly if you are not sure; ask me questions first if something important is missing; do not invent references or regulations.';
-    };
-    ['ai-pb-task', 'ai-pb-aud', 'ai-pb-ctx'].forEach(function (id) { $(id).addEventListener('change', build); });
-    $('ai-pb-topic').addEventListener('input', build);
-    $('ai-pb-copy').addEventListener('click', function () {
-      var m = $('ai-pb-msg'); var done = function () { m.textContent = 'Copied. Paste it into your approved AI assistant.'; setTimeout(function () { m.textContent = ''; }, 2500); };
-      if (navigator.clipboard) navigator.clipboard.writeText(pbOut.value).then(done, function () { pbOut.select(); m.textContent = 'Select the text and copy it.'; }); else { pbOut.select(); m.textContent = 'Select the text and copy it.'; }
-    });
-    build();
-  }
-
-  /* ---------- tool finder ---------- */
-  var ROLES = {
-    newbie: { t: 'Never used AI', l: ['A company-approved general assistant (ChatGPT, Claude, Gemini or Microsoft Copilot) for explanations and first drafts', 'The prompt builder on this page for your first ten prompts', 'Excel with AI help for formulas and charts, tested on data you know'] },
-    prod: { t: 'Production and process engineer', l: ['A general assistant for SOP drafts, shift reports and toolbox talks', 'Historian trend tools (and Seeq or TrendMiner if your site has them) to compare good and bad batches', 'Power BI or Excel for a daily yield, cycle-time and OEE view', 'A soft-sensor pilot for one slow lab result'] },
-    rd: { t: 'R&D and process chemist', l: ['Retrosynthesis ideas: CAS SciFinder or Reaxys (if licensed), IBM RXN or open-source AiZynthFinder', 'Bayesian optimisation (for example open-source EDBO) to pick the next experiment', 'A general assistant to summarise papers, always opening the original before citing'] },
-    maint: { t: 'Maintenance and reliability', l: ['Work-order text analysis in Excel or Python to find repeat failures', 'Condition monitoring on critical pumps, compressors and agitators', 'Predictive maintenance software such as Aspen Mtell or your vendor\u2019s platform once sensor and failure history exist'] },
-    qa: { t: 'QA, QC and regulatory', l: ['A general assistant for summarising guidelines and drafting non-critical documents, with qualified review', 'Deviation and complaint trending from QMS exports', 'GAMP AI guide and draft Annex 22 before any AI touches a GMP decision'] },
-    data: { t: 'Data and digital engineer', l: ['Python (pandas, scikit-learn) or KNIME on contextualised historian, LIMS and MES data', 'Batch-wise train and test splits, explainability (SHAP) and drift monitoring from day one', 'RAG on approved documents for knowledge search; OT connections designed to ISA/IEC 62443'] },
-    head: { t: 'Plant head or manager', l: ['The readiness self-check on this page with your team', 'One use case with money attached and a named business owner', 'A data owner, an OT cybersecurity owner and a policy on approved AI tools'] }
-  };
-  var rolesBox = $('ai-roles'), roleOut = $('ai-rolebox');
-  if (rolesBox) {
-    var showRole = function (k) {
-      Array.prototype.forEach.call(rolesBox.children, function (c) { c.setAttribute('aria-pressed', String(c.dataset.k === k)); });
-      roleOut.innerHTML = '<h4>' + esc(ROLES[k].t) + '</h4><ol class="ai-rolelist">' + ROLES[k].l.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>';
-    };
-    Object.keys(ROLES).forEach(function (k) { var b = document.createElement('button'); b.type = 'button'; b.className = 'ai-chip'; b.dataset.k = k; b.textContent = ROLES[k].t; b.addEventListener('click', function () { showRole(k); }); rolesBox.appendChild(b); });
-    showRole('newbie');
+    drawCases();
   }
 
   /* ---------- ISA-95 pyramid ---------- */
