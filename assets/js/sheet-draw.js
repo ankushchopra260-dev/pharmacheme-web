@@ -97,15 +97,25 @@
   function portPt(it, side, f) { const b = boxOf(it); f = f || 0;
     if (side === 'c') return [it.x, it.y]; if (side === 't') return [it.x + f * b.w, it.y - b.h / 2]; if (side === 'b') return [it.x + f * b.w, it.y + b.h / 2];
     if (side === 'l') return [it.x - b.w / 2, it.y + f * b.h]; return [it.x + b.w / 2, it.y + f * b.h]; }
+  /* process nozzles: what a line leaves from and goes into, by equipment type (outlet at the bottom, inlet at the top) */
+  const VERT = new Set('tank vessel hdrum sump reactor semibatch cstr autoclave pbr jvessel cond ct ffe atfe mee crystallizer centrifuge anfd cfilter carbon traydryer fbd rcvd spray mill sifter blender clarifier aeration'.split(' '));
+  const AGIT = new Set('reactor semibatch cstr autoclave crystallizer anfd'.split(' '));
+  const COLS = new Set('column pcolumn scrubber extractor'.split(' ')), VAPOUR_TO = new Set('cond scrubber ejector lrvp dryvac compressor'.split(' '));
+  function procSide(it, other, out) { const b = boxOf(it), dx = other.x - it.x, lr = dx >= 0 ? 'r' : 'l';
+    if (VERT.has(it.sym)) { if (out) return VAPOUR_TO.has(other.sym) && it.sym !== 'cond' ? 't' : 'b'; return 't'; }
+    if (COLS.has(it.sym)) { if (out) return other.y < it.y - b.h / 4 || VAPOUR_TO.has(other.sym) ? 't' : 'b'; return lr; }
+    if (it.sym === 'boiler' && out) return 't';
+    return autoSide(it, other); }
   function autoSide(it, other) { if (it.sym === 'junction') return 'c'; const b = boxOf(it), dx = other.x - it.x, dy = other.y - it.y;
     if (it.sym === 'opc') return dx >= 0 ? 'r' : 'l'; return Math.abs(dx) / (b.w / 2 + 40) > Math.abs(dy) / (b.h / 2 + 40) ? (dx > 0 ? 'r' : 'l') : (dy > 0 ? 'b' : 't'); }
   let ENDS = {};
   function computeEnds() { ENDS = {}; const groups = {};
     doc.lines.forEach(ln => { const a = item(ln.a), b = item(ln.b); if (!a || !b) return; const e = { a, b };
-      e.sa = ln.pa ? ln.pa.side : autoSide(a, b); e.sb = ln.pb ? ln.pb.side : autoSide(b, a); ENDS[ln.id] = e;
+      e.sa = ln.pa ? ln.pa.side : procSide(a, b, true); e.sb = ln.pb ? ln.pb.side : procSide(b, a, false); ENDS[ln.id] = e;
       if (!ln.pa && e.sa !== 'c') (groups[a.id + e.sa] = groups[a.id + e.sa] || []).push([ln, 'a', b]); if (!ln.pb && e.sb !== 'c') (groups[b.id + e.sb] = groups[b.id + e.sb] || []).push([ln, 'b', a]); });
     Object.values(groups).forEach(g => { const side = ENDS[g[0][0].id][g[0][1] === 'a' ? 'sa' : 'sb'], n = g.length; g.sort((p, q) => hz(side) ? p[2].y - q[2].y : p[2].x - q[2].x);
-      g.forEach(([ln, end], i) => { ENDS[ln.id]['f' + end] = n > 1 ? Math.max(-.4, Math.min(.4, (i - (n - 1) / 2) * .25)) : 0; }); });
+      const own = ENDS[g[0][0].id][g[0][1]], base = side === 't' && AGIT.has(own.sym) ? .28 : 0;
+      g.forEach(([ln, end], i) => { ENDS[ln.id]['f' + end] = Math.max(-.4, Math.min(.4, base + (n > 1 ? (i - (n - 1) / 2) * (base ? .12 : .25) : 0))); }); });
     doc.lines.forEach(ln => { const e = ENDS[ln.id]; if (!e) return; e.A = portPt(e.a, e.sa, ln.pa ? ln.pa.f : e.fa); e.B = portPt(e.b, e.sb, ln.pb ? ln.pb.f : e.fb); e.pts = route(ln, e); }); }
   function route(ln, e) { const A = e.A, B = e.B, aligned = Math.abs(A[0] - B[0]) < 1 || Math.abs(A[1] - B[1]) < 1;
     if (ln.r != null) { const r = ln.r;
@@ -113,11 +123,24 @@
         if (e.sb === 't') { const sg = Math.sign(e.b.x - A[0]) || 1, xr = e.b.x - sg * (bb.w / 2 + 34), top = Math.min(B[1], e.b.y - bb.h / 2) - 30; return [A, [A[0], low], [xr, low], [xr, top], [B[0], top], B]; }
         return [A, [A[0], low], [B[0], low], B]; }
       if (aligned) return [A, B]; return r === 'v' ? [A, [A[0], B[1]], B] : [A, [B[0], A[1]], B]; }
-    if (aligned) return [A, B];
+    const OUT = { t: [0, -1], b: [0, 1], l: [-1, 0], r: [1, 0] }, oa = OUT[e.sa], ob = OUT[e.sb], vx = B[0] - A[0], vy = B[1] - A[1];
+    if (aligned && (!oa || vx * oa[0] + vy * oa[1] > 0) && (!ob || vx * ob[0] + vy * ob[1] < 0)) return [A, B];
     let ah = e.sa === 'c' ? (e.sb === 'c' ? Math.abs(B[0] - A[0]) > Math.abs(B[1] - A[1]) : hz(e.sb)) : hz(e.sa), bh = e.sb === 'c' ? ah : hz(e.sb);
     if (ah && bh) { const m = ln.mid != null ? ln.mid : (A[0] + B[0]) / 2; return [A, [m, A[1]], [m, B[1]], B]; }
-    if (!ah && !bh) { const m = ln.mid != null ? ln.mid : (A[1] + B[1]) / 2; return [A, [A[0], m], [B[0], m], B]; }
-    return ah ? [A, [B[0], A[1]], B] : [A, [A[0], B[1]], B]; }
+    const dA = e.sa === 'b' ? 1 : e.sa === 't' ? -1 : e.sa === 'r' ? 1 : e.sa === 'l' ? -1 : 0, dB = e.sb === 'b' ? 1 : e.sb === 't' ? -1 : e.sb === 'r' ? 1 : e.sb === 'l' ? -1 : 0, G = 30;
+    const ab = boxOf(e.a), bb = boxOf(e.b);
+    if (!ah && !bh) {
+      if (!dA || !dB || dA !== dB && (B[1] - A[1]) * dA > 2 * G) { const m = ln.mid != null ? ln.mid : (A[1] + B[1]) / 2; return [A, [A[0], m], [B[0], m], B]; }
+      if (dA === dB && Math.abs(A[0] - B[0]) >= bb.w / 2 + G && Math.abs(A[0] - B[0]) >= ab.w / 2 + G) { const y = dA > 0 ? Math.max(A[1], B[1]) + G : Math.min(A[1], B[1]) - G; return [A, [A[0], y], [B[0], y], B]; }
+      /* nozzles face the wrong way (e.g. bottom outlet into the top of a vessel at the same level): go out, round the side of the receiving item, and in */
+      const y1 = dA > 0 ? Math.max(A[1], e.a.y + ab.h / 2) + G : Math.min(A[1], e.a.y - ab.h / 2) - G, sg = Math.sign(e.b.x - A[0]) || 1, xr = e.b.x - sg * (bb.w / 2 + G), y2 = B[1] + dB * G;
+      return [A, [A[0], y1], [xr, y1], [xr, y2], [B[0], y2], B]; }
+    if (!ah) { /* vertical outlet into a side inlet */
+      if (!dB || ((B[1] - A[1]) * dA > 0 && (A[0] - B[0]) * dB > 0) || !dA) return [A, [A[0], B[1]], B];
+      const y1 = A[1] + dA * G, xs = B[0] + dB * G; return [A, [A[0], y1], [xs, y1], [xs, B[1]], B]; }
+    /* side outlet into a top or bottom inlet */
+    if (!dB || ((B[0] - A[0]) * dA > 0 && (A[1] - B[1]) * dB > 0) || !dA) return [A, [B[0], A[1]], B];
+    const x1 = A[0] + dA * G, y2 = B[1] + dB * G; return [A, [x1, A[1]], [x1, y2], [B[0], y2], B]; }
   function cum(p) { const c = [0]; for (let i = 1; i < p.length; i++) c.push(c[i - 1] + Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1])); return c; }
   function at(p, t) { const c = cum(p), T = c[c.length - 1]; let d = Math.max(0, Math.min(1, t)) * T;
     for (let i = 1; i < p.length; i++) { const l = c[i] - c[i - 1]; if (d <= l || i === p.length - 1) { const f = l ? Math.min(1, d / l) : 0; return { x: p[i - 1][0] + (p[i][0] - p[i - 1][0]) * f, y: p[i - 1][1] + (p[i][1] - p[i - 1][1]) * f, ang: Math.atan2(p[i][1] - p[i - 1][1], p[i][0] - p[i - 1][0]), leg: i }; } d -= l; }
