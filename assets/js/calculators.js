@@ -1723,7 +1723,7 @@ function renderAndWireSolventRecovery() {
     qs("sr-add-case").addEventListener("click", () => {
       const def = { boiling: BP_DEFAULTS, heatload: HL_DEFAULTS, condenser: CD_DEFAULTS, vacuumpump: VP_DEFAULTS }[srSubActive];
       const prefix = srSubActive === "heatload" ? "Reactor" : "Case";
-      const newCase = { label: `${prefix} ${srCases[srSubActive].length + 1}`, ...def };
+      const newCase = { ...copyFirst(srCases[srSubActive], def), label: `${prefix} ${srCases[srSubActive].length + 1}` };
       if (srSubActive === "heatload") hlAutoHeatingType(newCase);
       srCases[srSubActive].push(newCase);
       srRenderStructure();
@@ -1742,6 +1742,7 @@ function renderAndWireSolventRecovery() {
 const pcmeEnc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 const pcmeLink = (o) => location.origin + location.pathname + "#s=" + pcmeEnc(o);
 const pcmeRead = (k) => { try { const m = location.hash.match(/[#&]s=([A-Za-z0-9_-]+)/); if (!m) return null; const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); return o && o.k === k ? o : null; } catch (e) { return null; } };
+function copyFirst(arr, defaults) { return Object.assign({}, defaults, JSON.parse(JSON.stringify(arr[0] || defaults))); }
 function pcmeRestore(k, defaults, fix) {
   const st = pcmeRead(k); if (!st || !Array.isArray(st.d) || !st.d.length) return null;
   return st.d.map((x) => Object.assign({}, defaults, x, fix ? fix(x) : {}));
@@ -2234,7 +2235,7 @@ function initScaleUp() {
   suRenderStructure();
   suRenderResults();
   qs("su-add-reactor").addEventListener("click", () => {
-    scaleupReactors.push({ label: `Reactor ${scaleupReactors.length + 1}`, ...SCALEUP_DEFAULTS });
+    scaleupReactors.push({ ...copyFirst(scaleupReactors, SCALEUP_DEFAULTS), label: `Reactor ${scaleupReactors.length + 1}` });
     suRenderStructure();
     suRenderResults();
   });
@@ -2453,7 +2454,7 @@ function initCouponStudy() {
   cpRenderStructure();
   cpRenderResults();
   qs("cp-add-coupon").addEventListener("click", () => {
-    couponReactors.push({ label: `Coupon ${couponReactors.length + 1}`, ...COUPON_DEFAULTS });
+    couponReactors.push({ ...copyFirst(couponReactors, COUPON_DEFAULTS), label: `Coupon ${couponReactors.length + 1}` });
     cpRenderStructure();
     cpRenderResults();
   });
@@ -2682,7 +2683,7 @@ function initFiltrationEvaluation() {
   ftRenderStructure();
   ftRenderResults();
   qs("ft-add-trial").addEventListener("click", () => {
-    filtrationTrials.push({ label: `Trial ${filtrationTrials.length + 1}`, ...FILTRATION_DEFAULTS, readings: defaultReadings(false) });
+    filtrationTrials.push({ ...copyFirst(filtrationTrials, { ...FILTRATION_DEFAULTS, readings: defaultReadings(false) }), label: `Trial ${filtrationTrials.length + 1}` });
     ftRenderStructure();
     ftRenderResults();
   });
@@ -2840,7 +2841,7 @@ function initCentrifuge() {
   cfRenderStructure();
   cfRenderResults();
   qs("cf-add-case").addEventListener("click", () => {
-    centrifugeCases.push({ label: `Case ${centrifugeCases.length + 1}`, ...CENTRIFUGE_DEFAULTS });
+    centrifugeCases.push({ ...copyFirst(centrifugeCases, CENTRIFUGE_DEFAULTS), label: `Case ${centrifugeCases.length + 1}` });
     cfRenderStructure();
     cfRenderResults();
   });
@@ -3051,7 +3052,7 @@ function initPumpPower() {
   ppRenderStructure();
   ppRenderResults();
   qs("pp-add-pump").addEventListener("click", () => {
-    pumpCases.push({ label: `Pump ${pumpCases.length + 1}`, ...PUMP_DEFAULTS });
+    pumpCases.push({ ...copyFirst(pumpCases, PUMP_DEFAULTS), label: `Pump ${pumpCases.length + 1}` });
     ppRenderStructure();
     ppRenderResults();
   });
