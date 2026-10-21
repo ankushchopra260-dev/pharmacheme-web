@@ -1,0 +1,262 @@
+---
+layout: default
+title: "Chemical Compatibility Checker: Chemical to Material and Chemical to Chemical"
+seo_title: "Chemical Compatibility Checker | PharmaChemE"
+description: "Free chemical compatibility checker: materials of construction (SS316, Hastelloy, glass-lined, PTFE, gaskets) and dangerous chemical mixtures (POCl3, NaH, DMF, acids)."
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.PCEMaterialsInit) { window.PCEMaterialsInit(); }
+    else { document.getElementById('calc-mount').innerHTML = renderMaterialsCompat(); initMaterialsCompat(); }
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: Compatibility
+    url: /calculators/compatibility/
+last_modified_at: 2026-10-21
+---
+<script>window.PCE_COMPAT_TAB = new URLSearchParams(location.search).get('tab') === 'chemical' ? 'chemical' : 'material';</script>
+<style>
+  .cp-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 0; }
+  .cp-tab { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; padding: 16px 18px; background: var(--panel); border: 1px solid var(--grid-line); border-bottom: 0; border-radius: 10px 10px 0 0; color: var(--paper); cursor: pointer; font-family: var(--f-sans); }
+  .cp-tab b { font-family: var(--f-display); font-size: 1.35rem; letter-spacing: .01em; line-height: 1.15; }
+  .cp-tab span { color: var(--muted); font-size: .84rem; line-height: 1.4; }
+  .cp-tab:hover { border-color: var(--brass-dim); }
+  .cp-tab[aria-selected="true"] { background: var(--brass); border-color: var(--brass); color: var(--bg-deep); }
+  .cp-tab[aria-selected="true"] span { color: #2A2410; }
+  .cp-tab:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+  .cp-panel { border-top: 3px solid var(--brass); }
+  .cp-panel[hidden] { display: none; }
+  .cp-carry { margin: 0 0 14px; padding: 10px 14px; border: 1px solid var(--brass-dim); background: rgba(201,162,39,.08); color: var(--paper); font-family: var(--f-sans); font-size: .86rem; line-height: 1.5; }
+  .cp-carry[hidden] { display: none; }
+  .cp-scope { margin: 0 0 16px; padding: 8px 12px; border-left: 3px solid var(--grid-line); background: rgba(18,34,52,0.6); font-size: 0.82rem; line-height: 1.5; color: #9FB2C4; }
+  .cp-panel > .plate { padding: 22px; }
+  #cp-mat .plate-header { display: none; }
+  @media (max-width: 600px) {
+    .cp-tabs { gap: 8px; }
+    .cp-tab { padding: 12px; }
+    .cp-tab b { font-size: 1.05rem; }
+    .cp-tab span { display: none; }
+    .cp-panel > .plate { padding: 14px; }
+  }
+  @media print {
+    .site-nav, .site-footer, .breadcrumbs, .cp-tabs, .cp-carry, .mc-tabs, .mc-inputs, .mc-actions, .mc-clear, .mc-tag button, .article-body, .mc-coupon, .xl-bar, .mx-in, .mx-act { display: none !important; }
+    body, .plate, .calc-mount .plate { background: #fff !important; color: #000 !important; border: none !important; }
+    .mc-row, .mc-summary, .mc-warn, .mx-pair, .mx-sum { background: #fff !important; border-color: #999 !important; break-inside: avoid; }
+    .mc-mat, .mc-sum-title, .mc-h, .mc-tag, .mc-warn, .calc-page-head h1, .mx-ph, .mx-r p, .mx-h, .mx-note { color: #000 !important; }
+  }
+
+  .mc-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .mc-lbl { display: block; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-family: var(--f-sans); }
+  .mc-inputs { display: grid; grid-template-columns: 1fr 200px; gap: 12px; }
+  .mc-search { position: relative; }
+  .mc-inputs input, .mc-select { width: 100%; padding: 10px 12px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); font-family: var(--f-mono); font-size: 0.9rem; box-sizing: border-box; }
+  .mc-inputs input:focus, .mc-select:focus { outline: none; border-color: var(--brass); }
+  .mc-list { position: absolute; z-index: 20; left: 0; right: 0; top: 100%; max-height: 280px; overflow-y: auto; background: var(--panel-raised); border: 1px solid var(--brass-dim); border-top: none; }
+  .mc-opt { padding: 9px 12px; font-family: var(--f-sans); font-size: 0.88rem; color: var(--paper); cursor: pointer; border-bottom: 1px solid var(--grid-line); }
+  .mc-opt:hover, .mc-opt-active { background: var(--bg-deep); color: var(--brass); }
+  .mc-opt-none { color: var(--muted); cursor: default; }
+  .mc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; align-items: center; }
+  .mc-tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 6px 5px 12px; background: var(--bg-deep); border: 1px solid var(--brass-dim); color: var(--paper); font-family: var(--f-sans); font-size: 0.85rem; }
+  .mc-tag button { background: none; border: none; color: var(--muted); font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0 4px; }
+  .mc-tag button:hover { color: var(--rust); }
+  .mc-clear { background: none; border: none; color: var(--rust); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; font-family: var(--f-sans); font-weight: 600; }
+  .mc-empty { margin-top: 16px; padding: 16px; border: 1px dashed var(--grid-line); color: var(--muted); font-family: var(--f-sans); font-size: 0.9rem; line-height: 1.5; }
+  .mc-empty b { color: var(--paper); }
+  .mc-summary { margin-top: 16px; padding: 14px 16px; background: var(--bg-deep); border: 1px solid var(--brass-dim); }
+  .mc-sum-title { font-family: var(--f-sans); font-weight: 600; color: var(--paper); font-size: 0.92rem; margin-bottom: 10px; }
+  .mc-sum-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mc-sum-item { padding: 4px 10px; font-family: var(--f-sans); font-size: 0.82rem; font-weight: 600; border: 1px solid; }
+  .mc-sum-none { color: var(--rust); font-family: var(--f-sans); font-size: 0.88rem; }
+  .mc-sum-note { margin-top: 8px; color: var(--muted); font-family: var(--f-sans); font-size: 0.78rem; }
+  .mc-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+  .mc-share-msg { color: var(--brass); font-size: 0.8rem; font-family: var(--f-sans); }
+  .mc-h { font-family: var(--f-display); color: var(--paper); font-size: 1.1rem; letter-spacing: 0.02em; margin: 22px 0 8px; }
+  .mc-group { display: grid; gap: 6px; }
+  .mc-row { background: var(--bg-deep); border: 1px solid var(--grid-line); border-left: 3px solid var(--grid-line); padding: 10px 12px; }
+  .mc-row.mc-v-E { border-left-color: #6FCB9F; }
+  .mc-row.mc-v-G { border-left-color: #9FC6E0; }
+  .mc-row.mc-v-F { border-left-color: var(--brass); }
+  .mc-row.mc-v-N, .mc-row.mc-v-overtemp { border-left-color: var(--rust); }
+  .mc-row-main { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .mc-mat { font-family: var(--f-sans); font-weight: 600; color: var(--paper); font-size: 0.92rem; }
+  .mc-lim { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); border: 1px solid var(--grid-line); padding: 1px 6px; cursor: help; }
+  .mc-verdict { margin-left: auto; }
+  .mc-chip { display: inline-block; padding: 3px 9px; font-family: var(--f-sans); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid; white-space: nowrap; }
+  .mc-e { color: #6FCB9F; border-color: #2E6B50; background: rgba(111,203,159,0.08); }
+  .mc-g { color: #9FC6E0; border-color: #3A5D78; background: rgba(159,198,224,0.08); }
+  .mc-f { color: var(--brass); border-color: var(--brass-dim); background: rgba(201,162,39,0.08); }
+  .mc-n { color: #E07A6A; border-color: var(--rust); background: rgba(183,64,47,0.1); }
+  .mc-x { color: var(--muted); border-color: var(--grid-line); }
+  .mc-bits { margin-top: 6px; display: flex; flex-direction: column; gap: 2px; }
+  .mc-why { font-family: var(--f-sans); font-size: 0.8rem; color: var(--muted); }
+  .mc-why-bad { color: #E07A6A; }
+  .mc-per { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+  .mc-per-item { font-family: var(--f-sans); font-size: 0.78rem; color: var(--muted); }
+  .mc-per-item .mc-chip { font-size: 0.64rem; padding: 1px 6px; }
+  .mc-warn { margin-top: 8px; padding: 8px 10px; background: rgba(183,64,47,0.08); border: 1px solid rgba(183,64,47,0.4); color: var(--paper); font-family: var(--f-sans); font-size: 0.8rem; line-height: 1.45; }
+  .mc-src { display: block; margin-top: 4px; color: var(--muted); font-size: 0.72rem; }
+  .mc-src a, .mc-sources a, .mc-mat-lim a { color: var(--brass); }
+  .mc-coupon { display: inline-block; margin-top: 8px; color: var(--brass); font-family: var(--f-sans); font-size: 0.8rem; }
+  .mc-sources { margin-top: 22px; font-family: var(--f-sans); font-size: 0.8rem; color: var(--muted); }
+  .mc-sources summary { cursor: pointer; color: var(--brass); font-weight: 600; }
+  .mc-sources ul { padding-left: 18px; line-height: 1.55; }
+  .mc-sources b { color: var(--paper); }
+  .mc-select { max-width: 360px; }
+  .mc-mat-lim { margin: 14px 0; font-family: var(--f-sans); font-size: 0.85rem; color: var(--muted); }
+  .mc-mat-lim b { color: var(--paper); }
+  .mc-mat-block { margin-top: 14px; }
+  .mc-mat-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .mc-count { font-family: var(--f-mono); color: var(--muted); font-size: 0.8rem; }
+  .mc-mat-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mc-mat-chem { padding: 4px 10px; background: var(--bg-deep); border: 1px solid var(--grid-line); color: var(--paper); font-family: var(--f-sans); font-size: 0.82rem; }
+  .mc-foot { font-size: 0.75rem; color: var(--muted-dim); font-family: var(--f-sans); margin-top: 20px; line-height: 1.5; }
+  @media (max-width: 600px) {
+    .calc-mount .plate { padding: 14px; }
+    .mc-inputs { grid-template-columns: 1fr; }
+    .mc-tabs .pill { flex: 1; text-align: center; }
+  }
+
+  .mx-wrap { max-width: 980px; }
+  .mx-in label { display: block; color: var(--muted); font-size: .86rem; margin-bottom: 6px; }
+  .mx-search { position: relative; }
+  .mx-search input { width: 100%; padding: 11px 12px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); border-radius: 6px; font-size: 1rem; }
+  .mx-search input:focus { outline: 2px solid var(--brass); outline-offset: 1px; }
+  .mx-list { position: absolute; z-index: 20; left: 0; right: 0; top: 100%; max-height: 300px; overflow-y: auto; background: var(--panel); border: 1px solid var(--brass); border-top: 0; }
+  .mx-opt { display: block; width: 100%; text-align: left; padding: 9px 12px; background: none; border: 0; border-bottom: 1px solid var(--grid-line); color: var(--paper); font-size: .92rem; cursor: pointer; }
+  .mx-opt:hover, .mx-opt:focus { background: var(--bg-deep); color: var(--brass); }
+  .mx-none { color: var(--muted); cursor: default; }
+  .mx-quick { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .mx-quick button { font-size: .84rem; padding: 6px 12px; border-radius: 999px; background: none; border: 1px solid var(--grid-line); color: var(--paper); cursor: pointer; }
+  .mx-quick button:hover { border-color: var(--brass); color: var(--brass); }
+  .mx-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+  .mx-chip { display: inline-flex; align-items: center; gap: 4px; padding: 5px 6px 5px 12px; border: 1px solid var(--brass); border-radius: 999px; color: var(--paper); font-size: .88rem; background: var(--bg-deep); }
+  .mx-chip button { background: none; border: 0; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 0 4px; }
+  .mx-chip button:hover { color: var(--rust); }
+  .mx-empty { margin-top: 16px; padding: 16px; border: 1px dashed var(--grid-line); color: var(--muted); line-height: 1.55; }
+  .mx-sum { margin: 18px 0 12px; padding: 14px 16px; border: 1px solid var(--grid-line); border-left: 4px solid var(--muted); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; color: var(--paper); }
+  .mx-sum.d { border-left-color: #E07A6A; } .mx-sum.c { border-left-color: var(--brass); } .mx-sum.n { border-left-color: #6FCB9F; }
+  .mx-sum span { color: var(--muted); font-size: .84rem; margin-left: auto; }
+  .mx-gridwrap { overflow-x: auto; margin: 0 0 14px; }
+  .mx-grid { border-collapse: collapse; font-size: .82rem; }
+  .mx-grid th { color: var(--muted); font-weight: 600; padding: 4px 8px; text-align: center; }
+  .mx-grid th.rh { text-align: left; color: var(--paper); white-space: nowrap; }
+  .mx-grid td { width: 30px; height: 28px; text-align: center; border: 1px solid var(--grid-line); font-weight: 700; }
+  .mx-grid td.d { background: rgba(224,122,106,.35); color: #fff; } .mx-grid td.c { background: rgba(201,162,39,.25); color: var(--paper); } .mx-grid td.x { background: var(--grid-line); }
+  .mx-pair { border: 1px solid var(--grid-line); border-left: 4px solid var(--grid-line); padding: 12px 14px; margin-bottom: 10px; background: var(--panel); }
+  .mx-pair.d { border-left-color: #E07A6A; } .mx-pair.c { border-left-color: var(--brass); }
+  .mx-ph { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; color: var(--paper); }
+  .mx-tag { font-size: .72rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; border: 1px solid; }
+  .mx-tag.d { color: #E07A6A; border-color: #E07A6A; } .mx-tag.c { color: var(--brass); border-color: var(--brass); } .mx-tag.n { color: var(--muted); border-color: var(--grid-line); }
+  .mx-r { margin-top: 8px; }
+  .mx-eff { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mx-eff span { font-size: .74rem; padding: 2px 8px; border-radius: 4px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); }
+  .mx-r p, .mx-mute { margin: 6px 0 0; color: var(--paper); line-height: 1.55; font-size: .92rem; }
+  .mx-mute { color: var(--muted); }
+  .mx-h { color: var(--paper); font-size: 1.05rem; margin: 20px 0 6px; }
+  .mx-note { color: var(--paper); font-size: .92rem; line-height: 1.5; margin: 4px 0; }
+  .mx-links { color: var(--muted); font-size: .88rem; margin-top: 12px; } .mx-links a { color: var(--brass); }
+  .mx-act { margin-top: 14px; }
+</style>
+
+<div class="container calc-page-head">
+  <h1>Compatibility</h1>
+  <p>Check a process stream two ways: which materials of construction hold up against it, and which chemicals in it react dangerously with each other. Chemicals you add carry over when you switch tabs.</p>
+  <div class="cp-tabs" role="tablist" aria-label="Compatibility check">
+    <button type="button" class="cp-tab" role="tab" id="cp-t-material" aria-controls="cp-mat" data-tab="material"><b>Chemical to material</b><span>Metals, glass lining, plastics and gaskets: 120 chemicals &times; 20 materials</span></button>
+    <button type="button" class="cp-tab" role="tab" id="cp-t-chemical" aria-controls="cp-chem" data-tab="chemical"><b>Chemical to chemical</b><span>Heat, toxic gas, fire, runaway and carcinogen formation: 136 chemicals</span></button>
+  </div>
+</div>
+<div class="container calc-mount">
+  <div id="cp-panels">
+    <div class="cp-panel" id="cp-mat" role="tabpanel" aria-labelledby="cp-t-material">
+      <div class="plate">
+        <div class="cp-carry" id="cp-carry-mat" hidden></div>
+        <p class="cp-scope" role="note">Reference starting point. Ratings are not specific to concentration or temperature (only service temperature limits are checked). Confirm against the vendor datasheet or an in-house trial before you finalise a material of construction.</p>
+        <div id="calc-mount"></div>
+      </div>
+    </div>
+    <div class="cp-panel" id="cp-chem" role="tabpanel" aria-labelledby="cp-t-chemical" hidden>
+      <div class="plate">
+        <div class="cp-carry" id="cp-carry-chem" hidden></div>
+        <p class="cp-scope" role="note">Screening tool. It works by reactive group, so it cannot know your concentrations, temperatures or order of addition. &ldquo;No reaction listed&rdquo; does not mean safe. Always read section 10 of each SDS, and test new combinations (DSC or reaction calorimetry) before scale-up.</p>
+        <div id="mx-app" data-base="{{ '' | relative_url }}"><noscript>Turn on JavaScript to use the checker.</noscript></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/materials-compat.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/mixing-hazards.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+<script>
+(function () {
+  var TO_CHEM = {"Sulfuric Acid (<10%)":"h2so4","Sulfuric Acid (10-75%)":"h2so4","Sulfuric Acid (75-100%)":"h2so4","Hydrochloric Acid (37%)":"hcl","Nitric Acid (5-10%)":"hno3","Nitric Acid (Concentrated)":"h2so4","Phosphoric Acid (>40%)":"h3po4","Sodium Hydroxide (20%)":"naoh","Sodium Hydroxide (50%)":"naoh","Chlorine (Dry)":"chlorine","Sodium Hypochlorite (<20%)":"naocl","Toluene (Toluol)":"toluene","Xylene":"xylene","Benzene":"benzene","Cyclohexane":"cyclohexane","Acetone":"acetone","Methanol":"methanol","Ethanol":"ethanol","Isopropyl Alcohol":"isopropanol","Methylene Chloride":"dcm","Chloroform":"chloroform","Ethyl Acetate":"ethyl-acetate","Methyl Ethyl Ketone (MEK)":"mek","N,N-Dimethylformamide (DMF)":"dmf","Dimethyl Sulfoxide (DMSO)":"dmso","Tetrahydrofuran (THF)":"thf","Diethyl Ether":"diethyl-ether","Ethylene Glycol":"ethylene-glycol","Formaldehyde (40%)":"formaldehyde","Hydrogen Peroxide (30%)":"h2o2","Bromine":"bromine","Triethylamine":"triethylamine","Aniline":"aniline","Phenol (Carbolic Acid)":"phenol","Formic Acid":"formic-acid","Potassium Hydroxide (Caustic)":"naoh","n-Propanol":"n-propanol","n-Butanol":"n-butanol","Isobutanol":"isobutanol","sec-Butanol":"sec-butanol","tert-Butanol":"tert-butanol","Benzyl Alcohol":"benzyl-alcohol","Cyclohexanol":"cyclohexanol","Furfuryl Alcohol":"furfuryl-alcohol","Propylene Glycol":"propylene-glycol","Diethylene Glycol":"diethylene-glycol","2-Methoxyethanol":"2-methoxyethanol","2-Ethoxyethanol":"2-ethoxyethanol","Methyl Isobutyl Ketone (MIBK)":"mibk","Cyclohexanone":"cyclohexanone","Cyclopentanone":"cyclopentanone","Methyl Acetate":"methyl-acetate","n-Propyl Acetate":"n-propyl-acetate","Isopropyl Acetate":"isopropyl-acetate","n-Butyl Acetate":"n-butyl-acetate","Isobutyl Acetate":"isobutyl-acetate","tert-Butyl Acetate":"tert-butyl-acetate","Methyl Formate":"methyl-formate","Ethyl Formate":"ethyl-formate","Diethyl Carbonate":"diethyl-carbonate","Ethyl Acetoacetate":"ethyl-acetoacetate","Methyl tert-Butyl Ether (MTBE)":"mtbe","Diisopropyl Ether (DIPE)":"diisopropyl-ether","Dibutyl Ether":"dibutyl-ether","2-Methyltetrahydrofuran (2-MeTHF)":"2-methf","1,4-Dioxane":"dioxane","1,2-Dimethoxyethane (DME)":"dme","Diglyme":"diglyme","Methylal":"methylal","Anisole":"anisole","Ethylene Oxide":"ethylene-oxide","Ethylbenzene":"ethylbenzene","Cumene":"cumene","Mesitylene":"mesitylene","Chlorobenzene":"chlorobenzene","o-Dichlorobenzene":"odcb","Nitrobenzene":"nitrobenzene","Benzonitrile":"benzonitrile","Pyridine":"pyridine","N,N-Dimethylaniline":"dma","n-Heptane":"n-heptane","n-Pentane":"n-pentane","n-Octane":"n-octane","Isooctane":"isooctane","Methylcyclohexane":"methylcyclohexane","Petroleum Ether":"petroleum-ether","Carbon Tetrachloride":"ccl4","1,2-Dichloroethane (EDC)":"edc","Trichloroethylene":"tce","Tetrachloroethylene":"pce","Epichlorohydrin":"epichlorohydrin","N,N-Dimethylacetamide (DMAc)":"dmac","N-Methyl-2-pyrrolidone (NMP)":"nmp","Sulfolane":"sulfolane","Acetonitrile":"acetonitrile","Nitromethane":"nitromethane","Formamide":"formamide","Diethylamine":"diethylamine","Diisopropylamine":"diisopropylamine","Isopropylamine":"isopropylamine","Ethylenediamine":"ethylenediamine","Morpholine":"morpholine","Propionic Acid":"propionic-acid","Acetic Anhydride":"acetic-anhydride","Trifluoroacetic Acid (TFA)":"tfa","Carbon Disulfide":"cs2","Chlorotrimethylsilane (TMCS)":"tmcs","Phosphorus Pentachloride":"pcl5","Paraformaldehyde":"paraformaldehyde","Special Denatured Spirit (SDS)":"sds","Water, Distilled":"water","Acetic Acid, Glacial":"acetic-acid","Hexane":"n-hexane","Glycerin":"glycerol","Ammonia, Aqueous (25%)":"ammonia"};
+  var TO_MAT = {"h2so4":"Sulfuric Acid (75-100%)","hcl":"Hydrochloric Acid (37%)","hno3":"Nitric Acid (Concentrated)","h3po4":"Phosphoric Acid (>40%)","naoh":"Sodium Hydroxide (50%)","chlorine":"Chlorine (Dry)","naocl":"Sodium Hypochlorite (<20%)","toluene":"Toluene (Toluol)","xylene":"Xylene","benzene":"Benzene","cyclohexane":"Cyclohexane","acetone":"Acetone","methanol":"Methanol","ethanol":"Ethanol","isopropanol":"Isopropyl Alcohol","dcm":"Methylene Chloride","chloroform":"Chloroform","ethyl-acetate":"Ethyl Acetate","mek":"Methyl Ethyl Ketone (MEK)","dmf":"N,N-Dimethylformamide (DMF)","dmso":"Dimethyl Sulfoxide (DMSO)","thf":"Tetrahydrofuran (THF)","diethyl-ether":"Diethyl Ether","ethylene-glycol":"Ethylene Glycol","formaldehyde":"Formaldehyde (40%)","h2o2":"Hydrogen Peroxide (30%)","bromine":"Bromine","triethylamine":"Triethylamine","aniline":"Aniline","phenol":"Phenol (Carbolic Acid)","formic-acid":"Formic Acid","n-propanol":"n-Propanol","n-butanol":"n-Butanol","isobutanol":"Isobutanol","sec-butanol":"sec-Butanol","tert-butanol":"tert-Butanol","benzyl-alcohol":"Benzyl Alcohol","cyclohexanol":"Cyclohexanol","furfuryl-alcohol":"Furfuryl Alcohol","propylene-glycol":"Propylene Glycol","diethylene-glycol":"Diethylene Glycol","2-methoxyethanol":"2-Methoxyethanol","2-ethoxyethanol":"2-Ethoxyethanol","mibk":"Methyl Isobutyl Ketone (MIBK)","cyclohexanone":"Cyclohexanone","cyclopentanone":"Cyclopentanone","methyl-acetate":"Methyl Acetate","n-propyl-acetate":"n-Propyl Acetate","isopropyl-acetate":"Isopropyl Acetate","n-butyl-acetate":"n-Butyl Acetate","isobutyl-acetate":"Isobutyl Acetate","tert-butyl-acetate":"tert-Butyl Acetate","methyl-formate":"Methyl Formate","ethyl-formate":"Ethyl Formate","diethyl-carbonate":"Diethyl Carbonate","ethyl-acetoacetate":"Ethyl Acetoacetate","mtbe":"Methyl tert-Butyl Ether (MTBE)","diisopropyl-ether":"Diisopropyl Ether (DIPE)","dibutyl-ether":"Dibutyl Ether","2-methf":"2-Methyltetrahydrofuran (2-MeTHF)","dioxane":"1,4-Dioxane","dme":"1,2-Dimethoxyethane (DME)","diglyme":"Diglyme","methylal":"Methylal","anisole":"Anisole","ethylene-oxide":"Ethylene Oxide","ethylbenzene":"Ethylbenzene","cumene":"Cumene","mesitylene":"Mesitylene","chlorobenzene":"Chlorobenzene","odcb":"o-Dichlorobenzene","nitrobenzene":"Nitrobenzene","benzonitrile":"Benzonitrile","pyridine":"Pyridine","dma":"N,N-Dimethylaniline","n-heptane":"n-Heptane","n-pentane":"n-Pentane","n-octane":"n-Octane","isooctane":"Isooctane","methylcyclohexane":"Methylcyclohexane","petroleum-ether":"Petroleum Ether","ccl4":"Carbon Tetrachloride","edc":"1,2-Dichloroethane (EDC)","tce":"Trichloroethylene","pce":"Tetrachloroethylene","epichlorohydrin":"Epichlorohydrin","dmac":"N,N-Dimethylacetamide (DMAc)","nmp":"N-Methyl-2-pyrrolidone (NMP)","sulfolane":"Sulfolane","acetonitrile":"Acetonitrile","nitromethane":"Nitromethane","formamide":"Formamide","diethylamine":"Diethylamine","diisopropylamine":"Diisopropylamine","isopropylamine":"Isopropylamine","ethylenediamine":"Ethylenediamine","morpholine":"Morpholine","propionic-acid":"Propionic Acid","acetic-anhydride":"Acetic Anhydride","tfa":"Trifluoroacetic Acid (TFA)","cs2":"Carbon Disulfide","tmcs":"Chlorotrimethylsilane (TMCS)","pcl5":"Phosphorus Pentachloride","paraformaldehyde":"Paraformaldehyde","sds":"Special Denatured Spirit (SDS)","water":"Water, Distilled","acetic-acid":"Acetic Acid, Glacial","n-hexane":"Hexane","glycerol":"Glycerin","ammonia":"Ammonia, Aqueous (25%)"};
+  var LABEL = { material: 'Chemical to material', chemical: 'Chemical to chemical' };
+  function $(id) { return document.getElementById(id); }
+  function carry(from, to) {
+    var M = window.PCEMaterials, X = window.PCEMix; if (!M || !X) return;
+    var src = from === 'material' ? M.get() : X.get(), map = from === 'material' ? TO_CHEM : TO_MAT, have = to === 'material' ? M.get() : X.get();
+    var add = [], miss = [];
+    src.forEach(function (s) { var t = map[s]; if (t) { if (have.indexOf(t) < 0 && add.indexOf(t) < 0) add.push(t); } else miss.push(s); });
+    var box = $(to === 'material' ? 'cp-carry-mat' : 'cp-carry-chem');
+    if (add.length) { if (to === 'material') M.set(have.concat(add)); else X.set(have.concat(add)); } else { if (to === 'material') M.sync(); else X.sync(); }
+    if (add.length || miss.length) {
+      box.innerHTML = (add.length ? 'Added from <b>' + LABEL[from] + '</b>: ' + add.length + ' chemical' + (add.length > 1 ? 's' : '') + '.' : '') +
+        (miss.length ? ' Not in this list, check separately: ' + miss.map(function (s) { return from === 'chemical' ? X.name(s) : s; }).join(', ') + '.' : '');
+      box.hidden = false;
+    } else box.hidden = true;
+  }
+  function show(tab, fromClick) {
+    var prev = window.PCE_COMPAT_TAB; window.PCE_COMPAT_TAB = tab;
+    $('cp-mat').hidden = tab !== 'material'; $('cp-chem').hidden = tab !== 'chemical';
+    ['material', 'chemical'].forEach(function (t) { var b = $('cp-t-' + t); b.setAttribute('aria-selected', String(t === tab)); b.tabIndex = t === tab ? 0 : -1; });
+    if (fromClick && prev !== tab) carry(prev, tab);
+  }
+  function start() {
+    document.querySelectorAll('.cp-tab').forEach(function (b) {
+      b.addEventListener('click', function () { show(b.dataset.tab, true); });
+      b.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { var t = b.dataset.tab === 'material' ? 'chemical' : 'material'; show(t, true); $('cp-t-' + t).focus(); } });
+    });
+    show(window.PCE_COMPAT_TAB, false);
+    var matPdf = window.PCME_PDF_CUSTOM;
+    window.PCME_PDF_CUSTOM = function () { return window.PCE_COMPAT_TAB === 'chemical' ? (window.PCEMix ? window.PCEMix.pdf() : { error: 'Still loading.' }) : (matPdf ? matPdf() : { error: 'Still loading.' }); };
+    var moveBar = function () { var bar = document.querySelector('.xl-bar'); if (bar) $('cp-panels').after(bar); else setTimeout(moveBar, 50); }; moveBar();
+  }
+  if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
+})();
+</script>
+
+<div class="container article-body" style="margin-top:24px;">
+  <h2>Chemical to material</h2>
+<p>Ratings are compiled from published manufacturer compatibility references, covering 120 process chemicals and solvents against 20 materials of construction. Ratings for the solvents added in 2026 follow the published ratings of the closest chemical family (for example, other esters for isopropyl acetate) and are marked as such in the results. When you add several chemicals, each material takes the lowest rating it gets for any of them, and the tool shows which chemical is limiting. A material with no rating for one of the chemicals is marked &ldquo;Incomplete data&rdquo; rather than being treated as safe.</p>
+  <p>If you enter an operating temperature, polymers, elastomers and glass lining above their maximum service temperature are flagged. The compatibility ratings themselves are not temperature-specific, and metals are not temperature-checked. Temperature limits and material-specific warnings (for example titanium in dry methanol or dry chlorine, glass lining with hot caustic, and chloride stress corrosion cracking of stainless steel) are shown only where a published source is cited. See &ldquo;Sources&rdquo; under the results.</p>
+  <p>This is a starting reference, not a substitute for a vendor datasheet or an in-house trial. Always confirm against your specific concentration, temperature and duty before finalizing a material of construction.</p>
+
+  <h2>Chemical to chemical</h2>
+<p>Each chemical is put into one or more reactive groups: acid halides, strong acids, oxidising acids, bases, amines, hydrides and alkali metals, oxidisers, ethers, chlorinated solvents and so on. The checker then looks up every pair of groups in a table of known hazardous reactions, the same idea as the EPA hazardous waste compatibility chart and the CCPS Chemical Reactivity Worksheet. The table includes the reactions behind many real incidents:</p>
+<ul>
+  <li><b>Delayed quench exotherms:</b> POCl<sub>3</sub>, PCl<sub>3</sub> and thionyl chloride dosed into water can stall, then react all at once.</li>
+  <li><b>Solvent and reagent pairs:</b> NaH in DMF, DMAc or DMSO; DMSO with acid chlorides; sodium azide with DCM.</li>
+  <li><b>Toxic gas:</b> bleach with acid (chlorine), cyanide or azide with acid (HCN, HN<sub>3</sub>), acid chlorides with moisture (HCl, SO<sub>2</sub>).</li>
+  <li><b>Carcinogens:</b> nitrite with amines or amide solvents (nitrosamines), formaldehyde with hydrochloric acid (bis(chloromethyl) ether).</li>
+</ul>
+<p>Three or more chemicals are checked pair by pair. Some hazards need all three together, for example chloroform, acetone and a base; these are written into the pair notes.</p>
+
+  <h2>Sources</h2>
+  <p>Chemical to material: the sources for each temperature limit and warning are listed under the results (&ldquo;Sources for temperature limits and warnings&rdquo;).</p>
+<ul>
+  <li>Hatayama H.K. et al., <i>A Method for Determining the Compatibility of Hazardous Wastes</i>, US EPA report EPA-600/2-80-076 (1980).</li>
+  <li>CCPS / AIChE and NOAA, <a href="https://www.aiche.org/ccps/resources/chemical-reactivity-worksheet" rel="noopener">Chemical Reactivity Worksheet</a> (free download), and the reactivity tool in <a href="https://cameochemicals.noaa.gov/" rel="noopener">CAMEO Chemicals</a>.</li>
+  <li>Urben P.G. (ed.), <i>Bretherick&rsquo;s Handbook of Reactive Chemical Hazards</i>, 8th edition, Elsevier.</li>
+</ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/corrosion-coupon-calculator/' | relative_url }}">Corrosion coupon calculator</a>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench</a>
+    <a href="{{ '/process-safety/high-hazard-process-checklist/' | relative_url }}">Spotting a high-hazard process</a>
+    <a href="{{ '/solvents/' | relative_url }}">Solvent and reagent data</a>
+  </div>
+</div>

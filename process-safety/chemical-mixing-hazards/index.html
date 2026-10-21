@@ -1,91 +1,14 @@
 ---
-layout: default
-title: "Chemical Mixing Hazard Checker: Reactivity of Solvents and Reagents"
-seo_title: "Chemical Mixing Hazard Checker | PharmaChemE"
-description: "Check what happens if chemicals mix: POCl3, thionyl chloride, PCl3, NaH, DMF, DMSO, acids, amines and 100+ solvents. Heat, toxic gas, fire and runaway warnings."
-breadcrumbs:
-  - label: "Process Safety"
-    url: /process-safety/
-  - label: "Chemical Mixing Hazard Checker"
-    url: /process-safety/chemical-mixing-hazards/
-last_modified_at: 2026-10-19
+layout: null
+sitemap: false
 ---
-<link rel="stylesheet" href="{{ '/assets/css/process-safety.css' | relative_url }}?v={{ site.time | date: '%s' }}">
-<style>
-  .mx-wrap { max-width: 980px; }
-  .mx-in label { display: block; color: var(--muted); font-size: .86rem; margin-bottom: 6px; }
-  .mx-search { position: relative; }
-  .mx-search input { width: 100%; padding: 11px 12px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); border-radius: 6px; font-size: 1rem; }
-  .mx-search input:focus { outline: 2px solid var(--brass); outline-offset: 1px; }
-  .mx-list { position: absolute; z-index: 20; left: 0; right: 0; top: 100%; max-height: 300px; overflow-y: auto; background: var(--panel); border: 1px solid var(--brass); border-top: 0; }
-  .mx-opt { display: block; width: 100%; text-align: left; padding: 9px 12px; background: none; border: 0; border-bottom: 1px solid var(--grid-line); color: var(--paper); font-size: .92rem; cursor: pointer; }
-  .mx-opt:hover, .mx-opt:focus { background: var(--bg-deep); color: var(--brass); }
-  .mx-none { color: var(--muted); cursor: default; }
-  .mx-quick { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-  .mx-quick button { font-size: .84rem; padding: 6px 12px; border-radius: 999px; background: none; border: 1px solid var(--grid-line); color: var(--paper); cursor: pointer; }
-  .mx-quick button:hover { border-color: var(--brass); color: var(--brass); }
-  .mx-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
-  .mx-chip { display: inline-flex; align-items: center; gap: 4px; padding: 5px 6px 5px 12px; border: 1px solid var(--brass); border-radius: 999px; color: var(--paper); font-size: .88rem; background: var(--bg-deep); }
-  .mx-chip button { background: none; border: 0; color: var(--muted); font-size: 1.1rem; cursor: pointer; padding: 0 4px; }
-  .mx-chip button:hover { color: var(--rust); }
-  .mx-empty { margin-top: 16px; padding: 16px; border: 1px dashed var(--grid-line); color: var(--muted); line-height: 1.55; }
-  .mx-sum { margin: 18px 0 12px; padding: 14px 16px; border: 1px solid var(--grid-line); border-left: 4px solid var(--muted); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; color: var(--paper); }
-  .mx-sum.d { border-left-color: #E07A6A; } .mx-sum.c { border-left-color: var(--brass); } .mx-sum.n { border-left-color: #6FCB9F; }
-  .mx-sum span { color: var(--muted); font-size: .84rem; margin-left: auto; }
-  .mx-gridwrap { overflow-x: auto; margin: 0 0 14px; }
-  .mx-grid { border-collapse: collapse; font-size: .82rem; }
-  .mx-grid th { color: var(--muted); font-weight: 600; padding: 4px 8px; text-align: center; }
-  .mx-grid th.rh { text-align: left; color: var(--paper); white-space: nowrap; }
-  .mx-grid td { width: 30px; height: 28px; text-align: center; border: 1px solid var(--grid-line); font-weight: 700; }
-  .mx-grid td.d { background: rgba(224,122,106,.35); color: #fff; } .mx-grid td.c { background: rgba(201,162,39,.25); color: var(--paper); } .mx-grid td.x { background: var(--grid-line); }
-  .mx-pair { border: 1px solid var(--grid-line); border-left: 4px solid var(--grid-line); padding: 12px 14px; margin-bottom: 10px; background: var(--panel); }
-  .mx-pair.d { border-left-color: #E07A6A; } .mx-pair.c { border-left-color: var(--brass); }
-  .mx-ph { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; color: var(--paper); }
-  .mx-tag { font-size: .72rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; border: 1px solid; }
-  .mx-tag.d { color: #E07A6A; border-color: #E07A6A; } .mx-tag.c { color: var(--brass); border-color: var(--brass); } .mx-tag.n { color: var(--muted); border-color: var(--grid-line); }
-  .mx-r { margin-top: 8px; }
-  .mx-eff { display: flex; flex-wrap: wrap; gap: 6px; }
-  .mx-eff span { font-size: .74rem; padding: 2px 8px; border-radius: 4px; background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); }
-  .mx-r p, .mx-mute { margin: 6px 0 0; color: var(--paper); line-height: 1.55; font-size: .92rem; }
-  .mx-mute { color: var(--muted); }
-  .mx-h { color: var(--paper); font-size: 1.05rem; margin: 20px 0 6px; }
-  .mx-note { color: var(--paper); font-size: .92rem; line-height: 1.5; margin: 4px 0; }
-  .mx-links { color: var(--muted); font-size: .88rem; margin-top: 12px; } .mx-links a { color: var(--brass); }
-  .mx-act { margin-top: 14px; }
-  @media print { .mx-in, .mx-act, .site-header, .site-footer { display: none !important; } .mx-pair, .mx-sum { break-inside: avoid; } }
-</style>
-
-<article class="ps-article mx-wrap">
-<div class="ps-kicker">Process Safety · Tool</div>
-<h1>Chemical mixing hazard checker</h1>
-<p class="ps-intro">Add the chemicals that could meet in a reactor, a quench, a shared vent or scrubber, a waste drum or a spill. The checker flags known dangerous combinations: heat, toxic gas, fire, runaway and carcinogen formation. It covers all 136 chemicals in our solvent and reagent data, including common pharma reagents such as POCl<sub>3</sub>, PCl<sub>3</sub>, thionyl chloride, oxalyl chloride, sodium hydride, LAH, n-BuLi, sodium azide and sodium nitrite.</p>
-<p class="ps-scope" role="note">Screening tool. It works by reactive group, so it cannot know your concentrations, temperatures or order of addition. &ldquo;No reaction listed&rdquo; does not mean safe. Always read section 10 of each SDS, and test new combinations (DSC or reaction calorimetry) before scale-up.</p>
-
-<div id="mx-app" data-base="{{ '' | relative_url }}"><noscript>Turn on JavaScript to use the checker.</noscript></div>
-
-<h2>How it works</h2>
-<p>Each chemical is put into one or more reactive groups: acid halides, strong acids, oxidising acids, bases, amines, hydrides and alkali metals, oxidisers, ethers, chlorinated solvents and so on. The checker then looks up every pair of groups in a table of known hazardous reactions, the same idea as the EPA hazardous waste compatibility chart and the CCPS Chemical Reactivity Worksheet. The table includes the reactions behind many real incidents:</p>
-<ul>
-  <li><b>Delayed quench exotherms:</b> POCl<sub>3</sub>, PCl<sub>3</sub> and thionyl chloride dosed into water can stall, then react all at once.</li>
-  <li><b>Solvent and reagent pairs:</b> NaH in DMF, DMAc or DMSO; DMSO with acid chlorides; sodium azide with DCM.</li>
-  <li><b>Toxic gas:</b> bleach with acid (chlorine), cyanide or azide with acid (HCN, HN<sub>3</sub>), acid chlorides with moisture (HCl, SO<sub>2</sub>).</li>
-  <li><b>Carcinogens:</b> nitrite with amines or amide solvents (nitrosamines), formaldehyde with hydrochloric acid (bis(chloromethyl) ether).</li>
-</ul>
-<p>Three or more chemicals are checked pair by pair. Some hazards need all three together, for example chloroform, acetone and a base; these are written into the pair notes.</p>
-
-<h2>Sources</h2>
-<ul>
-  <li>Hatayama H.K. et al., <i>A Method for Determining the Compatibility of Hazardous Wastes</i>, US EPA report EPA-600/2-80-076 (1980).</li>
-  <li>CCPS / AIChE and NOAA, <a href="https://www.aiche.org/ccps/resources/chemical-reactivity-worksheet" rel="noopener">Chemical Reactivity Worksheet</a> (free download), and the reactivity tool in <a href="https://cameochemicals.noaa.gov/" rel="noopener">CAMEO Chemicals</a>.</li>
-  <li>Urben P.G. (ed.), <i>Bretherick&rsquo;s Handbook of Reactive Chemical Hazards</i>, 8th edition, Elsevier.</li>
-</ul>
-
-<div class="related-box">
-  <h3>Related</h3>
-  <a href="{{ '/calculators/materials-compatibility/' | relative_url }}">Materials compatibility (SS316, glass-lined, PTFE, gaskets)</a>
-  <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench</a>
-  <a href="{{ '/process-safety/high-hazard-process-checklist/' | relative_url }}">Spotting a high-hazard process</a>
-  <a href="{{ '/solvents/' | relative_url }}">Solvent and reagent data</a>
-</div>
-</article>
-<script src="{{ '/assets/js/mixing-hazards.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Chemical Mixing Hazard Checker moved to Compatibility | PharmaChemE</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://www.pharmacheme.in/calculators/compatibility/?tab=chemical">
+<meta http-equiv="refresh" content="0; url={{ '/calculators/compatibility/?tab=chemical' | relative_url }}">
+<script>var c = new URLSearchParams(location.search).get('c'); location.replace('{{ '/calculators/compatibility/' | relative_url }}?tab=chemical' + (c ? '&c=' + encodeURIComponent(c) : ''));</script>
+</head><body style="background:#0B1622;color:#E8ECF0;font-family:sans-serif;padding:24px">
+<p>Chemical Mixing Hazard Checker is now part of <a style="color:#C9A227" href="{{ '/calculators/compatibility/?tab=chemical' | relative_url }}">Compatibility</a>.</p>
+</body></html>

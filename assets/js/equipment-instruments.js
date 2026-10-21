@@ -977,7 +977,7 @@ var LK={
  filt:['Filtration Evaluation Calculator','/calculators/filtration-calculator/','Calculator'],
  cent:['Centrifuge Cake Weight Calculator','/calculators/centrifuge-cake-weight-calculator/','Calculator'],
  pump:['Pump Power Rating Calculator','/calculators/pump-power-calculator/','Calculator'],
- mat:['Materials & Corrosion Compatibility','/calculators/materials-compatibility/','Calculator'],
+ mat:['Materials & Corrosion Compatibility','/calculators/compatibility/','Calculator'],
  aPump:['Pump Power Calculation','/articles/pump-power-calculation/','Article'],
  aSolv:['Solvent Recovery Calculation','/articles/solvent-recovery-calculation/','Article'],
  aMix:['Mixing & Scale-up','/articles/mixing-scale-up/','Article'],

@@ -290,6 +290,7 @@
 
   // ---------- URL state (shareable checks) ----------
   function syncUrl() {
+    if (window.PCE_COMPAT_TAB && window.PCE_COMPAT_TAB !== "material") return;
     try {
       const p = new URLSearchParams();
       if (stream.length) p.set("c", stream.join("|"));
@@ -299,6 +300,7 @@
     } catch (e) { /* ignore */ }
   }
   function readUrl() {
+    if (window.PCE_COMPAT_TAB && window.PCE_COMPAT_TAB !== "material") return;
     try {
       const p = new URLSearchParams(location.search);
       const c = p.get("c");
@@ -376,5 +378,11 @@
   }
 
   window.PCEMaterialsInit = init;
+  // used by the combined Compatibility page to carry chemicals between tabs
+  window.PCEMaterials = {
+    get: () => stream.slice(),
+    set: (names) => { stream = names.filter((n) => DATA && DATA[n]); if (mode !== "stream") setMode("stream"); else renderStream(); syncUrl(); },
+    sync: () => syncUrl(),
+  };
   window.PCEMaterialsTest = { evaluate: (s, t) => { stream = s; tempC = t; return MATS.map(evaluate); }, setData: (d, m) => { DATA = d; MATS = m; }, WARNINGS, TEMP_LIMITS };
 })();

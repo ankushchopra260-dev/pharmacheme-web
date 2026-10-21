@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-10-21"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-10-21
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -159,6 +159,10 @@ last_modified_at: 2026-10-20
   </ol>
   <div class="art-note"><b>On the plant</b><p>New engineers learn a plant fastest by tracing lines with an experienced operator. It is also the cheapest HAZOP preparation there is: most surprises found in a HAZOP are things the drawing didn't show.</p></div>
 
+  <h2 id="draw">Draw one yourself</h2>
+  <p>Reading gets easier once you have drawn a few. The free <a href="{{ '/design-tools/pid/' | relative_url }}">P&amp;ID drawing tool</a> has ISA instrument symbols, line numbering and a title block, and downloads PDF or DXF for AutoCAD. This 2-minute video shows the whole workflow.</p>
+  {% include yt-lite.html id="vtnKPdk7CyU" title="How to draw a P&ID with the free PharmaChemE tool" caption="Draw a reactor-to-receiver line with a pump, valve, TI and PSV, then download the drawing." %}
+
   <h2>Mistakes I see most often</h2>
   <ul>
     <li>Reading the P&amp;ID as a layout and expecting things to be where they are drawn.</li>
@@ -183,6 +187,7 @@ last_modified_at: 2026-10-20
 
   <div class="related-box">
     <h3>Related</h3>
+    <a href="{{ '/design-tools/pid/' | relative_url }}">P&amp;ID drawing tool</a>
     <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
     <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
     <a href="{{ '/process-safety/' | relative_url }}">Process Safety section</a>

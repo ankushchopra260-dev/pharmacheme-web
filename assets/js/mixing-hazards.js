@@ -214,7 +214,23 @@
   q.addEventListener('input', showList); q.addEventListener('focus', showList);
   q.addEventListener('keydown', e => { if (e.key === 'Enter') { const f = list.querySelector('[data-add]'); if (f) { e.preventDefault(); add(f.dataset.add); } } if (e.key === 'Escape') list.hidden = true; });
   document.addEventListener('click', e => { if (!root.contains(e.target)) list.hidden = true; });
-  function sync() { try { history.replaceState(null, '', location.pathname + (sel.length ? '?c=' + sel.join('|') : '')); } catch (e) { } }
+  const TAB = () => window.PCE_COMPAT_TAB;
+  function sync() { if (TAB() && TAB() !== 'chemical') return; const qs = [TAB() ? 'tab=chemical' : '', sel.length ? 'c=' + sel.join('|') : ''].filter(Boolean).join('&');
+    try { history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '')); } catch (e) { } }
+  function pdfSpec() {
+    if (sel.length < 2) return { error: 'Add two or more chemicals first.' };
+    const rows = [], tri = sel.length > 2 ? triples(sel) : [];
+    tri.forEach(t => { const r = TRIPLES[t.k]; rows.push([t.ids.map(id => BY[id][1]).join(' + '), 'Dangerous together', r[4] || '']); });
+    const pairs = [];
+    for (let i = 0; i < sel.length; i++) for (let j = i + 1; j < sel.length; j++) { const h = pairHazards(sel[i], sel[j]); pairs.push({ a: sel[i], b: sel[j], h, sev: h.some(k => RULES[k][2] === 'D') ? 'D' : h.length ? 'C' : 'N' }); }
+    pairs.sort((x, y) => ({ D: 0, C: 1, N: 2 }[x.sev] - { D: 0, C: 1, N: 2 }[y.sev]));
+    pairs.forEach(p => rows.push([BY[p.a][1] + ' + ' + BY[p.b][1], p.sev === 'D' ? 'Dangerous' : p.sev === 'C' ? 'Caution' : 'No reaction listed', p.h.map(k => RULES[k][3].join(', ') + ': ' + RULES[k][4]).join(' ')]));
+    return { title: 'Chemical\u2013chemical compatibility', sub: 'Mixing hazard screening by reactive group, pair by pair',
+      sections: [{ title: 'Chemicals', head: ['No.', 'Chemical'], widths: [0.12, 0.88], rows: sel.map((id, i) => [String(i + 1), BY[id][1]]) },
+        { title: 'Combinations', head: ['Combination', 'Result', 'What happens'], widths: [0.28, 0.16, 0.56], bold: [1], rows }],
+      notes: ['Screening tool working by reactive group: it does not know concentrations, temperatures or order of addition. "No reaction listed" does not mean safe. Read section 10 of each SDS and test new combinations (DSC or reaction calorimetry) before scale-up.', 'Sources: Hatayama et al., EPA-600/2-80-076 (1980); CCPS/NOAA Chemical Reactivity Worksheet; Bretherick\u2019s Handbook of Reactive Chemical Hazards.'] };
+  }
+  window.PCEMix = { name: id => (BY[id] ? BY[id][1] : id), get: () => sel.slice(), set: ids => { sel = ids.filter(id => BY[id]).filter((id, i, a) => a.indexOf(id) === i); render(); }, sync: () => sync(), pdf: pdfSpec };
   function render() {
     sync();
     root.querySelector('#mx-chips').innerHTML = sel.map(id => `<span class="mx-chip">${esc(BY[id][1])}<button type="button" data-rm="${id}" aria-label="Remove ${esc(BY[id][1])}">×</button></span>`).join('');
@@ -243,6 +259,6 @@
     return (n.length ? `<h3 class="mx-h">Notes on the chemicals themselves</h3>` + n.map(id => `<p class="mx-note"><b>${esc(BY[id][1])}:</b> ${esc(BY[id][5])}</p>`).join('') : '') +
       (pages.length ? `<p class="mx-links">Property pages: ${pages.map(id => `<a href="${base}/solvents/${BY[id][4]}/">${esc(BY[id][1])}</a>`).join(' · ')}</p>` : '');
   }
-  try { const c = new URLSearchParams(location.search).get('c'); if (c) c.split('|').forEach(id => { if (BY[id] && !sel.includes(id)) sel.push(id); }); } catch (e) { }
+  try { const c = (!TAB() || TAB() === 'chemical') && new URLSearchParams(location.search).get('c'); if (c) c.split('|').forEach(id => { if (BY[id] && !sel.includes(id)) sel.push(id); }); } catch (e) { }
   render();
 })();
