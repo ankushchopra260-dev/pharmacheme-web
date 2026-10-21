@@ -1788,7 +1788,7 @@ const SCALEUP_DEFAULTS = {
   fluidModel: "newtonian", plK: "", plN: "", ksUser: "",
   dp: "", rhoS: "", solidsWt: "", sUser: "",
   kTh: "", cpTh: "", muWall: "",
-  gearEff: "", motorMargin: "", shaftDia: "",
+  gearEff: "", motorMargin: "", shaftDia: "", tauAllow: "",
 };
 let scaleupReactors = [
   { label: "Reactor 1", ...SCALEUP_DEFAULTS },
@@ -1922,6 +1922,8 @@ function computeReactorMetrics(r) {
   const motorStd = isFinite(motorReq) ? (SU_MOTORS.find((k) => k >= motorReq) || NaN) : NaN;
   const dSh = num(r.shaftDia) / 1000;
   const shaftStress = dSh > 0 ? 16 * (Power / (2 * Math.PI * N)) / (Math.PI * dSh * dSh * dSh) / 1e6 : NaN; // MPa
+  const tauA = num(r.tauAllow);
+  const shaftMin = tauA > 0 ? Math.cbrt(16 * (Power / (2 * Math.PI * N)) / (Math.PI * tauA * 1e6)) * 1000 : NaN; // mm, torsion only
   const torque = Power / (2 * Math.PI * N);
   const torqueV = torque / (V * 1000);
 
@@ -1947,7 +1949,7 @@ function computeReactorMetrics(r) {
   if (imps.some((x) => x.t.anchor)) warns.push("Anchor power is calculated as unbaffled (anchors run without baffles); in thin liquids a central vortex forms and the real power can be higher.");
   if (imps.some((x) => x.t.anchor) && regime === "Turbulent") warns.push("An anchor in a thin (turbulent) liquid mostly swirls the batch; it suits viscous masses and wall heat transfer.");
 
-  return { geo: { T, L, h, nB, Bw, Bg }, N, muB, nonNewt, Qsum, circTime, Njs, Sused, Ssrc, hIn, hNote, motorReq, motorStd, shaftStress, calcVol, H, occupancy, imps, dipped, nImp, Power, PV, Re: ReMain, regime, tipSpeed, blend, shearRate, torque, torqueV,
+  return { geo: { T, L, h, nB, Bw, Bg }, N, muB, nonNewt, Qsum, circTime, Njs, Sused, Ssrc, hIn, hNote, motorReq, motorStd, shaftStress, shaftMin, calcVol, H, occupancy, imps, dipped, nImp, Power, PV, Re: ReMain, regime, tipSpeed, blend, shearRate, torque, torqueV,
     LT: L / T, CT: first.zCentre / T, SD: nImp > 1 ? imps.slice(1).map((x, k) => (x.zCentre - imps[k].zCentre) / Math.max(x.d, imps[k].d)) : null, HT: H / T, checkLevel, volAtCheck, warns, clearWall: (T - first.d) / 2 * 1000 };
 }
 
@@ -2003,6 +2005,7 @@ SCALEUP_INPUT_ROWS.push(
   { label: "Gearbox and seal efficiency (%), from vendor", field: "gearEff", type: "input" },
   { label: "Motor margin (%)", field: "motorMargin", type: "input" },
   { label: "Shaft diameter (mm)", field: "shaftDia", type: "input" },
+  { label: "Allowable shear stress of shaft material (MPa), from vendor or design code", field: "tauAllow", type: "input" },
 );
 
 let suMatch = { ref: 0, crit: "" };
@@ -2286,6 +2289,7 @@ function suResultRows(maxImp) {
   rows.push(["Motor and shaft"]);
   rows.push(["Motor power required (with losses and margin)", (m) => (isFinite(m.motorReq) ? `${suN(m.motorReq)} kW → next standard motor ${suN(m.motorStd)} kW` : "enter gearbox efficiency")]);
   rows.push(["Gearbox output torque", (m) => `${suN(m.torque)} N·m`]);
+  rows.push(["Minimum shaft diameter for torsion, (16T/(π·τallow))^(1/3)", (m) => (isFinite(m.shaftMin) ? `${suN(m.shaftMin)} mm (torsion only; add bending from impeller loads and check critical speed with the vendor)` : "enter allowable shear stress")]);
   rows.push(["Shaft torsional shear stress, 16T/(πd³)", (m) => (isFinite(m.shaftStress) ? `${suN(m.shaftStress)} MPa (compare with the vendor's allowable; bending and critical speed need the vendor)` : "enter shaft diameter")]);
   if (suMatch.crit) rows.push([`RPM to match ${SU_CRITS[suMatch.crit]} of column ${suMatch.ref + 1}`, (m) => (isFinite(m._match) ? `${suN(m._match)} rpm` : "–")]);
   rows.push(["Checks", (m) => (m.warns.length ? m.warns.join(" ") : "No geometry warnings")]);
