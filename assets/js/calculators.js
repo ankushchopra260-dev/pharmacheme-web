@@ -1732,86 +1732,177 @@ function renderAndWireSolventRecovery() {
 
 
 // ---------- Mixing / Scale-up (multi-reactor comparison) ----------
+// Impeller types for the mixing calculator. Power numbers are not looked up from a fixed table:
+// they are calculated from the blade geometry with the correlation of Furukawa, Kato, Inoue, Kato, Tada, Hashimoto
+// (Int. J. Chem. Eng. 2012, 106496; based on Kamei et al. and Nagata), which covers paddles, pitched paddles,
+// turbines and anchors from laminar to turbulent flow, with or without baffles.
+const SU_IMPELLERS = {
+  pbt: { label: "Pitched blade turbine (PBT)", flow: "Axial / mixed (down-pumping)", pitched: true },
+  flat: { label: "Flat blade paddle or turbine", flow: "Radial", pitched: false },
+  rushton: { label: "Rushton (disc) turbine", flow: "Radial", pitched: false },
+  anchor: { label: "Anchor", flow: "Tangential (close to the wall)", pitched: false, anchor: true },
+  custom: { label: "Other, with vendor Np (e.g. hydrofoil)", flow: "As per vendor", custom: true },
+};
+const SU_IMP_KEYS = Object.keys(SU_IMPELLERS);
+
 const SCALEUP_DEFAULTS = {
-  capacity: "7000", T: "1980", Ltt: "1925", dishAdd: "435",
-  rmVol: "3200.65", density: "1064.84", viscosityCp: "0.36",
-  rpm: "96", typeBottom: "PBT", typeMiddle: "PBT", typeTop: "PBT",
-  dBottom: "920", dMiddle: "920", dTop: "920",
+  capacity: "7000", T: "1980", Ltt: "1925", dishAdd: "435", nBaffles: "4", baffleW: "198",
+  rmVol: "4000", density: "1064.84", viscosityCp: "0.36", checkLevel: "",
+  rpm: "96", nImp: "2", clearance: "250", spacing: "920",
+  type1: "pbt", d1: "920", nb1: "4", ang1: "45", b1: "184", np1: "",
+  type2: "pbt", d2: "920", nb2: "4", ang2: "45", b2: "184", np2: "",
+  type3: "pbt", d3: "920", nb3: "4", ang3: "45", b3: "184", np3: "",
 };
 let scaleupReactors = [
   { label: "Reactor 1", ...SCALEUP_DEFAULTS },
   { label: "Reactor 2", ...SCALEUP_DEFAULTS },
 ];
 
+// Power number from geometry (Furukawa et al. 2012, Tables 1 and 2).
+// d impeller dia, D vessel dia, H liquid depth, b blade width (anchor: blade height), all m; np blades; theta blade angle (rad);
+// Re = N d^2 rho / mu; nB baffles of width Bw (m).
+function suPowerNumber(d, D, H, b, np, theta, Re, nB, Bw, pitched) {
+  const s = Math.sin(theta), r = D / d, lnr = Math.log(r);
+  const eta = 0.711 * (0.157 + Math.pow(np * lnr, 0.611)) / (Math.pow(np, 0.52) * (1 - Math.pow(d / D, 2)));
+  const beta = 2 * lnr / (r - 1 / r);
+  const gamma = Math.pow(eta * lnr / Math.pow(beta * r, 5), 1 / 3);
+  const X = gamma * Math.pow(np, 0.7) * b * Math.pow(s, 1.6) / H;
+  const ReG = Math.PI * eta * lnr / (4 * d / (beta * D)) * Re;
+  const CL = 0.215 * eta * np * (d / H) * (1 - Math.pow(d / D, 2)) + 1.83 * (b * s / H) * Math.pow(np / (2 * s), 1 / 3);
+  const Ct = Math.pow(Math.pow(1.96 * Math.pow(X, 1.19), -7.8) + Math.pow(0.25, -7.8), -1 / 7.8);
+  const m = Math.pow(Math.pow(0.71 * Math.pow(X, 0.373), -7.8) + Math.pow(0.333, -7.8), -1 / 7.8);
+  const Ctr = 23.8 * Math.pow(d / D, -3.24) * Math.pow(b * s / D, -1.18) * Math.pow(X, -0.74);
+  const finf = 0.0151 * (d / D) * Math.pow(Ct, 0.308);
+  const f = CL / ReG + Ct * Math.pow(Math.pow(Ctr / ReG + ReG, -1) + Math.pow(finf / Ct, 1 / m), m);
+  const Np0 = 1.2 * Math.pow(Math.PI, 4) * beta * beta / (8 * Math.pow(d, 3) / (D * D * H)) * f;
+  const ang = pitched ? 2 * theta / Math.PI : 1;
+  const k = Math.pow(np, 0.7) * b * (pitched ? Math.pow(s, 1.6) : 1) / d;
+  let NpMax;
+  if (pitched) NpMax = 8.3 * Math.pow(ang, 0.9) * k;
+  else NpMax = k <= 0.54 ? 10 * Math.pow(k, 1.3) : k <= 1.6 ? 8.3 * k : 10 * Math.pow(k, 0.6);
+  let Np = Np0;
+  if (nB > 0 && Bw > 0) {
+    const x = 4.5 * (Bw / D) * Math.pow(nB, 0.8) / (Math.pow(ang, 0.72) * Math.pow(NpMax, 0.2)) + Np0 / NpMax;
+    // baffles never reduce power; in the laminar range the unbaffled value governs
+    Np = Math.max(Np0, Math.pow(1 + Math.pow(x, -3), -1 / 3) * NpMax);
+  }
+  return { Np, Np0, NpMax };
+}
+
+// Vessel: vertical cylinder with a dished bottom of depth h, taken as a semi-ellipsoid (exact for ellipsoidal heads, close for torispherical).
+function suVolumeAtLevel(z, T, h) { // m -> m3, z from the lowest point of the bottom
+  const a = T / 2;
+  if (z <= 0) return 0;
+  if (h <= 0) return Math.PI * a * a * z;
+  if (z <= h) return Math.PI * a * a * (z * z / h - z * z * z / (3 * h * h));
+  return Math.PI * a * a * (2 * h / 3) + Math.PI * a * a * (z - h);
+}
+function suLevelAtVolume(V, T, h) {
+  let lo = 0, hi = 100;
+  for (let i = 0; i < 80; i++) { const mid = (lo + hi) / 2; if (suVolumeAtLevel(mid, T, h) > V) hi = mid; else lo = mid; }
+  return (lo + hi) / 2;
+}
+
 function computeReactorMetrics(r) {
   const num = (x) => parseFloat(x);
-  const T_ = num(r.T), L_ = num(r.Ltt), cap = num(r.capacity), rm = num(r.rmVol);
-  const rho = num(r.density), mu = num(r.viscosityCp) / 1000;
-  const N = num(r.rpm) / 60;
-  const Db = num(r.dBottom), Dm = num(r.dMiddle), Dt = num(r.dTop);
-  const Npb = IMPELLER_NP[r.typeBottom], Npm = IMPELLER_NP[r.typeMiddle], Npt = IMPELLER_NP[r.typeTop];
+  const T = num(r.T) / 1000, L = num(r.Ltt) / 1000, h = (num(r.dishAdd) || 0) / 1000, cap = num(r.capacity);
+  const V = num(r.rmVol) / 1000, rho = num(r.density), mu = num(r.viscosityCp) / 1000, N = num(r.rpm) / 60;
+  const nB = num(r.nBaffles) || 0, Bw = (num(r.baffleW) || 0) / 1000;
+  const nImp = Math.max(1, Math.min(3, parseInt(r.nImp, 10) || 1));
+  const C = num(r.clearance) / 1000, S = num(r.spacing) / 1000;
 
-  const T_m = T_ / 1000;
-  const calcVol = (Math.PI / 4) * T_m * T_m * L_ + (Math.PI / 24) * Math.pow(T_m, 3) * 1000;
-  const Lp = L_ + num(r.dishAdd);
-  const H = (Lp / calcVol) * (rm / 1000);
-  const clearWall = (T_ - Db) / 2; // gap between the blade tip and the wall, each side
-  const clearImpellers = (H / (3 - 0.5)) * 1000;
-  const LT = L_ / T_;
-  const DTbottom = Db / T_, DTmiddle = Dm / T_, DTtop = Dt / T_;
-  const occupancy = (rm / cap) * 100;
+  const calcVol = (suVolumeAtLevel(h + L, T, h)) * 1000; // L, bottom dish + straight side
+  const H = suLevelAtVolume(V, T, h); // liquid level, m
+  const occupancy = (V * 1000 / cap) * 100;
+  const checkLevel = r.checkLevel === "" || r.checkLevel == null ? null : num(r.checkLevel) / 1000;
+  const volAtCheck = checkLevel != null && isFinite(checkLevel) ? suVolumeAtLevel(checkLevel, T, h) * 1000 : null;
 
-  const Re = Math.pow(Db / 1000, 2) * N * rho / mu;
-  const regime = Re > 10000 ? "Turbulent" : Re < 100 ? "Laminar" : "Transitional";
-  const tipSpeed = Math.PI * (Db / 1000) * N;
-
-  const Power = Npt * rho * Math.pow(N, 3) * Math.pow(Dt / 1000, 5)
-    + Npb * rho * Math.pow(N, 3) * Math.pow(Db / 1000, 5)
-    + Npm * rho * Math.pow(N, 3) * Math.pow(Dm / 1000, 5);
-  const PV = Power / rm;
-  const microMixTime = (5.2 * T_ * T_) / Math.pow(Npb, 1 / 3) / N / (Db * Db);
-  const shearRate = Math.sqrt((PV * 1000) / mu); // Camp-Stein G = sqrt(P / (V mu)), P/V in W/m3
+  const imps = [];
+  let zPrevCentre = null;
+  for (let i = 1; i <= nImp; i++) {
+    const key = SU_IMPELLERS[r["type" + i]] ? r["type" + i] : "pbt";
+    const t = SU_IMPELLERS[key];
+    const d = num(r["d" + i]) / 1000, b = num(r["b" + i]) / 1000;
+    const np = t.anchor ? 2 : Math.max(1, num(r["nb" + i]) || 0);
+    const thetaDeg = t.pitched ? num(r["ang" + i]) : 90;
+    const theta = thetaDeg * Math.PI / 180;
+    const hb = t.anchor ? b : b * Math.sin(theta); // vertical height of the blade
+    const zBottom = i === 1 ? C : zPrevCentre + S - hb / 2;
+    const zCentre = zBottom + hb / 2, zTop = zBottom + hb;
+    zPrevCentre = zCentre;
+    const Re = d * d * N * rho / mu;
+    let Np = NaN, Np0 = NaN, NpMax = NaN;
+    if (t.custom) Np = num(r["np" + i]);
+    // anchors sweep the wall and run without baffles, so baffles are not applied to them
+    else if (d > 0 && b > 0 && d < T && H > 0) ({ Np, Np0, NpMax } = suPowerNumber(d, T, H, b, np, theta, Re, t.anchor ? 0 : nB, Bw, t.pitched));
+    const covered = H >= zTop ? "full" : H > zBottom ? "part" : "none";
+    const P = covered === "full" ? Np * rho * Math.pow(N, 3) * Math.pow(d, 5) : 0;
+    imps.push({ i, key, t, d, b, np, thetaDeg, hb, zBottom, zCentre, zTop, Re, Np, Np0, NpMax, covered, P,
+      volToCover: suVolumeAtLevel(zTop, T, h) * 1000, tip: Math.PI * d * N });
+  }
+  const dipped = imps.filter((x) => x.covered === "full").length;
+  const Power = imps.reduce((s, x) => s + (isFinite(x.P) ? x.P : 0), 0);
+  const first = imps[0];
+  const dMax = Math.max(...imps.map((x) => x.d));
+  const PV = Power / (V * 1000);
+  const ReMain = first.Re;
+  const regime = ReMain > 10000 ? "Turbulent" : ReMain < 10 ? "Laminar" : "Transitional";
+  const tipSpeed = Math.max(...imps.map((x) => x.tip));
+  const blend = first.covered === "full" && first.Np > 0 ? 5.2 * Math.pow(T / first.d, 2) / Math.pow(first.Np, 1 / 3) / N : NaN;
+  const shearRate = Math.sqrt((PV * 1000) / mu);
   const torque = Power / (2 * Math.PI * N);
-  const torqueV = torque / rm;
+  const torqueV = torque / (V * 1000);
 
-  // This model's Power sums all 3 configured impellers unconditionally —
-  // it has no way to know each impeller's actual mounted elevation, so it
-  // can't tell whether a shallow batch leaves some of them above the
-  // liquid. Rather than guess at elevations it can't verify, flag it: if
-  // the liquid depth doesn't even reach the diameter of the bottom
-  // impeller (a standard rule-of-thumb minimum for an impeller to be
-  // considered properly covered and developing normal flow), warn that
-  // Power/P-V below are unreliable instead of presenting a precise-looking
-  // but physically implausible number.
-  const liquidHeightMm = H * 1000;
-  const shallowFillWarn = isFinite(liquidHeightMm) && liquidHeightMm < Db
-    ? `Liquid depth (${fmt(liquidHeightMm)} mm) is less than the bottom impeller diameter (${fmt(Db)} mm) — the impellers can't all be properly submerged at this fill. Power and P/V below assume full coverage and will overstate the real value; reduce impeller diameter/count or increase fill to get a reliable number.`
-    : "";
+  const warns = [];
+  if (occupancy > 100) warns.push("RM volume is more than the reactor capacity.");
+  imps.forEach((x) => {
+    if (x.d >= T) warns.push(`Impeller ${x.i} is as wide as the vessel.`);
+    if (x.covered === "part") warns.push(`Impeller ${x.i} is only partly covered at this volume: expect splashing and air entrainment; its power is left out.`);
+    if (x.covered === "none") warns.push(`Impeller ${x.i} is above the liquid at this volume; its power is left out.`);
+  });
+  if (nImp > 1) {
+    const gap = S / dMax;
+    if (gap < 1) warns.push(`Impellers are ${suN(gap)} diameters apart (less than 1 D): their flows interact, so the real total power is lower than the sum shown.`);
+  }
+  if (T > 0 && Bw > 0 && Bw / T < 1 / 12 - 1e-9 && nB > 0) warns.push(`Baffles are ${suN(Bw * 1000)} mm, narrower than the usual T/12 (${suN(T * 1000 / 12)} mm): the vessel is only partly baffled and the correlation accounts for this.`);
+  if (nB === 0 && imps.some((x) => !x.t.anchor) && regime === "Turbulent") warns.push("No baffles: expect a central vortex; power is much lower than with baffles.");
+  if (imps.some((x) => x.t.anchor)) warns.push("Anchor power is calculated as unbaffled (anchors run without baffles); in thin liquids a central vortex forms and the real power can be higher.");
+  if (imps.some((x) => x.t.anchor) && regime === "Turbulent") warns.push("An anchor in a thin (turbulent) liquid mostly swirls the batch; it suits viscous masses and wall heat transfer.");
 
-  const occupancyWarn = occupancy > 100 ? "Fill volume exceeds reactor capacity" : "";
-  const wallClearanceWarn = clearWall < 0 ? "Impeller wider than the vessel — negative wall clearance" : "";
-
-  return { calcVol, H, clearWall, clearImpellers, LT, DTbottom, DTmiddle, DTtop, occupancy, Re, regime, tipSpeed, Power, PV, microMixTime, shearRate, torque, torqueV, shallowFillWarn, occupancyWarn, wallClearanceWarn };
+  return { geo: { T, L, h, nB, Bw }, calcVol, H, occupancy, imps, dipped, nImp, Power, PV, Re: ReMain, regime, tipSpeed, blend, shearRate, torque, torqueV,
+    LT: L / T, CT: first.zCentre / T, SD: nImp > 1 ? S / dMax : null, HT: H / T, checkLevel, volAtCheck, warns, clearWall: (T - first.d) / 2 * 1000 };
 }
 
 const SCALEUP_INPUT_ROWS = [
-  { section: "Reactor Geometry" },
+  { section: "Reactor geometry" },
   { label: "Reactor capacity (L)", field: "capacity", type: "input" },
   { label: "Diameter, T (mm)", field: "T", type: "input" },
-  { label: "Height, Tan-to-Tan (mm)", field: "Ltt", type: "input" },
-  { label: "Dish height addition (mm)", field: "dishAdd", type: "input" },
-  { section: "Reaction Mass" },
+  { label: "Height, tan-to-tan (mm)", field: "Ltt", type: "input" },
+  { label: "Bottom dish depth (mm)", field: "dishAdd", type: "input" },
+  { label: "Number of baffles (0 if none)", field: "nBaffles", type: "input" },
+  { label: "Baffle width (mm)", field: "baffleW", type: "input" },
+  { section: "Reaction mass" },
   { label: "RM volume during operation (L)", field: "rmVol", type: "input" },
   { label: "Density of fluid (kg/m³)", field: "density", type: "input" },
   { label: "Viscosity of fluid (cP)", field: "viscosityCp", type: "input" },
-  { section: "Agitation" },
+  { label: "Level to check (mm from bottom, optional)", field: "checkLevel", type: "input" },
+  { section: "Agitator" },
   { label: "RPM", field: "rpm", type: "input" },
-  { label: "Impeller type, bottom", field: "typeBottom", type: "select" },
-  { label: "Impeller dia, bottom (mm)", field: "dBottom", type: "input" },
-  { label: "Impeller type, middle", field: "typeMiddle", type: "select" },
-  { label: "Impeller dia, middle (mm)", field: "dMiddle", type: "input" },
-  { label: "Impeller type, top", field: "typeTop", type: "select" },
-  { label: "Impeller dia, top (mm)", field: "dTop", type: "input" },
+  { label: "Number of impellers on the shaft", field: "nImp", type: "select", options: [["1", "1"], ["2", "2"], ["3", "3"]] },
+  { label: "Bottom clearance: vessel bottom to lowest edge of bottom impeller (mm)", field: "clearance", type: "input" },
+  { label: "Spacing between impeller centres (mm); anchor centre = mid-height of its arms", field: "spacing", type: "input", minImp: 2 },
+  ...[1, 2, 3].flatMap((i) => {
+    const name = i === 1 ? "bottom" : i === 2 ? "second" : "third";
+    return [
+      { section: `Impeller ${i} (${name})`, minImp: i },
+      { label: "Type", field: "type" + i, type: "select", options: SU_IMP_KEYS.map((k) => [k, SU_IMPELLERS[k].label]), minImp: i },
+      { label: "Diameter (mm)", field: "d" + i, type: "input", minImp: i },
+      { label: "Number of blades", field: "nb" + i, type: "input", minImp: i, hideFor: ["anchor", "custom"] },
+      { label: "Blade angle (° from horizontal; 90 = flat)", field: "ang" + i, type: "input", minImp: i, onlyFor: ["pbt"] },
+      { label: "Blade width (mm); anchor: blade height", field: "b" + i, type: "input", minImp: i, hideFor: ["custom"] },
+      { label: "Power number from vendor", field: "np" + i, type: "input", minImp: i, onlyFor: ["custom"] },
+    ];
+  }),
 ];
 
 function renderScaleUp() {
@@ -1819,7 +1910,7 @@ function renderScaleUp() {
     ${plateHeader("Mixing / Scale-up Comparison", "P/V · TIP SPEED · Re · TORQUE")}
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
       <p style="font-size:0.75rem; color:var(--muted); font-family:var(--f-sans); max-width:60%;">
-        Add a column per reactor: another plant, another scale, or pilot vs commercial. Scroll right for more columns.
+        Add a column per reactor or per design: existing vs proposed, pilot vs plant. Power numbers are calculated from the blade geometry, the baffles and the Reynolds number. Scroll right for more columns.
       </p>
       <button id="su-add-reactor" class="pill" style="background:var(--brass); color:var(--bg-deep); border-color:var(--brass);">+ Add reactor</button>
     </div>
@@ -1827,13 +1918,13 @@ function renderScaleUp() {
       <table id="su-table" class="comparison-table" style="border-collapse:collapse; width:100%;"></table>
     </div>
     <p style="font-size:0.7rem; color:var(--muted-dim); font-family:var(--f-sans); margin-top:16px;">
-      For scale-up, match P/V, tip speed, Re, or Torque/V (per your chosen criterion) across columns rather than expecting every row to match. No single basis holds all parameters constant at once.
+      Power number: correlation of Furukawa et al., Int. J. Chem. Eng. 2012 (Kamei and Nagata type), for paddles, pitched paddles, turbines and anchors, laminar to turbulent, with partial or full baffling. Each impeller is calculated on its own and the powers are added; impellers closer than one diameter interact and draw less. The bottom dish is treated as a semi-ellipsoid of the given depth. For scale-up, match one criterion (P/V, tip speed or torque/V) across columns.
     </p>
   `;
 }
 
 function suThCell(text, sticky) {
-  return `<th style="padding:8px 12px; text-align:left; font-family:var(--f-sans); font-weight:600; font-size:0.75rem; color:var(--muted); border-bottom:1px solid var(--grid-line); white-space:nowrap; min-width:220px; ${sticky ? "position:sticky; left:0; background:var(--panel); z-index:1;" : ""}">${text}</th>`;
+  return `<th style="padding:8px 12px; text-align:left; font-family:var(--f-sans); font-weight:600; font-size:0.75rem; color:var(--muted); border-bottom:1px solid var(--grid-line); white-space:normal; min-width:220px; max-width:300px; ${sticky ? "position:sticky; left:0; background:var(--panel); z-index:1;" : ""}">${text}</th>`;
 }
 function suTdCell(inner) {
   return `<td style="padding:8px 12px; vertical-align:top; border-bottom:1px solid var(--grid-line); min-width:160px;">${inner}</td>`;
@@ -1841,10 +1932,20 @@ function suTdCell(inner) {
 function suSectionRow(text, n) {
   return `<tr><td colspan="${n + 1}" style="padding-top:16px; padding-bottom:4px;"><span style="font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--brass); font-weight:600; font-family:var(--f-sans);">${text}</span></td></tr>`;
 }
+function suFieldUsed(row, r) {
+  const n = parseInt(r.nImp, 10) || 1;
+  if (row.minImp && n < row.minImp) return false;
+  const m = row.field && row.field.match(/(\d)$/);
+  if (m && (row.onlyFor || row.hideFor)) {
+    const t = r["type" + m[1]];
+    if (row.onlyFor && !row.onlyFor.includes(t)) return false;
+    if (row.hideFor && row.hideFor.includes(t)) return false;
+  }
+  return true;
+}
 
 function suRenderStructure() {
   const n = scaleupReactors.length;
-  const impellerOptions = Object.keys(IMPELLER_NP);
   let html = "<thead><tr>";
   html += suThCell("Reactor", true);
   scaleupReactors.forEach((r, i) => {
@@ -1856,16 +1957,16 @@ function suRenderStructure() {
     </th>`;
   });
   html += "</tr></thead><tbody id=\"su-input-body\">";
-
+  const maxImp = Math.max(...scaleupReactors.map((r) => parseInt(r.nImp, 10) || 1));
   SCALEUP_INPUT_ROWS.forEach((row) => {
-    if (row.section) {
-      html += suSectionRow(row.section, n);
-      return;
-    }
+    if (row.minImp && maxImp < row.minImp) return;
+    if (row.section) { html += suSectionRow(row.section, n); return; }
+    if (!scaleupReactors.some((r) => suFieldUsed(row, r))) return;
     html += "<tr>" + suThCell(row.label, true);
     scaleupReactors.forEach((r, i) => {
+      if (!suFieldUsed(row, r)) { html += suTdCell(`<span style="color:var(--muted-dim); font-size:0.75rem;">not used</span>`); return; }
       if (row.type === "select") {
-        const opts = impellerOptions.map((o) => `<option value="${o}" ${o === r[row.field] ? "selected" : ""}>${o}</option>`).join("");
+        const opts = row.options.map(([v, l]) => `<option value="${v}" ${v === String(r[row.field]) ? "selected" : ""}>${l}</option>`).join("");
         html += suTdCell(`<select data-su-field="${row.field}" data-su-idx="${i}" data-su-kind="select" style="width:100%; padding:6px 8px; font-size:0.85rem; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line); font-family:var(--f-mono);">${opts}</select>`);
       } else {
         html += suTdCell(`<input type="number" data-su-field="${row.field}" data-su-idx="${i}" data-su-kind="input" value="${r[row.field]}" style="width:100%; padding:6px 8px; font-size:0.9rem; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line); font-family:var(--f-mono);">`);
@@ -1888,6 +1989,7 @@ function suRenderStructure() {
       const idx = parseInt(el.dataset.suIdx, 10);
       const field = el.dataset.suField;
       scaleupReactors[idx][field] = el.value;
+      if (el.dataset.suKind === "select") { suRenderStructure(); }
       suRenderResults();
     });
   });
@@ -1909,33 +2011,141 @@ function suRenderStructure() {
   });
 }
 
+function suN(v) { if (v == null || !isFinite(v)) return "–"; const a = Math.abs(v); if (a >= 100) return Math.round(v).toLocaleString("en-US"); if (a >= 1) return String(+v.toFixed(2)); return String(+v.toPrecision(3)); }
+// Scale sketch of the vessel, liquid, baffles and impellers with the expected flow pattern of each impeller.
+function suSketch(m) {
+  const { T, L, h, nB, Bw } = m.geo;
+  if (!(T > 0) || !(L > 0)) return "";
+  const W = 220, pad = 14, sc = (W - 2 * pad) / T, Htot = L + h, Hpx = Htot * sc, VH = Hpx + 2 * pad + 18;
+  const X = (x) => pad + (x + T / 2) * sc;            // x from vessel axis, m
+  const Y = (z) => pad + 4 + (Htot - z) * sc;          // z from lowest point, m
+  const a = T / 2;
+  // dish profile (semi-ellipse of depth h) as a path
+  const dish = h > 0 ? `M ${X(-a)} ${Y(h)} A ${a * sc} ${h * sc} 0 0 0 ${X(a)} ${Y(h)}` : `M ${X(-a)} ${Y(0)} L ${X(a)} ${Y(0)}`;
+  const zl = Math.min(m.H, Htot);
+  // liquid region: clip by the vessel outline
+  const id = "suc" + Math.random().toString(36).slice(2, 8);
+  let g = `<defs><clipPath id="${id}"><path d="M ${X(-a)} ${Y(Htot)} L ${X(-a)} ${Y(h)} ${h > 0 ? `A ${a * sc} ${h * sc} 0 0 0 ${X(a)} ${Y(h)}` : `L ${X(a)} ${Y(0)}`} L ${X(a)} ${Y(Htot)} Z"/></clipPath>
+    <marker id="${id}m" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#C9A227"/></marker></defs>`;
+  g += `<rect x="0" y="${Y(zl)}" width="${W}" height="${Y(0) - Y(zl) + 2}" fill="rgba(80,150,220,.22)" clip-path="url(#${id})"/>`;
+  g += `<line x1="${X(-a)}" y1="${Y(zl)}" x2="${X(a)}" y2="${Y(zl)}" stroke="#5aa0e6" stroke-width="1" stroke-dasharray="4 3"/>`;
+  g += `<path d="M ${X(-a)} ${Y(Htot)} L ${X(-a)} ${Y(h)} ${dish.replace(/^M [^A]*/, "")} L ${X(a)} ${Y(Htot)}" fill="none" stroke="#8a99a8" stroke-width="2"/>`;
+  if (nB > 0 && Bw > 0) {
+    const bw = Math.max(2, Bw * sc);
+    [-1, 1].forEach((sd) => { const x = sd < 0 ? X(-a) + 3 : X(a) - 3 - bw; g += `<rect x="${x}" y="${Y(Htot - 0.05)}" width="${bw}" height="${Y(h + 0.05) - Y(Htot - 0.05)}" fill="#556270" opacity=".75"/>`; });
+  }
+  g += `<line x1="${X(0)}" y1="${Y(Htot) - 10}" x2="${X(0)}" y2="${Y(m.imps[0].zBottom)}" stroke="#cfd6dd" stroke-width="2"/>`;
+  const arrow = (d) => `<path d="${d}" fill="none" stroke="#C9A227" stroke-width="1.4" marker-end="url(#${id}m)"/>`;
+  // neighbours closer than one diameter interact: merged loops for axial pairs, no loop between radial pairs
+  const close = (k1, k2) => { const p1 = m.imps[k1], p2 = m.imps[k2]; return p1 && p2 && p1.covered === "full" && p2.covered === "full" && !p1.t.anchor && !p2.t.anchor && (p2.zCentre - p1.zCentre) < Math.max(p1.d, p2.d); };
+  const axial = (x) => x && x.t.pitched;
+  const mergedBelowAt = (k) => k > 0 && axial(m.imps[k]) && axial(m.imps[k - 1]) && close(k - 1, k);
+  const radial = (x) => x && !x.t.pitched && !x.t.anchor && !x.t.custom;
+  m.imps.forEach((x, k) => {
+    const on = x.covered === "full", col = on ? "#ece7d8" : "#5b6670";
+    const mergeUp = axial(x) && axial(m.imps[k + 1]) && close(k, k + 1);     // this PBT hands its loop to the one above
+    const mergedBelow = axial(x) && axial(m.imps[k - 1]) && close(k - 1, k); // this PBT carries the merged loop
+    const noLoopUp = radial(x) && radial(m.imps[k + 1]) && close(k, k + 1);
+    const noLoopDown = radial(x) && radial(m.imps[k - 1]) && close(k - 1, k);
+    const r = x.d / 2, zc = x.zCentre, hb = Math.max(x.hb, 0.02);
+    // zone this impeller circulates in
+    const lo = k === 0 ? 0 : (m.imps[k - 1].zCentre + zc) / 2;
+    const hi = k === m.imps.length - 1 ? zl : (zc + m.imps[k + 1].zCentre) / 2;
+    if (x.t.anchor) {
+      const zb = x.zBottom, zt = x.zTop;
+      g += `<path d="M ${X(-r)} ${Y(zt)} L ${X(-r)} ${Y(Math.max(zb + Math.min(h, hb) * 0.5, zb))} Q ${X(-r)} ${Y(zb)} ${X(0)} ${Y(zb)} Q ${X(r)} ${Y(zb)} ${X(r)} ${Y(Math.max(zb + Math.min(h, hb) * 0.5, zb))} L ${X(r)} ${Y(zt)}" fill="none" stroke="${col}" stroke-width="3"/>`;
+      g += `<line x1="${X(-r)}" y1="${Y(zc)}" x2="${X(r)}" y2="${Y(zc)}" stroke="${col}" stroke-width="1.5"/>`;
+      if (on) { // swirl: ellipse around the shaft
+        const ry = Math.max(4, 0.06 * T * sc);
+        g += `<path d="M ${X(-r * 0.75)} ${Y(zc)} A ${r * 0.75 * sc} ${ry} 0 0 0 ${X(r * 0.75)} ${Y(zc)}" fill="none" stroke="#C9A227" stroke-width="1.4" marker-end="url(#${id}m)"/>`;
+        g += `<path d="M ${X(r * 0.75)} ${Y(zc)} A ${r * 0.75 * sc} ${ry} 0 0 0 ${X(-r * 0.75)} ${Y(zc)}" fill="none" stroke="#C9A227" stroke-width="1.4" stroke-dasharray="3 3"/>`;
+      }
+      return;
+    }
+    if (x.t.pitched) {
+      const dy = Math.min(hb, x.d * 0.3) / 2;
+      [-1, 1].forEach((sd) => { g += `<line x1="${X(sd * 0.04)}" y1="${Y(zc + dy)}" x2="${X(sd * r)}" y2="${Y(zc - dy)}" stroke="${col}" stroke-width="3"/>`; });
+      if (on && !mergeUp) [-1, 1].forEach((sd) => {
+        let j = k; while (mergedBelowAt(j)) j--;           // lowest PBT of a merged group
+        const loZ = j === 0 ? 0 : (m.imps[j - 1].zCentre + m.imps[j].zCentre) / 2;
+        const zLowest = m.imps[j].zCentre;
+        const xi = sd * r * 0.6, xw = sd * (a - 0.06 * T), zlow = loZ + (zLowest - loZ) * 0.25, zhigh = zc + (hi - zc) * 0.75;
+        // down-pumping loop: down from the blades, out along the bottom, up the wall, back in over the impeller
+        g += arrow(`M ${X(xi)} ${Y(zc - 0.02)} L ${X(xi)} ${Y(zlow + 0.05)} Q ${X(xi)} ${Y(zlow)} ${X(xi + (xw - xi) * 0.5)} ${Y(zlow)}`);
+        if (j !== k) g += `<text x="${X(sd * a * 0.45)}" y="${Y((zLowest + zc) / 2)}" text-anchor="middle" font-size="8" fill="#C9A227" font-family="sans-serif">one merged loop</text>`;
+        g += arrow(`M ${X(xw)} ${Y(zlow + 0.03)} L ${X(xw)} ${Y(zhigh - 0.03)}`);
+        g += arrow(`M ${X(xw - sd * 0.02)} ${Y(zhigh)} Q ${X(xi)} ${Y(zhigh)} ${X(xi * 0.9)} ${Y(zc + 0.05)}`);
+      });
+    } else {
+      const bh = Math.max(4, hb * sc);
+      g += `<rect x="${X(-r)}" y="${Y(zc) - bh / 2}" width="${x.d * sc}" height="${bh}" fill="${col}" opacity=".9"/>`;
+      if (x.key === "rushton") g += `<line x1="${X(-r * 0.75)}" y1="${Y(zc)}" x2="${X(r * 0.75)}" y2="${Y(zc)}" stroke="#0B1622" stroke-width="2"/>`;
+      if (on) [-1, 1].forEach((sd) => {
+        const xr = sd * (r + 0.02), xw = sd * (a - 0.06 * T), zu = zc + (hi - zc) * 0.6, zd = lo + (zc - lo) * 0.4;
+        g += arrow(`M ${X(xr)} ${Y(zc)} L ${X(xw)} ${Y(zc)}`);                 // radial jet to the wall
+        if (!noLoopUp) g += arrow(`M ${X(xw)} ${Y(zc + 0.04)} Q ${X(xw)} ${Y(zu)} ${X(sd * r * 0.5)} ${Y(zu)}`);   // loop above
+        if (!noLoopDown) g += arrow(`M ${X(xw)} ${Y(zc - 0.04)} Q ${X(xw)} ${Y(zd)} ${X(sd * r * 0.5)} ${Y(zd)}`);   // loop below
+      });
+    }
+  });
+  const leg = m.imps.slice().reverse().map((x, k) => `<text x="${W / 2}" y="${VH - 6 + k * 12}" text-anchor="middle" font-size="9.5" fill="${x.covered === "full" ? "#8a99a8" : "#5b6670"}" font-family="sans-serif">${x.i}: ${x.t.custom ? "vendor impeller" : x.t.label.replace(/ \(.*\)/, "")}${x.covered === "full" ? "" : " (not covered)"}</text>`).join("");
+  const VH2 = VH + (m.imps.length - 1) * 12;
+  return `<svg viewBox="0 0 ${W} ${VH2}" width="${W}" style="max-width:100%;height:auto;display:block" role="img" aria-label="Sketch of the vessel and flow pattern">${g}${leg}</svg>`;
+}
+
+const SU_COVER = { full: "Covered", part: "Partly covered", none: "Above liquid" };
+// result rows: [label, fn(m) -> html, plain(m) -> text for PDF]
+function suResultRows(maxImp) {
+  const rows = [
+    ["Flow pattern"],
+    ["Sketch to scale (gold arrows: expected flow)", (m) => suSketch(m)],
+    ["Level and volume"],
+    ["Calculated vessel volume (bottom dish + straight side)", (m) => `${suN(m.calcVol)} L`],
+    ["Liquid level at RM volume (from lowest point)", (m) => `${suN(m.H * 1000)} mm`],
+    ["Occupancy", (m) => `${suN(m.occupancy)} %`],
+    ["Impellers covered by liquid", (m) => `${m.dipped} of ${m.nImp}`],
+    ["Volume at the level to check", (m) => (m.volAtCheck == null ? "–" : `${suN(m.volAtCheck)} L at ${suN(m.checkLevel * 1000)} mm`)],
+  ];
+  for (let i = 1; i <= maxImp; i++) {
+    const g = (m) => m.imps[i - 1];
+    rows.push([`Impeller ${i}`]);
+    rows.push(["Flow pattern", (m) => (g(m) ? g(m).t.flow : "–")]);
+    rows.push(["Elevation: bottom edge / centre / top edge", (m) => (g(m) ? `${suN(g(m).zBottom * 1000)} / ${suN(g(m).zCentre * 1000)} / ${suN(g(m).zTop * 1000)} mm` : "–")]);
+    rows.push(["Minimum RM volume to cover it", (m) => (g(m) ? `${suN(g(m).volToCover)} L` : "–")]);
+    rows.push(["At the operating volume", (m) => (g(m) ? SU_COVER[g(m).covered] : "–")]);
+    rows.push(["D/T", (m) => (g(m) ? suN(g(m).d / (parseFloat(m._T) || 1)) : "–")]);
+    rows.push(["Reynolds number", (m) => (g(m) ? suN(g(m).Re) : "–")]);
+    rows.push(["Power number, Np (unbaffled / fully baffled / this vessel)", (m) => (g(m) ? (g(m).t.custom ? `${suN(g(m).Np)} (vendor)` : `${suN(g(m).Np0)} / ${suN(g(m).NpMax)} / <b>${suN(g(m).Np)}</b>`) : "–")]);
+    rows.push(["Power", (m) => (g(m) ? `${suN(g(m).P)} W` : "–")]);
+  }
+  rows.push(["Whole agitator"]);
+  rows.push(["Geometry: H/T, C/T, spacing/D", (m) => `${suN(m.HT)}, ${suN(m.CT)}${m.SD == null ? "" : ", " + suN(m.SD)}`]);
+  rows.push(["Flow regime (bottom impeller)", (m) => m.regime]);
+  rows.push(["Tip speed (largest impeller)", (m) => `${suN(m.tipSpeed)} m/s`]);
+  rows.push(["Total power (covered impellers)", (m) => `${suN(m.Power)} W`]);
+  rows.push(["P/V", (m) => `${suN(m.PV)} W/L`]);
+  rows.push(["Blend time, 95 % (turbulent, bottom impeller)", (m) => `${suN(m.blend)} s`]);
+  rows.push(["Shear rate (P/V basis)", (m) => `${suN(m.shearRate)} 1/s`]);
+  rows.push(["Torque", (m) => `${suN(m.torque)} N·m`]);
+  rows.push(["Torque/V", (m) => `${suN(m.torqueV)} N·m/L`]);
+  rows.push(["Checks", (m) => (m.warns.length ? m.warns.join(" ") : "No geometry warnings")]);
+  return rows;
+}
+
 function suRenderResults() {
   const body = qs("su-results-body");
   if (!body) return;
   const n = scaleupReactors.length;
-  const metrics = scaleupReactors.map(computeReactorMetrics);
-  const resultRows = [
-    ["Calculated reactor volume", (m) => `${fmt(m.calcVol)} L`],
-    ["Height of RM volume (H)", (m) => `${fmt(m.H)} m`],
-    ["Impeller–wall clearance", (m) => `${fmt(m.clearWall)} mm${m.wallClearanceWarn ? `<div style="color:var(--rust); font-size:0.7rem;">${m.wallClearanceWarn}</div>` : ""}`],
-    ["Inter-impeller clearance (calc.)", (m) => `${fmt(m.clearImpellers)} mm`],
-    ["L/T", (m) => fmt(m.LT)],
-    ["D/T (bottom / middle / top)", (m) => `${fmt(m.DTbottom)} / ${fmt(m.DTmiddle)} / ${fmt(m.DTtop)}`],
-    ["%Occupancy", (m) => `${fmt(m.occupancy)} %${m.occupancyWarn ? `<div style="color:var(--rust); font-size:0.7rem;">${m.occupancyWarn}</div>` : ""}`],
-    ["Reynolds number (agitator)", (m) => `${fmt(m.Re)}<div style="color:${m.regime === "Turbulent" ? "var(--muted)" : "var(--rust)"}; font-size:0.7rem;">${m.regime}${m.regime === "Turbulent" ? "" : ": power and blend time below assume turbulent flow and will be off"}</div>`],
-    ["Tip speed", (m) => `${fmt(m.tipSpeed)} m/s`],
-    ["Power", (m) => `${fmt(m.Power)} W${m.shallowFillWarn ? `<div style="color:var(--rust); font-size:0.7rem; max-width:28ch;">${m.shallowFillWarn}</div>` : ""}`],
-    ["P/V", (m) => `${fmt(m.PV)} W/L`],
-    ["Blend time, 95 % (turbulent)", (m) => `${fmt(m.microMixTime)} s`],
-    ["Shear rate (P/V basis)", (m) => `${fmt(m.shearRate)} 1/s`],
-    ["Torque", (m) => `${fmt(m.torque)} Nm<div style="color:var(--muted); font-size:0.7rem;">P / (2π·N)</div>`],
-    ["Torque/V", (m) => `${fmt(m.torqueV)} Nm/L`],
-  ];
+  const metrics = scaleupReactors.map((r) => Object.assign(computeReactorMetrics(r), { _T: parseFloat(r.T) / 1000 }));
+  const maxImp = Math.max(...metrics.map((m) => m.nImp));
   let html = suSectionRow("Results", n);
-  resultRows.forEach(([label, fn]) => {
+  suResultRows(maxImp).forEach(([label, fn]) => {
+    if (!fn) { html += suSectionRow(label, n); return; }
     html += "<tr>" + suThCell(label, true);
     metrics.forEach((m) => {
-      html += suTdCell(`<div style="color:var(--brass); font-family:var(--f-mono); font-size:0.95rem;">${fn(m)}</div>`);
+      const v = fn(m);
+      const warn = label === "Checks" && m.warns.length;
+      html += suTdCell(`<div style="color:${warn ? "var(--rust)" : "var(--brass)"}; font-family:${label === "Checks" ? "var(--f-sans)" : "var(--f-mono)"}; font-size:${label === "Checks" ? "0.78rem" : "0.95rem"}; max-width:34ch;">${v}</div>`);
     });
     html += "</tr>";
   });

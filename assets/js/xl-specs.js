@@ -106,33 +106,34 @@
 
   /* ---- Mixing scale-up ---- */
   function scaleup() {
-    const c = scaleupReactors, NP = Object.keys(IMPELLER_NP);
-    const rows = SCALEUP_INPUT_ROWS.filter(r => !r.section).map(r => { const m = r.label.match(/^(.*?)\s*\(([^)]*)\)\s*$/); return inp(r.field, m ? m[1] : r.label, m ? m[2] : '', c, r.field, r.type === 'select' ? 'IMPELLERS_KEYS' : undefined); });
-    return { title: 'Mixing / Scale-up Comparison', sub: 'P/V, tip speed, Reynolds number and torque', cases: c.map(x => x.label),
-      tables: { IMPELLERS: { title: 'Impeller power numbers (turbulent)', head: ['Impeller', 'Np'], rows: NP.map(k => [k, IMPELLER_NP[k]]) } },
-      sections: [{ title: 'Inputs', rows },
-        { title: 'Results', rows: [
-          out('Npb', 'Np, bottom impeller', '', 'VLOOKUP({typeBottom},IMPELLERS,2,FALSE)', true),
-          out('Npm', 'Np, middle impeller', '', 'VLOOKUP({typeMiddle},IMPELLERS,2,FALSE)', true),
-          out('Npt', 'Np, top impeller', '', 'VLOOKUP({typeTop},IMPELLERS,2,FALSE)', true),
-          out('N', 'Speed', 'rev/s', '{rpm}/60', true),
-          out('mu', 'Viscosity', 'Pa·s', '{viscosityCp}/1000', true),
-          out('calcVol', 'Calculated vessel volume', 'L', 'PI()/4*({T}/1000)^2*{Ltt}+PI()/24*({T}/1000)^3*1000'),
-          out('H', 'Liquid height', 'm', '({Ltt}+{dishAdd})/{calcVol}*({rmVol}/1000)'),
-          out('occ', 'Occupancy', '%', '{rmVol}/{capacity}*100'),
-          out('LT', 'L/T', '', '{Ltt}/{T}'),
-          out('DT', 'D/T, bottom impeller', '', '{dBottom}/{T}'),
-          out('clearWall', 'Blade tip to wall clearance', 'mm', '({T}-{dBottom})/2'),
-          out('Re', 'Reynolds number', '', '({dBottom}/1000)^2*{N}*{density}/{mu}'),
-          out('regime', 'Flow regime', '', 'IF({Re}>10000,"Turbulent",IF({Re}<100,"Laminar","Transitional"))'),
-          out('tip', 'Tip speed', 'm/s', 'PI()*({dBottom}/1000)*{N}'),
-          out('P', 'Power (all three impellers)', 'W', '{Npt}*{density}*{N}^3*({dTop}/1000)^5+{Npb}*{density}*{N}^3*({dBottom}/1000)^5+{Npm}*{density}*{N}^3*({dMiddle}/1000)^5'),
-          out('PV', 'Power per volume, P/V', 'W/L', '{P}/{rmVol}'),
-          out('blend', 'Blend time estimate', 's', '5.2*{T}^2/{Npb}^(1/3)/{N}/{dBottom}^2'),
-          out('G', 'Shear rate (Camp–Stein)', '1/s', 'SQRT({PV}*1000/{mu})'),
-          out('torque', 'Torque', 'N·m', '{P}/(2*PI()*{N})'),
-          out('torqueV', 'Torque per volume', 'N·m/L', '{torque}/{rmVol}')] }],
-      notes: ['P = Np ρ N³ D⁵ summed over the three impellers (turbulent power numbers). Blend time θ = 5.2 (T/D)² / (Np^(1/3) N).', 'For scale-up, match one criterion (P/V, tip speed or torque/V) across columns; no single basis keeps every row equal.'] };
+    const c = scaleupReactors;
+    const ms = c.map((r) => Object.assign(computeReactorMetrics(r), { _T: parseFloat(r.T) / 1000 }));
+    const maxImp = Math.max(...ms.map((m) => m.nImp));
+    const strip = (h) => String(h).replace(/<[^>]+>/g, '');
+    const inputs = [];
+    SCALEUP_INPUT_ROWS.forEach((row) => {
+      if (row.section || (row.minImp && maxImp < row.minImp)) return;
+      if (!c.some((r) => suFieldUsed(row, r))) return;
+      const m = row.label.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
+      const imp = row.field.match(/(\d)$/);
+      const label = (imp ? `Impeller ${imp[1]}: ` : '') + (m ? m[1] : row.label);
+      inputs.push({ k: row.field, label, unit: m && !/;|from|0 if|optional/.test(m[2]) ? m[2] : '', values: c.map((r) => {
+        if (!suFieldUsed(row, r)) return '–';
+        if (row.type === 'select') { const o = row.options.find(([v]) => v === String(r[row.field])); return o ? o[1] : r[row.field]; }
+        return r[row.field];
+      }) });
+    });
+    const sections = [{ title: 'Inputs', rows: inputs }];
+    let cur = null;
+    suResultRows(maxImp).forEach(([label, fn], i) => {
+      if (/^Flow pattern$|^Sketch/.test(label)) return; // drawings stay on the page
+      if (!fn) { cur = { title: label, rows: [] }; sections.push(cur); return; }
+      cur.rows.push({ k: 'r' + i, label, unit: '', f: '0', values: ms.map((m) => strip(fn(m))) });
+    });
+    return { title: 'Mixing / Scale-up Comparison', sub: 'Power from blade geometry, baffles and Reynolds number', cases: c.map((x) => x.label), sections,
+      notes: ['Power number from the correlation of Furukawa, Kato et al., Int. J. Chem. Eng. 2012 (Kamei and Nagata type): paddles, pitched paddles, turbines and anchors, laminar to turbulent, partial or full baffling. Anchors are calculated without baffles.',
+        'Each impeller is calculated on its own and the powers added; impellers closer than one diameter interact and draw less. Only impellers covered by liquid are counted. The bottom dish is treated as a semi-ellipsoid of the given depth.',
+        'For scale-up, match one criterion (P/V, tip speed or torque/V) across columns. Confirm motor and gearbox sizing with the agitator vendor.'] };
   }
 
   /* ---- Solvent recovery sub-tools ---- */

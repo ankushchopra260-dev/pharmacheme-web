@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Mixing / Scale-up Calculator
-description: "Mixing scale-up calculator: Reynolds number, tip speed, power, P/V and torque from reactor and agitator geometry. Compare reactors across plants or scales."
+description: "Mixing calculator: power number from blade geometry and baffles, P/V, tip speed, torque, liquid level and which impellers are covered, side by side."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -13,12 +13,12 @@ breadcrumbs:
     url: /calculators/
   - label: Mixing / Scale-up Calculator
     url: /calculators/mixing-scale-up-calculator/
-last_modified_at: 2026-10-15
+last_modified_at: 2026-10-21
 ---
 
 <div class="container calc-page-head">
   <h1>Mixing / Scale-up Calculator</h1>
-  <p>Reactor geometry, agitation Reynolds number, impeller tip speed, power draw, power-per-volume (P/V) and torque. Cases sit in columns, so you can compare plants or scales directly.</p>
+  <p>Power number from the real blade geometry (blade count, angle and width, anchor height) and the baffles, then P/V, tip speed, torque, the liquid level, the volume needed to cover each impeller, and how many impellers are dipped. Cases sit in columns, so you can compare existing and proposed agitators directly.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
@@ -26,25 +26,28 @@ last_modified_at: 2026-10-15
 
 <div class="container article-body" style="margin-top:24px;">
   <h2>How to Use</h2>
-  <p>Enter vessel and impeller geometry, RPM, and fluid properties for each case you want to compare. The tool computes Reynolds number, tip speed, power number-based draw, P/V, and torque, laid out as a comparison table so you can judge whether a lab or pilot condition is being scaled consistently to plant scale.</p>
+  <p>For each case, enter the vessel (diameter, straight height, bottom dish depth, baffles), the batch volume and fluid properties, and the agitator: speed, number of impellers on the shaft, the bottom clearance (vessel bottom to the lowest edge of the bottom impeller) and the spacing between impeller centres. For each impeller choose the type and give the diameter, number of blades, blade angle and blade width. For an anchor, give the height of its arms.</p>
+  <p>The results show the liquid level, the volume needed to cover each impeller, whether each one is covered at your batch volume, its power number and power, and the totals. Impellers that are not fully covered are left out of the power. Enter any level in &ldquo;Level to check&rdquo; to get the volume at that height.</p>
 
   <h2>The Formulas</h2>
   <div class="formula-box">
     Reynolds number Re = &rho; N D&sup2; / &mu;<br>
     Tip speed = &pi; D N<br>
-    Power P = N<sub>p</sub> &rho; N&sup3; D&#8309; (summed over the impellers)<br>
+    Power P = N<sub>p</sub> &rho; N&sup3; D&#8309; for each covered impeller, then added<br>
+    N<sub>p</sub> from the blade geometry, D/T, liquid depth, Re and baffles (Furukawa et al., 2012)<br>
     Blend time (95 %, turbulent) = 5.2 (T/D)&sup2; / (N<sub>p</sub><sup>1/3</sup> N)<br>
     Torque = P / (2&pi;N)
   </div>
-  <p>N is the speed in rev/s, D the impeller diameter, T the vessel diameter and N<sub>p</sub> the power number of the impeller. The power number is constant only in turbulent flow (Re above about 10,000); the calculator warns you when it is not.</p>
+  <p>N is the speed in rev/s, D the impeller diameter and T the vessel diameter. The power number is calculated, not looked up: the correlation of Furukawa, Kato and co-workers covers flat and pitched paddles and turbines and anchors, from laminar to turbulent flow, unbaffled to fully baffled. It reproduces the familiar values: about 1.3 for a standard 4-blade 45&deg; PBT (blade width 0.2 D) in a baffled vessel, about 5 for a 6-blade flat turbine, and the laminar constant N<sub>p</sub>&middot;Re &asymp; 70 for a turbine and &asymp; 300 for a close-clearance anchor. Narrow blades, a smaller blade angle, fewer blades or narrow baffles all lower it. Anchors are calculated without baffles. The bottom dish is treated as a semi-ellipsoid of the depth you enter.</p>
 
   <h2>Worked Example</h2>
-  <p>A 7,000 L reactor (T = 1.98 m) holds 3,200 L of liquid (1,065 kg/m&sup3;, 0.36 cP), stirred by three 0.92 m pitched-blade turbines (N<sub>p</sub> = 1.27) at 96 rpm.</p>
+  <p>A 7,000 L reactor (T = 1.98 m, 435 mm bottom dish, four 198 mm baffles) holds 4,000 L of liquid (1,065 kg/m&sup3;, 0.36 cP). Two 0.92 m, 4-blade 45&deg; pitched-blade turbines with 184 mm blades turn at 96 rpm; the bottom one is 250 mm off the bottom and they are 920 mm apart.</p>
   <div class="formula-box">
+    Liquid level &asymp; 1,444 mm; the top impeller is covered once the batch is above about 3,560 L<br>
     Re = 1,065 &times; 1.6 &times; 0.92&sup2; / 0.00036 &asymp; 4.0 &times; 10<sup>6</sup> (turbulent)<br>
-    Tip speed = &pi; &times; 0.92 &times; 1.6 = 4.6 m/s<br>
-    P = 3 &times; 1.27 &times; 1,065 &times; 1.6&sup3; &times; 0.92&#8309; &asymp; 11.0 kW, so P/V &asymp; 3.4 kW/m&sup3;<br>
-    Blend time &asymp; 14 s; torque &asymp; 1,090 N&middot;m
+    N<sub>p</sub> per impeller &asymp; 1.31 (unbaffled 0.27, fully baffled 1.35)<br>
+    P = 2 &times; 1.31 &times; 1,065 &times; 1.6&sup3; &times; 0.92&#8309; &asymp; 7.6 kW, so P/V &asymp; 1.9 kW/m&sup3;<br>
+    Tip speed = 4.6 m/s; blend time &asymp; 14 s; torque &asymp; 750 N&middot;m
   </div>
 
   <h2>Typical Values</h2>
@@ -53,13 +56,24 @@ last_modified_at: 2026-10-15
   <h3>Which number should I keep constant when scaling up?</h3>
   <p>P/V for blending, heat and mass transfer; tip speed when shear damages the product. Keeping both is impossible in geometrically similar vessels, so compare the two cases side by side here.</p>
   <h3>What power number should I use?</h3>
-  <p>Use the impeller supplier&rsquo;s figure if you have it. The defaults (for example 1.27 for a 45&deg; pitched-blade turbine, 5 to 6 for a Rushton turbine) assume a baffled vessel in turbulent flow.</p>
+  <p>The calculator works it out from your blade geometry and baffles. For hydrofoils and other special impellers choose &ldquo;Other, with vendor Np&rdquo; and enter the supplier&rsquo;s figure. A narrow-bladed PBT can have less than half the power number of a standard one, which is why sizing a motor from the textbook 1.27 can overstate the power badly.</p>
+  <h3>How far apart should impellers be?</h3>
+  <p>Impellers about one impeller diameter or more apart act roughly independently, so their powers add; closer than that, their flows merge and the total power is less than the sum, and the calculator warns you. Walas (<i>Chemical Process Equipment</i>, quoting Dickey) gives these starting points: one impeller is usually enough up to a liquid depth of about 1.4 &times; the vessel diameter for thin liquids, and two up to about 2.1; with two impellers, place the lower one about T/3 off the bottom and the upper one at about two-thirds of the liquid depth. For solids suspension the bottom impeller often sits lower, around one-third of its own diameter off the bottom. Keep the top impeller well covered at the smallest batch volume you run.</p>
+  <h3>How many impellers are dipped at my batch volume?</h3>
+  <p>The results show the level, the minimum volume that covers each impeller and whether each one is covered. A half-covered impeller splashes and pulls in air; its power is left out of the total.</p>
   <h3>Why is my motor larger than the calculated power?</h3>
   <p>The calculated figure is the power into the liquid. Add gearbox and seal losses and a margin for start-up and higher viscosity, typically 20 to 30 %.</p>
   <p>For the scale-up rules and a worked lab-to-plant example, read <a href="/articles/mixing-scale-up/">mixing scale-up rules from lab to plant</a>.</p>
 
   <h2>Engineering Notes &amp; Assumptions</h2>
   <p>Constant P/V, constant tip speed and constant Reynolds number are different (and mutually exclusive) scale-up rules. Which one fits depends on whether your process is shear-sensitive, mass-transfer-limited, or blend-time-limited. This tool reports the numbers; picking the right scale-up criterion for your chemistry is still an engineering judgment call.</p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.hindawi.com/journals/ijce/2012/106496/" rel="noopener">Furukawa, Kato, Inoue, Kato, Tada and Hashimoto, &ldquo;Correlation of power consumption for several kinds of mixing impellers&rdquo;, Int. J. Chem. Eng. 2012, 106496</a></li>
+    <li>Walas, <i>Chemical Process Equipment: Selection and Design</i>, chapter 10, Mixing and agitation (Dickey&rsquo;s criteria)</li>
+    <li>Paul, Atiemo-Obeng and Kresta (eds.), <i>Handbook of Industrial Mixing</i>, Wiley, 2004</li>
+  </ul>
 
   <div class="related-box">
     <h3>Related Article</h3>
