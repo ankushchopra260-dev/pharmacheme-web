@@ -36,8 +36,16 @@ last_modified_at: 2026-10-21
     Power P = N<sub>p</sub> &rho; N&sup3; D&#8309; for each covered impeller, then added<br>
     N<sub>p</sub> from the blade geometry, D/T, liquid depth, Re and baffles (Furukawa et al., 2012)<br>
     Blend time (95 %, turbulent) = 5.2 (T/D)&sup2; / (N<sub>p</sub><sup>1/3</sup> N)<br>
-    Torque = P / (2&pi;N)
+    Torque = P / (2&pi;N)<br>
+    Pumping flow Q = N<sub>q</sub> N D&sup3;; circulation time = V / Q<br>
+    Just-suspended speed N<sub>js</sub> = S &nu;<sup>0.1</sup> d<sub>p</sub><sup>0.2</sup> (g &Delta;&rho;/&rho;<sub>L</sub>)<sup>0.45</sup> X<sup>0.13</sup> D<sup>&minus;0.85</sup> (Zwietering)<br>
+    Batch-side film coefficient: h T/k = A Re<sup>2/3</sup> Pr<sup>1/3</sup> (&mu;/&mu;<sub>w</sub>)<sup>M</sup><br>
+    Shear-thinning liquids: apparent viscosity = K (k<sub>s</sub> N)<sup>n&minus;1</sup> (Metzner&ndash;Otto)<br>
+    Motor = P / gearbox efficiency &times; (1 + margin); shaft torsional stress = 16 T / (&pi; d&sup3;)
   </div>
+  <p><b>Solids:</b> X is the mass of solids per 100 of liquid, d<sub>p</sub> the mass-mean particle size and &nu; the kinematic viscosity. S is estimated from the impeller type and its clearance using fits for a flat-bottomed vessel with D/T &asymp; 0.33 and H/T &asymp; 1; for other geometries, or a dished bottom (which usually needs a lower speed), enter S from your own trials or the vendor. Anchors are not covered.</p>
+  <p><b>Flow numbers</b> are typical turbulent values (PBT 45&deg; 0.80, flat-blade turbine 0.80, Rushton 0.65); for hydrofoils enter the vendor&rsquo;s figure. <b>Heat transfer</b> constants are Chilton, Drew and Jebens&rsquo;s, valid over the Reynolds range shown; outside it the tool still gives a figure but flags it. <b>RPM to match</b> recalculates the power number at each speed, so it stays correct across laminar and turbulent flow.</p>
+  <p>Vortex depth in unbaffled vessels is not calculated: the published correlations we could check are not complete enough to use, so the tool only warns.</p>
   <p>N is the speed in rev/s, D the impeller diameter and T the vessel diameter. The power number is calculated, not looked up: the correlation of Furukawa, Kato and co-workers covers flat and pitched paddles and turbines and anchors, from laminar to turbulent flow, unbaffled to fully baffled. It reproduces the familiar values: about 1.3 for a standard 4-blade 45&deg; PBT (blade width 0.2 D) in a baffled vessel, about 5 for a 6-blade flat turbine, and the laminar constant N<sub>p</sub>&middot;Re &asymp; 70 for a turbine and &asymp; 300 for a close-clearance anchor. Narrow blades, a smaller blade angle, fewer blades or narrow baffles all lower it. Anchors are calculated without baffles. The baffle gap from the wall is drawn and checked (Walas suggests about one-sixth of the baffle width when there are solids or a jacket) but the correlation does not include it. The bottom dish is treated as a semi-ellipsoid of the depth you enter.</p>
 
   <h2>Worked Example</h2>
@@ -59,6 +67,8 @@ last_modified_at: 2026-10-21
   <p>The calculator works it out from your blade geometry and baffles. For hydrofoils and other special impellers choose &ldquo;Other, with vendor Np&rdquo; and enter the supplier&rsquo;s figure. A narrow-bladed PBT can have less than half the power number of a standard one, which is why sizing a motor from the textbook 1.27 can overstate the power badly.</p>
   <h3>How far apart should impellers be?</h3>
   <p>Impellers about one impeller diameter or more apart act roughly independently, so their powers add; closer than that, their flows merge and the total power is less than the sum, and the calculator warns you. Walas (<i>Chemical Process Equipment</i>, quoting Dickey) gives these starting points: one impeller is usually enough up to a liquid depth of about 1.4 &times; the vessel diameter for thin liquids, and two up to about 2.1; with two impellers, place the lower one about T/3 off the bottom and the upper one at about two-thirds of the liquid depth. For solids suspension the bottom impeller often sits lower, around one-third of its own diameter off the bottom. Keep the top impeller well covered at the smallest batch volume you run.</p>
+  <h3>Will my solids stay suspended?</h3>
+  <p>Enter particle size, solid density and solids %, and the tool gives N<sub>js</sub>, the speed at which no particle rests on the bottom for more than a second or two, and your speed as a ratio of it. Below 1, solids settle; for uniform suspension you need well above 1. Use &ldquo;RPM to match N/Njs&rdquo; to keep the same suspension margin on scale-up.</p>
   <h3>How many impellers are dipped at my batch volume?</h3>
   <p>The results show the level, the minimum volume that covers each impeller and whether each one is covered. A half-covered impeller splashes and pulls in air; its power is left out of the total.</p>
   <h3>Why is my motor larger than the calculated power?</h3>
@@ -72,6 +82,10 @@ last_modified_at: 2026-10-21
   <ul>
     <li><a href="https://www.hindawi.com/journals/ijce/2012/106496/" rel="noopener">Furukawa, Kato, Inoue, Kato, Tada and Hashimoto, &ldquo;Correlation of power consumption for several kinds of mixing impellers&rdquo;, Int. J. Chem. Eng. 2012, 106496</a></li>
     <li>Walas, <i>Chemical Process Equipment: Selection and Design</i>, chapter 10, Mixing and agitation (Dickey&rsquo;s criteria)</li>
+    <li>Zwietering, &ldquo;Suspending of solid particles in liquid by agitators&rdquo;, <i>Chem. Eng. Sci.</i> 8 (1958) 244; S fits from <a href="https://www.jafmonline.net/article_1840_d55a5889f771b241aec869c5b328b62f.pdf" rel="noopener">Devarajulu and Loganathan, J. Applied Fluid Mechanics 9(6), 2016</a></li>
+    <li><a href="https://framatomebhr.com/Portals/0/PDF/Publications/Impeller-Perfomance-in-Stirred-Tanks.pdf" rel="noopener">&ldquo;Impeller performance in stirred tanks&rdquo;, Chemical Engineering, August 2017 (flow numbers)</a></li>
+    <li>Chilton, Drew and Jebens, <i>Ind. Eng. Chem.</i> 36 (1944) 510, as tabulated in <i>Perry&rsquo;s Chemical Engineers&rsquo; Handbook</i> (batch-side heat transfer)</li>
+    <li>Metzner and Otto, <i>AIChE J.</i> 3 (1957) 3; k<sub>s</sub> values as summarised by <a href="https://chem.ubbcluj.ro/~studiachemia/issues/chemia2021_2/21Ghirisan_Miclaus_247_254.pdf" rel="noopener">Ghirisan and Miclaus, Studia UBB Chemia, 2021</a></li>
     <li>Paul, Atiemo-Obeng and Kresta (eds.), <i>Handbook of Industrial Mixing</i>, Wiley, 2004</li>
   </ul>
 

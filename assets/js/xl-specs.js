@@ -117,7 +117,7 @@
       const m = row.label.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
       const imp = row.field.match(/(\d)$/);
       const label = (imp ? `Impeller ${imp[1]}: ` : '') + (m ? m[1] : row.label);
-      inputs.push({ k: row.field, label, unit: m && !/;|from|0 if|optional/.test(m[2]) ? m[2] : '', values: c.map((r) => {
+      inputs.push({ k: row.field, label, unit: m && !/;|from|0 if|optional|blank|=/.test(m[2]) ? m[2] : '', values: c.map((r) => {
         if (!suFieldUsed(row, r)) return '–';
         if (row.type === 'select') { const o = row.options.find(([v]) => v === String(r[row.field])); return o ? o[1] : r[row.field]; }
         return r[row.field];

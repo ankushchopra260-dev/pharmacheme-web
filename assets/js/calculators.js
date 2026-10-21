@@ -1763,13 +1763,18 @@ window.PCME_CALC_LINK = function () {
 // they are calculated from the blade geometry with the correlation of Furukawa, Kato, Inoue, Kato, Tada, Hashimoto
 // (Int. J. Chem. Eng. 2012, 106496; based on Kamei et al. and Nagata), which covers paddles, pitched paddles,
 // turbines and anchors from laminar to turbulent flow, with or without baffles.
+// Nq: flow number, Chem. Eng. Aug 2017 (BHR): PBT 45° 0.80, flat-blade turbine 0.80, Rushton 0.65.
+// S: Zwietering constant fit S = a (C/T)^b at H/T = 1, D/T = 0.33 (Devarajulu & Loganathan, J. Appl. Fluid Mech. 9(6) 2016).
+// hA, hM: batch-side heat transfer, Nu = A Re^(2/3) Pr^(1/3) (mu/muw)^M, with Re range (Chilton, Drew & Jebens, in Perry's Handbook).
+// ks: Metzner-Otto constant, shear rate = ks N (Skelland: 10 to 13 for paddles, propellers and turbines).
 const SU_IMPELLERS = {
-  pbt: { label: "Pitched blade turbine (PBT)", flow: "Axial / mixed (down-pumping)", pitched: true },
-  flat: { label: "Flat blade paddle or turbine", flow: "Radial", pitched: false },
-  rushton: { label: "Rushton (disc) turbine", flow: "Radial", pitched: false },
-  anchor: { label: "Anchor", flow: "Tangential (close to the wall)", pitched: false, anchor: true },
+  pbt: { label: "Pitched blade turbine (PBT)", flow: "Axial / mixed (down-pumping)", pitched: true, Nq: 0.8, S: [10.42, 0.455], hA: 0.53, hM: 0.24, hRe: [80, 200], ks: 11.5 },
+  flat: { label: "Flat blade paddle or turbine", flow: "Radial", pitched: false, Nq: 0.8, S: [13.98, 0.639], hA: 0.36, hM: 0.21, hRe: [300, 300000], ks: 10 },
+  rushton: { label: "Rushton (disc) turbine", flow: "Radial", pitched: false, Nq: 0.65, S: [8.54, 0.218], hA: 0.54, hM: 0.14, hRe: [40, 300000], ks: 11.5 },
+  anchor: { label: "Anchor", flow: "Tangential (close to the wall)", pitched: false, anchor: true, hA: 0.36, hM: 0.18, hRe: [300, 40000] },
   custom: { label: "Other, with vendor Np (e.g. hydrofoil)", flow: "As per vendor", custom: true },
 };
+const SU_MOTORS = [0.37, 0.55, 0.75, 1.1, 1.5, 2.2, 3, 3.7, 4, 5.5, 7.5, 9.3, 11, 15, 18.5, 22, 30, 37, 45, 55, 75, 90, 110, 132, 160, 200]; // kW, standard ratings (IEC 60072 / IS 12615)
 const SU_IMP_KEYS = Object.keys(SU_IMPELLERS);
 
 const SCALEUP_DEFAULTS = {
@@ -1779,6 +1784,11 @@ const SCALEUP_DEFAULTS = {
   type1: "pbt", d1: "920", nb1: "4", ang1: "45", b1: "184", np1: "",
   type2: "pbt", d2: "920", nb2: "4", ang2: "45", b2: "184", np2: "",
   type3: "pbt", d3: "920", nb3: "4", ang3: "45", b3: "184", np3: "",
+  nq1: "", nq2: "", nq3: "",
+  fluidModel: "newtonian", plK: "", plN: "", ksUser: "",
+  dp: "", rhoS: "", solidsWt: "", sUser: "",
+  kTh: "", cpTh: "", muWall: "",
+  gearEff: "", motorMargin: "", shaftDia: "",
 };
 let scaleupReactors = [
   { label: "Reactor 1", ...SCALEUP_DEFAULTS },
@@ -1836,6 +1846,9 @@ function computeReactorMetrics(r) {
   const V = num(r.rmVol) / 1000, rho = num(r.density), mu = num(r.viscosityCp) / 1000, N = num(r.rpm) / 60;
   const nB = num(r.nBaffles) || 0, Bw = (num(r.baffleW) || 0) / 1000, Bg = (num(r.baffleGap) || 0) / 1000;
   const nImp = Math.max(1, Math.min(3, parseInt(r.nImp, 10) || 1));
+  const nonNewt = r.fluidModel === "powerlaw" && num(r.plK) > 0 && num(r.plN) > 0;
+  const ksFor = (t) => (num(r.ksUser) > 0 ? num(r.ksUser) : t.ks || NaN);
+  const muFor = (t) => (nonNewt ? num(r.plK) * Math.pow(ksFor(t) * N, num(r.plN) - 1) : mu); // apparent viscosity, Pa.s
   const C = num(r.clearance) / 1000, S = num(r.spacing) / 1000, S2 = (r.spacing2 === "" || r.spacing2 == null ? num(r.spacing) : num(r.spacing2)) / 1000;
 
   const calcVol = (suVolumeAtLevel(h + L, T, h)) * 1000; // L, bottom dish + straight side
@@ -1858,14 +1871,17 @@ function computeReactorMetrics(r) {
     const zBottom = i === 1 ? C : zPrevCentre + (i === 2 ? S : S2) - hb / 2;
     const zCentre = zBottom + hb / 2, zTop = zBottom + hb;
     zPrevCentre = zCentre;
-    const Re = d * d * N * rho / mu;
+    const muI = muFor(t);
+    const Re = d * d * N * rho / muI;
     let Np = NaN, Np0 = NaN, NpMax = NaN;
     if (t.custom) Np = num(r["np" + i]);
     // anchors sweep the wall and run without baffles, so baffles are not applied to them
     else if (d > 0 && b > 0 && d < T && H > 0) ({ Np, Np0, NpMax } = suPowerNumber(d, T, H, b, np, theta, Re, t.anchor ? 0 : nB, Bw, t.pitched));
     const covered = H >= zTop ? "full" : H > zBottom ? "part" : "none";
     const P = covered === "full" ? Np * rho * Math.pow(N, 3) * Math.pow(d, 5) : 0;
-    imps.push({ i, key, t, d, b, np, thetaDeg, hb, zBottom, zCentre, zTop, Re, Np, Np0, NpMax, covered, P,
+    const Nq = t.custom ? num(r["nq" + i]) : t.Nq;
+    const Q = covered === "full" && Nq > 0 ? Nq * N * d * d * d : 0; // m3/s
+    imps.push({ i, key, t, d, b, np, thetaDeg, hb, zBottom, zCentre, zTop, Re, Np, Np0, NpMax, covered, P, Nq, Q, muI,
       volToCover: suVolumeAtLevel(zTop, T, h) * 1000, tip: Math.PI * d * N });
   }
   const dipped = imps.filter((x) => x.covered === "full").length;
@@ -1877,11 +1893,41 @@ function computeReactorMetrics(r) {
   const regime = ReMain > 10000 ? "Turbulent" : ReMain < 10 ? "Laminar" : "Transitional";
   const tipSpeed = Math.max(...imps.map((x) => x.tip));
   const blend = first.covered === "full" && first.Np > 0 ? 5.2 * Math.pow(T / first.d, 2) / Math.pow(first.Np, 1 / 3) / N : NaN;
-  const shearRate = Math.sqrt((PV * 1000) / mu);
+  const muB = first.muI;
+  const shearRate = Math.sqrt((PV * 1000) / muB);
+  // pumping and circulation
+  const Qsum = imps.reduce((a, x) => a + x.Q, 0);
+  const circTime = Qsum > 0 ? V / Qsum : NaN;
+  // just-suspended speed (Zwietering) for the bottom impeller
+  let Njs = NaN, Sused = NaN, Ssrc = "";
+  const wt = num(r.solidsWt), dp = num(r.dp) / 1e6, rhoS = num(r.rhoS);
+  if (wt > 0 && wt < 100 && dp > 0 && rhoS > rho && first.d > 0 && !first.t.anchor) {
+    if (num(r.sUser) > 0) { Sused = num(r.sUser); Ssrc = "entered"; }
+    else if (first.t.S) { Sused = first.t.S[0] * Math.pow(first.zCentre / T, first.t.S[1]); Ssrc = "estimated"; }
+    const X = wt / (100 - wt) * 100, nu = muB / rho;
+    if (Sused > 0) Njs = Sused * Math.pow(nu, 0.1) * Math.pow(dp, 0.2) * Math.pow(9.81 * (rhoS - rho) / rho, 0.45) * Math.pow(X, 0.13) * Math.pow(first.d, -0.85) * 60; // rpm
+  }
+  // batch-side heat transfer coefficient from the bottom impeller
+  let hIn = NaN, hNote = "";
+  const kTh = num(r.kTh), cpTh = num(r.cpTh);
+  if (kTh > 0 && cpTh > 0 && first.t.hA && first.covered === "full") {
+    const muW = num(r.muWall) > 0 ? num(r.muWall) / 1000 : muB;
+    const Pr = cpTh * muB * 3600 / kTh;
+    hIn = (kTh / T) * first.t.hA * Math.pow(first.Re, 2 / 3) * Math.pow(Pr, 1 / 3) * Math.pow(muB / muW, first.t.hM);
+    if (first.Re < first.t.hRe[0] || first.Re > first.t.hRe[1]) hNote = `outside the tested range Re ${first.t.hRe[0].toLocaleString("en-US")}–${first.t.hRe[1].toLocaleString("en-US")} for this impeller`;
+  }
+  // motor and shaft
+  const eff = num(r.gearEff), margin = num(r.motorMargin);
+  const motorReq = eff > 0 && eff <= 100 ? Power / (eff / 100) * (1 + (margin > 0 ? margin : 0) / 100) / 1000 : NaN; // kW
+  const motorStd = isFinite(motorReq) ? (SU_MOTORS.find((k) => k >= motorReq) || NaN) : NaN;
+  const dSh = num(r.shaftDia) / 1000;
+  const shaftStress = dSh > 0 ? 16 * (Power / (2 * Math.PI * N)) / (Math.PI * dSh * dSh * dSh) / 1e6 : NaN; // MPa
   const torque = Power / (2 * Math.PI * N);
   const torqueV = torque / (V * 1000);
 
   const warns = [];
+  if (nonNewt && imps.some((x) => !(x.muI > 0))) warns.push("Enter the Metzner–Otto constant ks for this impeller (no published value is built in for anchors or vendor impellers).");
+  if (r.fluidModel === "powerlaw" && !nonNewt) warns.push("Power-law fluid selected: enter K and n.");
   if (occupancy > 100) warns.push("RM volume is more than the reactor capacity.");
   imps.forEach((x) => {
     if (x.d >= T) warns.push(`Impeller ${x.i} is as wide as the vessel.`);
@@ -1897,11 +1943,11 @@ function computeReactorMetrics(r) {
     if (Bg <= 0) warns.push(`Baffles are fixed to the wall with no gap: with solids or a jacketed wall, a gap of about one-sixth of the baffle width (${suN(Bw * 1000 / 6)} mm) stops solids settling behind them (Walas).`);
     else if (Bg > Bw / 2) warns.push(`Baffle gap (${suN(Bg * 1000)} mm) is large compared with the baffle width: liquid bypasses behind the baffles and baffling is weaker than calculated (the correlation does not include the gap).`);
   }
-  if (nB === 0 && imps.some((x) => !x.t.anchor) && regime === "Turbulent") warns.push("No baffles: expect a central vortex; power is much lower than with baffles.");
+  if (nB === 0 && imps.some((x) => !x.t.anchor) && regime === "Turbulent") warns.push("No baffles: expect a central vortex; power is much lower than with baffles. Check that the vortex does not reach the top impeller (no vortex depth correlation is built in).");
   if (imps.some((x) => x.t.anchor)) warns.push("Anchor power is calculated as unbaffled (anchors run without baffles); in thin liquids a central vortex forms and the real power can be higher.");
   if (imps.some((x) => x.t.anchor) && regime === "Turbulent") warns.push("An anchor in a thin (turbulent) liquid mostly swirls the batch; it suits viscous masses and wall heat transfer.");
 
-  return { geo: { T, L, h, nB, Bw, Bg }, calcVol, H, occupancy, imps, dipped, nImp, Power, PV, Re: ReMain, regime, tipSpeed, blend, shearRate, torque, torqueV,
+  return { geo: { T, L, h, nB, Bw, Bg }, N, muB, nonNewt, Qsum, circTime, Njs, Sused, Ssrc, hIn, hNote, motorReq, motorStd, shaftStress, calcVol, H, occupancy, imps, dipped, nImp, Power, PV, Re: ReMain, regime, tipSpeed, blend, shearRate, torque, torqueV,
     LT: L / T, CT: first.zCentre / T, SD: nImp > 1 ? imps.slice(1).map((x, k) => (x.zCentre - imps[k].zCentre) / Math.max(x.d, imps[k].d)) : null, HT: H / T, checkLevel, volAtCheck, warns, clearWall: (T - first.d) / 2 * 1000 };
 }
 
@@ -1917,7 +1963,11 @@ const SCALEUP_INPUT_ROWS = [
   { section: "Reaction mass" },
   { label: "RM volume during operation (L)", field: "rmVol", type: "input" },
   { label: "Density of fluid (kg/m³)", field: "density", type: "input" },
-  { label: "Viscosity of fluid (cP)", field: "viscosityCp", type: "input" },
+  { label: "Viscosity of fluid (cP); Newtonian only", field: "viscosityCp", type: "input" },
+  { label: "Fluid behaviour", field: "fluidModel", type: "select", options: [["newtonian", "Newtonian (thin liquids)"], ["powerlaw", "Shear-thinning, power law (slurries, gels)"]] },
+  { label: "Power-law consistency K (Pa·sⁿ)", field: "plK", type: "input", onlyModel: "powerlaw" },
+  { label: "Power-law index n (below 1 for shear-thinning)", field: "plN", type: "input", onlyModel: "powerlaw" },
+  { label: "Metzner–Otto ks (blank = 11.5 turbines/PBT, 10 paddles; anchors: enter)", field: "ksUser", type: "input", onlyModel: "powerlaw" },
   { section: "Agitator" },
   { label: "RPM", field: "rpm", type: "input" },
   { label: "Number of impellers on the shaft", field: "nImp", type: "select", options: [["1", "1"], ["2", "2"], ["3", "3"]] },
@@ -1934,9 +1984,38 @@ const SCALEUP_INPUT_ROWS = [
       { label: "Blade angle (° from horizontal; 90 = flat)", field: "ang" + i, type: "input", minImp: i, onlyFor: ["pbt"] },
       { label: "Blade width (mm); anchor: arm height", field: "b" + i, type: "input", minImp: i, hideFor: ["custom"] },
       { label: "Power number from vendor", field: "np" + i, type: "input", minImp: i, onlyFor: ["custom"] },
+      { label: "Flow number Nq from vendor (optional)", field: "nq" + i, type: "input", minImp: i, onlyFor: ["custom"] },
     ];
   }),
 ];
+
+SCALEUP_INPUT_ROWS.push(
+  { section: "Solids (for just-suspended speed, optional)" },
+  { label: "Particle size, mass mean (µm)", field: "dp", type: "input" },
+  { label: "Solid density (kg/m³)", field: "rhoS", type: "input" },
+  { label: "Solids in slurry (wt %)", field: "solidsWt", type: "input" },
+  { label: "Zwietering S (blank = estimate from impeller type and clearance)", field: "sUser", type: "input" },
+  { section: "Heat transfer, batch side (optional)" },
+  { label: "Thermal conductivity of liquid (kcal/h·m·°C)", field: "kTh", type: "input" },
+  { label: "Specific heat of liquid (kcal/kg·°C)", field: "cpTh", type: "input" },
+  { label: "Viscosity at the jacket wall (cP, blank = same as batch)", field: "muWall", type: "input" },
+  { section: "Motor and gearbox (optional)" },
+  { label: "Gearbox and seal efficiency (%), from vendor", field: "gearEff", type: "input" },
+  { label: "Motor margin (%)", field: "motorMargin", type: "input" },
+  { label: "Shaft diameter (mm)", field: "shaftDia", type: "input" },
+);
+
+let suMatch = { ref: 0, crit: "" };
+const SU_CRITS = { pv: "P/V", tip: "tip speed", tqv: "torque/V", njs: "N/Njs (solids suspension)" };
+// RPM that gives the reference column's value of the criterion (bisection on rpm; power number is recalculated at each speed)
+function suRpmToMatch(r, target, crit) {
+  const val = (rpm) => { const m = computeReactorMetrics({ ...r, rpm: String(rpm) }); return crit === "pv" ? m.PV : crit === "tip" ? m.tipSpeed : crit === "tqv" ? m.torqueV : m.N * 60 / m.Njs; };
+  if (!(target > 0)) return NaN;
+  let lo = 1, hi = 3000;
+  if (!(val(hi) >= target) || !(val(lo) <= target)) return NaN;
+  for (let k = 0; k < 60; k++) { const mid = (lo + hi) / 2; if (val(mid) > target) hi = mid; else lo = mid; }
+  return (lo + hi) / 2;
+}
 
 function renderScaleUp() {
   return `
@@ -1946,6 +2025,12 @@ function renderScaleUp() {
         Add a column per reactor or per design: existing vs proposed, pilot vs plant. Power numbers are calculated from the blade geometry, the baffles and the Reynolds number. Scroll right for more columns.
       </p>
       <button id="su-add-reactor" class="pill" style="background:var(--brass); color:var(--bg-deep); border-color:var(--brass);">+ Add reactor</button>
+    </div>
+    <div id="su-match" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 14px; font-family:var(--f-sans); font-size:0.82rem; color:var(--muted);">
+      <span>RPM to match:</span>
+      <select id="su-match-crit" style="padding:6px 8px; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line);"><option value="">off</option>${Object.entries(SU_CRITS).map(([k, l]) => `<option value="${k}">${l}</option>`).join("")}</select>
+      <span>of column</span>
+      <select id="su-match-ref" style="padding:6px 8px; background:var(--bg-deep); color:var(--paper); border:1px solid var(--grid-line);"></select>
     </div>
     <div class="comparison-table-scroll">
       <table id="su-table" class="comparison-table" style="border-collapse:collapse; width:100%;"></table>
@@ -1967,6 +2052,7 @@ function suSectionRow(text, n) {
 }
 function suFieldUsed(row, r) {
   const n = parseInt(r.nImp, 10) || 1;
+  if (row.onlyModel && r.fluidModel !== row.onlyModel) return false;
   if (row.minImp && n < row.minImp) return false;
   const m = row.field && row.field.match(/(\d)$/);
   if (m && (row.onlyFor || row.hideFor)) {
@@ -2012,6 +2098,8 @@ function suRenderStructure() {
   html += "</tbody>";
 
   qs("su-table").innerHTML = html;
+  const refSel = qs("su-match-ref");
+  if (refSel) { if (suMatch.ref >= scaleupReactors.length) suMatch.ref = 0; refSel.innerHTML = scaleupReactors.map((r, i) => `<option value="${i}" ${i === suMatch.ref ? "selected" : ""}>${i + 1}: ${String(r.label).replace(/</g, "&lt;")}</option>`).join(""); }
   const table = qs("su-table");
   const inputBody = qs("su-input-body");
   const resultsBody = document.createElement("tbody");
@@ -2186,6 +2274,20 @@ function suResultRows(maxImp) {
   rows.push(["Shear rate (P/V basis)", (m) => `${suN(m.shearRate)} 1/s`]);
   rows.push(["Torque", (m) => `${suN(m.torque)} N·m`]);
   rows.push(["Torque/V", (m) => `${suN(m.torqueV)} N·m/L`]);
+  rows.push(["Pumping and blending"]);
+  rows.push(["Pumping flow (covered impellers, Nq N D³)", (m) => (m.Qsum > 0 ? `${suN(m.Qsum * 3600)} m³/h` : "–")]);
+  rows.push(["Circulation time, batch volume / pumping flow", (m) => (isFinite(m.circTime) ? `${suN(m.circTime)} s` : "–")]);
+  rows.push(["Apparent viscosity at the impeller", (m) => `${suN(m.muB * 1000)} cP${m.nonNewt ? " (Metzner–Otto)" : ""}`]);
+  rows.push(["Solids suspension"]);
+  rows.push(["Just-suspended speed, Njs (Zwietering)", (m) => (isFinite(m.Njs) ? `${suN(m.Njs)} rpm (S ${suN(m.Sused)}, ${m.Ssrc})` : "enter particle size, solid density and solids %")]);
+  rows.push(["Speed / Njs", (m) => (isFinite(m.Njs) ? `${suN(m.N * 60 / m.Njs)} — ${m.N * 60 >= m.Njs ? "solids suspended off the bottom" : "below Njs: solids settle on the bottom"}` : "–")]);
+  rows.push(["Heat transfer"]);
+  rows.push(["Batch-side film coefficient, h", (m) => (isFinite(m.hIn) ? `${suN(m.hIn)} kcal/h·m²·°C${m.hNote ? ` (${m.hNote})` : ""}` : "enter thermal conductivity and specific heat")]);
+  rows.push(["Motor and shaft"]);
+  rows.push(["Motor power required (with losses and margin)", (m) => (isFinite(m.motorReq) ? `${suN(m.motorReq)} kW → next standard motor ${suN(m.motorStd)} kW` : "enter gearbox efficiency")]);
+  rows.push(["Gearbox output torque", (m) => `${suN(m.torque)} N·m`]);
+  rows.push(["Shaft torsional shear stress, 16T/(πd³)", (m) => (isFinite(m.shaftStress) ? `${suN(m.shaftStress)} MPa (compare with the vendor's allowable; bending and critical speed need the vendor)` : "enter shaft diameter")]);
+  if (suMatch.crit) rows.push([`RPM to match ${SU_CRITS[suMatch.crit]} of column ${suMatch.ref + 1}`, (m) => (isFinite(m._match) ? `${suN(m._match)} rpm` : "–")]);
   rows.push(["Checks", (m) => (m.warns.length ? m.warns.join(" ") : "No geometry warnings")]);
   return rows;
 }
@@ -2195,6 +2297,11 @@ function suRenderResults() {
   if (!body) return;
   const n = scaleupReactors.length;
   const metrics = scaleupReactors.map((r) => Object.assign(computeReactorMetrics(r), { _T: parseFloat(r.T) / 1000, _cap: r.capacity }));
+  if (suMatch.crit && metrics[suMatch.ref]) {
+    const ref = metrics[suMatch.ref], c = suMatch.crit;
+    const target = c === "pv" ? ref.PV : c === "tip" ? ref.tipSpeed : c === "tqv" ? ref.torqueV : ref.N * 60 / ref.Njs;
+    metrics.forEach((m, i) => { m._match = suRpmToMatch(scaleupReactors[i], target, c); });
+  }
   const maxImp = Math.max(...metrics.map((m) => m.nImp));
   let html = suSectionRow("Results", n);
   suResultRows(maxImp).forEach(([label, fn]) => {
@@ -2231,6 +2338,9 @@ function suRenderResults() {
 }
 
 function initScaleUp() {
+  const mc = qs("su-match-crit"), mr = qs("su-match-ref");
+  if (mc) { mc.value = suMatch.crit; mc.addEventListener("change", () => { suMatch.crit = mc.value; suRenderResults(); }); }
+  if (mr) mr.addEventListener("change", () => { suMatch.ref = parseInt(mr.value, 10) || 0; suRenderResults(); });
   { const r = pcmeRestore("su", SCALEUP_DEFAULTS); if (r) scaleupReactors = r; }
   suRenderStructure();
   suRenderResults();
