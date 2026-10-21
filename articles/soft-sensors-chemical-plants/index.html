@@ -1,0 +1,213 @@
+---
+layout: default
+title: "Soft Sensors in Chemical Plants: What They Are and How to Build One"
+seo_title: "Soft Sensors in Chemical Plants: Build One | PharmaChemE"
+description: "Soft sensors for chemical and pharma plants: what they estimate, physics vs data-driven models, drift, GMP use and a free tool to fit one from your data."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Soft Sensors in Chemical Plants"
+    url: /articles/soft-sensors-chemical-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Soft Sensors in Chemical Plants: What They Are and How to Build One",
+        "description": "Soft sensors for chemical and pharma plants: what they estimate, physics vs data-driven models, drift, GMP use and a free tool to fit one from your data.",
+        "keywords": "soft sensor, virtual sensor, inferential measurement, process analytical technology, PAT, regression, machine learning, chemical plant, data-driven model",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a soft sensor in a chemical plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A model that estimates a slow or expensive measurement, such as an impurity, conversion or moisture, from fast measurements the plant already logs, such as temperatures, pressures, flows and power."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much data do I need to build a soft sensor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Enough lab results, matched to process data at the sample time, to cover the normal operating range: often a few dozen to a few hundred samples. Always test on the most recent data, not on random rows."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can a soft sensor replace lab testing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not entirely. Lab results remain the reference that shows when the model has drifted. Many plants reduce sampling frequency once the soft sensor is proven, and keep a check sample on a fixed schedule."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Soft Sensors in Chemical Plants</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}" aria-current="page">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">Your lab tells you the impurity four hours after the sample was taken. By then the batch has moved on. A soft sensor fills the gap with an estimate every minute, built from measurements you already log. This article explains what soft sensors can estimate, how to build one, how to keep it honest, and includes a free tool to fit and test one on your own data.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What a soft sensor is</a><span>Basics</span></li>
+    <li><a href="#types">Three ways to build one</a><span>Basics</span></li>
+    <li><a href="#build">Build your own (regression tool)</a><span>Working level</span></li>
+    <li><a href="#drift">Drift and recalibration</a><span>Working level</span></li>
+    <li><a href="#gmp">Soft sensors under GMP</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What a soft sensor is <span class="lvl l1">Basics</span></h2>
+  <p>A <b>soft sensor</b> (also called a virtual sensor or inferential) estimates a quantity that is slow, expensive or impossible to measure online, using measurements the plant already logs. The lab may report an impurity every four hours; the soft sensor gives a best estimate every minute from temperatures, pressures, flows and power.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>What you want to know</th><th>Fast inputs that often carry the information</th></tr>
+    <tr><td>Reaction conversion or residual starting material</td><td>Heat released (jacket flow &times; &Delta;T), dosing integral, reaction time, temperature profile</td></tr>
+    <tr><td>Distillate or bottoms purity</td><td>Tray temperatures, reflux ratio, pressure, feed rate</td></tr>
+    <tr><td>Moisture or residual solvent during drying</td><td>Product and jacket temperature, vacuum level, condensate rate, drying time</td></tr>
+    <tr><td>Solids content or density of a slurry</td><td>Agitator power, pump current, mass-flow meter density</td></tr>
+    <tr><td>Fouling of a heat exchanger</td><td>Calculated U-value from flows and four temperatures</td></tr>
+  </table></div>
+  <p>Kadlec, Gabrys and Strandt&rsquo;s review of data-driven soft sensors in the process industry describes them as an alternative to traditional ways of acquiring critical process variables, used for monitoring and control. In pharma, the same idea sits inside FDA&rsquo;s 2004 PAT framework, whose tools include multivariate tools for design, data acquisition and analysis, process analysers, process control tools, and continuous improvement and knowledge management tools.</p>
+
+  <h2 id="types">Three ways to build one <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><b>First-principles:</b> a balance equation. U-value from heat duty and log-mean temperature difference is a soft sensor for fouling. Most robust outside past data, needs good instruments.</li>
+    <li><b>Data-driven:</b> regression or machine learning from past data. Fast to build where the physics is messy; only valid inside the range it was trained on.</li>
+    <li><b>Hybrid:</b> a physics model with a data-driven correction for what the physics misses. Often the best choice for reactors and dryers.</li>
+  </ul>
+
+  <h2 id="build">Build your own soft sensor (regression tool) <span class="lvl l2">Working level</span></h2>
+  <p>Paste data exported from your historian and lab: one row per lab sample, up to three input columns, and the lab result in the last column, oldest row first. The tool fits a linear model on the first 70% of rows and tests it on the last 30%, the way a soft sensor would be tested on batches it has not seen. Your data stays in your browser.</p>
+  <div class="dx-box">
+    <h3>Soft sensor builder</h3>
+    <p class="dx-sub">Columns separated by tabs, commas or spaces. Header row optional. At least 10 rows.</p>
+    <textarea id="ss-in" rows="9" aria-label="Paste data"></textarea>
+    <div class="dx-row"><button type="button" class="dx-btn" id="ss-fit">Fit model</button><button type="button" class="dx-btn" id="ss-ex">Load made-up example</button><span class="dx-note mute" id="ss-msg" style="margin:0"></span></div>
+    <div class="dx-out" id="ss-out"></div>
+    <svg id="ss-plot" class="dx-svg" viewBox="0 0 520 300" role="img" aria-label="Predicted against lab values" hidden></svg>
+    <p class="dx-note" id="ss-eq"></p>
+  </div>
+  <p>How to read it: a test R&sup2; close to the training R&sup2; means the model generalises; a much lower test R&sup2; means it learned noise or the process changed. The test error (RMSE) should be well inside the specification width before anyone uses the estimate.</p>
+
+  <h2 id="drift">Keeping it honest: drift and recalibration <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><b>Keep taking lab samples.</b> They are the reference that tells you when the soft sensor has drifted. Fewer samples, not none.</li>
+    <li><b>Set a limit in advance</b> for the difference between estimate and lab; when it is crossed, stop using the estimate for decisions and investigate.</li>
+    <li><b>Watch the inputs.</b> A soft sensor is only valid inside the range of its training data. Flag inputs outside it: new grade, new scale, new raw material supplier.</li>
+    <li><b>Recalibrate under change control,</b> with the new model tested on data it has not seen. Try the drift demo in <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}#softsensor">AI in the chemical industry</a>.</li>
+  </ul>
+
+  <h2 id="gmp">Soft sensors under GMP <span class="lvl l3">Going deeper</span></h2>
+  <p>If a soft sensor only helps operators, treat it as an advisory tool with ordinary engineering change control. If its output is used for a GMP decision, such as an end point, an in-process control or release, it becomes part of the control strategy: document the intended use, validate on independent data, freeze the model version and manage changes formally. The EU draft GMP Annex 22 (July 2025) sets out these expectations for AI models in critical GMP use.</p>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Testing on random rows, so samples from the same batch sit in both training and test data and the model looks better than it is.</li>
+    <li>Lab results matched to the wrong time: the sample time, not the time the result was entered.</li>
+    <li>Using inputs that are set points rather than measurements.</li>
+    <li>Stopping lab sampling once the soft sensor &ldquo;works&rdquo;.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a soft sensor in a chemical plant?</h3>
+  <p>A model that estimates a slow or expensive measurement, such as an impurity, conversion or moisture, from fast measurements the plant already logs, such as temperatures, pressures, flows and power.</p>
+  <h3>How much data do I need to build a soft sensor?</h3>
+  <p>Enough lab results, matched to process data at the sample time, to cover the normal operating range: often a few dozen to a few hundred samples. Always test on the most recent data, not on random rows.</p>
+  <h3>Can a soft sensor replace lab testing?</h3>
+  <p>Not entirely. Lab results remain the reference that shows when the model has drifted. Many plants reduce sampling frequency once the soft sensor is proven, and keep a check sample on a fixed schedule.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Kadlec P., Gabrys B., Strandt S., <a href="https://literature.learnche.org/item/105/data-driven-soft-sensors-in-the-process-industry" rel="noopener">Data-driven soft sensors in the process industry</a>, Computers and Chemical Engineering 33 (2009) 795&ndash;814.</li>
+    <li>US FDA, <a href="https://www.fda.gov/media/71012/download" rel="noopener">Guidance for Industry: PAT &mdash; A Framework for Innovative Pharmaceutical Development, Manufacturing, and Quality Assurance</a>, September 2004.</li>
+    <li>European Commission, draft EU GMP Annex 22 (Artificial Intelligence), July 2025: <a href="https://www.europeanpharmaceuticalreview.com/what-annex-22-spells-for-ai-in-gmp-manufacturing/2135686.article" rel="noopener">European Pharmaceutical Review summary</a>.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry: plant examples</a>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+    <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">Heat exchanger design basics</a>
+    <a href="{{ '/process-modelling/reaction-kinetics-fitting/' | relative_url }}">Reaction kinetics fitting</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var EX = 'jacket_dT_C\tdosing_kg\ttime_h\timpurity_pct\n';
+  (function () { var s = 3; var r = function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+    for (var i = 0; i < 40; i++) { var dT = 4 + 6 * r(), dose = 180 + 60 * r(), t = 5 + 3 * r(); var y = 2.4 - 0.11 * dT + 0.004 * (dose - 200) - 0.06 * (t - 6) + 0.05 * (r() - 0.5); EX += dT.toFixed(2) + '\t' + dose.toFixed(1) + '\t' + t.toFixed(2) + '\t' + y.toFixed(3) + '\n'; } })();
+  var parse = function (txt) {
+    var rows = txt.trim().split(/\r?\n/).map(function (l) { return l.trim().split(/[\t,; ]+/); }).filter(function (r) { return r.length && r[0] !== ''; });
+    var head = null; if (rows.length && rows[0].some(function (c) { return isNaN(parseFloat(c)); })) head = rows.shift();
+    var data = rows.map(function (r) { return r.map(Number); }).filter(function (r) { return r.every(isFinite); });
+    return { head: head, data: data };
+  };
+  var solve = function (A, b) { var n = b.length; for (var i = 0; i < n; i++) { var p = i; for (var k = i + 1; k < n; k++) if (Math.abs(A[k][i]) > Math.abs(A[p][i])) p = k; var t = A[i]; A[i] = A[p]; A[p] = t; var tb = b[i]; b[i] = b[p]; b[p] = tb; if (Math.abs(A[i][i]) < 1e-12) return null; for (var k2 = i + 1; k2 < n; k2++) { var f = A[k2][i] / A[i][i]; for (var j = i; j < n; j++) A[k2][j] -= f * A[i][j]; b[k2] -= f * b[i]; } } var x = new Array(n); for (var i2 = n - 1; i2 >= 0; i2--) { var s = b[i2]; for (var j2 = i2 + 1; j2 < n; j2++) s -= A[i2][j2] * x[j2]; x[i2] = s / A[i2][i2]; } return x; };
+  var stats = function (y, p) { var m = y.reduce(function (a, v) { return a + v; }, 0) / y.length, ss = 0, sr = 0; y.forEach(function (v, i) { ss += (v - m) * (v - m); sr += (v - p[i]) * (v - p[i]); }); return { r2: ss > 0 ? 1 - sr / ss : NaN, rmse: Math.sqrt(sr / y.length) }; };
+  var fit = function () {
+    var P = parse($('ss-in').value), d = P.data, msg = $('ss-msg'), out = $('ss-out'), plot = $('ss-plot'), eq = $('ss-eq');
+    out.innerHTML = ''; eq.textContent = ''; plot.hidden = true;
+    if (d.length < 10) { msg.textContent = 'Need at least 10 complete numeric rows.'; return; }
+    var nc = d[0].length; if (nc < 2 || nc > 4 || d.some(function (r) { return r.length !== nc; })) { msg.textContent = 'Use 1 to 3 input columns plus the lab value, same number of columns in every row.'; return; }
+    var k = nc - 1, nTr = Math.max(k + 2, Math.round(d.length * 0.7)); if (d.length - nTr < 3) { msg.textContent = 'Not enough rows left for testing; add more data.'; return; }
+    var tr = d.slice(0, nTr), te = d.slice(nTr);
+    var X = function (r) { return [1].concat(r.slice(0, k)); };
+    var A = [], b = []; for (var i = 0; i <= k; i++) { A.push(new Array(k + 1).fill(0)); b.push(0); }
+    tr.forEach(function (r) { var x = X(r); for (var i = 0; i <= k; i++) { b[i] += x[i] * r[k]; for (var j = 0; j <= k; j++) A[i][j] += x[i] * x[j]; } });
+    var c = solve(A, b); if (!c) { msg.textContent = 'Inputs are constant or duplicate each other; remove one column.'; return; }
+    var pred = function (r) { var x = X(r); return x.reduce(function (s, v, i) { return s + v * c[i]; }, 0); };
+    var ptr = tr.map(pred), pte = te.map(pred), str = stats(tr.map(function (r) { return r[k]; }), ptr), ste = stats(te.map(function (r) { return r[k]; }), pte);
+    var drop = str.r2 - ste.r2;
+    msg.textContent = 'Fitted on ' + tr.length + ' rows, tested on the last ' + te.length + '.';
+    out.innerHTML = '<div class="dx-kpi"><span>R&sup2; training</span><b>' + fmt(str.r2, 3) + '</b></div><div class="dx-kpi ' + (ste.r2 > 0.8 && drop < 0.15 ? 'good' : ste.r2 > 0.5 ? 'warn' : 'bad') + '"><span>R&sup2; test (unseen rows)</span><b>' + fmt(ste.r2, 3) + '</b></div><div class="dx-kpi"><span>RMSE test</span><b>' + fmt(ste.rmse, 4) + '</b></div><div class="dx-kpi"><span>Rows train / test</span><b>' + tr.length + ' / ' + te.length + '</b></div>';
+    var names = P.head ? P.head.slice(0, k) : ['x1', 'x2', 'x3'].slice(0, k), yn = P.head ? P.head[k] : 'y';
+    eq.innerHTML = '<b>Model:</b> ' + esc(yn) + ' = ' + fmt(c[0], 4) + c.slice(1).map(function (v, i) { return (v < 0 ? ' &minus; ' : ' + ') + fmt(Math.abs(v), 5) + ' &times; ' + esc(names[i]); }).join('') + (drop > 0.15 ? '<br><span style="color:#E07A6A">Test R&sup2; is much lower than training: the model may not hold on new data.</span>' : '');
+    var all = d.map(function (r) { return r[k]; }).concat(ptr, pte), lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), pad = (hi - lo) * 0.06 || 1; lo -= pad; hi += pad;
+    var W = 520, H = 300, L = 56, B = 40, T = 12, R = 12, sx = function (v) { return L + (W - L - R) * (v - lo) / (hi - lo); }, sy = function (v) { return T + (H - T - B) * (1 - (v - lo) / (hi - lo)); };
+    var s = '<line x1="' + sx(lo) + '" y1="' + sy(lo) + '" x2="' + sx(hi) + '" y2="' + sy(hi) + '" stroke="#5B7A99" stroke-dasharray="4 4"/>';
+    for (var g = 0; g <= 4; g++) { var v = lo + (hi - lo) * g / 4; s += '<text x="' + (L - 6) + '" y="' + (sy(v) + 4) + '" fill="#8FA3B8" font-size="10" text-anchor="end">' + fmt(v, 3) + '</text><text x="' + sx(v) + '" y="' + (H - B + 16) + '" fill="#8FA3B8" font-size="10" text-anchor="middle">' + fmt(v, 3) + '</text>'; }
+    s += '<text x="' + (W / 2) + '" y="' + (H - 6) + '" fill="#8FA3B8" font-size="11" text-anchor="middle">Lab value</text><text x="14" y="' + (H / 2) + '" fill="#8FA3B8" font-size="11" text-anchor="middle" transform="rotate(-90 14 ' + (H / 2) + ')">Soft sensor</text>';
+    tr.forEach(function (r, i) { s += '<circle cx="' + sx(r[k]) + '" cy="' + sy(ptr[i]) + '" r="3.5" fill="#6FCB9F" opacity=".75"/>'; });
+    te.forEach(function (r, i) { s += '<circle cx="' + sx(r[k]) + '" cy="' + sy(pte[i]) + '" r="4.5" fill="#C9A227" stroke="#0B1622"/>'; });
+    s += '<circle cx="' + (W - 150) + '" cy="20" r="4" fill="#6FCB9F"/><text x="' + (W - 142) + '" y="24" fill="#C9D6E2" font-size="11">training</text><circle cx="' + (W - 80) + '" cy="20" r="4.5" fill="#C9A227"/><text x="' + (W - 72) + '" y="24" fill="#C9D6E2" font-size="11">test</text>';
+    plot.innerHTML = s; plot.hidden = false;
+  };
+  $('ss-fit').addEventListener('click', fit);
+  $('ss-ex').addEventListener('click', function () { $('ss-in').value = EX; fit(); $('ss-msg').textContent += ' (Made-up numbers, for practice only.)'; });
+
+})();
+</script>

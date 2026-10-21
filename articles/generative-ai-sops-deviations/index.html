@@ -1,0 +1,193 @@
+---
+layout: default
+title: "Generative AI for SOPs and Deviations in GMP Plants: Safe Uses and RAG"
+seo_title: "Generative AI for SOPs and Deviations (GMP) | PharmaChemE"
+description: "Using ChatGPT-style AI for SOPs, deviations and CAPA in GMP plants: safe tasks, RAG document search, Annex 22 limits and a deviation prompt builder."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Generative AI for SOPs and Deviations"
+    url: /articles/generative-ai-sops-deviations/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Generative AI for SOPs and Deviations in GMP Plants: Safe Uses and RAG",
+        "description": "Using ChatGPT-style AI for SOPs, deviations and CAPA in GMP plants: safe tasks, RAG document search, Annex 22 limits and a deviation prompt builder.",
+        "keywords": "generative AI GMP, ChatGPT SOP, AI deviation investigation, RAG, retrieval augmented generation, Annex 22, CAPA, pharmaceutical quality AI",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can ChatGPT be used to write SOPs in a GMP plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It can produce a first draft, but only in a company-approved tool, without confidential data in public systems, and the SOP still goes through normal authoring, review and QA approval. The approved document, not the AI draft, is what counts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can generative AI decide the root cause of a deviation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It can suggest possible causes and the evidence to check. The investigation team decides the root cause on evidence, and QA approves the conclusion. The EU draft Annex 22 keeps generative AI out of critical GMP decisions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is RAG and why does it matter for SOP search?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Retrieval-augmented generation first retrieves passages from your own approved documents and then answers from them, with links. It is far less likely to invent answers than a chatbot answering from memory, and you can check the source."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Generative AI for SOPs and Deviations</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}" aria-current="page">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">Quality teams spend much of their week writing, searching and reviewing text: SOPs, deviations, CAPAs, change controls. Generative AI is good at exactly that, and also good at sounding right when it is wrong. This article shows where it helps in a GMP plant, how answers from your own documents (RAG) work, what the regulators say, and gives a prompt builder for drafting deviation reports safely.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#fit">Where generative AI fits</a><span>Basics</span></li>
+    <li><a href="#rag">Answers from your own documents: RAG</a><span>Basics</span></li>
+    <li><a href="#deviation">Deviation write-up assistant</a><span>Working level</span></li>
+    <li><a href="#setup">Setting it up properly</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="fit">Where generative AI fits in GMP documents <span class="lvl l1">Basics</span></h2>
+  <p>Large language models are good at reading, sorting and drafting text, and SOPs, batch records, deviations and CAPAs are mostly text. They are also capable of &ldquo;confabulation&rdquo;, which NIST defines as the production of confidently stated but erroneous or false content. The rule that follows: let the model draft, search and summarise; let qualified people decide and sign.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Task</th><th>Generative AI role</th><th>Who decides</th></tr>
+    <tr><td>Finding the right SOP clause</td><td>Search in plain language, with a link to the source paragraph</td><td>The user reads the source</td></tr>
+    <tr><td>Drafting or harmonising an SOP</td><td>First draft from a template, old SOPs and the change request</td><td>Author, reviewer and QA approve as usual</td></tr>
+    <tr><td>Writing up a deviation</td><td>Structures the facts the investigator gives into a clear description</td><td>Investigator and QA</td></tr>
+    <tr><td>Root-cause investigation</td><td>Suggests possible causes and the evidence to check</td><td>The investigation team, on evidence</td></tr>
+    <tr><td>Trending deviations and complaints</td><td>Groups similar records across products and years</td><td>QA reviews the clusters</td></tr>
+    <tr><td>Training</td><td>Questions and summaries from approved SOPs</td><td>Trainer checks before use</td></tr>
+  </table></div>
+  <p>FDA&rsquo;s 2023 discussion paper on AI in drug manufacturing lists trend monitoring of complaints and deviation reports as an AI application. The EU draft GMP Annex 22 (July 2025) keeps generative AI out of critical GMP decisions, but allows non-critical use where a qualified person stays responsible for the output; EMA was reconsidering that boundary in 2026.</p>
+
+  <h2 id="rag">Answers from your own documents: RAG <span class="lvl l1">Basics</span></h2>
+  <p>A general chatbot answers from what it learned in training, which knows nothing about your SOP-PRD-045 revision 7. <b>Retrieval-augmented generation (RAG)</b>, described by Lewis and co-workers in 2020, combines a language model with a searchable store of documents: the system first finds the relevant passages in your approved documents, then writes an answer from those passages, with links back to them.</p>
+  <ol>
+    <li>Approved, current documents are loaded from the document management system (superseded versions excluded).</li>
+    <li>A question comes in: &ldquo;What is the maximum hold time for wet cake of product X?&rdquo;</li>
+    <li>The system retrieves the paragraphs most likely to answer it.</li>
+    <li>The model answers only from those paragraphs, quotes them and links to them, or says it did not find the answer.</li>
+  </ol>
+  <div class="art-note"><b>On the plant</b><p>The single most important test of a document assistant: ask it questions whose answer is <i>not</i> in your documents. A good system says &ldquo;not found&rdquo;; a bad one makes up a plausible hold time.</p></div>
+
+  <h2 id="deviation">Deviation write-up assistant <span class="lvl l2">Working level</span></h2>
+  <p>Fill in the facts; the tool builds a prompt for your company-approved assistant that drafts a clear deviation description and an investigation plan, without inventing facts or concluding the root cause. Do not enter confidential product names or batch numbers into public tools; use codes.</p>
+  <div class="dx-box">
+    <h3>Deviation prompt builder</h3>
+    <p class="dx-sub">Nothing you type leaves this page; the prompt is built in your browser.</p>
+    <div class="dx-grid">
+      <label>What happened<input id="dv-what" value="Reaction mass temperature rose to 38 &deg;C against a limit of 30 &deg;C during dosing"></label>
+      <label>Where (area, equipment code)<input id="dv-where" value="Block B, reactor R-2"></label>
+      <label>When<input id="dv-when" value="Night shift, step 6 (dosing), about 40 minutes into dosing"></label>
+      <label>Product and batch (codes)<input id="dv-batch" value="Product P1, batch B-24"></label>
+      <label>Immediate action taken<input id="dv-act" value="Dosing stopped, full cooling applied; temperature back to 28 &deg;C in 15 minutes"></label>
+      <label>What is already known<input id="dv-known" value="Chilled water supply temperature was high on the trend"></label>
+    </div>
+    <textarea id="dv-out" rows="12" readonly aria-label="Generated prompt" style="margin-top:12px"></textarea>
+    <div class="dx-row"><button type="button" class="dx-btn" id="dv-copy">Copy prompt</button><span class="dx-note mute" id="dv-msg" style="margin:0"></span></div>
+  </div>
+  <h3>Before the draft goes to QA</h3>
+  <ul>
+    <li>Every fact in the draft is one you supplied or can show evidence for; delete anything the model added.</li>
+    <li>Times, values and limits match the batch record and the trend.</li>
+    <li>The root cause is still open until the evidence is in.</li>
+    <li>The record states that an AI tool helped draft it, if your quality system requires it.</li>
+  </ul>
+
+  <h2 id="setup">Setting it up properly <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><b>Approved tool, controlled data.</b> An enterprise or on-premises system with access control, so a user only retrieves documents they are allowed to read.</li>
+    <li><b>Only current, approved documents</b> in the store, refreshed from the document management system on every revision.</li>
+    <li><b>A test set.</b> Fifty or more real questions with known answers, plus questions it must refuse; rerun after every change of model, prompt or documents.</li>
+    <li><b>Citations required.</b> No answer without a link to the source paragraph.</li>
+    <li><b>Intended use written down.</b> What it may and may not be used for, who reviews its output, and how it is monitored, in line with your computerised-system procedure and the ISPE GAMP AI guide (October 2025).</li>
+  </ul>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Pasting batch records and recipes into a public chatbot.</li>
+    <li>Letting the model write the root cause before the investigation.</li>
+    <li>Loading superseded SOPs, so the assistant quotes old limits.</li>
+    <li>No test with &ldquo;unanswerable&rdquo; questions.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Can ChatGPT be used to write SOPs in a GMP plant?</h3>
+  <p>It can produce a first draft, but only in a company-approved tool, without confidential data in public systems, and the SOP still goes through normal authoring, review and QA approval. The approved document, not the AI draft, is what counts.</p>
+  <h3>Can generative AI decide the root cause of a deviation?</h3>
+  <p>No. It can suggest possible causes and the evidence to check. The investigation team decides the root cause on evidence, and QA approves the conclusion. The EU draft Annex 22 keeps generative AI out of critical GMP decisions.</p>
+  <h3>What is RAG and why does it matter for SOP search?</h3>
+  <p>Retrieval-augmented generation first retrieves passages from your own approved documents and then answers from them, with links. It is far less likely to invent answers than a chatbot answering from memory, and you can check the source.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>NIST, <i>AI 600-1: Generative AI Profile</i>, July 2024 (<a href="https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf" rel="noopener">draft text</a>): definition of confabulation.</li>
+    <li>Lewis P. et al., <a href="https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html" rel="noopener">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>, NeurIPS 2020.</li>
+    <li>US FDA, <a href="https://www.fda.gov/media/165743/download" rel="noopener">Artificial Intelligence in Drug Manufacturing</a>, discussion paper, 2023.</li>
+    <li>Draft EU GMP Annex 22: <a href="https://www.europeanpharmaceuticalreview.com/what-annex-22-spells-for-ai-in-gmp-manufacturing/2135686.article" rel="noopener">European Pharmaceutical Review</a>; status in 2026: <a href="https://www.pharmtech.com/view/europe-tried-to-ban-generative-ai-from-critical-gmp-the-ban-may-not-survive-it-does-not-matter-" rel="noopener">PharmTech</a>.</li>
+    <li>ISPE, <a href="https://ispe.org/news/ispe-releases-gampr-guide-artificial-intelligence" rel="noopener">GAMP Guide: Artificial Intelligence</a>, October 2025.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA: deviations and CAPA</a>
+    <a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics for chemical engineers</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and electronic batch records</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var build = function () {
+    var g = function (id) { return $(id).value.trim() || '[not given]'; };
+    $('dv-out').value = 'You are helping a GMP investigator in a pharmaceutical manufacturing plant write a deviation report.\n\nFacts supplied by the investigator (use only these; do not add facts):\n- What happened: ' + g('dv-what') + '\n- Where: ' + g('dv-where') + '\n- When: ' + g('dv-when') + '\n- Product and batch: ' + g('dv-batch') + '\n- Immediate action: ' + g('dv-act') + '\n- Already known: ' + g('dv-known') +
+      '\n\nPlease write:\n1. A clear deviation description (what, where, when, who discovered it, immediate action) in plain, factual language.\n2. A list of questions the investigator must still answer, with the record or data that would answer each.\n3. Possible causes to investigate, grouped as people, method, machine, material, measurement and environment, each with the evidence that would confirm or rule it out.\n4. Possible impact on product quality and other batches to assess.\n\nRules: do not state a root cause; mark any assumption as [ASSUMPTION]; do not invent values, times, names or references; keep it under 400 words.';
+  };
+  ['dv-what', 'dv-where', 'dv-when', 'dv-batch', 'dv-act', 'dv-known'].forEach(function (id) { $(id).addEventListener('input', build); }); build();
+  $('dv-copy').addEventListener('click', function () { var m = $('dv-msg'); var ok = function () { m.textContent = 'Copied. Paste it into your company-approved assistant.'; }; if (navigator.clipboard) navigator.clipboard.writeText($('dv-out').value).then(ok, function () { $('dv-out').select(); m.textContent = 'Select the text and copy it.'; }); else { $('dv-out').select(); m.textContent = 'Select the text and copy it.'; } });
+
+})();
+</script>

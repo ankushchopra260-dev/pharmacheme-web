@@ -1,0 +1,187 @@
+---
+layout: default
+title: "OEE in Batch Chemical and Pharma Plants: Calculation and Calculator"
+seo_title: "OEE in Batch Chemical Plants: Calculator | PharmaChemE"
+description: "OEE for batch chemical and API plants: availability, performance and quality explained for reactors, a free batch OEE calculator, benchmarks and pitfalls."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "OEE in Batch Chemical and Pharma Plants"
+    url: /articles/oee-batch-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "OEE in Batch Chemical and Pharma Plants: Calculation and Calculator",
+        "description": "OEE for batch chemical and API plants: availability, performance and quality explained for reactors, a free batch OEE calculator, benchmarks and pitfalls.",
+        "keywords": "OEE calculation, overall equipment effectiveness, batch OEE, OEE calculator, availability performance quality, TPM, ISO 22400, chemical plant KPI",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is OEE calculated for a batch process?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "OEE = availability x performance x quality. Availability is running time over planned production time; performance is batches made times the ideal batch time, over running time; quality is good batches over all batches."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a good OEE for a batch chemical plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The common world-class targets (OEE above 85%) come from discrete and continuous manufacturing. Multi-product batch plants usually score lower because of cleaning, changeover and QC waits; compare each bottleneck with its own best month."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should cleaning time count in OEE?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, as an availability loss. Cleaning and changeover are real losses that can be reduced through campaign planning and faster cleaning; counting them as planned downtime hides them."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>OEE in Batch Chemical and Pharma Plants</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}" aria-current="page">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">OEE was born on car-parts lines, where a machine makes one part every few seconds. A reactor makes one batch every day or two, sits idle waiting for QC, and spends hours being cleaned. OEE still works there, if you define it properly. This article explains availability, performance and quality for batch equipment, gives a calculator that shows where your hours go, and how to use the result to find capacity.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">OEE in one line</a><span>Basics</span></li>
+    <li><a href="#calc">OEE calculator for a batch train</a><span>Working level</span></li>
+    <li><a href="#bench">What is a good OEE?</a><span>Working level</span></li>
+    <li><a href="#use">Using OEE to find the money</a><span>Working level</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">OEE in one line <span class="lvl l1">Basics</span></h2>
+  <p><b>Overall equipment effectiveness (OEE) = availability &times; performance &times; quality.</b> It was first used by Seiichi Nakajima, the founder of total productive maintenance (TPM), and is now standardised among the manufacturing KPIs of ISO 22400-2. It answers one question: of the time this equipment was meant to produce, how much produced good product at the ideal rate?</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Factor</th><th>Batch-plant meaning</th><th>Typical losses</th></tr>
+    <tr><td><b>Availability</b></td><td>Time the reactor or train was actually running batches, out of planned production time</td><td>Breakdowns, waiting for materials, QC results or utilities, cleaning and changeover</td></tr>
+    <tr><td><b>Performance</b></td><td>Ideal batch time &times; batches made, out of running time</td><td>Slow heating and cooling, long dosing, extra distillation, waiting between steps (see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">cycle-time debottlenecking</a>)</td></tr>
+    <tr><td><b>Quality</b></td><td>Good batches out of all batches</td><td>Rejected, reprocessed or reworked batches</td></tr>
+  </table></div>
+
+  <h2 id="calc">OEE calculator for a batch reactor or train <span class="lvl l2">Working level</span></h2>
+  <p>Enter one month (or any period) for one bottleneck equipment or production train. Use your own numbers from the logbook, MES or historian.</p>
+  <div class="dx-box">
+    <h3>Batch OEE calculator</h3>
+    <p class="dx-sub">Planned downtime (no orders, planned shutdown) is excluded from OEE. Cleaning and changeover count as availability loss.</p>
+    <div class="dx-grid">
+      <label>Calendar time in period (h)<input id="oe-cal" type="number" min="0" step="any" value="720"></label>
+      <label>Planned downtime: shutdown, no orders (h)<input id="oe-pd" type="number" min="0" step="any" value="48"></label>
+      <label>Breakdowns and waiting (h)<input id="oe-bd" type="number" min="0" step="any" value="60"></label>
+      <label>Cleaning and changeover (h)<input id="oe-co" type="number" min="0" step="any" value="40"></label>
+      <label>Batches completed<input id="oe-n" type="number" min="0" step="1" value="22"></label>
+      <label>Ideal (best demonstrated) batch time (h)<input id="oe-ct" type="number" min="0" step="any" value="22"></label>
+      <label>Batches rejected, reworked or reprocessed<input id="oe-rj" type="number" min="0" step="1" value="1"></label>
+    </div>
+    <div class="dx-out" id="oe-out"></div>
+    <svg id="oe-svg" class="dx-svg" viewBox="0 0 720 210" role="img" aria-label="Where the planned time went"></svg>
+    <p class="dx-note" id="oe-note"></p>
+  </div>
+  <p>Use the <b>best demonstrated</b> batch time as the ideal, not the BMR&rsquo;s standard time, which usually contains historical slack. Otherwise performance looks better than it is and the biggest loss stays hidden.</p>
+
+  <h2 id="bench">What is a good OEE? <span class="lvl l2">Working level</span></h2>
+  <p>The commonly quoted &ldquo;world-class&rdquo; targets are availability above 90%, performance above 95%, quality above 99% and OEE above 85% (Emerson&rsquo;s introduction to OEE). These come from discrete and continuous manufacturing; multi-product batch plants with long cleaning and QC waits rarely reach them. The useful comparison is with yourself: the same equipment month on month, and with the best month you have achieved.</p>
+
+  <h2 id="use">Using OEE to find the money <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><b>Measure the bottleneck,</b> not every vessel: plant output is set by the slowest step.</li>
+    <li><b>Split the losses.</b> The value of OEE is the breakdown into availability, performance and quality hours, each with an owner.</li>
+    <li><b>Automate the data.</b> Batch start and end times from the MES or DCS batch engine, and downtime reasons from a simple pick-list, beat end-of-month spreadsheets (see <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian basics</a>).</li>
+    <li><b>Turn hours into money.</b> One extra batch a month is the contribution margin of that batch; see <a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">plant KPI dashboard</a> and <a href="{{ '/articles/digital-project-business-case/' | relative_url }}">digital project business case</a>.</li>
+  </ul>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Using the BMR standard time as the ideal, which hides slow steps.</li>
+    <li>Counting cleaning as planned downtime, so changeover losses disappear.</li>
+    <li>One OEE for the whole plant, which averages away the bottleneck.</li>
+    <li>OEE reported but no one owning each loss.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How is OEE calculated for a batch process?</h3>
+  <p>OEE = availability x performance x quality. Availability is running time over planned production time; performance is batches made times the ideal batch time, over running time; quality is good batches over all batches.</p>
+  <h3>What is a good OEE for a batch chemical plant?</h3>
+  <p>The common world-class targets (OEE above 85%) come from discrete and continuous manufacturing. Multi-product batch plants usually score lower because of cleaning, changeover and QC waits; compare each bottleneck with its own best month.</p>
+  <h3>Should cleaning time count in OEE?</h3>
+  <p>Yes, as an availability loss. Cleaning and changeover are real losses that can be reduced through campaign planning and faster cleaning; counting them as planned downtime hides them.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Emerson, <a href="https://www.emerson.com/is/content/emerson/en/corporate/shared-assets/documents/introduction-to-overall-equipment-effectiveness.pdf" rel="noopener">Introduction to overall equipment effectiveness</a> (definition, Nakajima and TPM, world-class targets).</li>
+    <li>Fabrico, <a href="https://www.fabrico.io/blog/oee-iso-22400/" rel="noopener">OEE and ISO 22400</a> (ISO 22400-2 KPIs for manufacturing operations management).</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle-time debottlenecking</a>
+    <a href="{{ '/articles/opex-reduction-api-plants/' | relative_url }}">OPEX reduction in API plants</a>
+    <a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a>
+    <a href="{{ '/articles/maintenance-planning-mtbf-mttr/' | relative_url }}">Maintenance planning, MTBF and MTTR</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var ids = ['oe-cal', 'oe-pd', 'oe-bd', 'oe-co', 'oe-n', 'oe-ct', 'oe-rj'];
+  var calc = function () {
+    var v = {}; ids.forEach(function (id) { v[id] = +$(id).value; });
+    var out = $('oe-out'), note = $('oe-note'), svg = $('oe-svg');
+    var planned = v['oe-cal'] - v['oe-pd'], run = planned - v['oe-bd'] - v['oe-co'], n = v['oe-n'], ct = v['oe-ct'], rj = Math.min(v['oe-rj'], n);
+    if (!(planned > 0) || run < 0 || !(ct > 0) || n < 0 || ids.some(function (id) { return $(id).value === '' || v[id] < 0; })) { out.innerHTML = ''; svg.innerHTML = ''; note.textContent = 'Check the inputs: times must be positive and downtime cannot exceed the planned time.'; return; }
+    var A = run / planned, P = run > 0 ? Math.min(1, n * ct / run) : 0, Q = n > 0 ? (n - rj) / n : 0, O = A * P * Q;
+    var over = run > 0 && n * ct > run * 1.0001;
+    var cls = function (x, t) { return x >= t ? 'good' : x >= t - 0.15 ? 'warn' : 'bad'; };
+    out.innerHTML = '<div class="dx-kpi ' + cls(A, 0.9) + '"><span>Availability</span><b>' + fmt(A * 100) + '%</b></div><div class="dx-kpi ' + cls(P, 0.95) + '"><span>Performance</span><b>' + fmt(P * 100) + '%</b></div><div class="dx-kpi ' + cls(Q, 0.99) + '"><span>Quality</span><b>' + fmt(Q * 100) + '%</b></div><div class="dx-kpi ' + cls(O, 0.85) + '"><span>OEE</span><b>' + fmt(O * 100) + '%</b></div>';
+    var lossA = planned - run, lossP = Math.max(0, run - n * ct), lossQ = rj * ct, good = (n - rj) * ct;
+    var parts = [['Good batches at ideal rate', good, '#6FCB9F'], ['Quality loss', lossQ, '#E07A6A'], ['Performance loss (slow batches)', lossP, '#C9A227'], ['Availability loss', lossA, '#5B9BFF']];
+    var W = 720, L = 10, y = 20, tot = planned, x = L, s = '';
+    parts.forEach(function (p) { var w = (W - 20) * p[1] / tot; if (w > 0) s += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="42" fill="' + p[2] + '" opacity=".85"/>'; x += w; });
+    parts.forEach(function (p, i) { var yy = 90 + i * 28; s += '<rect x="' + L + '" y="' + (yy - 11) + '" width="14" height="14" fill="' + p[2] + '"/><text x="' + (L + 22) + '" y="' + yy + '" fill="#C9D6E2" font-size="13">' + p[0] + ': ' + fmt(p[1]) + ' h (' + fmt(100 * p[1] / tot) + '% of planned time)</text>'; });
+    svg.innerHTML = s;
+    var big = parts.slice(1).sort(function (a, b) { return b[1] - a[1]; })[0];
+    note.innerHTML = (over ? '<span style="color:#E07A6A">Batches &times; ideal time is more than the running time: the ideal batch time is set too long, so performance is capped at 100%.</span><br>' : '') + 'Biggest loss: <b>' + big[0].toLowerCase() + '</b>, ' + fmt(big[1]) + ' h. At the ideal batch time that is about ' + fmt(big[1] / ct, 1) + ' batches you could have made.';
+  };
+  ids.forEach(function (id) { $(id).addEventListener('input', calc); }); calc();
+
+})();
+</script>

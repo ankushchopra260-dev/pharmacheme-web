@@ -1,0 +1,192 @@
+---
+layout: default
+title: "Process Historian Basics: Tags, Compression, Time and GMP Data"
+seo_title: "Process Historian Basics: Tags, Compression | PharmaChemE"
+description: "Process historian basics for chemical and pharma plants: tag naming, compression (deadband, swinging door), time sync, batch context and GMP data integrity."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Process Historian Basics"
+    url: /articles/process-historian-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Process Historian Basics: Tags, Compression, Time and GMP Data",
+        "description": "Process historian basics for chemical and pharma plants: tag naming, compression (deadband, swinging door), time sync, batch context and GMP data integrity.",
+        "keywords": "process historian, data historian, PI system, tag naming, swinging door compression, deadband, time synchronisation, data integrity, ALCOA, 21 CFR Part 11",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a process historian?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A database designed to store time-stamped process data (temperatures, pressures, flows, valve positions, alarms) from the DCS and PLCs for years, so trends can be reviewed, compared and analysed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What compression setting should I use in a historian?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on the signal: tight enough to keep the detail investigations and models need (short spikes, fast changes), loose enough to save storage. Deadband suits stepwise signals; swinging door suits smooth continuous signals. Critical GMP tags deserve deliberate, controlled settings, not defaults."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is historian data a GMP record?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When it is used to make or support a GMP decision, such as showing a critical process parameter stayed in range, yes. It then needs data-integrity controls: validated interfaces, audit trails, access control and change control."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Process Historian Basics</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}" aria-current="page">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">Every analytics, soft-sensor or AI project in a plant starts with the same question: where is the data? Usually the answer is the process historian, and the quality of that historian decides whether the project takes weeks or years. This article explains what a historian stores, how to name and describe tags, how compression can silently delete the spike you need, why clocks matter, and what changes when the data is GMP.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What a process historian does</a><span>Basics</span></li>
+    <li><a href="#tags">Tags: names, units and context</a><span>Basics</span></li>
+    <li><a href="#compression">Compression (demo)</a><span>Working level</span></li>
+    <li><a href="#time">Time, quality flags and context</a><span>Working level</span></li>
+    <li><a href="#gmp">Historians in GMP plants</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What a process historian does <span class="lvl l1">Basics</span></h2>
+  <p>The DCS shows what is happening now. A <b>process historian</b> remembers it: every temperature, pressure, flow, level, valve position and alarm, time-stamped, for years. In the ISA-95 picture of a plant it sits between control (level 2) and manufacturing operations (level 3), and it is the data source under almost every analytics and AI project.</p>
+  <ul>
+    <li><b>Troubleshooting:</b> overlay last night&rsquo;s trend on a good batch.</li>
+    <li><b>Investigations:</b> evidence for deviations and incidents (see <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">deviations and CAPA</a>).</li>
+    <li><b>Performance:</b> cycle time, energy and utility consumption, OEE.</li>
+    <li><b>Models:</b> training data for <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">soft sensors</a>, <a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">predictive maintenance</a> and <a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">digital twins</a>.</li>
+  </ul>
+
+  <h2 id="tags">Tags: names, units and context <span class="lvl l1">Basics</span></h2>
+  <p>Each measured value is a <b>tag</b>. A historian with 20,000 tags called <code>AI_1047</code> is almost useless; one with consistent names is a goldmine. A practical tag record holds:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Field</th><th>Example</th><th>Why it matters</th></tr>
+    <tr><td>Tag name (from the P&amp;ID)</td><td>B2-R201-TI-101</td><td>Links the data to the drawing and the equipment (see <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">how to read a P&amp;ID</a>)</td></tr>
+    <tr><td>Description</td><td>Reactor R-201 mass temperature</td><td>People can find it</td></tr>
+    <tr><td>Engineering unit and range</td><td>&deg;C, &minus;20 to 150</td><td>No guessing between kg/h and m&sup3;/h</td></tr>
+    <tr><td>Equipment and area</td><td>R-201, Block 2</td><td>Lets analytics group tags by unit</td></tr>
+    <tr><td>Compression settings</td><td>Deadband 0.2 &deg;C</td><td>Decides how much detail is kept (below)</td></tr>
+    <tr><td>GMP relevance</td><td>Critical process parameter: yes</td><td>Decides audit trail, review and retention rules</td></tr>
+  </table></div>
+
+  <h2 id="compression">Compression: how much detail is kept <span class="lvl l2">Working level</span></h2>
+  <p>Storing every value every second for every tag is expensive, so historians discard points that add no information. <b>Deadband</b> (exception) compression discards small changes within a set band; it suits stepwise signals such as valve positions and levels. <b>Swinging door</b> compression keeps the points needed to represent the shape of a smooth signal, and is better for continuous data such as pressure and temperature. Set the band too wide and short spikes (the ones investigations need) disappear.</p>
+  <div class="dx-box">
+    <h3>Compression demo</h3>
+    <p class="dx-sub">Simulated reactor temperature over one hour, sampled every 10 s, with a short spike at 38 minutes. Widen the deadband and watch what is lost.</p>
+    <div class="dx-grid"><label>Deadband (&deg;C): <b id="cp-v">0.2</b><input id="cp-db" type="range" min="0" max="3" step="0.05" value="0.2"></label></div>
+    <svg id="cp-svg" class="dx-svg" viewBox="0 0 720 240" role="img" aria-label="Raw and compressed temperature trend"></svg>
+    <div class="dx-out" id="cp-out"></div>
+  </div>
+
+  <h2 id="time">Time, quality flags and context <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><b>One clock.</b> DCS, PLCs, historian, MES and LIMS must be synchronised to a common time source. A five-minute offset between the lab and the historian ruins soft sensors and confuses investigations.</li>
+    <li><b>Quality flags.</b> A good historian stores whether a value was good, bad (instrument fault) or substituted. Analytics must exclude bad values, not treat them as real.</li>
+    <li><b>Batch context.</b> Store batch ID, product and phase (charging, reaction, distillation) as events, so trends can be aligned batch by batch. This is usually supplied by the MES or the DCS batch engine (see <a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and electronic batch records</a>).</li>
+  </ul>
+
+  <h2 id="gmp">Historians in GMP plants <span class="lvl l3">Going deeper</span></h2>
+  <p>When historian data is used for GMP decisions, such as proving a critical process parameter stayed in range, it is a GMP record. FDA&rsquo;s data integrity guidance (December 2018) expects such records to be attributable, legible, contemporaneously recorded, original or a true copy, and accurate, and 21 CFR Part 11 expects validated systems, secure time-stamped audit trails and controlled access. In practice: validate the interfaces for GMP tags, protect compression settings and tag changes under change control, and keep data for the retention period your quality system requires.</p>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Tag names that do not match the P&amp;ID, so nobody can find the right signal.</li>
+    <li>Default compression on every tag, so short pressure spikes vanish from investigations.</li>
+    <li>Clocks drifting apart between historian, MES and LIMS.</li>
+    <li>Collecting data with no batch context, so batches cannot be compared.</li>
+    <li>Changing compression or scaling on GMP tags without change control.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a process historian?</h3>
+  <p>A database designed to store time-stamped process data (temperatures, pressures, flows, valve positions, alarms) from the DCS and PLCs for years, so trends can be reviewed, compared and analysed.</p>
+  <h3>What compression setting should I use in a historian?</h3>
+  <p>It depends on the signal: tight enough to keep the detail investigations and models need (short spikes, fast changes), loose enough to save storage. Deadband suits stepwise signals; swinging door suits smooth continuous signals. Critical GMP tags deserve deliberate, controlled settings, not defaults.</p>
+  <h3>Is historian data a GMP record?</h3>
+  <p>When it is used to make or support a GMP decision, such as showing a critical process parameter stayed in range, yes. It then needs data-integrity controls: validated interfaces, audit trails, access control and change control.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>ISA, <a href="https://www.isa.org/standards-and-publications/isa-standards/isa-95-standard" rel="noopener">ISA-95 standard</a>: functional hierarchy levels.</li>
+    <li>Weatherford CygNet documentation, <a href="https://softwaredocs.weatherford.com/cygnet/95/content/topics/History/Data%20Compression.htm" rel="noopener">Data compression</a>: deadband and swinging door compression.</li>
+    <li>US FDA, <i>Data Integrity and Compliance With Drug CGMP</i>, December 2018 (<a href="https://www.duanemorris.com/alerts/fda_issues_final_guidance_data_integrity_compliance_cgmp_0119.html" rel="noopener">summary</a>).</li>
+    <li>Huber L., <a href="https://pharmtech.com/view/21-cfr-11-overview-final-document-and-its-new-scope-ludwig-huber" rel="noopener">21 CFR 11: overview of the final document and its new scope</a>, Pharmaceutical Technology.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">Process instrumentation basics</a>
+    <a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and electronic batch records</a>
+    <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a>
+    <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var raw = [], s = 11, r = function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+  for (var i = 0; i <= 360; i++) { var t = i / 6; var v = 25 + 40 * (1 - Math.exp(-t / 12)) + 0.15 * Math.sin(t * 2.1) + 0.12 * (r() - 0.5); if (t >= 38 && t < 38.5) v += 4 * Math.sin((t - 38) / 0.5 * Math.PI); raw.push([t, v]); }
+  var draw = function () {
+    var db = +$('cp-db').value; $('cp-v').textContent = db.toFixed(2);
+    var kept = [raw[0]], last = raw[0][1];
+    for (var i = 1; i < raw.length - 1; i++) { if (Math.abs(raw[i][1] - last) > db) { kept.push(raw[i]); last = raw[i][1]; } }
+    kept.push(raw[raw.length - 1]);
+    var interp = function (t) { for (var k = 1; k < kept.length; k++) if (kept[k][0] >= t) { var a = kept[k - 1], b = kept[k]; return a[1] + (b[1] - a[1]) * (t - a[0]) / ((b[0] - a[0]) || 1); } return kept[kept.length - 1][1]; };
+    var maxErr = 0, peakRaw = 0, peakKept = 0; raw.forEach(function (p) { maxErr = Math.max(maxErr, Math.abs(p[1] - interp(p[0]))); if (p[0] >= 37 && p[0] <= 39.5) { peakRaw = Math.max(peakRaw, p[1]); peakKept = Math.max(peakKept, interp(p[0])); } });
+    var W = 720, H = 240, L = 44, R = 10, T = 10, B = 28, lo = 20, hi = 75, X = function (t) { return L + (W - L - R) * t / 60; }, Y = function (v) { return T + (H - T - B) * (1 - (v - lo) / (hi - lo)); };
+    var g = ''; for (var v = 20; v <= 75; v += 10) g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="#1F3650"/><text x="' + (L - 6) + '" y="' + (Y(v) + 4) + '" fill="#8FA3B8" font-size="10" text-anchor="end">' + v + '</text>';
+    for (var m = 0; m <= 60; m += 10) g += '<text x="' + X(m) + '" y="' + (H - 10) + '" fill="#8FA3B8" font-size="10" text-anchor="middle">' + m + ' min</text>';
+    var pr = raw.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join(''), pk = kept.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join('');
+    g += '<path d="' + pr + '" fill="none" stroke="#6FCB9F" stroke-width="1.5" opacity=".7"/><path d="' + pk + '" fill="none" stroke="#C9A227" stroke-width="2"/>' + kept.map(function (p) { return '<circle cx="' + X(p[0]).toFixed(1) + '" cy="' + Y(p[1]).toFixed(1) + '" r="2" fill="#C9A227"/>'; }).join('');
+    g += '<text x="' + (L + 8) + '" y="' + (T + 14) + '" fill="#6FCB9F" font-size="11">raw (every 10 s)</text><text x="' + (L + 120) + '" y="' + (T + 14) + '" fill="#C9A227" font-size="11">stored after compression</text>';
+    $('cp-svg').innerHTML = g;
+    var lost = peakRaw - peakKept;
+    $('cp-out').innerHTML = '<div class="dx-kpi"><span>Points stored</span><b>' + kept.length + ' of ' + raw.length + '</b></div><div class="dx-kpi"><span>Storage saved</span><b>' + fmt(100 * (1 - kept.length / raw.length), 0) + '%</b></div><div class="dx-kpi ' + (maxErr > 1 ? 'warn' : 'good') + '"><span>Largest error vs raw</span><b>' + fmt(maxErr, 2) + ' &deg;C</b></div><div class="dx-kpi ' + (lost > 1 ? 'bad' : 'good') + '"><span>Spike height lost</span><b>' + fmt(Math.max(0, lost), 2) + ' &deg;C</b></div>';
+  };
+  $('cp-db').addEventListener('input', draw); draw();
+
+})();
+</script>

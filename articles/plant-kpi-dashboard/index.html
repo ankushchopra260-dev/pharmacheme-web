@@ -1,0 +1,189 @@
+---
+layout: default
+title: "Plant KPI Dashboard for Chemical and API Plants: KPI Tree and Formulas"
+seo_title: "Plant KPI Dashboard for Chemical Plants | PharmaChemE"
+description: "KPIs for chemical and API plants: a KPI tree from cost per kg to yield, cycle time, OEE, consumption norms and first-time-right, with formulas and owners."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Plant KPI Dashboard for Chemical and API Plants"
+    url: /articles/plant-kpi-dashboard/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Plant KPI Dashboard for Chemical and API Plants: KPI Tree and Formulas",
+        "description": "KPIs for chemical and API plants: a KPI tree from cost per kg to yield, cycle time, OEE, consumption norms and first-time-right, with formulas and owners.",
+        "keywords": "plant KPI, manufacturing KPI, chemical plant dashboard, cost per kg, yield, cycle time, OEE, first time right, ISO 22400, Power BI dashboard",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What KPIs should a chemical plant track?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Start from cost per kg and track its drivers: yield, raw material and solvent consumption against norms, batch cycle time and OEE of the bottleneck, first-time-right, utility and effluent per kg, breakdowns, and safety. Fewer than ten per level, each with a target and an owner."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between leading and lagging KPIs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lagging KPIs, such as monthly cost per kg or incidents, report results after the fact. Leading KPIs, such as yield per batch, cycle time or near misses reported, show problems early enough to act."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a standard for manufacturing KPIs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. ISO 22400-2 defines key performance indicators for manufacturing operations management, including OEE and its factors, throughput, scrap and rework ratios, MTBF and MTTR."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Plant KPI Dashboard for Chemical and API Plants</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}" aria-current="page">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">Most plant dashboards show too many numbers and change too little. A good one starts from the number that matters, cost per kg, and breaks it into the few drivers each team can act on every shift. This article gives an interactive KPI tree with definitions, formulas, data sources and owners, the three levels of dashboard, and the rules that make people actually use it.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#tree">KPI tree: start from cost per kg</a><span>Basics</span></li>
+    <li><a href="#levels">Three levels of dashboard</a><span>Basics</span></li>
+    <li><a href="#data">Where the data comes from</a><span>Working level</span></li>
+    <li><a href="#rules">Rules for a dashboard people use</a><span>Working level</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="tree">Start from one number: cost per kg <span class="lvl l1">Basics</span></h2>
+  <p>A useful plant dashboard is a tree, not a wall of charts. At the top is the number management cares about; below it, the few drivers that move it; below those, what each shift can act on. In an API or specialty chemical plant the top number is usually <b>conversion cost or total cost per kg</b> of product (see <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">consumption norms and cost per kg</a>). Tap a KPI to see its definition, formula, data source and owner.</p>
+  <div class="dx-box">
+    <h3>KPI tree for a batch plant</h3>
+    <p class="dx-sub">Grouped by what each KPI drives. Formulas use your own plant data.</p>
+    <div id="kp-tree"></div>
+    <div class="dx-panel" id="kp-panel" aria-live="polite" style="margin-top:12px"></div>
+  </div>
+
+  <h2 id="levels">Three levels of dashboard <span class="lvl l1">Basics</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Level</th><th>Who</th><th>How often</th><th>What they see</th></tr>
+    <tr><td>Shift or block</td><td>Shift in-charge, operators</td><td>Every shift or day</td><td>Batches started and finished, delays and reasons, safety, current deviations</td></tr>
+    <tr><td>Plant</td><td>Production head, maintenance, QA</td><td>Daily and weekly</td><td>Yield, cycle time, OEE of bottlenecks, consumption against norms, first-time-right, breakdowns</td></tr>
+    <tr><td>Site</td><td>Site head, management</td><td>Weekly and monthly</td><td>Cost per kg, output against plan, on-time delivery, safety, energy and effluent per kg</td></tr>
+  </table></div>
+  <p>The same data feeds all three, so the numbers agree. If the site head&rsquo;s yield and the block&rsquo;s yield are calculated differently, the meeting is spent arguing about the number instead of fixing the loss.</p>
+
+  <h2 id="data">Where the data comes from <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><b>ERP:</b> material issued and received, stock, costs, dispatch dates.</li>
+    <li><b>MES or batch records:</b> batch start and end, step times, yields (see <a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a>).</li>
+    <li><b>Historian:</b> utility consumption, process trends, equipment run time (see <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian basics</a>).</li>
+    <li><b>LIMS and QMS:</b> results, OOS, deviations, first-time-right.</li>
+    <li><b>CMMS:</b> breakdowns, MTBF, maintenance cost.</li>
+  </ul>
+  <p>ISO 22400-2 defines a standard set of manufacturing operations KPIs, including OEE and its factors, throughput rate, scrap and rework ratios, MTBF and MTTR. Using standard definitions makes plants and sites comparable.</p>
+
+  <h2 id="rules">Rules for a dashboard people use <span class="lvl l2">Working level</span></h2>
+  <ol>
+    <li><b>Fewer than ten KPIs per level,</b> each with a target, a trend and an owner.</li>
+    <li><b>Leading and lagging.</b> Cost per kg is lagging; yield, cycle time and consumption against norms are leading. Shift dashboards should be mostly leading.</li>
+    <li><b>Automatic, not typed.</b> If someone has to type the number, it will be late and sometimes wrong.</li>
+    <li><b>Linked to action.</b> Every red KPI in the daily meeting gets an owner and a date.</li>
+    <li><b>Money on the main ones.</b> One per cent of yield, one hour of cycle time, one kg of solvent per kg: show what each is worth.</li>
+  </ol>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Fifty KPIs on one screen and none with an owner.</li>
+    <li>Different yield definitions in production, finance and QA.</li>
+    <li>Monthly numbers only, when the loss happened on the second night shift.</li>
+    <li>A beautiful Power BI report fed by a spreadsheet someone updates by hand.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What KPIs should a chemical plant track?</h3>
+  <p>Start from cost per kg and track its drivers: yield, raw material and solvent consumption against norms, batch cycle time and OEE of the bottleneck, first-time-right, utility and effluent per kg, breakdowns, and safety. Fewer than ten per level, each with a target and an owner.</p>
+  <h3>What is the difference between leading and lagging KPIs?</h3>
+  <p>Lagging KPIs, such as monthly cost per kg or incidents, report results after the fact. Leading KPIs, such as yield per batch, cycle time or near misses reported, show problems early enough to act.</p>
+  <h3>Is there a standard for manufacturing KPIs?</h3>
+  <p>Yes. ISO 22400-2 defines key performance indicators for manufacturing operations management, including OEE and its factors, throughput, scrap and rework ratios, MTBF and MTTR.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Fabrico, <a href="https://www.fabrico.io/blog/oee-iso-22400/" rel="noopener">OEE and ISO 22400</a> (ISO 22400-2 manufacturing operations KPIs).</li>
+    <li>Emerson, <a href="https://www.emerson.com/is/content/emerson/en/corporate/shared-assets/documents/introduction-to-overall-equipment-effectiveness.pdf" rel="noopener">Introduction to overall equipment effectiveness</a>.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a>
+    <a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a>
+    <a href="{{ '/articles/opex-reduction-api-plants/' | relative_url }}">OPEX reduction in API plants</a>
+    <a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Business case for a digital project</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var G = [
+    { g: 'Material', items: [
+      { k: 'Yield', d: 'Product made as a share of what the limiting raw material could give.', f: 'Molar yield (%) = moles of product &divide; moles of limiting reagent charged &times; 100. Mass yield (kg/kg) = kg product &divide; kg key input.', s: 'Batch record or MES; ERP for receipts', fr: 'Every batch', o: 'Production and process engineering', l: '/articles/opex-reduction-api-plants/' },
+      { k: 'Raw material consumption vs norm', d: 'Actual kg of each input per kg of product, against the approved norm.', f: 'Variance (%) = (actual kg/kg &minus; norm kg/kg) &divide; norm &times; 100', s: 'ERP issues and receipts, batch records', fr: 'Every batch, rolled up monthly', o: 'Production, finance', l: '/articles/consumption-norms-and-cost-per-kg/' },
+      { k: 'Solvent recovery', d: 'Solvent recovered and reused as a share of solvent used.', f: 'Recovery (%) = solvent recovered to spec &divide; solvent charged &times; 100', s: 'Solvent recovery logs, ERP', fr: 'Weekly', o: 'Solvent recovery in-charge', l: '/articles/solvent-recovery-calculation/' } ] },
+    { g: 'Time and capacity', items: [
+      { k: 'Batch cycle time', d: 'Hours from batch start to the equipment being free for the next batch.', f: 'Cycle time = end time &minus; start time; compare with the best demonstrated batch.', s: 'MES, DCS batch events, historian', fr: 'Every batch', o: 'Production', l: '/articles/batch-cycle-time-debottlenecking/' },
+      { k: 'OEE of bottleneck', d: 'Availability &times; performance &times; quality of the equipment that limits output.', f: 'OEE = A &times; P &times; Q (see the OEE calculator)', s: 'MES, historian, downtime log', fr: 'Daily, weekly trend', o: 'Production and maintenance', l: '/articles/oee-batch-plants/' },
+      { k: 'Output against plan', d: 'Batches or kg made against the production plan.', f: 'Plan adherence (%) = actual &divide; planned &times; 100', s: 'ERP and MES', fr: 'Daily', o: 'Planning and production', l: '' } ] },
+    { g: 'Quality', items: [
+      { k: 'First-time-right', d: 'Batches released without rework, reprocessing or deviation affecting quality.', f: 'FTR (%) = batches right first time &divide; batches completed &times; 100', s: 'QMS, LIMS, batch records', fr: 'Weekly, monthly', o: 'QA and production', l: '/articles/qa-gmp-deviation-capa/' },
+      { k: 'OOS and deviations per 100 batches', d: 'Rate of out-of-specification results and quality deviations.', f: 'Rate = count &divide; batches &times; 100', s: 'QMS, LIMS', fr: 'Monthly', o: 'QA, QC', l: '/articles/qc-lab-basics-oos-oot/' } ] },
+    { g: 'Utilities and environment', items: [
+      { k: 'Steam, power and chilled water per kg', d: 'Utility consumption per kg of product.', f: 'Specific consumption = utility used in period &divide; kg produced', s: 'Utility meters, historian', fr: 'Daily, monthly', o: 'Utilities', l: '/articles/utility-load-estimation/' },
+      { k: 'Effluent per kg', d: 'Effluent volume and load (COD) per kg of product.', f: 'Specific effluent = m&sup3; (or kg COD) &divide; kg produced', s: 'ETP logs, flow meters', fr: 'Daily, monthly', o: 'ETP and production', l: '/articles/etp-load-reduction-at-source/' } ] },
+    { g: 'Reliability and safety', items: [
+      { k: 'Breakdown hours and MTBF', d: 'Unplanned stoppages of critical equipment and mean time between them.', f: 'MTBF = running time &divide; number of failures', s: 'CMMS', fr: 'Weekly, monthly', o: 'Maintenance', l: '/articles/maintenance-planning-mtbf-mttr/' },
+      { k: 'Safety: incidents and near misses', d: 'Recordable incidents (lagging) and near misses reported and closed (leading).', f: 'Rates per 200,000 or 1,000,000 hours worked, per company standard', s: 'EHS system', fr: 'Daily review, monthly rates', o: 'EHS and line managers', l: '/articles/hira-and-jsa-risk-assessment/' } ] }
+  ];
+  var tree = $('kp-tree'), panel = $('kp-panel'), base = '{{ "" | relative_url }}';
+  tree.innerHTML = G.map(function (g, gi) { return '<div style="margin-bottom:10px"><div class="dx-note mute" style="margin:0 0 6px">' + g.g + '</div><div class="dx-chips" style="margin:0">' + g.items.map(function (it, ii) { return '<button type="button" class="dx-chip" data-g="' + gi + '" data-i="' + ii + '" aria-pressed="false">' + it.k + '</button>'; }).join('') + '</div></div>'; }).join('');
+  var show = function (gi, ii) { var it = G[gi].items[ii]; tree.querySelectorAll('.dx-chip').forEach(function (c) { c.setAttribute('aria-pressed', String(+c.dataset.g === gi && +c.dataset.i === ii)); });
+    panel.innerHTML = '<h4>' + it.k + '</h4><dl><dt>What it is</dt><dd>' + it.d + '</dd><dt>Formula</dt><dd>' + it.f + '</dd><dt>Data from</dt><dd>' + it.s + '</dd><dt>How often</dt><dd>' + it.fr + '</dd><dt>Owner</dt><dd>' + it.o + '</dd>' + (it.l ? '<dt>Read more</dt><dd><a style="color:var(--brass)" href="' + base + it.l + '">Related article</a></dd>' : '') + '</dl>'; };
+  tree.addEventListener('click', function (e) { var b = e.target.closest('.dx-chip'); if (b) show(+b.dataset.g, +b.dataset.i); });
+  show(0, 0);
+
+})();
+</script>

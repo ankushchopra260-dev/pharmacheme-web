@@ -1,0 +1,198 @@
+---
+layout: default
+title: "OT Cybersecurity for Chemical Plants: IEC 62443, Zones and a Self-Check"
+seo_title: "OT Cybersecurity for Chemical Plants | PharmaChemE"
+description: "OT cybersecurity for chemical and pharma plants: the TRITON safety-system attack, IEC 62443 zones and conduits, CERT-In reporting and a 12-point self-check."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "OT Cybersecurity for Chemical Plants"
+    url: /articles/ot-cybersecurity-chemical-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "OT Cybersecurity for Chemical Plants: IEC 62443, Zones and a Self-Check",
+        "description": "OT cybersecurity for chemical and pharma plants: the TRITON safety-system attack, IEC 62443 zones and conduits, CERT-In reporting and a 12-point self-check.",
+        "keywords": "OT cybersecurity, industrial cybersecurity, IEC 62443, zones and conduits, TRITON, safety instrumented system, DCS security, CERT-In, chemical plant",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is OT cybersecurity?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Protecting operational technology, the DCS, PLCs, safety systems, historians and HMIs that control physical processes, from cyber attacks and accidents. Failures can cause safety incidents and releases, not only data loss."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is IEC 62443?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An international series of standards, developed by ISA and adopted by the IEC, for securing industrial automation and control systems. It uses zones, conduits and security levels and shares responsibility between asset owners, suppliers, integrators and service providers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do Indian companies need to report OT cyber incidents?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CERT-In directions of April 2022 require cyber incidents to be reported to CERT-In within six hours of noticing them. Make sure your incident plan covers incidents in plant control systems as well as office IT."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>OT Cybersecurity for Chemical Plants</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}" aria-current="page">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">A cyber attack on a chemical plant is a process safety problem. Every new connection, from a cloud dashboard to a vendor&rsquo;s remote login, is a possible path to the DCS and the safety system. This article explains why plant networks need different protection from office IT, the zones-and-conduits approach of IEC 62443, the Indian reporting rule, how to connect AI tools safely, and a 12-point self-check.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why plant networks are different</a><span>Basics</span></li>
+    <li><a href="#levels">Levels, zones and conduits</a><span>Basics</span></li>
+    <li><a href="#check">OT security self-check</a><span>Working level</span></li>
+    <li><a href="#india">Reporting in India (CERT-In)</a><span>Working level</span></li>
+    <li><a href="#ai">AI and remote access: design rules</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why plant networks are different <span class="lvl l1">Basics</span></h2>
+  <p>Office IT protects information. <b>Operational technology (OT)</b>, the DCS, PLCs, safety systems, historians and HMIs, controls physical equipment, so a cyber incident can mean a runaway reaction, a release or a fire, not just lost files. OT also runs for 15 to 20 years, often on old operating systems that cannot simply be patched on Tuesday night.</p>
+  <div class="art-note"><b>The case every plant should know</b><p>In 2017, attackers moved from the IT network into the OT network of a Middle East petrochemical facility and installed malware, later called TRITON, on its Triconex safety instrumented system controllers. The plant went to a safe state only because a bug in the malware tripped the controllers. The FBI warned in March 2022 that TRITON remains a threat to industrial control systems worldwide.</p></div>
+  <p>Every AI, cloud or remote-support project adds connections into the plant network. Security has to be designed in, not added after the first incident.</p>
+
+  <h2 id="levels">Levels, zones and conduits <span class="lvl l1">Basics</span></h2>
+  <p>The ISA/IEC 62443 series, developed by ISA and adopted by the IEC, is the main international standard set for securing industrial automation and control systems, built on shared responsibility between asset owners, suppliers, integrators and service providers. Its core design idea:</p>
+  <ul>
+    <li><b>Zones</b> group assets that share a security level requirement: for example the safety system, the DCS of one block, the historian and MES servers.</li>
+    <li><b>Conduits</b> are the controlled paths between zones, each with a stated purpose, allowed protocols and its own controls. A path between zones that nobody designed is a finding, not a conduit.</li>
+    <li><b>Security levels SL 1 to SL 4</b> describe the attacker a zone must withstand, from casual or accidental violation (SL 1) to sophisticated attackers with extended resources (SL 4).</li>
+  </ul>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Plant layer (ISA-95 level)</th><th>Typical systems</th><th>Typical protection</th></tr>
+    <tr><td>Business (level 4)</td><td>ERP, email, office PCs</td><td>IT security; never direct access to control</td></tr>
+    <tr><td>Industrial DMZ</td><td>Historian copy, patch server, remote-access gateway</td><td>The only place IT and OT meet; firewalls on both sides</td></tr>
+    <tr><td>Operations (level 3)</td><td>MES, historian, engineering stations</td><td>Own zone; strict accounts; whitelisted software</td></tr>
+    <tr><td>Control (levels 1&ndash;2)</td><td>DCS, PLCs, HMIs</td><td>Own zones per area; no internet; controlled USB</td></tr>
+    <tr><td>Safety systems</td><td>SIS, burner management</td><td>Separate zone with the highest protection; keyswitch in run mode</td></tr>
+  </table></div>
+
+  <h2 id="check">OT security self-check <span class="lvl l2">Working level</span></h2>
+  <div class="dx-box">
+    <h3>How exposed is your plant?</h3>
+    <p class="dx-sub">Twelve yes-or-no questions. The result is our own rough guide, not an IEC 62443 assessment.</p>
+    <div id="ot-quiz"></div>
+    <div class="dx-result" id="ot-res"></div>
+  </div>
+
+  <h2 id="india">Reporting in India <span class="lvl l2">Working level</span></h2>
+  <p>CERT-In&rsquo;s directions of 28 April 2022 under section 70B(6) of the IT Act require cyber incidents to be reported to CERT-In within six hours of noticing them or being told of them. CERT-In can give directions to service providers, intermediaries, data centres, body corporates and government organisations. Make sure your incident response plan names who reports, and that OT incidents are included, not only IT.</p>
+
+  <h2 id="ai">AI and remote access: design rules <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><b>Data flows out, not in.</b> Analytics and AI should read data from a historian copy in the DMZ, not connect to the DCS directly.</li>
+    <li><b>No direct internet from control networks.</b> Cloud tools reach plant data through the DMZ.</li>
+    <li><b>Remote vendor access</b> through one controlled gateway, with named accounts, approval for each session, recording, and nothing left permanently open.</li>
+    <li><b>Models that write back</b> (set points, recipes) need the same review as a control change: limits, interlocks untouched, operator override and management of change.</li>
+    <li><b>Backups</b> of DCS, PLC and SIS configurations kept offline and tested by restoring them.</li>
+  </ul>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>A &ldquo;temporary&rdquo; remote-access modem or remote-desktop tool for a vendor, never removed.</li>
+    <li>One flat network from the office to the PLCs.</li>
+    <li>Shared operator passwords that never change.</li>
+    <li>USB sticks moving between office and engineering stations.</li>
+    <li>Backups that were never test-restored.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is OT cybersecurity?</h3>
+  <p>Protecting operational technology, the DCS, PLCs, safety systems, historians and HMIs that control physical processes, from cyber attacks and accidents. Failures can cause safety incidents and releases, not only data loss.</p>
+  <h3>What is IEC 62443?</h3>
+  <p>An international series of standards, developed by ISA and adopted by the IEC, for securing industrial automation and control systems. It uses zones, conduits and security levels and shares responsibility between asset owners, suppliers, integrators and service providers.</p>
+  <h3>Do Indian companies need to report OT cyber incidents?</h3>
+  <p>CERT-In directions of April 2022 require cyber incidents to be reported to CERT-In within six hours of noticing them. Make sure your incident plan covers incidents in plant control systems as well as office IT.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>FBI, <a href="https://www.ic3.gov/CSA/2022/220325.pdf" rel="noopener">TRITON malware remains threat to global critical infrastructure industrial control systems</a>, PIN 20220324-001, March 2022.</li>
+    <li>ISA, <a href="https://www.isa.org/standards-and-publications/isa-standards/isa-iec-62443-series-of-standards" rel="noopener">ISA/IEC 62443 series of standards</a>.</li>
+    <li>Trout Software, <a href="https://www.trout.software/blog/iec-62443-zones-and-conduits-explained" rel="noopener">IEC 62443 zones and conduits explained</a> (security levels SL 1 to SL 4).</li>
+    <li>Trilegal, <a href="https://trilegal.com/knowledge-repository/2022-cert-in-directions-on-reporting-cyber-incidents/" rel="noopener">2022 CERT-In directions on reporting cyber incidents</a>.</li>
+    <li>ISA, <a href="https://www.isa.org/standards-and-publications/isa-standards/isa-95-standard" rel="noopener">ISA-95 standard</a>.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lopa-and-sil-basics/' | relative_url }}">LOPA and SIL basics</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+    <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var QS = ['The control network (DCS, PLC) is separated from the office network by a firewall.',
+    'There is an industrial DMZ, and nothing connects directly from the office or internet to the control network.',
+    'The safety instrumented system is in its own zone, not on the same flat network as everything else.',
+    'There is an up-to-date list of all OT assets: controllers, servers, HMIs, network switches, with versions.',
+    'Remote access for vendors goes through one controlled gateway with named accounts and approval for each session.',
+    'There are no unknown modems, 4G routers or remote-desktop tools on OT machines.',
+    'USB and removable media on OT machines are controlled (blocked or scanned).',
+    'Operator and engineer accounts are individual, not shared, and leavers are removed promptly.',
+    'Configuration backups of DCS, PLCs and SIS are kept offline and have been test-restored.',
+    'Anti-malware or application whitelisting runs on OT servers and workstations, as approved by the vendor.',
+    'Someone is named as responsible for OT cybersecurity.',
+    'The incident response plan covers OT and the CERT-In six-hour reporting requirement.'];
+  var ans = QS.map(function () { return null; });
+  var quiz = $('ot-quiz');
+  quiz.innerHTML = QS.map(function (q, i) { return '<div class="dx-q"><span>' + (i + 1) + '. ' + esc(q) + '</span><span class="dx-yn"><button type="button" class="y" data-i="' + i + '" aria-pressed="false">Yes</button><button type="button" class="n" data-i="' + i + '" aria-pressed="false">No</button></span></div>'; }).join('');
+  quiz.addEventListener('click', function (e) { var b = e.target.closest('button[data-i]'); if (!b) return; ans[+b.dataset.i] = b.classList.contains('y'); b.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); }); score(); });
+  var score = function () {
+    var r = $('ot-res'), done = ans.filter(function (a) { return a !== null; }).length;
+    if (done < QS.length) { r.innerHTML = '<p class="dx-note mute" style="margin:0">Answered ' + done + ' of ' + QS.length + '.</p>'; return; }
+    var y = ans.filter(Boolean).length, crit = [0, 1, 2, 4, 5].filter(function (i) { return !ans[i]; });
+    var lvl = crit.length ? 'High exposure' : y >= 11 ? 'Good foundations' : y >= 8 ? 'Partly protected' : 'High exposure';
+    r.innerHTML = '<h4>' + lvl + ' (' + y + ' of 12)</h4>' + (crit.length ? '<p class="dx-note" style="margin:0 0 6px">Fix these first: they are direct paths into the control network.</p><ol>' + crit.map(function (i) { return '<li>' + esc(QS[i]) + '</li>'; }).join('') + '</ol>' : '') +
+      (ans.some(function (a) { return !a; }) ? '<p class="dx-note mute">All gaps: ' + QS.filter(function (q, i) { return !ans[i]; }).map(function (q) { return esc(q.replace(/\.$/, '')); }).join('; ') + '.</p>' : '<p class="dx-note" style="margin:0">Next: a formal risk assessment by zone, as described in IEC 62443-3-2, and regular drills.</p>');
+  };
+  score();
+
+})();
+</script>

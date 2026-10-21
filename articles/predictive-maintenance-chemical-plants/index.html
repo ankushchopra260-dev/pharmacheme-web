@@ -1,0 +1,224 @@
+---
+layout: default
+title: "Predictive Maintenance in Chemical Plants: P-F Curve, Vibration Limits and AI"
+seo_title: "Predictive Maintenance in Chemical Plants | PharmaChemE"
+description: "Predictive maintenance for chemical and pharma plants: P-F interval, ISO 20816 vibration zones, what to monitor, where AI helps, and a 12-week pilot plan."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Predictive Maintenance in Chemical Plants"
+    url: /articles/predictive-maintenance-chemical-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Predictive Maintenance in Chemical Plants: P-F Curve, Vibration Limits and AI",
+        "description": "Predictive maintenance for chemical and pharma plants: P-F interval, ISO 20816 vibration zones, what to monitor, where AI helps, and a 12-week pilot plan.",
+        "keywords": "predictive maintenance, P-F curve, P-F interval, ISO 20816, vibration analysis, condition monitoring, chemical plant maintenance, machine learning maintenance",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between preventive and predictive maintenance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Preventive maintenance is done on a fixed schedule, whether or not the machine needs it. Predictive maintenance is done when measured condition, often analysed by software or machine learning, shows a failure is developing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often should vibration be checked?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Reliability-centred maintenance practice suggests a check interval of about half the P-F interval for that failure mode, shorter for high-risk failures. Machines with short P-F intervals are better monitored online."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do we need machine learning for predictive maintenance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Many sites get most of the benefit from good sensors, ISO-based vibration limits and a disciplined work-order process. Machine learning helps when many signals interact or normal values change with batch phase."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Predictive Maintenance in Chemical Plants</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}" aria-current="page">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">A pump that fails in the middle of a batch costs more than the repair: the batch, the overtime, sometimes the safety risk. Most of those failures gave weeks of warning that nobody was watching. This article explains how much warning you get (the P-F curve), what to measure on chemical plant equipment, how to read vibration limits, where machine learning genuinely helps, and how to run a pilot that proves its value.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#types">Four ways to maintain a machine</a><span>Basics</span></li>
+    <li><a href="#pf">The P-F curve (calculator)</a><span>Basics</span></li>
+    <li><a href="#signals">What to measure on chemical plant equipment</a><span>Working level</span></li>
+    <li><a href="#zones">Vibration severity: ISO 20816 zones (check)</a><span>Working level</span></li>
+    <li><a href="#ai">Where machine learning adds value</a><span>Working level</span></li>
+    <li><a href="#start">A practical pilot in 12 weeks</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="types">Four ways to maintain a machine <span class="lvl l1">Basics</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Strategy</th><th>When you act</th><th>Good for</th></tr>
+    <tr><td><b>Breakdown</b> (run to failure)</td><td>After it fails</td><td>Cheap, non-critical items with a spare on the shelf</td></tr>
+    <tr><td><b>Preventive</b> (time-based)</td><td>Every fixed number of hours or months</td><td>Wear that follows the calendar: filters, belts, lubrication</td></tr>
+    <tr><td><b>Condition-based</b></td><td>When a measured condition crosses a limit</td><td>Rotating equipment with clear warning signs: vibration, temperature, current</td></tr>
+    <tr><td><b>Predictive</b></td><td>When a model says failure is coming, ideally with how long is left</td><td>Critical machines with good sensor and failure history</td></tr>
+  </table></div>
+  <p>Predictive maintenance is condition-based maintenance with better eyes: more signals, watched continuously, with software (often machine learning) spotting the pattern earlier than a fixed alarm limit would. Which strategy each machine deserves depends on its criticality; see <a href="{{ '/articles/maintenance-planning-mtbf-mttr/' | relative_url }}">maintenance planning, MTBF and MTTR</a>.</p>
+
+  <h2 id="pf">The P-F curve: how much warning you get <span class="lvl l1">Basics</span></h2>
+  <p>Most failures of rotating equipment give warning. <b>P</b> is the point where a coming failure first becomes detectable (a rise in vibration, a hot bearing); <b>F</b> is the functional failure (the pump stops delivering). The time between them is the <b>P-F interval</b>. Reliability-centred maintenance practice says to check at intervals of about <b>half the P-F interval</b>, or less for high-risk failure modes, so that at least one check falls inside the warning window with time left to plan the repair.</p>
+  <div class="dx-box">
+    <h3>Check interval calculator</h3>
+    <p class="dx-sub">Enter your own estimates. The P-F interval comes from experience with that failure mode on that machine.</p>
+    <div class="dx-grid">
+      <label>P-F interval (days)<input id="pf-pf" type="number" min="0.1" step="any" value="30"></label>
+      <label>Current check interval (days)<input id="pf-ci" type="number" min="0.01" step="any" value="30"></label>
+      <label>Days needed to plan and do the repair<input id="pf-lead" type="number" min="0" step="any" value="7"></label>
+    </div>
+    <div class="dx-out" id="pf-out"></div>
+    <p class="dx-note" id="pf-note"></p>
+  </div>
+  <p>Continuous online monitoring makes the check interval almost zero, which is why it pays on machines with short P-F intervals, such as high-speed pumps and compressors, where a monthly route would miss the warning.</p>
+
+  <h2 id="signals">What to measure on chemical plant equipment <span class="lvl l2">Working level</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Equipment</th><th>Typical failures</th><th>Signals that warn</th></tr>
+    <tr><td>Centrifugal pumps</td><td>Bearing wear, seal leak, cavitation, misalignment</td><td>Vibration, bearing temperature, seal-pot level or pressure, motor current, discharge pressure</td></tr>
+    <tr><td>Agitator drives and gearboxes</td><td>Bearing and gear wear, oil degradation, shaft run-out</td><td>Vibration, gearbox oil temperature, oil analysis, motor current against batch phase</td></tr>
+    <tr><td>Vacuum pumps and compressors</td><td>Wear, fouling, valve failure</td><td>Vibration, discharge temperature, current, achieved vacuum or pressure</td></tr>
+    <tr><td>Centrifuges</td><td>Imbalance from uneven cake, bearing wear</td><td>Vibration (with interlock trip), bearing temperature, current</td></tr>
+    <tr><td>Heat exchangers and condensers</td><td>Fouling, leaks</td><td>Calculated U-value trend from flows and temperatures (see <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">heat exchanger basics</a>)</td></tr>
+    <tr><td>Control valves</td><td>Sticking, packing leaks, actuator problems</td><td>Smart positioner diagnostics: travel deviation, friction, air supply</td></tr>
+  </table></div>
+  <p>Most of these signals already exist in the DCS or can be added with low-cost wireless sensors. The first job is usually to get them into the <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian</a> with sensible tag names.</p>
+
+  <h2 id="zones">Vibration severity: ISO 20816 zones <span class="lvl l2">Working level</span></h2>
+  <p>For general industrial machines, ISO 20816 classes overall vibration velocity (RMS, mm/s) into four zones: <b>A</b> newly commissioned machines, <b>B</b> acceptable for unrestricted long-term operation, <b>C</b> unsatisfactory for continuous operation (plan the repair), and <b>D</b> likely to cause damage. The boundaries depend on machine size and how it is mounted.</p>
+  <div class="dx-box">
+    <h3>Vibration zone check</h3>
+    <p class="dx-sub">Boundaries from the ISO 20816 group 1 and 2 values as published by Fabrico (see sources). Check the standard and the machine maker&rsquo;s limits for your machine; trends matter more than one reading.</p>
+    <div class="dx-grid">
+      <label>Machine group<select id="vz-g"><option value="2">Group 2: 15 to 300 kW</option><option value="1">Group 1: above 300 kW</option></select></label>
+      <label>Support<select id="vz-s"><option value="r">Rigid</option><option value="f">Flexible</option></select></label>
+      <label>Measured vibration, RMS velocity (mm/s)<input id="vz-v" type="number" min="0" step="any" value="3.2"></label>
+    </div>
+    <div class="dx-out" id="vz-out"></div>
+  </div>
+
+  <h2 id="ai">Where machine learning adds value <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><b>Anomaly detection across many signals.</b> A model learns how vibration, temperature, current and flow move together in normal running, and flags a pump that drifts away from its own normal, even when no single value has crossed an alarm limit. This is what Shell scaled to more than 10,000 pieces of equipment, with about 11,000 models in production.</li>
+    <li><b>Context.</b> In batch plants, an agitator&rsquo;s current depends on the batch phase and fill level. Models that know the phase avoid the false alarms that make people ignore fixed limits.</li>
+    <li><b>Remaining useful life.</b> Predicting how many days are left needs a history of real failures with their signals. Most sites do not have enough failures per machine type; start with anomaly detection, which does not.</li>
+    <li><b>Work-order text.</b> Grouping years of free-text failure notes from the CMMS often finds the &ldquo;bad actors&rdquo; faster than any sensor project.</li>
+  </ul>
+  <p>McKinsey estimates the <em>potential</em> of AI in chemical-plant maintenance at 30 to 40% higher maintenance labour productivity. That is an estimate, not a measured result.</p>
+
+  <h2 id="start">A practical pilot in 12 weeks <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li><b>Pick 10 to 20 critical machines</b> with repeat failures and real production or safety impact. Use your criticality ranking and the last two years of breakdowns.</li>
+    <li><b>Baseline them.</b> Record failures, downtime hours and repair cost for the last two years, so savings can be measured later.</li>
+    <li><b>Instrument the gaps.</b> Add wireless vibration and temperature sensors where the DCS has nothing; bring everything into the historian.</li>
+    <li><b>Start with limits, then models.</b> ISO-based alarm zones give quick wins; anomaly models come once there are a few months of normal data.</li>
+    <li><b>Close the loop.</b> Every alert must create a work order in the CMMS with an owner, and every finding at inspection is fed back to tune the model.</li>
+    <li><b>Measure.</b> Breakdowns avoided, downtime hours, emergency work orders and spares cost, against the baseline.</li>
+  </ol>
+  <div class="art-note"><b>On the plant</b><p>The most common failure of a predictive maintenance project is not the model: it is alerts that nobody acts on. Agree before you start who receives an alert, how fast they respond, and how the result is recorded.</p></div>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Monitoring everything instead of the 10% of machines that cause most of the loss.</li>
+    <li>Fixed alarm limits on agitators and pumps whose normal values change with each batch phase.</li>
+    <li>Sensors installed, data not stored, or stored without the equipment tag that links it to the CMMS.</li>
+    <li>Calling a model &ldquo;predictive&rdquo; when there is no failure history to predict from.</li>
+    <li>Skipping the baseline, so no one can prove the savings a year later.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between preventive and predictive maintenance?</h3>
+  <p>Preventive maintenance is done on a fixed schedule, whether or not the machine needs it. Predictive maintenance is done when measured condition, often analysed by software or machine learning, shows a failure is developing.</p>
+  <h3>How often should vibration be checked?</h3>
+  <p>Reliability-centred maintenance practice suggests a check interval of about half the P-F interval for that failure mode, shorter for high-risk failures. Machines with short P-F intervals are better monitored online.</p>
+  <h3>Do we need machine learning for predictive maintenance?</h3>
+  <p>No. Many sites get most of the benefit from good sensors, ISO-based vibration limits and a disciplined work-order process. Machine learning helps when many signals interact or normal values change with batch phase.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Reliabilityweb, <a href="https://reliabilityweb.com/articles/entry/rcm-on-condition-task-interval-determination" rel="noopener">RCM: on-condition task interval determination</a> (half the P-F interval; Moubray, <i>RCM II</i>; SAE JA1011).</li>
+    <li>Fabrico, <a href="https://www.fabrico.io/blog/iso-20816-vibration-severity-zones/" rel="noopener">ISO 20816 vibration severity zones</a> (zone meanings and group 1 and 2 boundaries).</li>
+    <li>Shell and C3 AI, <a href="https://www.businesswire.com/news/home/20220308005567/en/Shell-Achieves-Major-Milestone-Scales-Artificial-Intelligence-Predictive-Maintenance-to-10000-Pieces-of-Equipment-Using-C3-AI" rel="noopener">Shell scales AI predictive maintenance to 10,000 pieces of equipment</a>, March 2022.</li>
+    <li>McKinsey &amp; Company, <a href="https://www.mckinsey.com/industries/chemicals/our-insights/how-ai-enables-new-possibilities-in-chemicals" rel="noopener">How AI enables new possibilities in chemicals</a>, November 2024.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/maintenance-planning-mtbf-mttr/' | relative_url }}">Maintenance planning, MTBF and MTTR</a>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and mechanical seal troubleshooting</a>
+    <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry: plant examples</a>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var pfCalc = function () {
+    var pf = +$('pf-pf').value, ci = +$('pf-ci').value, lead = +$('pf-lead').value, out = $('pf-out'), note = $('pf-note');
+    if (!(pf > 0) || !(ci > 0) || lead < 0) { out.innerHTML = ''; note.textContent = 'Enter positive numbers.'; return; }
+    var rec = pf / 2, net = pf - ci, ok = ci <= rec && net >= lead;
+    out.innerHTML = '<div class="dx-kpi"><span>Suggested check interval (half P-F)</span><b>' + fmt(rec) + ' d</b></div>' +
+      '<div class="dx-kpi ' + (net >= lead ? 'good' : 'bad') + '"><span>Warning time left in the worst case</span><b>' + fmt(Math.max(0, net)) + ' d</b></div>' +
+      '<div class="dx-kpi ' + (ok ? 'good' : 'warn') + '"><span>Your interval vs suggested</span><b>' + (ci <= rec ? 'Within' : 'Too long') + '</b></div>';
+    note.innerHTML = net < lead ? 'In the worst case the warning comes ' + fmt(Math.max(0, net)) + ' days before failure, less than the ' + fmt(lead) + ' days you need to plan and repair. Check more often or monitor online.' :
+      (ci > rec ? 'Your checks leave enough time to repair, but the interval is longer than half the P-F interval; consider shortening it for high-risk failure modes.' : 'At least one check falls inside the warning window with time left to plan the repair.');
+  };
+  ['pf-pf', 'pf-ci', 'pf-lead'].forEach(function (id) { $(id).addEventListener('input', pfCalc); }); pfCalc();
+
+  var VZ = { '1r': [2.3, 4.5, 7.1], '1f': [3.5, 7.1, 11.0], '2r': [1.4, 2.8, 4.5], '2f': [2.3, 4.5, 7.1] };
+  var vzCalc = function () {
+    var lim = VZ[$('vz-g').value + $('vz-s').value], v = +$('vz-v').value, out = $('vz-out');
+    if (!(v >= 0) || $('vz-v').value === '') { out.innerHTML = ''; return; }
+    var z = v < lim[0] ? 'A' : v < lim[1] ? 'B' : v < lim[2] ? 'C' : 'D';
+    var txt = { A: 'Newly commissioned condition', B: 'Acceptable for long-term operation', C: 'Unsatisfactory for continuous operation: plan the repair', D: 'Likely to cause damage: stop or act now' }[z];
+    out.innerHTML = '<div class="dx-kpi ' + (z === 'A' || z === 'B' ? 'good' : z === 'C' ? 'warn' : 'bad') + '"><span>Zone</span><b>' + z + '</b></div><div class="dx-kpi" style="grid-column: span 2"><span>Meaning</span><b style="font-size:1rem">' + txt + '</b></div>' +
+      '<div class="dx-kpi"><span>Boundaries A/B, B/C, C/D (mm/s)</span><b style="font-size:1rem">' + lim.join(' / ') + '</b></div>';
+  };
+  ['vz-g', 'vz-s', 'vz-v'].forEach(function (id) { $(id).addEventListener('input', vzCalc); $(id).addEventListener('change', vzCalc); }); vzCalc();
+
+})();
+</script>

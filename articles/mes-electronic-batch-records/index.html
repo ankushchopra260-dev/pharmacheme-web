@@ -1,0 +1,207 @@
+---
+layout: default
+title: "MES and Electronic Batch Records (eBMR): Review by Exception and Part 11"
+seo_title: "MES and Electronic Batch Records (eBMR) | PharmaChemE"
+description: "MES and electronic batch records for pharma and fine-chemical plants: what MES does, paper vs eBMR, review by exception, Part 11 and Annex 11, and rollout."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "MES and Electronic Batch Records"
+    url: /articles/mes-electronic-batch-records/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "MES and Electronic Batch Records (eBMR): Review by Exception and Part 11",
+        "description": "MES and electronic batch records for pharma and fine-chemical plants: what MES does, paper vs eBMR, review by exception, Part 11 and Annex 11, and rollout.",
+        "keywords": "MES, manufacturing execution system, electronic batch record, eBMR, EBR, review by exception, 21 CFR Part 11, Annex 11, pharma digitalization",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between MES and ERP?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ERP plans the business: orders, stock, purchasing, costs. MES runs production on the floor: batch records, dispensing, equipment status and genealogy. They exchange orders and results through interfaces."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is review by exception?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An approach, defined by ISPE, in which manufacturing and quality data are screened so that reviewers see only critical process exceptions, instead of reading every entry of the batch record."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is an electronic batch record required by Schedule M or FDA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No regulation requires electronic records, but if you use them they must meet electronic-record expectations such as 21 CFR Part 11 in the US and EU GMP Annex 11, with validation, audit trails and access control."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>MES and Electronic Batch Records</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}" aria-current="page">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">Paper batch records catch mistakes days after they happen, during review. An electronic batch record stops many of them at the moment of entry, and lets QA review only what went wrong. This article explains what an MES does, how an eBMR compares with paper, how review by exception works (with a demo), the Part 11 and Annex 11 expectations, and how an implementation usually goes.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What an MES does</a><span>Basics</span></li>
+    <li><a href="#paper">Paper BMR vs electronic batch record</a><span>Basics</span></li>
+    <li><a href="#rbe">Review by exception (demo)</a><span>Working level</span></li>
+    <li><a href="#gmp">Part 11, Annex 11 and data integrity</a><span>Working level</span></li>
+    <li><a href="#implement">How an eBMR project goes</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What an MES does <span class="lvl l1">Basics</span></h2>
+  <p>A <b>manufacturing execution system (MES)</b> runs production at ISA-95 level 3: between the DCS that controls equipment and the ERP that plans orders and stock. In a pharma or fine-chemical plant its core is the <b>electronic batch record (eBMR or EBR)</b>: the master recipe becomes a guided, step-by-step electronic workflow, and the executed record is captured as the batch runs.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>MES function</th><th>What it replaces or adds</th></tr>
+    <tr><td>Electronic batch record</td><td>Paper BMR: instructions, entries, signatures, calculations</td></tr>
+    <tr><td>Weighing and dispensing</td><td>Hand-written weights; adds scale integration, material and container checks</td></tr>
+    <tr><td>Material genealogy</td><td>Tracing which raw material lots went into which batch</td></tr>
+    <tr><td>Equipment status</td><td>Status labels on equipment: clean, dirty, in use, under maintenance</td></tr>
+    <tr><td>In-process checks and limits</td><td>Manual comparison against limits; adds instant flags when a value is out of range</td></tr>
+    <tr><td>Review by exception</td><td>Page-by-page review of every entry (below)</td></tr>
+    <tr><td>Interfaces</td><td>Retyping: orders from ERP, results from LIMS, process values from DCS and historian</td></tr>
+  </table></div>
+
+  <h2 id="paper">Paper BMR vs electronic batch record <span class="lvl l1">Basics</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th></th><th>Paper</th><th>Electronic</th></tr>
+    <tr><td>Wrong entry or calculation</td><td>Found at review, days later</td><td>Blocked or flagged at the moment of entry</td></tr>
+    <tr><td>Missed step or signature</td><td>Found at review</td><td>The workflow will not move on without it</td></tr>
+    <tr><td>Weights</td><td>Written by hand</td><td>Read from the balance, with container and lot checks</td></tr>
+    <tr><td>Review</td><td>Every page, every entry</td><td>Review by exception: only flagged entries</td></tr>
+    <tr><td>Data for analysis</td><td>Locked on paper</td><td>Searchable, comparable across batches</td></tr>
+  </table></div>
+  <p>Pharmaceutical Technology reports typical paper-based batch release of 10 to 40 days, an average of 48 hours to review a single batch report, and electronic batch records cutting manual data-entry time by at least 60%.</p>
+
+  <h2 id="rbe">Review by exception <span class="lvl l2">Working level</span></h2>
+  <p>ISPE defines review by exception as an approach in which manufacturing and quality data are screened to present or report only critical process exceptions. Reviewers spend their time on what went wrong, not on confirming hundreds of entries that were checked automatically when they were made.</p>
+  <div class="dx-box">
+    <h3>Review by exception: what the reviewer sees</h3>
+    <p class="dx-sub">An illustrative batch record with made-up values. Switch between full review and exceptions only.</p>
+    <div class="dx-chips" role="group" aria-label="View"><button type="button" class="dx-chip" id="rb-all" aria-pressed="true">Full record</button><button type="button" class="dx-chip" id="rb-ex" aria-pressed="false">Exceptions only</button></div>
+    <div style="overflow-x:auto"><table class="dx-tbl" id="rb-tbl"></table></div>
+    <p class="dx-note" id="rb-note"></p>
+  </div>
+
+  <h2 id="gmp">Part 11, Annex 11 and data integrity <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><b>21 CFR Part 11</b> (US) expects validated systems, secure computer-generated time-stamped audit trails, controlled access, and electronic signatures linked to their records. FDA&rsquo;s 2003 scope guidance takes a risk-based view of which records need which controls.</li>
+    <li><b>EU GMP Annex 11</b> covers computerised systems in the EU, and was being revised alongside the new draft Annex 22 on AI in 2025.</li>
+    <li><b>Data integrity</b>: FDA&rsquo;s 2018 guidance expects records to be attributable, legible, contemporaneous, original or a true copy, and accurate.</li>
+  </ul>
+
+  <h2 id="implement">How an eBMR project goes <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li><b>Fix the process on paper first.</b> Harmonise BMRs across products; an electronic copy of a messy BMR is a messy eBMR.</li>
+    <li><b>User requirements.</b> Scope, interfaces, which checks are automatic, what counts as an exception (see <a href="{{ '/articles/project-execution-urs-to-handover/' | relative_url }}">URS to handover</a>).</li>
+    <li><b>Master recipe design</b> with production, QA and IT together: this is most of the work.</li>
+    <li><b>Interfaces</b> to ERP, balances, LIMS, DCS and historian.</li>
+    <li><b>Validation</b> under your computerised-system procedure, risk-based.</li>
+    <li><b>Pilot one product, then roll out.</b> Train operators on the floor, not in a classroom.</li>
+  </ol>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Copying the paper BMR screen by screen, including steps that only existed because paper could not check itself.</li>
+    <li>Defining &ldquo;exceptions&rdquo; so widely that every batch has hundreds, and review by exception becomes full review again.</li>
+    <li>No interface to balances or LIMS, so operators still type numbers in.</li>
+    <li>Underestimating master recipe work and operator training.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between MES and ERP?</h3>
+  <p>ERP plans the business: orders, stock, purchasing, costs. MES runs production on the floor: batch records, dispensing, equipment status and genealogy. They exchange orders and results through interfaces.</p>
+  <h3>What is review by exception?</h3>
+  <p>An approach, defined by ISPE, in which manufacturing and quality data are screened so that reviewers see only critical process exceptions, instead of reading every entry of the batch record.</p>
+  <h3>Is an electronic batch record required by Schedule M or FDA?</h3>
+  <p>No regulation requires electronic records, but if you use them they must meet electronic-record expectations such as 21 CFR Part 11 in the US and EU GMP Annex 11, with validation, audit trails and access control.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Pharmaceutical Technology, <a href="https://www.pharmtech.com/view/review-exception-connecting-dots" rel="noopener">Review by exception: connecting the dots</a> (ISPE definition; paper review times; eBR data-entry savings).</li>
+    <li>Huber L., <a href="https://pharmtech.com/view/21-cfr-11-overview-final-document-and-its-new-scope-ludwig-huber" rel="noopener">21 CFR 11: overview of the final document and its new scope</a>, Pharmaceutical Technology.</li>
+    <li>US FDA, <i>Data Integrity and Compliance With Drug CGMP</i>, December 2018 (<a href="https://www.duanemorris.com/alerts/fda_issues_final_guidance_data_integrity_compliance_cgmp_0119.html" rel="noopener">summary</a>).</li>
+    <li>ISA, <a href="https://www.isa.org/standards-and-publications/isa-standards/isa-95-standard" rel="noopener">ISA-95 standard</a>.</li>
+    <li>European Commission consultation on GMP Annex 11, Chapter 4 and Annex 22, July 2025 (<a href="https://www.mondaq.com/new-technology/1650932/eu-consults-on-new-gmp-rules-for-ai-in-pharma-manufacturing" rel="noopener">Mondaq summary</a>).</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA: deviations and CAPA</a>
+    <a href="{{ '/articles/drug-manufacturing-licence-schedule-m/' | relative_url }}">Drug manufacturing licence and Schedule M</a>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var ROWS = [
+    ['Dispensing', 'Charge solvent S1 (kg)', '450.0 to 455.0', '452.3', 0],
+    ['Dispensing', 'Charge starting material A (kg)', '120.0 to 121.0', '120.4', 0],
+    ['Dispensing', 'Material lot status', 'Released', 'Released', 0],
+    ['Reaction', 'Mass temperature before dosing (°C)', '0 to 5', '3.1', 0],
+    ['Reaction', 'Dosing time (min)', '120 to 180', '146', 0],
+    ['Reaction', 'Maximum temperature during dosing (°C)', '≤ 10', '12.4', 1],
+    ['Reaction', 'Stir time after dosing (h)', '≥ 2.0', '2.5', 0],
+    ['IPC', 'Starting material remaining by HPLC (%)', '≤ 0.5', '0.3', 0],
+    ['Work-up', 'pH after quench', '6.5 to 7.5', '7.1', 0],
+    ['Work-up', 'Layer separation time (min)', '≥ 30', '35', 0],
+    ['Isolation', 'Wet cake weight (kg)', 'Record', '168.2', 0],
+    ['Isolation', 'Second-person verification', 'Required', 'Missing', 1],
+    ['Drying', 'Loss on drying (%)', '≤ 0.5', '0.31', 0],
+    ['Drying', 'Dryer temperature max (°C)', '≤ 60', '58', 0]
+  ];
+  var mode = 'all';
+  var draw = function () {
+    var rows = ROWS.filter(function (r) { return mode === 'all' || r[4]; });
+    $('rb-tbl').innerHTML = '<tr><th>Step</th><th>Check</th><th>Limit</th><th>Entered</th><th>Status</th></tr>' + rows.map(function (r) { return '<tr class="' + (r[4] ? 'ex' : '') + '"><td>' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td><td class="num">' + r[3] + '</td><td>' + (r[4] ? '<b style="color:#E07A6A">Exception</b>' : 'Auto-checked') + '</td></tr>'; }).join('');
+    $('rb-note').textContent = mode === 'all' ? 'Full review: ' + ROWS.length + ' entries to read and confirm.' : 'Review by exception: ' + rows.length + ' entries need a decision; the other ' + (ROWS.length - rows.length) + ' were checked by the system when entered.';
+  };
+  $('rb-all').addEventListener('click', function () { mode = 'all'; this.setAttribute('aria-pressed', 'true'); $('rb-ex').setAttribute('aria-pressed', 'false'); draw(); });
+  $('rb-ex').addEventListener('click', function () { mode = 'ex'; this.setAttribute('aria-pressed', 'true'); $('rb-all').setAttribute('aria-pressed', 'false'); draw(); });
+  draw();
+
+})();
+</script>

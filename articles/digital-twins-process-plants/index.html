@@ -1,0 +1,187 @@
+---
+layout: default
+title: "Digital Twins in Chemical and Pharma Plants: Model, Shadow or Twin?"
+seo_title: "Digital Twins in Chemical and Pharma Plants | PharmaChemE"
+description: "Digital twins for chemical and pharma plants: model vs shadow vs twin, kinds of process twins, plant results (Roche, AstraZeneca, Aramco) and how to start."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Digital Twins in Chemical and Pharma Plants"
+    url: /articles/digital-twins-process-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Digital Twins in Chemical and Pharma Plants: Model, Shadow or Twin?",
+        "description": "Digital twins for chemical and pharma plants: model vs shadow vs twin, kinds of process twins, plant results (Roche, AstraZeneca, Aramco) and how to start.",
+        "keywords": "digital twin, digital shadow, process digital twin, chemical plant digital twin, pharma digital twin, ISO 23247, Industry 4.0, process modelling",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between a digital twin and a simulation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A simulation runs on numbers you give it. A digital twin is kept in step with the real plant through live data and, in the strict sense, can also act on the plant automatically. A model fed live data that only advises people is often called a digital shadow."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do digital twins need AI?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not necessarily. Many process twins are first-principles models (heat and mass balances, kinetics) kept up to date with plant data. Machine learning is often added to correct what the physics misses."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where should a chemical plant start with digital twins?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With one decision that matters, such as a dosing end point or a dryer end point, and an offline model validated on past batches. Connect it to live data next, and let it act on the plant only once it has earned trust."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-10-21
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Digital Twins in Chemical and Pharma Plants</h1>
+  <p class="article-meta">Digitalization and AI &middot; Plant Engineering &middot; <span class="art-updated">October 2026</span></p>
+  <nav class="dx-series" aria-label="Digitalization and AI series"><a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics</a><a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI plant examples</a><a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a><a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a><a href="{{ '/articles/digital-twins-process-plants/' | relative_url }}" aria-current="page">Digital twins</a><a href="{{ '/articles/generative-ai-sops-deviations/' | relative_url }}">GenAI for SOPs and deviations</a><a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian</a><a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and eBMR</a><a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE in batch plants</a><a href="{{ '/articles/ot-cybersecurity-chemical-plants/' | relative_url }}">OT cybersecurity</a><a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a><a href="{{ '/articles/digital-project-business-case/' | relative_url }}">Digital business case</a></nav>
+
+  <p class="art-lede">Every vendor now sells a &ldquo;digital twin&rdquo;. Some are useful models kept in step with the plant; some are 3D pictures. This article explains the difference between a digital model, a digital shadow and a true twin, the kinds of twins that pay in process plants, what companies report, and how to start with one decision rather than a whole plant.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">Model, shadow or twin? (check yours)</a><span>Basics</span></li>
+    <li><a href="#kinds">Kinds of twins in process plants</a><span>Basics</span></li>
+    <li><a href="#examples">What plants report</a><span>Working level</span></li>
+    <li><a href="#need">What a useful twin needs</a><span>Working level</span></li>
+    <li><a href="#mistakes">Mistakes I see most often</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">Model, shadow or twin? <span class="lvl l1">Basics</span></h2>
+  <p>&ldquo;Digital twin&rdquo; is used for almost anything with a 3D picture. A widely cited classification by Kritzinger and co-workers (2018) separates three things by how data flows between the plant and the model:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Name</th><th>Plant &rarr; model</th><th>Model &rarr; plant</th><th>Example</th></tr>
+    <tr><td><b>Digital model</b></td><td>Not automatic</td><td>Not automatic</td><td>A heat-up simulation you run with numbers typed in by hand</td></tr>
+    <tr><td><b>Digital shadow</b></td><td>Automatic</td><td>Not automatic</td><td>A reactor model fed live from the historian, showing predicted conversion to operators</td></tr>
+    <tr><td><b>Digital twin</b></td><td>Automatic</td><td>Automatic</td><td>A model whose results adjust set points or schedules directly, within limits</td></tr>
+  </table></div>
+  <p>Most valuable &ldquo;twins&rdquo; in chemical plants are actually digital shadows, with a person deciding what to change. That is not a weakness: it is usually the right choice where safety or GMP decisions are involved. ISO 23247 (2021) gives a general framework for digital twins in manufacturing.</p>
+  <div class="dx-box">
+    <h3>What do you have?</h3>
+    <p class="dx-sub">Answer two questions about your model.</p>
+    <div class="dx-q"><span>Does live plant data reach the model automatically (from the historian, DCS or MES)?</span><span class="dx-yn" data-q="0"><button type="button" class="y" aria-pressed="false">Yes</button><button type="button" class="n" aria-pressed="false">No</button></span></div>
+    <div class="dx-q"><span>Do the model&rsquo;s results change the plant automatically (set points, recipes, schedules)?</span><span class="dx-yn" data-q="1"><button type="button" class="y" aria-pressed="false">Yes</button><button type="button" class="n" aria-pressed="false">No</button></span></div>
+    <div class="dx-result" id="tw-res"><p class="dx-note mute" style="margin:0">Answer both questions.</p></div>
+  </div>
+
+  <h2 id="kinds">Kinds of twins in process plants <span class="lvl l1">Basics</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Twin of</th><th>What it predicts</th><th>Built from</th></tr>
+    <tr><td>A reactor or batch step</td><td>Conversion, impurity, heat release, end point</td><td>Kinetics and heat balance (see <a href="{{ '/process-modelling/reaction-kinetics-fitting/' | relative_url }}">kinetics fitting</a> and <a href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">heating-cooling simulator</a>), corrected with plant data</td></tr>
+    <tr><td>A unit operation</td><td>Column purity, dryer end point, filtration time</td><td>Equilibrium and transfer models, or data-driven soft sensors</td></tr>
+    <tr><td>Equipment</td><td>Wear, fouling, remaining life</td><td>Condition data and failure history (see <a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">predictive maintenance</a>)</td></tr>
+    <tr><td>Utilities</td><td>Steam, chilled water and power demand</td><td>Load models and historian data</td></tr>
+    <tr><td>The whole plant or supply chain</td><td>Capacity, schedule, inventory, raw material planning</td><td>MES and ERP data with a scheduling model</td></tr>
+  </table></div>
+
+  <h2 id="examples">What plants report <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><b>Roche</b> uses digital twins that predict cell age and growth in production cell lines, and reported production yield up 10% and quality up 40% (BioSpace, August 2025).</li>
+    <li><b>AstraZeneca</b> uses digital twins for raw-material planning and reported dispensing planning time down 90% (BioSpace, August 2025).</li>
+    <li><b>Dr. Reddy&rsquo;s</b> Bachupally used digital twins among six Industry 4.0 technologies, with manufacturing cost improved 43% for the site programme as a whole (WEF Lighthouse, 2022).</li>
+    <li><b>Saudi Aramco</b> Hawiyah NGL reported OEE up 44% and production up 26% from digital-twin optimisation and AI-enabled asset management across more than 50 use cases (WEF Lighthouse, June 2026).</li>
+  </ul>
+  <p>All are company-reported and come from programmes with many tools; see the full list in <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry: real plant examples</a>.</p>
+
+  <h2 id="need">What a useful twin needs <span class="lvl l2">Working level</span></h2>
+  <ol>
+    <li><b>A decision it supports.</b> &ldquo;When to stop dosing&rdquo; or &ldquo;which batch to schedule next&rdquo;, not &ldquo;a twin of the plant&rdquo;.</li>
+    <li><b>A model good enough for that decision.</b> Validated against past batches it was not tuned on.</li>
+    <li><b>Live, trusted data.</b> Historian tags with correct units and time stamps, linked to batch phases.</li>
+    <li><b>A way to keep it in step.</b> Automatic updating of fouling factors, catalyst activity or kinetics as the plant changes, with limits on how far it may move.</li>
+    <li><b>An owner.</b> Someone who keeps the model alive after the project team leaves.</li>
+  </ol>
+  <div class="art-note"><b>On the plant</b><p>Start offline. A heat-up, dosing or distillation model you trust on your desk is the first step to a twin; connecting it to live data comes second, and letting it act on the plant comes last, if ever.</p></div>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>A 3D walk-through called a digital twin, with no model behind it.</li>
+    <li>A beautiful model that no one updates, so it drifts away from the plant in a few months.</li>
+    <li>Closing the loop to the DCS before the model has earned operators&rsquo; trust as an advisor.</li>
+    <li>No validation on batches the model was not tuned on.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between a digital twin and a simulation?</h3>
+  <p>A simulation runs on numbers you give it. A digital twin is kept in step with the real plant through live data and, in the strict sense, can also act on the plant automatically. A model fed live data that only advises people is often called a digital shadow.</p>
+  <h3>Do digital twins need AI?</h3>
+  <p>Not necessarily. Many process twins are first-principles models (heat and mass balances, kinetics) kept up to date with plant data. Machine learning is often added to correct what the physics misses.</p>
+  <h3>Where should a chemical plant start with digital twins?</h3>
+  <p>With one decision that matters, such as a dosing end point or a dryer end point, and an offline model validated on past batches. Connect it to live data next, and let it act on the plant only once it has earned trust.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Kritzinger W., Karner M., Traar G. et al., &ldquo;Digital Twin in manufacturing: a categorical literature review and classification&rdquo;, IFAC-PapersOnLine (2018), as summarised in <a href="https://arxiv.org/pdf/2401.07985" rel="noopener">From Digital Twins to Digital Twin Prototypes (arXiv 2401.07985)</a>.</li>
+    <li>ISO, <a href="https://www.iso.org/standard/75066.html" rel="noopener">ISO 23247-1:2021 Digital twin framework for manufacturing, Part 1: Overview and general principles</a>.</li>
+    <li>BioSpace, <a href="https://www.biospace.com/business/drugmakers-hail-early-wins-in-ai-driven-transformation-of-manufacturing" rel="noopener">Drugmakers hail early wins in AI-driven transformation of manufacturing</a>, August 2025 (Roche, AstraZeneca).</li>
+    <li>Manufacturing Chemist, <a href="https://manufacturingchemist.com/dr-reddy-s-hyderabad-factory-joins-global-lighthouse-network-204386" rel="noopener">Dr. Reddy&rsquo;s Hyderabad factory joins Global Lighthouse Network</a>, October 2022.</li>
+    <li>World Economic Forum, <a href="https://www.weforum.org/press/2026/06/new-global-lighthouse-sites-demonstrate-how-ai-is-rewiring-manufacturing-and-supply-chains/" rel="noopener">New Global Lighthouse sites</a>, June 2026 (Saudi Aramco Hawiyah NGL).</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">Process modelling for scale-up</a>
+    <a href="{{ '/process-modelling/' | relative_url }}">Process modelling simulators</a>
+    <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a>
+    <a href="{{ '/articles/ai-in-chemical-industry/' | relative_url }}">AI in the chemical industry: plant examples</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmt = function (v, d) { return isFinite(v) ? Number(v).toLocaleString('en-IN', { maximumFractionDigits: d == null ? 1 : d, minimumFractionDigits: 0 }) : '–'; };
+
+  var ans = [null, null];
+  document.querySelectorAll('.dx-yn').forEach(function (g) { g.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; ans[+g.dataset.q] = b.classList.contains('y'); g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); }); show(); }); });
+  var show = function () {
+    var r = $('tw-res'); if (ans[0] === null || ans[1] === null) return;
+    var t, d;
+    if (!ans[0] && !ans[1]) { t = 'A digital model'; d = 'Useful for design, scale-up and what-if studies. Next step: connect it to historian data so it runs alongside the plant.'; }
+    else if (ans[0] && !ans[1]) { t = 'A digital shadow'; d = 'It follows the plant and advises people, which is the right level for most safety- and GMP-relevant decisions. Next step: measure how often operators act on it and how well it predicts.'; }
+    else if (!ans[0] && ans[1]) { t = 'A model that acts without live data'; d = 'This is unusual and risky: the model changes the plant but does not see what the plant is doing. Feed it live data before letting it act.'; }
+    else { t = 'A digital twin'; d = 'Data flows both ways automatically. Make sure there are limits on what it can change, operator override, monitoring of its accuracy and formal change control.'; }
+    r.innerHTML = '<h4>' + t + '</h4><p class="dx-note" style="margin:0">' + d + '</p>';
+  };
+
+})();
+</script>
