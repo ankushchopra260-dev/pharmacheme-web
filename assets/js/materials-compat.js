@@ -18,6 +18,13 @@
     pfaudler: { name: "Pfaudler — Standard Glass WWG data sheet", url: "https://www.gmmpfaudler.com/uploads/files/F_Pfaudler-Standard-Glass-WWG-616-4E.pdf" },
     timet: { name: "TIMET — Corrosion Resistance of Titanium", url: "https://www.timet.com/assets/local/documents/technicalmanuals/corrosion.pdf" },
     ssina: { name: "SSINA — Chloride Stress Corrosion Cracking", url: "https://www.ssina.com/education/corrosion/chloride-stress-corrosion-cracking/" },
+    alleima: { name: "Alleima corrosion tables (3R12 = 304L, 3R60 = 316L, carbon steel, CP titanium)", url: "https://www.alleima.com/en/technical-center/corrosion-tables/" },
+    cplab: { name: "CP Lab Safety chemical compatibility charts (stainless steel, aluminum, PTFE, PEEK, PP, PVC, nylon, Viton)", url: "https://www.cplabsafety.com/chemical-compatibility-charts" },
+    kalrez: { name: "DuPont Kalrez chemical resistance guide (ratings for NBR, EPDM, FKM)", url: "https://www.dymseal.com/pdf/General_Chemical_Resistance.pdf" },
+    ipex: { name: "IPEX PVDF chemical resistance guide, 2nd edition", url: "https://ipexna.com/wp-content/uploads/2022/08/chemical-guide-caen-ipex-pvdf.pdf" },
+    zeus: { name: "Zeus — Chemical compatibility of PEEK", url: "https://www.zeusinc.com/wp-content/uploads/2022/03/PEEK-Chemical-Compatibility-Chart-V1R1.pdf" },
+    fluorotherm: { name: "Fluorotherm — PTFE properties (chemicals known to attack PTFE)", url: "https://www.fluorotherm.com/technical-information/materials-overview/ptfe-properties/" },
+    saferack: { name: "SafeRack — Phosphorus oxychloride bulk handling", url: "https://saferack.com/industries/bulk-chemical/phosphorus-oxychloride/" },
   };
 
   // ---------- Material groups ----------
@@ -58,6 +65,10 @@
       text: "Titanium is not recommended for red fuming nitric acid because a pyrophoric reaction product can form (water < 1.34% and NO₂ > 6%) (TIMET, p.10)." },
     { mats: ["Glass-Lined Steel"], chems: ["Sodium Hydroxide (20%)", "Sodium Hydroxide (50%)", "Potassium Hydroxide (Caustic)"], src: ["ddps", "pfaudler"],
       text: "Hot caustic alkalis should be avoided in glass-lined equipment. Silica is very soluble in alkali (NaOH, KOH). Pfaudler WWG data restrict higher alkali concentrations to 50 °C." },
+    { mats: ["Glass-Lined Steel"], chems: ["Phosphorus Oxychloride (POCl3)", "Phosphorus Trichloride (PCl3)"], src: "ddps",
+      text: "Phosphoric and phosphorus acids are among the few acids that attack glass lining, faster when concentrated and hot. POCl3 and PCl3 give these acids when they meet water, so keep the lining dry and quench elsewhere or check with the glass supplier." },
+    { mats: ["Glass-Lined Steel"], chems: ["Aluminum Chloride (anhydrous)"], src: "ddps",
+      text: "Acid-forming salt ions such as chlorides and aluminium can attack glass lining. Check with the glass supplier for your concentration and temperature." },
     { mats: ["Glass-Lined Steel"], chems: ["Phosphoric Acid (>40%)"], src: "ddps",
       text: "Phosphoric acid can damage glass lining, especially when concentrated and at elevated temperature." },
     { mats: ["SS316", "SS304"], chems: CHLORIDE_CHEMS, src: "ssina", minTemp: 60,
@@ -106,6 +117,7 @@
     const warns = warningsFor(mat, stream, tempC);
     let verdict;
     if (overTemp) verdict = "overtemp";
+    else if (worst === "N") verdict = "N";
     else if (missing.length) verdict = "nodata";
     else verdict = worst;
     return { mat, per, worst, limiting, missing, lim, overTemp, warns, verdict };
@@ -197,6 +209,8 @@
     if (withWarn.length) summary += `<div class="mc-sum-note">⚠ = has a specific warning below. Read it before selecting.</div>`;
     const fam = stream.filter((c) => BASIS[c]);
     if (fam.length) summary += `<div class="mc-sum-note">${fam.map((c) => `<b>${esc(c)}</b>: rated by chemical family (${esc(BASIS[c])})`).join("; ")}. Family ratings are a screening guide: confirm with the gasket, lining or equipment supplier&rsquo;s chart before ordering.</div>`;
+    const rg = stream.filter((c) => REAGENT_SRC[c]);
+    if (rg.length) summary += `<div class="mc-sum-note">${rg.map((c) => `<b>${esc(c)}</b>: only materials with a published rating are rated (blank = no published rating found; where sources differ the lower rating is used)${REAGENT_NOTE[c] ? "; " + esc(REAGENT_NOTE[c].replace(/\.$/, "")) : ""}. Sources: ${srcLink(REAGENT_SRC[c])}`).join("<br>")}</div>`;
     if (tempC !== null) summary += `<div class="mc-sum-note">Metals and ratings are not adjusted for temperature; only the polymer, elastomer and glass-lining service limits are checked.</div>`;
     summary += `</div>`;
 
@@ -253,7 +267,45 @@
   // (elastomer family behaviour per Parker O-Ring Handbook §2.2). BASIS is shown with the results.
   const BASIS = {"n-Propanol": "higher alcohols (like isopropyl alcohol)", "n-Butanol": "higher alcohols (like isopropyl alcohol)", "Isobutanol": "higher alcohols (like isopropyl alcohol)", "sec-Butanol": "higher alcohols (like isopropyl alcohol)", "tert-Butanol": "higher alcohols (like isopropyl alcohol)", "Benzyl Alcohol": "aromatic alcohols", "Cyclohexanol": "higher alcohols", "Furfuryl Alcohol": "furan alcohols", "Propylene Glycol": "glycols (like ethylene glycol)", "Diethylene Glycol": "glycols (like ethylene glycol)", "2-Methoxyethanol": "glycol ethers", "2-Ethoxyethanol": "glycol ethers", "Methyl Isobutyl Ketone (MIBK)": "ketones (like MEK)", "Cyclohexanone": "ketones (like MEK)", "Cyclopentanone": "ketones (like MEK)", "Methyl Acetate": "esters (like ethyl acetate)", "n-Propyl Acetate": "esters (like ethyl acetate)", "Isopropyl Acetate": "esters (like ethyl acetate)", "n-Butyl Acetate": "esters (like ethyl acetate)", "Isobutyl Acetate": "esters (like ethyl acetate)", "tert-Butyl Acetate": "esters (like ethyl acetate)", "Methyl Formate": "esters (like ethyl acetate)", "Ethyl Formate": "esters (like ethyl acetate)", "Diethyl Carbonate": "esters (like ethyl acetate)", "Ethyl Acetoacetate": "esters (like ethyl acetate)", "Methyl tert-Butyl Ether (MTBE)": "dialkyl ethers", "Diisopropyl Ether (DIPE)": "dialkyl ethers", "Dibutyl Ether": "dialkyl ethers", "2-Methyltetrahydrofuran (2-MeTHF)": "cyclic ethers (like THF)", "1,4-Dioxane": "cyclic ethers and glymes", "1,2-Dimethoxyethane (DME)": "cyclic ethers and glymes", "Diglyme": "cyclic ethers and glymes", "Methylal": "cyclic ethers and glymes", "Anisole": "aromatics (like toluene)", "Ethylene Oxide": "epoxides and ethers", "Ethylbenzene": "aromatics (like toluene)", "Cumene": "aromatics (like toluene)", "Mesitylene": "aromatics (like toluene)", "Chlorobenzene": "chlorinated aromatics", "o-Dichlorobenzene": "chlorinated aromatics", "Nitrobenzene": "nitro and nitrile aromatics", "Benzonitrile": "nitro and nitrile aromatics", "Pyridine": "heterocyclic amines", "N,N-Dimethylaniline": "aromatic amines (like aniline)", "n-Heptane": "aliphatic hydrocarbons (like hexane)", "n-Pentane": "aliphatic hydrocarbons (like hexane)", "n-Octane": "aliphatic hydrocarbons (like hexane)", "Isooctane": "aliphatic hydrocarbons (like hexane)", "Methylcyclohexane": "aliphatic hydrocarbons (like hexane)", "Petroleum Ether": "aliphatic hydrocarbons (like hexane)", "Carbon Tetrachloride": "chlorinated solvents", "1,2-Dichloroethane (EDC)": "chlorinated solvents (like methylene chloride)", "Trichloroethylene": "chlorinated solvents", "Tetrachloroethylene": "chlorinated solvents", "Epichlorohydrin": "epoxides and polar chlorinated solvents", "N,N-Dimethylacetamide (DMAc)": "polar aprotic solvents (like DMF)", "N-Methyl-2-pyrrolidone (NMP)": "polar aprotic solvents (like DMF)", "Sulfolane": "polar aprotic solvents (like DMSO)", "Acetonitrile": "nitriles", "Nitromethane": "nitroalkanes", "Formamide": "amides (like DMF)", "Diethylamine": "aliphatic amines (like triethylamine)", "Diisopropylamine": "aliphatic amines (like triethylamine)", "Isopropylamine": "aliphatic amines (like triethylamine)", "Ethylenediamine": "aliphatic amines (like triethylamine)", "Morpholine": "aliphatic amines (like triethylamine)", "Propionic Acid": "carboxylic acids (like acetic acid)", "Acetic Anhydride": "acid anhydrides", "Trifluoroacetic Acid (TFA)": "strong organic acids", "Carbon Disulfide": "sulfur solvents", "Chlorotrimethylsilane (TMCS)": "chlorosilanes (give HCl with moisture)", "Ammonia, Aqueous (25%)": "aqueous alkalis and ammonia", "Phosphorus Pentachloride": "acid chlorides (like hydrochloric acid)", "Paraformaldehyde": "formaldehyde", "Special Denatured Spirit (SDS)": "ethanol"};
   const MORE_ALIASES = {"n-Propanol": "npa 1-propanol propyl alcohol 71-23-8", "n-Butanol": "butanol butyl alcohol 71-36-3", "Isobutanol": "isobutyl alcohol 78-83-1", "sec-Butanol": "2-butanol 78-92-2", "tert-Butanol": "tbuoh 75-65-0", "Benzyl Alcohol": "100-51-6", "Cyclohexanol": "108-93-0", "Furfuryl Alcohol": "ffa 98-00-0", "Propylene Glycol": "mpg 1,2-propanediol 57-55-6", "Diethylene Glycol": "deg 111-46-6", "2-Methoxyethanol": "methyl cellosolve 109-86-4", "2-Ethoxyethanol": "cellosolve 110-80-5", "Methyl Isobutyl Ketone (MIBK)": "mibk 4-methyl-2-pentanone 108-10-1", "Cyclohexanone": "108-94-1", "Cyclopentanone": "120-92-3", "Methyl Acetate": "79-20-9", "n-Propyl Acetate": "propyl acetate 109-60-4", "Isopropyl Acetate": "ipac 108-21-4", "n-Butyl Acetate": "butyl acetate 123-86-4", "Isobutyl Acetate": "110-19-0", "tert-Butyl Acetate": "540-88-5", "Methyl Formate": "107-31-3", "Ethyl Formate": "109-94-4", "Diethyl Carbonate": "105-58-8", "Ethyl Acetoacetate": "eaa 141-97-9", "Methyl tert-Butyl Ether (MTBE)": "mtbe 1634-04-4", "Diisopropyl Ether (DIPE)": "dipe ipe isopropyl ether 108-20-3", "Dibutyl Ether": "butyl ether 142-96-1", "2-Methyltetrahydrofuran (2-MeTHF)": "2-methf methf 96-47-9", "1,4-Dioxane": "dioxane 123-91-1", "1,2-Dimethoxyethane (DME)": "dme glyme monoglyme 110-71-4", "Diglyme": "diethylene glycol dimethyl ether 111-96-6", "Methylal": "dimethoxymethane 109-87-5", "Anisole": "methoxybenzene 100-66-3", "Ethylene Oxide": "eo oxirane 75-21-8", "Ethylbenzene": "100-41-4", "Cumene": "isopropylbenzene 98-82-8", "Mesitylene": "108-67-8", "Chlorobenzene": "mcb monochlorobenzene 108-90-7", "o-Dichlorobenzene": "odcb 1,2-dichlorobenzene 95-50-1", "Nitrobenzene": "98-95-3", "Benzonitrile": "100-47-0", "Pyridine": "110-86-1", "N,N-Dimethylaniline": "dma 121-69-7", "n-Heptane": "heptane 142-82-5", "n-Pentane": "pentane 109-66-0", "n-Octane": "octane 111-65-9", "Isooctane": "2,2,4-trimethylpentane 540-84-1", "Methylcyclohexane": "mch 108-87-2", "Petroleum Ether": "petroleum spirit light petroleum 8032-32-4", "Carbon Tetrachloride": "ccl4 tetrachloromethane 56-23-5", "1,2-Dichloroethane (EDC)": "edc ethylene dichloride 107-06-2", "Trichloroethylene": "tce 79-01-6", "Tetrachloroethylene": "pce perchloroethylene perc 127-18-4", "Epichlorohydrin": "ech eph 106-89-8", "N,N-Dimethylacetamide (DMAc)": "dmac dma 127-19-5", "N-Methyl-2-pyrrolidone (NMP)": "nmp 872-50-4", "Sulfolane": "tetramethylene sulfone 126-33-0", "Acetonitrile": "acn mecn 75-05-8", "Nitromethane": "75-52-5", "Formamide": "75-12-7", "Diethylamine": "dea 109-89-7", "Diisopropylamine": "dipa 108-18-9", "Isopropylamine": "mipa monoisopropylamine 75-31-0", "Ethylenediamine": "eda 107-15-3", "Morpholine": "110-91-8", "Propionic Acid": "propanoic acid 79-09-4", "Acetic Anhydride": "108-24-7", "Trifluoroacetic Acid (TFA)": "tfa 76-05-1", "Carbon Disulfide": "cs2 75-15-0", "Chlorotrimethylsilane (TMCS)": "tmcs trimethylchlorosilane 75-77-4", "Ammonia, Aqueous (25%)": "liquor ammonia ammonium hydroxide 1336-21-6", "Phosphorus Pentachloride": "pcl5 10026-13-8", "Paraformaldehyde": "pfa 30525-89-4", "Special Denatured Spirit (SDS)": "sds denatured alcohol 64-17-5", "Water, Distilled": "7732-18-5", "Sulfuric Acid (<10%)": "7664-93-9", "Sulfuric Acid (10-75%)": "7664-93-9", "Sulfuric Acid (75-100%)": "7664-93-9", "Hydrochloric Acid (37%)": "7647-01-0", "Nitric Acid (5-10%)": "7697-37-2", "Nitric Acid (Concentrated)": "7697-37-2", "Acetic Acid, Glacial": "64-19-7", "Phosphoric Acid (>40%)": "7664-38-2", "Sodium Hydroxide (20%)": "1310-73-2", "Sodium Hydroxide (50%)": "1310-73-2", "Ammonia, Anhydrous": "7664-41-7", "Chlorine (Dry)": "7782-50-5", "Sodium Hypochlorite (<20%)": "7681-52-9", "Toluene (Toluol)": "108-88-3", "Xylene": "1330-20-7", "Benzene": "71-43-2", "Cyclohexane": "110-82-7", "Acetone": "67-64-1", "Methanol": "67-56-1", "Ethanol": "64-17-5", "Isopropyl Alcohol": "67-63-0", "Methylene Chloride": "75-09-2", "Chloroform": "67-66-3", "Ethyl Acetate": "141-78-6", "Hexane": "110-54-3", "Methyl Ethyl Ketone (MEK)": "78-93-3", "N,N-Dimethylformamide (DMF)": "68-12-2", "Dimethyl Sulfoxide (DMSO)": "67-68-5", "Tetrahydrofuran (THF)": "109-99-9", "Diethyl Ether": "60-29-7", "Ethylene Glycol": "107-21-1", "Glycerin": "56-81-5", "Formaldehyde (40%)": "50-00-0", "Hydrogen Peroxide (30%)": "7722-84-1", "Bromine": "7726-95-6", "Salt Brine (NaCl, saturated)": "7647-14-5", "Triethylamine": "121-44-8", "Aniline": "62-53-3", "Phenol (Carbolic Acid)": "108-95-2", "Formic Acid": "64-18-6", "Oxalic Acid (cold)": "144-62-7", "Citric Acid": "77-92-9", "Potassium Hydroxide (Caustic)": "1310-58-3", "Ferric Chloride": "7705-08-0"};
+  Object.assign(MORE_ALIASES, { "Phosphorus Oxychloride (POCl3)": "phosphoryl chloride 10025-87-3", "Phosphorus Trichloride (PCl3)": "7719-12-2", "Thionyl Chloride": "socl2 7719-09-7", "Sulfuryl Chloride": "so2cl2 sulphuryl 7791-25-5", "Oxalyl Chloride": "79-37-8", "Acetyl Chloride": "75-36-5", "Benzoyl Chloride": "98-88-4", "Aluminum Chloride (anhydrous)": "alcl3 aluminium 7446-70-0", "Titanium Tetrachloride": "ticl4 7550-45-0", "Methanesulfonic Acid (MSA)": "msa 75-75-2", "p-Toluenesulfonic Acid (PTSA)": "ptsa pts tosic 104-15-4", "Sodium Methoxide (in methanol)": "naome sodium methylate 124-41-4", "Potassium tert-Butoxide": "kotbu t-buok 865-47-4", "Sodium Hydride": "nah 7646-69-7", "Lithium Aluminum Hydride (LAH)": "lah lialh4 aluminium 16853-85-3", "Sodium Borohydride": "nabh4 16940-66-2", "n-Butyllithium (in hexane)": "nbuli buli butyl lithium 109-72-8", "Sodium Metal": "na 7440-23-5", "Potassium Permanganate": "kmno4 7722-64-7", "Sodium Nitrite": "nano2 7632-00-0", "Sodium Azide": "nan3 26628-22-8", "Sodium Cyanide": "nacn 143-33-9", "Hydrazine Hydrate": "hydrazine n2h4 7803-57-8 302-01-2", "Triphosgene": "btc 32315-10-9", "DIPEA (Hunig's base)": "hunig diisopropylethylamine 7087-68-5" });
   Object.keys(MORE_ALIASES).forEach((k) => { ALIASES[k] = ((ALIASES[k] || "") + " " + MORE_ALIASES[k]).trim(); });
+  // Reagents added October 2026: every filled cell comes from one of these sources. Where two sources
+  // disagree, the lower rating is used. Blank cells mean no published rating was found.
+  const REAGENT_SRC = {
+    "Phosphorus Oxychloride (POCl3)": ["saferack", "ipex", "fluorotherm"],
+    "Phosphorus Trichloride (PCl3)": ["cplab", "ipex", "kalrez", "zeus", "fluorotherm"],
+    "Thionyl Chloride": ["alleima", "ipex", "kalrez", "fluorotherm"],
+    "Sulfuryl Chloride": ["cplab", "fluorotherm"],
+    "Oxalyl Chloride": ["fluorotherm"],
+    "Acetyl Chloride": ["cplab", "alleima", "ipex", "kalrez", "fluorotherm"],
+    "Benzoyl Chloride": ["ipex", "kalrez", "fluorotherm"],
+    "Aluminum Chloride (anhydrous)": ["cplab", "alleima", "ipex", "kalrez", "zeus", "fluorotherm"],
+    "Titanium Tetrachloride": ["ipex", "kalrez", "fluorotherm"],
+    "Methanesulfonic Acid (MSA)": ["ipex", "fluorotherm"],
+    "p-Toluenesulfonic Acid (PTSA)": ["fluorotherm"],
+    "Sodium Methoxide (in methanol)": ["fluorotherm"],
+    "Potassium tert-Butoxide": ["fluorotherm"],
+    "Sodium Hydride": ["fluorotherm"],
+    "Lithium Aluminum Hydride (LAH)": ["fluorotherm"],
+    "Sodium Borohydride": ["fluorotherm"],
+    "n-Butyllithium (in hexane)": ["fluorotherm"],
+    "Sodium Metal": ["fluorotherm", "zeus"],
+    "Potassium Permanganate": ["cplab", "alleima", "ipex", "zeus", "fluorotherm"],
+    "Sodium Nitrite": ["alleima", "ipex", "zeus", "fluorotherm"],
+    "Sodium Azide": ["fluorotherm"],
+    "Sodium Cyanide": ["cplab", "alleima", "ipex", "kalrez", "fluorotherm"],
+    "Hydrazine Hydrate": ["cplab", "ipex", "kalrez", "zeus", "fluorotherm"],
+    "Triphosgene": ["fluorotherm"],
+    "DIPEA (Hunig's base)": ["fluorotherm"],
+  };
+  const REAGENT_NOTE = {
+    "Sodium Methoxide (in methanol)": "the solution is mostly methanol, so add Methanol to the stream as well.",
+    "n-Butyllithium (in hexane)": "the solution is mostly hexane, so add Hexane to the stream as well.",
+    "Aluminum Chloride (anhydrous)": "most published tests are on aluminium chloride solutions; with moisture it releases HCl.",
+    "Sodium Metal": "PTFE is attacked by molten alkali metals; the PEEK rating is for hot sodium.",
+    "Phosphorus Oxychloride (POCl3)": "SafeRack lists it as corrosive to aluminium and carbon steel, with stainless steel acceptable.",
+    "Phosphorus Trichloride (PCl3)": "the stainless steel and Viton ratings are marked satisfactory to 22 °C.",
+  };
   let listIdx = -1;
   function matches(q) {
     q = q.trim().toLowerCase();

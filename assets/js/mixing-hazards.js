@@ -160,7 +160,12 @@
     ['nano2', 'Sodium nitrite', ['NITRITE'], '7632-00-0', 'sodium-nitrite'], ['nan3', 'Sodium azide', ['AZIDE'], '26628-22-8', 'sodium-azide', 'Forms explosive heavy-metal azides with copper, lead and brass (drains, fittings).'],
     ['nacn', 'Sodium cyanide', ['CYANIDE'], '143-33-9', 'sodium-cyanide'], ['hydrazine', 'Hydrazine hydrate', ['HYDRAZINE'], '7803-57-8 302-01-2', 'hydrazine-hydrate'],
     ['formaldehyde', 'Formaldehyde / formalin', ['ALD', 'W'], '50-00-0 formalin', 'formaldehyde'], ['paraformaldehyde', 'Paraformaldehyde', ['ALD'], '30525-89-4', 'paraformaldehyde'],
-    ['phenol', 'Phenol', ['PHENOL'], '108-95-2', 'phenol'], ['cs2', 'Carbon disulfide', ['CS2'], '75-15-0', 'carbon-disulfide', 'Autoignition about 90 °C: a steam line or hot bulb can ignite the vapour.'],
+    ['phenol', 'Phenol', ['PHENOL'], '108-95-2', 'phenol'],
+    ['fecl3', 'Ferric chloride', ['ACIDS'], '7705-08-0 iron(iii) chloride fecl3', '', 'Anhydrous ferric chloride can catalyse violent polymerisation of ethylene oxide and allyl chloride (CAMEO Chemicals).'],
+    ['brine', 'Sodium chloride brine', ['W'], '7647-14-5 nacl salt brine', ''],
+    ['oxalic-acid', 'Oxalic acid', ['ACIDO'], '144-62-7 6153-56-6', '', 'May react violently with sodium hypochlorite, sodium chlorite, strong oxidisers, acid chlorides and alkali metals; heated with urea it gives CO and NH₃ (CAMEO Chemicals).'],
+    ['citric-acid', 'Citric acid', ['ACIDO'], '77-92-9 5949-29-1', '', 'Reactions with metal nitrates are potentially explosive (CAMEO Chemicals).'],
+    ['nh3-anhydrous', 'Ammonia (anhydrous)', ['AMINE'], '7664-41-7 nh3 liquid ammonia', '', 'Liquefied gas: reacts exothermically with all acids, and violent reactions are possible (CAMEO Chemicals).'], ['cs2', 'Carbon disulfide', ['CS2'], '75-15-0', 'carbon-disulfide', 'Autoignition about 90 °C: a steam line or hot bulb can ignite the vapour.'],
   ];
   const BY = {}; C.forEach(c => { BY[c[0]] = c; });
   const slotHit = (slot, id) => slot.some(x => x[0] === '#' ? x.slice(1) === id : BY[id][2].includes(x));
@@ -206,6 +211,7 @@
   }
   function add(id) { if (BY[id] && !sel.includes(id)) sel.push(id); q.value = ''; list.hidden = true; render(); }
   root.addEventListener('click', e => {
+    const go = e.target.closest('[data-go]'); if (go) { const t = document.getElementById(go.dataset.go); if (t) { t.scrollIntoView({ behavior: 'smooth', block: 'center' }); t.classList.remove('mx-flash'); void t.offsetWidth; t.classList.add('mx-flash'); } return; }
     const a = e.target.closest('[data-add]'); if (a) { add(a.dataset.add); q.focus(); return; }
     const r = e.target.closest('[data-rm]'); if (r) { sel = sel.filter(x => x !== r.dataset.rm); render(); return; }
     if (e.target.id === 'mx-clear') { sel = []; render(); }
@@ -243,13 +249,19 @@
     const tri = sel.length > 2 ? triples(sel) : [];
     const nD = pairs.filter(p => p.sev === 'D').length + tri.length, nC = pairs.filter(p => p.sev === 'C').length;
     let html = `<div class="mx-sum ${nD ? 'd' : nC ? 'c' : 'n'}"><b>${nD ? nD + ' dangerous combination' + (nD > 1 ? 's' : '') : nC ? 'No dangerous combinations listed' : 'No reaction hazard listed'}</b>${nC ? ` &middot; ${nC} needing caution` : ''}<span>${pairs.length} pair${pairs.length > 1 ? 's' : ''} checked</span></div>`;
-    if (sel.length > 2 && sel.length <= 10) {
-      html += `<div class="mx-gridwrap"><table class="mx-grid"><tr><th></th>${sel.map((id, k) => `<th title="${esc(BY[id][1])}">${k + 1}</th>`).join('')}</tr>` +
-        sel.map((a, i) => `<tr><th class="rh">${i + 1}. ${esc(BY[a][1])}</th>${sel.map((b, j) => { if (i === j) return '<td class="x"></td>'; const p = pairs.find(p => (p.a === a && p.b === b) || (p.a === b && p.b === a)); return `<td class="${p.sev.toLowerCase()}" title="${esc(BY[a][1])} + ${esc(BY[b][1])}">${p.sev === 'D' ? '!' : p.sev === 'C' ? '·' : ''}</td>`; }).join('')}</tr>`).join('') + '</table></div>';
+    if (sel.length > 2 && sel.length <= 14) {
+      const pid = (a, b) => 'mx-p-' + [a, b].sort().join('-');
+      const cell = (a, b) => { const p = pairs.find(q => (q.a === a && q.b === b) || (q.a === b && q.b === a)); const lab = p.sev === 'D' ? 'Dangerous' : p.sev === 'C' ? 'Caution' : 'No reaction listed';
+        return `<td><button type="button" class="mx-cell ${p.sev.toLowerCase()}" data-go="${pid(a, b)}" title="${esc(BY[a][1])} + ${esc(BY[b][1])}: ${lab}" aria-label="${esc(BY[a][1])} + ${esc(BY[b][1])}: ${lab}">${p.sev === 'D' ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 10v5M12 18v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>' : p.sev === 'C' ? '<b>!</b>' : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'}</button></td>`; };
+      const short = id => { const n = BY[id][1], m = n.match(/\(([^()\s]{2,8})\)/); let t = m ? m[1] : n.replace(/\s*\(.*?\)\s*/g, ' ').trim(); return t.length > 18 ? t.slice(0, 17) + '…' : t; };
+      html += `<div class="mx-matrix"><div class="mx-legend"><span><i class="mx-cell d"></i>Dangerous</span><span><i class="mx-cell c"></i>Caution</span><span><i class="mx-cell n"></i>No reaction listed</span><span class="mx-legtip">Tap a square to read that pair</span></div>` +
+        `<div class="mx-gridwrap"><table class="mx-grid"><thead><tr><th></th>${sel.slice(0, -1).map(id => `<th class="ch"><div><span title="${esc(BY[id][1])}">${esc(short(id))}</span></div></th>`).join('')}</tr></thead><tbody>` +
+        sel.slice(1).map((a, i) => `<tr><th class="rh" title="${esc(BY[a][1])}">${esc(short(a))}</th>${sel.slice(0, i + 1).map(b => cell(a, b)).join('')}${'<td class="mx-void"></td>'.repeat(sel.length - 2 - i)}</tr>`).join('') +
+        `</tbody></table></div></div>`;
     }
     html += tri.map(t => { const r = TRIPLES[t.k]; return `<div class="mx-pair d"><div class="mx-ph"><b>${t.ids.map(id => esc(BY[id][1])).join(' + ')}</b><span class="mx-tag d">Dangerous together</span></div><div class="mx-r"><div class="mx-eff">${r[3].map(x => `<span>${esc(x)}</span>`).join('')}</div><p>${esc(r[4])}</p></div></div>`; }).join('');
     pairs.sort((x, y) => ({ D: 0, C: 1, N: 2 }[x.sev] - { D: 0, C: 1, N: 2 }[y.sev]));
-    html += pairs.map(p => `<div class="mx-pair ${p.sev.toLowerCase()}"><div class="mx-ph"><b>${esc(BY[p.a][1])} + ${esc(BY[p.b][1])}</b><span class="mx-tag ${p.sev.toLowerCase()}">${p.sev === 'D' ? 'Dangerous' : p.sev === 'C' ? 'Caution' : 'No reaction listed'}</span></div>` +
+    html += pairs.map(p => `<div class="mx-pair ${p.sev.toLowerCase()}" id="mx-p-${[p.a, p.b].sort().join('-')}"><div class="mx-ph"><b>${esc(BY[p.a][1])} + ${esc(BY[p.b][1])}</b><span class="mx-tag ${p.sev.toLowerCase()}">${p.sev === 'D' ? 'Dangerous' : p.sev === 'C' ? 'Caution' : 'No reaction listed'}</span></div>` +
       (p.h.length ? p.h.map(k => { const r = RULES[k]; return `<div class="mx-r"><div class="mx-eff">${r[3].map(t => `<span>${esc(t)}</span>`).join('')}</div><p>${esc(r[4])}</p></div>`; }).join('') : '<p class="mx-mute">No hazardous reaction is listed for these two groups. That is not proof the mixture is safe: check both SDSs (section 10) and test before scale-up.</p>') + '</div>').join('');
     html += notesHtml() + `<div class="mx-act"><button type="button" class="btn btn-outline btn-sm" id="mx-print">Print / save as PDF</button></div>`;
     out.innerHTML = html;
