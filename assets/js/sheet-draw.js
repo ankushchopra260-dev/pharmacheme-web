@@ -27,7 +27,7 @@
   let doc = blank(), sel = null, selSet = [], tool = 'move', place = null, conn = null, connSide = null, cursor = null, scr = null, drag = null, undo = [], redo = [];
   let cmd = null, lastCmd = '', snapPt = null, clip = null, hist = [];
   const view = { x: 400, y: 300, z: 1 };
-  const opts = Object.assign({ grid: true, snap: true, ortho: false, osnap: true, sheet: true }, (() => { try { return JSON.parse(localStorage.getItem(OKEY) || '{}'); } catch (e) { return {}; } })());
+  const opts = Object.assign({ grid: true, snap: true, ortho: false, osnap: true, sheet: true, cad: false, palhide: false }, (() => { try { return JSON.parse(localStorage.getItem(OKEY) || '{}'); } catch (e) { return {}; } })());
   function blank() { return { v: 2, name: PFD ? 'Process flow diagram' : 'P&ID', items: [], lines: [], inst: [], notes: [], hide: {}, tb: {}, sheet: { size: 'A3', x: 0, y: 0 } }; }
   const item = id => doc.items.find(i => i.id === id), line = id => doc.lines.find(l => l.id === id), note = id => (doc.notes || []).find(n => n.id === id);
   const shown = ly => !(doc.hide && doc.hide[ly]);
@@ -42,16 +42,25 @@
   root.className = 'sd';
   root.innerHTML = `
 <div class="sd-bar">
-  <button type="button" class="sd-mob" id="sd-palbtn">Symbols</button>
+  <button type="button" id="sd-palbtn" title="Show or hide the symbol list">Symbols</button>
   <input class="sd-name" id="sd-name" aria-label="Drawing title">
   <span class="grp"><button type="button" id="sd-conn" aria-pressed="false" title="Line (L): click one item, then another">Line</button><button type="button" data-cmd="TEXT" title="Text (T)">Text</button></span>
-  <span class="grp"><button type="button" data-cmd="MOVE" title="Move (M)">Move</button><button type="button" data-cmd="COPY" title="Copy (CO)">Copy</button><button type="button" data-cmd="ROTATE" title="Rotate (RO)">Rotate</button><button type="button" data-cmd="MIRROR" title="Mirror (MI)">Mirror</button><button type="button" data-cmd="ERASE" title="Erase (E or Delete)">Erase</button></span>
+  <span class="grp"><button type="button" data-cmd="MOVE" title="Move (M)">Move</button><button type="button" data-cmd="ROTATE" title="Rotate (RO)">Rotate</button><button type="button" data-cmd="ERASE" title="Delete (Delete key)">Delete</button></span>
   <span class="grp"><button type="button" id="sd-undo" title="Undo (Ctrl+Z)">Undo</button><button type="button" id="sd-redo" title="Redo (Ctrl+Y)">Redo</button></span>
+  <button type="button" id="sd-more" aria-haspopup="true" aria-expanded="false">More</button>
   <span class="sp"></span>
-  <span class="grp"><button type="button" data-cmd="LAYER" title="Layers (LA)">Layers</button><button type="button" data-cmd="TB" title="Title block (TB)">Title block</button></span>
-  <span class="grp"><button type="button" data-cmd="PDF" title="Plot to PDF (PDF)">PDF</button><button type="button" data-cmd="DXF" title="Export DXF for AutoCAD (DXF)">DXF</button><button type="button" id="sd-png" title="Image (PNG)">PNG</button></span>
-  <button type="button" id="sd-how" title="How to use this tool">How to use</button>
-  <button type="button" id="sd-new">New</button>
+  <button type="button" id="sd-dl" aria-haspopup="true" aria-expanded="false">Download</button>
+  <button type="button" id="sd-how" title="How to use this tool">Help</button>
+  <button type="button" id="sd-full" class="sd-fs" title="Full screen (FULL)" aria-pressed="false">Full screen</button>
+</div>
+<div class="sd-menu" id="sd-moremenu" hidden>
+  <button type="button" data-cmd="COPY">Copy</button><button type="button" data-cmd="MIRROR">Mirror</button>
+  <button type="button" data-cmd="LAYER">Layers</button><button type="button" data-cmd="TB">Title block</button>
+  <button type="button" id="sd-tpl">Templates</button><button type="button" id="sd-new">New drawing</button>
+  <button type="button" id="sd-cad" aria-pressed="false" title="Show the command line, GRID, SNAP, ORTHO and OSNAP">CAD mode (command line)</button>
+</div>
+<div class="sd-menu" id="sd-dlmenu" hidden>
+  <button type="button" data-cmd="PDF">PDF (A3 sheet)</button><button type="button" data-cmd="DXF">DXF for AutoCAD</button><button type="button" id="sd-png">PNG image</button>
 </div>
 <div class="sd-pal" id="sd-pal"><input type="search" id="sd-q" placeholder="Search symbols" aria-label="Search symbols"><div id="sd-list"></div></div>
 <div class="sd-main">
@@ -63,6 +72,7 @@
     <div class="sd-pop sd-help" id="sd-help" hidden></div>
     <div class="sd-pop sd-how" id="sd-howp" hidden></div>
     <div class="sd-start" id="sd-start" hidden></div>
+    <div class="sd-zoom"><button type="button" id="sd-zo" aria-label="Zoom out" title="Zoom out">−</button><button type="button" id="sd-fit" title="Fit drawing to screen (Z, E)">Fit</button><button type="button" id="sd-zi" aria-label="Zoom in" title="Zoom in">+</button></div>
   </div>
   <div class="sd-cmd" id="sd-cmdbox">
     <div class="sd-hist" id="sd-hist" aria-live="polite"></div>
@@ -72,12 +82,12 @@
     <span class="xy" id="sd-xy">X 0.0  Y 0.0</span>
     <button type="button" data-opt="grid" title="Grid (F7)">GRID</button><button type="button" data-opt="snap" title="Snap to 2.5 mm (F9)">SNAP</button><button type="button" data-opt="ortho" title="Ortho (F8)">ORTHO</button><button type="button" data-opt="osnap" title="Object snap (F3)">OSNAP</button><button type="button" data-opt="sheet" title="Drawing sheet and title block">SHEET</button>
     <span class="sp"></span>
-    <button type="button" data-cmd="HELP" title="Command list">?</button><button type="button" id="sd-full" title="Full screen (FULL)" aria-pressed="false">Full screen</button>
-    <button type="button" id="sd-zo" aria-label="Zoom out">−</button><button type="button" id="sd-fit" title="Zoom extents (Z, E)">Extents</button><button type="button" id="sd-zi" aria-label="Zoom in">+</button>
+    <button type="button" data-cmd="HELP" title="Command list">Commands</button>
   </div>
 </div>`;
   const cv = $('#sd-cv'), wrap = $('#sd-wrap'), ctx = cv.getContext('2d'), cin = $('#sd-cmd'); let W = 0, H = 0, dpr = 1;
-  new ResizeObserver(() => { const r = wrap.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); paint(); }).observe(wrap);
+  new ResizeObserver(() => { const r = wrap.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); if (!userView && W > 50 && H > 50 && typeof fit === 'function') { try { fit(); } catch (e) { /* not ready */ } } paint(); }).observe(wrap);
+  let userView = false;
   const w2s = (x, y) => [(x - view.x) * view.z + W / 2, (y - view.y) * view.z + H / 2];
   const s2w = (x, y) => [(x - W / 2) / view.z + view.x, (y - H / 2) / view.z + view.y];
 
@@ -333,7 +343,7 @@
     ['PDF', 'Plot the sheet to PDF'], ['DXF', 'Export a DXF that opens in AutoCAD'], ['PNG', 'Export an image'], ['FULL', 'Full screen on and off'], ['HOW', 'Open the how-to-use guide'], ['F3 F7 F8 F9', 'OSNAP, GRID, ORTHO, SNAP on and off'], ['Points', 'Click, or type x,y · @dx,dy · @dist<angle · a distance along the cursor (mm, Y up)'], ['Enter / Space', 'Repeat the last command, or finish selecting']];
   function say(t, cls) { hist.push([t, cls || '']); if (hist.length > 40) hist.shift(); const h = $('#sd-hist'); h.innerHTML = hist.slice(-3).map(([t2, c2]) => '<div class="' + c2 + '">' + esc(t2) + '</div>').join(''); }
   function promptT(t) { $('#sd-plabel').textContent = t; }
-  function idlePrompt() { promptT('Command:'); cin.placeholder = tool === 'connect' ? (conn ? 'Click the next item, a line (tee) or empty space (bend). Esc to stop.' : 'Click the item the line starts from') : tool === 'place' ? (place.kind === 'eq' ? 'Click to place. Esc to cancel.' : place.kind === 'item' ? 'Click a line to put it there. Esc to cancel.' : 'Click equipment or a line. Esc to cancel.') : (doc.items.length ? 'Type a command (L, M, CO, RO, MI, E, Z, ?) or pick objects' : 'Pick a symbol on the left, or type I and a name'); }
+  function idlePrompt() { promptT(opts.cad ? 'Command:' : 'Next:'); cin.placeholder = tool === 'connect' ? (conn ? 'Click the next item, a line (tee) or empty space (bend). Esc to stop.' : 'Click the item the line starts from') : tool === 'place' ? (place.kind === 'eq' ? 'Click to place. Esc to cancel.' : place.kind === 'item' ? 'Click a line to put it there. Esc to cancel.' : 'Click equipment or a line. Esc to cancel.') : (doc.items.length ? 'Type a command (L, M, CO, RO, MI, E, Z, ?) or pick objects' : 'Pick a symbol on the left, or type I and a name'); }
   function endCmd(t) { cmd = null; if (t) say(t, 'mute'); idlePrompt(); paint(); }
   function needSel(name, next) { if (selSet.length) { say('Command: ' + name + '  (' + selSet.length + ' selected)'); next(); } else { cmd = { name, step: 'select', after: next }; say('Command: ' + name); promptT('Select objects:'); cin.placeholder = 'Click or drag a window, then press Enter'; } }
   function run(raw) { const s = String(raw || '').trim(); if (cmd) return feed(s); if (!s) { if (lastCmd) return run(lastCmd); return; }
@@ -400,18 +410,31 @@
     setSel(all); say(all.length + ' found', 'mute'); if (!keep) idlePrompt(); }
   function toggle(o) { opts[o] = !opts[o]; saveOpts(); statusUI(); say(o.toUpperCase() + ' ' + (opts[o] ? 'on' : 'off'), 'mute'); if (o === 'sheet' && opts.sheet) ensureSheet(); paint(); }
   function statusUI() { $$('#sd-status [data-opt]').forEach(b => b.setAttribute('aria-pressed', String(!!opts[b.dataset.opt]))); }
-  function fullScreen() { const on = root.classList.toggle('full'); document.documentElement.classList.toggle('sd-noscroll', on); $('#sd-full').setAttribute('aria-pressed', String(on)); say('Full screen ' + (on ? 'on' : 'off'), 'mute'); requestAnimationFrame(() => { fit(); paint(); }); }
+  const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+  function fullScreen(want) {
+    if (typeof want !== 'boolean') want = !root.classList.contains('full');
+    root.classList.toggle('full', want); document.documentElement.classList.toggle('sd-noscroll', want);
+    if (want && !fsEl()) { const rq = root.requestFullscreen || root.webkitRequestFullscreen; if (rq) { try { const pr = rq.call(root); if (pr && pr.catch) pr.catch(() => {}); } catch (e) { /* CSS full window still works */ } } }
+    if (!want && fsEl()) { const ex = document.exitFullscreen || document.webkitExitFullscreen; try { const pr = ex.call(document); if (pr && pr.catch) pr.catch(() => {}); } catch (e) { /* ignore */ } }
+    const fb = $('#sd-full'); fb.setAttribute('aria-pressed', String(want)); fb.textContent = want ? 'Exit full screen' : 'Full screen';
+    closeMenus(); requestAnimationFrame(() => requestAnimationFrame(() => { fit(); paint(); }));
+  }
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { if (!fsEl() && root.classList.contains('full')) fullScreen(false); }));
+  function closeMenus() { ['#sd-moremenu', '#sd-dlmenu'].forEach(s2 => { $(s2).hidden = true; }); ['#sd-more', '#sd-dl'].forEach(s2 => $(s2).setAttribute('aria-expanded', 'false')); }
+  function openMenu(btn, menu) { const was = !$(menu).hidden; closeMenus(); if (was) return; hidePops(); const m = $(menu), r = $(btn).getBoundingClientRect(), rr = root.getBoundingClientRect(); m.hidden = false; m.style.top = (r.bottom - rr.top + 4) + 'px'; m.style.left = Math.max(6, Math.min(r.left - rr.left, rr.width - m.offsetWidth - 6)) + 'px'; $(btn).setAttribute('aria-expanded', 'true'); }
+  function modeUI() { root.classList.toggle('simple', !opts.cad); root.classList.toggle('pal-hide', !!opts.palhide); $('#sd-cad').setAttribute('aria-pressed', String(!!opts.cad)); $('#sd-palbtn').setAttribute('aria-pressed', String(!opts.palhide)); }
   function hidePops() { ['#sd-layers', '#sd-tb', '#sd-help', '#sd-howp'].forEach(s => { $(s).hidden = true; }); }
   const HOW = [
-    ['Start', 'Pick a blank sheet or a ready setup. Press New at any time to start again. Your drawing is saved in this browser.'],
-    ['Place equipment', 'Click a symbol on the left, then click the sheet. Or type I and a name, for example <code>I reactor</code>. Hold Shift while clicking to place several.'],
-    ['Draw lines', 'Press <b>Line</b> or type <b>L</b>. Click the first item, then the next. With OSNAP on, click a yellow nozzle square to choose the side the line leaves from. Click a line to branch with a tee, or empty space for a bend.'],
+    ['Get room', 'Press <b>Full screen</b> (top right) to use the whole screen; Esc leaves it. Press <b>Symbols</b> to hide or show the symbol list.'],
+    ['Start', 'Pick a blank sheet or a ready setup. <b>More → Templates</b> or <b>More → New drawing</b> starts again. Your drawing is saved in this browser.'],
+    ['Place equipment', 'Click a symbol on the left, then click the sheet. Hold Shift while clicking to place several.'],
+    ['Join with lines', 'Press <b>Line</b>, click the first item, then the next. Click a line to branch with a tee, or empty space for a bend. Esc stops.'],
     ['Add valves and instruments' + (PFD ? ' (pumps on a PFD)' : ''), 'Pick the valve, pump or instrument on the left, then click the line (or the vessel, for an instrument). Drag a valve along its line to move it.'],
-    ['Edit', 'Click anything to edit its tag, name, service or size in the card on the right. Drag a window to select several: left to right for objects fully inside, right to left for anything it touches. Then use Move, Copy, Rotate, Mirror or Erase.'],
-    ['Be precise', 'SNAP keeps points on a 2.5 mm grid, ORTHO keeps moves horizontal or vertical, OSNAP snaps to nozzles and bends. While a command asks for a point you can type <code>@50,0</code> (50 mm right) or just <code>50</code> along the cursor.'],
-    ['Move around', 'Scroll to zoom, drag with the right or middle mouse button to pan, double-click empty space to see everything. Full screen gives you the whole window.'],
-    ['Finish the sheet', 'Press <b>Title block</b> (or TB) to fill in company, drawing number and revision, and pick A3, A2 or A1. Then press <b>PDF</b> to plot, <b>DXF</b> to open it in AutoCAD, or <b>PNG</b> for an image.']];
-  function howTo() { const p = $('#sd-howp'); p.innerHTML = '<button type="button" class="x" aria-label="Close">✕</button><h3>How to use the ' + (PFD ? 'PFD' : 'P&amp;ID') + ' tool</h3><ol>' + HOW.map(([t, d]) => '<li><b>' + t + '.</b> ' + d + '</li>').join('') + '</ol><p class="note">Esc cancels, Ctrl+Z undoes, and <b>?</b> lists every command. Type commands anywhere over the drawing.</p><button type="button" id="how-ok">Got it</button>';
+    ['Edit', 'Click anything to change its tag, name or size in the card on the right. Drag to move it. <b>Move</b>, <b>Rotate</b> and <b>Delete</b> are on the toolbar; Copy and Mirror are under <b>More</b>.'],
+    ['Zoom', 'Scroll or use <b>− Fit +</b> at the bottom right. Drag with the right or middle mouse button (one finger on a phone) to pan.'],
+    ['Download', 'Fill in <b>More → Title block</b>, then <b>Download</b> a PDF, a DXF for AutoCAD, or an image.'],
+    ['For CAD users (optional)', 'Turn on <b>More → CAD mode</b> for GRID, SNAP, ORTHO and OSNAP buttons and the command history. Typing commands like <code>L</code>, <code>M</code>, <code>CO</code> or <code>@50,0</code> works in both modes.']];
+  function howTo() { const p = $('#sd-howp'); p.innerHTML = '<button type="button" class="x" aria-label="Close">✕</button><h3>How to use the ' + (PFD ? 'PFD' : 'P&amp;ID') + ' tool</h3><ol>' + HOW.map(([t, d]) => '<li><b>' + t + '.</b> ' + d + '</li>').join('') + '</ol><p class="note">Esc cancels and Ctrl+Z undoes.</p><button type="button" id="how-ok">Got it</button>';
     p.hidden = false; const close = () => { p.hidden = true; try { localStorage.setItem('pcme-cad-howto', '1'); } catch (e) { /* ignore */ } }; p.querySelector('.x').onclick = close; $('#how-ok').onclick = close; }
   function help() { const p = $('#sd-help'); p.innerHTML = '<button type="button" class="x" aria-label="Close">✕</button><h3>Commands</h3><table>' + HELP.map(([k2, d]) => '<tr><td><b>' + esc(k2) + '</b></td><td>' + esc(d) + '</td></tr>').join('') + '</table>'; p.hidden = false; p.querySelector('.x').onclick = () => { p.hidden = true; }; }
   function layers() { const p = $('#sd-layers'); p.innerHTML = '<button type="button" class="x" aria-label="Close">✕</button><h3>Layers</h3>' + LAYERS.map(([k2, n]) => '<label class="ly"><input type="checkbox" data-ly="' + k2 + '"' + (shown(k2) ? ' checked' : '') + '><span class="sw" style="background:' + ({ EQUIPMENT: '#ECE7D8', PROCESS: '#E6C35C', UTILITY: '#3E8ED0', VALVES: '#D98EE0', INSTRUMENTS: '#6FBF73', TEXT: '#9FB6CC', BORDER: '#7F93A8' })[k2] + '"></span><b>' + k2 + '</b><small>' + esc(n) + '</small></label>').join('') + '<p class="note">Hidden layers are not drawn, picked or exported.</p>';
@@ -450,7 +473,7 @@
     drag = { win: true, sx: s[0], sy: s[1], w0: w, add: e.shiftKey }; });
   cv.addEventListener('pointermove', e => { const w = worldAt(e); cursor = w; scr = screenAt(e); if (e.pointerType !== 'touch') wrap.classList.remove('touch');
     snapPt = (pointing() || (drag && drag.h && drag.moved)) ? osnapAt(w) : null; xyUI(w);
-    if (drag && drag.pan) { if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 2) { wrap.classList.add('panning'); drag.moved = true; } view.x -= e.movementX / view.z; view.y -= e.movementY / view.z; paint(); return; }
+    if (drag && drag.pan) { if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 2) { wrap.classList.add('panning'); drag.moved = true; } userView = true; view.x -= e.movementX / view.z; view.y -= e.movementY / view.z; paint(); return; }
     if (drag && drag.win) { drag.cur = scr; paint(); return; }
     if (drag && drag.click) { if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 6 && e.pointerType === 'touch') drag = { pan: true, sx: e.clientX, sy: e.clientY }; paint(); return; }
     if (drag && drag.h) { if (!drag.moved) { if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 4) return; snap(); drag.moved = true; } const h = drag.h;
@@ -492,7 +515,7 @@
   cv.addEventListener('pointerleave', () => { cursor = null; scr = null; snapPt = null; paint(); });
   cv.addEventListener('wheel', e => { e.preventDefault(); const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top, q = s2w(sx, sy); zoomAt(Math.exp(-e.deltaY * .0015), q, sx, sy); }, { passive: false });
   cv.addEventListener('dblclick', e => { const h = hit(worldAt(e)); if (!h) { fit(); paint(); } });
-  function zoomAt(f, q, sx, sy) { view.z = Math.max(.1, Math.min(6, view.z * f)); view.x = q[0] - (sx - W / 2) / view.z; view.y = q[1] - (sy - H / 2) / view.z; paint(); }
+  function zoomAt(f, q, sx, sy) { userView = true; view.z = Math.max(.1, Math.min(6, view.z * f)); view.x = q[0] - (sx - W / 2) / view.z; view.y = q[1] - (sy - H / 2) / view.z; paint(); }
   $('#sd-zi').onclick = () => zoomAt(1.25, [view.x, view.y], W / 2, H / 2); $('#sd-zo').onclick = () => zoomAt(.8, [view.x, view.y], W / 2, H / 2); $('#sd-fit').onclick = () => { fit(); paint(); };
   function fit() { computeEnds(); let b = bounds(); const tb = tableBox(); if (b && tb) { b.y1 = tb.y0 + tb.h; b.x1 = Math.max(b.x1, tb.x0 + tb.w); }
     if (opts.sheet) { const sb = sheetBox(); b = b ? { x0: Math.min(b.x0, sb.x0), y0: Math.min(b.y0, sb.y0), x1: Math.max(b.x1, sb.x1), y1: Math.max(b.y1, sb.y1) } : sb; }
@@ -525,7 +548,15 @@
   $('#sd-undo').onclick = doUndo; $('#sd-redo').onclick = doRedo;
   $('#sd-name').onchange = e => { doc.name = e.target.value; save(); paint(); };
   $('#sd-new').onclick = () => { if (doc.items.length && !confirm('Start a new drawing? This one will be cleared.')) return; snap(); doc = blank(); setSel([]); setTool('move'); changed(); startScreen(); };
-  $('#sd-palbtn').onclick = () => root.classList.toggle('pal-open');
+  const narrow = () => matchMedia('(max-width: 800px)').matches;
+  $('#sd-palbtn').onclick = () => { closeMenus(); if (narrow()) { root.style.setProperty('--sd-bar', $('.sd-bar').offsetHeight + 'px'); root.classList.toggle('pal-open'); return; } opts.palhide = !opts.palhide; saveOpts(); modeUI(); };
+  $('#sd-more').onclick = () => openMenu('#sd-more', '#sd-moremenu'); $('#sd-dl').onclick = () => openMenu('#sd-dl', '#sd-dlmenu');
+  $$('.sd-menu button').forEach(b => b.addEventListener('click', () => closeMenus()));
+  document.addEventListener('pointerdown', e => { if (!e.target.closest || !e.target.closest('.sd-menu, #sd-more, #sd-dl')) closeMenus(); });
+  $('#sd-cad').onclick = () => { opts.cad = !opts.cad; saveOpts(); modeUI(); idlePrompt(); msg(opts.cad ? 'CAD mode on: command line, GRID, SNAP, ORTHO and OSNAP are shown.' : 'Simple mode: status bar and command history hidden. Typing a command still works.'); };
+  $('#sd-tpl').onclick = () => startScreen();
+  { const hd = document.querySelector('.site-nav'); const setTop = () => root.style.setProperty('--sd-top', ((hd ? hd.offsetHeight : 0) + 12) + 'px'); setTop(); addEventListener('resize', setTop); }
+  modeUI();
   $('#sd-png').onclick = () => run('PNG'); $('#sd-how').onclick = () => { hidePops(); howTo(); }; $('#sd-full').onclick = () => run('FULL');
 
   /* ---------- export ---------- */
@@ -674,9 +705,9 @@
   function thumb(T, c, w, h) { const d = fromTemplate(T), keep = doc; doc = d; computeEnds(); const b = bounds(); const z = Math.min(w / (b.x1 - b.x0 + 20), h / (b.y1 - b.y0 + 20));
     draw(c, w, h, { x: (b.x0 + b.x1) / 2, y: (b.y0 + b.y1) / 2, z }, Object.assign({}, DARK, { grid: null }), 'thumb'); doc = keep; computeEnds(); }
   function startScreen() { const s = $('#sd-start');
-    s.innerHTML = '<h2>' + (PFD ? 'Start a PFD' : 'Start a P&amp;ID') + '</h2><p>Start blank, or from a ready setup that you can change.</p><div class="grid"><button type="button" class="tpl blank" data-k="">Blank sheet</button>' +
+    s.innerHTML = '<h2>' + (PFD ? 'Start a PFD' : 'Start a P&amp;ID') + '</h2><p>Start blank, or from a ready setup that you can change.' + (doc.items.length ? ' Picking one replaces the drawing on screen (Undo brings it back). <button type="button" class="sd-startx" id="sd-startx">Back to my drawing</button>' : '') + '</p><div class="grid"><button type="button" class="tpl blank" data-k="">Blank sheet</button>' +
       Object.entries(S.TEMPLATES).map(([k, T]) => '<button type="button" class="tpl" data-k="' + k + '"><canvas width="440" height="250" aria-hidden="true"></canvas><b>' + esc(T.short) + '</b></button>').join('') + '</div>';
-    s.hidden = false; $$('#sd-start .tpl').forEach(b => { const c = b.querySelector('canvas'); if (c) thumb(S.TEMPLATES[b.dataset.k], c.getContext('2d'), 440, 250);
+    s.hidden = false; const bx = $('#sd-startx'); if (bx) bx.onclick = () => { s.hidden = true; }; $$('#sd-start .tpl').forEach(b => { const c = b.querySelector('canvas'); if (c) thumb(S.TEMPLATES[b.dataset.k], c.getContext('2d'), 440, 250);
       b.onclick = () => { if (b.dataset.k) { snap(); doc = norm(fromTemplate(S.TEMPLATES[b.dataset.k])); ensureSheet(); } s.hidden = true; setSel([]); setTool('move'); changed(); requestAnimationFrame(() => { fit(); paint(); }); let seen = false; try { seen = !!localStorage.getItem('pcme-cad-howto'); } catch (e) { seen = true; } if (!seen) howTo(); }; }); }
 
   /* ---------- refresh ---------- */
@@ -685,6 +716,6 @@
   palette(); statusUI();
   try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.items) { doc = norm(s); if (!doc.sheet) ensureSheet(); } } catch (e) { /* ignore */ }
   { const tq = new URLSearchParams(location.search).get('template'); if (tq && S.TEMPLATES[tq] && (!doc.items.length || confirm('Open the ' + S.TEMPLATES[tq].short + ' template? It replaces the drawing on screen (Undo brings it back).'))) { snap(); doc = norm(fromTemplate(S.TEMPLATES[tq])); ensureSheet(); save(); } }
-  refresh(); say('Type a command, or ? for the list. Drag a window to select (left to right: inside; right to left: crossing).', 'mute'); if (!doc.items.length) startScreen(); requestAnimationFrame(() => { fit(); paint(); });
+  refresh(); say('Pick a symbol, click to place it, then use Line to join items. Drag a window to select (left to right: inside; right to left: crossing).', 'mute'); if (!doc.items.length) startScreen(); requestAnimationFrame(() => { fit(); paint(); });
   window.__sd = { get doc() { return doc; }, get sel() { return selSet; }, opts, view, run, w2s: (x, y) => { const r = cv.getBoundingClientRect(), q = w2s(x, y); return [q[0] + r.left, q[1] + r.top]; }, fit: () => { fit(); paint(); }, setSel: s => setSel(Array.isArray(s) ? s : s ? [s] : []), dxf: () => window.__sdLastDxf };
 })();

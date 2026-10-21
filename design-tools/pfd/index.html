@@ -37,7 +37,7 @@ structured_data: |
       "url": "https://www.pharmacheme.in/"
     }
   }
-last_modified_at: 2026-10-18
+last_modified_at: 2026-10-21
 ---
 
 <link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}?v={{ site.time | date: '%s' }}">
@@ -45,7 +45,7 @@ last_modified_at: 2026-10-18
 
 <div class="container st-head">
   <h1>PFD Drawing Tool</h1>
-  <p>Pick equipment, click to place it, and press Line to join two items. Each line becomes a numbered stream. Same AutoCAD-style commands as the P&amp;ID tool. <a href="#how-to-use" style="color:var(--brass)">How to use it</a>.</p>
+  <p>Pick equipment, click to place it, and press Line to join two items. Each line becomes a numbered stream. Press <b>Full screen</b> for more room. <a href="#how-to-use" style="color:var(--brass)">How to use it</a>.</p>
 </div>
 <div style="padding:0 12px;">
   <div id="sd-app" data-kind="pfd"></div>
@@ -53,7 +53,7 @@ last_modified_at: 2026-10-18
 
 <div class="container article-body" style="margin-top:28px;">
   <h2 id="how-to-use">How to use the PFD tool</h2>
-  <p>The tool works like a simple AutoCAD: a toolbar on top, symbols on the left, the drawing sheet in the middle, a command line and a status bar at the bottom. Press <strong>How to use</strong> in the toolbar at any time to see these steps inside the tool.</p>
+  <p>A toolbar on top, symbols on the left and the drawing sheet in the middle. Press <strong>Full screen</strong> for the whole screen (Esc to leave), hide the symbol list with <strong>Symbols</strong> for more room, and find Copy, Mirror, Layers, Title block and Templates under <strong>More</strong>. Press <strong>Help</strong> in the toolbar at any time to see these steps inside the tool.</p>
   <ol>
     <li><strong>Start.</strong> Pick a blank sheet or a ready setup. The drawing is saved in this browser, so you can close the page and come back to it.</li>
     <li><strong>Place equipment.</strong> Click a symbol on the left, then click the sheet. Or type <code>I</code> and a name, for example <code>I reactor</code>, and press Enter. Hold Shift while clicking to place several.</li>
@@ -61,10 +61,10 @@ last_modified_at: 2026-10-18
     <li><strong>Fill in the streams.</strong> Click a line to enter its fluid, mass flow, phase, temperature and pressure. The stream table under the drawing updates as you type. Pumps go on the lines like valves.</li>
     <li><strong>Edit and arrange.</strong> Click anything to edit it in the card on the right. Drag a window to select several (left to right picks what is fully inside; right to left picks anything it touches), then use Move, Copy, Rotate, Mirror or Erase. Esc cancels, Ctrl+Z undoes.</li>
     <li><strong>Work precisely.</strong> Keep SNAP on for a tidy 2.5 mm grid, ORTHO for straight horizontal or vertical moves, and OSNAP to land on nozzles and bends. When a command asks for a point, type <code>@50,0</code> to go 50 mm right, or just <code>50</code> to go 50 mm the way the cursor points.</li>
-    <li><strong>Move around the sheet.</strong> Scroll to zoom, drag with the right or middle mouse button to pan, and double-click empty space to see the whole drawing. <em>Full screen</em> gives you the whole window.</li>
+    <li><strong>Move around the sheet.</strong> Scroll to zoom, drag with the right or middle mouse button to pan, and double-click empty space to see the whole drawing. The <em>−  Fit  +</em> buttons at the bottom right of the sheet zoom out, fit the drawing and zoom in.</li>
     <li><strong>Finish and export.</strong> Press <em>Title block</em> (or type <code>TB</code>) to fill in the company, title, drawing number, revision and names, and choose A3, A2 or A1. Then press <em>PDF</em> to plot the sheet, <em>DXF</em> to open it in AutoCAD, or <em>PNG</em> for an image.</li>
   </ol>
-  <p><strong>On a phone or tablet:</strong> tap <em>Symbols</em> to open the panel, tap to place and select, and drag with one finger to pan. The command line and keyboard shortcuts work best on a computer.</p>
+  <p><strong>On a phone or tablet:</strong> press <em>Full screen</em> first, tap <em>Symbols</em> to open the panel, tap to place and select, and drag with one finger to pan. Swipe the toolbar sideways to reach more buttons.</p>
   <h2 id="commands">Commands and shortcuts</h2>
   <p>Type a command anywhere over the drawing and press Enter, as in AutoCAD. Press Enter or Space again to repeat the last command, and Esc to cancel. Right-click works as Enter.</p>
   <div class="ut-table-wrap"><table class="ut-table">
@@ -78,7 +78,7 @@ last_modified_at: 2026-10-18
     <tr><td><b>P</b></td><td>Pan. You can also drag with the middle or right mouse button.</td></tr>
     <tr><td><b>LA</b>, <b>TB</b></td><td>Layers on and off; title block and sheet size (A3, A2, A1).</td></tr>
     <tr><td><b>PDF</b>, <b>DXF</b>, <b>PNG</b></td><td>Plot the sheet to PDF, export a DXF that opens in AutoCAD, or save an image.</td></tr>
-    <tr><td><b>F3 F7 F8 F9</b></td><td>OSNAP, GRID, ORTHO and SNAP on and off. The buttons in the status bar do the same.</td></tr>
+    <tr><td><b>F3 F7 F8 F9</b></td><td>OSNAP, GRID, ORTHO and SNAP on and off. Turn on <em>More → CAD mode</em> to see these as buttons in a status bar, with the command history.</td></tr>
     <tr><td><b>Points</b></td><td>Click, or type <code>x,y</code>, <code>@dx,dy</code>, <code>@distance&lt;angle</code> or just a distance along the cursor. Units are mm on the sheet, Y up.</td></tr>
   </table></div>
   <p><strong>Selecting:</strong> click an object, Shift+click to add or remove, or drag a window. Left to right selects what is fully inside; right to left (green, dashed) also selects what it touches. Ctrl+A selects everything; Ctrl+C and Ctrl+V copy and paste.</p>
