@@ -1689,6 +1689,12 @@ function srRenderResults() {
 
 function initSolventRecovery() {
   srSubActive = null;
+  const st = pcmeRead("sr");
+  if (st && srCases[st.sub] && Array.isArray(st.d) && st.d.length) {
+    const def = { boiling: BP_DEFAULTS, heatload: HL_DEFAULTS, condenser: CD_DEFAULTS, vacuumpump: VP_DEFAULTS }[st.sub];
+    srCases[st.sub] = st.d.map((x) => Object.assign({}, def, x));
+    srSubActive = st.sub;
+  }
   renderAndWireSolventRecovery();
 }
 
@@ -1730,6 +1736,26 @@ function renderAndWireSolventRecovery() {
 
 
 
+
+// ---------- Links that reopen a calculation with the same inputs ----------
+// links that carry the inputs: everything after "#s=" stays in the browser and is never sent to a server
+const pcmeEnc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+const pcmeLink = (o) => location.origin + location.pathname + "#s=" + pcmeEnc(o);
+const pcmeRead = (k) => { try { const m = location.hash.match(/[#&]s=([A-Za-z0-9_-]+)/); if (!m) return null; const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); return o && o.k === k ? o : null; } catch (e) { return null; } };
+function pcmeRestore(k, defaults, fix) {
+  const st = pcmeRead(k); if (!st || !Array.isArray(st.d) || !st.d.length) return null;
+  return st.d.map((x) => Object.assign({}, defaults, x, fix ? fix(x) : {}));
+}
+window.PCME_CALC_LINK = function () {
+  const has = (id) => !!document.getElementById(id);
+  if (has("pp-table")) return pcmeLink({ k: "pp", d: pumpCases });
+  if (has("cf-table")) return pcmeLink({ k: "cf", d: centrifugeCases });
+  if (has("cp-table")) return pcmeLink({ k: "cp", d: couponReactors });
+  if (has("ft-table")) return pcmeLink({ k: "ft", d: filtrationTrials });
+  if (has("su-table")) return pcmeLink({ k: "su", d: scaleupReactors });
+  if (has("sr-comparison-table") && srSubActive) return pcmeLink({ k: "sr", sub: srSubActive, d: srCases[srSubActive] });
+  return null;
+};
 
 // ---------- Mixing / Scale-up (multi-reactor comparison) ----------
 // Impeller types for the mixing calculator. Power numbers are not looked up from a fixed table:
@@ -2154,6 +2180,7 @@ function suRenderResults() {
 }
 
 function initScaleUp() {
+  { const r = pcmeRestore("su", SCALEUP_DEFAULTS); if (r) scaleupReactors = r; }
   suRenderStructure();
   suRenderResults();
   qs("su-add-reactor").addEventListener("click", () => {
@@ -2372,6 +2399,7 @@ function cpRenderResults() {
 }
 
 function initCouponStudy() {
+  { const r = pcmeRestore("cp", COUPON_DEFAULTS); if (r) couponReactors = r; }
   cpRenderStructure();
   cpRenderResults();
   qs("cp-add-coupon").addEventListener("click", () => {
@@ -2600,6 +2628,7 @@ function ftRenderResults() {
 }
 
 function initFiltrationEvaluation() {
+  { const r = pcmeRestore("ft", FILTRATION_DEFAULTS, (x) => ({ readings: Array.isArray(x.readings) ? x.readings : defaultReadings(false) })); if (r) filtrationTrials = r; }
   ftRenderStructure();
   ftRenderResults();
   qs("ft-add-trial").addEventListener("click", () => {
@@ -2757,6 +2786,7 @@ function cfRenderResults() {
 }
 
 function initCentrifuge() {
+  { const r = pcmeRestore("cf", CENTRIFUGE_DEFAULTS); if (r) centrifugeCases = r; }
   cfRenderStructure();
   cfRenderResults();
   qs("cf-add-case").addEventListener("click", () => {
@@ -2967,6 +2997,7 @@ function ppRenderResults() {
 }
 
 function initPumpPower() {
+  { const r = pcmeRestore("pp", PUMP_DEFAULTS); if (r) pumpCases = r; }
   ppRenderStructure();
   ppRenderResults();
   qs("pp-add-pump").addEventListener("click", () => {

@@ -63,10 +63,15 @@
   const sig = v => !isFinite(v) ? '–' : v >= 100 ? F(v, 0) : v >= 10 ? F(v, 1) : v >= 1 ? F(v, 2) : F(v, 3);
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+  // links that carry the inputs: everything after "#s=" stays in the browser and is never sent to a server
+  const pcmeEnc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const pcmeLink = (o) => location.origin + location.pathname + "#s=" + pcmeEnc(o);
+  const pcmeRead = (k) => { try { const m = location.hash.match(/[#&]s=([A-Za-z0-9_-]+)/); if (!m) return null; const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); return o && o.k === k ? o : null; } catch (e) { return null; } };
   function init() {
     const el = document.getElementById('h2-calc'); if (!el) return;
     const BASE = el.dataset.base || '';
     const v = { s: 3, T: 25, P: 5, V: 1000 };
+    { const st = pcmeRead('h2'); if (st && st.v) Object.keys(v).forEach(k => { if (typeof st.v[k] === 'number' && isFinite(st.v[k])) v[k] = st.v[k]; }); }
     el.innerHTML = `<div class="ut-card"><div class="ut-hd"><h3>Hydrogen solubility in a solvent</h3><p>Henry's law with measured constants. Change the solvent, temperature or pressure.</p></div>
       <div class="ut-body"><form class="ut-in" autocomplete="off">
         <label class="ut-f"><span>Solvent</span><select data-k="s">${S.map((s, i) => `<option value="${i}">${esc(s.name)}</option>`).join('')}</select></label>
@@ -111,7 +116,7 @@
     el.querySelector('.ut-xl').addEventListener('click', e => {
       const b = e.target; if (!window.PCME_XL) return; b.disabled = true; b.textContent = 'Preparing…';
       const s = S[v.s], r = solve(s, v.T, v.P, v.V), temps = [0, 10, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120];
-      window.PCME_XL.dataBook({ title: 'Hydrogen solubility', sub: 'Henry\'s law with measured constants (PharmaChemE)',
+      window.PCME_XL.dataBook({ link: pcmeLink({ k: 'h2', v }), title: 'Hydrogen solubility', sub: 'Henry\'s law with measured constants (PharmaChemE)',
         inputs: [['Solvent', s.name, ''], ['Temperature', v.T, '°C'], ['Hydrogen pressure', v.P, 'bar g'], ['Solvent volume', v.V, 'L']],
         results: [['Dissolved hydrogen', sig(r.mgL), 'mg/L'], ['Mole fraction', r.x, ''], ['Concentration', F(r.molL * 1000, 2), 'mmol/L'], ['H2 in the solvent volume', F(r.kg * 1000, 1), 'g'], ['Henry constant', sig(r.H), 'MPa'], ['Data status', r.st[1], '']],
         notes: ['x = p(H2) / H(T); p(H2) = total absolute pressure minus solvent vapour pressure (Antoine).', 'Source: ' + SRC[s.src]],

@@ -29,6 +29,7 @@
   const slug = t => (strip(t).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'calculation') + '.pdf';
   const today = () => { const d = new Date(); return [d.getDate(), d.getMonth() + 1, d.getFullYear()].map(n => String(n).padStart(2, '0')).join('-'); };
   const pageUrl = () => location.href.split('#')[0].split('?')[0];
+  let LINK = null; // link back to the page with the same inputs, set by each download
   const toNum = x => (typeof x === 'string' && /^-?[\d,]+(\.\d+)?$/.test(x.trim()) && /\d/.test(x)) ? +x.replace(/,/g, '') : x;
   function num(v) {
     if (typeof v !== 'number') return v == null ? '' : strip(v);
@@ -79,8 +80,8 @@
     R.y += 1.5;
     font(8.5, false, MUTED); doc.text('Date: ' + today(), W - M, R.y, { align: 'right' });
     font(9, true, BLUE);
-    const cta = 'Try other inputs: open the live calculator on pharmacheme.in';
-    doc.textWithLink(cta, M, R.y, { url: pageUrl() });
+    const cta = LINK ? 'Open this calculation on pharmacheme.in (same inputs)' : 'Try other inputs: open the live calculator on pharmacheme.in';
+    doc.textWithLink(cta, M, R.y, { url: LINK || pageUrl() });
     doc.setDrawColor(...BLUE); doc.setLineWidth(0.2); doc.line(M, R.y + 0.8, M + doc.getTextWidth(cta), R.y + 0.8);
     R.y += 7;
 
@@ -146,6 +147,7 @@
 
   /* ---------- 1. single calculators (utilities.js) ---------- */
   async function calcSheet(spec) {
+    LINK = spec.link || null;
     const L = await load(), R = Report(L, spec.title, spec.sub);
     const w = [R.CW * 0.46, R.CW * 0.2, R.CW * 0.34];
     R.section('Inputs');
@@ -162,6 +164,7 @@
   /* ---------- 2. a report of every table on the page (materials compatibility, reaction builder) ---------- */
   async function fromTables(root, title, opt) {
     opt = opt || {};
+    LINK = opt.link || null;
     const tables = [...root.querySelectorAll('table')].filter(t => t.offsetParent !== null || opt.offscreen);
     const cols = Math.max(2, ...tables.map(t => Math.max(0, ...[...t.querySelectorAll('tr')].map(tr => [...tr.children].reduce((s, td) => s + (+td.colSpan || 1), 0)))));
     const L = await load(), R = Report(L, title, opt.sub || 'As calculated on the website', cols > 5);
@@ -196,6 +199,7 @@
 
   /* ---------- 3. simulation tools: inputs and results ---------- */
   async function dataBook(spec) {
+    LINK = spec.link || null;
     const L = await load(), R = Report(L, spec.title, spec.sub);
     const w = [R.CW * 0.46, R.CW * 0.2, R.CW * 0.34];
     const val = v => typeof v === 'number' ? v : toNum(strip(v));
@@ -207,6 +211,7 @@
 
   /* ---------- 4. comparison calculators: one column per case (layouts in xl-specs.js) ---------- */
   async function caseSheet(spec) {
+    LINK = spec.link || null;
     const n = spec.cases.length, L = await load(), R = Report(L, spec.title, spec.sub, n > 3);
     const tables = {}; Object.entries(spec.tables || {}).forEach(([k, t]) => { tables[k] = t.rows; });
     const vals = spec.cases.map(() => ({}));
@@ -236,6 +241,7 @@
 
   /* ---------- 5. free-form report: spec { title, sub, sections:[{title, head, rows, widths:[fractions], bold:[col]}], notes } ---------- */
   async function report(spec) {
+    LINK = spec.link || null;
     const L = await load(), R = Report(L, spec.title, spec.sub);
     spec.sections.forEach(sec => { R.section(sec.title); R.table(sec.head, sec.rows, sec.widths.map(f => f * R.CW), { bold: sec.bold || [] }); });
     R.notes(spec.notes);
@@ -256,6 +262,7 @@
         const c = window.PCME_PDF_CUSTOM();
         if (!c || c.error) { alert((c && c.error) || 'Nothing to download on this page yet.'); return; }
         btn.disabled = true; btn.textContent = 'Preparing…';
+        c.link = c.link || location.href.split('#')[0];
         report(c).then(() => { btn.disabled = false; btn.textContent = 'Download PDF'; }, e => fail(btn, e));
         return;
       }
@@ -263,7 +270,9 @@
       btn.disabled = true; btn.textContent = 'Preparing…';
       const h1 = document.querySelector('h1');
       let spec = null; try { spec = window.PCME_XL_CASES && window.PCME_XL_CASES(); } catch (e) { spec = null; }
-      (spec ? caseSheet(spec) : fromTables(mount, h1 ? h1.textContent.trim() : document.title)).then(() => { btn.disabled = false; btn.textContent = 'Download PDF'; }, e => fail(btn, e));
+      let link = null; try { link = window.PCME_CALC_LINK && window.PCME_CALC_LINK(); } catch (e) { link = null; }
+      if (spec) spec.link = link;
+      (spec ? caseSheet(spec) : fromTables(mount, h1 ? h1.textContent.trim() : document.title, { link })).then(() => { btn.disabled = false; btn.textContent = 'Download PDF'; }, e => fail(btn, e));
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(addTableButton, 0)); else setTimeout(addTableButton, 0);

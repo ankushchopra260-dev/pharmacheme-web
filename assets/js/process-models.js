@@ -65,8 +65,14 @@
   }
 
   /* ---------------- tool shell: inputs, results, charts, PDF ---------------- */
+  // links that carry the inputs: everything after "#s=" stays in the browser and is never sent to a server
+  const pcmeEnc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const pcmeLink = (o) => location.origin + location.pathname + "#s=" + pcmeEnc(o);
+  const pcmeRead = (k) => { try { const m = location.hash.match(/[#&]s=([A-Za-z0-9_-]+)/); if (!m) return null; const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); return o && o.k === k ? o : null; } catch (e) { return null; } };
   function shell(el, spec) {
     const v = {}; spec.groups.forEach(g => g.inputs.forEach(i => v[i.k] = i.v));
+    const toolId = el.dataset.tool;
+    { const st = pcmeRead('pm'); if (st && st.id === toolId && st.v) Object.keys(v).forEach(k => { if (st.v[k] !== undefined) v[k] = st.v[k]; }); }
     el.innerHTML = `<div class="ut-card pm-card"><div class="ut-hd"><h2>${esc(spec.title)}</h2><p>${esc(spec.sub)}</p></div>
       <div class="ut-body"><form class="ut-in pm-in" autocomplete="off"></form><div class="ut-out" aria-live="polite"></div></div>
       <div class="pm-more"></div>
@@ -107,7 +113,7 @@
       if (!window.PCME_XL || !window.PCME_XL.dataBook) { alert('Download is not available on this page.'); return; }
       const ins = []; spec.groups.forEach(g => { if (g.show && !g.show(v)) return; g.inputs.forEach(i => { if (i.show && !i.show(v)) return; ins.push([i.label, i.type === 'sel' ? (i.opts.find(o => o[0] === v[i.k]) || [, v[i.k]])[1] : v[i.k], i.type === 'sel' || i.type === 'area' ? '' : (i.unit || '')]); }); });
       xb.disabled = true; xb.textContent = 'Preparing…';
-      window.PCME_XL.dataBook({ title: spec.title, sub: spec.sub, inputs: ins, results: (last.rows || []).concat(last.xlRows || []), notes: (last.notes || []).map(n => n[0]), tables: last.tables || [] })
+      window.PCME_XL.dataBook({ link: pcmeLink({ k: 'pm', id: toolId, v }), title: spec.title, sub: spec.sub, inputs: ins, results: (last.rows || []).concat(last.xlRows || []), notes: (last.notes || []).map(n => n[0]), tables: last.tables || [] })
         .then(() => { xb.disabled = false; xb.textContent = 'Download PDF'; }, e => window.PCME_XL.fail(xb, e));
     });
     drawInputs(); calc();

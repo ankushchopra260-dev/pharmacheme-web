@@ -501,16 +501,21 @@
       ['minc', 'Minimum charge for one batch', `{design}/(({cs}-{cmin})/100)`, 'kg']] };
 
   /* ---------------- render ---------------- */
+  // links that carry the inputs: everything after "#s=" stays in the browser and is never sent to a server
+  const pcmeEnc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const pcmeLink = (o) => location.origin + location.pathname + "#s=" + pcmeEnc(o);
+  const pcmeRead = (k) => { try { const m = location.hash.match(/[#&]s=([A-Za-z0-9_-]+)/); if (!m) return null; const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); return o && o.k === k ? o : null; } catch (e) { return null; } };
   function mount(el) {
     const id = el.dataset.calc, c = C[id]; if (!c) return;
     const v = {}; c.inputs.forEach(i => v[i.k] = i.v);
+    { const st = pcmeRead('ut'); if (st && st.id === id && st.v) Object.keys(v).forEach(k => { if (st.v[k] !== undefined) v[k] = st.v[k]; }); }
     el.innerHTML = `<div class="ut-card"><div class="ut-hd"><h3>${esc(c.title)}</h3><p>${esc(c.sub)}</p></div><div class="ut-body"><form class="ut-in" autocomplete="off"></form><div class="ut-out" aria-live="polite"></div></div><div class="ut-tools"><button type="button" class="ut-xl">Download PDF</button><span>${c.xl ? 'with live formulas' : 'inputs and results'}</span></div></div>`;
     const form = el.querySelector('.ut-in'), out = el.querySelector('.ut-out'), xb = el.querySelector('.ut-xl');
     xb.addEventListener('click', () => {
       if (!window.PCME_XL) { alert('Download is not available on this page.'); return; }
       const ins = c.inputs.filter(i => !i.show || i.show(v)), r = c.run(v);
       xb.disabled = true; xb.textContent = 'Preparing…';
-      window.PCME_XL.calcSheet({ title: c.title, sub: c.sub, inputs: ins.map(i => ({ k: i.k, label: i.label, unit: i.type === 'sel' ? 'type one of: ' + i.opts.map(o => o[0]).join(', ') : i.unit, value: v[i.k], text: i.type === 'sel' ? (i.opts.find(o => o[0] === v[i.k]) || [, ''])[1] : '' })),
+      window.PCME_XL.calcSheet({ link: pcmeLink({ k: 'ut', id, v }), title: c.title, sub: c.sub, inputs: ins.map(i => ({ k: i.k, label: i.label, unit: i.type === 'sel' ? 'type one of: ' + i.opts.map(o => o[0]).join(', ') : i.unit, value: v[i.k], text: i.type === 'sel' ? (i.opts.find(o => o[0] === v[i.k]) || [, ''])[1] : '' })),
         xl: r.rows.length ? c.xl : null, rows: r.rows, notes: (r.notes || []).map(n => n[0]) })
         .then(() => { xb.disabled = false; xb.textContent = 'Download PDF'; }, e => window.PCME_XL.fail(xb, e));
     });
