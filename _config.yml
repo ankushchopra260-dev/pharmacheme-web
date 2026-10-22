@@ -26,6 +26,10 @@ defaults:
     values:
       sitemap: false
   - scope:
+      path: "get-test-mechanical"
+    values:
+      sitemap: false
+  - scope:
       path: "admin"
     values:
       sitemap: false

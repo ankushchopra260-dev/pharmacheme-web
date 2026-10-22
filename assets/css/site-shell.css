@@ -448,3 +448,10 @@ body.has-page-search .nav-search-btn { display: none; }
 .share-row a:hover, .share-row button:hover { border-color: var(--brass); color: var(--brass); }
 .share-toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%); z-index: 1100; background: var(--brass); color: var(--bg-deep); padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: .9rem; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
 @media print { .share-row, .nav-share-btn { display: none !important; } }
+
+/* Home page: compact link rows under card grids */
+.hp-more{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 10px;margin:18px 0 0;font-size:.9rem}
+.hp-more span{color:var(--muted)}
+.hp-more a{color:var(--paper);text-decoration:none;padding:4px 12px;border:1px solid var(--grid-line,#2a3440);border-radius:999px}
+.hp-more a:hover,.hp-more a:focus-visible{border-color:var(--brass);color:var(--brass)}
+.tool-card .art-new{font-size:.7rem;font-weight:600;color:var(--brass);margin-left:6px;vertical-align:middle}

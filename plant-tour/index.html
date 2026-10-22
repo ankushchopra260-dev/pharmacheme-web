@@ -441,6 +441,9 @@ body.leak-open #drag-hint { display:none; }
   #leak-panel .lk-head small { display:none; }
   body.leak-open #reset-btn { display:none; }
 }
+.site-links a { display:flex; justify-content:space-between; gap:8px; padding:7px 0; border-bottom:1px solid var(--line); color:var(--cyan); text-decoration:none; font-size:13px; }
+.site-links a:hover span, .site-links a:focus-visible span { transform:translateX(2px); }
+.site-links a span { color:var(--muted); transition:transform .15s; }
 .sr-only {
   position: absolute;
   width: 1px;
@@ -468,7 +471,7 @@ body.leak-open #drag-hint { display:none; }
 <div id="sidebar-backdrop"></div>
 <div id="sidebar">
   <div class="t">🏭 PharmaChemE</div>
-  <div class="s">Virtual Plant Tour · <a href="/" style="color:var(--cyan); text-decoration:none;">← pharmacheme.in</a></div>
+  <div class="s">Virtual Plant Tour · <a href="/" style="color:var(--cyan); text-decoration:none;">← pharmacheme.in</a> · <a href="/calculators/" style="color:var(--cyan); text-decoration:none;">Calculators</a> · <a href="/articles/" style="color:var(--cyan); text-decoration:none;">Articles</a></div>
   <div class="s" style="margin-top:4px;">▶ Demos: <a href="https://www.youtube.com/shorts/9oEUczKTM1M" target="_blank" rel="noopener" style="color:var(--cyan); text-decoration:none;">Walk the plant</a> · <a href="https://www.youtube.com/shorts/klXDUfqFuTQ" target="_blank" rel="noopener" style="color:var(--cyan); text-decoration:none;">Chlorine leak</a></div>
   <input type="text" id="search-input" placeholder="Search equipment or area…">
   <div id="search-results"></div>
@@ -4419,6 +4422,11 @@ function renderBreadcrumb(trail){
   });
 }
 
+
+const SITE_LINKS = {"reactor": [{"u": "/calculators/heat-load-calculator/", "t": "Heat load calculator"}, {"u": "/calculators/mixing-scale-up-calculator/", "t": "Mixing scale-up calculator"}, {"u": "/calculators/agitator-simulator/", "t": "Agitator simulator"}, {"u": "/process-safety/stoessel-criticality-classes/", "t": "Stoessel criticality classes"}, {"u": "/process-safety/case-studies/t2-laboratories-2007/", "t": "T2 Laboratories runaway (2007)"}, {"u": "/games/runaway/", "t": "Runaway reaction game"}], "distillation": [{"u": "/calculators/solvent-recovery-calculator/", "t": "Solvent recovery calculator"}, {"u": "/articles/distillation-basics/", "t": "Distillation basics"}, {"u": "/articles/solvent-recovery-troubleshooting/", "t": "Solvent recovery troubleshooting"}, {"u": "/articles/vacuum-systems/", "t": "Vacuum systems"}, {"u": "/calculators/centrifuge-cake-weight-calculator/", "t": "Centrifuge cake weight calculator"}, {"u": "/calculators/filtration-calculator/", "t": "Filtration calculator"}], "utility": [{"u": "/calculators/steam-heating-calculator/", "t": "Steam heating calculator"}, {"u": "/calculators/batch-cooling-tr-calculator/", "t": "Batch cooling (TR) calculator"}, {"u": "/utilities/", "t": "Utilities guides"}, {"u": "/articles/utility-load-estimation/", "t": "Utility load estimation"}, {"u": "/calculators/pump-power-calculator/", "t": "Pump power calculator"}], "warehouse": [{"u": "/articles/chemical-warehouse-storage/", "t": "Chemical warehouse storage"}, {"u": "/calculators/compatibility/", "t": "Chemical compatibility checker"}, {"u": "/articles/raw-material-management/", "t": "Raw material management"}], "qc": [{"u": "/articles/qc-lab-basics-oos-oot/", "t": "QC lab basics: OOS and OOT"}, {"u": "/articles/qa-gmp-deviation-capa/", "t": "QA: deviations and CAPA"}, {"u": "/articles/mes-electronic-batch-records/", "t": "Electronic batch records"}], "etp": [{"u": "/articles/etp-basics/", "t": "ETP basics"}, {"u": "/articles/etp-load-reduction-at-source/", "t": "Cutting ETP load at source"}, {"u": "/utilities/mee-steam-economy/", "t": "MEE steam economy"}], "rnd": [{"u": "/articles/lab-to-plant-scale-up-checklist/", "t": "Lab to plant scale-up checklist"}, {"u": "/process-safety/thermal-testing-dsc-arc-rc/", "t": "Thermal testing: DSC, ARC, RC"}, {"u": "/molecules/reaction/", "t": "Reaction builder"}, {"u": "/calculators/batch-size-calculator/", "t": "Batch size calculator"}], "ehs": [{"u": "/process-safety/toxic-and-flammable-releases/", "t": "Toxic and flammable releases"}, {"u": "/process-safety/case-studies/buncefield-2005/", "t": "Buncefield fire (2005)"}, {"u": "/articles/hazop-made-practical/", "t": "HAZOP made practical"}, {"u": "/articles/permit-to-work-and-isolation/", "t": "Permit to work"}, {"u": "/games/stop-the-hazard/", "t": "Stop the Hazard game"}], "tankfarm": [{"u": "/articles/storage-tank-breathing-losses/", "t": "Storage tank breathing losses"}, {"u": "/articles/static-electricity-solvent-fires/", "t": "Static electricity and solvent fires"}, {"u": "/process-safety/case-studies/buncefield-2005/", "t": "Buncefield fire (2005)"}, {"u": "/process-safety/toxic-and-flammable-releases/", "t": "Toxic and flammable releases"}], "admin": [{"u": "/articles/plant-admin-statutory-compliance/", "t": "Plant statutory compliance"}, {"u": "/articles/plant-kpi-dashboard/", "t": "Plant KPI dashboard"}, {"u": "/articles/role-of-site-head/", "t": "Role of the site head"}]};
+function siteLinksHtml(id){ const l = SITE_LINKS[id]; if (!l) return '';
+  return `<div class="eq-label" style="margin-top:14px;">Learn more on PharmaChemE</div><div class="site-links">` + l.map(x => `<a href="${x.u}" data-sl="${id}">${x.t} <span>›</span></a>`).join('') + `</div>`; }
+document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('.site-links a'); if (a && typeof gtag === 'function') gtag('event', 'tour_link_click', { dept: a.dataset.sl, link_url: a.getAttribute('href') }); });
 function showDeptPanel(dept){
   const body = document.getElementById('info-body');
   renderBreadcrumb([
@@ -4439,6 +4447,7 @@ function showDeptPanel(dept){
           </div>`).join('')
       : `<div class="eq-label">Key Equipment</div>` + dept.equipment.map(e=>`<div class="eq-item">${e}</div>`).join('')
     }
+  ${siteLinksHtml(dept.id)}
   `;
   if (hasAreas){
     Array.from(body.querySelectorAll('.nav-list-item:not(.soon)')).forEach(el => {
@@ -4503,6 +4512,7 @@ function showEquipmentCard(dept, area, eq){
     <p>${eq.safety}</p>
     <div class="eq-label">Documents</div>
     <div>${eq.documents.map(d=>`<span class="doc-chip">${d}</span>`).join('')}</div>
+  ${siteLinksHtml(dept.id)}
   `;
   const we = document.getElementById('walk-to-eq-btn');
   if (we) we.addEventListener('click', () => { stopTour(); if (teleportToEquipment(dept, eq.id)){ if (isDesktopLayout()) showEquipmentCard(dept, area, eq); else closeInfo(); } });
