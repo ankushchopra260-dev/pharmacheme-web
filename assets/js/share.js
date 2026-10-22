@@ -27,3 +27,8 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
+
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[data-pref-src]');
+  if (a && window.gtag) window.gtag('event', 'preferred_source_click', { placement: a.getAttribute('data-pref-src'), page: location.pathname });
+});
