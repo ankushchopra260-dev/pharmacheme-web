@@ -80,7 +80,7 @@
 {% include breadcrumbs.html %}
 
 {{ content }}
-{% unless page.url == '/' or page.noindex %}<div class="container share-row" aria-label="Share this page"><span>Share this page</span><a class="sh-wa" data-share="wa" href="#" rel="noopener">WhatsApp</a><a class="sh-li" data-share="li" href="#" rel="noopener">LinkedIn</a><button type="button" data-share="copy">Copy link</button><button type="button" data-share="native" hidden>More&hellip;</button>{% include pref-source.html size="sm" where="share-row" %}</div>{% endunless %}
+{% unless page.url == '/' or page.noindex %}<div class="container share-row" aria-label="Share this page"><span>Share this page</span><a class="sh-wa" data-share="wa" href="#" rel="noopener">WhatsApp</a><a class="sh-li" data-share="li" href="#" rel="noopener">LinkedIn</a><button type="button" data-share="copy">Copy link</button><button type="button" data-share="native" hidden>More&hellip;</button></div>{% endunless %}
 {% if page.last_modified_at and page.url != '/' %}<p class="container page-updated">Last updated <time datetime="{{ page.last_modified_at | date: '%Y-%m-%d' }}">{{ page.last_modified_at | date: '%-d %B %Y' }}</time></p>{% endif %}
 {% if page.url contains '/articles/' and page.url != '/articles/' %}{% include author-box.html %}{% endif %}
 

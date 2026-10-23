@@ -456,13 +456,12 @@ body.has-page-search .nav-search-btn { display: none; }
 .hp-more a:hover,.hp-more a:focus-visible{border-color:var(--brass);color:var(--brass)}
 .tool-card .art-new{font-size:.7rem;font-weight:600;color:var(--brass);margin-left:6px;vertical-align:middle}
 
-/* "Preferred source on Google" badge (links to Google's preferred-sources page for this domain) */
-.pref-src{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 14px 8px 11px;border:1px solid var(--brass);border-radius:10px;color:var(--paper);text-decoration:none;line-height:1.2;background:transparent}
+/* "Add as a preferred source on Google" pill (links to Google's preferred-sources page for this domain) */
+.pref-src{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 10px;border:1px solid var(--brass);border-radius:999px;color:var(--paper);text-decoration:none;font-size:.8rem;font-weight:600;line-height:1.25;white-space:nowrap;background:transparent}
 .pref-src svg{color:var(--brass);flex:none}
-.pref-src span{display:flex;flex-direction:column;font-weight:600;font-size:.9rem}
-.pref-src small{font-weight:400;font-size:.72rem;color:var(--muted)}
-.pref-src:hover,.pref-src:focus-visible{background:rgba(201,162,39,.12);color:var(--paper)}
-.share-row a.pref-src-sm{margin:0;padding:5px 11px 5px 9px;gap:7px;border-color:var(--brass);border-radius:999px}
-.share-row a.pref-src-sm span{margin:0;font-size:.8rem}
-.share-row a.pref-src-sm small{display:none}
-@media (max-width:600px){.share-row a.pref-src-sm{margin:4px 0 0}}
+.pref-src:hover,.pref-src:focus-visible{background:rgba(201,162,39,.14);color:var(--paper)}
+.crumb-bar{padding-top:16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.crumb-bar .breadcrumbs{flex:1 1 auto;min-width:0;padding:0}
+.crumb-bar .pref-src{flex:none}
+.pref-src-hero{margin-top:18px}
+.pref-src-foot{margin-top:16px;white-space:normal}
