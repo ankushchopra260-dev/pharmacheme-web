@@ -1,0 +1,117 @@
+---
+layout: default
+title: "Control Valve Cv Calculator (ISA-75.01 / IEC 60534) and Restriction Orifice Sizing"
+seo_title: "Control Valve Cv and Restriction Orifice Sizing | PharmaChemE"
+description: "Control valve Cv and Kv for liquid, gas and steam to ISA-75.01 / IEC 60534 with choked flow, plus restriction orifice bore sizing for liquid and gas."
+keywords: "control valve Cv calculator, Kv calculation, control valve sizing liquid gas steam, choked flow, restriction orifice calculation, RO sizing"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Control Valve Cv and Restriction Orifice Sizing",
+        "url": "https://www.pharmacheme.in/calculators/control-valve-sizing/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Control valve Cv and Kv for liquid, gas and steam to ISA-75.01 / IEC 60534 with choked flow, plus restriction orifice bore sizing for liquid and gas.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the Cv of a control valve for liquid?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cv = (Q/0.865) × √(SG/Δp) with Q in m³/h and Δp in bar, where Δp is limited to the choked value FL²(p1 − FF·pv). Kv = Cv/1.156."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is choked flow in a control valve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For liquids, the point where the pressure inside the valve falls to the vapour pressure, so the valve cavitates or flashes and more pressure drop gives no more flow. For gases, the point where the flow reaches sonic velocity, set by x = Fγ·xT."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you size a restriction orifice for gas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If the downstream to upstream pressure ratio is below (2/(k+1))^(k/(k−1)), the flow is choked: W = C·A·P1·√(kM/(ZRT)·(2/(k+1))^((k+1)/(k−1))). Solve for the bore area A and diameter."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Control Valve Cv and Restriction Orifice Sizing"
+    url: /calculators/control-valve-sizing/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Control Valve Cv and Restriction Orifice Sizing</h1>
+  <p>Required Cv and Kv for liquids, gases and steam with choked-flow checks, and the bore of a restriction orifice for a liquid or a gas.</p>
+  <ul class="ut-jump"><li><a href="#cv-liquid">Cv liquid</a></li><li><a href="#cv-gas">Cv gas and steam</a></li><li><a href="#ro-liquid">Orifice, liquid</a></li><li><a href="#ro-gas">Orifice, gas</a></li><li><a href="#guide">How it works</a></li></ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="cv-liquid" data-calc="cv-liquid"></div>
+  <div class="ut-calc pk-calc" id="cv-gas" data-calc="cv-gas"></div>
+  <div class="ut-calc pk-calc" id="ro-liquid" data-calc="ro-liquid"></div>
+  <div class="ut-calc pk-calc" id="ro-gas" data-calc="ro-gas"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How control valves are sized</h2>
+  <p>The flow coefficient C<sub>v</sub> is the flow of water in US gallons per minute that passes with a 1 psi drop; K<sub>v</sub> is the same in m&sup3;/h at 1 bar (C<sub>v</sub> = 1.156 K<sub>v</sub>). The calculators use the ISA-75.01.01 / IEC 60534-2-1 equations for turbulent flow with the valve the same size as the pipe.</p>
+  <div class="formula-box">Liquid: C<sub>v</sub> = (Q / 0.865) &radic;((&rho;/&rho;<sub>0</sub>) / &Delta;p), &nbsp; &Delta;p limited to F<sub>L</sub>&sup2; (p<sub>1</sub> &minus; F<sub>F</sub> p<sub>v</sub>)<br>Gas and steam: C<sub>v</sub> = W / (27.3 Y &radic;(x p<sub>1</sub> &rho;<sub>1</sub>)), &nbsp; Y = 1 &minus; x / (3 F<sub>&gamma;</sub> x<sub>T</sub>), x limited to F<sub>&gamma;</sub> x<sub>T</sub>
+    <small>Q in m³/h, W in kg/h, pressures in bar abs, density in kg/m³.</small></div>
+  <ul>
+    <li><b>Choked liquid flow</b> means the valve is cavitating or flashing. Extra pressure drop gives no more flow, and the trim erodes. Split the drop, use anti-cavitation trim or choose a valve with a higher F<sub>L</sub>.</li>
+    <li><b>Choked gas flow</b> is limited by the upstream pressure. It is often unavoidable for large drops, but it gives high outlet velocity and noise.</li>
+    <li><b>F<sub>L</sub> and x<sub>T</sub></b> depend on the valve style and trim. The presets are typical values from the standard; use the vendor&rsquo;s figures for the valve you buy.</li>
+  </ul>
+  <h2 id="ro-how">Restriction orifices</h2>
+  <p>A restriction orifice is a plate with a bored hole that takes a fixed pressure drop or limits flow, for example nitrogen to a blanketing header or a minimum-flow bypass on a pump. For liquids, part of the drop across the plate is recovered downstream; the calculator sizes the bore for the <i>permanent</i> loss using the ISO 5167-2 relation. For gases, a choked orifice passes a flow set only by the upstream pressure, which makes it a simple flow limiter.</p>
+  <div class="art-note"><b>On the plant</b><p>A nitrogen restriction orifice sized for normal blanketing flow also sets the maximum flow if a pressure regulator fails open. Check the downstream vessel&rsquo;s relief valve against that flow.</p></div>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you calculate the Cv of a control valve for liquid?</h3>
+  <p>Cv = (Q/0.865) × √(SG/Δp) with Q in m³/h and Δp in bar, where Δp is limited to the choked value FL²(p1 − FF·pv). Kv = Cv/1.156.</p>
+  <h3>What is choked flow in a control valve?</h3>
+  <p>For liquids, the point where the pressure inside the valve falls to the vapour pressure, so the valve cavitates or flashes and more pressure drop gives no more flow. For gases, the point where the flow reaches sonic velocity, set by x = Fγ·xT.</p>
+  <h3>How do you size a restriction orifice for gas?</h3>
+  <p>If the downstream to upstream pressure ratio is below (2/(k+1))^(k/(k−1)), the flow is choked: W = C·A·P1·√(kM/(ZRT)·(2/(k+1))^((k+1)/(k−1))). Solve for the bore area A and diameter.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">Pipe pressure drop and NPSH</a>
+    <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">Relief valve sizing</a>
+    <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">Instrumentation basics</a>
+    <a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/if97.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-valves.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
