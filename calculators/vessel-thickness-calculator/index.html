@@ -1,0 +1,83 @@
+---
+layout: default
+title: "Pressure Vessel Thickness and MAWP Calculator (ASME VIII Div. 1)"
+seo_title: "Vessel Thickness and MAWP (ASME VIII-1) | PharmaChemE"
+description: "Required shell and head thickness for internal pressure to ASME VIII Div. 1 (UG-27, UG-32): 2:1 ellipsoidal, torispherical and hemispherical heads, MAWP."
+keywords: "pressure vessel thickness calculator, ASME VIII shell thickness, MAWP calculation, torispherical head thickness, ellipsoidal head thickness"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Vessel Thickness and MAWP",
+        "url": "https://www.pharmacheme.in/calculators/vessel-thickness-calculator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Required shell and head thickness for internal pressure to ASME VIII Div. 1 (UG-27, UG-32): 2:1 ellipsoidal, torispherical and hemispherical heads, MAWP.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the shell thickness of a pressure vessel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Under ASME VIII Div. 1 UG-27, t = PR/(SE − 0.6P) for circumferential stress, with R the inside radius in the corroded condition, then add the corrosion allowance and forming and mill tolerances."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Vessel Thickness and MAWP"
+    url: /calculators/vessel-thickness-calculator/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Vessel Thickness and MAWP</h1>
+  <p>Minimum shell and head thickness for internal pressure, the MAWP of a chosen plate thickness and the hydrotest pressure, to ASME Section VIII Division 1.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="vessel-thk" data-calc="vessel-thk"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">The Code formulas</h2>
+  <div class="formula-box">Cylindrical shell (UG-27): t = PR / (SE &minus; 0.6P)<br>2:1 ellipsoidal head (UG-32): t = PD / (2SE &minus; 0.2P)<br>Torispherical (F&amp;D) head: t = 0.885PL / (SE &minus; 0.1P)<br>Hemispherical head: t = PR / (2SE &minus; 0.2P)
+    <small>P design pressure, S allowable stress at design temperature (ASME II Part D), E joint efficiency, R and D inside radius and diameter, L crown radius, all in the corroded condition.</small></div>
+  <p>Reactors and receivers in pharma plants usually run under vacuum too, and jacketed vessels see the jacket pressure on the outside. External pressure (UG-28) often decides the shell thickness of such vessels and is not covered here. Use this calculator to screen designs and check vendor drawings; the design itself must be done to the applicable Code edition by a competent engineer.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you calculate the shell thickness of a pressure vessel?</h3>
+  <p>Under ASME VIII Div. 1 UG-27, t = PR/(SE − 0.6P) for circumferential stress, with R the inside radius in the corroded condition, then add the corrosion allowance and forming and mill tolerances.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/vessel-volume-calculator/' | relative_url }}">Vessel volume and level</a>
+    <a href="{{ '/articles/lifting-equipment-and-pressure-vessel-testing/' | relative_url }}">Pressure vessel testing</a>
+    <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">Relief valve sizing</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-equip.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

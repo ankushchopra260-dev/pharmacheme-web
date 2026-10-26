@@ -1,0 +1,83 @@
+---
+layout: default
+title: "Knock-out Pot and Vertical Separator Sizing Calculator (Souders\u2013Brown)"
+seo_title: "Knock-out Pot / Separator Sizing (Souders\u2013Brown) | PharmaChemE"
+description: "Size a vertical knock-out pot or gas-liquid separator: Souders\u2013Brown velocity with GPSA K values, diameter and liquid hold-up height."
+keywords: "knock out pot sizing, vertical separator sizing, Souders Brown equation, GPSA K value, catch pot, KO drum"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Knock-out Pot and Vertical Separator Sizing",
+        "url": "https://www.pharmacheme.in/calculators/knock-out-pot-sizing/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Size a vertical knock-out pot or gas-liquid separator: Souders–Brown velocity with GPSA K values, diameter and liquid hold-up height.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What K value should I use for a knock-out pot?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GPSA gives K = 0.107 m/s for vertical separators with a horizontal mesh pad up to 7 barg, reduced by 0.003 m/s for every 7 bar above that, and about half of these values without a mesh pad."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Knock-out Pot and Vertical Separator Sizing"
+    url: /calculators/knock-out-pot-sizing/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Knock-out Pot and Vertical Separator Sizing</h1>
+  <p>Diameter of a vertical knock-out pot or gas–liquid separator from the Souders–Brown velocity, with GPSA K values and the liquid hold-up height.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="ko-pot" data-calc="ko-pot"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How a knock-out pot is sized</h2>
+  <p>Droplets settle out of the gas if the upward gas velocity is below the Souders&ndash;Brown limit:</p>
+  <div class="formula-box">v<sub>max</sub> = K &radic;((&rho;<sub>L</sub> &minus; &rho;<sub>G</sub>) / &rho;<sub>G</sub>), &nbsp; D = &radic;(4 Q<sub>actual</sub> / (&pi; v))</div>
+  <p>The GPSA Engineering Data Book gives K = 0.107 m/s for vertical drums with a horizontal wire-mesh pad up to 7 barg, falling with pressure, and suggests about half for drums without a mesh pad. In pharma plants knock-out pots protect vacuum pumps, scrubbers and vent headers from liquid carry-over; a pot under vacuum handles a large actual gas volume, so check the nozzles as well as the shell.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>What K value should I use for a knock-out pot?</h3>
+  <p>GPSA gives K = 0.107 m/s for vertical separators with a horizontal mesh pad up to 7 barg, reduced by 0.003 m/s for every 7 bar above that, and about half of these values without a mesh pad.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/packed-scrubber-calculator/' | relative_url }}">Packed scrubber sizing</a>
+    <a href="{{ '/articles/vacuum-systems/' | relative_url }}">Vacuum systems</a>
+    <a href="{{ '/calculators/unit-converter/' | relative_url }}">Unit converter</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-equip.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-sol="{{ '/assets/data/solvent-lite.json' | relative_url }}"></script>
