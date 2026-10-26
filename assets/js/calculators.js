@@ -1810,7 +1810,7 @@ const SCALEUP_DEFAULTS = {
   type1: "pbt", d1: "920", nb1: "4", ang1: "45", b1: "184", np1: "",
   type2: "pbt", d2: "920", nb2: "4", ang2: "45", b2: "184", np2: "",
   type3: "pbt", d3: "920", nb3: "4", ang3: "45", b3: "184", np3: "",
-  nq1: "", nq2: "", nq3: "", dir1: "down", dir2: "down", dir3: "down",
+  nq1: "", nq2: "", nq3: "", npOv1: "", npOv2: "", npOv3: "", dir1: "down", dir2: "down", dir3: "down",
   fluidModel: "newtonian", plK: "", plN: "", ksUser: "",
   dp: "", rhoS: "", solidsWt: "", sUser: "",
   kTh: "", cpTh: "", muWall: "",
@@ -1903,12 +1903,16 @@ function computeReactorMetrics(r) {
     if (t.custom) Np = num(r["np" + i]);
     // anchors sweep the wall and run without baffles, so baffles are not applied to them
     else if (d > 0 && b > 0 && d < T && H > 0) ({ Np, Np0, NpMax } = suPowerNumber(d, T, H, b, np, theta, Re, t.anchor ? 0 : nB, Bw, t.pitched));
+    // user override of the power number (e.g. vendor or test value); the calculated value is kept for comparison
+    const npOv = t.custom ? NaN : num(r["npOv" + i]);
+    const NpCalc = Np, npOverride = npOv > 0;
+    if (npOverride) Np = npOv;
     const covered = H >= zTop ? "full" : H > zBottom ? "part" : "none";
     const P = covered === "full" ? Np * rho * Math.pow(N, 3) * Math.pow(d, 5) : 0;
     const Nq = t.custom ? num(r["nq" + i]) : t.Nq;
     const Q = covered === "full" && Nq > 0 ? Nq * N * d * d * d : 0; // m3/s
     const up = t.pitched && r["dir" + i] === "up";
-    imps.push({ i, key, t, d, b, np, thetaDeg, hb, up, flow: t.pitched ? (up ? "Axial / mixed (up-pumping)" : "Axial / mixed (down-pumping)") : t.flow, zBottom, zCentre, zTop, Re, Np, Np0, NpMax, covered, P, Nq, Q, muI,
+    imps.push({ i, key, t, d, b, np, thetaDeg, hb, up, NpCalc, npOverride, flow: t.pitched ? (up ? "Axial / mixed (up-pumping)" : "Axial / mixed (down-pumping)") : t.flow, zBottom, zCentre, zTop, Re, Np, Np0, NpMax, covered, P, Nq, Q, muI,
       volToCover: suVolumeAtLevel(zTop, T, h) * 1000, tip: Math.PI * d * N });
   }
   const dipped = imps.filter((x) => x.covered === "full").length;
@@ -2016,6 +2020,7 @@ const SCALEUP_INPUT_ROWS = [
       { label: "Pumping direction", field: "dir" + i, type: "select", options: [["down", "Down-pumping"], ["up", "Up-pumping"]], minImp: i, onlyFor: ["pbt"] },
       { label: "Blade width (mm); anchor: arm height", field: "b" + i, type: "input", minImp: i, hideFor: ["custom"] },
       { label: "Power number from vendor", field: "np" + i, type: "input", minImp: i, onlyFor: ["custom"] },
+      { label: "Power number override (blank = calculated from geometry)", field: "npOv" + i, type: "input", minImp: i, hideFor: ["custom"] },
       { label: "Flow number Nq from vendor (optional)", field: "nq" + i, type: "input", minImp: i, onlyFor: ["custom"] },
     ];
   }),
@@ -2297,7 +2302,7 @@ function suResultRows(maxImp) {
     rows.push(["At the operating volume", (m) => (g(m) ? SU_COVER[g(m).covered] : "–")]);
     rows.push(["D/T", (m) => (g(m) ? suN(g(m).d / (parseFloat(m._T) || 1)) : "–")]);
     rows.push(["Reynolds number", (m) => (g(m) ? suN(g(m).Re) : "–")]);
-    rows.push(["Power number, Np (unbaffled / fully baffled / this vessel)", (m) => (g(m) ? (g(m).t.custom ? `${suN(g(m).Np)} (vendor)` : `${suN(g(m).Np0)} / ${suN(g(m).NpMax)} / <b>${suN(g(m).Np)}</b>`) : "–")]);
+    rows.push(["Power number, Np (unbaffled / fully baffled / this vessel)", (m) => (g(m) ? (g(m).t.custom ? `${suN(g(m).Np)} (vendor)` : g(m).npOverride ? `<b>${suN(g(m).Np)}</b> (your override; calculated ${suN(g(m).NpCalc)})` : `${suN(g(m).Np0)} / ${suN(g(m).NpMax)} / <b>${suN(g(m).Np)}</b>`) : "–")]);
     rows.push(["Power", (m) => (g(m) ? `${suN(g(m).P)} W` : "–")]);
   }
   rows.push(["Whole agitator"]);

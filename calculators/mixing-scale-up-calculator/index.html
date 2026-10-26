@@ -13,7 +13,7 @@ breadcrumbs:
     url: /calculators/
   - label: Mixing / Scale-up Calculator
     url: /calculators/mixing-scale-up-calculator/
-last_modified_at: 2026-10-21
+last_modified_at: 2026-10-26
 ---
 
 <div class="container calc-page-head">
@@ -28,6 +28,8 @@ last_modified_at: 2026-10-21
   <h2>How to Use</h2>
   <p>For each case, enter the vessel (diameter, straight height, bottom dish depth, baffles), the batch volume and fluid properties, and the agitator: speed, number of impellers on the shaft, the bottom clearance (vessel bottom to the lowest edge of the bottom impeller) and the spacing between impeller centres. For each impeller choose the type and give the diameter, number of blades, blade angle and blade width. For an anchor, give the height of its arms.</p>
   <p>The results show the liquid level, the volume needed to cover each impeller, whether each one is covered at your batch volume, its power number and power, and the totals. Impellers that are not fully covered are left out of the power. Enter any level in &ldquo;Level to check&rdquo; to get the volume at that height.</p>
+
+  <p><b>Override the power number:</b> if you have a vendor value or a measured one (for example from a motor-current test), enter it in &ldquo;Power number override&rdquo; for that impeller. Power, P/V, torque, blend time and the speed-matching use your value, and the results show the calculated value next to it for comparison. Leave it blank to use the geometry correlation.</p>
 
   <h2>The Formulas</h2>
   <div class="formula-box">
