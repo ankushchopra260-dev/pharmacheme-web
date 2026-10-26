@@ -75,28 +75,11 @@ structured_data: |
 <link rel="stylesheet" href="{{ '/assets/css/azeotropes.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container sv-head">
-  <h1>Azeotrope table and calculator</h1>
-  <p>Search 216 measured azeotropes by solvent, then estimate any pair of 87 plant solvents at your own vacuum or pressure. Measured values always come first; estimates are marked as estimates.</p>
+  <h1>Azeotrope calculator and table</h1>
+  <p>Estimate the azeotrope of any pair of 87 plant solvents at your own vacuum or pressure, or look up 216 measured azeotropes in the table below. Estimates are marked as estimates, and where a pair has been measured the measured value is shown beside it.</p>
 </div>
 
 <div class="container az-wrap">
-  <section class="az-panel" id="table" aria-labelledby="az-find-h">
-    <h2 id="az-find-h">Measured azeotropes at 1 atm</h2>
-    <div class="az-tools">
-      <label class="az-search"><span class="sv-sr">Search by solvent</span><input type="search" id="az-q" placeholder="Search a solvent: toluene, IPA, THF, water" autocomplete="off"></label>
-      <div class="az-chips" role="group" aria-label="Filter">
-        <button type="button" class="az-chip" data-f="all" aria-pressed="true">All</button>
-        <button type="button" class="az-chip" data-f="water" aria-pressed="false">With water</button>
-        <button type="button" class="az-chip" data-f="het" aria-pressed="false">Two layers</button>
-        <button type="button" class="az-chip" data-f="max" aria-pressed="false">Maximum-boiling</button>
-      </div>
-    </div>
-    <p class="sv-mute" id="az-count" aria-live="polite"></p>
-    <div class="sv-scroll"><table class="sv-table az-table" id="az-tbl"></table></div>
-    <button type="button" class="az-more" id="az-more" hidden>Show all</button>
-    <p class="sv-mute">Composition is given as the share of the second component. Upper (U) and lower (L) layer compositions are by weight. Click a mixture to estimate it at another pressure.</p>
-  </section>
-
   <section class="az-panel az-calc" id="calculator" aria-labelledby="az-calc-h">
     <h2 id="az-calc-h">Estimate an azeotrope at your pressure</h2>
     <div class="sv-row">
@@ -116,6 +99,23 @@ structured_data: |
     <div id="az-res" aria-live="polite"></div>
     <svg id="az-svg" class="az-svg" viewBox="0 0 640 300" width="100%" role="img" aria-label="Boiling point and vapour composition diagram"></svg>
     <div id="az-sweep"></div>
+  </section>
+
+  <section class="az-panel" id="table" aria-labelledby="az-find-h">
+    <h2 id="az-find-h">Measured azeotropes at 1 atm</h2>
+    <div class="az-tools">
+      <label class="az-search"><span class="sv-sr">Search by solvent</span><input type="search" id="az-q" placeholder="Search a solvent: toluene, IPA, THF, water" autocomplete="off"></label>
+      <div class="az-chips" role="group" aria-label="Filter">
+        <button type="button" class="az-chip" data-f="all" aria-pressed="true">All</button>
+        <button type="button" class="az-chip" data-f="water" aria-pressed="false">With water</button>
+        <button type="button" class="az-chip" data-f="het" aria-pressed="false">Two layers</button>
+        <button type="button" class="az-chip" data-f="max" aria-pressed="false">Maximum-boiling</button>
+      </div>
+    </div>
+    <p class="sv-mute" id="az-count" aria-live="polite"></p>
+    <div class="sv-scroll"><table class="sv-table az-table" id="az-tbl"></table></div>
+    <button type="button" class="az-more" id="az-more" hidden>Show all</button>
+    <p class="sv-mute">Composition is given as the share of the second component. Upper (U) and lower (L) layer compositions are by weight. Press &ldquo;Estimate&rdquo; on a row to load that pair into the calculator above.</p>
   </section>
 </div>
 
