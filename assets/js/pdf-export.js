@@ -141,10 +141,41 @@
         font(8, true, NAVY); doc.textWithLink('PharmaChemE  ·  www.pharmacheme.in', M, H - 6.5, { url: 'https://www.pharmacheme.in/' });
         font(8, false, MUTED); doc.text('Page ' + i + ' of ' + n, W - M, H - 6.5, { align: 'right' });
       }
-      doc.save(name);
+      saveBlob(doc.output('blob'), name);
       if (window.gtag) window.gtag('event', 'pdf_download', { file_name: name });
     };
     return R;
+  }
+
+
+  /* Save the PDF. Phones (iPhone Safari and Chrome in particular) may block a download that starts after the PDF library
+     has loaded, because the tap is then "too old". So we try the normal download, and on touch screens also show a
+     "PDF ready" bar whose link is a fresh tap that always works. */
+  function saveBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    try { const a = document.createElement('a'); a.href = url; a.download = name; a.rel = 'noopener'; a.style.display = 'none'; document.body.appendChild(a); a.click(); a.remove(); } catch (e) { /* the ready bar below still works */ }
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) readyBar(url, name);
+    setTimeout(() => URL.revokeObjectURL(url), 10 * 60 * 1000);
+  }
+  function readyBar(url, name) {
+    let bar = document.getElementById('pce-pdf-ready');
+    if (!bar) {
+      bar = document.createElement('div'); bar.id = 'pce-pdf-ready'; bar.setAttribute('role', 'status');
+      bar.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0B1622;color:#ECE7D8;border:1px solid #C9A227;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.45);font:500 14px/1.35 system-ui,sans-serif';
+      bar.innerHTML = '<span style="flex:1">PDF ready. If the download did not start, tap Open PDF.</span><a style="background:#C9A227;color:#0B1622;font-weight:700;padding:8px 12px;border-radius:6px;text-decoration:none;white-space:nowrap" target="_blank" rel="noopener">Open PDF</a><button type="button" aria-label="Close" style="background:none;border:0;color:#ECE7D8;font-size:20px;line-height:1;padding:4px 6px;cursor:pointer">×</button>';
+      bar.querySelector('button').addEventListener('click', () => bar.remove());
+      document.body.appendChild(bar);
+    }
+    const a = bar.querySelector('a'); a.href = url; a.download = name;
+    a.onclick = () => setTimeout(() => bar.remove(), 1500);
+    clearTimeout(readyBar.t); readyBar.t = setTimeout(() => { if (bar.isConnected) bar.remove(); }, 60000);
+  }
+  /* Start loading the PDF library when a Download PDF button comes into view or is touched, so the PDF is made quickly after the tap. */
+  function preload() { if (preload.done) return; preload.done = 1; load().catch(() => { preload.done = 0; }); }
+  function watchButtons() {
+    const btns = [...document.querySelectorAll('button')].filter(b => /Download PDF/.test(b.textContent) && !b.dataset.pre);
+    btns.forEach(b => { b.dataset.pre = 1; b.addEventListener('pointerdown', preload, { passive: true }); b.addEventListener('touchstart', preload, { passive: true }); });
+    if ('IntersectionObserver' in window && btns.length) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); preload(); } }); btns.forEach(b => io.observe(b)); }
   }
 
   /* ---------- 1. single calculators (utilities.js) ---------- */
@@ -292,6 +323,6 @@
       bar.appendChild(d);
     });
   }
-  const boot = () => { addTableButton(); setTimeout(addMeta, 50); let t; new MutationObserver(() => { clearTimeout(t); t = setTimeout(addMeta, 100); }).observe(document.body, { childList: true, subtree: true }); };
+  const boot = () => { addTableButton(); setTimeout(() => { addMeta(); watchButtons(); }, 50); let t; new MutationObserver(() => { clearTimeout(t); t = setTimeout(() => { addMeta(); watchButtons(); }, 100); }).observe(document.body, { childList: true, subtree: true }); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 0)); else setTimeout(boot, 0);
 })();

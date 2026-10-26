@@ -1432,15 +1432,20 @@ function enhanceComparisonTable(tableId) {
       applyComparisonCase(tableId);
     });
 
-    let startX = null;
+    // Swipe left or right to change case. Only a clearly sideways swipe counts: scrolling the page up or down
+    // (even a little diagonally), dragging a slider, or selecting text in a field must not switch cases.
+    let startX = null, startY = null;
     table.addEventListener("touchstart", (e) => {
-      if (e.touches.length === 1) startX = e.touches[0].clientX;
+      const t = e.target;
+      if (e.touches.length !== 1 || (t.closest && t.closest("input, select, textarea, button, label"))) { startX = null; return; }
+      startX = e.touches[0].clientX; startY = e.touches[0].clientY;
     }, { passive: true });
     table.addEventListener("touchend", (e) => {
       if (startX === null || e.changedTouches.length !== 1) return;
-      const dx = e.changedTouches[0].clientX - startX;
+      const dx = e.changedTouches[0].clientX - startX, dy = e.changedTouches[0].clientY - startY;
       startX = null;
-      if (Math.abs(dx) < 45) return;
+      if (Math.abs(dx) < 70 || Math.abs(dx) < 2.5 * Math.abs(dy)) return;
+      if (document.activeElement && /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName) && table.contains(document.activeElement)) return;
       const state = comparisonCaseState[tableId] || { index: 0 };
       const currentCaseCount = table.querySelector("thead tr")?.children.length - 1;
       state.index += dx < 0 ? 1 : -1;
@@ -1485,8 +1490,10 @@ function applyComparisonCase(tableId) {
   });
 
   if (nav) {
+    const lab = headerCells[state.index + 1] && headerCells[state.index + 1].querySelector("input");
+    const name = lab && lab.value.trim() ? `: ${lab.value.trim()}` : "";
     nav.querySelector(".case-position").textContent =
-      `Case ${state.index + 1} of ${caseCount}`;
+      `Case ${state.index + 1} of ${caseCount}${name}`;
     nav.querySelector("[data-case-prev]").disabled = state.index === 0;
     nav.querySelector("[data-case-next]").disabled = state.index === caseCount - 1;
   }
