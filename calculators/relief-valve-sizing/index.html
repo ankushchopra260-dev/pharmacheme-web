@@ -1,0 +1,127 @@
+---
+layout: default
+title: "Relief Valve Sizing Calculator (API 520 / 521): Gas, Steam, Liquid, Fire Case"
+seo_title: "PSV Sizing Calculator (API 520/521, Fire Case) | PharmaChemE"
+description: "Relief valve sizing to API 520: gas and vapour (critical and subcritical), steam, liquid with viscosity correction, API 521 fire case and thermal relief."
+keywords: "relief valve sizing calculator, PSV sizing, API 520 calculator, API 521 fire case, safety valve sizing, API 526 orifice, thermal relief valve"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Relief Valve Sizing (API 520 and 521)",
+        "url": "https://www.pharmacheme.in/calculators/relief-valve-sizing/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Relief valve sizing to API 520: gas and vapour (critical and subcritical), steam, liquid with viscosity correction, API 521 fire case and thermal relief.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you size a pressure relief valve for gas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "API 520 gives the area A = W/(C Kd P1 Kb Kc) √(TZ/M) in critical flow, with C from the ratio of specific heats k. Use the relieving pressure (set pressure plus overpressure, absolute) and pick the next API 526 orifice letter above the required area."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What overpressure is allowed for a relief valve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Under ASME Section VIII, 10 % above the maximum allowable working pressure for a single valve, 16 % for multiple valves and 21 % for an external fire."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate the fire case relief load?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Find the wetted area up to 7.6 m above grade, calculate heat input Q = 43,200 F A^0.82 W (with adequate drainage and firefighting, A in m²) and divide by the latent heat of the liquid at relieving conditions to get kg/h of vapour."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the API 526 orifice sizes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Effective areas from D (0.110 in², 71 mm²) through E, F, G, H, J, K, L, M, N, P, Q and R to T (26.0 in², 16,774 mm²)."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Relief Valve Sizing (API 520 and 521)"
+    url: /calculators/relief-valve-sizing/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Relief Valve Sizing (API 520 and 521)</h1>
+  <p>Size pressure relief valves for gas, vapour, steam and liquid, work out fire-case and thermal-expansion relief loads, and pick the API 526 orifice.</p>
+  <ul class="ut-jump"><li><a href="#psv-gas">Gas / vapour</a></li><li><a href="#psv-liquid">Liquid</a></li><li><a href="#psv-steam">Steam</a></li><li><a href="#fire-wetted">Fire: liquid-filled</a></li><li><a href="#fire-gas">Fire: gas-filled</a></li><li><a href="#thermal-relief">Thermal relief</a></li><li><a href="#guide">How to use</a></li></ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="psv-gas" data-calc="psv-gas"></div>
+  <div class="ut-calc pk-calc" id="psv-liquid" data-calc="psv-liquid"></div>
+  <div class="ut-calc pk-calc" id="psv-steam" data-calc="psv-steam"></div>
+  <div class="ut-calc pk-calc" id="fire-wetted" data-calc="fire-wetted"></div>
+  <div class="ut-calc pk-calc" id="fire-gas" data-calc="fire-gas"></div>
+  <div class="ut-calc pk-calc" id="thermal-relief" data-calc="thermal-relief"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How to use these calculators</h2>
+  <ol>
+    <li><b>Find the governing scenario.</b> List every way the equipment can be over-pressured: blocked outlet, control valve or PRV failing open, cooling failure, external fire, thermal expansion, exchanger tube rupture, runaway reaction. The scenario with the largest required area governs. The <a href="{{ '/process-safety/emergency-relief-vent-sizing/' | relative_url }}">relief and vent sizing lesson</a> explains how to choose.</li>
+    <li><b>Work out the relief rate</b> for that scenario. The fire-case calculators give it for external fire; for a PRV or control valve failing open, it is the full flow through the failed valve.</li>
+    <li><b>Size the valve</b> with the gas/vapour, steam or liquid calculator. Use 10 % overpressure for a single valve, 16 % for multiple valves and 21 % for the fire case.</li>
+    <li><b>Pick the orifice</b>: the next API 526 letter at or above the required effective area.</li>
+  </ol>
+  <div class="formula-box">Gas, critical flow: A = W / (C K<sub>d</sub> P<sub>1</sub> K<sub>b</sub> K<sub>c</sub>) &radic;(T Z / M), &nbsp; C = 0.03948 &radic;(k (2/(k+1))<sup>(k+1)/(k&minus;1)</sup>)<br>Liquid: A = 11.78 Q / (K<sub>d</sub> K<sub>w</sub> K<sub>c</sub> K<sub>v</sub>) &radic;(G / &Delta;P)<br>Fire heat input: Q = 43,200 F A<sub>w</sub><sup>0.82</sup> W (adequate drainage and firefighting)
+    <small>SI units: A in mm², W in kg/h, P in kPa abs, T in K, Q in L/min. We checked every SI equation against the US-unit form in API 520; they agree within 0.1 %.</small></div>
+  <div class="art-note"><b>Runaway reactions are different</b><p>A reactor that can run away usually needs two-phase relief sizing (DIERS methods), which gives a much larger area than these vapour equations. Do not size a reactor emergency vent with the gas calculator alone; see <a href="{{ '/process-safety/cooling-failure-and-runaway/' | relative_url }}">cooling failure and runaway</a>.</p></div>
+  <p>These are design aids based on the published equations. The final selection must use the manufacturer&rsquo;s certified coefficients and be checked by a competent engineer against your scenario analysis and local regulations.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you size a pressure relief valve for gas?</h3>
+  <p>API 520 gives the area A = W/(C Kd P1 Kb Kc) √(TZ/M) in critical flow, with C from the ratio of specific heats k. Use the relieving pressure (set pressure plus overpressure, absolute) and pick the next API 526 orifice letter above the required area.</p>
+  <h3>What overpressure is allowed for a relief valve?</h3>
+  <p>Under ASME Section VIII, 10 % above the maximum allowable working pressure for a single valve, 16 % for multiple valves and 21 % for an external fire.</p>
+  <h3>How do you calculate the fire case relief load?</h3>
+  <p>Find the wetted area up to 7.6 m above grade, calculate heat input Q = 43,200 F A^0.82 W (with adequate drainage and firefighting, A in m²) and divide by the latent heat of the liquid at relieving conditions to get kg/h of vapour.</p>
+  <h3>What are the API 526 orifice sizes?</h3>
+  <p>Effective areas from D (0.110 in², 71 mm²) through E, F, G, H, J, K, L, M, N, P, Q and R to T (26.0 in², 16,774 mm²).</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-safety/emergency-relief-vent-sizing/' | relative_url }}">Relief and vent sizing (lesson)</a>
+    <a href="{{ '/articles/relief-valve-sizing/' | relative_url }}">Relief valve sizing basics</a>
+    <a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a>
+    <a href="{{ '/calculators/control-valve-sizing/' | relative_url }}">Control valve Cv and restriction orifice</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-relief.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
