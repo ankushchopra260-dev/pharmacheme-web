@@ -1,0 +1,93 @@
+---
+layout: default
+title: "LMTD Calculator with F Correction Factor for Shell and Tube Heat Exchangers"
+seo_title: "LMTD and F Correction Factor Calculator | PharmaChemE"
+description: "LMTD for counter-current and co-current flow, F correction factor for 1-2 and 2-4 shell-and-tube exchangers (Bowman equation), and the heat transfer area."
+keywords: "LMTD calculator, F correction factor, log mean temperature difference, shell and tube heat exchanger area, 1-2 exchanger"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "LMTD and F Correction Factor",
+        "url": "https://www.pharmacheme.in/calculators/lmtd-calculator/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "LMTD for counter-current and co-current flow, F correction factor for 1-2 and 2-4 shell-and-tube exchangers (Bowman equation), and the heat transfer area.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the F correction factor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Calculate R = (Thi − Tho)/(tco − tci) and P = (tco − tci)/(Thi − tci), then use the Bowman, Mueller and Nagle equation for a 1-2 exchanger. For two shells in series apply it to the P of each shell."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a good F correction factor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Designs usually keep F above about 0.75 to 0.8. Lower values mean a temperature cross is close and the exchanger performance is sensitive to small changes."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "LMTD and F Correction Factor"
+    url: /calculators/lmtd-calculator/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>LMTD and F Correction Factor</h1>
+  <p>Log mean temperature difference, the F correction for shell-and-tube exchangers with one or two shell passes, and the area for your duty and U.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="lmtd" data-calc="lmtd"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">LMTD and the F correction factor</h2>
+  <p>The log mean temperature difference applies to pure counter-current or co-current flow. In a shell-and-tube exchanger with several tube passes, part of the flow is co-current, so the mean driving force is lower: LMTD &times; F. F comes from the Bowman, Mueller and Nagle equation using</p>
+  <div class="formula-box">R = (T<sub>hot,in</sub> &minus; T<sub>hot,out</sub>) / (t<sub>cold,out</sub> &minus; t<sub>cold,in</sub>), &nbsp; P = (t<sub>cold,out</sub> &minus; t<sub>cold,in</sub>) / (T<sub>hot,in</sub> &minus; t<sub>cold,in</sub>)<br>Area = Q / (U &times; F &times; LMTD)</div>
+  <p>We checked the F equation against the effectiveness&ndash;NTU method; they agree to four decimal places. If F falls below about 0.75 to 0.8, add shell passes or use a counter-current exchanger. For a complete exchanger design see <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">heat exchanger design basics</a>.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you calculate the F correction factor?</h3>
+  <p>Calculate R = (Thi − Tho)/(tco − tci) and P = (tco − tci)/(Thi − tci), then use the Bowman, Mueller and Nagle equation for a 1-2 exchanger. For two shells in series apply it to the P of each shell.</p>
+  <h3>What is a good F correction factor?</h3>
+  <p>Designs usually keep F above about 0.75 to 0.8. Lower values mean a temperature cross is close and the exchanger performance is sensitive to small changes.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">Heat exchanger design basics</a>
+    <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall U</a>
+    <a href="{{ '/calculators/jacketed-vessel-heat-transfer/' | relative_url }}">Jacketed vessel heat transfer</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-heat.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

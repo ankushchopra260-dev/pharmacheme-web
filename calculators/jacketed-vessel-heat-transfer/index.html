@@ -1,0 +1,101 @@
+---
+layout: default
+title: "Jacketed Vessel Heat Transfer Calculator: Film Coefficients, U and Duty"
+seo_title: "Jacketed Vessel Heat Transfer Coefficient | PharmaChemE"
+description: "Agitated jacketed reactor heat transfer: batch-side film from the impeller, jacket-side film for steam, limpet coil or baffled jacket, overall U and duty."
+keywords: "jacketed vessel heat transfer coefficient, agitated vessel heat transfer, limpet coil heat transfer, reactor U value calculation"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Jacketed Vessel Heat Transfer",
+        "url": "https://www.pharmacheme.in/calculators/jacketed-vessel-heat-transfer/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Agitated jacketed reactor heat transfer: batch-side film from the impeller, jacket-side film for steam, limpet coil or baffled jacket, overall U and duty.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the heat transfer coefficient in an agitated vessel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use Nu = C Re^(2/3) Pr^(1/3) (μ/μw)^M with Re = D²Nρ/μ based on the impeller, and Nu = h·Dvessel/k. C and M depend on the impeller type (about 0.36 to 0.54)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What limits heat transfer in a glass-lined reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually the glass layer and the thick steel wall, which together can be more than half of the total resistance. Higher agitator speed helps less than in a stainless reactor."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Jacketed Vessel Heat Transfer"
+    url: /calculators/jacketed-vessel-heat-transfer/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Jacketed Vessel Heat Transfer</h1>
+  <p>Batch-side film coefficient from the agitator, jacket-side coefficient for steam, a limpet (half-pipe) coil or a baffled jacket, then the overall U and the heat transferred.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="jacket-ht" data-calc="jacket-ht"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How the jacket calculation works</h2>
+  <p>Heat passes from the jacket fluid, through the jacket film, the steel wall (and glass for a glass-lined reactor), fouling, and the batch-side film. The overall coefficient is the sum of these resistances:</p>
+  <div class="formula-box">1/U = 1/h<sub>batch</sub> + t<sub>wall</sub>/k<sub>wall</sub> (+ t<sub>glass</sub>/k<sub>glass</sub>) + R<sub>fouling</sub> + 1/h<sub>jacket</sub><br>Batch side: h D<sub>v</sub>/k = C Re<sup>2/3</sup> Pr<sup>1/3</sup> (&mu;/&mu;<sub>w</sub>)<sup>M</sup>, &nbsp; Re = D<sub>impeller</sub>&sup2; N &rho; / &mu;</div>
+  <ul>
+    <li><b>Batch side</b> depends on the agitator: speed, impeller size and type. Doubling the speed raises h by about 2<sup>2/3</sup> = 1.6 times.</li>
+    <li><b>Steam in the jacket</b> condenses with a very high coefficient; it rarely limits.</li>
+    <li><b>Liquid in a limpet coil or baffled jacket</b> needs velocity: below about 1 m/s the jacket film often becomes the limit.</li>
+    <li><b>Glass-lined reactors</b> are usually limited by the glass and the thick wall, not by the films.</li>
+  </ul>
+  <p>The batch temperature is taken as constant (a snapshot). For heat-up or cool-down time use the <a href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">heating and cooling time simulator</a>; if you already know the film coefficients, the <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">overall U calculator</a>.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you calculate the heat transfer coefficient in an agitated vessel?</h3>
+  <p>Use Nu = C Re^(2/3) Pr^(1/3) (μ/μw)^M with Re = D²Nρ/μ based on the impeller, and Nu = h·Dvessel/k. C and M depend on the impeller type (about 0.36 to 0.54).</p>
+  <h3>What limits heat transfer in a glass-lined reactor?</h3>
+  <p>Usually the glass layer and the thick steel wall, which together can be more than half of the total resistance. Higher agitator speed helps less than in a stainless reactor.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall U calculator</a>
+    <a href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">Heating and cooling time</a>
+    <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">Jacket and limpet coil design</a>
+    <a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/if97.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-heat.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

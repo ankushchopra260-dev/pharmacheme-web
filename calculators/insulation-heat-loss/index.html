@@ -1,0 +1,93 @@
+---
+layout: default
+title: "Insulation Heat Loss Calculator for Pipes: Surface Temperature and Cost"
+seo_title: "Pipe Insulation Heat Loss Calculator (kcal/h\u00b7m) | PharmaChemE"
+description: "Heat loss from insulated or bare pipes in kcal/h per metre, outer surface temperature for personnel protection and yearly cost, with convection and radiation."
+keywords: "insulation heat loss calculator, pipe heat loss, bare pipe heat loss kcal, insulation thickness, surface temperature personnel protection"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Insulation Heat Loss Calculator",
+        "url": "https://www.pharmacheme.in/calculators/insulation-heat-loss/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Heat loss from insulated or bare pipes in kcal/h per metre, outer surface temperature for personnel protection and yearly cost, with convection and radiation.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much heat does a bare steam pipe lose?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on size, temperature and wind. A bare 80 NB pipe at 180 °C in still air at 30 °C loses about 650 kcal/h per metre; 50 mm of mineral wool insulation (k = 0.045 W/m·K) cuts this by more than 90 %."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What surface temperature is safe to touch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Many plants insulate for personnel protection so that surfaces stay at or below about 60 °C. ASTM C1055 gives guidance on burn injury from hot surfaces."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Insulation Heat Loss Calculator"
+    url: /calculators/insulation-heat-loss/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Insulation Heat Loss Calculator</h1>
+  <p>Heat lost from an insulated or bare pipe, the outer surface temperature and what it costs in a year, with natural or wind convection and radiation.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="insulation" data-calc="insulation"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How insulation heat loss is calculated</h2>
+  <p>Heat flows from the pipe through the insulation (conduction) and then leaves the outer surface by natural or forced convection and radiation. The surface temperature is solved so that both heat flows match, as in ASTM C680.</p>
+  <div class="formula-box">q = (T<sub>pipe</sub> &minus; T<sub>air</sub>) / [ ln(D<sub>s</sub>/D<sub>o</sub>)/(2&pi;k) + 1/((h<sub>conv</sub> + h<sub>rad</sub>) &pi; D<sub>s</sub>) ]</div>
+  <p>Use it to check personnel protection (surface temperature), to price the heat lost from bare steam and hot oil lines, and to compare insulation thicknesses. Valves and flanges left bare lose about as much as a metre or more of bare pipe each, so count them too.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How much heat does a bare steam pipe lose?</h3>
+  <p>It depends on size, temperature and wind. A bare 80 NB pipe at 180 °C in still air at 30 °C loses about 650 kcal/h per metre; 50 mm of mineral wool insulation (k = 0.045 W/m·K) cuts this by more than 90 %.</p>
+  <h3>What surface temperature is safe to touch?</h3>
+  <p>Many plants insulate for personnel protection so that surfaces stay at or below about 60 °C. ASTM C1055 gives guidance on burn injury from hot surfaces.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam &amp; Boiler</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-heat.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
