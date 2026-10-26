@@ -1,0 +1,115 @@
+---
+layout: default
+title: "Steam Tables in kcal (IAPWS-IF97): Saturated and Superheated Steam Calculator"
+seo_title: "Steam Table Calculator in kcal/kg (IAPWS-IF97) | PharmaChemE"
+description: "Free steam table calculator (IAPWS-IF97): saturation temperature, latent heat in kcal/kg, superheated steam, flash steam and desuperheater water."
+keywords: "steam table, steam table kcal, latent heat of steam, IAPWS-IF97, superheated steam table, flash steam calculator, desuperheater calculation"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Steam Tables, Flash Steam and Desuperheater",
+        "url": "https://www.pharmacheme.in/calculators/steam-tables/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Free steam table calculator (IAPWS-IF97): saturation temperature, latent heat in kcal/kg, superheated steam, flash steam and desuperheater water.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the latent heat of steam at 10 barg?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Saturated steam at 10 barg (11.01 bar abs) condenses at 184.1 °C. Its latent heat is about 478 kcal/kg (2,000 kJ/kg), and the steam enthalpy is about 664 kcal/kg, from IAPWS-IF97."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate flash steam?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Flash fraction = (hf at the high pressure − hf at the low pressure) ÷ hfg at the low pressure. For condensate at 7 barg flashing to atmosphere about 13 % becomes steam."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much water does a desuperheater need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Water flow = steam flow × (h inlet − h outlet) ÷ (h outlet − h water), with all enthalpies at the steam pressure. Keep the outlet at least 5 to 10 °C above saturation so all the water evaporates."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Steam Tables, Flash Steam and Desuperheater"
+    url: /calculators/steam-tables/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Steam Tables, Flash Steam and Desuperheater</h1>
+  <p>Saturated and superheated steam properties in kcal/kg and kJ/kg at any pressure, calculated from IAPWS-IF97, plus flash steam from condensate and desuperheater spray water.</p>
+  <ul class="ut-jump"><li><a href="#steam-sat">Saturated steam</a></li><li><a href="#steam-super">Superheated steam</a></li><li><a href="#condensate-flash">Flash steam</a></li><li><a href="#desuperheater">Desuperheater</a></li><li><a href="#guide">How it works</a></li></ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="steam-sat" data-calc="steam-sat"></div>
+  <div class="ut-calc pk-calc" id="steam-super" data-calc="steam-super"></div>
+  <div class="ut-calc pk-calc" id="condensate-flash" data-calc="condensate-flash"></div>
+  <div class="ut-calc pk-calc" id="desuperheater" data-calc="desuperheater"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How the steam table is calculated</h2>
+  <p>Every value is calculated from <b>IAPWS-IF97</b>, the industrial standard formulation for water and steam used by boiler makers and turbine vendors. It is not interpolated from a printed table, so any pressure or temperature in range gives exact values. We checked our code against the verification values published in the IAPWS release (for example, saturation at 0.1 MPa is 372.755919 K).</p>
+  <ul>
+    <li><b>Saturated steam table:</b> the boiling temperature and the latent heat at a pressure. Use it for jacket and heater duty: heat given per kg of steam condensed = h<sub>fg</sub>.</li>
+    <li><b>Superheated steam:</b> enthalpy and density at any pressure and temperature, and how many degrees of superheat it has.</li>
+    <li><b>Flash steam:</b> when hot condensate drops to a lower pressure, part of it boils. Flash fraction = (h<sub>f1</sub> &minus; h<sub>f2</sub>) / h<sub>fg2</sub>.</li>
+    <li><b>Desuperheater:</b> water added so that superheated steam leaves at a target temperature. Process heaters work best with steam just above saturation, because the latent heat does the work.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Steam at 3 barg condenses at 143.7 &deg;C and gives 509 kcal/kg; at 10 barg it condenses at 184.1 &deg;C and gives only 478 kcal/kg. Lower steam pressure gives more heat per kg and less flash loss, as long as the temperature difference to the batch is still enough.</p></div>
+  <p>Units: 1 kcal = 4.1868 kJ. Gauge pressures assume a 1.01325 bar atmosphere. For boiler fuel, condensate recovery and steam leak costs, see <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam &amp; Boiler</a>.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>What is the latent heat of steam at 10 barg?</h3>
+  <p>Saturated steam at 10 barg (11.01 bar abs) condenses at 184.1 °C. Its latent heat is about 478 kcal/kg (2,000 kJ/kg), and the steam enthalpy is about 664 kcal/kg, from IAPWS-IF97.</p>
+  <h3>How do you calculate flash steam?</h3>
+  <p>Flash fraction = (hf at the high pressure − hf at the low pressure) ÷ hfg at the low pressure. For condensate at 7 barg flashing to atmosphere about 13 % becomes steam.</p>
+  <h3>How much water does a desuperheater need?</h3>
+  <p>Water flow = steam flow × (h inlet − h outlet) ÷ (h outlet − h water), with all enthalpies at the steam pressure. Keep the outlet at least 5 to 10 °C above saturation so all the water evaporates.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/utilities/steam-boiler/' | relative_url }}">Steam &amp; Boiler: fuel, flash steam and trap losses</a>
+    <a href="{{ '/calculators/steam-heating-calculator/' | relative_url }}">Steam needed to heat a batch</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/calculators/unit-converter/' | relative_url }}">Unit converter</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/if97.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-steam.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

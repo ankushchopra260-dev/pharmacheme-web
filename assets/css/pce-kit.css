@@ -1,0 +1,28 @@
+/* Calculator kit additions (used with utilities.css) */
+.pk-calc + .pk-calc { margin-top: 18px; }
+.pk-meta { border-top: 1px solid var(--grid-line); padding: 8px 18px; font-size: .82rem; color: var(--muted); }
+.pk-meta summary { cursor: pointer; }
+.pk-meta-f { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px 14px; padding: 10px 0 4px; }
+.pk-meta-f label { display: grid; gap: 4px; font-weight: 600; }
+.pk-meta-f input { font: 500 .9rem var(--f-sans); color: var(--paper); background: var(--bg-deep); border: 1px solid #2C4C6C; border-radius: 6px; padding: 7px 10px; min-width: 0; }
+.pk-sec { grid-column: 1 / -1; margin: 6px 0 -4px; font-size: .78rem; font-weight: 700; color: var(--brass); }
+.pk-help { font-weight: 400; color: #7F95AB; font-size: .74rem; line-height: 1.35; }
+.pk-tools { flex-wrap: wrap; }
+.pk-b { font: 600 .8rem var(--f-sans); color: var(--paper); background: none; border: 1px solid var(--grid-line); border-radius: 4px; padding: 6px 11px; cursor: pointer; }
+.pk-b:hover, .pk-b:focus-visible { border-color: var(--brass); color: var(--brass); }
+.pk-extra:empty { display: none; }
+.pk-extra { padding: 4px 18px 14px; }
+.pk-th { font-size: .9rem; color: var(--paper); margin: 14px 0 6px; }
+.pk-svg { margin-top: 8px; }
+.pk-svg svg { display: block; max-width: 100%; height: auto; }
+.pk-frame { fill: none; stroke: var(--grid-line); }
+.pk-ax { fill: var(--muted); font: 11px var(--f-sans); }
+.pk-l { fill: none; stroke-width: 2; }
+.pk-l0 { stroke: #5B9BFF; } .pk-l1 { stroke: var(--brass); } .pk-l2 { stroke: #6FCB9F; } .pk-l3 { stroke: #E07A6A; } .pk-l4 { stroke: #B48CFF; }
+.pk-dash { stroke-dasharray: 5 4; }
+.pk-pt { fill: var(--paper); stroke: var(--bg-deep); stroke-width: 2; }
+.pk-refs { border-top: 1px solid var(--grid-line); padding: 8px 18px 12px; font-size: .82rem; color: var(--muted); }
+.pk-refs summary { cursor: pointer; font-weight: 600; }
+.pk-refs ol { margin: 8px 0 0; padding-left: 20px; line-height: 1.5; }
+.pk-refs a { color: var(--brass); }
+.ut-table td, .ut-table th { white-space: nowrap; }
