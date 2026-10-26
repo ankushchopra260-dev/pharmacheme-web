@@ -31,7 +31,7 @@ breadcrumbs:
     url: /solvents/
   - label: "n-Propanol"
     url: /solvents/n-propanol/
-last_modified_at: 2026-10-21
+last_modified_at: 2026-10-26
 ---
 <link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -101,6 +101,11 @@ last_modified_at: 2026-10-21
   <div class="formula-box">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; A = 8.02426, B = 1598.24, C = 213.541
     <small>P in mmHg, T in &deg;C. Antoine constants from the same data as the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>. Accuracy falls well outside the normal working range, and very low temperatures are not shown.</small></div>
 
+<!-- az:start -->
+  <h2 id="azeotropes">Azeotropes of n-Propanol</h2>
+  <ul><li>With <a href="{{ '/solvents/water/' | relative_url }}">Water</a>: boils at <b>87.7 &deg;C</b>, 71.7 % n-Propanol by weight (minimum-boiling).</li><li>With methyl butyrate: boils at <b>94.4 &deg;C</b>, 49 % n-Propanol by weight (minimum-boiling).</li><li>With n-propyl formate: boils at <b>80.65 &deg;C</b>, 3 % n-Propanol by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/n-propyl-acetate/' | relative_url }}">n-Propyl acetate</a>: boils at <b>94.7 &deg;C</b>, 51 % n-Propanol by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/benzene/' | relative_url }}">Benzene</a>: boils at <b>77.1 &deg;C</b>, 16.9 % n-Propanol by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/toluene/' | relative_url }}">Toluene</a>: boils at <b>92.4 &deg;C</b>, 52.5 % n-Propanol by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/n-hexane/' | relative_url }}">n-Hexane</a>: boils at <b>65.7 &deg;C</b>, 4 % n-Propanol by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/carbon-tetrachloride/' | relative_url }}">Carbon tetrachloride</a>: boils at <b>73.1 &deg;C</b>, 11.5 % n-Propanol by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/1-2-dichloroethane/' | relative_url }}">1,2-Dichloroethane</a>: boils at <b>80.7 &deg;C</b>, 19 % n-Propanol by weight (minimum-boiling).</li><li>With n-propyl bromide: boils at <b>69.7 &deg;C</b>, 9 % n-Propanol by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/2-methyltetrahydrofuran/' | relative_url }}">2-Methyltetrahydrofuran</a>: boils at <b>79.5 &deg;C</b>, 1 % n-Propanol by weight (minimum-boiling).</li></ul>
+  <p class="sv-mute">Measured at 760 mmHg unless stated, from Lange&rsquo;s and CRC handbooks via the <a href="{{ '/solvents/azeotropes/' | relative_url }}">azeotrope table</a> (CC BY-SA 4.0). <a href="{{ '/solvents/azeotropes/' | relative_url }}?a=n-propanol#calculator">Estimate n-Propanol with another solvent, at your pressure</a></p>
+<!-- az:end -->
   <h2>On the plant</h2>
   <ul><li><b>Azeotrope with water:</b> boils at about 87.7 &deg;C at atmospheric pressure (72 % n-propanol by mass). Distilling off this azeotrope is a common way to dry the batch.</li><li><b>Highly flammable:</b> the flash point is below room temperature, so the vapour above the liquid is flammable in normal plant conditions. Inert the vessel with nitrogen. See <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and LOC</a>.</li></ul>
   <p>Under deep vacuum the boiling point can fall close to the cooling water temperature, and the condenser loses its driving force. Check the condenser and vent condenser before going deeper, and keep the condensing temperature at least 10&ndash;15 &deg;C above the coolant. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a> and <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">steam energy and condenser selection</a>.</p>

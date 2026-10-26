@@ -31,7 +31,7 @@ breadcrumbs:
     url: /solvents/
   - label: "Glycerol"
     url: /solvents/glycerol/
-last_modified_at: 2026-10-21
+last_modified_at: 2026-10-26
 ---
 <link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -101,6 +101,11 @@ last_modified_at: 2026-10-21
   <div class="formula-box">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; A = 9.90788, B = 3821.36, C = 253.806
     <small>P in mmHg, T in &deg;C. Antoine constants from the same data as the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>. Accuracy falls well outside the normal working range, and very low temperatures are not shown.</small></div>
 
+<!-- az:start -->
+  <h2 id="azeotropes">Azeotropes of Glycerol</h2>
+  <ul><li>With diphenyl: boils at <b>243.8 &deg;C</b>, 55 % Glycerol by weight (minimum-boiling).</li><li>With naphthalene: boils at <b>215.2 &deg;C</b>, 10 % Glycerol by weight (minimum-boiling).</li></ul>
+  <p class="sv-mute">Measured at 760 mmHg unless stated, from Lange&rsquo;s and CRC handbooks via the <a href="{{ '/solvents/azeotropes/' | relative_url }}">azeotrope table</a> (CC BY-SA 4.0).</p>
+<!-- az:end -->
   <h2>On the plant</h2>
   
   <p>Under deep vacuum the boiling point can fall close to the cooling water temperature, and the condenser loses its driving force. Check the condenser and vent condenser before going deeper, and keep the condensing temperature at least 10&ndash;15 &deg;C above the coolant. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a> and <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">steam energy and condenser selection</a>.</p>

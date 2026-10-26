@@ -1,0 +1,41 @@
+/* Azeotrope table and estimator */
+.az-wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; margin-bottom: 10px; }
+.az-calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 4px 24px; align-items: start; }
+.az-calc > h2, .az-calc > #az-sweep { grid-column: 1 / -1; }
+.az-calc > .az-svg { grid-column: 2; grid-row: 2 / span 5; margin-top: 0; }
+.az-panel { background: var(--panel); border: 1px solid var(--grid-line); border-top: 3px solid var(--brass); border-radius: 10px; padding: 16px 18px; min-width: 0; }
+.az-panel h2 { font-family: var(--f-display); font-size: 1.05rem; color: var(--paper); margin: 0 0 12px; }
+.az-panel h3 { font-size: .95rem; color: var(--paper); margin: 18px 0 6px; }
+.az-tools { display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
+.az-search input { width: 100%; font: inherit; font-size: .95rem; color: var(--paper); background: var(--bg-deep); border: 1px solid var(--grid-line); border-radius: 6px; padding: 9px 12px; }
+.az-search input:focus { outline: 2px solid var(--brass); outline-offset: 1px; }
+.az-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.az-chip { font: inherit; font-size: .82rem; padding: 5px 12px; border: 1px solid var(--grid-line); border-radius: 999px; background: none; color: var(--paper); cursor: pointer; }
+.az-chip[aria-pressed="true"] { background: var(--brass); border-color: var(--brass); color: var(--bg-deep); font-weight: 600; }
+.az-table { font-size: .86rem; }
+.az-table thead th { color: var(--brass); font-size: .78rem; font-weight: 700; white-space: nowrap; }
+.az-table td { color: var(--paper); }
+.az-table td.num { font-family: var(--f-mono); font-size: .82rem; white-space: nowrap; }
+.az-table td a { color: var(--paper); text-decoration: underline; text-decoration-color: var(--grid-line); text-underline-offset: 3px; }
+.az-table td a:hover { color: var(--brass); }
+.az-mute { color: var(--muted); font-size: .8rem; font-family: var(--f-sans); white-space: normal; }
+.az-warn { color: #E9A23B; font-size: .82rem; }
+.az-flag td { background: rgba(233, 162, 59, .06); }
+.az-est { margin-top: 5px; font: inherit; font-size: .75rem; color: var(--brass); background: none; border: 1px solid var(--grid-line); border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+.az-est:hover, .az-est:focus-visible { border-color: var(--brass); }
+.az-more { margin-top: 10px; font: inherit; font-size: .85rem; color: var(--paper); background: none; border: 1px solid var(--grid-line); border-radius: 6px; padding: 7px 14px; cursor: pointer; }
+.az-go { margin: 6px 0 4px; }
+.az-card { margin-top: 12px; padding: 12px 14px; border: 1px solid var(--grid-line); border-radius: 8px; background: var(--bg-deep); }
+.az-card p { margin: 0 0 8px; color: var(--paper); font-size: .92rem; line-height: 1.5; }
+.az-card .az-big { font-size: 1.02rem; }
+.az-card .az-big b { color: var(--brass); font-family: var(--f-mono); font-size: 1.2rem; }
+.az-meas { border-top: 1px dashed var(--grid-line); padding-top: 8px; }
+.az-svg { display: block; margin-top: 12px; max-width: 100%; height: auto; }
+.az-ax { fill: var(--muted); font-size: 11px; font-family: var(--f-sans); }
+.az-liq { fill: none; stroke: #5B9BFF; stroke-width: 2; }
+.az-vap { fill: none; stroke: var(--brass); stroke-width: 2; }
+.az-pt { fill: var(--paper); stroke: var(--bg-deep); stroke-width: 2; }
+.az-leg text { fill: var(--muted); font-size: 11px; font-family: var(--f-sans); }
+.az-src li { margin-bottom: 8px; }
+@media (max-width: 860px) { .az-calc { display: block; } .az-calc > .az-svg { margin-top: 12px; } }
+.az-est { white-space: nowrap; }

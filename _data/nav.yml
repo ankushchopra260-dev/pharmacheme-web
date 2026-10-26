@@ -42,6 +42,7 @@
 - title: Solvents
   url: /solvents/
   children:
+    - { title: "Azeotrope table and calculator", url: /solvents/azeotropes/ }
     - { title: "Alcohols (17)", url: "/solvents/#alcohols" }
     - { title: "Ketones (5)", url: "/solvents/#ketones" }
     - { title: "Esters (11)", url: "/solvents/#esters" }

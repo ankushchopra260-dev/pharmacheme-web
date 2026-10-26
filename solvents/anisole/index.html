@@ -31,7 +31,7 @@ breadcrumbs:
     url: /solvents/
   - label: "Anisole"
     url: /solvents/anisole/
-last_modified_at: 2026-10-21
+last_modified_at: 2026-10-26
 ---
 <link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -101,6 +101,11 @@ last_modified_at: 2026-10-21
   <div class="formula-box">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; A = 7.32615, B = 1674.45, C = 223.096
     <small>P in mmHg, T in &deg;C. Antoine constants from the same data as the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>. Accuracy falls well outside the normal working range, and very low temperatures are not shown.</small></div>
 
+<!-- az:start -->
+  <h2 id="azeotropes">Azeotropes of Anisole</h2>
+  <ul><li>With <a href="{{ '/solvents/water/' | relative_url }}">Water</a>: boils at <b>95.5 &deg;C</b>, 59.5 % Anisole by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/ethylene-glycol/' | relative_url }}">Ethylene glycol</a>: boils at <b>150.5 &deg;C</b>, 89.5 % Anisole by weight (minimum-boiling).</li></ul>
+  <p class="sv-mute">Measured at 760 mmHg unless stated, from Lange&rsquo;s and CRC handbooks via the <a href="{{ '/solvents/azeotropes/' | relative_url }}">azeotrope table</a> (CC BY-SA 4.0). <a href="{{ '/solvents/azeotropes/' | relative_url }}?a=anisole#calculator">Estimate Anisole with another solvent, at your pressure</a></p>
+<!-- az:end -->
   <h2>On the plant</h2>
   
   <p>Under deep vacuum the boiling point can fall close to the cooling water temperature, and the condenser loses its driving force. Check the condenser and vent condenser before going deeper, and keep the condensing temperature at least 10&ndash;15 &deg;C above the coolant. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a> and <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">steam energy and condenser selection</a>.</p>

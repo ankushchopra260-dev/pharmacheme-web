@@ -31,7 +31,7 @@ breadcrumbs:
     url: /solvents/
   - label: "Acetic acid"
     url: /solvents/acetic-acid/
-last_modified_at: 2026-10-21
+last_modified_at: 2026-10-26
 ---
 <link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -101,6 +101,11 @@ last_modified_at: 2026-10-21
   <div class="formula-box">log<sub>10</sub> P = A &minus; B / (C + T) &nbsp;&nbsp; A = 7.8152, B = 1800.03, C = 246.894
     <small>P in mmHg, T in &deg;C. Antoine constants from the same data as the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>. Accuracy falls well outside the normal working range, and very low temperatures are not shown.</small></div>
 
+<!-- az:start -->
+  <h2 id="azeotropes">Azeotropes of Acetic acid</h2>
+  <ul><li>With <a href="{{ '/solvents/water/' | relative_url }}">Water</a>: no azeotrope at 1 atm (Lange&#x27;s lists no azeotrope; the CRC Handbook lists one.).</li><li>With <a href="{{ '/solvents/benzene/' | relative_url }}">Benzene</a>: boils at <b>80.05 &deg;C</b>, 2 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/cyclohexane/' | relative_url }}">Cyclohexane</a>: boils at <b>79.7 &deg;C</b>, 2 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/toluene/' | relative_url }}">Toluene</a>: boils at <b>105.0 &deg;C</b>, 28 % Acetic acid by weight (minimum-boiling).</li><li>With m-xylene: boils at <b>115.4 &deg;C</b>, 72.5 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/mesitylene/' | relative_url }}">Mesitylene</a>: boils at <b>118.0 &deg;C</b>, 96.4 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/n-heptane/' | relative_url }}">n-Heptane</a>: boils at <b>92.3 &deg;C</b>, 30 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/n-octane/' | relative_url }}">n-Octane</a>: boils at <b>109.0 &deg;C</b>, 50 % Acetic acid by weight (minimum-boiling).</li><li>With isopropyl iodide: boils at <b>88.3 &deg;C</b>, 9 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/carbon-tetrachloride/' | relative_url }}">Carbon tetrachloride</a>: boils at <b>76.6 &deg;C</b>, 3 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/tetrachloroethylene/' | relative_url }}">Tetrachloroethylene</a>: boils at <b>107.4 &deg;C</b>, 38.5 % Acetic acid by weight (minimum-boiling).</li><li>With ethylene bromide: boils at <b>114.4 &deg;C</b>, 55 % Acetic acid by weight (minimum-boiling).</li><li>With 1;1-dibromoethane: boils at <b>103.7 &deg;C</b>, 25 % Acetic acid by weight (minimum-boiling).</li><li>With methylene bromide: boils at <b>94.8 &deg;C</b>, 16 % Acetic acid by weight (minimum-boiling).</li><li>With <a href="{{ '/solvents/pyridine/' | relative_url }}">Pyridine</a>: boils at <b>139.7 &deg;C</b>, 35 % Acetic acid by weight (maximum-boiling).</li></ul>
+  <p class="sv-mute">Measured at 760 mmHg unless stated, from Lange&rsquo;s and CRC handbooks via the <a href="{{ '/solvents/azeotropes/' | relative_url }}">azeotrope table</a> (CC BY-SA 4.0). <a href="{{ '/solvents/azeotropes/' | relative_url }}?a=acetic-acid#calculator">Estimate Acetic acid with another solvent, at your pressure</a></p>
+<!-- az:end -->
   <h2>On the plant</h2>
   <ul><li><b>No azeotrope with water.</b> The separation is still slow near pure acid, so it needs many stages.</li></ul>
   <p>Under deep vacuum the boiling point can fall close to the cooling water temperature, and the condenser loses its driving force. Check the condenser and vent condenser before going deeper, and keep the condensing temperature at least 10&ndash;15 &deg;C above the coolant. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a> and <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">steam energy and condenser selection</a>.</p>

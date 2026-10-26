@@ -1,0 +1,154 @@
+---
+layout: default
+title: "Azeotrope Table and Azeotrope Calculator: 216 Measured Azeotropes"
+seo_title: "Azeotrope Table and Calculator (216 Azeotropes) | PharmaChemE"
+description: "Search 216 measured azeotropes (boiling point, wt % and mol %), then estimate any solvent pair at your vacuum or pressure with modified UNIFAC. Free."
+breadcrumbs:
+  - label: Solvent Data
+    url: /solvents/
+  - label: Azeotropes
+    url: /solvents/azeotropes/
+last_modified_at: 2026-10-26
+structured_data: |
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "Binary azeotrope data with boiling points and compositions",
+      "description": "216 binary azeotropes and non-azeotropic pairs at atmospheric pressure: boiling points of the components and the azeotrope, composition in weight and mole percent, and whether the condensate separates into two layers. Values from Lange's Handbook of Chemistry (10th ed.) and the CRC Handbook of Chemistry and Physics (44th ed.) as compiled in the Wikipedia azeotrope tables.",
+      "url": "https://www.pharmacheme.in/solvents/azeotropes/",
+      "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "isBasedOn": "https://en.wikipedia.org/wiki/Azeotrope_tables",
+      "keywords": [
+        "azeotrope",
+        "azeotrope table",
+        "azeotropic data",
+        "binary azeotrope",
+        "heterogeneous azeotrope",
+        "UNIFAC"
+      ],
+      "isAccessibleForFree": true,
+      "creator": {
+        "@type": "Person",
+        "name": "Ankush Chopra"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.pharmacheme.in/#organization",
+        "name": "PharmaChemE",
+        "url": "https://www.pharmacheme.in/"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is an azeotrope?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A liquid mixture that boils at constant temperature with a vapour of the same composition as the liquid, so simple distillation cannot separate it beyond that composition. Ethanol and water form one at 78.1 °C and 95.5 % ethanol by weight."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does an azeotrope change with pressure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Both the boiling temperature and the composition shift with pressure, and some azeotropes disappear under vacuum. Pressure-swing distillation uses this to separate azeotropes such as THF and water."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a heterogeneous azeotrope?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One in which the condensed liquid separates into two layers, as with toluene and water. Decanting the layers breaks the azeotrope, which is why toluene is used to remove water from a batch by azeotropic distillation."
+          }
+        }
+      ]
+    }
+  ]
+---
+<link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/azeotropes.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container sv-head">
+  <h1>Azeotrope table and calculator</h1>
+  <p>Search 216 measured azeotropes by solvent, then estimate any pair of 87 plant solvents at your own vacuum or pressure. Measured values always come first; estimates are marked as estimates.</p>
+</div>
+
+<div class="container az-wrap">
+  <section class="az-panel" id="table" aria-labelledby="az-find-h">
+    <h2 id="az-find-h">Measured azeotropes at 1 atm</h2>
+    <div class="az-tools">
+      <label class="az-search"><span class="sv-sr">Search by solvent</span><input type="search" id="az-q" placeholder="Search a solvent: toluene, IPA, THF, water" autocomplete="off"></label>
+      <div class="az-chips" role="group" aria-label="Filter">
+        <button type="button" class="az-chip" data-f="all" aria-pressed="true">All</button>
+        <button type="button" class="az-chip" data-f="water" aria-pressed="false">With water</button>
+        <button type="button" class="az-chip" data-f="het" aria-pressed="false">Two layers</button>
+        <button type="button" class="az-chip" data-f="max" aria-pressed="false">Maximum-boiling</button>
+      </div>
+    </div>
+    <p class="sv-mute" id="az-count" aria-live="polite"></p>
+    <div class="sv-scroll"><table class="sv-table az-table" id="az-tbl"></table></div>
+    <button type="button" class="az-more" id="az-more" hidden>Show all</button>
+    <p class="sv-mute">Composition is given as the share of the second component. Upper (U) and lower (L) layer compositions are by weight. Click a mixture to estimate it at another pressure.</p>
+  </section>
+
+  <section class="az-panel az-calc" id="calculator" aria-labelledby="az-calc-h">
+    <h2 id="az-calc-h">Estimate an azeotrope at your pressure</h2>
+    <div class="sv-row">
+      <label>Component A <select id="az-a"></select></label>
+      <label>Component B <select id="az-b"></select></label>
+    </div>
+    <div class="sv-row">
+      <label>Pressure <input type="number" id="az-p" value="760" step="any" min="0" inputmode="decimal"></label>
+      <label>Unit <select id="az-u">
+        <option value="mmHg">mmHg absolute (torr)</option>
+        <option value="mbar">mbar absolute</option>
+        <option value="kPa">kPa absolute</option>
+        <option value="vac">mmHg vacuum (gauge)</option>
+      </select></label>
+    </div>
+    <button type="button" class="btn btn-primary btn-sm az-go" id="az-go">Estimate</button>
+    <div id="az-res" aria-live="polite"></div>
+    <svg id="az-svg" class="az-svg" viewBox="0 0 640 300" width="100%" role="img" aria-label="Boiling point and vapour composition diagram"></svg>
+    <div id="az-sweep"></div>
+  </section>
+</div>
+
+<div class="container article-body sv-body">
+  <h2 id="what">What an azeotrope means on the plant</h2>
+  <p>An azeotrope is a mixture that boils at constant temperature and gives a vapour of the same composition as the liquid. Simple distillation stops at that composition: you cannot get dry ethanol by distilling 95 % ethanol, however many plates you add.</p>
+  <ul>
+    <li><b>Minimum-boiling azeotropes</b> (most of them) boil below both pure components and come over first. Toluene and water distil together at about 84 &deg;C, which is how toluene is used to dry a batch.</li>
+    <li><b>Maximum-boiling azeotropes</b> boil above both components and stay behind in the still, as acetone with chloroform and water with formic acid do.</li>
+    <li><b>Heterogeneous azeotropes</b> condense into two layers. Decant the water layer and return the solvent layer, and the azeotrope is broken. This is the basis of Dean&ndash;Stark water removal.</li>
+    <li><b>Pressure changes the azeotrope.</b> Its temperature and composition move with pressure, and some disappear under vacuum. Use the calculator&rsquo;s pressure table to see whether vacuum or pressure distillation could get past it.</li>
+  </ul>
+  <p>For recovery times, condenser load and vacuum, use the <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery calculator</a>, the <a href="{{ '/articles/solvent-recovery-troubleshooting/' | relative_url }}">solvent recovery troubleshooting guide</a> and the <a href="{{ '/process-modelling/solvent-swap-simulator/' | relative_url }}">solvent swap simulator</a>.</p>
+
+  <h2 id="method">How the estimates are made, and how good they are</h2>
+  <p>The calculator finds the boiling point of every liquid composition at your pressure, and looks for the point where the vapour has the same composition as the liquid. It uses:</p>
+  <ul>
+    <li><b>Activity coefficients</b> from modified UNIFAC (Dortmund), with the published group parameters. Pairs whose groups have no published interaction parameters are not estimated.</li>
+    <li><b>Vapour pressure</b> from the Antoine constants on each solvent page.</li>
+    <li><b>Two liquid layers:</b> when the model predicts that the liquid splits, the azeotrope is found at the three-phase temperature, as a heterogeneous azeotrope.</li>
+    <li>An ideal vapour, which is reasonable from deep vacuum up to a few bar.</li>
+  </ul>
+  <p><b>Check against the measured data.</b> For the 126 measured pairs at 1 atm that the model covers, it found 118 of the 123 azeotropes. Its temperature was within 1 &deg;C for 77 % of them and within 3 &deg;C for 92 %, with a median error of 0.4 &deg;C. Composition was within 5 mol % for 72 %, with a median error of 2.5 mol %. It missed methyl acetate&ndash;water, diethyl ether&ndash;water, methanol&ndash;isopropanol, benzene&ndash;heptane and ethylene glycol&ndash;toluene. It predicted a very weak azeotrope for acetic acid&ndash;water, where the handbooks disagree.</p>
+  <div class="art-note"><b>On the plant</b><p>Treat an estimate as a screening answer. Before you design a column, a solvent swap or a drying step around an azeotrope, confirm it with measured VLE data or a lab distillation. Where measured and estimated values differ by more than 5 &deg;C, the table flags the row so you can check another source.</p></div>
+
+  <h2 id="sources">Sources and licence</h2>
+  <ul class="az-src">
+    <li>Measured azeotropes: <a href="https://en.wikipedia.org/wiki/Azeotrope_tables" rel="noopener">Azeotrope tables</a>, Wikipedia, compiled from Lange&rsquo;s Handbook of Chemistry (10th ed.) and the CRC Handbook of Chemistry and Physics (44th ed.). Reused under <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>. We converted weight % to mole % and left out the miscellaneous table, whose layout could not be read reliably. The azeotrope table on this page is shared under the same licence.</li>
+    <li>Modified UNIFAC (Dortmund): Gmehling J., Li J., Schiller M., <i>Ind. Eng. Chem. Res.</i> 32 (1993) 178&ndash;193; Jakob A., Grensemann H., Lohmann J., Gmehling J., <i>Ind. Eng. Chem. Res.</i> 45 (2006) 7924&ndash;7933. We used the public parameter matrix (as published up to 2016) from the open-source <a href="https://github.com/CalebBell/thermo" rel="noopener">thermo</a> library (MIT licence).</li>
+    <li>Group assignments of each solvent: DDBST, via the same library.</li>
+    <li>Antoine constants: the <a href="{{ '/solvents/' | relative_url }}">PharmaChemE solvent pages</a>.</li>
+  </ul>
+</div>
+
+<script src="{{ '/assets/js/azeotrope-engine.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/azeotropes.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-meas="{{ '/assets/data/azeotropes.json' | relative_url }}" data-model="{{ '/assets/data/unifac-do.json' | relative_url }}" data-sol="{{ '/solvents/' | relative_url }}"></script>

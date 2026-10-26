@@ -615,13 +615,14 @@ structured_data: |
 breadcrumbs:
   - label: Solvent Data
     url: /solvents/
-last_modified_at: 2026-10-20
+last_modified_at: 2026-10-26
 ---
 <link rel="stylesheet" href="{{ '/assets/css/solvents.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container sv-head">
   <h1>Solvent properties and boiling points under vacuum</h1>
   <p>95 solvents used in pharma and chemical plants. Melting and boiling points, latent heat, specific heat, viscosity, solubility in water, flash point, autoignition temperature, flammable limits, exposure limits (TLV), health effects and ICH Q3C class, plus the boiling point at every vacuum level from 760 to 5 mmHg and a quick calculator on each solvent&rsquo;s page.</p>
+  <p><a class="btn btn-outline btn-sm" href="{{ '/solvents/azeotropes/' | relative_url }}">Azeotrope table and calculator: 216 measured pairs, estimates at any pressure</a></p>
   <div class="sv-search"><label for="sv-q" class="sv-sr">Find a solvent by name or CAS number</label><input id="sv-q" type="search" placeholder="Find a solvent by name or CAS no.: toluene, MDC, 108-88-3…" autocomplete="off"></div>
   <nav class="sv-chips" aria-label="Solvent families"><a href="#alcohols">Alcohols</a><a href="#ketones">Ketones</a><a href="#esters">Esters</a><a href="#ethers">Ethers</a><a href="#aromatic-hydrocarbons">Aromatic hydrocarbons</a><a href="#aliphatic-hydrocarbons">Aliphatic hydrocarbons</a><a href="#chlorinated-solvents">Chlorinated solvents</a><a href="#polar-aprotic-solvents">Polar aprotic solvents</a><a href="#amines-and-acids">Amines and acids</a><a href="#water">Water</a><a href="#other-solvents">Other solvents</a><a href="#acids-alkalis-and-reagents">Acids, alkalis and reagents</a><a href="#reactive-reagents">Reactive reagents</a></nav>
 </div>
