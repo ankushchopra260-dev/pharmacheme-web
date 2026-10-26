@@ -1,0 +1,111 @@
+---
+layout: default
+title: "Pipe Pressure Drop Calculator with Fittings (3-K Method) and Pump NPSH"
+seo_title: "Pipe Pressure Drop with Fittings (3-K) and NPSH | PharmaChemE"
+description: "Liquid line pressure drop with elbows, tees and valves (Darby 3-K), friction factor and elevation, plus pump NPSH available from vapour pressure. Free."
+keywords: "pipe pressure drop calculator, pressure drop fittings, 3K method, Darby 3-K, NPSH available calculation, NPSHa, friction factor Churchill"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Pipe Pressure Drop and Pump NPSH",
+        "url": "https://www.pharmacheme.in/calculators/pipe-pressure-drop/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Liquid line pressure drop with elbows, tees and valves (Darby 3-K), friction factor and elevation, plus pump NPSH available from vapour pressure. Free.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate pressure drop in a pipe with fittings?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Add pipe friction from the Darcy–Weisbach equation, the losses of each fitting and valve (sum of K times ρu²/2), the elevation change ρgΔz, and any fixed drops such as a control valve or filter."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the 3-K method?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A fitting loss method by Darby in which K = K1/Re + K∞(1 + Kd/Dn^0.3). It accounts for both the Reynolds number and the pipe size, so it is more accurate than a single K value for small pipes and viscous liquids."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate NPSH available?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "NPSHa = (vessel pressure − vapour pressure)/(ρg) + liquid level above the pump inlet − suction line losses, all in metres of liquid. It must exceed the NPSH required by the pump with a margin."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Pipe Pressure Drop and Pump NPSH"
+    url: /calculators/pipe-pressure-drop/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Pipe Pressure Drop and Pump NPSH</h1>
+  <p>Pressure drop in a liquid line with pipe friction, fittings and valves by the 3-K method, entrance, exit and elevation, and the NPSH available at your pump.</p>
+  <ul class="ut-jump"><li><a href="#pipe-dp">Pressure drop</a></li><li><a href="#npsh">NPSH available</a></li><li><a href="#guide">How it works</a></li></ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="pipe-dp" data-calc="pipe-dp"></div>
+  <div class="ut-calc pk-calc" id="npsh" data-calc="npsh"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How the pressure drop is calculated</h2>
+  <p><b>Pipe friction</b> uses the Darcy&ndash;Weisbach equation, &Delta;P = f (L/D) &rho;u&sup2;/2, with the Churchill (1977) friction factor. Churchill covers laminar, transitional and turbulent flow in one equation and agrees with Colebrook within about 0.5 % in turbulent flow.</p>
+  <p><b>Fittings and valves</b> use Darby&rsquo;s 3-K method: K = K<sub>1</sub>/Re + K<sub>&infin;</sub>(1 + K<sub>d</sub>/D<sub>n</sub><sup>0.3</sup>), with D<sub>n</sub> the nominal size in inches. A single fixed K for an elbow is fine for one pipe size but under-predicts losses in small lines and at low Reynolds number; the 3-K method corrects for both. Entrance from a tank is K = 0.5 and exit into a tank K = 1.0.</p>
+  <div class="formula-box">&Delta;P<sub>total</sub> = f (L/D) &rho;u&sup2;/2 + &Sigma;K &rho;u&sup2;/2 + &rho; g &Delta;z + fixed drops</div>
+  <h2 id="npsh-how">NPSH available</h2>
+  <p>A pump cavitates when the pressure at its eye falls to the liquid&rsquo;s vapour pressure. NPSH available is the head above vapour pressure at the pump inlet:</p>
+  <div class="formula-box">NPSHa = (P<sub>vessel</sub> &minus; P<sub>vapour</sub>) / &rho;g + liquid level above pump &minus; suction line loss</div>
+  <p>The vapour pressure comes from the Antoine constants on our solvent pages. Hot liquids and vacuum vessels are where pumps cavitate: a methanol receiver under vacuum at 30 &deg;C has only a few metres of NPSH available, all from the liquid level.</p>
+  <div class="art-note"><b>On the plant</b><p>If a transfer pump from a distillation receiver &ldquo;loses suction&rdquo; at the end of a batch, the level has dropped and NPSHa with it. Lower the pump, keep a minimum level, shorten and enlarge the suction line, or cool the liquid.</p></div>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you calculate pressure drop in a pipe with fittings?</h3>
+  <p>Add pipe friction from the Darcy–Weisbach equation, the losses of each fitting and valve (sum of K times ρu²/2), the elevation change ρgΔz, and any fixed drops such as a control valve or filter.</p>
+  <h3>What is the 3-K method?</h3>
+  <p>A fitting loss method by Darby in which K = K1/Re + K∞(1 + Kd/Dn^0.3). It accounts for both the Reynolds number and the pipe size, so it is more accurate than a single K value for small pipes and viscous liquids.</p>
+  <h3>How do you calculate NPSH available?</h3>
+  <p>NPSHa = (vessel pressure − vapour pressure)/(ρg) + liquid level above the pump inlet − suction line losses, all in metres of liquid. It must exceed the NPSH required by the pump with a margin.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power</a>
+    <a href="{{ '/articles/line-sizing-and-pressure-drop/' | relative_url }}">Line sizing and pressure drop (article)</a>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and seal troubleshooting</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-flow.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-sol="{{ '/assets/data/solvent-lite.json' | relative_url }}"></script>

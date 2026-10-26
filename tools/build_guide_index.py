@@ -53,7 +53,7 @@ for u, fm, body in sorted(pages):
     h1 = re.search(r'<h1[^>]*>([\s\S]*?)</h1>', body)
     title = clean(h1.group(1)) if h1 else (fm.get('title') or 'PharmaChemE')
     desc = fm.get('description') or ''
-    if u.startswith('/solvents/') and u != '/solvents/':
+    if u.startswith('/solvents/') and u != '/solvents/' and u != '/solvents/azeotropes/':
         rows = re.findall(r'<tr><th>([\s\S]*?)</th><td>([\s\S]*?)</td></tr>', body)
         facts = '. '.join(clean(a) + ': ' + clean(b) for a, b in rows)
         new.append({'t': title, 'u': u, 'k': k, 's': desc, 'x': facts[:1200], 'w': 'solvent properties data sheet'})
@@ -88,7 +88,7 @@ print('records', len(out), 'added', len(new), 'pages added', len(pages), 'size K
 sw_txt = open(f'{R}/assets/js/swap-solvents.js', encoding='utf-8').read()
 sw = {r[0]: r for r in json.loads(sw_txt[sw_txt.index('=') + 1:].strip().rstrip(';'))}
 facts = []
-for slug in sorted(d for d in os.listdir(f'{R}/solvents') if os.path.isfile(f'{R}/solvents/{d}/index.html')):
+for slug in sorted(d for d in os.listdir(f'{R}/solvents') if os.path.isfile(f'{R}/solvents/{d}/index.html') and d != 'azeotropes'):
     body = open(f'{R}/solvents/{slug}/index.html', encoding='utf-8').read()
     rows = dict((clean(a), clean(b)) for a, b in re.findall(r'<tr><th>([\s\S]*?)</th><td>([\s\S]*?)</td></tr>', body))
     h1 = clean(re.search(r'<h1>([\s\S]*?)</h1>', body).group(1)).split(':')[0]

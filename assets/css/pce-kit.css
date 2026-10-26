@@ -25,4 +25,5 @@
 .pk-refs summary { cursor: pointer; font-weight: 600; }
 .pk-refs ol { margin: 8px 0 0; padding-left: 20px; line-height: 1.5; }
 .pk-refs a { color: var(--brass); }
-.ut-table td, .ut-table th { white-space: nowrap; }
+.ut-grid > .pk-calc { min-width: 0; }
+.pk-extra .ut-table td:not(:first-child), .pk-extra .ut-table th { white-space: nowrap; }

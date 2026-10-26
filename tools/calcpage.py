@@ -49,7 +49,12 @@ def page(path, title, seo, desc, h1, lede, calcs, body, faqs, related, scripts, 
     if related:
         out += '\n  <div class="related-box">\n    <h3>Related</h3>\n' + ''.join("    <a href=\"{{ '%s' | relative_url }}\">%s</a>\n" % (u, html.escape(l)) for u, l in related) + '  </div>\n'
     out += '</div>\n\n'
-    out += ''.join('<script src="%s"></script>\n' % (js % s) for s in ['pce-kit.js'] + scripts)
+    def tag(sc):
+        if isinstance(sc, tuple):
+            name, attrs = sc
+            return '<script src="%s"%s></script>\n' % (js % name, ''.join(' %s="{{ \'%s\' | relative_url }}"' % (k, v) for k, v in attrs.items()))
+        return '<script src="%s"></script>\n' % (js % sc)
+    out += ''.join(tag(sc) for sc in ['pce-kit.js'] + scripts)
     os.makedirs(os.path.join(ROOT, path), exist_ok=True)
     open(os.path.join(ROOT, path, 'index.html'), 'w').write(out)
     return url

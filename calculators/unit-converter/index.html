@@ -1,0 +1,112 @@
+---
+layout: default
+title: "Unit Converter for Chemical Engineers: Pressure, Vacuum, kcal, TR, U Value, Nm3/h"
+seo_title: "Unit Converter: Vacuum, kcal, TR, Nm\u00b3/h | PharmaChemE"
+description: "Convert gauge, absolute and vacuum pressure, kcal/h, kW and TR, U values, viscosity and flows, and gas flow between Nm\u00b3/h, Sm\u00b3/h, SCFM, actual m\u00b3/h and kg/h."
+keywords: "unit converter chemical engineering, mmHg vacuum to absolute, kcal to kW, TR to kW, Nm3/h to Sm3/h, kg/cm2 to bar, U value conversion"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Unit Converter for Process Engineers",
+        "url": "https://www.pharmacheme.in/calculators/unit-converter/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Convert gauge, absolute and vacuum pressure, kcal/h, kW and TR, U values, viscosity and flows, and gas flow between Nm³/h, Sm³/h, SCFM, actual m³/h and kg/h.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you convert mmHg vacuum to absolute pressure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Absolute pressure = atmospheric pressure − vacuum reading. At sea level 760 mmHg − 700 mmHg vacuum = 60 mmHg absolute (80 mbar). At altitude, use the local atmospheric pressure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many kcal/h is 1 kW?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1 kW = 859.85 kcal/h (International Table calorie), usually rounded to 860 kcal/h. 1 TR of refrigeration is 3.517 kW or about 3,024 kcal/h."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between Nm3/h and Sm3/h?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Both are gas flows at a reference condition. Nm³/h is usually at 0 °C and 1.01325 bar abs, Sm³/h at 15 °C and 1.01325 bar abs, so 1 Nm³ = 1.055 Sm³ of the same gas."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Unit Converter for Process Engineers"
+    url: /calculators/unit-converter/
+last_modified_at: 2026-10-26
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Unit Converter for Process Engineers</h1>
+  <p>Pressure with gauge, absolute and vacuum readings, heat duty in kcal/h, kW and TR, U values, viscosity, flows and more, plus gas flow at normal, standard and actual conditions.</p>
+  <ul class="ut-jump"><li><a href="#unit-convert">Unit converter</a></li><li><a href="#gas-volume">Gas flow Nm³/h, Sm³/h</a></li><li><a href="#guide">Common mistakes</a></li></ul>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="unit-convert" data-calc="unit-convert"></div>
+  <div class="ut-calc pk-calc" id="gas-volume" data-calc="gas-volume"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">Conversions plant engineers get wrong</h2>
+  <ul>
+    <li><b>Gauge, absolute and vacuum.</b> Boiling points, vapour pressure and gas density all need <i>absolute</i> pressure. A gauge reads above atmosphere; a plant vacuum gauge usually reads mmHg <i>below</i> atmosphere. 700 mmHg vacuum is about 60 mmHg absolute at sea level, but only about 15 mmHg absolute at an altitude where the atmosphere is 715 mmHg.</li>
+    <li><b>kg/cm&sup2; is not bar.</b> 1 kg/cm&sup2; = 0.980665 bar. On a 10 kg/cm&sup2;g design pressure the difference is 0.2 bar.</li>
+    <li><b>Heat duty.</b> 1 kW = 860 kcal/h, and 1 TR (refrigeration ton) = 3,024 kcal/h = 3.517 kW.</li>
+    <li><b>U values.</b> 1 kcal/h&middot;m&sup2;&middot;&deg;C = 1.163 W/m&sup2;&middot;K. A U of 300 kcal/h&middot;m&sup2;&middot;&deg;C is 349 W/m&sup2;&middot;K.</li>
+    <li><b>Normal and standard gas volumes.</b> Nm&sup3; is usually at 0 &deg;C, Sm&sup3; at 15 &deg;C (some vendors use 20 &deg;C); 1 Nm&sup3; of air is 1.29 kg. Always ask which reference a nitrogen or compressed-air vendor means.</li>
+    <li><b>Temperature differences</b> convert without the offset: a 10 &deg;C rise is a 10 K or 18 &deg;F rise.</li>
+  </ul>
+  <p>Conversion factors are the exact or NIST SP 811 values; kcal and BTU are International Table values (1 kcal = 4.1868 kJ).</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you convert mmHg vacuum to absolute pressure?</h3>
+  <p>Absolute pressure = atmospheric pressure − vacuum reading. At sea level 760 mmHg − 700 mmHg vacuum = 60 mmHg absolute (80 mbar). At altitude, use the local atmospheric pressure.</p>
+  <h3>How many kcal/h is 1 kW?</h3>
+  <p>1 kW = 859.85 kcal/h (International Table calorie), usually rounded to 860 kcal/h. 1 TR of refrigeration is 3.517 kW or about 3,024 kcal/h.</p>
+  <h3>What is the difference between Nm3/h and Sm3/h?</h3>
+  <p>Both are gas flows at a reference condition. Nm³/h is usually at 0 °C and 1.01325 bar abs, Sm³/h at 15 °C and 1.01325 bar abs, so 1 Nm³ = 1.055 Sm³ of the same gas.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a>
+    <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">Boiling point under vacuum</a>
+    <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-units.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
