@@ -77,6 +77,8 @@
     R.y = bh + 20;
     font(16, true, NAVY); doc.splitTextToSize(strip(title), CW).forEach(l => { doc.text(l, M, R.y); R.y += 7; });
     if (sub) { font(9.5, false, MUTED); doc.splitTextToSize(strip(sub), CW).forEach(l => { doc.text(l, M, R.y); R.y += 4.6; }); }
+    { const m = window.PCME_META || {}, line = [m.project && 'Project: ' + m.project, m.tag && 'Tag: ' + m.tag, m.engineer && 'Engineer: ' + m.engineer].filter(Boolean).join('  ·  ');
+      if (line && !(sub && String(sub).indexOf(line) >= 0)) { font(9.5, true, INK); doc.splitTextToSize(line, CW).forEach(l => { doc.text(l, M, R.y); R.y += 4.6; }); } }
     R.y += 1.5;
     font(8.5, false, MUTED); doc.text('Date: ' + today(), W - M, R.y, { align: 'right' });
     font(9, true, BLUE);
@@ -279,5 +281,17 @@
       (spec ? caseSheet(spec) : fromTables(mount, h1 ? h1.textContent.trim() : document.title, { link })).then(() => { btn.disabled = false; btn.textContent = 'Download PDF'; }, e => fail(btn, e));
     });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(addTableButton, 0)); else setTimeout(addTableButton, 0);
+  /* optional project / tag / engineer for the PDF header (kept only on this page, in memory) */
+  window.PCME_META = window.PCME_META || {};
+  function addMeta() {
+    document.querySelectorAll('.xl-bar, .ut-calc:not(.pk-calc) .ut-tools').forEach(bar => {
+      if (bar.dataset.meta) return; bar.dataset.meta = 1;
+      const d = document.createElement('details'); d.className = 'pce-meta';
+      d.innerHTML = '<summary>Project, tag, engineer on the PDF</summary><span><input data-pm="project" placeholder="Project" maxlength="80"><input data-pm="tag" placeholder="Tag" maxlength="40"><input data-pm="engineer" placeholder="Engineer" maxlength="60"></span>';
+      d.querySelectorAll('input').forEach(i => { i.value = window.PCME_META[i.dataset.pm] || ''; i.addEventListener('input', () => { window.PCME_META[i.dataset.pm] = i.value; document.querySelectorAll('.pce-meta input[data-pm="' + i.dataset.pm + '"]').forEach(o => { if (o !== i) o.value = i.value; }); }); });
+      bar.appendChild(d);
+    });
+  }
+  const boot = () => { addTableButton(); setTimeout(addMeta, 50); let t; new MutationObserver(() => { clearTimeout(t); t = setTimeout(addMeta, 100); }).observe(document.body, { childList: true, subtree: true }); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 0)); else setTimeout(boot, 0);
 })();

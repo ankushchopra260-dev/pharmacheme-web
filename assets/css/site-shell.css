@@ -465,3 +465,9 @@ body.has-page-search .nav-search-btn { display: none; }
 .crumb-bar .pref-src{flex:none}
 .pref-src-hero{margin-top:18px}
 .pref-src-foot{margin-top:16px;white-space:normal}
+
+/* optional project / tag / engineer fields next to Download PDF */
+.pce-meta { font-size: .8rem; color: var(--muted); }
+.pce-meta summary { cursor: pointer; }
+.pce-meta span { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.pce-meta input { font: 500 .85rem var(--f-sans); color: var(--paper); background: var(--bg-deep); border: 1px solid #2C4C6C; border-radius: 6px; padding: 6px 8px; min-width: 0; flex: 1 1 140px; }
