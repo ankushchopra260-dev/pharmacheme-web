@@ -36,7 +36,7 @@
         <label><span>Project</span><input data-m="project" maxlength="80"></label><label><span>Equipment tag</span><input data-m="tag" maxlength="40"></label><label><span>Engineer</span><input data-m="engineer" maxlength="60"></label></div></details>
       <div class="ut-body"><form class="ut-in" autocomplete="off"></form><div class="ut-out" aria-live="polite"></div></div>
       <div class="pk-extra"></div>
-      <div class="ut-tools pk-tools"><button type="button" class="ut-xl" data-a="pdf">Download PDF</button>${c.example ? '<button type="button" class="pk-b" data-a="ex">Worked example</button>' : ''}<button type="button" class="pk-b" data-a="reset">Reset</button><button type="button" class="pk-b" data-a="save">Save to file</button><button type="button" class="pk-b" data-a="open">Open file</button><button type="button" class="pk-b" data-a="link">Copy link</button><input type="file" accept=".json,application/json" hidden></div>
+      <div class="ut-tools pk-tools">${c.manual ? '<button type="button" class="ut-xl pk-run" data-a="run">Run simulation</button>' : ''}<button type="button" class="ut-xl" data-a="pdf">Download PDF</button>${c.example ? '<button type="button" class="pk-b" data-a="ex">Worked example</button>' : ''}<button type="button" class="pk-b" data-a="reset">Reset</button><button type="button" class="pk-b" data-a="save">Save to file</button><button type="button" class="pk-b" data-a="open">Open file</button><button type="button" class="pk-b" data-a="link">Copy link</button><input type="file" accept=".json,application/json" hidden></div>
       ${c.refs && c.refs.length ? `<details class="pk-refs"><summary>Method and references</summary><ol>${c.refs.map(r => `<li>${r}</li>`).join('')}</ol></details>` : ''}</div>`;
     const form = el.querySelector('.ut-in'), out = el.querySelector('.ut-out'), extra = el.querySelector('.pk-extra'), fileIn = el.querySelector('input[type=file]');
     el.querySelectorAll('[data-m]').forEach(inp => { inp.value = meta[inp.dataset.m] || ''; inp.addEventListener('input', () => { meta[inp.dataset.m] = inp.value; }); });
@@ -67,11 +67,12 @@
       extra.innerHTML = (r.svg ? `<div class="pk-svg">${r.svg}</div>` : '') + (r.tables || []).map(t => `<h4 class="pk-th">${esc(t.title)}</h4><div class="ut-table-wrap"><table class="ut-table"><tr>${t.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr>${t.rows.map(row => `<tr>${row.map(x => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</table></div>`).join('');
     }
     function setAll(nv) { Object.keys(v).forEach(k => { if (nv[k] !== undefined) v[k] = nv[k]; }); drawInputs(); calc(); }
+    const live = () => { if (!c.manual) return calc(); out.innerHTML = '<p class="ut-empty">Inputs changed. Press <b>Run simulation</b> to update the results.</p>'; extra.innerHTML = ''; last = null; };
     form.addEventListener('input', e => {
       const k = e.target.dataset.k; if (!k) return; const spec = c.inputs.find(i => i.k === k);
       v[k] = spec.type === 'sel' || spec.type === 'text' ? e.target.value : (e.target.value === '' ? NaN : +e.target.value);
       if (spec.type === 'sel') { const o = c.onSel && c.onSel(k, v[k], v); if (o) Object.assign(v, o); drawInputs(); const f = form.querySelector(`[data-k="${k}"]`); if (f) f.focus(); }
-      calc();
+      live();
     });
     const link = () => location.origin + location.pathname + '#s=' + enc({ k: 'pk', id, v, m: meta });
     el.querySelector('.pk-tools').addEventListener('click', e => {
@@ -87,6 +88,7 @@
       }
       if (a === 'open') fileIn.click();
       if (a === 'pdf') pdf(e.target);
+      if (a === 'run') { e.target.disabled = true; e.target.textContent = 'Running…'; out.innerHTML = '<p class="ut-empty">Simulating…</p>'; setTimeout(() => { calc(); e.target.disabled = false; e.target.textContent = 'Run simulation'; track('pk_run', { calc: id }); }, 30); }
     });
     fileIn.addEventListener('change', () => {
       const f = fileIn.files[0]; if (!f) return;
@@ -129,22 +131,27 @@
     F, G, esc, PU, pOpts, toBarA, fromBarA, KJ: 4.1868,
     /* simple line chart: series [{ name, pts: [[x, y]], cls }], opts { xl, yl, w, h, xmin, xmax, ymin, ymax, marks: [[x, y, label]] } */
     chart(series, o) {
-      o = o || {}; const W = o.w || 640, H = o.h || 280, L = 58, R = 14, T = 26, B = 44;
+      o = o || {}; const W = o.w || 640, H = o.h || 280, L = 62, R = 14, T = 30, B = 44;
       const xs = [], ys = []; series.forEach(s => s.pts.forEach(p => { if (isFinite(p[0]) && isFinite(p[1])) { xs.push(p[0]); ys.push(p[1]); } }));
       if (!xs.length) return '';
+      const nice = (a, b, n) => { const span = b - a || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag, st = (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag; return { a: Math.floor(a / st) * st, b: Math.ceil(b / st) * st, st }; };
       let x0 = o.xmin != null ? o.xmin : Math.min(...xs), x1 = o.xmax != null ? o.xmax : Math.max(...xs), y0 = o.ymin != null ? o.ymin : Math.min(...ys), y1 = o.ymax != null ? o.ymax : Math.max(...ys);
       if (x1 === x0) x1 = x0 + 1; if (y1 === y0) { y1 += 1; y0 -= 1; }
-      if (o.ymin == null) { const p = (y1 - y0) * 0.06; y0 -= p; y1 += p; }
+      const nx = nice(x0, x1, 5), ny = nice(y0, y1, 5);
+      if (o.xmin == null) x0 = nx.a; if (o.xmax == null) x1 = nx.b; if (o.ymin == null) y0 = ny.a; if (o.ymax == null) y1 = ny.b;
       const X = x => L + (W - L - R) * (x - x0) / (x1 - x0), Y = y => T + (H - T - B) * (1 - (y - y0) / (y1 - y0));
+      const fmt = (v, st) => { const d = Math.max(0, -Math.floor(Math.log10(st) + 1e-9)); return Number(v).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d }); };
       let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${esc(o.title || 'Chart')}"><rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" class="pk-frame"/>`;
-      for (let i = 0; i <= 5; i++) { const yv = y0 + (y1 - y0) * i / 5; s += `<text x="${L - 6}" y="${Y(yv) + 4}" text-anchor="end" class="pk-ax">${G(yv, 3)}</text>`; }
-      for (let i = 0; i <= 5; i++) { const xv = x0 + (x1 - x0) * i / 5; s += `<text x="${X(xv)}" y="${H - B + 16}" text-anchor="middle" class="pk-ax">${G(xv, 3)}</text>`; }
+      for (let yv = y0; yv <= y1 + ny.st / 2; yv += ny.st) s += `<line x1="${L}" x2="${W - R}" y1="${Y(yv)}" y2="${Y(yv)}" class="pk-grid"/><text x="${L - 6}" y="${Y(yv) + 4}" text-anchor="end" class="pk-ax">${fmt(yv, ny.st)}</text>`;
+      for (let xv = x0; xv <= x1 + nx.st / 2; xv += nx.st) s += `<text x="${X(xv)}" y="${H - B + 16}" text-anchor="middle" class="pk-ax">${fmt(xv, nx.st)}</text>`;
       if (o.xl) s += `<text x="${(L + W - R) / 2}" y="${H - 8}" text-anchor="middle" class="pk-ax">${esc(o.xl)}</text>`;
-      if (o.yl) s += `<text x="${L}" y="${T - 10}" class="pk-ax">${esc(o.yl)}</text>`;
+      if (o.yl) s += `<text transform="translate(14 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle" class="pk-ax">${esc(o.yl)}</text>`;
+      let lx = L;
       series.forEach((sr, i) => {
         const pts = sr.pts.filter(p => isFinite(p[0]) && isFinite(p[1]));
         s += `<path class="pk-l pk-l${i}${sr.dash ? ' pk-dash' : ''}" d="${pts.map((p, j) => (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join(' ')}"/>`;
-        s += `<line x1="${L + 8 + i * 150}" x2="${L + 26 + i * 150}" y1="${T - 14}" y2="${T - 14}" class="pk-l pk-l${i}${sr.dash ? ' pk-dash' : ''}"/><text x="${L + 30 + i * 150}" y="${T - 10}" class="pk-ax">${esc(sr.name)}</text>`;
+        s += `<line x1="${lx}" x2="${lx + 18}" y1="${T - 14}" y2="${T - 14}" class="pk-l pk-l${i}${sr.dash ? ' pk-dash' : ''}"/><text x="${lx + 22}" y="${T - 10}" class="pk-ax">${esc(sr.name)}</text>`;
+        lx += 34 + sr.name.length * 6.2;
       });
       (o.marks || []).forEach(m => { s += `<circle cx="${X(m[0])}" cy="${Y(m[1])}" r="4.5" class="pk-pt"/>${m[2] ? `<text x="${X(m[0]) + 7}" y="${Y(m[1]) - 7}" class="pk-ax">${esc(m[2])}</text>` : ''}`; });
       return s + '</svg>';

@@ -27,3 +27,5 @@
 .pk-refs a { color: var(--brass); }
 .ut-grid > .pk-calc { min-width: 0; }
 .pk-extra .ut-table td:not(:first-child), .pk-extra .ut-table th { white-space: nowrap; }
+.pk-run { background: var(--brass); color: var(--bg-deep); }
+.pk-grid { stroke: var(--grid-line); stroke-opacity: .45; }
