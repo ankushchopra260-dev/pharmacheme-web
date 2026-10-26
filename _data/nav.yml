@@ -25,6 +25,24 @@
         - { title: "Centrifuge Cake Weight", url: /calculators/centrifuge-cake-weight-calculator/ }
         - { title: "Drying Agent Requirement", url: /calculators/drying-agent-calculator/ }
         - { title: "Packed Scrubber Sizing", url: /calculators/packed-scrubber-calculator/ }
+    - title: "Fluid flow, valves and relief"
+      children:
+        - { title: "Pipe Pressure Drop & NPSH", url: /calculators/pipe-pressure-drop/ }
+        - { title: "Control Valve Cv & Orifice", url: /calculators/control-valve-sizing/ }
+        - { title: "Relief Valve Sizing (API 520/521)", url: /calculators/relief-valve-sizing/ }
+        - { title: "Unit Converter", url: /calculators/unit-converter/ }
+    - title: "Heat transfer, steam and distillation"
+      children:
+        - { title: "Steam Tables (IAPWS-IF97)", url: /calculators/steam-tables/ }
+        - { title: "Jacketed Vessel Heat Transfer", url: /calculators/jacketed-vessel-heat-transfer/ }
+        - { title: "LMTD & F Correction", url: /calculators/lmtd-calculator/ }
+        - { title: "Insulation Heat Loss", url: /calculators/insulation-heat-loss/ }
+        - { title: "Batch Distillation Simulator", url: /calculators/batch-distillation-simulator/ }
+    - title: "Equipment sizing"
+      children:
+        - { title: "Knock-out Pot Sizing", url: /calculators/knock-out-pot-sizing/ }
+        - { title: "Vessel Thickness & MAWP", url: /calculators/vessel-thickness-calculator/ }
+        - { title: "Tank Filling & Breathing Losses", url: /calculators/tank-breathing-losses/ }
     - title: "Process modelling (scale-up)"
       children:
         - { title: "All modelling tools", url: /process-modelling/ }

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Chemical & Pharmaceutical Engineering Calculators
-description: "Free chemical and pharma engineering calculators: solvent recovery, heat load, vessel volume, batch size, TR, mixing, filtration, pumps. PDF download."
+description: "Free chemical and pharma engineering calculators: batch distillation, relief valves, control valve Cv, steam tables, pressure drop, heat transfer, mixing. PDF."
 breadcrumbs:
   - label: Calculators
     url: /calculators/
@@ -10,15 +10,15 @@ page_search:
   groups: '.art-group'
   heads: ''
   placeholder: "Search calculators: e.g. vessel volume, LMTD, scrubber"
-last_modified_at: 2026-10-21
+last_modified_at: 2026-10-26
 ---
 
-<style>.art-group{margin:8px 0 36px;scroll-margin-top:130px}.art-group h2{font-size:1.25rem;margin:0 0 14px}.art-group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.art-group-nav a{font-size:.82rem;padding:5px 12px;border:1px solid var(--line,#2a3440);border-radius:999px;color:inherit;text-decoration:none}.art-group-nav a:hover{border-color:currentColor}</style>
+<style>.art-group{margin:8px 0 36px;scroll-margin-top:130px}.art-group h2{font-size:1.25rem;margin:0 0 14px}.art-group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.art-group-nav a{font-size:.82rem;padding:5px 12px;border:1px solid var(--line,#2a3440);border-radius:999px;color:inherit;text-decoration:none}.art-group-nav a:hover{border-color:currentColor}.tool-card .art-new{font-size:.7rem;font-weight:600;color:var(--brass);margin-left:6px;vertical-align:middle}.calc-new{margin:14px 0 0;font-size:.88rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}.calc-new a{color:var(--brass)}</style>
 <section class="section" style="padding-top:32px; padding-bottom:0;">
   <div class="container">
     <div class="section-head" style="text-align:left;">
       <h1 style="font-family:var(--f-display); font-size:1.9rem; color:var(--paper); margin:0 0 8px;">Chemical &amp; Pharmaceutical Engineering Calculators</h1>
-      <p style="max-width:680px;">The everyday sums of a pharma or chemical plant: solvent recovery, heat load, agitation, filtration, centrifuge cake, pump power and corrosion. Built for process engineers, production teams and engineering students. Every calculator has a <strong>Download PDF</strong> button.</p>
+      <p style="max-width:680px;">The everyday sums of a pharma or chemical plant: solvent recovery and batch distillation, heat load and steam, agitation, relief and control valves, pressure drop, filtration, pumps and vessels. Built for process engineers, production teams and engineering students. Every calculator has a <strong>Download PDF</strong> button.</p>
     </div>
   <nav class="art-group-nav" aria-label="Calculator categories">
     <a href="#reactor-batch">Reactor and batch</a>
@@ -26,10 +26,16 @@ last_modified_at: 2026-10-21
     <a href="#mixing-pumps">Mixing and pumps</a>
     <a href="#separation-drying">Separation, drying and vents</a>
     <a href="#process-modelling">Process modelling (scale-up)</a>
+    <a href="#fluid-valves">Fluid flow and valves</a>
+    <a href="#relief">Relief and overpressure</a>
+    <a href="#heat-transfer">Heat transfer and steam</a>
+    <a href="#distillation-vle">Distillation and VLE</a>
+    <a href="#equipment">Equipment sizing</a>
     <a href="#materials-properties">Materials and properties</a>
     <a href="#solvent-data">Solvent data</a>
     <a href="{{ '/utilities/' | relative_url }}">Utilities (steam, cooling, air, power)</a>
   </nav>
+  <p class="calc-new">New: <a href="{{ '/calculators/batch-distillation-simulator/' | relative_url }}">Batch distillation</a> <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">Relief valves</a> <a href="{{ '/calculators/control-valve-sizing/' | relative_url }}">Control valve Cv</a> <a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a> <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">Pressure drop &amp; NPSH</a> <a href="{{ '/calculators/jacketed-vessel-heat-transfer/' | relative_url }}">Jacket heat transfer</a> <a href="{{ '/solvents/azeotropes/' | relative_url }}">Azeotropes</a> <a href="{{ '/calculators/release-notes/' | relative_url }}">All updates</a></p>
   </div>
 </section>
 <div class="container section" style="padding-top:24px;">
@@ -155,6 +161,96 @@ last_modified_at: 2026-10-21
         <h3>Solvent Swap Simulator</h3>
         <p>Put-and-take vs constant-volume: solvent used, distillate and time.</p>
         <a href="{{ '/process-modelling/solvent-swap-simulator/' | relative_url }}" class="btn btn-outline btn-sm">Open Tool</a>
+      </div>
+    </div>
+  </section>
+  <section class="art-group" id="fluid-valves">
+    <h2>Fluid flow and valves</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Pipe Pressure Drop &amp; NPSH <span class="art-new">New</span></h3>
+        <p>Liquid line pressure drop with fittings and valves (3-K method), elevation, and the NPSH available at your pump.</p>
+        <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Control Valve Cv &amp; Restriction Orifice <span class="art-new">New</span></h3>
+        <p>Cv and Kv for liquid, gas and steam with choked-flow checks (ISA-75.01 / IEC 60534), and restriction orifice bores.</p>
+        <a href="{{ '/calculators/control-valve-sizing/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Unit Converter <span class="art-new">New</span></h3>
+        <p>Gauge, absolute and vacuum pressure, kcal/h, kW and TR, U values, viscosity, and gas flow in Nm³/h, Sm³/h and SCFM.</p>
+        <a href="{{ '/calculators/unit-converter/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+    </div>
+  </section>
+  <section class="art-group" id="relief">
+    <h2>Relief and overpressure</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Relief Valve Sizing (API 520/521) <span class="art-new">New</span></h3>
+        <p>Gas, vapour, steam and liquid relief valves, fire case for liquid- and gas-filled vessels, thermal relief and API 526 orifices.</p>
+        <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+    </div>
+  </section>
+  <section class="art-group" id="heat-transfer">
+    <h2>Heat transfer and steam</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Steam Tables (IAPWS-IF97) <span class="art-new">New</span></h3>
+        <p>Saturated and superheated steam in kcal/kg, flash steam from condensate and desuperheater spray water.</p>
+        <a href="{{ '/calculators/steam-tables/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Jacketed Vessel Heat Transfer <span class="art-new">New</span></h3>
+        <p>Batch-side film from the agitator, jacket side for steam, limpet coil or baffled jacket, overall U and duty.</p>
+        <a href="{{ '/calculators/jacketed-vessel-heat-transfer/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>LMTD and F Correction <span class="art-new">New</span></h3>
+        <p>LMTD, F correction for 1-2 and 2-4 shell-and-tube exchangers, and the area for your duty.</p>
+        <a href="{{ '/calculators/lmtd-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Insulation Heat Loss <span class="art-new">New</span></h3>
+        <p>Heat lost from insulated or bare pipes, surface temperature for personnel protection and yearly cost.</p>
+        <a href="{{ '/calculators/insulation-heat-loss/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+    </div>
+  </section>
+  <section class="art-group" id="distillation-vle">
+    <h2>Distillation and VLE</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Batch Distillation Simulator <span class="art-new">New</span></h3>
+        <p>Solvent recovery cuts with stages, reflux and real (non-ideal) mixture behaviour: cut purity, time and steam.</p>
+        <a href="{{ '/calculators/batch-distillation-simulator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Azeotrope Calculator and Table <span class="art-new">New</span></h3>
+        <p>216 measured azeotropes, plus estimates for any solvent pair at your vacuum or pressure, with T-x-y and x-y diagrams.</p>
+        <a href="{{ '/solvents/azeotropes/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+    </div>
+  </section>
+  <section class="art-group" id="equipment">
+    <h2>Equipment sizing</h2>
+    <div class="grid-cards">
+      <div class="tool-card">
+        <h3>Knock-out Pot Sizing <span class="art-new">New</span></h3>
+        <p>Vertical separator or catch pot diameter from the Souders–Brown velocity and the liquid hold-up height.</p>
+        <a href="{{ '/calculators/knock-out-pot-sizing/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Vessel Thickness and MAWP <span class="art-new">New</span></h3>
+        <p>Shell and head thickness for internal pressure and MAWP to ASME VIII Div. 1.</p>
+        <a href="{{ '/calculators/vessel-thickness-calculator/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
+      </div>
+      <div class="tool-card">
+        <h3>Tank Filling and Breathing Losses <span class="art-new">New</span></h3>
+        <p>Solvent lost each year from a fixed-roof tank vent, with vapour balancing and conservation vent settings.</p>
+        <a href="{{ '/calculators/tank-breathing-losses/' | relative_url }}" class="btn btn-outline btn-sm">Open Calculator</a>
       </div>
     </div>
   </section>
