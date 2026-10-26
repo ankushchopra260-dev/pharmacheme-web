@@ -2,7 +2,8 @@
 .az-wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; margin-bottom: 10px; }
 .az-calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 4px 24px; align-items: start; }
 .az-calc > h2, .az-calc > #az-sweep { grid-column: 1 / -1; }
-.az-calc > .az-svg { grid-column: 2; grid-row: 2 / span 5; margin-top: 0; }
+.az-calc > .az-plots { grid-column: 2; grid-row: 2 / span 5; }
+.az-plots .az-svg:first-child { margin-top: 0; }
 .az-panel { background: var(--panel); border: 1px solid var(--grid-line); border-top: 3px solid var(--brass); border-radius: 10px; padding: 16px 18px; min-width: 0; }
 .az-panel h2 { font-family: var(--f-display); font-size: 1.05rem; color: var(--paper); margin: 0 0 12px; }
 .az-panel h3 { font-size: .95rem; color: var(--paper); margin: 18px 0 6px; }
@@ -37,5 +38,6 @@
 .az-pt { fill: var(--paper); stroke: var(--bg-deep); stroke-width: 2; }
 .az-leg text { fill: var(--muted); font-size: 11px; font-family: var(--f-sans); }
 .az-src li { margin-bottom: 8px; }
-@media (max-width: 860px) { .az-calc { display: block; } .az-calc > .az-svg { margin-top: 12px; } }
+@media (max-width: 860px) { .az-calc { display: block; } .az-calc > .az-plots { margin-top: 12px; } }
 .az-est { white-space: nowrap; }
+.az-diag { stroke: var(--grid-line); stroke-dasharray: 4 4; }

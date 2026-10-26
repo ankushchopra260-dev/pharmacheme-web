@@ -97,7 +97,10 @@ structured_data: |
     </div>
     <button type="button" class="btn btn-primary btn-sm az-go" id="az-go">Estimate</button>
     <div id="az-res" aria-live="polite"></div>
-    <svg id="az-svg" class="az-svg" viewBox="0 0 640 300" width="100%" role="img" aria-label="Boiling point and vapour composition diagram"></svg>
+    <div class="az-plots">
+      <svg id="az-svg" class="az-svg" viewBox="0 0 640 300" width="100%" role="img" aria-label="Boiling point and vapour composition diagram"></svg>
+      <svg id="az-xy" class="az-svg" viewBox="0 0 640 360" width="100%" role="img" aria-label="Vapour against liquid composition (x-y) diagram"></svg>
+    </div>
     <div id="az-sweep"></div>
   </section>
 

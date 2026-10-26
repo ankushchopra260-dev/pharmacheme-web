@@ -55,7 +55,7 @@
   }
   function plot(res, A, B, P) {
     var svg = $('az-svg');
-    if (!res || !res.ok) { svg.innerHTML = ''; return; }
+    if (!res || !res.ok) { svg.innerHTML = ''; $('az-xy').innerHTML = ''; return; }
     var het = res.az.filter(function (z) { return z.type === 'het'; })[0], gap = het ? res.gap : null, branches = [], k, n = 70;
     if (gap) {
       /* liquid on each side of the two-layer region, spaced finely near the pure components */
@@ -92,6 +92,21 @@
       '<line x1="' + (L + 180) + '" x2="' + (L + 200) + '" y1="' + (T + 14) + '" y2="' + (T + 14) + '" class="az-vap"/><text x="' + (L + 206) + '" y="' + (T + 18) + '">Vapour (dew point)</text>' +
       (het ? '<line x1="' + (L + 340) + '" x2="' + (L + 360) + '" y1="' + (T + 14) + '" y2="' + (T + 14) + '" class="az-liq" stroke-dasharray="5 4"/><text x="' + (L + 366) + '" y="' + (T + 18) + '">Two liquid layers</text>' : '') + '</g>';
     svg.innerHTML = s;
+    /* x-y diagram: vapour against liquid composition of B, with the 45° line; azeotropes sit on the diagonal */
+    (function () {
+      var W2 = 640, H2 = 360, L2 = 52, R2 = 14, T2 = 16, B2 = 42, X2 = function (x) { return L2 + (W2 - L2 - R2) * x; }, Y2 = function (y) { return T2 + (H2 - T2 - B2) * (1 - y); };
+      var q = '<rect x="' + L2 + '" y="' + T2 + '" width="' + (W2 - L2 - R2) + '" height="' + (H2 - T2 - B2) + '" fill="none" stroke="var(--grid-line)"/><line x1="' + X2(0) + '" y1="' + Y2(0) + '" x2="' + X2(1) + '" y2="' + Y2(1) + '" class="az-diag"/>';
+      for (var t = 0; t <= 4; t++) { q += '<text x="' + X2(t / 4) + '" y="' + (H2 - B2 + 16) + '" text-anchor="middle" class="az-ax">' + (t * 25) + '</text><text x="' + (L2 - 6) + '" y="' + (Y2(t / 4) + 4) + '" text-anchor="end" class="az-ax">' + (t * 25) + '</text>'; }
+      q += '<text x="' + ((L2 + W2 - R2) / 2) + '" y="' + (H2 - 6) + '" text-anchor="middle" class="az-ax">mol % ' + esc(short(B.n)) + ' in the liquid, x</text><text transform="translate(14 ' + ((T2 + H2 - B2) / 2) + ') rotate(-90)" text-anchor="middle" class="az-ax">mol % in the vapour, y</text>';
+      branches.forEach(function (b, bi) {
+        var pts = b.map(function (p) { return [p.x, p.y]; });
+        if (het) { if (bi === 0) pts.push([gap.x[0], het.y2]); else pts.unshift([gap.x[1], het.y2]); }
+        q += '<path d="' + pts.map(function (p, i) { return (i ? 'L' : 'M') + X2(p[0]).toFixed(1) + ' ' + Y2(Math.min(1, Math.max(0, p[1]))).toFixed(1); }).join(' ') + '" class="az-vap"/>';
+      });
+      if (het) q += '<line x1="' + X2(gap.x[0]) + '" x2="' + X2(gap.x[1]) + '" y1="' + Y2(het.y2) + '" y2="' + Y2(het.y2) + '" class="az-liq" stroke-dasharray="5 4"/>';
+      res.az.forEach(function (z) { var xz = z.type === 'het' ? z.y2 : z.x2; q += '<circle cx="' + X2(xz) + '" cy="' + Y2(xz) + '" r="5" class="az-pt"/>'; });
+      $('az-xy').innerHTML = q;
+    })();
     svg.setAttribute('aria-label', 'Boiling point diagram of ' + short(A.n) + ' and ' + short(B.n) + ' at ' + f1(P, 0) + ' mmHg');
   }
   function describe(z, A, B) {
