@@ -116,3 +116,12 @@
   .pr-touch button { width: 74px; height: 74px; } .pr-touch .pr-gas { width: 92px; }
 }
 @media (prefers-reduced-motion: reduce) { .pr-toast { transition: none; } }
+
+/* worked solution after each question */
+.pr-fb { max-width: 620px; }
+.pr-fbline { color: var(--pr-ink) !important; }
+.pr-fbline b { color: var(--pr-brass); }
+.pr-sol { text-align: left; background: var(--pr-navy); border-left: 3px solid var(--pr-brass); border-radius: 8px; padding: 10px 14px; margin: 10px 0 6px; }
+.pr-sol h4 { margin: 0 0 4px; font-size: .9rem; color: var(--pr-brass); }
+.pr-sol p { font-size: .92rem !important; color: var(--pr-ink) !important; margin: 0 0 6px; }
+.pr-sol a { color: var(--pr-brass); font-weight: 600; font-size: .86rem; }

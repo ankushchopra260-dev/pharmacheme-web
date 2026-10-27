@@ -18,8 +18,8 @@
   const OFF = { x: 250, y: 200 }, WW = 3050, WH = 2000;
   const LAPS = 3, PENALTY = 10, BONUS = 5, VIOL_MAX = 3, VIOL_PTS = 25;
   const MODES = {
-    student: { name: 'Student', hazards: [1, 1, 2], tMission: 25, hint: 1, par: [1.3, 1.6], gasHold: 4, overT: 4, limiter: true },
-    pro: { name: 'Professional', hazards: [3, 4, 4], tMission: 20, tTyped: 30, hint: 0, par: [1.2, 1.45], gasHold: 5.5, overT: 3 }
+    student: { name: 'Student', hazards: [1, 1, 2], tMission: 45, hint: 1, par: [1.3, 1.6], gasHold: 4, overT: 4, limiter: true },
+    pro: { name: 'Professional', hazards: [3, 4, 4], tMission: 40, tTyped: 60, hint: 0, par: [1.2, 1.45], gasHold: 5.5, overT: 3 }
   };
   const BAY_ART = { reactor: '⚗️', pump: '⚙️', utility: '♨️', solvent: '🧪', tank: '🛢️', rack: '🔧' };
   const LAP_BAYS = [['reactor', 'solvent'], ['pump', 'tank'], ['utility', 'rack']];
@@ -78,7 +78,9 @@
   const MAIN = build(resample(catmull(CP, true, 24), true, 6), true);
   const L = MAIN.L, NS = MAIN.S.length;
   const nearestIdx = (T, x, y) => { let bi = 0, bd = Infinity; T.S.forEach((p, i) => { const d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < bd) { bd = d; bi = i; } }); return bi; };
-  const at = s => { s = ((s % L) + L) % L; let lo = 0, hi = NS - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (MAIN.S[m].s <= s) lo = m; else hi = m - 1; } return MAIN.S[lo]; };
+  // point on the centre line at distance s, interpolated between samples so motion is smooth
+  function lerpPt(A, B, f) { let tx = A.tx + (B.tx - A.tx) * f, ty = A.ty + (B.ty - A.ty) * f; const l = Math.hypot(tx, ty) || 1; tx /= l; ty /= l; return { x: A.x + (B.x - A.x) * f, y: A.y + (B.y - A.y) * f, tx, ty, nx: -ty, ny: tx, s: A.s + ((B.s || L) - A.s) * f }; }
+  const at = s => { s = ((s % L) + L) % L; let lo = 0, hi = NS - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (MAIN.S[m].s <= s) lo = m; else hi = m - 1; } const A = MAIN.S[lo], B = MAIN.S[(lo + 1) % NS], span = (lo + 1 < NS ? B.s : L) - A.s; return lerpPt(A, B, span > 0 ? (s - A.s) / span : 0); };
   const sOf = (x, y) => MAIN.S[nearestIdx(MAIN, x, y)].s;
 
   // shortcut across the chicane (opened in Professional mode by a correct answer)
@@ -126,8 +128,12 @@
   /* ---------------- sizing ---------------- */
   let W = 0, H = 0, DPR = 1, ZOOM = 1;
   const touchUI = () => window.matchMedia('(pointer: coarse)').matches;
-  function resize() {
+  let lastW = 0;
+  function resize(e) {
     const r = stage.getBoundingClientRect();
+    // phones fire resize when the address bar slides in or out: keep the game the same size unless the width changed
+    if (e && e.type === 'resize' && touchUI() && Math.abs(r.width - lastW) < 2 && document.fullscreenElement !== host) return;
+    lastW = r.width;
     W = Math.max(280, r.width); H = Math.max(340, Math.min(window.innerHeight * (touchUI() ? 0.78 : 0.7), 680));
     if (document.fullscreenElement === host) H = window.innerHeight;
     DPR = Math.min(2, window.devicePixelRatio || 1);
@@ -313,7 +319,7 @@
   /* ---------------- motion: the car follows the road; you set speed and lane ---------------- */
   function place(c) {
     let p;
-    if (c.onShort) p = SHORT.S[Math.min(SHORT.S.length - 1, Math.max(0, Math.round(c.u / 6)))];
+    if (c.onShort) { const n = SHORT.S.length - 1, f = Math.max(0, Math.min(n, c.u / (SHORT.L / n))), i = Math.min(n - 1, Math.floor(f)); p = lerpPt(SHORT.S[i], SHORT.S[i + 1], f - i); }
     else p = at(c.s);
     c.x = p.x + p.nx * c.d; c.y = p.y + p.ny * c.d;
     c.a = Math.atan2(p.ty, p.tx) + Math.max(-0.45, Math.min(0.45, (c.dT - c.d) * 0.025));
@@ -448,11 +454,18 @@
     if (ok) { G.bonus += BONUS; msg = `−${BONUS} s off your time.`;
       if (G.mode === 'pro' && inRange(SC_A.s, G.car.s, G.car.s + L * 0.6) && !G.gateOpen) { G.gateOpen = true; msg += ' The shortcut past the cooling towers is open on this lap.'; }
       sfx.ok(); }
-    else { if (!skipped) G.pen += PENALTY; msg = skipped ? '0 points for this mission.' : `+${PENALTY} s. The working is in your race review.`; sfx.bad(); }
+    else { if (!skipped) G.pen += PENALTY; msg = skipped ? 'No time added for a skip.' : `+${PENALTY} s added.`; sfx.bad(); }
     const right = o.typed ? o.fmt(o.num) : o.choices[o.correct];
-    ov.innerHTML = `<div class="pr-card pr-fb ${ok ? 'good' : 'bad'}"><h3>${ok ? 'Correct' : skipped ? 'Skipped' : timeout ? 'Out of time' : 'Not quite'}</h3><p>${ok ? '' : 'Answer: <b>' + esc(right) + '</b><br>'}${esc(msg)}</p><button type="button" class="pr-btn" id="pr-go">Drive on</button></div>`;
+    ov.innerHTML = `<div class="pr-card pr-fb ${ok ? 'good' : 'bad'}" role="dialog" aria-modal="true" aria-labelledby="pr-fbh">
+      <h3 id="pr-fbh">${ok ? 'Correct' : skipped ? 'Skipped' : timeout ? 'Out of time' : 'Not quite'}</h3>
+      <p class="pr-fbline">${ok ? '' : `Your answer: ${esc(yours)}<br>`}Correct answer: <b>${esc(right)}</b><br>${esc(msg)}</p>
+      <div class="pr-sol"><h4>Solution</h4><p>${o.why}</p><a href="${esc(o.calc)}" target="_blank" rel="noopener">Try it in the ${esc(P.M[o.id].calcName)}</a></div>
+      <p class="pr-small">The race clock is paused while you read.</p>
+      <button type="button" class="pr-btn" id="pr-go">Drive on</button></div>`;
+    ov.scrollTop = 0;
     const go = () => { ov.classList.remove('show'); ov.innerHTML = ''; G.cur = null; G.state = 'race'; updateHud(true); };
-    $('pr-go').addEventListener('click', go); setTimeout(() => { if (G.cur === cur) go(); }, ok ? 1400 : 2600);
+    $('pr-go').addEventListener('click', go);
+    try { $('pr-go').focus({ preventScroll: true }); } catch (e) { /* ignore */ }
     G.state = 'missionfb';
   }
 
@@ -571,7 +584,7 @@
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.fillStyle = COL.ground; ctx.fillRect(0, 0, W, H);
     if (!c) return;
-    const look = 0.55, cx = c.x + Math.cos(c.a) * (c.v || 0) * look, cy = c.y + Math.sin(c.a) * (c.v || 0) * look;
+    const cam = G.cam || { x: c.x, y: c.y }, cx = cam.x, cy = cam.y;
     const vw = W / ZOOM, vh = H / ZOOM, x0 = cx - vw / 2, y0 = cy - vh / 2;
     ctx.setTransform(DPR * ZOOM, 0, 0, DPR * ZOOM, -x0 * DPR * ZOOM, -y0 * DPR * ZOOM);
     const sx = Math.max(0, Math.floor(x0)), sy = Math.max(0, Math.floor(y0)), sw = Math.min(WW - sx, Math.ceil(vw) + 2), sh = Math.min(WH - sy, Math.ceil(vh) + 2);
@@ -618,12 +631,12 @@
       if (G.count <= 0) G.state = 'race';
     } else if (G.state === 'race') {
       G.t += dt; step(dt);
-    } else if (G.state === 'mission' || G.state === 'missionfb') {
+    } else if (G.state === 'mission') {
       G.t += dt;
       if (G.state === 'mission' && G.cur) { G.cur.left -= dt; const el = $('pr-mbar'), lf = $('pr-mleft'); if (el) el.style.width = Math.max(0, 100 * G.cur.left / G.cur.total) + '%'; if (lf) lf.textContent = Math.ceil(Math.max(0, G.cur.left)) + ' s'; if (G.cur.left <= 0) answer(-2); }
       G.hazards.forEach(h => { if (h.type === 'gas' && h.state === 'alarm') { h.timer -= dt; if (h.timer <= 0) h.state = 'clear'; } });
     }
-    if (G.car) { G.car.flash = Math.max(0, G.car.flash - dt); }
+    if (G.car) { G.car.flash = Math.max(0, G.car.flash - dt); const c = G.car, tx = c.x + Math.cos(c.a) * (c.v || 0) * 0.45, ty = c.y + Math.sin(c.a) * (c.v || 0) * 0.45; if (!G.cam || G.state === 'countdown' || G.state === 'menu') G.cam = { x: tx, y: ty }; else { const k = 1 - Math.exp(-4 * dt); G.cam.x += (tx - G.cam.x) * k; G.cam.y += (ty - G.cam.y) * k; } }
     if (G.toastT > 0) { G.toastT -= dt; if (G.toastT <= 0) hud.toast.classList.remove('show'); }
     if (eng && AC) { const on = G.state === 'race' && !muted; eng.g.gain.value = on ? 0.012 + Math.min(0.02, (G.kmh || 0) / 3000) : 0; eng.o.frequency.value = 38 + (G.kmh || 0) * 1.6; }
     if (G.state !== 'menu') { updateHud(); render(); }
