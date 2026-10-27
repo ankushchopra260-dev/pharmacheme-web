@@ -90,12 +90,15 @@
 
   /* ---------- search engine: curated tool index + full-text site index + glossary ---------- */
   var IDX = null, SITE = null, FACTS = [], loading = null;
+  /* steam tables (IAPWS-IF97, same file as the steam tables page) and measured azeotropes, for quick answers */
+  var AZ = [], AZ_URL = IDX_URL.replace(/guide-index\.json$/, 'azeotropes.json'), IF97_URL = IDX_URL.replace(/data\/guide-index\.json$/, 'js/if97.js');
+  function loadIF97() { if (window.IF97) return Promise.resolve(); return new Promise(function (res) { var sc = document.createElement('script'); sc.src = IF97_URL; sc.onload = res; sc.onerror = res; document.head.appendChild(sc); }); }
   var SITE_URL = (CS && CS.getAttribute('data-search')) || IDX_URL.replace(/guide-index\.json$/, 'site-search.json');
   function kindOf(u) { return /^\/solvents\//.test(u) ? 'Solvent data' : /^\/gate\//.test(u) ? 'GATE' : /^\/process-modelling\/.|^\/design-tools\/./.test(u) ? 'Tool' : /^\/(calculators|utilities)\/./.test(u) ? 'Calculator' : /^\/articles\/./.test(u) ? 'Article' : /^\/process-safety\/case-studies\//.test(u) ? 'Case study' : /^\/process-safety\//.test(u) ? 'Process safety' : /^\/games\//.test(u) ? 'Game' : 'Page'; }
   function getJ(u) { return fetch(u).then(function (r) { return r.json(); }).catch(function () { return []; }); }
   function load() {
     if (IDX && SITE) return Promise.resolve();
-    if (!loading) loading = Promise.all([window.PCE_GUIDE_INDEX ? Promise.resolve(window.PCE_GUIDE_INDEX) : getJ(IDX_URL), window.PCE_SITE_INDEX ? Promise.resolve(window.PCE_SITE_INDEX) : getJ(SITE_URL), getJ(FACTS_URL), getJ(PAGES_URL)])
+    if (!loading) loading = Promise.all([window.PCE_GUIDE_INDEX ? Promise.resolve(window.PCE_GUIDE_INDEX) : getJ(IDX_URL), window.PCE_SITE_INDEX ? Promise.resolve(window.PCE_SITE_INDEX) : getJ(SITE_URL), getJ(FACTS_URL), getJ(PAGES_URL), getJ(AZ_URL).then(function (d) { AZ = d || []; }), loadIF97()])
       .then(function (a) {
         IDX = a[0] || []; SITE = a[1] || []; FACTS = a[2] || [];
         var known = {}; SITE.forEach(function (r) { known[r.u.split('#')[0]] = 1; });
@@ -294,6 +297,8 @@
   }
   function solventAnswer(q) {
     var low = q.toLowerCase(); if (!FACTS.length) return false;
+    // equipment and design questions that merely mention water or steam are not solvent questions
+    if (/desuperheat|attemperat|relief|\bpsv\b|\bprv\b|safety valve|fire case|hydro ?test|control valve|\bcv\b|npsh|lmtd|cooling tower|boiler|condensate|insulation|knock ?out|separator/.test(low)) return false;
     var all = findAllSolvents(low);
     if (all.length >= 2 && /\bvs\.?\b|versus|compar|differen|better|\bor\b|\band\b/.test(low)) { compareCard(all.slice(0, 3)); CTX.solvent = all[0]; track('guide_query', { q: q.slice(0, 60), compare: all.map(function (f) { return f.s; }).join(',') }); return true; }
     var follow = /^(and|what about|how about|same for)\b/.test(low) || low.split(/\s+/).length <= 3;
@@ -373,6 +378,8 @@
   var MOTORS = [0.37, 0.55, 0.75, 1.1, 1.5, 2.2, 3.7, 5.5, 7.5, 9.3, 11, 15, 18.5, 22, 30, 37, 45, 55, 75, 90, 110, 132, 160, 200, 250];
   function calcAnswer(q) {
     var low = q.toLowerCase().replace(/m³/g, 'm3').replace(/kg\/cm²/g, 'kg/cm2'), m;
+    // a vacuum gauge reading first, so '700 mmHg vacuum to mbar' is not read as an absolute pressure
+    if (vacuumAnswer(low)) return true;
     // unit conversion
     var cv = convert(low);
     if (cv) { msg('Quick conversion:'); calcCard('Unit conversion', cv[0] + ' = ' + cv[1], [], null, '', [['Convert 1 bar to psi', 'q:1 bar to psi'], ['100 °C to °F', 'q:100 c to f']]); track('guide_calc', { type: 'convert', q: q.slice(0, 40) }); return true; }
@@ -430,6 +437,104 @@
         track('guide_calc', { type: 'vessel' }); return true;
       }
     }
+    if (steamAnswer(low)) return true;
+    if (hydroAnswer(low)) return true;
+    if (cvAnswer(low)) return true;
+    if (azeoAnswer(low)) return true;
+    return false;
+  }
+  /* pressures: '8 bar', '8 barg', '8 bar(g)', '2 bara', '8 kg/cm2', '120 psig'. Plain 'bar' is read as gauge (how plant people speak), and said so. */
+  var PRE = '(-?\\d+(?:[.,]\\d+)?)\\s*(bar\\s*\\(?\\s*[ga]\\s*\\)?|bar\\s*abs|bara|barg|bar|kg\\/cm2\\s*\\(?\\s*g\\s*\\)?|kg\\/cm2|ksc|psig|psia|psi|kpa\\s*abs|kpa|mpa)(?![a-z])';
+  function pAll(low) { var re = new RegExp(PRE, 'g'), out = [], m; while ((m = re.exec(low))) out.push(barA(nm(m[1]), m[2].replace(/\s+/g, ''))); return out; }
+  function barA(v, u) {
+    var abs = /a\)?$|abs|psia|kpa|mpa/.test(u) && !/psig/.test(u), gauge = !abs;
+    var bar = /kg|ksc/.test(u) ? v * 0.980665 : /psi/.test(u) ? v * 0.0689476 : /kpa/.test(u) ? v / 100 : /mpa/.test(u) ? v * 10 : v;
+    return { a: gauge ? bar + 1.01325 : bar, g: gauge, txt: f2(v, 3) + ' ' + u.replace(/\(|\)/g, ''), assumed: /^bar$/.test(u) };
+  }
+  function steamAnswer(low) {
+    if (!window.IF97 || !/steam|saturat|condensate/.test(low)) return false;
+    var KJ = 4.1868, ps = pAll(low), sat = function (pa) { var r = IF97.sat(pa / 10); return r && { T: r.T - 273.15, hf: r.L.h / KJ, hg: r.V.h / KJ, v: r.V.v }; };
+    if (/flash/.test(low) && ps.length >= 2) {
+      var hi = ps[0].a > ps[1].a ? ps[0] : ps[1], lo = hi === ps[0] ? ps[1] : ps[0], s1 = sat(hi.a), s2 = sat(lo.a);
+      if (!s1 || !s2) return false;
+      var x = Math.max(0, (s1.hf - s2.hf) / (s2.hg - s2.hf));
+      msg('Quick flash steam:');
+      calcCard('Calculation', f2(x * 100, 1) + ' % of the condensate flashes to steam', ['From ' + hi.txt + ' (h<sub>f</sub> ' + f2(s1.hf, 1) + ' kcal/kg) to ' + lo.txt + ' (h<sub>f</sub> ' + f2(s2.hf, 1) + ' kcal/kg, latent heat ' + f2(s2.hg - s2.hf, 1) + ' kcal/kg)', 'Flash = (h<sub>f1</sub> − h<sub>f2</sub>) ÷ h<sub>fg2</sub>, at absolute pressures', (hi.assumed || lo.assumed) ? '<span class="pg-from">"bar" read as gauge. Write "bara" for absolute.</span>' : '', '<span class="pg-from">Steam properties: IAPWS-IF97.</span>'].filter(Boolean),
+        '/calculators/steam-tables/', 'Flash steam calculator with vessel size', [['Steam at ' + hi.txt, 'q:steam at ' + hi.txt]]);
+      track('guide_calc', { type: 'flash' }); return true;
+    }
+    var tm = low.match(new RegExp(NUM + '\\s*(?:°\\s*)?c\\b'));
+    if (!ps.length && tm) {
+      var T = nm(tm[1]); if (!(T > 0.01 && T < 370)) return false;
+      var pa = IF97.psat(T + 273.15) * 10, s3 = sat(pa);
+      msg('Saturated steam at ' + f2(T, 1) + ' °C:');
+      calcCard('Steam tables', 'Pressure ' + f2(pa - 1.01325, 2) + ' barg (' + f2(pa, 3) + ' bar abs)', ['Liquid enthalpy h<sub>f</sub> ' + f2(s3.hf, 1) + ' kcal/kg; steam h<sub>g</sub> ' + f2(s3.hg, 1) + ' kcal/kg', 'Latent heat ' + f2(s3.hg - s3.hf, 1) + ' kcal/kg', '<span class="pg-from">IAPWS-IF97.</span>'], '/calculators/steam-tables/', 'Full steam tables');
+      track('guide_calc', { type: 'steam' }); return true;
+    }
+    if (!ps.length) return false;
+    var p = ps[0], s4 = sat(p.a); if (!s4) return false;
+    msg('Saturated steam at ' + esc(p.txt) + ':');
+    calcCard('Steam tables', 'Saturation temperature ' + f2(s4.T, 1) + ' °C', ['Absolute pressure ' + f2(p.a, 3) + ' bar', 'Liquid enthalpy h<sub>f</sub> ' + f2(s4.hf, 1) + ' kcal/kg; steam h<sub>g</sub> ' + f2(s4.hg, 1) + ' kcal/kg', 'Latent heat ' + f2(s4.hg - s4.hf, 1) + ' kcal/kg; steam volume ' + f2(s4.v, 3) + ' m³/kg', p.assumed ? '<span class="pg-from">"bar" read as gauge. Write "bara" for absolute.</span>' : '', '<span class="pg-from">IAPWS-IF97.</span>'].filter(Boolean),
+      '/calculators/steam-tables/', 'Full steam tables, superheated steam and desuperheater', [['Flash from ' + p.txt + ' to 0 barg', 'q:flash steam from ' + p.txt + ' to 0 barg']]);
+    track('guide_calc', { type: 'steam' }); return true;
+  }
+  function hydroAnswer(low) {
+    if (!/hydro\s*-?\s*test|hydrostatic test|test pressure/.test(low)) return false;
+    var ps = pAll(low); if (!ps.length) return false;
+    var mg = ps[0].a - 1.01325;
+    msg('Quick hydrotest pressure:');
+    calcCard('Calculation', 'Hydrotest ' + f2(1.3 * mg, 2) + ' barg', ['ASME VIII Division 1, UG-99(b): 1.3 × MAWP × stress ratio, with MAWP ' + f2(mg, 2) + ' barg and the same allowable stress at test and design temperature', 'Measured at the top of the vessel; add the liquid head for a gauge lower down', '<span class="pg-from">A pneumatic test (UG-100) is 1.1 × MAWP.</span>'],
+      '/calculators/vessel-thickness-calculator/', 'Vessel thickness, MAWP and hydrotest');
+    track('guide_calc', { type: 'hydrotest' }); return true;
+  }
+  function vacuumAnswer(low) {
+    if (!/vac/.test(low)) return false;
+    var m = low.match(new RegExp(NUM + '\\s*(mm\\s*hg|mmhg|torr|mm|mbar|kpa|inhg|in\\s*hg)')); if (!m) return false;
+    if (/abs/.test(low.slice(m.index, m.index + m[0].length + 6))) return false;
+    var v = nm(m[1]), u = m[2].replace(/\s+/g, ''), toMm = { mmhg: 1, torr: 1, mm: 1, mbar: 0.750062, kpa: 7.50062, inhg: 25.4 }[u];
+    var at = low.match(new RegExp('(?:atm\\w*|local)\\D{0,20}' + NUM + '\\s*(?:mm\\s*hg|mmhg|torr)')), atm = at ? nm(at[1]) : 760;
+    var vac = v * toMm, absmm = atm - vac; if (!(absmm >= 0)) return false;
+    msg('Quick vacuum conversion:');
+    calcCard('Unit conversion', f2(v, 2) + ' ' + m[2] + ' vacuum = ' + f2(absmm, 1) + ' mmHg abs = ' + f2(absmm * 1.333224, 1) + ' mbar abs', ['Absolute = atmospheric − vacuum, with atmospheric ' + f2(atm, 0) + ' mmHg' + (at ? '' : ' (sea level; add "atm 740 mmHg" for your site)'), f2(absmm * 0.1333224, 2) + ' kPa abs'],
+      '/calculators/unit-converter/', 'Unit converter with gauge, absolute and vacuum');
+    track('guide_calc', { type: 'vacuum' }); return true;
+  }
+  function cvAnswer(low) {
+    if (!/\bcv\b|\bkv\b|control valve|valve size/.test(low)) return false;
+    var fl = low.match(new RegExp(NUM + '\\s*(m3\\/h(?:r)?|lpm|l\\/min|gpm)')), dp = low.match(new RegExp(NUM + '\\s*bar\\b(?:\\s*(?:dp|drop|pressure drop|δp|delta))?')) || low.match(new RegExp('(?:dp|δp|drop)\\s*(?:of\\s*|=\\s*)?' + NUM));
+    if (!fl || !dp) return false;
+    var Q = nm(fl[1]) * ({ 'm3/h': 1, 'm3/hr': 1, lpm: 0.06, 'l/min': 0.06, gpm: 0.227125 }[fl[2]] || 1), d = nm(dp[1]), sg = (low.match(new RegExp('(?:sg|specific gravity)\\s*(?:of\\s*|=\\s*)?' + NUM)) || [])[1];
+    sg = sg ? nm(sg) : 1; if (!(d > 0)) return false;
+    var Kv = Q * Math.sqrt(sg / d), Cv = Kv / 0.865;
+    msg('Quick control valve size (liquid):');
+    calcCard('Calculation', 'Cv ' + f2(Cv, 1) + ' (Kv ' + f2(Kv, 1) + ')', ['Kv = Q √(SG/ΔP) = ' + f2(Q, 2) + ' × √(' + f2(sg, 2) + '/' + f2(d, 2) + '); Cv = Kv ÷ 0.865', sg === 1 ? '<span class="pg-from">SG 1 assumed. Add "sg 0.87" to change it.</span>' : '', '<span class="pg-from">Turbulent, not choked. The calculator checks flashing and cavitation.</span>'].filter(Boolean),
+      '/calculators/control-valve-sizing/', 'Control valve sizing with choked-flow check');
+    track('guide_calc', { type: 'cv' }); return true;
+  }
+  function azeoAnswer(low) {
+    if (!/azeotrop|azeo\b/.test(low) || !AZ.length || !FACTS.length) return false;
+    var all = findAllSolvents(low), sl = all.map(function (f) { return f.s; });
+    if (/water/.test(low) && sl.indexOf('water') < 0) sl.push('water');
+    var nameOf = function (s) { var f = FACTS.filter(function (x) { return x.s === s; })[0]; return f ? f.n.split(' (')[0] : s; };
+    var seenPair = {}, rows = AZ.filter(function (r) { var k = [r.sa, r.sb].sort().join('|'); if (seenPair[k] || !(sl.indexOf(r.sa) >= 0 && sl.indexOf(r.sb) >= 0 && r.sa !== r.sb)) return false; seenPair[k] = 1; return true; });
+    var line = function (r) {
+      if (r.k === 'none' || !isFinite(r.t)) return nameOf(r.sa) + ' + ' + nameOf(r.sb) + ': no azeotrope at 1 atm';
+      return nameOf(r.sa) + ' + ' + nameOf(r.sb) + ': boils at <b style="display:inline">' + f2(r.t, 1) + ' °C</b>' + (isFinite(r.w) ? ', ' + f2(r.w, 1) + ' wt % ' + nameOf(r.sb) + (isFinite(r.x) ? ' (' + f2(r.x, 1) + ' mol %)' : '') : '') + (r.k === 'max' ? ', maximum-boiling' : '') + (r.L ? ', condensate splits into two layers' : '');
+    };
+    if (rows.length) {
+      msg('Measured azeotrope at 1 atm:');
+      calcCard('Azeotrope data', nameOf(rows[0].sa) + ' and ' + nameOf(rows[0].sb), rows.slice(0, 3).map(line).concat(['<span class="pg-from">Boiling points: ' + nameOf(rows[0].sa) + ' ' + f2(rows[0].ta, 1) + ' °C, ' + nameOf(rows[0].sb) + ' ' + f2(rows[0].tb, 1) + ' °C. Source: Lange\'s Handbook and CRC Handbook via Wikipedia (CC BY-SA 4.0).</span>']),
+        '/solvents/azeotropes/', 'Estimate it at your vacuum or pressure');
+      track('guide_calc', { type: 'azeotrope' }); return true;
+    }
+    if (sl.length === 1 || (sl.length === 2 && sl.indexOf('water') >= 0 && all.length === 1)) {
+      var one = all.length ? all[0].s : sl[0], seen1 = {}, list = AZ.filter(function (r) { var k = [r.sa, r.sb].sort().join('|'); if (seen1[k] || !((r.sa === one || r.sb === one) && r.k !== 'none' && isFinite(r.t))) return false; seen1[k] = 1; return true; }).slice(0, 6);
+      if (!list.length) return false;
+      msg('Measured azeotropes of ' + esc(nameOf(one)) + ' at 1 atm:');
+      calcCard('Azeotrope data', nameOf(one) + ': ' + list.length + ' listed', list.map(line), '/solvents/azeotropes/', 'Full table, and estimates at any pressure');
+      track('guide_calc', { type: 'azeotrope' }); return true;
+    }
+    if (sl.length >= 2) { msg('There is no measured value for that pair in the table. The azeotrope calculator can estimate it.'); recs([{ t: 'Azeotrope calculator and table', u: '/solvents/azeotropes/', k: 'Solvent data', d: 'Estimate any pair at your pressure' }]); return true; }
     return false;
   }
 
@@ -547,6 +652,7 @@
       if (/^(hi+|hello|hey|namaste|good (morning|evening|afternoon))\b/.test(low)) { msg('Hello! Ask me anything, for example “flash point of toluene”, “pump power 20 m3/h 30 m head”, “1 bar to psi” or “give me a GATE question”.'); setChips(START); return; }
       if (/^(thanks|thank you|thx|ok|okay|great|nice)\b/.test(low)) { msg('Happy to help. Anything else?'); setChips(START); return; }
       if (/who (made|built|runs)|about (you|this site)|founder/.test(low)) { msg('PharmaChemE is run by Ankush Chopra, a chemical engineer.'); recs([{ t: 'About PharmaChemE', u: '/about/', k: 'Page', d: '' }]); return; }
+      if (/what'?s new|what is new|new on (the|this) site|latest (tools|calculators|additions|updates)|recently added|release notes|changelog/.test(low)) { msg('The newest additions to the site:'); recs([{ t: 'Release notes', u: '/calculators/release-notes/', k: 'Page', d: 'Everything added, by date' }, { t: 'Plant Rally', u: '/games/plant-rally/', k: 'Game', d: 'Racing game with engineering questions' }, { t: 'Relief valve sizing', u: '/calculators/relief-valve-sizing/', k: 'Calculator', d: 'API 520/521, fire case, API 526 orifices' }, { t: 'Batch distillation simulator', u: '/calculators/batch-distillation-simulator/', k: 'Calculator', d: 'Cuts, reflux and azeotropes' }, { t: 'Azeotrope calculator and table', u: '/solvents/azeotropes/', k: 'Solvent data', d: '216 measured azeotropes' }]); setChips(START); return; }
       if (/custom|build (a|me)|automate|excel|spreadsheet/.test(low)) { recs([{ t: 'Custom tools for your plant', u: '/custom-solutions/', k: 'Service', d: 'Turn your spreadsheet calculation into a tool' }]); return; }
       /* a short follow-up like "and ARC?" keeps the last topic's intent */
       var qq = /^(and|what about|how about)\s+/i.test(low) ? low.replace(/^(and|what about|how about)\s+/i, '') : q;
