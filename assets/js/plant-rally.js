@@ -299,7 +299,7 @@
     if (h.type === 'steam') return h.side > 0 ? [2, WALL] : [-WALL, -2];
     return h.side > 0 ? [0, WALL] : [-WALL, 0]; // barricade
   }
-  function forkD(h) { const span = WALL + 40, per = 7, ph = ((G.t + h.f) % per) / per; const u = ph < 0.35 ? ph / 0.35 : ph < 0.5 ? 1 : ph < 0.85 ? 1 - (ph - 0.5) / 0.35 : 0; return -span + 2 * span * u; }
+  function forkD(h) { const span = WALL + 40, per = 8, ph = ((G.t + h.f) % per) / per; const u = ph < 0.16 ? ph / 0.16 : ph < 0.5 ? 1 : ph < 0.66 ? 1 - (ph - 0.5) / 0.16 : 0; return -span + 2 * span * u; } // crosses in about 1.3 s, then waits off the road for about 2.7 s
   const forkOnRoad = h => Math.abs(forkD(h)) < WALL + 14;
 
   function violation(text) {
