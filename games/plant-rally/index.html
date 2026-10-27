@@ -89,12 +89,12 @@ const $=id=>document.getElementById(id), canvas=$('pr-canvas'),ctx=canvas.getCon
 const W=960,H=600, keys=new Set(); let running=false,paused=false,startedAt=0,elapsed=0,lastFrame=0,lap=0,safety=100,violations=0,engineering=0,answered=0,completed=new Set(),activeBay=null,missionDeadline=0,muted=true,raf=0,toast='',toastUntil=0;
 const car={x:480,y:90,a:Math.PI/2,v:0};
 const bays=[
- {id:'reactor',x:735,y:90,name:'REACTOR BAY',topic:'Scale-up basics',q:'A mixer runs at 120 rpm with a 0.60 m impeller. What speed gives the same tip speed with a 0.40 m impeller?',opts:['80 rpm','120 rpm','180 rpm','240 rpm'],correct:2,why:'At constant tip speed, N₁D₁ = N₂D₂. N₂ = 120 × 0.60 / 0.40 = 180 rpm.'},
- {id:'pump',x:850,y:300,name:'PUMP HOUSE',topic:'Pump power',q:'A pump handles 0.010 m³/s at 25 m head. Water density is 1000 kg/m³ and efficiency is 70%. Approximate shaft power?',opts:['1.75 kW','2.45 kW','3.50 kW','7.00 kW'],correct:2,why:'Pshaft = ρgQH/η = 1000 × 9.81 × 0.010 × 25 / 0.70 ≈ 3.50 kW.'},
- {id:'utility',x:735,y:510,name:'UTILITY BLOCK',topic:'Heat transfer',q:'A cooler has terminal temperature differences of 40°C and 20°C. Approximate LMTD?',opts:['20.0°C','28.9°C','30.0°C','60.0°C'],correct:1,why:'LMTD = (ΔT₁−ΔT₂)/ln(ΔT₁/ΔT₂) = 20/ln(2) ≈ 28.9°C.'},
- {id:'solvent',x:220,y:510,name:'SOLVENT RECOVERY',topic:'Vacuum units',q:'A vacuum gauge reads 600 mmHg below local atmospheric pressure of 760 mmHg. Absolute pressure is approximately:',opts:['160 mmHg abs','600 mmHg abs','760 mmHg abs','1360 mmHg abs'],correct:0,why:'Absolute pressure = atmospheric pressure − vacuum magnitude = 760 − 600 = 160 mmHg abs.'},
- {id:'tank',x:110,y:300,name:'TANK FARM',topic:'Tank filling',q:'A tank receives 10 m³ of liquid. For a simplified displacement estimate, how much vapour-space gas is displaced?',opts:['0.1 m³','1 m³','10 m³','100 m³'],correct:2,why:'In the simplified idealized estimate, incoming liquid displaces approximately the same volume of vapour-space gas. Real emissions depend on tank design, vapour recovery and operating conditions.'},
- {id:'pipe',x:220,y:90,name:'PIPE RACK',topic:'Line velocity',q:'A liquid flow is 0.010 m³/s through a pipe with internal diameter 0.10 m. Approximate average velocity?',opts:['0.13 m/s','0.51 m/s','1.27 m/s','5.10 m/s'],correct:2,why:'v = Q/A = 0.010 / (π × 0.10² / 4) ≈ 1.27 m/s.'}
+ {id:'reactor',x:735,y:90,name:'REACTOR BAY',topic:'Scale-up basics',q:'A mixer runs at 120 rpm with a 0.60 m impeller. What speed gives the same tip speed with a 0.40 m impeller?',opts:['80 rpm','120 rpm','180 rpm','240 rpm'],correct:2,value:180,why:'At constant tip speed, N₁D₁ = N₂D₂. N₂ = 120 × 0.60 / 0.40 = 180 rpm.'},
+ {id:'pump',x:850,y:300,name:'PUMP HOUSE',topic:'Pump power',q:'A pump handles 0.010 m³/s at 25 m head. Water density is 1000 kg/m³ and efficiency is 70%. Approximate shaft power?',opts:['1.75 kW','2.45 kW','3.50 kW','7.00 kW'],correct:2,value:3.5036,why:'Pshaft = ρgQH/η = 1000 × 9.81 × 0.010 × 25 / 0.70 ≈ 3.50 kW.'},
+ {id:'utility',x:735,y:510,name:'UTILITY BLOCK',topic:'Heat transfer',q:'A cooler has terminal temperature differences of 40°C and 20°C. Approximate LMTD?',opts:['20.0°C','28.9°C','30.0°C','60.0°C'],correct:1,value:28.8539,why:'LMTD = (ΔT₁−ΔT₂)/ln(ΔT₁/ΔT₂) = 20/ln(2) ≈ 28.9°C.'},
+ {id:'solvent',x:220,y:510,name:'SOLVENT RECOVERY',topic:'Vacuum units',q:'A vacuum gauge reads 600 mmHg below local atmospheric pressure of 760 mmHg. Absolute pressure is approximately:',opts:['160 mmHg abs','600 mmHg abs','760 mmHg abs','1360 mmHg abs'],correct:0,value:160,why:'Absolute pressure = atmospheric pressure − vacuum magnitude = 760 − 600 = 160 mmHg abs.'},
+ {id:'tank',x:110,y:300,name:'TANK FARM',topic:'Tank filling',q:'A tank receives 10 m³ of liquid. For a simplified displacement estimate, how much vapour-space gas is displaced?',opts:['0.1 m³','1 m³','10 m³','100 m³'],correct:2,value:10,why:'In the simplified idealized estimate, incoming liquid displaces approximately the same volume of vapour-space gas. Real emissions depend on tank design, vapour recovery and operating conditions.'},
+ {id:'pipe',x:220,y:90,name:'PIPE RACK',topic:'Line velocity',q:'A liquid flow is 0.010 m³/s through a pipe with internal diameter 0.10 m. Approximate average velocity?',opts:['0.13 m/s','0.51 m/s','1.27 m/s','5.10 m/s'],correct:2,value:1.2732,why:'v = Q/A = 0.010 / (π × 0.10² / 4) ≈ 1.27 m/s.'}
 ];
 const hazards=[
  {x:480,y:90,r:34,type:'SPEED',label:'PROCESS ZONE · 20 km/h'},
@@ -131,11 +131,13 @@ function draw(){
 }
 function frame(now){if(!running)return;const dt=Math.min(.04,(now-lastFrame)/1000||0);lastFrame=now;if(!paused&&!activeBay){elapsed=(now-startedAt)/1000;drive(dt);checkWorld();updateHud()}draw();if(running)raf=requestAnimationFrame(frame)}
 function drive(dt){
+ const oldY=car.y;
  const left=keys.has('ArrowLeft')||keys.has('a')||keys.has('A'),right=keys.has('ArrowRight')||keys.has('d')||keys.has('D'),up=keys.has('ArrowUp')||keys.has('w')||keys.has('W'),down=keys.has('ArrowDown')||keys.has('s')||keys.has('S');
  if(up)car.v+=115*dt;else car.v*=Math.pow(.985,dt*60);if(down)car.v-=180*dt;car.v=clamp(car.v,-40,110);
  const speedFactor=.35+Math.min(1,Math.abs(car.v)/70);if(left)car.a-=2.3*speedFactor*dt*Math.sign(car.v||1);if(right)car.a+=2.3*speedFactor*dt*Math.sign(car.v||1);
  const nx=car.x+Math.cos(car.a)*car.v*dt,ny=car.y+Math.sin(car.a)*car.v*dt;
  if(road(nx,ny)){car.x=nx;car.y=ny}else{car.v*=.5;car.x=clamp(car.x,58,902);car.y=clamp(car.y,38,562)}
+ checkWorld.prevY=oldY;
 }
 let lastLapY=0;
 function checkWorld(){
@@ -145,7 +147,7 @@ function checkWorld(){
  if(kmh>limit+4){if(!checkWorld.speedSince)checkWorld.speedSince=performance.now();if(performance.now()-checkWorld.speedSince>3000){violation('overspeed in marked zone');checkWorld.speedSince=0}}else checkWorld.speedSince=0;
  hazards.slice(1).forEach(h=>{if(!h.hit&&Math.hypot(car.x-h.x,car.y-h.y)<h.r+10){h.hit=true;if(h.type==='GAS'){violation('entered gas alarm zone')}else if(h.type==='SPILL'||h.type==='STEAM'){car.v*=.15;elapsed+=3;say('Hazard avoided late: +3 s')}else{violation('failed to give way')}setTimeout(()=>h.hit=false,6500)}});
  // Laps: crossing the start gate near x=480, moving downward.
- if(car.y<105&&car.y>70&&car.x>440&&car.x<520&&car.v>5&&performance.now()-(checkWorld.lapAt||0)>4500){checkWorld.lapAt=performance.now();lap++;if(lap>=3){finish(false)}else say('Lap '+lap+' complete. Keep the shift safe.') }
+ if((checkWorld.prevY||car.y)>105&&car.y<=105&&car.x>440&&car.x<520&&car.v>5&&performance.now()-(checkWorld.lapAt||0)>4500){checkWorld.lapAt=performance.now();lap++;if(lap>=3){finish(false)}else say('Lap '+lap+' complete. Keep the shift safe.') }
  bays.forEach(b=>{if(!completed.has(b.id)&&!activeBay&&Math.hypot(car.x-b.x,car.y-b.y)<42){car.v=0;openMission(b)}})
 }
 function openMission(b){activeBay=b.id;const professional=mode==='pro';const card=$('pr-mission-card');const choices=professional?'<label for="pr-number">Enter your answer</label><input id="pr-number" type="number" step="any" style="display:block;width:100%;margin-top:8px;padding:10px;border-radius:8px;border:1px solid #456278;background:#08131f;color:#fff"><button class="pr-btn" id="pr-submit" style="margin-top:10px">SUBMIT ANSWER</button>':'<div class="pr-answers">'+b.opts.map((o,i)=>'<button class="pr-answer" data-answer="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join('')+'</div>';
