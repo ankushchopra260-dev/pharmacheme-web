@@ -78,7 +78,7 @@
 .pr-fb { text-align: center; } .pr-fb.good h3 { color: var(--pr-green); } .pr-fb.bad h3 { color: var(--pr-red); } .pr-fb h3 { font-size: 1.5rem; }
 
 /* results */
-.pr-rec { font: 700 .8rem system-ui; background: var(--pr-brass); color: var(--pr-navy); padding: 3px 8px; border-radius: 6px; vertical-align: middle; }
+.pr-card h2 .pr-rec { font: 700 .8rem system-ui; background: var(--pr-brass); color: var(--pr-navy); padding: 3px 8px; border-radius: 6px; vertical-align: middle; }
 .pr-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0 4px; }
 .pr-scores > div { background: var(--pr-navy); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 2px; }
 .pr-scores span { font-size: .75rem; color: var(--pr-muted); } .pr-scores b { font: 800 1.5rem 'Big Shoulders Display', system-ui, sans-serif; color: var(--pr-ink); }
