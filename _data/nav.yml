@@ -92,6 +92,7 @@
 - title: Games
   url: /games/
   children:
+    - { title: "Plant Rally", url: /games/plant-rally/ }
     - { title: "Plant Operator", url: /games/plant-operator/ }
     - { title: "Runaway!", url: /games/runaway/ }
     - { title: "Stop the Hazard", url: /games/stop-the-hazard/ }
