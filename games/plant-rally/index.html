@@ -1,0 +1,171 @@
+---
+layout: default
+guide: false
+title: Plant Rally
+seo_title: "Plant Rally | Chemical Engineering Racing Game"
+description: "Race safely through a fictional chemical plant, avoid hazards and solve timed process-engineering missions in this free browser game."
+breadcrumbs:
+  - label: Games
+    url: /games/
+  - label: Plant Rally
+    url: /games/plant-rally/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Plant Rally",
+    "description": "A browser-based chemical engineering arcade racer with process safety hazards and engineering missions.",
+    "url": "https://www.pharmacheme.in/games/plant-rally/",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any (runs in a web browser)",
+    "isAccessibleForFree": true,
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+    "publisher": {"@type": "Organization", "name": "PharmaChemE", "url": "https://www.pharmacheme.in/"}
+  }
+last_modified_at: 2026-10-27
+---
+
+<style>
+#pr-root{--bg:#08131f;--panel:#102235;--line:#29445a;--gold:#f0bd4d;--ink:#e9f0f4;--muted:#9cb0bf;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0 auto;max-width:1120px}
+#pr-root *{box-sizing:border-box}#pr-root button,#pr-root input{font:inherit}#pr-root .pr-top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--bg);border:1px solid var(--line);padding:12px 16px;border-radius:12px 12px 0 0}
+#pr-root .pr-brand{font-weight:900;letter-spacing:.08em;color:var(--gold);font-size:1.05rem}#pr-root .pr-stats{display:flex;gap:14px;flex-wrap:wrap;font:700 .8rem ui-monospace,monospace}#pr-root .pr-stats span{color:var(--muted)}#pr-root .pr-stats b{color:var(--ink)}
+#pr-root .pr-stage{position:relative;background:#152b32;border:1px solid var(--line);border-top:0;overflow:hidden}#pr-root canvas{display:block;width:100%;height:auto;touch-action:none}
+#pr-root .pr-overlay{position:absolute;inset:0;background:rgba(5,13,23,.9);display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}#pr-root .pr-card{max-width:520px;width:100%;background:#102235;border:1px solid #476278;border-radius:14px;padding:22px;box-shadow:0 18px 70px #0008}#pr-root .pr-card h2{margin:0 0 8px;font-size:1.5rem}#pr-root .pr-card p{color:#b8c8d3;line-height:1.55;font-size:.94rem}#pr-root .pr-btn{background:var(--gold);color:#17212a;border:0;border-radius:8px;padding:11px 16px;font-weight:850;cursor:pointer}#pr-root .pr-btn.secondary{background:#1b354b;color:var(--ink);border:1px solid #35546a}#pr-root .pr-answers{display:grid;gap:8px;margin-top:14px}#pr-root .pr-answer{padding:11px;text-align:left;background:#142b40;color:var(--ink);border:1px solid #34536b;border-radius:8px;cursor:pointer}#pr-root .pr-answer:hover{border-color:var(--gold)}#pr-root .pr-note{color:var(--muted);font-size:.82rem}#pr-root .pr-bottom{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px}#pr-root .pr-touch{display:none;gap:8px;align-items:center}#pr-root .pr-touch button{min-width:48px;min-height:44px;border:1px solid #38556b;border-radius:10px;background:#102235;color:white;font-weight:800;touch-action:none}#pr-root .pr-guide{margin:24px 0;line-height:1.65}#pr-root .pr-guide h2{font-size:1.2rem}#pr-root .pr-guide a{color:#9bc8ff}
+@media(max-width:650px){#pr-root .pr-touch{display:flex}#pr-root .pr-stats{gap:8px;font-size:.72rem}#pr-root .pr-card{padding:16px}#pr-root .pr-card h2{font-size:1.25rem}}
+</style>
+
+<div class="container calc-page-head">
+  <h1>Plant Rally</h1>
+  <p>Race smart. Think fast. Operate safe. A chemical-engineering challenge from PharmaChemE.</p>
+</div>
+<div id="pr-root">
+  <div class="pr-top">
+    <div class="pr-brand">PLANT RALLY <span style="color:#e9f0f4;font-weight:500">/ SHIFT 01</span></div>
+    <div class="pr-stats">
+      <span>LAP <b id="pr-lap">0/3</b></span><span>TIME <b id="pr-time">00:00</b></span><span>SAFETY <b id="pr-safety">100</b></span><span>MISSIONS <b id="pr-missions">0/6</b></span>
+    </div>
+  </div>
+  <div class="pr-stage">
+    <canvas id="pr-canvas" width="960" height="600" aria-label="Top-down chemical plant racing game"></canvas>
+    <div class="pr-overlay" id="pr-start">
+      <div class="pr-card">
+        <p class="pr-brand">PHARMACHEME · ENGINEERING GAMES</p>
+        <h2>Keep the shift moving.</h2>
+        <p>Complete three laps of a fictional chemical plant. Stay inside each speed zone, avoid simulated hazards and solve engineering missions. <b>Three safety violations end the shift.</b></p>
+        <p><b>Desktop:</b> WASD or arrow keys. <b>Mobile:</b> use the touch controls below the track. Tap a mission bay when you reach it.</p>
+        <button class="pr-btn" id="pr-start-btn">START SHIFT</button>
+        <p class="pr-note">Educational arcade simulation only. Follow approved site procedures in real operations.</p>
+      </div>
+    </div>
+    <div class="pr-overlay" id="pr-mission" style="display:none">
+      <div class="pr-card" id="pr-mission-card"></div>
+    </div>
+    <div class="pr-overlay" id="pr-result" style="display:none">
+      <div class="pr-card" id="pr-result-card"></div>
+    </div>
+  </div>
+  <div class="pr-bottom">
+    <span class="pr-note" id="pr-status" aria-live="polite">Ready at the gate.</span>
+    <div class="pr-touch">
+      <button data-key="ArrowLeft" aria-label="Steer left">◀</button><button data-key="ArrowRight" aria-label="Steer right">▶</button><button data-key="ArrowDown" aria-label="Brake">BRAKE</button><button data-key="ArrowUp" aria-label="Accelerate">GO</button>
+    </div>
+    <div style="display:flex;gap:8px"><button class="pr-btn secondary" id="pr-pause">PAUSE</button><button class="pr-btn secondary" id="pr-sound">SOUND: OFF</button></div>
+  </div>
+</div>
+<div class="container article-body pr-guide">
+  <h2>How to play</h2>
+  <p>Drive around the circuit and stop at six mission bays. Your race clock keeps running while you answer. Correct answers improve your engineering score; incorrect answers show the working and cost time. Overspeeding, entering a simulated gas-alarm zone, or hitting a person/vehicle is a safety violation. Three violations end the shift.</p>
+  <h2>Engineering missions</h2>
+  <p>The prototype includes randomized practice questions on absolute pressure, pump power, LMTD, flash steam, line velocity and tank filling losses. Treat the questions as learning exercises, not as design approval. Check assumptions, units and applicable engineering standards before using any calculation for real equipment.</p>
+  <h2>Safety first</h2>
+  <p>Plant Rally rewards safe driving and sound judgement, not reckless speed. All locations and events are fictional. Emergency response in a real facility must follow the site emergency plan and approved procedures.</p>
+</div>
+
+<script>
+(function(){
+'use strict';
+const root=document.getElementById('pr-root'); if(!root||root.dataset.ready)return; root.dataset.ready='1';
+const $=id=>document.getElementById(id), canvas=$('pr-canvas'),ctx=canvas.getContext('2d');
+const W=960,H=600, keys=new Set(); let running=false,paused=false,startedAt=0,elapsed=0,lastFrame=0,lap=0,safety=100,violations=0,engineering=0,answered=0,completed=new Set(),activeBay=null,missionDeadline=0,muted=true,raf=0,toast='',toastUntil=0;
+const car={x:480,y:90,a:Math.PI/2,v:0};
+const bays=[
+ {id:'reactor',x:735,y:90,name:'REACTOR BAY',topic:'Scale-up basics',q:'A mixer runs at 120 rpm with a 0.60 m impeller. What speed gives the same tip speed with a 0.40 m impeller?',opts:['80 rpm','120 rpm','180 rpm','240 rpm'],correct:2,value:180,why:'At constant tip speed, N₁D₁ = N₂D₂. N₂ = 120 × 0.60 / 0.40 = 180 rpm.'},
+ {id:'pump',x:850,y:300,name:'PUMP HOUSE',topic:'Pump power',q:'A pump handles 0.010 m³/s at 25 m head. Water density is 1000 kg/m³ and efficiency is 70%. Approximate shaft power?',opts:['1.75 kW','2.45 kW','3.50 kW','7.00 kW'],correct:2,value:3.5036,why:'Pshaft = ρgQH/η = 1000 × 9.81 × 0.010 × 25 / 0.70 ≈ 3.50 kW.'},
+ {id:'utility',x:735,y:510,name:'UTILITY BLOCK',topic:'Heat transfer',q:'A cooler has terminal temperature differences of 40°C and 20°C. Approximate LMTD?',opts:['20.0°C','28.9°C','30.0°C','60.0°C'],correct:1,value:28.8539,why:'LMTD = (ΔT₁−ΔT₂)/ln(ΔT₁/ΔT₂) = 20/ln(2) ≈ 28.9°C.'},
+ {id:'solvent',x:220,y:510,name:'SOLVENT RECOVERY',topic:'Vacuum units',q:'A vacuum gauge reads 600 mmHg below local atmospheric pressure of 760 mmHg. Absolute pressure is approximately:',opts:['160 mmHg abs','600 mmHg abs','760 mmHg abs','1360 mmHg abs'],correct:0,value:160,why:'Absolute pressure = atmospheric pressure − vacuum magnitude = 760 − 600 = 160 mmHg abs.'},
+ {id:'tank',x:110,y:300,name:'TANK FARM',topic:'Tank filling',q:'A tank receives 10 m³ of liquid. For a simplified displacement estimate, how much vapour-space gas is displaced?',opts:['0.1 m³','1 m³','10 m³','100 m³'],correct:2,value:10,why:'In the simplified idealized estimate, incoming liquid displaces approximately the same volume of vapour-space gas. Real emissions depend on tank design, vapour recovery and operating conditions.'},
+ {id:'pipe',x:220,y:90,name:'PIPE RACK',topic:'Line velocity',q:'A liquid flow is 0.010 m³/s through a pipe with internal diameter 0.10 m. Approximate average velocity?',opts:['0.13 m/s','0.51 m/s','1.27 m/s','5.10 m/s'],correct:2,value:1.2732,why:'v = Q/A = 0.010 / (π × 0.10² / 4) ≈ 1.27 m/s.'}
+];
+const hazards=[
+ {x:480,y:90,r:34,type:'SPEED',label:'PROCESS ZONE · 20 km/h'},
+ {x:850,y:440,r:28,type:'SPILL',label:'SIMULATED SOLVENT SPILL'},
+ {x:480,y:510,r:28,type:'STEAM',label:'SIMULATED STEAM RELEASE'},
+ {x:110,y:180,r:28,type:'GAS',label:'GAS DETECTOR ALARM · DETOUR'},
+ {x:480,y:300,r:24,type:'TRAFFIC',label:'CROSSING FORKLIFT'}
+];
+function reset(){car.x=480;car.y=90;car.a=Math.PI/2;car.v=0;lap=0;safety=100;violations=0;engineering=0;answered=0;completed=new Set();activeBay=null;elapsed=0;startedAt=performance.now();lastFrame=startedAt;running=true;paused=false;$('pr-start').style.display='none';$('pr-result').style.display='none';$('pr-mission').style.display='none';$('pr-status').textContent='Shift active. Observe the speed-zone markers.';updateHud();cancelAnimationFrame(raf);raf=requestAnimationFrame(frame)}
+function updateHud(){ $('pr-lap').textContent=Math.min(3,lap)+'/3';$('pr-time').textContent=fmt(elapsed);$('pr-safety').textContent=safety;$('pr-missions').textContent=completed.size+'/6'; }
+function fmt(s){s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function say(s){toast=s;toastUntil=performance.now()+2400;$('pr-status').textContent=s}
+function violation(msg){violations++;safety=Math.max(0,safety-35);elapsed+=8;car.v*=.35;say('SAFETY VIOLATION: '+msg+' · +8 s');updateHud();if(violations>=3)finish(true)}
+function road(x,y){const outer=x>=55&&x<=905&&y>=35&&y<=565;const inner=x>155&&x<805&&y>135&&y<465;return outer&&!inner}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function draw(){
+ ctx.clearRect(0,0,W,H);ctx.fillStyle='#16352f';ctx.fillRect(0,0,W,H);
+ // site blocks
+ ctx.fillStyle='#27443f';[[280,180,145,70],[540,180,180,70],[280,350,145,75],[540,350,180,75]].forEach(r=>{ctx.fillRect(...r);ctx.strokeStyle='#45665c';ctx.strokeRect(...r)});
+ // road ring
+ ctx.fillStyle='#65727a';ctx.fillRect(55,35,850,530);ctx.fillStyle='#16352f';ctx.fillRect(155,135,650,330);
+ ctx.strokeStyle='#d8c67a';ctx.lineWidth=3;ctx.setLineDash([20,16]);ctx.strokeRect(105,85,750,430);ctx.setLineDash([]);
+ // bay labels and pads
+ bays.forEach((b,i)=>{ctx.fillStyle=completed.has(b.id)?'#286b49':'#19374a';ctx.fillRect(b.x-42,b.y-27,84,54);ctx.strokeStyle=activeBay===b.id?'#ffe28a':'#77a5b1';ctx.lineWidth=2;ctx.strokeRect(b.x-42,b.y-27,84,54);ctx.fillStyle='#eef4e8';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(completed.has(b.id)?'✓ DONE':'BAY '+(i+1),b.x,b.y-3);ctx.font='10px system-ui';ctx.fillText(b.name.split(' ')[0],b.x,b.y+12)});
+ // hazards
+ hazards.slice(1).forEach(h=>{ctx.beginPath();ctx.fillStyle=h.type==='GAS'?'#c34242':h.type==='SPILL'?'#b59a32':'#9bafbd';ctx.globalAlpha=.9;ctx.arc(h.x,h.y,h.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle='#f4f5df';ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillText(h.type,h.x,h.y+3)});
+ // road speed labels
+ ctx.fillStyle='#0b1b27';ctx.font='bold 12px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText('40 km/h',480,62);ctx.fillText('20 km/h',820,300);ctx.fillText('10 km/h',480,540);
+ // vehicle
+ ctx.save();ctx.translate(car.x,car.y);ctx.rotate(car.a);ctx.fillStyle='#f0bd4d';ctx.fillRect(-15,-9,30,18);ctx.fillStyle='#1b2b39';ctx.fillRect(0,-7,9,14);ctx.fillStyle='#eaf2f7';ctx.fillRect(7,-6,5,12);ctx.restore();
+ // HUD on canvas
+ ctx.fillStyle='#06111bdc';ctx.fillRect(12,12,235,48);ctx.fillStyle='#f0bd4d';ctx.font='bold 14px system-ui';ctx.textAlign='left';ctx.fillText('SPEED '+Math.round(Math.abs(car.v)*2.2)+' km/h',24,32);ctx.fillStyle='#e9f0f4';ctx.font='12px system-ui';ctx.fillText('Violations '+violations+'/3',24,49);
+ if(toast&&performance.now()<toastUntil){ctx.fillStyle='#07121fe8';ctx.fillRect(210,550,540,34);ctx.fillStyle='#fff';ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.fillText(toast.slice(0,75),480,572)}
+}
+function frame(now){if(!running)return;const dt=Math.min(.04,(now-lastFrame)/1000||0);lastFrame=now;if(!paused&&!activeBay){elapsed=(now-startedAt)/1000;drive(dt);checkWorld();updateHud()}draw();if(running)raf=requestAnimationFrame(frame)}
+function drive(dt){
+ const oldY=car.y;
+ const left=keys.has('ArrowLeft')||keys.has('a')||keys.has('A'),right=keys.has('ArrowRight')||keys.has('d')||keys.has('D'),up=keys.has('ArrowUp')||keys.has('w')||keys.has('W'),down=keys.has('ArrowDown')||keys.has('s')||keys.has('S');
+ if(up)car.v+=115*dt;else car.v*=Math.pow(.985,dt*60);if(down)car.v-=180*dt;car.v=clamp(car.v,-40,110);
+ const speedFactor=.35+Math.min(1,Math.abs(car.v)/70);if(left)car.a-=2.3*speedFactor*dt*Math.sign(car.v||1);if(right)car.a+=2.3*speedFactor*dt*Math.sign(car.v||1);
+ const nx=car.x+Math.cos(car.a)*car.v*dt,ny=car.y+Math.sin(car.a)*car.v*dt;
+ if(road(nx,ny)){car.x=nx;car.y=ny}else{car.v*=.5;car.x=clamp(car.x,58,902);car.y=clamp(car.y,38,562)}
+ checkWorld.prevY=oldY;
+}
+let lastLapY=0;
+function checkWorld(){
+ // Speed rules: straight top and bottom 40; right process road 20; left classified road 10.
+ let limit=(car.x>790||car.x<170)?10:(car.y<120||car.y>480)?40:20;
+ const kmh=Math.abs(car.v)*2.2;
+ if(kmh>limit+4){if(!checkWorld.speedSince)checkWorld.speedSince=performance.now();if(performance.now()-checkWorld.speedSince>3000){violation('overspeed in marked zone');checkWorld.speedSince=0}}else checkWorld.speedSince=0;
+ hazards.slice(1).forEach(h=>{if(!h.hit&&Math.hypot(car.x-h.x,car.y-h.y)<h.r+10){h.hit=true;if(h.type==='GAS'){violation('entered gas alarm zone')}else if(h.type==='SPILL'||h.type==='STEAM'){car.v*=.15;elapsed+=3;say('Hazard avoided late: +3 s')}else{violation('failed to give way')}setTimeout(()=>h.hit=false,6500)}});
+ // Laps: crossing the start gate near x=480, moving downward.
+ if((checkWorld.prevY||car.y)>105&&car.y<=105&&car.x>440&&car.x<520&&car.v>5&&performance.now()-(checkWorld.lapAt||0)>4500){checkWorld.lapAt=performance.now();lap++;if(lap>=3){finish(false)}else say('Lap '+lap+' complete. Keep the shift safe.') }
+ bays.forEach(b=>{if(!completed.has(b.id)&&!activeBay&&Math.hypot(car.x-b.x,car.y-b.y)<42){car.v=0;openMission(b)}})
+}
+function openMission(b){activeBay=b.id;const professional=mode==='pro';const card=$('pr-mission-card');const choices=professional?'<label for="pr-number">Enter your answer</label><input id="pr-number" type="number" step="any" style="display:block;width:100%;margin-top:8px;padding:10px;border-radius:8px;border:1px solid #456278;background:#08131f;color:#fff"><button class="pr-btn" id="pr-submit" style="margin-top:10px">SUBMIT ANSWER</button>':'<div class="pr-answers">'+b.opts.map((o,i)=>'<button class="pr-answer" data-answer="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join('')+'</div>';
+card.innerHTML='<p class="pr-brand">'+b.name+' · '+b.topic+'</p><h2>'+b.q+'</h2><p class="pr-note">Clock continues. A correct answer earns engineering points; a wrong answer costs 10 seconds.</p>'+choices+'<p class="pr-note">Time limit: '+(professional?30:20)+' seconds</p>';
+$('pr-mission').style.display='flex';missionDeadline=performance.now()+(professional?30000:20000);
+card.querySelectorAll('[data-answer]').forEach(btn=>btn.addEventListener('click',()=>answer(b,Number(btn.dataset.answer)===b.correct)));
+const submit=$('pr-submit');if(submit)submit.addEventListener('click',()=>{const val=Number($('pr-number').value);answer(b,Number.isFinite(val)&&Math.abs(val-b.value)<=Math.max(.03*Math.abs(b.value),.01))});
+}
+let mode='student';
+function answer(b,correct){if(!activeBay)return;completed.add(b.id);answered++;if(correct){engineering+=100;say('Correct: +100 engineering points')}else{elapsed+=10;say('Incorrect: +10 s. Review the worked answer below.')}const card=$('pr-mission-card');card.innerHTML='<p class="pr-brand">'+(correct?'MISSION COMPLETE':'LEARNING REVIEW')+'</p><h2>'+(correct?'Good engineering.':'Review the calculation.')+'</h2><p>'+b.why+'</p><p class="pr-note">Mission logged. Continue around the circuit.</p><button class="pr-btn" id="pr-continue">CONTINUE RACE</button>';$('pr-continue').addEventListener('click',()=>{$('pr-mission').style.display='none';activeBay=null;car.v=0;updateHud()});updateHud()}
+function finish(incident){running=false;cancelAnimationFrame(raf);const rating=incident?'INCIDENT — SHIFT ENDED':(safety>=90&&completed.size>=5?'SAFE SHIFT':'SHIFT COMPLETE');$('pr-result-card').innerHTML='<p class="pr-brand">PHARMACHEME · SHIFT REPORT</p><h2>'+rating+'</h2><p>Your time: <b>'+fmt(elapsed)+'</b> · Safety: <b>'+safety+'/100</b> · Missions: <b>'+completed.size+'/6</b> · Engineering: <b>'+engineering+'</b></p><p>'+(incident?'Three safety violations were recorded. Review the decisions before restarting.':'Review missed missions and repeat the race to improve your safe completion time.')+'</p><button class="pr-btn" id="pr-again">RACE AGAIN</button> <a class="pr-btn secondary" style="display:inline-block;text-decoration:none" href="/games/">ALL GAMES</a>';$('pr-result').style.display='flex';$('pr-again').addEventListener('click',()=>{hazards.forEach(h=>h.hit=false);reset()});}
+let startMode='student';
+$('pr-start-btn').addEventListener('click',()=>{const choice=prompt('Choose mode: type STUDENT or PRO','STUDENT');mode=String(choice||'STUDENT').toLowerCase()==='pro'?'pro':'student';hazards.forEach(h=>h.hit=false);reset()});
+$('pr-pause').addEventListener('click',()=>{if(!running)return;paused=!paused;$('pr-pause').textContent=paused?'RESUME':'PAUSE';if(paused)say('Paused. Select Resume to continue.')});
+$('pr-sound').addEventListener('click',()=>{muted=!muted;$('pr-sound').textContent='SOUND: '+(muted?'OFF':'ON');say(muted?'Sound muted.':'Sound setting enabled; audio cues are minimal in this prototype.')});
+document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' '].includes(e.key))e.preventDefault();keys.add(e.key);if(e.key==='Escape'&&running){paused=!paused;$('pr-pause').textContent=paused?'RESUME':'PAUSE'}});
+document.addEventListener('keyup',e=>keys.delete(e.key));window.addEventListener('blur',()=>keys.clear());
+root.querySelectorAll('[data-key]').forEach(btn=>{const k=btn.dataset.key;const on=e=>{e.preventDefault();keys.add(k)},off=e=>{e.preventDefault();keys.delete(k)};btn.addEventListener('pointerdown',on);btn.addEventListener('pointerup',off);btn.addEventListener('pointerleave',off);btn.addEventListener('pointercancel',off)});
+draw();
+})();
+</script>
