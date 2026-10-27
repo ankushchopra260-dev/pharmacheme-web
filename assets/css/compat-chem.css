@@ -1,0 +1,29 @@
+/* Per-chemical compatibility pages (/calculators/compatibility/<chemical>/) */
+.cc-body { margin-top: 8px; }
+.cc-lead { font-size: 1rem; line-height: 1.6; }
+.cc-note, .cc-scope { margin: 12px 0; padding: 8px 12px; border-left: 3px solid var(--grid-line); background: rgba(18,34,52,0.6); font-size: 0.85rem; line-height: 1.5; color: #9FB2C4; }
+.cc-note { border-left-color: var(--brass-dim); }
+.cc-cta { margin: 18px 0; }
+.cc-btn { display: inline-block; padding: 10px 16px; background: var(--brass); color: var(--bg-deep) !important; font-family: var(--f-sans); font-weight: 600; text-decoration: none; border-radius: 6px; }
+.cc-btn:hover { background: var(--paper); }
+.cc-tbl { width: 100%; max-width: 560px; border-collapse: collapse; margin: 6px 0 18px; font-family: var(--f-sans); font-size: 0.9rem; }
+.cc-tbl th, .cc-tbl td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--grid-line); }
+.cc-tbl th { color: var(--muted); font-size: 0.72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+.cc-r { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.8rem; font-weight: 600; }
+.cc-r-e { background: #1E6B3A; color: #E6F5EA; }
+.cc-r-g { background: #2F5D2A; color: #E3F0DF; }
+.cc-r-f { background: #7A5C12; color: #FFF3D6; }
+.cc-r-n { background: #7A2318; color: #FFE4DE; }
+.cc-r-x { background: transparent; color: var(--muted); border: 1px dashed var(--grid-line); font-weight: 400; }
+.cc-mix { list-style: none; padding: 0; margin: 10px 0; }
+.cc-mix li { margin: 0 0 12px; padding: 10px 14px; background: var(--panel); border: 1px solid var(--grid-line); border-left-width: 4px; line-height: 1.55; font-size: 0.92rem; }
+.cc-mix li.cc-d { border-left-color: var(--rust); }
+.cc-mix li.cc-c { border-left-color: var(--brass); }
+.cc-sev { font-family: var(--f-sans); font-size: 0.72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--brass); }
+.cc-d .cc-sev { color: var(--rust); }
+.cc-ex { color: var(--muted); font-size: 0.85rem; }
+.cc-az { columns: 4 200px; column-gap: 24px; margin: 10px 0 24px; }
+.cc-az > div { break-inside: avoid; margin: 0 0 12px; }
+.cc-az b { display: block; font-family: var(--f-display); color: var(--brass); font-size: 1.1rem; margin-bottom: 2px; }
+.cc-az a { display: block; font-size: 0.86rem; padding: 2px 0; }
+@media print { .cc-cta, .related-box { display: none !important; } }
