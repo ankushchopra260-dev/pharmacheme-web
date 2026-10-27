@@ -16,10 +16,10 @@
   const HALF = 44;             // half road width (two lanes)
   const WALL = HALF + 16;      // kerb edge: the car cannot go further from the centre line
   const OFF = { x: 250, y: 200 }, WW = 3050, WH = 2000;
-  const LAPS = 3, PENALTY = 10, VIOL_MAX = 3, VIOL_PTS = 25;
+  const LAPS = 3, PENALTY = 10, BONUS = 5, VIOL_MAX = 3, VIOL_PTS = 25;
   const MODES = {
-    student: { name: 'Student', hazards: 2, tMission: 20, hint: 1, par: [1.3, 1.6], gasHold: 4.5 },
-    pro: { name: 'Professional', hazards: 4, tMission: 20, tTyped: 30, hint: 0, par: [1.2, 1.45], gasHold: 6 }
+    student: { name: 'Student', hazards: [1, 1, 2], tMission: 25, hint: 1, par: [1.3, 1.6], gasHold: 4, overT: 4, limiter: true },
+    pro: { name: 'Professional', hazards: [3, 4, 4], tMission: 20, tTyped: 30, hint: 0, par: [1.2, 1.45], gasHold: 5.5, overT: 3 }
   };
   const BAY_ART = { reactor: '⚗️', pump: '⚙️', utility: '♨️', solvent: '🧪', tank: '🛢️', rack: '🔧' };
   const LAP_BAYS = [['reactor', 'solvent'], ['pump', 'tank'], ['utility', 'rack']];
@@ -109,19 +109,17 @@
       <div class="pr-hc"><span class="pr-speed" id="pr-speed">0</span><span class="pr-kmh">km/h</span><span class="pr-limit" id="pr-limit">40</span></div>
       <div class="pr-hr"><span title="Safety score">Safety <b id="pr-safe">100</b></span><span class="pr-pips" id="pr-pips"><i></i><i></i><i></i></span><span title="Missions correct">Missions <b id="pr-eng">0/6</b></span><button type="button" class="pr-icon" id="pr-pause" aria-label="Pause">❚❚</button></div>
     </div>
-    <div class="pr-next" id="pr-next"></div>
-    <div class="pr-boostbar" id="pr-boostbar"></div>
+    <div class="pr-coach" id="pr-coach" role="status"></div>
     <div class="pr-toast" id="pr-toast" role="status" aria-live="polite"></div>
     <div class="pr-touch" id="pr-touch" aria-hidden="true">
-      <div class="pr-tl"><button data-k="left">◀</button><button data-k="right">▶</button></div>
-      <div class="pr-tm"><button data-k="boost" class="pr-sm" id="pr-tboost">Boost</button><button data-k="report" class="pr-sm" id="pr-treport">Report</button></div>
-      <div class="pr-tr"><button data-k="down">Brake</button><button data-k="up" class="pr-gas">Drive</button></div>
+      <div class="pr-tl"><button data-k="left" aria-label="Change to left lane">◀<small>Lane</small></button><button data-k="right" aria-label="Change to right lane">▶<small>Lane</small></button></div>
+      <div class="pr-tr"><button data-k="down" class="pr-brk">Brake</button><button data-k="up" class="pr-gas">Drive</button></div>
     </div>
     <div class="pr-ov" id="pr-ov"></div>
   </div>`;
   const $ = id => document.getElementById(id);
   const cv = $('pr-c'), ctx = cv.getContext('2d'), stage = $('pr-stage'), ov = $('pr-ov');
-  const hud = { lap: $('pr-lap'), time: $('pr-time'), pen: $('pr-pen'), speed: $('pr-speed'), limit: $('pr-limit'), safe: $('pr-safe'), pips: $('pr-pips'), eng: $('pr-eng'), next: $('pr-next'), toast: $('pr-toast'), boost: $('pr-boostbar') };
+  const hud = { lap: $('pr-lap'), time: $('pr-time'), pen: $('pr-pen'), speed: $('pr-speed'), limit: $('pr-limit'), safe: $('pr-safe'), pips: $('pr-pips'), eng: $('pr-eng'), coach: $('pr-coach'), toast: $('pr-toast') };
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const fmtT = t => { t = Math.max(0, t); const m = Math.floor(t / 60), s = t - m * 60; return m + ':' + (s < 10 ? '0' : '') + s.toFixed(1); };
 
@@ -134,7 +132,7 @@
     if (document.fullscreenElement === host) H = window.innerHeight;
     DPR = Math.min(2, window.devicePixelRatio || 1);
     cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); cv.style.height = H + 'px'; stage.style.height = H + 'px';
-    ZOOM = Math.max(0.5, Math.min(1, Math.min(W / 1000, H / 620)));
+    ZOOM = Math.max(0.68, Math.min(1, Math.min(W / 1000, H / 620)));
     stage.classList.toggle('pr-touchon', touchUI());
   }
   window.addEventListener('resize', resize);
@@ -210,25 +208,36 @@
     });
   }
 
-  /* ---------------- input ---------------- */
-  const keys = { up: 0, down: 0, left: 0, right: 0, boost: 0, report: 0 };
-  const KEYMAP = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', ShiftLeft: 'boost', ShiftRight: 'boost', KeyB: 'boost', KeyR: 'report' };
+  /* ---------------- input: speed and lane only (the car follows the road) ---------------- */
+  const keys = { up: 0, down: 0 };
+  const LANE = 22;
+  function lane(dir) { if (G.car && (G.state === 'race' || G.state === 'countdown')) G.car.dT = dir < 0 ? -LANE : LANE; }
+  const KEYMAP = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', Space: 'down' };
   const typing = e => e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName);
   window.addEventListener('keydown', e => {
     if (typing(e)) return;
     if (G.state === 'mission' && /^Digit[1-4]$/.test(e.code)) { const b = ov.querySelectorAll('.pr-ch')[+e.code.slice(5) - 1]; if (b) b.click(); e.preventDefault(); return; }
     if ((e.code === 'KeyP' || e.code === 'Escape') && (G.state === 'race' || G.state === 'paused')) { togglePause(); e.preventDefault(); return; }
-    const k = KEYMAP[e.code]; if (k && G.state !== 'menu' && G.state !== 'done') { keys[k] = 1; if (k === 'boost') useBoost(); if (k === 'report') report(); e.preventDefault(); }
+    if (G.state === 'menu' || G.state === 'done') return;
+    if (e.code === 'ArrowLeft' || e.code === 'KeyA') { lane(-1); e.preventDefault(); return; }
+    if (e.code === 'ArrowRight' || e.code === 'KeyD') { lane(1); e.preventDefault(); return; }
+    const k = KEYMAP[e.code]; if (k) { keys[k] = 1; e.preventDefault(); }
   });
   window.addEventListener('keyup', e => { const k = KEYMAP[e.code]; if (k) keys[k] = 0; });
-  // touch pads (multi-touch)
+  // touch: lane buttons are taps, Drive and Brake are held (multi-touch)
   const pads = $('pr-touch');
   const held = new Map();
-  pads.addEventListener('pointerdown', e => { const b = e.target.closest('button[data-k]'); if (!b) return; e.preventDefault(); const k = b.dataset.k; held.set(e.pointerId, k); keys[k] = 1; b.classList.add('on'); if (k === 'boost') useBoost(); if (k === 'report') report(); try { b.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ } });
+  pads.addEventListener('pointerdown', e => {
+    const b = e.target.closest('button[data-k]'); if (!b) return; e.preventDefault();
+    const k = b.dataset.k; audio();
+    if (k === 'left' || k === 'right') { lane(k === 'left' ? -1 : 1); b.classList.add('on'); setTimeout(() => b.classList.remove('on'), 150); return; }
+    held.set(e.pointerId, k); keys[k] = 1; b.classList.add('on'); try { b.setPointerCapture(e.pointerId); } catch (x) { /* ignore */ }
+  });
   const lift = e => { const k = held.get(e.pointerId); if (!k) return; held.delete(e.pointerId); if (![...held.values()].includes(k)) keys[k] = 0; pads.querySelectorAll(`[data-k="${k}"]`).forEach(b => b.classList.remove('on')); };
   ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => pads.addEventListener(t, lift));
   pads.addEventListener('contextmenu', e => e.preventDefault());
   $('pr-pause').addEventListener('click', () => togglePause());
+  const L_KEY = () => (touchUI() ? '◀' : '←'), R_KEY = () => (touchUI() ? '▶' : '→'), BRAKE = () => (touchUI() ? 'Brake' : '↓');
 
   /* ---------------- sound (Web Audio, generated) ---------------- */
   let AC = null, eng = null, muted = !!store.mute;
@@ -245,14 +254,14 @@
 
   function newRace(mode) {
     const M = MODES[mode], seed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0, R = P.rng(seed);
-    const s0 = at(0);
     Object.assign(G, {
       mode, M, seed, R, state: 'countdown', count: 3.2, t: 0, pen: 0, lap: 1, lapDist: 0, lapStart: 0, laps: [],
-      car: { x: s0.x + s0.nx * HALF / 2, y: s0.y + s0.ny * HALF / 2, a: Math.atan2(s0.ty, s0.tx), vx: 0, vy: 0, s: 0, d: HALF / 2, idx: 0, sidx: 0, onShort: false, flash: 0 },
-      viol: [], safety: 100, over: 0, overWarn: 0, boost: 0, boosts: 0, hints: M.hint, missions: [], done: {}, cur: null, gateOpen: false,
-      hazards: [], ghost: (store.best[mode] && store.best[mode].ghost) || null, rec: [], recT: 0, toastT: 0, stopT: 0, reported: 0
+      car: { s: 0, d: LANE, dT: LANE, v: 0, x: 0, y: 0, a: 0, onShort: false, u: 0, flash: 0 },
+      viol: [], safety: 100, over: 0, overWarn: 0, bonus: 0, hints: M.hint, missions: [], done: {}, cur: null, gateOpen: false,
+      hazards: [], ghost: (store.best[mode] && store.best[mode].ghost) || null, rec: [], recT: 0, toastT: 0, kmh: 0, limitNow: 40
     });
-    // missions for this race: one per bay, preferring missions missed before
+    place(G.car);
+    // missions for this race: one per unit, preferring missions missed before
     G.plan = {};
     BAYS.forEach(b => {
       const ids = P.IDS.filter(id => P.M[id].bay === b.id), missed = ids.filter(id => store.log[id] === 'm');
@@ -266,144 +275,139 @@
 
   /* ---------------- hazards ---------------- */
   const HZ = {
-    spill: { len: 80, name: 'Solvent spill' }, steam: { len: 70, name: 'Steam leak' }, gas: { len: 140, name: 'Gas detector alarm' },
-    permit: { len: 110, name: 'Permit area' }, fork: { len: 40, name: 'Forklift crossing' }
+    spill: { len: 80, name: 'Solvent spill' }, steam: { len: 70, name: 'Steam leak' }, gas: { len: 140, name: 'Gas alarm' },
+    permit: { len: 110, name: 'Hot work barricade' }, fork: { len: 40, name: 'Forklift crossing' }
   };
   function makeHazards() {
-    const R = G.R, n = G.M.hazards, out = [], types = Object.keys(HZ);
-    const blocked = s => BAYS.some(b => inRange(s, b.s - 220, b.s + 140)) || inRange(s, L - 260, 380) || inRange(s, SC_A.s - 60, SC_B.s + 60);
+    const R = G.R, n = G.M.hazards[Math.min(G.lap, G.M.hazards.length) - 1], out = [], types = Object.keys(HZ);
+    const blocked = s => BAYS.some(b => inRange(s, b.s - 260, b.s + 140)) || inRange(s, L - 260, 380) || inRange(s, SC_A.s - 60, SC_B.s + 60);
     for (let k = 0, tries = 0; k < n && tries < 400; tries++) {
       const t = types[Math.floor(R() * types.length)], len = HZ[t].len, s0 = R() * L;
       if (blocked(s0) || blocked(s0 + len)) continue;
-      if (out.some(h => Math.abs(((h.s0 - s0 + L * 1.5) % L) - L / 2) < (G.mode === 'pro' ? 260 : 420))) continue;
+      if (out.some(h => Math.abs(((h.s0 - s0 + L * 1.5) % L) - L / 2) < (G.mode === 'pro' ? 320 : 500))) continue;
       if (out.filter(h => h.type === t).length >= (G.mode === 'pro' ? 2 : 1)) continue;
-      out.push({ type: t, s0, s1: s0 + len, side: R() < 0.5 ? 1 : -1, hit: false, state: 'idle', timer: 0, f: R() * 6, seen: false, rep: false });
+      out.push({ type: t, s0, s1: s0 + len, side: R() < 0.5 ? 1 : -1, hit: false, state: 'idle', timer: 0, f: R() * 6, seen: false });
       k++;
     }
     G.hazards = out;
   }
-  // lateral band occupied by a hazard (d measured from the centre line, + = right/outside lane)
+  // lateral band occupied by a hazard (d measured from the centre line, + = right lane)
   function band(h) {
     if (h.type === 'gas') return [-WALL, WALL];
     if (h.type === 'fork') { const d = forkD(h); return [d - 22, d + 22]; }
-    if (h.type === 'spill') return h.side > 0 ? [-6, HALF + 8] : [-HALF - 8, 6];
+    if (h.type === 'spill') return h.side > 0 ? [-4, HALF + 8] : [-HALF - 8, 4];
     if (h.type === 'steam') return h.side > 0 ? [2, WALL] : [-WALL, -2];
-    return h.side > 0 ? [0, WALL] : [-WALL, 0]; // permit barricade
+    return h.side > 0 ? [0, WALL] : [-WALL, 0]; // barricade
   }
   function forkD(h) { const span = WALL + 40, per = 7, ph = ((G.t + h.f) % per) / per; const u = ph < 0.35 ? ph / 0.35 : ph < 0.5 ? 1 : ph < 0.85 ? 1 - (ph - 0.5) / 0.35 : 0; return -span + 2 * span * u; }
+  const forkOnRoad = h => Math.abs(forkD(h)) < WALL + 14;
 
   function violation(text) {
     G.viol.push({ text, t: G.t, lap: G.lap }); G.safety = Math.max(0, 100 - VIOL_PTS * G.viol.length);
-    toast('⚠ Violation: ' + text, 'bad', 2.6); sfx.viol(); G.car.flash = 0.6;
+    toast('⚠ Safety violation: ' + text + (G.viol.length < VIOL_MAX ? ` (${G.viol.length} of ${VIOL_MAX})` : ''), 'bad', 3); sfx.viol(); G.car.flash = 0.6;
     track('rally_violation', { what: text });
     if (G.viol.length >= VIOL_MAX) finish(true);
   }
-  function report() {
-    if (G.state !== 'race') return;
-    const h = G.hazards.find(x => x.type === 'spill' && !x.rep && ahead(x.s0) < 450 && ahead(x.s0) > -40);
-    if (!h) return;
-    h.rep = true; G.pen -= 2; G.reported++; toast('Spill reported to the control room: −2 s', 'good', 2); sfx.ok();
-  }
   const ahead = s => { let d = ((s - G.car.s) % L + L) % L; if (d > L / 2) d -= L; return d; };
-  function useBoost() {
-    if (G.state !== 'race' || !G.boosts || G.boost > 0) return;
-    G.boosts--; G.boost = 4; toast('Boost', 'good', 1); sfx.go();
-  }
 
-  /* ---------------- physics ---------------- */
-  function locate(T, x, y, idx) {
-    const S = T.S, n = S.length; let bi = idx, bd = Infinity;
-    for (let k = -30; k <= 30; k++) { let i = idx + k; if (T.closed) i = (i + n) % n; else if (i < 0 || i >= n) continue; const p = S[i], d = (p.x - x) ** 2 + (p.y - y) ** 2; if (d < bd) { bd = d; bi = i; } }
-    if (bd > 160 * 160) { bi = nearestIdx(T, x, y); }
-    const p = S[bi]; return { i: bi, p, d: (x - p.x) * p.nx + (y - p.y) * p.ny, dist: Math.sqrt(bd) };
+  /* ---------------- motion: the car follows the road; you set speed and lane ---------------- */
+  function place(c) {
+    let p;
+    if (c.onShort) p = SHORT.S[Math.min(SHORT.S.length - 1, Math.max(0, Math.round(c.u / 6)))];
+    else p = at(c.s);
+    c.x = p.x + p.nx * c.d; c.y = p.y + p.ny * c.d;
+    c.a = Math.atan2(p.ty, p.tx) + Math.max(-0.45, Math.min(0.45, (c.dT - c.d) * 0.025));
   }
   function step(dt) {
     const c = G.car, M = G.M;
-    // where are we: main road or the open shortcut
-    const m = locate(MAIN, c.x, c.y, c.idx); c.idx = m.i;
-    let on = m, short = null;
-    if (G.gateOpen) { short = locate(SHORT, c.x, c.y, c.sidx); c.sidx = short.i; if (short.dist < m.dist - 4) on = short; }
-    c.onShort = on === short;
-    const sNow = c.onShort ? SC_A.s + (SC_B.s - SC_A.s) * (short.p.s / SHORT.L) : m.p.s;
-    let ds = sNow - c.s; if (ds < -L / 2) ds += L; if (ds > L / 2) ds -= L;
-    c.s = sNow; c.d = c.onShort ? 0 : m.d; G.lapDist += ds;
-
-    // grip: spill patches are slippery
-    let grip = 11;
-    G.hazards.forEach(h => { if (h.type === 'spill' && !c.onShort && inRange(c.s, h.s0, h.s1)) { const b = band(h); if (c.d > b[0] && c.d < b[1]) { grip = 1.4; } } });
-    const fx = Math.cos(c.a), fy = Math.sin(c.a);
-    let vf = c.vx * fx + c.vy * fy, vl = -c.vx * fy + c.vy * fx;
-    const top = (G.boost > 0 ? 75 : 60) * KMH, acc = G.boost > 0 ? 330 : 250;
-    if (keys.up) vf += acc * dt;
-    if (keys.down) vf -= (vf > 5 ? 560 : 200) * dt;
-    if (!keys.up && !keys.down) vf -= Math.sign(vf) * Math.min(Math.abs(vf), 90 * dt);
-    vf = Math.max(-10 * KMH, Math.min(top, vf));
-    if (Math.abs(on.d) > HALF + 2) vf *= 1 - Math.min(0.9, 2.4 * dt); // kerb
-    vl *= Math.exp(-grip * dt);
-    const steer = (keys.right - keys.left), sp = Math.abs(vf);
-    c.a += steer * 2.7 * Math.min(1, sp / 60) * (1 - 0.35 * Math.min(1, sp / top)) * Math.sign(vf || 1) * dt;
-    if (grip < 5 && sp > 60) vl += steer * 40 * dt; // slide on a spill
-    const nfx = Math.cos(c.a), nfy = Math.sin(c.a);
-    c.vx = vf * nfx - vl * nfy; c.vy = vf * nfy + vl * nfx;
-    c.x += c.vx * dt; c.y += c.vy * dt;
-    // walls: keep the car on the road
-    const m2 = locate(c.onShort ? SHORT : MAIN, c.x, c.y, c.onShort ? c.sidx : c.idx), lim = c.onShort ? HALF + 6 : WALL;
-    if (Math.abs(m2.d) > lim) {
-      const push = Math.abs(m2.d) - lim, sg = Math.sign(m2.d); c.x -= m2.p.nx * sg * push; c.y -= m2.p.ny * sg * push;
-      const vn = c.vx * m2.p.nx + c.vy * m2.p.ny; if (vn * sg > 0) { c.vx -= 1.3 * vn * m2.p.nx; c.vy -= 1.3 * vn * m2.p.ny; }
-      c.vx *= 0.75; c.vy *= 0.75;
+    const zl = c.onShort ? 40 : limitAt(c.s), top = M.limiter ? zl * KMH : 60 * KMH;
+    if (keys.up && c.v < top) c.v = Math.min(top, c.v + 220 * dt); else if (keys.down) c.v -= 520 * dt; else if (c.v > top) c.v -= 320 * dt; else if (!keys.up) c.v -= 60 * dt;
+    c.v = Math.max(0, Math.min(60 * KMH, c.v));
+    const dd = c.dT - c.d; c.d += Math.sign(dd) * Math.min(Math.abs(dd), 120 * dt);
+    const move = c.v * dt;
+    if (c.onShort) {
+      c.u += move; G.lapDist += move * (SC_B.s - SC_A.s) / SHORT.L;
+      c.s = SC_A.s + (SC_B.s - SC_A.s) * Math.min(1, c.u / SHORT.L);
+      if (c.u >= SHORT.L) { c.onShort = false; c.s = SC_B.s; }
+    } else {
+      const toA = ((SC_A.s - c.s) % L + L) % L;
+      if (G.gateOpen && toA > 0 && toA <= move) { c.onShort = true; c.u = move - toA; c.s = SC_A.s; G.lapDist += toA; toast('Shortcut: the gate is open for you', 'good', 1.6); }
+      else { c.s = (c.s + move) % L; G.lapDist += move; }
     }
+    place(c);
 
-    const kmh = Math.abs(vf) / KMH, lim2 = limitAt(c.s);
-    G.kmh = kmh; G.limitNow = lim2;
-    // speed zones: 3 s over the limit (with 2 km/h grace) is a violation
-    if (kmh > lim2 + 2) { G.over += dt; G.overWarn -= dt; if (G.overWarn <= 0) { sfx.warn(); G.overWarn = 0.5; } if (G.over >= 3) { G.over = 0; violation(`over ${lim2} km/h ${ZONE_NAME[lim2]}`); } }
+    const kmh = c.v / KMH, lim = c.onShort ? 40 : limitAt(c.s);
+    G.kmh = kmh; G.limitNow = lim;
+    // speed zones: staying over the limit (2 km/h grace) is a violation
+    if (kmh > lim + 2) { G.over += dt; G.overWarn -= dt; if (G.overWarn <= 0) { sfx.warn(); G.overWarn = 0.5; } if (G.over >= M.overT) { G.over = 0; violation(`over ${lim} km/h ${ZONE_NAME[lim]}`); } }
     else G.over = Math.max(0, G.over - dt * 1.5);
-    if (G.boost > 0) G.boost -= dt;
 
     // hazards
     G.hazards.forEach(h => {
       const a0 = ahead(h.s0);
-      if (a0 < 600 && a0 > -HZ[h.type].len - 50) h.seen = true;
+      if (a0 < 700 && a0 > -HZ[h.type].len - 50) h.seen = true;
       if (h.type === 'gas') {
-        if (h.state === 'idle' && a0 < 380 && a0 > 0) { h.state = 'alarm'; h.timer = G.M.gasHold; toast('Gas detector alarm ahead: stop short and wait for the all-clear', 'warn', 3); sfx.viol(); }
-        if (h.state === 'alarm') { h.timer -= dt; if (h.timer <= 0) { h.state = 'clear'; toast('All clear: gas alarm reset', 'good', 1.6); } }
+        if (h.state === 'idle' && a0 < 420 && a0 > 0) { h.state = 'alarm'; h.timer = M.gasHold; sfx.viol(); }
+        if (h.state === 'alarm') { h.timer -= dt; if (h.timer <= 0) { h.state = 'clear'; toast('All clear: drive on', 'good', 1.6); } }
       }
       if (c.onShort || h.hit || !inRange(c.s, h.s0, h.s1)) return;
       const b = band(h);
       if (c.d < b[0] - 9 || c.d > b[1] + 9) return;
-      if (h.type === 'gas') { if (h.state === 'alarm') { h.hit = true; violation('drove into an active gas alarm area'); } return; }
-      if (h.type === 'spill') { if (kmh > 10.5) { h.hit = true; violation('drove through a solvent spill above 10 km/h'); } return; }
+      if (h.type === 'gas') { if (h.state === 'alarm') { h.hit = true; violation('drove into a gas alarm area'); } return; }
+      if (h.type === 'spill') { if (kmh > 10.5) { h.hit = true; violation('drove through a solvent spill'); } return; }
       h.hit = true;
       if (h.type === 'steam') violation('drove into a steam leak');
-      if (h.type === 'permit') { violation('broke the barricade of a permit area'); c.vx *= 0.1; c.vy *= 0.1; }
-      if (h.type === 'fork') { violation('did not give way to a forklift'); c.vx *= 0.05; c.vy *= 0.05; }
+      if (h.type === 'permit') { violation('broke a hot work barricade'); c.v = 0; }
+      if (h.type === 'fork') { violation('did not give way to a forklift'); c.v = 0; }
     });
 
-    // mission boxes
+    // the car pulls in by itself at each mission unit of this lap
     activeBays().forEach(id => {
-      const b = bayById(id), a = ahead(b.s);
-      if (G.state !== 'race') return;
-      if (!c.onShort && Math.abs(a) < 36 && c.d > -4 && c.d < HALF + 4) {
-        if (kmh < 3) { G.stopT += dt; if (G.stopT > 0.25) openMission(id); } else G.stopT = 0;
-      } else if (a < -70 && a > -400 && !G.done[id]) { G.done[id] = 'skip'; G.missions.push({ bay: id, id: G.plan[id], result: 'skip' }); toast(b.name + ' mission skipped: 0 points', 'warn', 2); updateHud(true); }
+      if (G.state !== 'race' || c.onShort) return;
+      const a = ahead(bayById(id).s);
+      if (a <= 4 && a > -60) { c.v = 0; openMission(id); }
     });
 
     // laps
     if (G.lapDist >= L) {
       G.lapDist -= L;
       const lt = G.t - G.lapStart; G.laps.push(lt);
-      // missions not visited on this lap count as skipped
       (LAP_BAYS[G.lap - 1] || []).forEach(id => { if (!G.done[id]) { G.done[id] = 'skip'; G.missions.push({ bay: id, id: G.plan[id], result: 'skip' }); } });
       const best = store.best[G.mode] || {};
       if (G.rec.length && (!best.lap || lt < best.lap)) { best.lap = lt; best.ghost = G.rec; store.best[G.mode] = best; save(); }
       G.rec = []; G.recT = 0; G.lapStart = G.t;
       if (G.lap >= LAPS) { finish(false); return; }
       G.lap++; G.gateOpen = false; makeHazards();
-      toast(`Lap ${G.lap} of ${LAPS}: missions at ${LAP_BAYS[G.lap - 1].map(id => bayById(id).name).join(' and ')}`, 'info', 2.6);
+      toast(`Lap ${G.lap} of ${LAPS}`, 'info', 1.8);
     }
-    // ghost recording (10 per second)
     G.recT -= dt; if (G.recT <= 0) { G.recT = 0.1; G.rec.push([Math.round(c.x), Math.round(c.y), +c.a.toFixed(2)]); }
+  }
+
+  /* ---------------- the one-line coach: what to do right now ---------------- */
+  function coach() {
+    const c = G.car, kmh = G.kmh || 0;
+    if (G.state === 'countdown') return [touchUI() ? 'Get ready: hold Drive to go' : 'Get ready: hold ↑ to go', 'info'];
+    if (kmh > G.limitNow + 2) return [`Too fast: slow down to ${G.limitNow} km/h (${BRAKE()})`, 'bad'];
+    let best = null;
+    const put = (pri, text, kind) => { if (!best || pri < best[0]) best = [pri, text, kind]; };
+    G.hazards.forEach(h => {
+      const a = ahead(h.s0), len = HZ[h.type].len;
+      if (a < -len - 10 || a > 420 || c.onShort) return;
+      if (h.type === 'gas') {
+        if (h.state === 'alarm') put(1, a > 0 ? `Gas alarm: stop before the red line and wait (${Math.ceil(h.timer)} s)` : 'Gas alarm: keep going', 'bad');
+        return;
+      }
+      if (h.type === 'fork') { if (a > -len) put(2, forkOnRoad(h) ? `Forklift crossing: stop and give way (${BRAKE()})` : 'Forklift clear: go now', forkOnRoad(h) ? 'warn' : 'good'); return; }
+      const mine = (h.side > 0) === (c.dT > 0);
+      if (mine) put(1, `${HZ[h.type].name} in your lane: change lane (${h.side > 0 ? L_KEY() : R_KEY()})`, 'bad');
+      else put(4, `${HZ[h.type].name} in the other lane: stay in this lane`, 'good');
+    });
+    if (best) return [best[1], best[2]];
+    for (let s = 6; s < 260; s += 6) { const v = limitAt(c.s + s); if (v < G.limitNow) return G.M.limiter ? [`${v} km/h zone ahead: your speed limiter slows the car`, 'info'] : [`${v} km/h zone ahead: slow down (${BRAKE()})`, 'warn']; }
+    const nx = activeBays().map(id => ({ id, a: ahead(bayById(id).s) })).filter(x => x.a > 0).sort((p, q) => p.a - q.a)[0];
+    if (nx && nx.a < 600) return [`${bayById(nx.id).name} ahead: the car stops there for a mission`, 'info'];
+    if (nx) return [`Keep to the limit. Next mission: ${bayById(nx.id).name}`, 'plain'];
+    return [G.lap < LAPS ? 'Missions done for this lap: drive on to the start line' : 'Last lap: bring it home safely', 'plain'];
   }
 
   /* ---------------- missions ---------------- */
@@ -411,14 +415,15 @@
     const id = G.plan[bayId], o = P.make(id, (G.seed + bayId.length * 7919 + G.lap * 104729) >>> 0, DATA);
     const M = G.M, typed = G.mode === 'pro' && o.typed;
     G.cur = { bay: bayId, o, typed, left: typed ? M.tTyped : M.tMission, total: typed ? M.tTyped : M.tMission, t0: G.t, hinted: false };
-    G.state = 'mission'; G.car.vx = G.car.vy = 0;
+    G.state = 'mission'; G.car.v = 0; G.kmh = 0;
     Object.keys(keys).forEach(k => { keys[k] = 0; });
     const b = bayById(bayId);
     ov.innerHTML = `<div class="pr-card pr-mission" role="dialog" aria-modal="true" aria-labelledby="pr-mt">
-      <div class="pr-mhead"><span>${BAY_ART[bayId]} ${esc(b.name)}</span><span id="pr-mleft"></span></div>
+      <div class="pr-mhead"><span>${BAY_ART[bayId]} ${esc(b.name)} · mission ${G.missions.length + 1} of 6</span><span id="pr-mleft"></span></div>
       <div class="pr-mbar"><i id="pr-mbar"></i></div>
       <h3 id="pr-mt">${esc(o.title)}</h3>
       <p class="pr-q">${o.q}</p>
+      <p class="pr-rule">${typed ? 'Type your answer.' : 'Pick the right answer.'} Right: −${BONUS} s · Wrong: +${PENALTY} s</p>
       ${typed ? `<form class="pr-typed" id="pr-form"><input id="pr-in" inputmode="decimal" autocomplete="off" placeholder="Your answer" aria-label="Your answer"><span>${esc(o.unit)}</span><button type="submit" class="pr-btn">Submit</button></form><p class="pr-small">Within ±3 % counts as correct.</p>`
         : `<div class="pr-chs">${o.choices.map((c, i) => `<button type="button" class="pr-ch" data-i="${i}"><b>${i + 1}</b> ${esc(c)}</button>`).join('')}</div>`}
       <div class="pr-mfoot">${G.hints > 0 ? `<button type="button" class="pr-link" id="pr-hint">Show the formula (${G.hints} hint left)</button>` : ''}<button type="button" class="pr-link" id="pr-skip">Skip this mission</button></div>
@@ -440,13 +445,13 @@
     store.log[o.id] = ok ? 's' : 'm'; save();
     track('rally_mission', { mission: o.id, correct: ok, seconds: Math.round(G.t - cur.t0), mode: G.mode });
     let msg;
-    if (ok) { G.boosts = Math.min(2, G.boosts + 1); msg = 'Correct. Boost ready' + (touchUI() ? ' (tap Boost)' : ' (Shift or B)');
-      if (G.mode === 'pro' && inRange(SC_A.s, G.car.s, G.car.s + L * 0.6) && !G.gateOpen) { G.gateOpen = true; msg += '. Shortcut gate open for this lap'; }
+    if (ok) { G.bonus += BONUS; msg = `−${BONUS} s off your time.`;
+      if (G.mode === 'pro' && inRange(SC_A.s, G.car.s, G.car.s + L * 0.6) && !G.gateOpen) { G.gateOpen = true; msg += ' The shortcut past the cooling towers is open on this lap.'; }
       sfx.ok(); }
     else { if (!skipped) G.pen += PENALTY; msg = skipped ? '0 points for this mission.' : `+${PENALTY} s. The working is in your race review.`; sfx.bad(); }
     const right = o.typed ? o.fmt(o.num) : o.choices[o.correct];
     ov.innerHTML = `<div class="pr-card pr-fb ${ok ? 'good' : 'bad'}"><h3>${ok ? 'Correct' : skipped ? 'Skipped' : timeout ? 'Out of time' : 'Not quite'}</h3><p>${ok ? '' : 'Answer: <b>' + esc(right) + '</b><br>'}${esc(msg)}</p><button type="button" class="pr-btn" id="pr-go">Drive on</button></div>`;
-    const go = () => { ov.classList.remove('show'); ov.innerHTML = ''; G.cur = null; G.state = 'race'; G.stopT = 0; updateHud(true); };
+    const go = () => { ov.classList.remove('show'); ov.innerHTML = ''; G.cur = null; G.state = 'race'; updateHud(true); };
     $('pr-go').addEventListener('click', go); setTimeout(() => { if (G.cur === cur) go(); }, ok ? 1400 : 2600);
     G.state = 'missionfb';
   }
@@ -457,11 +462,11 @@
     if (G.state === 'done') return;
     G.state = 'done';
     if (eng) eng.g.gain.value = 0;
-    const total = G.t + Math.max(0, G.pen), M = G.M;
+    const total = Math.max(0, G.t + G.pen - G.bonus), M = G.M;
     // any bay not visited yet counts as skipped
     BAYS.forEach(b => { if (!G.done[b.id]) G.missions.push({ bay: b.id, id: G.plan[b.id], result: 'skip' }); });
     const ok = G.missions.filter(m => m.result === 'ok').length;
-    const par = IDEAL_LAP * LAPS + 6 * 10;
+    const par = IDEAL_LAP * LAPS + 6 * 10 - 6 * BONUS;
     const st = incident ? null : { time: stars(total, par * M.par[0], par * M.par[1]), safety: G.viol.length === 0 ? 3 : G.viol.length === 1 ? 2 : 1, eng: ok >= 6 ? 3 : ok >= 4 ? 2 : 1 };
     const best = store.best[G.mode] || {}, rec = !incident && (!best.time || total < best.time);
     if (rec) { best.time = total; store.best[G.mode] = best; save(); }
@@ -480,7 +485,7 @@
       <h2>${incident ? 'Incident: shift stopped' : 'Shift complete'}${rec ? ' <span class="pr-rec">New best</span>' : ''}</h2>
       ${incident ? `<p>Three safety violations end the race. Fast never beats safe on a plant.</p>` : ''}
       <div class="pr-scores">
-        <div><span>Time</span><b>${incident ? '–' : fmtT(total)}</b>${st ? `<em>${star(st.time)}</em>` : ''}<small>${G.pen > 0 ? 'includes +' + Math.round(G.pen) + ' s penalties' : G.pen < 0 ? 'includes ' + Math.round(G.pen) + ' s for reports' : ''}</small></div>
+        <div><span>Time</span><b>${incident ? '–' : fmtT(total)}</b>${st ? `<em>${star(st.time)}</em>` : ''}<small>${[G.bonus ? '−' + G.bonus + ' s right answers' : '', G.pen ? '+' + G.pen + ' s wrong' : ''].filter(Boolean).join(', ')}</small></div>
         <div><span>Safety</span><b>${G.safety}</b>${st ? `<em>${star(st.safety)}</em>` : ''}<small>${G.viol.length} violation${G.viol.length === 1 ? '' : 's'}</small></div>
         <div><span>Missions</span><b>${ok}/6</b>${st ? `<em>${star(st.eng)}</em>` : ''}<small>${M.name} mode</small></div>
       </div>
@@ -503,7 +508,8 @@
     if (!force && (hudT -= 1) > 0) return; hudT = 5;
     setText(hud.lap, 'lap', `Lap ${G.lap}/${LAPS}`);
     setText(hud.time, 'time', fmtT(G.t));
-    setText(hud.pen, 'pen', G.pen > 0 ? `+${Math.round(G.pen)} s` : G.pen < 0 ? `${Math.round(G.pen)} s` : '');
+    const net = G.pen - G.bonus; setText(hud.pen, 'pen', net > 0 ? `+${net} s` : net < 0 ? `−${-net} s` : '');
+    hud.pen.className = 'pr-pen ' + (net < 0 ? 'good' : '');
     setText(hud.speed, 'speed', String(Math.round(G.kmh || 0)));
     setText(hud.limit, 'limit', String(G.limitNow || 40));
     const over = (G.kmh || 0) > (G.limitNow || 40) + 2;
@@ -512,12 +518,7 @@
     setText(hud.safe, 'safe', String(G.safety));
     [...hud.pips.children].forEach((p, i) => p.classList.toggle('on', i < G.viol.length));
     setText(hud.eng, 'eng', `${G.missions.filter(m => m.result === 'ok').length}/6`);
-    const nx = activeBays().map(id => bayById(id).name);
-    setText(hud.next, 'next', G.state === 'countdown' ? '' : nx.length ? `This lap: ${nx.join(' and ')}. Stop in the yellow box.` : (G.lap < LAPS ? 'Missions done: on to the next lap' : 'Missions done: bring it home safely'));
-    setText(hud.boost, 'boost', G.boost > 0 ? 'BOOST' : G.boosts ? `Boost ×${G.boosts}` : '');
-    hud.boost.classList.toggle('on', G.boost > 0);
-    const near = G.hazards && G.hazards.some(h => h.type === 'spill' && !h.rep && ahead(h.s0) < 450 && ahead(h.s0) > -40);
-    $('pr-treport').classList.toggle('show', !!near); $('pr-tboost').classList.toggle('show', G.boosts > 0 && G.boost <= 0);
+    const k = coach(); if (lastHud.coach !== k[0]) { lastHud.coach = k[0]; hud.coach.textContent = k[0]; } hud.coach.className = 'pr-coach ' + k[1];
   }
   function toast(text, kind, secs) { hud.toast.textContent = text; hud.toast.className = 'pr-toast show ' + (kind || ''); G.toastT = secs || 2; }
 
@@ -570,7 +571,7 @@
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.fillStyle = COL.ground; ctx.fillRect(0, 0, W, H);
     if (!c) return;
-    const look = 0.35, cx = c.x + c.vx * look, cy = c.y + c.vy * look;
+    const look = 0.55, cx = c.x + Math.cos(c.a) * (c.v || 0) * look, cy = c.y + Math.sin(c.a) * (c.v || 0) * look;
     const vw = W / ZOOM, vh = H / ZOOM, x0 = cx - vw / 2, y0 = cy - vh / 2;
     ctx.setTransform(DPR * ZOOM, 0, 0, DPR * ZOOM, -x0 * DPR * ZOOM, -y0 * DPR * ZOOM);
     const sx = Math.max(0, Math.floor(x0)), sy = Math.max(0, Math.floor(y0)), sw = Math.min(WW - sx, Math.ceil(vw) + 2), sh = Math.min(WH - sy, Math.ceil(vh) + 2);
@@ -650,22 +651,39 @@
     const solved = Object.values(store.log).filter(v => v === 's').length;
     ov.innerHTML = `<div class="pr-card pr-menu">
       <h2>Plant <span>Rally</span></h2>
-      <p>Drive the site emergency vehicle round a chemical plant for three laps. Keep to the speed limit in each zone, deal with hazards the right way, and stop in the yellow boxes for engineering missions. <b>Fast never beats safe:</b> three violations end the race.</p>
+      <p>Drive the plant emergency vehicle for 3 laps. Stay safe, and answer one engineering question at each glowing unit.</p>
       <div class="pr-modes">
-        <button type="button" class="pr-mode" data-m="student"><b>Student</b><span>Multiple choice, one formula hint, 2 hazards a lap</span><em>${b('student')}</em></button>
-        <button type="button" class="pr-mode" data-m="pro"><b>Professional</b><span>Type the numbers, 4 hazards a lap, a shortcut for correct answers</span><em>${b('pro')}</em></button>
+        <button type="button" class="pr-mode" data-m="student"><b>Student</b><span>Speed limiter on, pick from 4 answers, 1 formula hint. Start here.</span><em>${b('student')}</em></button>
+        <button type="button" class="pr-mode" data-m="pro"><b>Professional</b><span>You control the speed, type the numbers, more hazards</span><em>${b('pro')}</em></button>
       </div>
-      <p class="pr-small" id="pr-load">${DATA ? (touchUI() ? 'Controls: steer with ◀ ▶, Drive and Brake on the right.' : 'Controls: arrow keys or WASD, Shift or B to boost, R to report a spill, P to pause, 1–4 to answer.') : 'Loading mission data…'}</p>
+      <p class="pr-small" id="pr-load">${DATA ? '' : 'Loading mission data…'}</p>
       ${solved ? `<p class="pr-small">Missions solved so far: ${solved} of ${P.IDS.length}</p>` : ''}
       <div class="pr-actions"><button type="button" class="pr-btn pr-ghostbtn" id="pr-fs">Full screen</button><button type="button" class="pr-btn pr-ghostbtn" id="pr-mute0">${muted ? 'Sound on' : 'Sound off'}</button></div>
     </div>`;
     ov.classList.add('show');
-    ov.querySelectorAll('.pr-mode').forEach(bt => { bt.disabled = !DATA; bt.addEventListener('click', () => start(bt.dataset.m)); });
+    ov.querySelectorAll('.pr-mode').forEach(bt => { bt.disabled = !DATA; bt.addEventListener('click', () => rules(bt.dataset.m)); });
     $('pr-mute0').addEventListener('click', e => { muted = !muted; store.mute = muted; save(); e.target.textContent = muted ? 'Sound on' : 'Sound off'; });
     const fs = $('pr-fs'); if (!host.requestFullscreen) fs.remove(); else fs.addEventListener('click', () => { host.requestFullscreen().then(() => setTimeout(resize, 100), () => {}); });
     // draw the plant behind the menu
-    if (!G.car) { const s0 = at(0); G.car = { x: s0.x, y: s0.y, a: 0, vx: 0, vy: 0, flash: 0 }; G.hazards = []; G.t = 0; }
+    if (!G.car) { G.car = { s: 0, d: LANE, dT: LANE, v: 0, flash: 0, onShort: false }; place(G.car); G.hazards = []; G.t = 0; }
     render();
+  }
+  function rules(mode) {
+    const t = touchUI(), lim = MODES[mode].limiter;
+    ov.innerHTML = `<div class="pr-card pr-menu">
+      <h2>How to play</h2>
+      <p>The car follows the road by itself. You only control ${lim ? 'when to go and stop' : 'speed'} and which lane you are in.</p>
+      <ul class="pr-how">
+        <li><b>Go and stop</b><span>${t ? 'Hold <kbd>Drive</kbd> to go, <kbd>Brake</kbd> to stop.' : 'Hold <kbd>↑</kbd> to go, <kbd>↓</kbd> to stop.'} ${lim ? 'The speed limiter keeps you at the zone limit.' : 'Stay under the limit on the round sign: 40, 20 or 10 km/h.'}</span></li>
+        <li><b>Lane</b><span>${t ? 'Tap <kbd>◀</kbd> or <kbd>▶</kbd>' : 'Press <kbd>←</kbd> or <kbd>→</kbd>'} to move round spills, steam and barricades.</span></li>
+        <li><b>Stop and wait</b><span>For a gas alarm or a crossing forklift.</span></li>
+        <li><b>Questions</b><span>At two units each lap the car stops and asks one engineering question. Right: −${BONUS} s. Wrong: +${PENALTY} s.</span></li>
+      </ul>
+      <p class="pr-small">The yellow line at the top always tells you what to do next. ${VIOL_MAX} safety mistakes end the race.</p>
+      <div class="pr-actions"><button type="button" class="pr-btn" id="pr-start">Start the race</button><button type="button" class="pr-btn pr-ghostbtn" id="pr-back">Back</button></div>
+    </div>`;
+    $('pr-start').addEventListener('click', () => start(mode)); $('pr-back').addEventListener('click', menu);
+    try { $('pr-start').focus({ preventScroll: true }); } catch (e) { /* ignore */ }
   }
   document.addEventListener('fullscreenchange', () => setTimeout(resize, 60));
 
@@ -677,5 +695,5 @@
     DATA = { azeo: d[0], solvents: d[1] }; menu();
   }).catch(() => { const l = $('pr-load'); if (l) l.textContent = 'Could not load the mission data. Check your connection and reload the page.'; });
   requestAnimationFrame(frame);
-  if (DEBUG) window.__PR = { G, keys, MAIN, at, limitAt, BAYS, L, start, answer, IDEAL_LAP, SHORT, SC_A, SC_B, HALF };
+  if (DEBUG) window.__PR = { G, keys, lane, MAIN, at, limitAt, BAYS, L, start, answer, IDEAL_LAP, SHORT, SC_A, SC_B, HALF, forkOnRoad };
 })();

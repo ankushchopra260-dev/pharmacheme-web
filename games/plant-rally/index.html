@@ -32,7 +32,7 @@ structured_data: |
       "mainEntity": [
         { "@type": "Question", "name": "Why does a plant game punish speeding?", "acceptedAnswer": { "@type": "Answer", "text": "Vehicles in process areas and classified flammable zones must keep to low limits, and a vehicle is an ignition source. In Plant Rally the zone limits are the track limits: three violations end the race as an incident." } },
         { "@type": "Question", "name": "Are the mission answers correct?", "acceptedAnswer": { "@type": "Answer", "text": "Each mission is computed with the same formulas and data as the PharmaChemE calculator it links to, and every mission is checked against those calculators in automated tests before release." } },
-        { "@type": "Question", "name": "Does it work on a phone?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. On a phone you get on-screen steer, drive and brake buttons. On a laptop use the arrow keys or WASD." } }
+        { "@type": "Question", "name": "Does it work on a phone?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The car follows the road by itself, so on a phone you only use four buttons: two to change lane, plus Drive and Brake." } }
       ]
     }
   ]
@@ -49,24 +49,25 @@ last_modified_at: 2026-10-27
 
 <div class="container article-body" style="margin-top:28px;">
   <h2 id="how">How to play</h2>
+  <p>The car follows the road by itself. You decide when to go and stop, and which lane to drive in. A line at the top of the game always tells you what to do next.</p>
   <ul>
-    <li><b>Three laps, two missions a lap.</b> Each lap lights up two units. Stop inside the yellow box at each one to open its mission. The race clock keeps running while you work, so a quick, correct answer is the fastest way round.</li>
-    <li><b>Correct answer:</b> a boost for the next straight. In Professional mode it also opens the shortcut gate past the cooling towers for that lap.</li>
-    <li><b>Wrong answer or out of time:</b> 10 seconds added. The working is saved for the review at the end, with a link to the calculator that solves it.</li>
-    <li><b>Speed limits:</b> 40 km/h on plant roads, 20 km/h in process areas and 10 km/h in classified flammable zones. The kerb colour and the sign show the zone. Staying more than 2 km/h over the limit for 3 seconds is a violation.</li>
-    <li><b>Three violations end the race</b> as an incident, with no finish time.</li>
+    <li><b>Go and stop:</b> hold Drive (↑ on a keyboard) to go, Brake (↓) to stop. In Student mode a speed limiter keeps you at the zone limit; in Professional mode you keep to it yourself.</li>
+    <li><b>Lanes:</b> tap ◀ or ▶ (← or → on a keyboard) to move round a spill, a steam leak or a hot work barricade.</li>
+    <li><b>Stop and wait:</b> at a gas alarm, stop before the red line until the all-clear. At a forklift crossing, give way.</li>
+    <li><b>Questions:</b> two units light up on each lap. The car stops there by itself and asks one engineering question. A right answer takes 5 seconds off your time; a wrong one adds 10 seconds and the working is saved for the review at the end.</li>
+    <li><b>Safety:</b> speeding, driving into a hazard or not giving way is a safety violation. Three violations end the race.</li>
   </ul>
-  <p><b>Controls.</b> Laptop: arrow keys or WASD, Shift or B to boost, R to report a spill, P to pause, 1 to 4 to pick an answer. Phone: steer with ◀ ▶ on the left, Drive and Brake on the right.</p>
 
   <h2 id="modes">Student and Professional mode</h2>
   <table>
     <thead><tr><th></th><th>Student</th><th>Professional</th></tr></thead>
     <tbody>
+      <tr><td>Speed</td><td>Limiter keeps you at the zone limit</td><td>You keep to the limit yourself</td></tr>
       <tr><td>Answers</td><td>Pick one of four</td><td>Type the number (within ±3 %)</td></tr>
-      <tr><td>Time per mission</td><td>20 s</td><td>30 s for typed answers</td></tr>
+      <tr><td>Time per question</td><td>25 s</td><td>30 s for typed answers</td></tr>
       <tr><td>Formula hint</td><td>One per race</td><td>None</td></tr>
-      <tr><td>Hazards per lap</td><td>2</td><td>4</td></tr>
-      <tr><td>Shortcut gate</td><td>Closed</td><td>Opens on a correct answer</td></tr>
+      <tr><td>Hazards per lap</td><td>1 to 2</td><td>3 to 4</td></tr>
+      <tr><td>Shortcut past the cooling towers</td><td>Closed</td><td>Opens after a right answer</td></tr>
     </tbody>
   </table>
   <p>Wrong answers in Student mode are the usual mistakes: gauge pressure used as absolute, a forgotten efficiency, weight % confused with mole %. Missions you get wrong come back more often in later races until you solve them.</p>
@@ -75,11 +76,11 @@ last_modified_at: 2026-10-27
   <table>
     <thead><tr><th>Hazard</th><th>Right response</th><th>Violation</th></tr></thead>
     <tbody>
-      <tr><td>Solvent spill</td><td>Slow down and steer round it; press Report to tell the control room (2 s bonus)</td><td>Driving through it above 10 km/h</td></tr>
-      <tr><td>Steam leak</td><td>Slow down and keep to the other lane</td><td>Driving into the cloud</td></tr>
+      <tr><td>Solvent spill</td><td>Change lane</td><td>Driving through it</td></tr>
+      <tr><td>Steam leak</td><td>Change lane</td><td>Driving into the cloud</td></tr>
       <tr><td>Gas detector alarm</td><td>Stop short of the beacons and wait for the all-clear. A vehicle is an ignition source.</td><td>Entering the area while the alarm is on</td></tr>
-      <tr><td>Permit area (hot work)</td><td>Use the other lane</td><td>Breaking the barricade</td></tr>
-      <tr><td>Forklift crossing</td><td>Give way</td><td>Contact with the forklift</td></tr>
+      <tr><td>Hot work barricade</td><td>Change lane</td><td>Breaking the barricade</td></tr>
+      <tr><td>Forklift crossing</td><td>Stop and give way until it has crossed</td><td>Contact with the forklift</td></tr>
     </tbody>
   </table>
 
