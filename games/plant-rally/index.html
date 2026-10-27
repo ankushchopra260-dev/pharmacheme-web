@@ -1,0 +1,174 @@
+---
+layout: default
+guide: false
+title: "Plant Rally: Chemical Plant Racing Game with Engineering Missions"
+seo_title: "Plant Rally: Plant Safety Racing Game | PharmaChemE"
+description: "Free browser racing game set in a chemical plant. Keep to zone speed limits, handle spills and gas alarms, and solve real engineering calculations under time pressure."
+breadcrumbs:
+  - label: Games
+    url: /games/
+  - label: Plant Rally
+    url: /games/plant-rally/
+structured_data: |
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Plant Rally",
+      "description": "Top-down racing game through a fictional chemical plant: zone speed limits, live hazards and timed engineering missions on steam, pumps, relief valves, heat exchangers, azeotropes and line sizing.",
+      "url": "https://www.pharmacheme.in/games/plant-rally/",
+      "genre": [
+        "Racing",
+        "Educational"
+      ],
+      "gamePlatform": "Web browser",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any (runs in a web browser)",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "author": {
+        "@type": "Person",
+        "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+        "name": "Ankush Chopra",
+        "url": "https://www.pharmacheme.in/about/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.pharmacheme.in/#organization",
+        "name": "PharmaChemE",
+        "url": "https://www.pharmacheme.in/"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does a plant game punish speeding?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vehicles in process areas and classified flammable zones must keep to low limits, and a vehicle is an ignition source. In Plant Rally the zone limits are the track limits: three violations end the race as an incident."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the mission answers correct?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each mission is computed with the same formulas and data as the PharmaChemE calculator it links to, and every mission is checked against those calculators in automated tests before release."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work on a phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The car follows the road by itself, so on a phone you only use four buttons: two to change lane, plus Drive and Brake."
+          }
+        }
+      ]
+    }
+  ]
+last_modified_at: 2026-10-27
+---
+<link rel="stylesheet" href="{{ '/assets/css/plant-rally.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Plant Rally</h1>
+  <p>Drive the emergency vehicle round a chemical plant. Go, stop and change lane to stay safe, and answer an engineering question at each glowing unit. Every answer comes with its worked solution.</p>
+</div>
+
+<div id="pr-root"><noscript><p class="container">Plant Rally needs JavaScript to run.</p></noscript></div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2 id="how">How to play</h2>
+  <p>The car follows the road by itself. You decide when to go and stop, and which lane to drive in. A line at the top of the game always tells you what to do next.</p>
+  <ul>
+    <li><b>Go and stop:</b> hold Drive (↑ on a keyboard) to go, Brake (↓) to stop. In Student mode a speed limiter keeps you at the zone limit; in Professional mode you keep to it yourself.</li>
+    <li><b>Lanes:</b> tap ◀ or ▶ (← or → on a keyboard) to move round a spill, a steam leak or a hot work barricade.</li>
+    <li><b>Stop and wait:</b> at a gas alarm, stop before the red line until the all-clear. At a forklift crossing, give way.</li>
+    <li><b>Questions:</b> two units light up on each lap. The car stops there by itself and asks one engineering question. You get 45 seconds in Student mode. A right answer takes 5 seconds off your time; a wrong one adds 10 seconds. After every question you see the full worked solution, and the race clock waits while you read it.</li>
+    <li><b>Safety:</b> speeding, driving into a hazard or not giving way is a safety violation. Three violations end the race.</li>
+  </ul>
+
+  <h2 id="modes">Student and Professional mode</h2>
+  <table>
+    <thead><tr><th></th><th>Student</th><th>Professional</th></tr></thead>
+    <tbody>
+      <tr><td>Speed</td><td>Limiter keeps you at the zone limit</td><td>You keep to the limit yourself</td></tr>
+      <tr><td>Answers</td><td>Pick one of four</td><td>Type the number (within ±3 %)</td></tr>
+      <tr><td>Time per question</td><td>45 s</td><td>40 s, or 60 s for typed answers</td></tr>
+      <tr><td>Formula hint</td><td>One per race</td><td>None</td></tr>
+      <tr><td>Hazards per lap</td><td>1 to 2</td><td>3 to 4</td></tr>
+      <tr><td>Shortcut past the cooling towers</td><td>Closed</td><td>Opens after a right answer</td></tr>
+    </tbody>
+  </table>
+  <p>Wrong answers in Student mode are the usual mistakes: gauge pressure used as absolute, a forgotten efficiency, weight % confused with mole %. Missions you get wrong come back more often in later races until you solve them.</p>
+
+  <h2 id="hazards">Hazards and the right response</h2>
+  <table>
+    <thead><tr><th>Hazard</th><th>Right response</th><th>Violation</th></tr></thead>
+    <tbody>
+      <tr><td>Solvent spill</td><td>Change lane</td><td>Driving through it</td></tr>
+      <tr><td>Steam leak</td><td>Change lane</td><td>Driving into the cloud</td></tr>
+      <tr><td>Gas detector alarm</td><td>Stop short of the beacons and wait for the all-clear. A vehicle is an ignition source.</td><td>Entering the area while the alarm is on</td></tr>
+      <tr><td>Hot work barricade</td><td>Change lane</td><td>Breaking the barricade</td></tr>
+      <tr><td>Forklift crossing</td><td>Stop and give way until it has crossed</td><td>Contact with the forklift</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="missions">The engineering missions</h2>
+  <p>The numbers change every race. Each mission uses the same formulas and data as the calculator it links to.</p>
+  <table>
+    <thead><tr><th>Unit</th><th>Mission</th><th>Formula</th><th>Calculator</th></tr></thead>
+    <tbody>
+      <tr><td>Reactor bay</td><td>Agitator speed after scale-up</td><td>Constant tip speed: N₂ = N₁ × D₁/D₂</td><td><a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing scale-up</a></td></tr>
+      <tr><td>Reactor bay</td><td>Relief valve orifice letter</td><td>Smallest API 526 orifice with area ≥ required area</td><td><a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">Relief valve sizing</a></td></tr>
+      <tr><td>Pump house</td><td>NPSH available</td><td>(P<sub>surface</sub> − P<sub>v</sub>)/ρg + z − h<sub>f</sub></td><td><a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">Pressure drop and NPSH</a></td></tr>
+      <tr><td>Pump house</td><td>Pump shaft power</td><td>ρ·g·Q·H ÷ η</td><td><a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power</a></td></tr>
+      <tr><td>Utility block</td><td>Flash steam</td><td>(h<sub>f1</sub> − h<sub>f2</sub>) ÷ h<sub>fg2</sub>, absolute pressures</td><td><a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a></td></tr>
+      <tr><td>Utility block</td><td>Cooler LMTD</td><td>(ΔT₁ − ΔT₂) ÷ ln(ΔT₁/ΔT₂)</td><td><a href="{{ '/calculators/lmtd-calculator/' | relative_url }}">LMTD</a></td></tr>
+      <tr><td>Solvent recovery</td><td>Azeotrope temperature or composition</td><td>Measured data at 1 atm</td><td><a href="{{ '/solvents/azeotropes/' | relative_url }}">Azeotrope table</a></td></tr>
+      <tr><td>Solvent recovery</td><td>Absolute pressure from a vacuum gauge</td><td>Atmospheric − vacuum; 1 mmHg = 1.3332 mbar</td><td><a href="{{ '/calculators/unit-converter/' | relative_url }}">Unit converter</a></td></tr>
+      <tr><td>Tank farm</td><td>Hydrotest pressure</td><td>1.3 × MAWP × stress ratio</td><td><a href="{{ '/calculators/vessel-thickness-calculator/' | relative_url }}">Vessel thickness and MAWP</a></td></tr>
+      <tr><td>Tank farm</td><td>Solvent vapour out of the vent while filling</td><td>V × P<sub>v</sub>·MW/(R·T)</td><td><a href="{{ '/calculators/tank-breathing-losses/' | relative_url }}">Tank breathing losses</a></td></tr>
+      <tr><td>Pipe rack</td><td>Smallest line size under a velocity limit</td><td>v = Q ÷ (π D²/4), Sch 40 inside diameters</td><td><a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing</a></td></tr>
+      <tr><td>Pipe rack</td><td>Control valve Cv</td><td>Cv = Q√(SG/ΔP) ÷ 0.865 (Q in m³/h, ΔP in bar)</td><td><a href="{{ '/calculators/control-valve-sizing/' | relative_url }}">Control valve sizing</a></td></tr>
+    </tbody>
+  </table>
+  <div class="art-note"><b>On the plant</b><p>The plant in the game is fictional. Your own site rules on vehicle speed, gas alarms and permit areas come first.</p></div>
+
+  <h2 id="faq">Questions</h2>
+  <h3>Why does a plant game punish speeding?</h3>
+  <p>Vehicles in process areas and classified flammable zones must keep to low limits, and a vehicle is an ignition source. In Plant Rally the zone limits are the track limits: three violations end the race as an incident.</p>
+  <h3>Are the mission answers correct?</h3>
+  <p>Each mission is computed with the same formulas and data as the PharmaChemE calculator it links to, and every mission is checked against those calculators in automated tests before release.</p>
+  <h3>Is my score saved?</h3>
+  <p>Your best time, the ghost of your best lap and which missions you have solved are kept in this browser only. Nothing is sent to a server.</p>
+
+  <h2 id="sources">Sources</h2>
+  <ul>
+    <li>Steam properties: IAPWS Industrial Formulation 1997 (IAPWS-IF97), as in the <a href="{{ '/calculators/steam-tables/' | relative_url }}">steam tables</a>.</li>
+    <li>Relief valve orifice areas: API Standard 526, <i>Flanged Steel Pressure-relief Valves</i>.</li>
+    <li>Hydrostatic test pressure: ASME Boiler and Pressure Vessel Code, Section VIII Division 1, UG-99.</li>
+    <li>Pipe dimensions: ASME B36.10M.</li>
+    <li>Azeotrope data: <a href="https://en.wikipedia.org/wiki/Azeotrope_tables" rel="noopener">Azeotrope tables</a>, Wikipedia, from Lange&rsquo;s Handbook of Chemistry and the CRC Handbook of Chemistry and Physics, reused under <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>.</li>
+    <li>Vapour pressures (Antoine constants) and densities: the <a href="{{ '/solvents/' | relative_url }}">PharmaChemE solvent pages</a>.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>More games</h3>
+    <a href="{{ '/games/stop-the-hazard/' | relative_url }}">Stop the Hazard</a>
+    <a href="{{ '/games/plant-operator/' | relative_url }}">Plant Operator</a>
+    <a href="{{ '/games/troubleshooter/' | relative_url }}">PharmaChemE Troubleshooter</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/if97.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/plant-rally-missions.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/plant-rally.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-azeo="{{ '/assets/data/azeotropes.json' | relative_url }}" data-sol="{{ '/assets/data/solvent-lite.json' | relative_url }}"></script>
