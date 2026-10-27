@@ -31,37 +31,8 @@
     if (q.t === 'MSQ') return Array.from(box.querySelectorAll('input:checked')).map(i => +i.value);
     const v = box.querySelector('.gq-nat input').value.trim(); return v === '' ? null : v; }
 
-  /* ---------- virtual calculator ---------- */
-  function calc() { let el = document.getElementById('gate-calc'); if (el) { el.hidden = !el.hidden; return; }
-    el = document.createElement('div'); el.id = 'gate-calc'; el.className = 'gcalc'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Scientific calculator');
-    const keys = [['sin', 'sin('], ['cos', 'cos('], ['tan', 'tan('], ['ln', 'ln('], ['log', 'log('], ['asin', 'asin('], ['acos', 'acos('], ['atan', 'atan('], ['eˣ', 'exp('], ['10ˣ', '10^'], ['√', 'sqrt('], ['x²', '^2'], ['xʸ', '^'], ['1/x', '1/('], ['π', 'π'],
-      ['(', '('], [')', ')'], ['e', 'e'], ['Ans', 'Ans'], ['⌫', 'BK'], ['7', '7'], ['8', '8'], ['9', '9'], ['÷', '/'], ['C', 'CL'], ['4', '4'], ['5', '5'], ['6', '6'], ['×', '*'], ['±', '(-'], ['1', '1'], ['2', '2'], ['3', '3'], ['−', '-'], ['EXP', 'E'], ['0', '0'], ['.', '.'], ['=', 'EQ'], ['+', '+'], ['Deg', 'DEG']];
-    el.innerHTML = '<div class="gc-head"><b>Calculator</b><button type="button" class="gc-x" aria-label="Close calculator">✕</button></div><input class="gc-in" aria-label="Expression" autocomplete="off" spellcheck="false"><div class="gc-out" aria-live="polite">0</div><div class="gc-keys">' + keys.map(([t, k]) => '<button type="button" data-k="' + esc(k) + '"' + (k === 'EQ' ? ' class="eq"' : k === 'DEG' ? ' class="deg" aria-pressed="true"' : '') + '>' + t + '</button>').join('') + '</div>';
-    document.body.appendChild(el); const inp = el.querySelector('.gc-in'), out = el.querySelector('.gc-out'); let deg = true, ans = 0;
-    const run = () => { try { const v = evaluate(inp.value, deg, ans); if (!isFinite(v)) throw new Error('Math error'); ans = v; out.textContent = fmt(v); } catch (e) { out.textContent = e.message || 'Error'; } };
-    el.querySelector('.gc-keys').onclick = e => { const b = e.target.closest('button'); if (!b) return; const k = b.dataset.k;
-      if (k === 'EQ') run(); else if (k === 'CL') { inp.value = ''; out.textContent = '0'; } else if (k === 'BK') inp.value = inp.value.slice(0, -1);
-      else if (k === 'DEG') { deg = !deg; b.textContent = deg ? 'Deg' : 'Rad'; b.setAttribute('aria-pressed', String(deg)); } else inp.value += k; inp.focus(); };
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); run(); } if (e.key === 'Escape') el.hidden = true; });
-    el.querySelector('.gc-x').onclick = () => { el.hidden = true; };
-    let drag = null; el.querySelector('.gc-head').addEventListener('pointerdown', e => { if (e.target.closest('button')) return; const r = el.getBoundingClientRect(); drag = [e.clientX - r.left, e.clientY - r.top]; el.setPointerCapture(e.pointerId); });
-    el.addEventListener('pointermove', e => { if (!drag) return; el.style.left = Math.max(0, Math.min(innerWidth - 60, e.clientX - drag[0])) + 'px'; el.style.top = Math.max(0, Math.min(innerHeight - 40, e.clientY - drag[1])) + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto'; });
-    el.addEventListener('pointerup', () => { drag = null; }); inp.focus(); }
-  const fmt = v => { if (Math.abs(v) >= 1e10 || (Math.abs(v) < 1e-6 && v !== 0)) return v.toExponential(8).replace(/\.?0+e/, 'e'); return String(+v.toPrecision(12)); };
-  function evaluate(src, deg, ans) { const s = src.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/\s+/g, ''); let i = 0;
-    const tr = x => deg ? x * Math.PI / 180 : x, itr = x => deg ? x * 180 / Math.PI : x;
-    const F = { sin: x => Math.sin(tr(x)), cos: x => Math.cos(tr(x)), tan: x => Math.tan(tr(x)), asin: x => itr(Math.asin(x)), acos: x => itr(Math.acos(x)), atan: x => itr(Math.atan(x)), ln: Math.log, log: Math.log10, sqrt: Math.sqrt, exp: Math.exp, abs: Math.abs };
-    const peek = () => s[i], eat = c => { if (s[i] === c) { i++; return true; } return false; };
-    function expr() { let v = term(); for (;;) { if (eat('+')) v += term(); else if (eat('-')) v -= term(); else return v; } }
-    function term() { let v = unary(); for (;;) { if (eat('*')) v *= unary(); else if (eat('/')) v /= unary(); else if (peek() === '(' || /[a-zπA]/.test(peek() || '')) v *= unary(); else return v; } }
-    function unary() { if (eat('-')) return -unary(); if (eat('+')) return unary(); return power(); }
-    function power() { const b = primary(); if (eat('^')) return Math.pow(b, unary()); return b; }
-    function primary() { if (eat('(')) { const v = expr(); eat(')'); return v; }
-      const m = /^(\d+\.?\d*|\.\d+)(E[+-]?\d+)?/.exec(s.slice(i)); if (m) { i += m[0].length; return parseFloat(m[0].replace('E', 'e')); }
-      if (eat('π')) return Math.PI; if (s.startsWith('Ans', i)) { i += 3; return ans; }
-      const f = /^(asin|acos|atan|sin|cos|tan|ln|log|sqrt|exp|abs)/.exec(s.slice(i)); if (f) { i += f[0].length; if (!eat('(')) throw new Error('Syntax error'); const v = expr(); eat(')'); return F[f[1]](v); }
-      if (eat('e')) return Math.E; throw new Error('Syntax error'); }
-    if (!s) return 0; const v = expr(); if (i < s.length) throw new Error('Syntax error'); return v; }
+  /* ---------- virtual calculator: the exam-style one in gate-calc.js ---------- */
+  function calc() { if (window.GateCalc) window.GateCalc.toggle(); }
 
   /* =========================== PRACTICE =========================== */
   function practice() { const KEY = 'pcme-gate-practice', prog = store.get(KEY, {}), q0 = new URLSearchParams(location.search).get('sec'); let f = { sec: SECS[q0] ? q0 : '', t: '', m: '' }, list = [], idx = 0;
@@ -148,5 +119,5 @@
   }
 
   if (MODE === 'practice') practice(); else if (MODE === 'mock') mock();
-  window.__gate = { evaluate, isRight, marks, draw, PLAN };
+  window.__gate = { isRight, marks, draw, PLAN };
 })();
