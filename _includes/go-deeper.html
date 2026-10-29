@@ -1,0 +1,7 @@
+{%- assign gd_n = 0 -%}{%- capture gd_items -%}
+{%- for it in site.data.exclusive.items -%}{%- if it.promote contains page.url and gd_n < 2 -%}{%- assign gd_n = gd_n | plus: 1 -%}{%- assign gd_g = site.data.exclusive.groups | where: "key", it.group | first -%}
+<a class="gd-item" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}"><span class="gd-kind">{{ gd_g.title }}</span><b>{{ it.title }}</b><span class="gd-short">{{ it.short }}</span><span class="gd-price">₹{{ it.price }}</span></a>
+{%- endif -%}{%- endfor -%}{%- endcapture -%}
+{%- if gd_n > 0 -%}
+<aside class="container go-deeper" aria-label="Go deeper on this topic"><h2>Go deeper on this topic</h2><div class="gd-list">{{ gd_items }}</div><p class="gd-note">Paid, one UPI payment, lifetime access. <a href="{{ '/exclusive/' | relative_url }}">See all exclusive content</a></p></aside>
+{%- endif -%}

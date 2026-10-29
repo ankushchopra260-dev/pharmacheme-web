@@ -33,6 +33,7 @@ items:
       - A complete worked example with two design passes
       - Checklist for vendor datasheets and troubleshooting an underperforming cooler
     related: [/calculators/lmtd-calculator/, /calculators/overall-heat-transfer-coefficient-calculator/]
+    promote: ["/calculators/lmtd-calculator/", "/calculators/overall-heat-transfer-coefficient-calculator/", "/articles/heat-exchanger-design-basics/", "/articles/heat-load-calculation/", "/calculators/heat-load-calculator/", "/equipment-instruments/"]
   - id: art-reactor-heat-scaleup
     slug: exothermic-reaction-scale-up-heat-removal-dosing
     group: articles
@@ -47,6 +48,7 @@ items:
       - Worked example from RC1 data to a 6.3 kL glass-lined reactor
       - Traps that catch experienced teams, and a tech-transfer checklist
     related: [/calculators/reagent-addition-time-calculator/, /calculators/batch-cooling-tr-calculator/, /process-safety/stoessel-criticality-classes/]
+    promote: ["/calculators/reagent-addition-time-calculator/", "/calculators/batch-cooling-tr-calculator/", "/process-safety/stoessel-criticality-classes/", "/process-safety/cooling-failure-and-runaway/", "/process-safety/scale-up-and-tech-transfer/", "/process-safety/thermal-testing-dsc-arc-rc/", "/articles/semi-batch-dosing-accumulation/", "/articles/how-to-read-dsc-arc-rc1-tsu/", "/process-modelling/semi-batch-dosing-simulator/", "/process-modelling/heating-cooling-time-simulator/", "/articles/jacket-and-limpet-coil-design/", "/calculators/jacketed-vessel-heat-transfer/", "/articles/lab-to-plant-scale-up-checklist/"]
   - id: con-vle-activity-models
     slug: vapour-liquid-equilibrium-activity-models
     group: concepts
@@ -61,6 +63,7 @@ items:
       - Rachford–Rice flash for three components
       - Practical pitfalls and practice questions with answers
     related: ["/solvents/azeotropes/", "/gate/practice/?sec=TD"]
+    promote: ["/solvents/azeotropes/", "/articles/distillation-basics/", "/articles/solvent-recovery-calculation/"]
   - id: con-reactor-design-rtd
     slug: reactor-design-residence-time-distribution
     group: concepts
@@ -75,6 +78,7 @@ items:
       - RTD from a tracer test, with tanks-in-series, dispersion and segregation models
       - Practice questions with answers
     related: ["/gate/practice/?sec=RE", "/process-modelling/reaction-kinetics-fitting/"]
+    promote: ["/process-modelling/reaction-kinetics-fitting/", "/articles/reactor-selection/", "/articles/continuous-flow-chemistry/"]
   - id: pro-hx-rating
     slug: shell-tube-exchanger-rating-calculator
     group: calculators
@@ -89,6 +93,7 @@ items:
       - One-click sizing for 20 % excess area
       - PDF report and an Excel version with live formulas
     related: [/calculators/lmtd-calculator/, /calculators/overall-heat-transfer-coefficient-calculator/]
+    promote: ["/calculators/lmtd-calculator/", "/calculators/overall-heat-transfer-coefficient-calculator/", "/articles/heat-exchanger-design-basics/", "/articles/steam-energy-and-condenser-selection/", "/equipment-instruments/"]
   - id: pro-fug-column
     slug: shortcut-distillation-column-design-calculator
     group: calculators
@@ -103,6 +108,7 @@ items:
       - Top-section diameter from a Fair flooding correlation
       - PDF report and an Excel version with live formulas
     related: [/calculators/batch-distillation-simulator/, /solvents/azeotropes/]
+    promote: ["/articles/distillation-basics/", "/calculators/batch-distillation-simulator/", "/articles/solvent-recovery-calculation/", "/articles/solvent-recovery-troubleshooting/", "/solvents/azeotropes/"]
   - id: tpl-batch-cost-sheet
     slug: batch-manufacturing-cost-sheet-excel
     group: templates
@@ -115,6 +121,7 @@ items:
       - Overheads and packing, cost per batch and per kg, share of each head
       - Monthly cost, contribution and margin at your selling price
       - Protected formulas with yellow input cells
+    promote: ["/articles/consumption-norms-and-cost-per-kg/", "/articles/opex-reduction-api-plants/", "/articles/batch-cycle-time-debottlenecking/", "/articles/material-and-energy-balance/"]
   - id: tpl-hazop-worksheet
     slug: hazop-worksheet-excel
     group: templates
@@ -128,6 +135,7 @@ items:
       - 5 × 5 risk matrix you can adjust to your company's bands
       - Three worked rows for a reactor dosing node
     related: [/articles/hazop-made-practical/]
+    promote: ["/articles/hazop-made-practical/", "/articles/how-to-read-a-pid/", "/articles/hira-and-jsa-risk-assessment/", "/articles/lopa-and-sil-basics/", "/articles/management-of-change/", "/process-safety/high-hazard-process-checklist/", "/process-safety/what-is-process-safety/"]
   - { id: xl-vessel-volume-calculator, slug: excel/vessel-volume-calculator, group: excel, price: 49, calc: /calculators/vessel-volume-calculator/, title: "Excel: vessel volume and level", short: "Dished-end vessel volume, liquid volume at a level and fill %, with live formulas." }
   - { id: xl-batch-size-calculator, slug: excel/batch-size-calculator, group: excel, price: 49, calc: /calculators/batch-size-calculator/, title: "Excel: batch size feasibility", short: "Check every step between minimum stirrable and maximum working volume, with scale factors." }
   - { id: xl-overall-heat-transfer-coefficient-calculator, slug: excel/overall-heat-transfer-coefficient-calculator, group: excel, price: 49, calc: /calculators/overall-heat-transfer-coefficient-calculator/, title: "Excel: overall heat transfer coefficient (U)", short: "U from film coefficients, wall, glass and fouling, with the share of each resistance." }
