@@ -2,13 +2,15 @@
    Questions come from gate-bank.js (window.GATE_BANK). Progress is kept in this browser only. */
 (function () {
   'use strict';
-  const BANK = window.GATE_BANK || [], SECS = window.GATE_SECS || {}, root = document.getElementById('gate-app'); if (!root || !BANK.length) return;
-  const MODE = root.dataset.mode;
+  const SECS0 = { GA: 'General Aptitude', MA: 'Engineering Mathematics', PC: 'Process Calculations', TD: 'Thermodynamics', FM: 'Fluid Mechanics and Mechanical Operations', HT: 'Heat Transfer', MT: 'Mass Transfer', RE: 'Chemical Reaction Engineering', CN: 'Instrumentation and Process Control', PD: 'Plant Design and Economics', CT: 'Chemical Technology' };
+  const BANK = window.GATE_BANK || [], SECS = window.GATE_SECS || SECS0, root = document.getElementById('gate-app');
+  if (!root) return;
+  const MODE = root.dataset.mode; if (MODE !== 'paid' && !BANK.length) return;
   const $ = s => root.querySelector(s), $$ = s => Array.from(root.querySelectorAll(s));
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage blocked */ } } };
   const L = i => String.fromCharCode(65 + i);
-  const byId = Object.fromEntries(BANK.map(q => [q.id, q]));
+  let byId = Object.fromEntries(BANK.map(q => [q.id, q]));
 
   /* ---------- answer checking and marks (GATE rules) ---------- */
   function isAnswered(q, a) { if (a == null) return false; if (q.t === 'MSQ') return Array.isArray(a) && a.length > 0; if (q.t === 'NAT') return String(a).trim() !== '' && isFinite(+a); return a !== '' && a != null; }
@@ -61,25 +63,28 @@
     filter(); }
 
   /* =========================== MOCK TEST =========================== */
-  /* GATE CH pattern: 10 GA (5 x 1 mark, 5 x 2 marks), Engineering Mathematics 13 marks, core 72 marks; 25 one-mark and 30 two-mark subject questions. */
-  const PLAN = { GA: [5, 5], MA: [7, 3], PC: [2, 2], TD: [2, 3], FM: [2, 4], HT: [2, 3], MT: [2, 4], RE: [2, 4], CN: [2, 3], PD: [0, 3], CT: [4, 1] };
+  /* GATE CH pattern: 10 GA (5 x 1 mark, 5 x 2 marks), Engineering Mathematics 13 marks, core 72 marks; 25 one-mark and 30 two-mark subject questions.
+     Core split follows the average marks per subject in GATE CH papers 2019-2026: PC 4, TD 10, FM 10, HT 9, MT 10, RE 12, CN 8, PD 4, CT 5. */
+  const PLAN = { GA: [5, 5], MA: [7, 3], PC: [2, 1], TD: [2, 4], FM: [2, 4], HT: [3, 3], MT: [2, 4], RE: [2, 5], CN: [2, 3], PD: [0, 2], CT: [3, 1] };
   function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function draw(seed) { const r = rng(seed), pick = (arr, n) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
     const ga1 = pick(BANK.filter(q => q.sec === 'GA' && q.m === 1), 5), ga2 = pick(BANK.filter(q => q.sec === 'GA' && q.m === 2), 5), one = [], two = [];
     Object.entries(PLAN).forEach(([s, [n1, n2]]) => { if (s === 'GA') return; one.push(...pick(BANK.filter(q => q.sec === s && q.m === 1), n1)); two.push(...pick(BANK.filter(q => q.sec === s && q.m === 2), n2)); });
     const order = Object.keys(PLAN), so = (a, b) => order.indexOf(a.sec) - order.indexOf(b.sec);
     return ga1.concat(ga2, one.sort(so), two.sort(so)).map(q => q.id); }
-  function mock() { const KEY = 'pcme-gate-mock', HKEY = 'pcme-gate-mock-history'; let st = store.get(KEY, null);
+  function mock(opt) { opt = opt || {}; const KEY = opt.key || 'pcme-gate-mock', HKEY = KEY + '-history', FIX = opt.ids || null, TITLE = opt.title || 'GATE CH mock'; let st = store.get(KEY, null);
+    if (st && FIX && st.ids && st.ids.join() !== FIX.join()) st = null;
     const save = () => store.set(KEY, st);
     if (st && st.done) return result(); if (st && st.ids) return exam(); intro();
     function intro() { const hist = store.get(HKEY, []);
-      root.innerHTML = '<div class="gm-intro"><h2>GATE Chemical Engineering mock test</h2><ul><li><b>65 questions, 100 marks, 3 hours</b>, as in the real paper: 10 General Aptitude (15 marks) and 55 Chemical Engineering questions (85 marks, including 13 marks of Engineering Mathematics).</li><li><b>MCQ:</b> one correct option. A wrong answer costs 1/3 mark (1-mark questions) or 2/3 mark (2-mark questions).</li><li><b>MSQ:</b> one or more correct options. Full marks only for exactly the right set. No negative marks.</li><li><b>NAT:</b> type a number. No negative marks.</li><li>The timer keeps running if you close the page. Use <b>Calculator</b> for the on-screen scientific calculator, as in the exam.</li><li>Each new mock draws a fresh set from our bank of ' + BANK.length + ' original questions. These are practice questions written in the GATE style, not past GATE papers.</li></ul>' +
+      root.innerHTML = (opt.back ? '<p class="gm-backl"><a href="#" id="gm-backl">All test-series mocks</a></p>' : '') + '<div class="gm-intro"><h2>' + esc(FIX ? TITLE : 'GATE Chemical Engineering mock test') + '</h2><ul><li><b>65 questions, 100 marks, 3 hours</b>, as in the real paper: 10 General Aptitude (15 marks) and 55 Chemical Engineering questions (85 marks, including 13 marks of Engineering Mathematics).</li><li><b>MCQ:</b> one correct option. A wrong answer costs 1/3 mark (1-mark questions) or 2/3 mark (2-mark questions).</li><li><b>MSQ:</b> one or more correct options. Full marks only for exactly the right set. No negative marks.</li><li><b>NAT:</b> type a number. No negative marks.</li><li>The timer keeps running if you close the page. Use <b>Calculator</b> for the on-screen scientific calculator, as in the exam.</li><li>' + (FIX ? 'This is a fixed paper of ' + FIX.length + ' original questions, written in the GATE style. Worked solutions open after you submit.' : 'Each new mock draws a fresh set from our bank of ' + BANK.length + ' original questions. These are practice questions written in the GATE style, not past GATE papers.') + '</li></ul>' +
         '<label class="gm-agree"><input type="checkbox" id="gm-ok"> I have read the instructions.</label><button type="button" class="prim" id="gm-start" disabled>Start the mock test</button>' +
         (hist.length ? '<h3>Your earlier attempts</h3><table class="gm-hist"><tr><th>Date</th><th>Score</th><th>Correct</th><th>Wrong</th><th>Time used</th></tr>' + hist.slice(-8).reverse().map(h => '<tr><td>' + esc(h.d) + '</td><td><b>' + h.score.toFixed(2) + '</b> / 100</td><td>' + h.c + '</td><td>' + h.w + '</td><td>' + h.t + ' min</td></tr>').join('') + '</table>' : '') + '</div>';
+      if (opt.back) $('#gm-backl').onclick = e => { e.preventDefault(); opt.back(); };
       $('#gm-ok').onchange = e => { $('#gm-start').disabled = !e.target.checked; };
-      $('#gm-start').onclick = () => { const seed = Date.now() % 2147483647, ids = draw(seed); st = { seed, ids, ans: {}, mark: {}, seen: { [ids[0]]: 1 }, cur: 0, end: Date.now() + 180 * 60000, start: Date.now() }; save(); exam(); }; }
+      $('#gm-start').onclick = () => { const seed = Date.now() % 2147483647, ids = FIX ? FIX.slice() : draw(seed); st = { seed, ids, ans: {}, mark: {}, seen: { [ids[0]]: 1 }, cur: 0, end: Date.now() + 180 * 60000, start: Date.now() }; save(); exam(); }; }
     function exam() { let timer = 0;
-      root.innerHTML = '<div class="gm"><div class="gm-top"><b>GATE CH mock</b><span class="gm-tabs"><button type="button" data-tab="ga">General Aptitude</button><button type="button" data-tab="ch">Chemical Engineering</button></span><span class="sp"></span><button type="button" class="gm-calcb">Calculator</button><span class="gm-time" id="gm-time" aria-live="off">3:00:00</span></div>' +
+      root.innerHTML = '<div class="gm"><div class="gm-top"><b>' + esc(TITLE) + '</b><span class="gm-tabs"><button type="button" data-tab="ga">General Aptitude</button><button type="button" data-tab="ch">Chemical Engineering</button></span><span class="sp"></span><button type="button" class="gm-calcb">Calculator</button><span class="gm-time" id="gm-time" aria-live="off">3:00:00</span></div>' +
         '<div class="gm-body"><section class="gm-q" id="gm-q" aria-live="polite"></section><aside class="gm-pal"><div class="gm-legend"><span><i class="s-ans"></i>Answered</span><span><i class="s-no"></i>Not answered</span><span><i class="s-nv"></i>Not visited</span><span><i class="s-mr"></i>Marked for review</span><span><i class="s-amr"></i>Answered and marked</span></div><div class="gm-grid" id="gm-grid"></div><button type="button" class="prim" id="gm-submit">Submit test</button></aside></div>' +
         '<div class="gm-bar"><button type="button" id="gm-mark">Mark for review and next</button><button type="button" id="gm-clear">Clear response</button><span class="sp"></span><button type="button" id="gm-back">Previous</button><button type="button" class="prim" id="gm-save">Save and next</button></div></div>';
       const qs = st.ids.map(id => byId[id]).filter(Boolean), N = qs.length;
@@ -110,14 +115,19 @@
       root.innerHTML = '<div class="gm-res"><h2>Your score: <b>' + g.score.toFixed(2) + '</b> / 100</h2><div class="gm-kpi"><div><span>Correct</span><b>' + g.c + '</b></div><div><span>Wrong</span><b>' + g.w + '</b></div><div><span>Not answered</span><b>' + (g.qs.length - g.c - g.w) + '</b></div><div><span>Lost to negative marking</span><b>' + Math.abs(g.neg).toFixed(2) + '</b></div><div><span>Time used</span><b>' + g.mins + ' min</b></div></div>' +
         '<table class="gm-sec"><tr><th>Section</th><th>Marks</th><th>Correct</th><th>Wrong</th><th>Not answered</th></tr>' + order.filter(s => g.sec[s]).map(s => { const S = g.sec[s]; return '<tr><td>' + esc(SECS[s]) + '</td><td><b>' + S.got.toFixed(2) + '</b> / ' + S.max + '</td><td>' + S.c + '</td><td>' + S.w + '</td><td>' + S.u + '</td></tr>'; }).join('') + '</table>' +
         '<p class="mute">Scores are for practice only. GATE converts raw marks to a normalised GATE score; this mock shows raw marks out of 100.</p>' +
-        '<div class="gm-actions"><button type="button" class="prim" id="gm-new">Take a new mock</button><a href="' + esc(root.dataset.practice || '/gate/practice/') + '" class="btn-l">Practise by topic</a></div>' +
+        '<div class="gm-actions"><button type="button" class="prim" id="gm-new">' + (FIX ? 'Retake this mock' : 'Take a new mock') + '</button>' + (opt.back ? '<button type="button" id="gm-list">All test-series mocks</button>' : '') + '<a href="' + esc(root.dataset.practice || '/gate/practice/') + '" class="btn-l">Practise by topic</a></div>' +
         '<h3>Review your answers</h3><div class="gp-chips" role="group" aria-label="Filter"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="wrong" aria-pressed="false">Wrong</button><button type="button" data-f="un" aria-pressed="false">Not answered</button><button type="button" data-f="right" aria-pressed="false">Correct</button></div><div id="gm-rev"></div></div>';
       const rev = () => { $('#gm-rev').innerHTML = g.qs.map((q, i) => { const a = st.ans[q.id], an = isAnswered(q, a), ok = an && isRight(q, a), k = !an ? 'un' : ok ? 'right' : 'wrong'; if (filt !== 'all' && filt !== k) return '';
         const mk = marks(q, a); return '<details class="gm-item ' + k + '"><summary><span class="n">Q' + (i + 1) + '</span><span class="tag">' + esc(SECS[q.sec]) + ' · ' + q.t + ' · ' + q.m + 'M</span><span class="r">' + (k === 'un' ? 'Not answered' : ok ? '+' + q.m : (mk < 0 ? mk.toFixed(2) : '0')) + '</span></summary>' + qHTML(q, a, 'r-' + q.id, true) + '<div class="gq-sol ' + (ok ? 'right' : k === 'wrong' ? 'wrong' : '') + '"><p><b>Your answer:</b> ' + esc(ansText(q, a)) + ' &nbsp; <b>Correct answer:</b> ' + keyText(q) + '</p><div>' + q.s + '</div>' + (window.GATE_ANIM ? GATE_ANIM.figureFor(q) : '') + '</div></details>'; }).join('') || '<p class="mute">Nothing in this group.</p>'; };
       $$('.gm-res .gp-chips button').forEach(b => b.onclick = () => { filt = b.dataset.f; $$('.gm-res .gp-chips button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); rev(); }); rev();
-      $('#gm-new').onclick = () => { st = null; store.set(KEY, null); intro(); window.scrollTo({ top: root.offsetTop - 80 }); }; }
+      if (opt.back) $('#gm-list').onclick = () => opt.back();
+      $('#gm-new').onclick = () => { if (FIX && !confirm('Start this mock again? Your current result stays in the attempts list.')) return; st = null; store.set(KEY, null); intro(); window.scrollTo({ top: root.offsetTop - 80 }); }; }
   }
 
+  /* paid test series: gate-paid.js passes a fixed paper loaded after sign-in */
+  function runPaid(questions, id, title, back) { questions.forEach(q => { byId[q.id] = q; }); mock({ key: 'pcme-gate-paid-' + id, ids: questions.map(q => q.id), title, back }); }
+  function paidStatus(id) { const st = store.get('pcme-gate-paid-' + id, null), h = store.get('pcme-gate-paid-' + id + '-history', []); return { inProgress: !!(st && st.ids && !st.done), best: h.length ? Math.max(...h.map(x => x.score)) : null, attempts: h.length }; }
+
   if (MODE === 'practice') practice(); else if (MODE === 'mock') mock();
-  window.__gate = { isRight, marks, draw, PLAN };
+  window.__gate = { isRight, marks, draw, PLAN, runPaid, paidStatus };
 })();
