@@ -204,7 +204,6 @@
     - { title: "Concept notes (Paid)", url: "/exclusive/#concepts" }
     - { title: "Pro calculators (Paid)", url: "/exclusive/#calculators" }
     - { title: "Excel templates (Paid)", url: "/exclusive/#templates" }
-    - { title: "Excel versions of calculators (Paid)", url: "/exclusive/#excel" }
     - { title: "Custom tools for your plant", url: /custom-solutions/ }
 - title: About
   url: /about/

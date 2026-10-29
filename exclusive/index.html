@@ -2,7 +2,7 @@
 layout: default
 title: "Exclusive Content: Paid Chemical Engineering Guides, Pro Calculators, Excel Templates and GATE Test Series"
 seo_title: "Exclusive Chemical Engineering Content | PharmaChemE"
-description: "Paid PharmaChemE content: GATE CH test series, detailed plant articles, concept notes, Pro design calculators, Excel templates and Excel versions of the free calculators. Pay by UPI."
+description: "Paid PharmaChemE content: GATE CH test series, detailed plant articles, concept notes, Pro design calculators and Excel templates. Pay by UPI."
 breadcrumbs:
   - label: "Exclusive content"
     url: /exclusive/
@@ -25,14 +25,14 @@ structured_data: |
     <p class="ex-mine" id="ex-mine" hidden></p>
   </header>
 
-  <nav class="ex-jump" aria-label="Sections"><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endfor %}<a href="#custom">Custom tools</a></nav>
+  <nav class="ex-jump" aria-label="Sections"><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}{% unless g.key == "excel" %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endunless %}{% endfor %}<a href="#custom">Custom tools</a></nav>
 
   <section id="gate" class="ex-group">
     <h2>GATE CH test series</h2>
     <a class="ex-card ex-card-wide" href="{{ '/gate/test-series/' | relative_url }}"><span class="ex-paid">Paid</span><h3>GATE Chemical Engineering 2027 test series</h3><p>10 full-length mocks, 650 new questions in the current pattern, worked solutions, exam-style calculator and section-wise scores.</p><span class="ex-price">₹199 <small>access until 31 March 2027</small></span></a>
   </section>
 
-  {% for g in site.data.exclusive.groups %}
+  {% for g in site.data.exclusive.groups %}{% if g.key == "excel" %}{% continue %}{% endif %}
   <section id="{{ g.key }}" class="ex-group">
     <h2>{{ g.title }}</h2>
     <p class="ex-blurb">{{ g.blurb }}</p>
@@ -54,9 +54,9 @@ structured_data: |
   <div class="article-body ex-faq">
     <h2>Questions people ask</h2>
     <h3>How do I pay?</h3><p>Open the item you want, sign in with Google and tap <b>Request access</b>. We email you our UPI ID. Pay from any UPI app and reply with the transaction reference. We switch the item on for your Google email, usually within a day.</p>
-    <h3>How long do I keep access?</h3><p>Articles, notes, Pro calculators, templates and Excel files stay open for your Google account. The GATE test series is open until 31 March 2027.</p>
+    <h3>How long do I keep access?</h3><p>Articles, notes, Pro calculators, templates and Excel versions stay open for your Google account. The GATE test series is open until 31 March 2027.</p>
     <h3>Can I buy several items in one payment?</h3><p>Yes. Request each item you want; we send one UPI request for the total and switch them all on together.</p>
-    <h3>Are the free calculators going away?</h3><p>No. Every free calculator stays free. The Excel versions are for people who want a workbook to keep and edit.</p>
+    <h3>Are the free calculators going away?</h3><p>No. Every free calculator stays free. Where a calculator has an Excel version with live formulas, you will find it offered on that calculator's page.</p>
   </div>
 </div>
 <script type="module" src="{{ '/assets/js/exclusive.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

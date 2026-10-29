@@ -30,9 +30,15 @@ def main():
         title = it['title'].replace('Pro: ', '').replace('Excel: ', 'Excel ')
         seo = (title[:52] + ' | PharmaChemE') if len(title) <= 52 else (title.split(':')[0][:52] + ' | PharmaChemE')
         desc = it['short'] + ' ₹' + str(it['price']) + ' by UPI.'
+        if it['group'] == 'excel':
+            cs = open(os.path.join(ROOT, it['calc'].strip('/'), 'index.html'), encoding='utf-8').read()
+            ct = re.search(r'^title:\s*"?(.*?)"?\s*$', cs, re.M).group(1)
+            crumbs = ['breadcrumbs:', '  - label: "Calculators"', '    url: /calculators/', f'  - label: {json.dumps(ct.split(" for ")[0].split(":")[0], ensure_ascii=False)}', f'    url: {it["calc"]}', '  - label: "Excel version"', f'    url: /exclusive/{it["slug"]}/']
+        else:
+            crumbs = ['breadcrumbs:', '  - label: "Exclusive content"', '    url: /exclusive/', f'  - label: {json.dumps(g["title"], ensure_ascii=False)}', f'    url: /exclusive/#{g["key"]}', f'  - label: {json.dumps(title.split(":")[0] if len(title) > 60 else title, ensure_ascii=False)}', f'    url: /exclusive/{it["slug"]}/']
         fm = ['---', 'layout: exclusive', f'item: {it["id"]}', f'title: {json.dumps(it["title"], ensure_ascii=False)}', f'seo_title: {json.dumps(seo, ensure_ascii=False)}',
               f'description: {json.dumps(desc, ensure_ascii=False)}', 'structured_data: |', '  ' + json.dumps(sd, ensure_ascii=False),
-              'breadcrumbs:', '  - label: "Exclusive content"', '    url: /exclusive/', f'  - label: {json.dumps(g["title"], ensure_ascii=False)}', f'    url: /exclusive/#{g["key"]}', f'  - label: {json.dumps(title.split(":")[0] if len(title) > 60 else title, ensure_ascii=False)}', f'    url: /exclusive/{it["slug"]}/',
+              *crumbs,
               'last_modified_at: 2026-10-29', '---', '']
         open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write('\n'.join(fm))
         made.append(it['slug'])
