@@ -49,6 +49,10 @@ function mailtoLink() {
   const body = 'Hello,\n\nPlease give me access to the PharmaChemE GATE CH test series (' + PRICE + ').\n\nGoogle sign-in email: ' + user.email + '\nName: ' + (user.displayName || '') + '\n\nPlease send me the UPI ID for payment.\n\nThank you.';
   return 'mailto:' + CONTACT + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
+function gmailLink() {
+  const m = mailtoLink(), q = new URLSearchParams(m.split('?')[1]);
+  return 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(CONTACT) + '&su=' + encodeURIComponent(q.get('subject')) + '&body=' + encodeURIComponent(q.get('body'));
+}
 
 async function showNoAccess(expired) {
   let req = null;
@@ -56,7 +60,7 @@ async function showNoAccess(expired) {
   const when = req && req.at && req.at.toDate ? fmtDate(req.at.toDate()) : '';
   view(whoHTML() + (expired ? '<p class="ts-note">Your access to the test series has ended.</p>' : '') +
     (req ? '<div class="ts-step done"><b>Request sent' + (when ? ' on ' + esc(when) : '') + '.</b> We will email you at ' + esc(user.email) + ' with the UPI ID. After you pay, reply with the UPI transaction reference and your mocks open here, usually within a day.</div>' +
-           '<p class="ts-mute">No reply yet? <a href="' + esc(mailtoLink()) + '">Send the email again</a> or write to ' + esc(CONTACT) + '.</p>'
+           '<p class="ts-mute">Did the email not open, or no reply yet? <a href="' + esc(gmailLink()) + '" target="_blank" rel="noopener">Send it with Gmail</a>, <a href="' + esc(mailtoLink()) + '">use your mail app</a>, or write to ' + esc(CONTACT) + ' with your sign-in email.</p>'
          : '<ol class="ts-steps"><li><b>Request access.</b> Tap the button. It records your request and opens an email to us with your sign-in email filled in. Send that email.</li><li><b>Pay by UPI.</b> We reply with our UPI ID. Pay ' + esc(PRICE) + ' and reply with the transaction reference.</li><li><b>Start practising.</b> We switch on access for ' + esc(user.email) + ', usually within a day. Come back to this page and the 10 mocks will be here.</li></ol>' +
            '<button type="button" class="ts-btn prim" id="ts-req">Request access</button>'));
   bindWho();
