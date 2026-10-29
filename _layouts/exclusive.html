@@ -1,0 +1,37 @@
+---
+layout: default
+---
+{%- assign it = site.data.exclusive.items | where: "id", page.item | first -%}
+{%- assign grp = site.data.exclusive.groups | where: "key", it.group | first -%}
+<link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container ex-page" data-item="{{ it.id }}" data-type="{{ it.group }}">
+  <header class="ex-head">
+    <p class="ex-kind"><a href="{{ '/exclusive/' | relative_url }}#{{ grp.key }}">{{ grp.title }}</a></p>
+    <h1>{{ it.title }}</h1>
+    <p class="ex-short">{{ it.short }}</p>
+    <div class="ex-buy"><span class="ex-paid">Paid</span><span class="ex-amt">₹{{ it.price }}</span><span class="ex-terms">One payment by UPI, lifetime access for your Google account.</span></div>
+  </header>
+  <div class="ex-layout">
+    <section class="ex-preview" aria-labelledby="ex-inside">
+      {%- if it.what %}
+      <h2 id="ex-inside">What is inside</h2>
+      <ul class="ex-what">{% for w in it.what %}<li>{{ w }}</li>{% endfor %}</ul>
+      {%- endif %}
+      {%- if it.calc %}
+      <h2 id="ex-get-xl">What you get</h2>
+      <ul class="ex-what"><li>An Excel workbook (.xlsx) with the same method as the <a href="{{ it.calc | relative_url }}">free calculator</a>, with live formulas.</li><li>Yellow input cells, protected formulas and units on every line, ready to print or attach to a calculation note.</li><li>Download it as often as you need from this page.</li></ul>
+      {%- endif %}
+      {{ content }}
+      {%- if it.related or it.calc %}
+      <h3>Free tools on this topic</h3>
+      <ul class="ex-rel">{% if it.calc %}<li><a href="{{ it.calc | relative_url }}">Try the free calculator first</a></li>{% endif %}{% for r in it.related %}{% assign base = r | split: '?' | first %}{% assign rp = site.pages | where: "url", base | first %}<li><a href="{{ r | relative_url }}">{% if rp %}{{ rp.title | split: ':' | first }}{% else %}{{ base }}{% endif %}</a></li>{% endfor %}</ul>
+      {%- endif %}
+    </section>
+    <aside class="ex-access" aria-labelledby="ex-get">
+      <h2 id="ex-get">Get access</h2>
+      <div id="ex-panel" class="ts-panel" data-contact="pharmacheme.app@gmail.com" data-price="₹{{ it.price }}" data-title="{{ it.title | escape }}" data-notify="{{ site.notify_url }}" aria-live="polite"><p class="ts-busy">Loading…</p></div>
+    </aside>
+  </div>
+  <div id="ex-content" class="ex-content" hidden></div>
+</div>
+<script type="module" src="{{ '/assets/js/exclusive.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -471,3 +471,6 @@ body.has-page-search .nav-search-btn { display: none; }
 .pce-meta summary { cursor: pointer; }
 .pce-meta span { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .pce-meta input { font: 500 .85rem var(--f-sans); color: var(--paper); background: var(--bg-deep); border: 1px solid #2C4C6C; border-radius: 6px; padding: 6px 8px; min-width: 0; flex: 1 1 140px; }
+/* "Excel version" offer under free calculators (see _includes/excel-offer.html) */
+.xl-offer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; margin-top: 18px; margin-bottom: 6px; padding: 12px 16px; border: 1px dashed rgba(201,162,39,.55); border-radius: 10px; background: rgba(201,162,39,.05); }
+.xl-offer div { display: flex; flex-direction: column; gap: 2px; max-width: 640px; } .xl-offer b { color: var(--paper); font-size: .95rem; } .xl-offer span { color: var(--muted); font-size: .86rem; }

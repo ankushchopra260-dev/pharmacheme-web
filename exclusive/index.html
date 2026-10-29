@@ -1,0 +1,62 @@
+---
+layout: default
+title: "Exclusive Content: Paid Chemical Engineering Guides, Pro Calculators, Excel Templates and GATE Test Series"
+seo_title: "Exclusive Chemical Engineering Content | PharmaChemE"
+description: "Paid PharmaChemE content: GATE CH test series, detailed plant articles, concept notes, Pro design calculators, Excel templates and Excel versions of the free calculators. Pay by UPI."
+breadcrumbs:
+  - label: "Exclusive content"
+    url: /exclusive/
+last_modified_at: 2026-10-29
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "PharmaChemE exclusive content",
+    "url": "https://www.pharmacheme.in/exclusive/",
+    "description": "Paid guides, calculators, templates and the GATE CH test series from PharmaChemE."
+  }
+---
+<link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container ex-hub">
+  <header class="ex-hub-head">
+    <h1>Exclusive content</h1>
+    <p>Deeper material for engineers and students who want more than the free tools: full design guides with worked plant examples, Pro calculators with PDF and Excel, ready templates, and the GATE CH test series. Each item is bought on its own, paid by UPI, and stays open for your Google account.</p>
+    <ol class="ex-how"><li><b>Open the item</b> and sign in with Google.</li><li><b>Tap Request access.</b> We reply by email with our UPI ID.</li><li><b>Pay and reply</b> with the transaction reference. We switch it on, usually within a day.</li></ol>
+    <p class="ex-mine" id="ex-mine" hidden></p>
+  </header>
+
+  <nav class="ex-jump" aria-label="Sections"><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endfor %}<a href="#custom">Custom tools</a></nav>
+
+  <section id="gate" class="ex-group">
+    <h2>GATE CH test series</h2>
+    <a class="ex-card ex-card-wide" href="{{ '/gate/test-series/' | relative_url }}"><span class="ex-paid">Paid</span><h3>GATE Chemical Engineering 2027 test series</h3><p>10 full-length mocks, 650 new questions in the current pattern, worked solutions, exam-style calculator and section-wise scores.</p><span class="ex-price">₹199 <small>access until 31 March 2027</small></span></a>
+  </section>
+
+  {% for g in site.data.exclusive.groups %}
+  <section id="{{ g.key }}" class="ex-group">
+    <h2>{{ g.title }}</h2>
+    <p class="ex-blurb">{{ g.blurb }}</p>
+    <div class="ex-cards">
+      {%- assign items = site.data.exclusive.items | where: "group", g.key -%}
+      {%- for it in items %}
+      <a class="ex-card" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><span class="ex-paid">Paid</span><span class="ex-owned" hidden>Yours</span><h3>{{ it.title | remove: 'Pro: ' | remove: 'Excel: ' }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }}</span></a>
+      {%- endfor %}
+    </div>
+  </section>
+  {% endfor %}
+
+  <section id="custom" class="ex-group">
+    <h2>Custom tools for your plant</h2>
+    <p class="ex-blurb">Need a calculator, a costing workbook, a dashboard or a training module built around your own process? We build it to your data and standards.</p>
+    <a class="ex-card ex-card-wide" href="{{ '/custom-solutions/' | relative_url }}"><h3>Ask for a custom tool</h3><p>Tell us what you need. We reply with what we can build, the time it takes and the cost.</p><span class="ex-price">Quoted per project</span></a>
+  </section>
+
+  <div class="article-body ex-faq">
+    <h2>Questions people ask</h2>
+    <h3>How do I pay?</h3><p>Open the item you want, sign in with Google and tap <b>Request access</b>. We email you our UPI ID. Pay from any UPI app and reply with the transaction reference. We switch the item on for your Google email, usually within a day.</p>
+    <h3>How long do I keep access?</h3><p>Articles, notes, Pro calculators, templates and Excel files stay open for your Google account. The GATE test series is open until 31 March 2027.</p>
+    <h3>Can I buy several items in one payment?</h3><p>Yes. Request each item you want; we send one UPI request for the total and switch them all on together.</p>
+    <h3>Are the free calculators going away?</h3><p>No. Every free calculator stays free. The Excel versions are for people who want a workbook to keep and edit.</p>
+  </div>
+</div>
+<script type="module" src="{{ '/assets/js/exclusive.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

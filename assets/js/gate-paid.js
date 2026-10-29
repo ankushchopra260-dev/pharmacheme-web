@@ -15,7 +15,7 @@ const app = initializeApp({
 });
 const auth = getAuth(app), db = getFirestore(app);
 const panel = document.getElementById('ts-panel'), gateApp = document.getElementById('gate-app');
-const CONTACT = panel.dataset.contact, PRICE = panel.dataset.price;
+const CONTACT = panel.dataset.contact, PRICE = panel.dataset.price, NOTIFY = panel.dataset.notify;
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmtDate = d => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 const key = email => email.trim().toLowerCase();
@@ -68,6 +68,7 @@ async function showNoAccess(expired) {
   if (b) b.onclick = async () => {
     b.disabled = true;
     try { await setDoc(doc(db, 'requests', key(user.email)), { email: user.email, name: user.displayName || '', at: serverTimestamp() }); } catch (e) { /* still open the email */ }
+    if (NOTIFY) { try { fetch(NOTIFY, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ email: user.email, name: user.displayName || '', item: 'gate-test-series', title: 'GATE CH test series', price: PRICE, url: location.href.split('#')[0] }) }).catch(() => {}); } catch (e) { /* ignore */ } }
     location.href = mailtoLink();
     setTimeout(() => showNoAccess(false), 800);
   };

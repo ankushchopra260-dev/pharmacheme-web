@@ -43,6 +43,29 @@
     calc(); });
 
   const fmt = (x, d) => isFinite(x) ? (+x).toFixed(d) : '';
+  let last = null;
+  /* "Download PDF": the inputs, the recommended size and the neighbouring sizes, as on screen */
+  function pdfSpec() {
+    if (!last) return { error: 'Enter the flow first.' };
+    const { U, f, sch, best, show, crit, tot, none } = last;
+    const inputs = [['Service', last.fluidName], ['Flow', st.q + ' ' + U.unit], ['Line length', st.len + ' m']];
+    if (U.kind !== 'liq') inputs.push(['Pressure', st.p + ' barg']);
+    inputs.push(['Density used', fmt(f.rho, f.rho < 20 ? 2 : 0) + ' kg/m³'], ['Viscosity used', fmt(f.mu * 1000, 3) + ' cP'], ['Pipe schedule', 'Sch ' + sch], ['Limits for this service', 'velocity ' + crit.vmin + '–' + crit.vmax + ' m/s, ΔP below ' + crit.dp100 + ' bar/100 m']);
+    const res = [['Recommended size', none ? 'None in range (largest shown: ' + best.nb + ' NB)' : best.nb + ' NB (' + INCH[best.nb] + '), ID ' + fmt(best.D * 1000, 1) + ' mm'], ['Velocity', fmt(best.v, 2) + ' m/s'], ['Pressure drop', fmt(best.dp100, 3) + ' bar per 100 m'], ['Reynolds number', fmt(best.Re, 0)]];
+    if (tot != null) res.push(['Pressure drop over ' + fmt(st.len, 0) + ' m', fmt(tot, 3) + ' bar (incl. 20 % for bends and valves)']);
+    return { title: 'Line Sizing', sub: last.fluidName + ', ' + st.q + ' ' + U.unit,
+      sections: [{ title: 'Inputs', head: ['Item', 'Value'], widths: [0.38, 0.62], rows: inputs },
+        { title: 'Result', head: ['Item', 'Value'], widths: [0.38, 0.62], bold: [1], rows: res },
+        { title: 'Sizes compared', head: ['Size', 'Velocity (m/s)', 'ΔP (bar/100 m)', 'Status'], widths: [0.25, 0.22, 0.22, 0.31], rows: show.map(r => [r.nb + ' NB (' + INCH[r.nb] + ')', fmt(r.v, 2), fmt(r.dp100, 3), r === best ? 'Recommended' : r.ok ? 'Bigger than needed' : 'Too small']) }],
+      notes: ['Friction factor from the Churchill equation; pressure drop by Darcy–Weisbach for straight pipe. Check against your piping standard, and size relief, two-phase and slurry lines separately.'] };
+  }
+  const bar = document.createElement('div'); bar.className = 'xl-bar';
+  bar.innerHTML = '<button type="button" class="btn btn-outline btn-sm">Download PDF</button><span>A copy of your inputs and results</span>';
+  box.parentNode.insertBefore(bar, box.nextSibling);
+  bar.querySelector('button').addEventListener('click', e => { const btn = e.currentTarget, c = pdfSpec(); if (c.error) { alert(c.error); return; }
+    if (!window.PCME_XL) { alert('The PDF tool is still loading. Please try again.'); return; }
+    btn.disabled = true; btn.textContent = 'Preparing…'; c.link = location.href.split('#')[0];
+    window.PCME_XL.report(c).then(() => { btn.disabled = false; btn.textContent = 'Download PDF'; }, err => window.PCME_XL.fail(btn, err)); });
   function calc() {
     const U = L.UTIL[st.u], kind = U.kind, liqUser = st.u === 'liq';
     box.classList.toggle('is-gas', kind !== 'liq'); box.classList.toggle('is-userliq', liqUser);
@@ -57,6 +80,7 @@
     let k = rows.findIndex(r => r.ok); const none = k < 0; if (none) k = rows.length - 1; const best = rows[k];
     const tot = st.len > 0 ? best.dp100 * st.len / 100 * 1.2 : null; // 20 % for bends and valves
     const show = rows.slice(Math.max(0, k - 2), k + 3);
+    last = { U, f, sch, best, show, crit, tot, none, fluidName: (FLUIDS.find(x => x[0] === st.u) || [, ''])[1] + (liqUser && st.solv ? ' (' + SOLV[st.solv][0] + ')' : '') };
     const why = best.v > crit.vmax * .85 ? 'velocity' : best.dp100 > crit.dp100 * .85 ? 'pressure drop' : 'velocity';
     out.innerHTML = `
 <div class="ls-answer${none ? ' bad' : ''}">

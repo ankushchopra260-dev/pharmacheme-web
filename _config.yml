@@ -1,6 +1,8 @@
 title: PharmaChemE
 description: "Engineering calculators, troubleshooting games, a molecule tool and articles for chemical and pharma plant engineers and students."
 url: "https://www.pharmacheme.in"
+# Google Apps Script web-app URL that emails the owner on every paid-content request (empty = off)
+notify_url: ""
 baseurl: ""
 
 markdown: kramdown

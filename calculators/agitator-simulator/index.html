@@ -170,7 +170,7 @@ td.best{font-weight:600}
 <div class="pan" id="pan"></div>
 
 <div class="tblhead"><div class="tagkey"><span class="tag t-in">Input</span><span class="tag t-calc">Calculated</span><span class="tag t-corr">Correlation</span><span class="tag t-model">Model estimate</span><span class="tag t-anim">Animation</span></div>
- <div class="ctl2"><button id="reset">Reset to baseline</button><button id="csv">Export results (CSV)</button></div></div>
+ <div class="ctl2"><button id="reset">Reset to baseline</button><button id="pdf">Download PDF</button><button id="csv">Export results (CSV)</button></div></div>
 <div class="tblwrap"><table id="tbl"><thead><tr><th scope="col">Result</th><th scope="col" class="a">System A</th><th scope="col" class="b">System B</th></tr></thead><tbody></tbody></table></div>
 
 <details class="corr"><summary>Correlations and assumptions</summary><div id="corrbody"></div></details>
@@ -184,6 +184,7 @@ td.best{font-weight:600}
 <p>Related tools: <a href="https://www.pharmacheme.in/calculators/pump-power-calculator/">Pump Power Calculator</a> · <a href="https://www.pharmacheme.in/calculators/centrifuge-cake-weight-calculator/">Centrifuge Cake Weight Calculator</a> · <a href="https://www.pharmacheme.in/calculators/">all calculators</a>.</p>
 </div>
 </div>
+<script src="/assets/js/pdf-export.js"></script>
 <script>
 const G=9.81;
 const IMP={
@@ -650,6 +651,12 @@ function buildCorrPanel(){const imps=Object.entries(IMP).map(([k,v])=>`<tr><td>$
 <h3>Impeller data used</h3>
 <div class="tw"><table class="imp"><thead><tr><th>Impeller</th><th>Flow</th><th>Np<sub>T</sub> literature</th><th>Np<sub>T</sub> Scale-up Calculator</th><th>Kp (laminar)</th><th>Nq</th><th>Zwietering S</th><th>Default D/T / C/T</th></tr></thead><tbody>${imps}</tbody></table></div>
 <p>Literature values are typical fully baffled, turbulent figures for standard geometries and vary between sources and blade details. Replace them with vendor data for design work.</p>`;}
+function exportPDF(){const btn=$('pdf');if(!lastRes){alert('Set up the two systems first.');return;}if(!window.PCME_XL){alert('The PDF tool is still loading. Please try again.');return;}updateTable(lastRes);
+ const inputs=[['Vessel diameter T',P.T*1000+' mm'],['RM volume',$('V').value+' L'],['Liquid height H/T',P.HT.toFixed(3)],['Baffles',$('baffle').selectedOptions[0].text],['Density',P.rho+' kg/m³'],['Viscosity',P.mu+' cP'],['Power numbers',$('npsrc').selectedOptions[0].text]];
+ const sections=[{title:'Vessel and liquid',head:['Item','Value'],widths:[0.4,0.6],rows:inputs}];let cur=null;
+ [...$('tbl').tBodies[0].rows].forEach(tr=>{if(tr.classList.contains('sec')){cur={title:tr.textContent.trim(),head:['Result','System A','System B'],widths:[0.46,0.27,0.27],rows:[]};sections.push(cur);return;}if(!cur)return;const th=tr.cells[0],tag=th.querySelector('.tag');cur.rows.push([th.childNodes[0].textContent.trim()+(tag?' ('+tag.textContent.trim()+')':''),tr.cells[1].textContent,tr.cells[2].textContent]);});
+ btn.disabled=true;btn.textContent='Preparing…';
+ window.PCME_XL.report({title:'Agitator Comparison Simulator',sub:'System A: '+impLabel(SYS[0])+'; System B: '+impLabel(SYS[1]),sections:sections.filter(x=>x.rows.length),notes:['Power numbers, pumping and blend time from standard mixing correlations (see Correlations & assumptions on the page). Animation results depend on how long each view was run. Confirm the final design with the agitator vendor.'],link:location.href.split('#')[0]}).then(()=>{btn.disabled=false;btn.textContent='Download PDF';},e=>window.PCME_XL.fail(btn,e));}
 function exportCSV(){if(!lastRes)return;updateTable(lastRes);const rows=[['PharmaChemE Agitator Simulator export'],['Vessel diameter T (mm)',P.T*1000],['RM volume (L)',$('V').value],['H/T',P.HT.toFixed(3)],['Baffles',$('baffle').selectedOptions[0].text],['Density (kg/m3)',P.rho],['Viscosity (cP)',P.mu],['Power numbers',$('npsrc').selectedOptions[0].text],[]];
  rows.push(['Result','Type','System A','System B']);
  [...$('tbl').tBodies[0].rows].forEach(tr=>{if(tr.classList.contains('sec')){rows.push([tr.textContent.trim()]);return;}const th=tr.cells[0],tag=th.querySelector('.tag');rows.push([th.childNodes[0].textContent.trim(),tag?tag.textContent:'',tr.cells[1].textContent,tr.cells[2].textContent]);});
@@ -789,7 +796,7 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){speed=1;docume
 function solveHT(T,V){let lo=0.01,hi=5;for(let k=0;k<60;k++){const m=(lo+hi)/2;if(liquidVolume(geom(T,m))>V)hi=m;else lo=m;}return(lo+hi)/2;}
 const BASE={inputs:{},U:JSON.parse(JSON.stringify(U))};['T','V','baffle','rho','mu','N','mode','npsrc','dp','rhos','ws','crmode','crfeed'].forEach(id=>BASE.inputs[id]=$(id).value);
 $('reset').onclick=()=>{Object.entries(BASE.inputs).forEach(([id,v])=>$(id).value=v);$('Nr').value=BASE.inputs.N;U.splice(0,2,...JSON.parse(JSON.stringify(BASE.U)));CR.mode=$('crmode').value;CR.feed=$('crfeed').value;$('crfeed').disabled=CR.mode==='cool';recompute();panels.forEach(pn=>pn.sync());};
-$('csv').onclick=exportCSV;buildCorrPanel();
+$('csv').onclick=exportCSV;$('pdf').onclick=exportPDF;buildCorrPanel();
 $('selftest').onclick=()=>{$('selfres').textContent='Running…';setTimeout(()=>{const t=runSelfTest();$('selfres').textContent=t.fails.length?`${t.fails.length} failures out of ${t.cases} cases: ${t.fails.slice(0,3).join('; ')}`:`Passed: ${t.cases} cases, no failures.`;},30);};
 panels.forEach(resize);recompute();requestAnimationFrame(frame);
 </script></body></html>

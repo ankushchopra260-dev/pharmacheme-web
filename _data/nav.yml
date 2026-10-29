@@ -160,6 +160,7 @@
     - { title: "Formula sheets", url: /gate/formula-sheets/ }
     - { title: "Practice questions", url: /gate/practice/ }
     - { title: "Full mock test", url: /gate/mock-test/ }
+    - { title: "Test series (Paid)", url: /gate/test-series/ }
 - title: Interview
   url: /process-engineering-faq/
 - title: Process Safety
@@ -194,5 +195,16 @@
     - { title: "Instrumentation", url: "/equipment-instruments/#instrumentation" }
     - { title: "Agitators", url: "/equipment-instruments/#agitators" }
     - { title: "Interactive labs", url: "/equipment-instruments/#labs" }
+- title: Exclusive
+  url: /exclusive/
+  children:
+    - { title: "All exclusive content", url: /exclusive/ }
+    - { title: "GATE CH test series (Paid)", url: /gate/test-series/ }
+    - { title: "Detailed plant articles (Paid)", url: "/exclusive/#articles" }
+    - { title: "Concept notes (Paid)", url: "/exclusive/#concepts" }
+    - { title: "Pro calculators (Paid)", url: "/exclusive/#calculators" }
+    - { title: "Excel templates (Paid)", url: "/exclusive/#templates" }
+    - { title: "Excel versions of calculators (Paid)", url: "/exclusive/#excel" }
+    - { title: "Custom tools for your plant", url: /custom-solutions/ }
 - title: About
   url: /about/

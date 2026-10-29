@@ -1,0 +1,140 @@
+# Paid exclusive content. Public catalog only: titles, prices and what is inside.
+# The content itself is in Firestore (collection "items", id = id below) and opens only for buyers.
+# Pages are made by tools/build_exclusive_pages.py from this file.
+groups:
+  - key: articles
+    title: Detailed plant articles
+    blurb: In-depth guides with full worked plant examples, for engineers who design, check and troubleshoot equipment.
+  - key: concepts
+    title: Concept notes
+    blurb: Chapter-length notes on core chemical engineering concepts, with derivations kept short and every worked problem solved to the number. Useful for GATE, interviews and design work.
+  - key: calculators
+    title: Pro calculators
+    blurb: Bigger design tools than the free calculators, each with a PDF report and an Excel version with live formulas.
+  - key: templates
+    title: Excel templates
+    blurb: Ready-to-use workbooks for everyday plant engineering work.
+  - key: excel
+    title: Excel versions of the free calculators
+    blurb: The same method as the free calculator, as an Excel workbook with live formulas you can keep, edit and attach to your calculations.
+
+items:
+  - id: art-shell-tube-hx-design
+    slug: shell-and-tube-heat-exchanger-design
+    group: articles
+    title: "Shell-and-tube heat exchanger design: the plant engineer's method"
+    short: Size, rate and check a shell-and-tube exchanger by the Kern method, with a full toluene-cooler example.
+    price: 49
+    what:
+      - Choosing the TEMA type (BEM, BEU, AES, AKT) and which fluid goes in the tubes
+      - Six-step thermal design with LMTD, F correction and typical U values in kcal/h·m²·°C
+      - Tube layout, bundle and shell diameter, film coefficients by the Kern method
+      - Tube-side and shell-side pressure drop
+      - A complete worked example with two design passes
+      - Checklist for vendor datasheets and troubleshooting an underperforming cooler
+    related: [/calculators/lmtd-calculator/, /calculators/overall-heat-transfer-coefficient-calculator/]
+  - id: art-reactor-heat-scaleup
+    slug: exothermic-reaction-scale-up-heat-removal-dosing
+    group: articles
+    title: "Scaling up an exothermic batch reaction: heat removal, U and dosing time"
+    short: Turn RC1 and DSC results into a safe plant dosing time, with the measured U of your reactor and the MTSR.
+    price: 49
+    what:
+      - Why heat removal per kg falls with scale, with numbers
+      - Measuring the real U of a plant reactor with a simple cooling test
+      - Building U from resistances, and why the glass lining dominates
+      - Dosing-controlled semi-batch reactions, accumulation, MTSR and Stoessel classes
+      - Worked example from RC1 data to a 6.3 kL glass-lined reactor
+      - Traps that catch experienced teams, and a tech-transfer checklist
+    related: [/calculators/reagent-addition-time-calculator/, /calculators/batch-cooling-tr-calculator/, /process-safety/stoessel-criticality-classes/]
+  - id: con-vle-activity-models
+    slug: vapour-liquid-equilibrium-activity-models
+    group: concepts
+    title: "Vapour–liquid equilibrium: from Raoult's law to activity-coefficient models"
+    short: Bubble and dew calculations, non-ideal liquids, azeotropes and multicomponent flash, with five solved problems.
+    price: 49
+    what:
+      - The equilibrium condition, K-values and relative volatility
+      - Bubble and dew pressure and temperature, worked on benzene–toluene
+      - Margules, van Laar, Wilson, NRTL and UNIFAC, and when to use each
+      - Finding an azeotrope from activity coefficients
+      - Rachford–Rice flash for three components
+      - Practical pitfalls and practice questions with answers
+    related: ["/solvents/azeotropes/", "/gate/practice/?sec=TD"]
+  - id: con-reactor-design-rtd
+    slug: reactor-design-residence-time-distribution
+    group: concepts
+    title: "Reactor design: ideal reactors, multiple reactions and residence-time distribution"
+    short: Batch, CSTR and PFR design, Levenspiel plots, selectivity, and RTD models for real vessels, with solved problems.
+    price: 49
+    what:
+      - Design equations and integrated forms for the three ideal reactors
+      - Sizing from tabulated rate data with a Levenspiel plot
+      - Tanks in series and how fast they approach plug flow
+      - Parallel and series reactions, yield and selectivity
+      - RTD from a tracer test, with tanks-in-series, dispersion and segregation models
+      - Practice questions with answers
+    related: ["/gate/practice/?sec=RE", "/process-modelling/reaction-kinetics-fitting/"]
+  - id: pro-hx-rating
+    slug: shell-tube-exchanger-rating-calculator
+    group: calculators
+    title: "Pro: shell-and-tube exchanger rating and sizing"
+    short: Rate a shell-and-tube exchanger by the Kern method, or size the tube count for 20 % excess area. PDF report and Excel version included.
+    price: 149
+    what:
+      - Duty, outlet temperature, LMTD and F correction for 1 to 8 tube passes
+      - Bundle and shell diameter, baffle spacing, velocities and Reynolds numbers
+      - Tube-side and shell-side film coefficients, overall U and excess area
+      - Pressure drop on both sides, with warnings for velocity, F and margin
+      - One-click sizing for 20 % excess area
+      - PDF report and an Excel version with live formulas
+    related: [/calculators/lmtd-calculator/, /calculators/overall-heat-transfer-coefficient-calculator/]
+  - id: pro-fug-column
+    slug: shortcut-distillation-column-design-calculator
+    group: calculators
+    title: "Pro: shortcut distillation column design"
+    short: Minimum stages, minimum reflux, theoretical and actual trays, feed tray and column diameter for up to 10 components. PDF and Excel included.
+    price: 149
+    what:
+      - Fenske minimum stages and distribution of non-key components
+      - Underwood minimum reflux for any feed condition
+      - Gilliland stages (Eduljee fit) and Kirkbride feed location
+      - Actual trays from your tray efficiency
+      - Top-section diameter from a Fair flooding correlation
+      - PDF report and an Excel version with live formulas
+    related: [/calculators/batch-distillation-simulator/, /solvents/azeotropes/]
+  - id: tpl-batch-cost-sheet
+    slug: batch-manufacturing-cost-sheet-excel
+    group: templates
+    title: "Batch manufacturing cost sheet (Excel)"
+    short: Cost per batch and per kg, with solvent recovery, utilities, labour, effluent, overheads and margin.
+    price: 99
+    what:
+      - Raw materials table with solvent recovery
+      - Utilities, labour and QC, effluent and waste
+      - Overheads and packing, cost per batch and per kg, share of each head
+      - Monthly cost, contribution and margin at your selling price
+      - Protected formulas with yellow input cells
+  - id: tpl-hazop-worksheet
+    slug: hazop-worksheet-excel
+    group: templates
+    title: "HAZOP worksheet with guideword library (Excel)"
+    short: A ready HAZOP recording sheet with parameter and guideword lists, automatic risk rating and a library of typical causes.
+    price: 49
+    what:
+      - Worksheet with drop-downs for parameter, guideword, severity, likelihood and status
+      - Automatic risk score and High / Medium / Low colouring
+      - Guideword library with typical causes and consequences as prompts
+      - 5 × 5 risk matrix you can adjust to your company's bands
+      - Three worked rows for a reactor dosing node
+    related: [/articles/hazop-made-practical/]
+  - { id: xl-vessel-volume-calculator, slug: excel/vessel-volume-calculator, group: excel, price: 49, calc: /calculators/vessel-volume-calculator/, title: "Excel: vessel volume and level", short: "Dished-end vessel volume, liquid volume at a level and fill %, with live formulas." }
+  - { id: xl-batch-size-calculator, slug: excel/batch-size-calculator, group: excel, price: 49, calc: /calculators/batch-size-calculator/, title: "Excel: batch size feasibility", short: "Check every step between minimum stirrable and maximum working volume, with scale factors." }
+  - { id: xl-overall-heat-transfer-coefficient-calculator, slug: excel/overall-heat-transfer-coefficient-calculator, group: excel, price: 49, calc: /calculators/overall-heat-transfer-coefficient-calculator/, title: "Excel: overall heat transfer coefficient (U)", short: "U from film coefficients, wall, glass and fouling, with the share of each resistance." }
+  - { id: xl-steam-heating-calculator, slug: excel/steam-heating-calculator, group: excel, price: 49, calc: /calculators/steam-heating-calculator/, title: "Excel: steam to heat a batch", short: "Steam per batch, per kg and per hour, including vessel metal and losses." }
+  - { id: xl-batch-cooling-tr-calculator, slug: excel/batch-cooling-tr-calculator, group: excel, price: 49, calc: /calculators/batch-cooling-tr-calculator/, title: "Excel: refrigeration to cool a batch", short: "Average and peak TR, brine flow and the UA the jacket must give." }
+  - { id: xl-reagent-addition-time-calculator, slug: excel/reagent-addition-time-calculator, group: excel, price: 49, calc: /calculators/reagent-addition-time-calculator/, title: "Excel: reagent addition time from RC1 data", short: "Shortest safe dosing time, adiabatic rise and MTSR check." }
+  - { id: xl-solvent-mixture-density-viscosity-calculator, slug: excel/solvent-mixture-density-viscosity-calculator, group: excel, price: 49, calc: /calculators/solvent-mixture-density-viscosity-calculator/, title: "Excel: solvent mixture density and viscosity", short: "Ideal mixing rules for up to three liquids." }
+  - { id: xl-drying-agent-calculator, slug: excel/drying-agent-calculator, group: excel, price: 49, calc: /calculators/drying-agent-calculator/, title: "Excel: drying agent requirement", short: "Molecular sieve or salt needed to bring a solvent to a water spec." }
+  - { id: xl-packed-scrubber-calculator, slug: excel/packed-scrubber-calculator, group: excel, price: 49, calc: /calculators/packed-scrubber-calculator/, title: "Excel: packed scrubber sizing", short: "Column diameter, packed height, recirculation and scrubbing-solution use." }
+  - { id: xl-pump-power-calculator, slug: excel/pump-power-calculator, group: excel, price: 49, calc: /calculators/pump-power-calculator/, title: "Excel: pump power", short: "Hydraulic, shaft and motor power from flow, head and efficiencies." }

@@ -1,0 +1,4 @@
+{%- assign xo = site.data.exclusive.items | where: "calc", page.url | first -%}
+{%- if xo -%}
+<div class="container xl-offer"><div><b>Excel version with live formulas</b><span>The same method as this calculator, as a workbook you can keep, edit and attach to your calculation note.</span></div><a class="btn btn-outline btn-sm" href="{{ '/exclusive/' | append: xo.slug | append: '/' | relative_url }}">Get it, ₹{{ xo.price }}</a></div>
+{%- endif -%}
