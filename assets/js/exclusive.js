@@ -179,7 +179,7 @@ function makeApi(files) {
 
 async function render(it) {
   const files = it.files || {};
-  view(who() + '<p class="ts-ok">This item is open for you.</p>' + (Object.keys(files).length && it.type !== 'calculator' && it.type !== 'book' ? Object.entries(files).map(([k, f]) => '<button type="button" class="ts-btn prim ex-dl" data-k="' + esc(k) + '">Download ' + esc(f.name.replace(/^PharmaChemE-/, '')) + '</button>').join(' ') : '<p class="ts-mute">' + (it.type === 'book' ? 'Scroll down to open the book.' : 'Scroll down to read or use it.') + '</p>'));
+  view(who() + '<p class="ts-ok">This item is open for you.</p>' + (Object.keys(files).length && it.type !== 'calculator' ? Object.entries(files).map(([k, f]) => '<button type="button" class="ts-btn prim ex-dl" data-k="' + esc(k) + '">Download ' + esc(f.name.replace(/^PharmaChemE-/, '')) + '</button>').join(' ') : '<p class="ts-mute">' + (it.type === 'book' ? 'Scroll down to open the book.' : 'Scroll down to read or use it.') + '</p>'));
   bindWho();
   panel.querySelectorAll('.ex-dl').forEach(btn => btn.onclick = () => { save(files[btn.dataset.k]); markFinished(ID); });
   const stamp = '<p class="ex-stamp">Licensed to ' + esc(user.email) + '. Please do not share or copy this content.</p>';

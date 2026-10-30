@@ -106,7 +106,7 @@
       // dispose the old scene
       if (st.scene) st.scene.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => m.dispose()); });
       st.scene = new T.Scene(); st.world = new T.Group(); st.scene.add(st.world);
-      st.frames = []; st.items = []; st.lbls.forEach(l => l.el.remove()); st.lbls = [];
+      st.frames = []; st.items = []; st.lbls.forEach(l => l.el.remove()); st.lbls = []; holder.querySelectorAll('.sb-ov').forEach(e => e.remove()); holder.classList.remove('sb-has-ov');
       cam = cam || {}; st.az = cam.az == null ? -0.6 : cam.az; st.el = cam.el == null ? 0.55 : cam.el; st.dist = cam.dist || 14; st.target.set(cam.tx || 0, cam.ty == null ? 1 : cam.ty, 0);
       st.t0 = performance.now(); st.grow = reduced() ? 1 : 0; st.settled = false;
       paperGround(cam.ground || 9);
@@ -181,6 +181,7 @@
       const l = { el, p: new T.Vector3(p[0], p[1], p[2]), obj: o.obj || null, dx: o.dx || 0, dy: o.dy || 0, show: true, left: !!o.left }; st.lbls.push(l); return l;
     };
     st.onFrame = fn => st.frames.push(fn);
+    st.overlay = (html, cls) => { const d = document.createElement('div'); d.className = 'sb-ov' + (cls ? ' ' + cls : ''); d.innerHTML = html || ''; holder.appendChild(d); holder.classList.add('sb-has-ov'); return d; };
     st.remove = g => { if (!g) return; if (g.parent) g.parent.remove(g); st.items = st.items.filter(x => x !== g); g.traverse(o => { if (o.geometry) o.geometry.dispose(); }); };
     st.setTint = (g, col) => g.traverse(o => { if (o.material && o.material.uniforms && o.material.uniforms.uTint) o.material.uniforms.uTint.value.set(col); });
     st.added = g => { g.userData.fixed = true; g.scale.copy(g.userData.base); return g; };
@@ -246,7 +247,8 @@
     const tabs = q('.sb-tabs'), left = q('.sb-left'), stageEl = q('.sb-stage'), ctrls = q('.sb-ctrls');
     const done = new Set(spec.done || []);
     let cur = -1, stage = null, pageApi = null;
-    function drawTabs() { tabs.innerHTML = spec.pages.map((p, i) => '<button type="button" data-i="' + i + '"' + (i === cur ? ' aria-current="page"' : '') + '><i>' + (done.has(i) ? '✓' : i + 1) + '</i>' + esc(p.short || p.title) + '</button>').join('') + (spec.extraTab ? '<button type="button" data-i="x"' + (cur === 'x' ? ' aria-current="page"' : '') + '><i>¶</i>' + esc(spec.extraTab.title) + '</button>' : ''); }
+    const compact = spec.pages.length > 12; if (compact) tabs.classList.add('sb-compact');
+    function drawTabs() { tabs.innerHTML = spec.pages.map((p, i) => (compact && spec.groups && spec.groups[i] ? '<span class="sb-wk">' + esc(spec.groups[i]) + '</span>' : '') + '<button type="button" data-i="' + i + '"' + (i === cur ? ' aria-current="page"' : '') + (compact ? ' title="' + esc(p.short || p.title) + '" aria-label="' + esc((p.label || 'Page') + ' ' + (i + 1) + ': ' + (p.short || p.title)) + '"' : '') + '><i>' + (done.has(i) ? '✓' : i + 1) + '</i>' + (compact ? '' : esc(p.short || p.title)) + '</button>').join('') + (spec.extraTab ? '<button type="button" data-i="x"' + (cur === 'x' ? ' aria-current="page"' : '') + '><i>¶</i>' + esc(spec.extraTab.title) + '</button>' : ''); }
     tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(b.dataset.i === 'x' ? 'x' : +b.dataset.i); });
     q('.sb-prev').onclick = () => go(cur === 'x' ? spec.pages.length - 1 : Math.max(0, cur - 1));
     q('.sb-next').onclick = () => go(cur === 'x' ? 'x' : cur + 1 < spec.pages.length ? cur + 1 : (spec.extraTab ? 'x' : cur));
@@ -256,9 +258,9 @@
       if (i === 'x') { spread.hidden = true; let ex = q('.sb-extra'); if (!ex) { ex = document.createElement('div'); ex.className = 'sb-extra'; spread.after(ex); spec.extraTab.render(ex); } ex.hidden = false; q('.sb-pg').textContent = spec.extraTab.title; foot.querySelector('.sb-next').disabled = true; foot.querySelector('.sb-prev').disabled = false; return; }
       const ex = q('.sb-extra'); if (ex) ex.hidden = true; spread.hidden = false;
       const p = spec.pages[i];
-      q('.sb-pg').textContent = 'Page ' + (i + 1) + ' of ' + spec.pages.length;
+      q('.sb-pg').textContent = (p.label || 'Page') + ' ' + (i + 1) + ' of ' + spec.pages.length;
       foot.querySelector('.sb-prev').disabled = i === 0; foot.querySelector('.sb-next').disabled = i === spec.pages.length - 1 && !spec.extraTab;
-      left.innerHTML = '<h3>' + esc(p.title) + '</h3><div class="sb-body">' + (p.html || '') + '</div>' + (p.try ? '<div class="sb-try"><b>Try this</b>' + p.try + '</div>' : '') + (p.check ? '<div class="sb-check"></div>' : '');
+      left.innerHTML = '<h3>' + esc(p.title) + '</h3><div class="sb-body">' + (p.html || '') + '</div>' + (p.try ? '<div class="sb-try"><b>Try this</b>' + p.try + '</div>' : '') + (p.check ? '<div class="sb-check"></div>' : '') + (p.free && p.free.length ? '<div class="sb-free"><b>Free on PharmaChemE</b><ul>' + p.free.map(f => '<li><a href="' + esc(f[0]) + '" target="_blank" rel="noopener">' + esc(f[1]) + '</a></li>').join('') + '</ul></div>' : '');
       if (p.check) check(left.querySelector('.sb-check'), p.check, i);
       ctrls.innerHTML = '';
       const token = {}; go.token = token;
@@ -267,7 +269,8 @@
         ctrls.innerHTML = '';
         if (!stage) stage = Stage(window.THREE, stageEl, {});
         stage.reset(p.cam); pageApi = controls(ctrls);
-        try { p.build(stage, pageApi, { INK, HOT, COLD, PAPER, plot, clamp }); } catch (e) { ctrls.innerHTML = '<p class="sb-note warn">This page could not start (' + esc(e.message) + ').</p>'; }
+        const complete = () => { if (!done.has(i)) { done.add(i); drawTabs(); spec.onDone && spec.onDone(i, done.size, spec.pages.length); } };
+        try { p.build(stage, pageApi, { INK, HOT, COLD, PAPER, plot, clamp, complete, isDone: () => done.has(i) }); } catch (e) { ctrls.innerHTML = '<p class="sb-note warn">This page could not start (' + esc(e.message) + ').</p>'; }
       };
       loadThree().then(go2, e => { stageEl.innerHTML = '<p class="sb-note warn">' + esc(e.message) + '. Please refresh.</p>'; });
       if (window.innerWidth < 760) mount.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });

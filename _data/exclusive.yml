@@ -43,6 +43,24 @@ items:
       - "Full notes: TEMA selection, Kern film coefficients, pressure drop, a worked example and a vendor-datasheet checklist"
     related: [/calculators/lmtd-calculator/, /calculators/overall-heat-transfer-coefficient-calculator/]
     promote: ["/calculators/lmtd-calculator/", "/calculators/overall-heat-transfer-coefficient-calculator/", "/articles/heat-exchanger-design-basics/", "/articles/heat-load-calculation/", "/calculators/heat-load-calculator/", "/equipment-instruments/"]
+  - id: book-first-30-days
+    slug: first-30-days-chemical-plant
+    group: books
+    demo: plant
+    title: "The First 30 Days in a Chemical Plant"
+    short: For students and freshers. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Ends with a Day-30 test and a fresher toolkit in Excel.
+    price: 499
+    what:
+      - "Week 1: the emergency plan with wind and assembly points, a 3D plant walk, PPE and permits, inside a glass-lined reactor, a centrifuge cycle, vacuum drying with a live LOD curve, and starting a pump in the right order"
+      - "Week 2: seven valve types you can open and close with their P&ID symbols, reading a P&ID, the five utilities, alarms and interlocks you can trip, a line walk against the drawing, and GDP on a BMR page"
+      - "Week 3: follow a batch, cut layers cleanly at the sight glass, cooling rate versus crystal size, yield reconciliation, steam traps, cooling tower range and approach, nitrogen purge cycles, a vacuum leak hunt and the steam needed to heat a batch"
+      - "Week 4: five troubleshooting cases, the 5 whys to a real root cause, a maintenance job from permit to hand-back, a fact-based problem note, shift handover and the daily production report"
+      - "Last days: working with people, then the Day-30 readiness test (20 questions, score by area, pass to complete the book)"
+      - "Every day: what to do on the plant, what to ask, an \"on the plant floor\" tip, a quick check and links to the free articles and calculators"
+      - "Fresher toolkit (Excel): 30-day plan and diary, inspection checklist, equipment register, sample SOP, sample BMR with yield reconciliation, shift handover, self-assessment"
+      - "A glossary of 33 plant words you will hear in week one"
+    related: [/freshers/industry-readiness-score/, /articles/how-to-read-a-pid/, /articles/permit-to-work-and-isolation/]
+    promote: ["/freshers/industry-readiness-score/", "/process-engineering-faq/", "/articles/how-to-read-a-pid/", "/articles/permit-to-work-and-isolation/", "/articles/qa-gmp-deviation-capa/", "/articles/hr-in-chemical-plants/", "/plant-tour/"]
   - id: book-fluid-flow-3d
     slug: fluid-flow-3d-concept-book
     group: books
@@ -190,6 +208,16 @@ items:
 # Learning paths: a guided order through paid items and free tools. Progress is saved for signed-in buyers;
 # finishing every paid step unlocks a certificate. Steps: item = paid item id, or free = page url (not tracked).
 paths:
+  - id: fresher
+    title: Industry-ready chemical engineer
+    blurb: For final-year students and freshers. Check where you stand, learn the plant in 30 days, then the two skills interviews test most.
+    steps:
+      - { free: /freshers/industry-readiness-score/, title: "Industry readiness score (free)" }
+      - { item: book-first-30-days }
+      - { free: /articles/how-to-read-a-pid/, title: "How to read a P&ID (free)" }
+      - { item: book-fluid-flow-3d }
+      - { item: art-shell-tube-hx-design }
+      - { free: /process-engineering-faq/, title: "Interview questions (free)" }
   - id: heat-transfer
     title: Heat exchangers for plant engineers
     blurb: From the LMTD to a rated shell-and-tube exchanger you can defend in a design review.

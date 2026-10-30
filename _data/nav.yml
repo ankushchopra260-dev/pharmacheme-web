@@ -163,6 +163,10 @@
     - { title: "Test series (Paid)", url: /gate/test-series/ }
 - title: Interview
   url: /process-engineering-faq/
+  children:
+    - { title: "Interview questions and answers", url: /process-engineering-faq/ }
+    - { title: "Industry readiness score (free)", url: /freshers/industry-readiness-score/ }
+    - { title: "First 30 Days in a chemical plant (Paid)", url: /exclusive/first-30-days-chemical-plant/ }
 - title: Process Safety
   url: /process-safety/
   groups:
@@ -201,6 +205,7 @@
     - { title: "All exclusive content", url: /exclusive/ }
     - { title: "GATE CH test series", url: /gate/test-series/ }
     - { title: "3D concept books", url: "/exclusive/#books" }
+    - { title: "First 30 Days in a chemical plant", url: "/exclusive/first-30-days-chemical-plant/" }
     - { title: "Learning paths", url: "/exclusive/#paths" }
     - { title: "Concept notes", url: "/exclusive/#concepts" }
     - { title: "Pro calculators", url: "/exclusive/#calculators" }

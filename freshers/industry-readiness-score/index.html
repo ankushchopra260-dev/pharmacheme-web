@@ -1,0 +1,106 @@
+---
+layout: default
+title: "Industry Readiness Score for Chemical Engineering Freshers: Free 15-Question Check"
+seo_title: "Chemical Engineer Industry Readiness Test (Free) | PharmaChemE"
+description: "Free 15-question check for chemical engineering students and freshers: safety, equipment, P&ID, batch processing, utilities, documentation and plant calculations. Get a score by area and what to study next."
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Industry readiness score
+    url: /freshers/industry-readiness-score/
+last_modified_at: 2026-10-30
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Industry readiness score for chemical engineering freshers",
+    "about": "Chemical plant basics for freshers",
+    "educationalLevel": "Beginner",
+    "url": "https://www.pharmacheme.in/freshers/industry-readiness-score/",
+    "isAccessibleForFree": true
+  }
+---
+<style>
+.ir { max-width: 860px; }
+.ir h1 { font-family: var(--f-display); color: var(--paper); font-size: 2rem; margin: 6px 0 8px; text-wrap: balance; }
+.ir .lead { color: var(--muted); line-height: 1.6; margin: 0 0 16px; }
+.ir-q { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.ir-q p { margin: 0 0 8px; color: var(--paper); font-weight: 600; line-height: 1.45; } .ir-q p small { font-weight: 400; color: var(--brass); }
+.ir-o { display: grid; gap: 6px; }
+.ir-o button { text-align: left; border: 1px solid var(--grid-line); background: #0f1e2e; color: var(--paper); border-radius: 8px; padding: 8px 12px; font: 400 .92rem/1.4 var(--f-sans); cursor: pointer; }
+.ir-o button:hover { border-color: var(--brass); } .ir-o button[aria-pressed="true"] { border-color: var(--brass); background: rgba(201,162,39,.15); }
+.ir-o button.ok { border-color: #2f7a3e; background: rgba(47,122,62,.2); } .ir-o button.no { border-color: #b04a28; background: rgba(176,74,40,.18); }
+.ir-o button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.ir-why { margin: 8px 0 0; font-size: .88rem; color: var(--muted); }
+.ir-bar { position: sticky; bottom: 0; background: var(--bg, #0B1622); padding: 10px 0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; border-top: 1px solid var(--grid-line); }
+.ir-res { background: var(--panel); border: 1px solid var(--brass); border-radius: 12px; padding: 18px 20px; margin: 16px 0; color: var(--paper); }
+.ir-big { font: 700 2.4rem var(--f-display); color: var(--brass); margin: 0; }
+.ir-areas { display: grid; gap: 8px; margin: 12px 0; }
+.ir-areas div { display: grid; grid-template-columns: 140px 1fr 44px; gap: 10px; align-items: center; font-size: .9rem; }
+.ir-areas i { display: block; height: 10px; border-radius: 6px; }
+.ir-rec { margin: 10px 0 0; padding-left: 18px; line-height: 1.7; } .ir-rec a { color: var(--brass); }
+.ir-cta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; border-top: 1px dashed var(--grid-line); margin-top: 14px; padding-top: 14px; }
+.ir-cta p { margin: 0; color: var(--muted); flex: 1; min-width: 240px; }
+@media (max-width: 560px) { .ir-areas div { grid-template-columns: 110px 1fr 40px; } }
+</style>
+<div class="container ir">
+  <h1>Industry readiness score</h1>
+  <p class="lead">Fifteen questions that a plant manager would expect a chemical engineering fresher to answer: safety, equipment, P&amp;IDs, batch processing, utilities, documents and quick plant calculations. Free, no sign-in. You get a score for each area and what to study next.</p>
+  <div id="ir-qs"></div>
+  <div class="ir-bar"><button type="button" class="btn btn-primary" id="ir-go">Show my score</button><span id="ir-count" class="mute" style="color:var(--muted)">0 of 15 answered</span></div>
+  <div id="ir-out"></div>
+</div>
+<script>
+(function () {
+  var Q = [
+    ['Safety', 'A solvent is being poured from a steel drum into a vessel. What must be connected first?', ['A pressure gauge', 'Earthing and bonding clamps', 'A flow meter', 'A level switch'], 1, 'Flowing solvent builds up static charge; earthing and bonding let it drain away before a spark can ignite the vapour.'],
+    ['Safety', 'Which work needs a hot work permit?', ['Taking a sample', 'Grinding or welding in a process area', 'Reading a gauge', 'Changing a filter bag'], 1, 'Any spark or flame source in an area that can have flammable vapour needs a hot work permit, a gas test and a fire watch.'],
+    ['Safety', 'You smell solvent strongly near a pump. First action?', ['Fix it yourself', 'Move away, warn others, and inform the shift in-charge', 'Ignore it', 'Switch off the lights'], 1, 'Your safety and the area come first. Report it so the leak is isolated by the right people with the right permit.'],
+    ['Equipment', 'Which equipment separates a solid from a liquid by spinning?', ['Condenser', 'Centrifuge', 'Receiver', 'Scrubber'], 1, 'A centrifuge spins a perforated basket; the liquid passes through the filter bag and the solid cake stays.'],
+    ['Equipment', 'What does a condenser on top of a reactor do?', ['Heats the batch', 'Turns solvent vapour back to liquid', 'Measures pressure', 'Adds nitrogen'], 1, 'It cools the vapour with cooling water or brine so solvent is recovered or refluxed instead of escaping.'],
+    ['P&ID', 'What does "PT" mean on a P&ID?', ['Pressure transmitter', 'Pump tag', 'Process tank', 'Pipe thickness'], 0, 'P = pressure (measured), T = transmitter (function). ISA 5.1 letters.'],
+    ['P&ID', 'On a P&ID, a dashed line usually means…', ['Insulated pipe', 'An instrument signal', 'A drain line', 'Steam'], 1, 'Dashed lines between instruments are signals; process pipes are solid lines.'],
+    ['Batch process', 'Why is a reactor purged with nitrogen before a flammable solvent is charged?', ['To cool it', 'To keep oxygen too low for a fire or explosion', 'To weigh it', 'To clean it'], 1, 'Removing oxygen removes one side of the fire triangle inside the vessel.'],
+    ['Batch process', 'An IPC sample result is pending. The BMR says the next step depends on it. You…', ['Proceed anyway', 'Hold the batch and follow up with QC', 'Skip the step', 'Repeat the previous step'], 1, 'An IPC is a hold point; proceeding without the result is a deviation.'],
+    ['Utilities', 'Steam at 3 bar gauge condenses at about…', ['100 °C', '144 °C', '200 °C', '80 °C'], 1, 'Saturated steam at 3 bar g (about 4 bar absolute) is at about 144 °C. Steam tables give the exact value.'],
+    ['Utilities', 'Cooling water comes from the cooling tower at 32 °C. Which batch temperature can it not reach?', ['60 °C', '45 °C', '20 °C', '50 °C'], 2, 'You cannot cool below the coolant temperature; 20 °C needs chilled water or brine.'],
+    ['Documents', 'What is a BMR?', ['A maintenance report', 'The batch manufacturing record: the step-by-step record of one batch', 'A bill of materials', 'A boiler report'], 1, 'The BMR gives the approved steps and limits and is filled in as the batch is made.'],
+    ['Documents', 'You made a wrong entry in a record. The correct way to fix it is…', ['Whitener', 'Single strike-through, correct value, sign, date and reason', 'Overwrite it', 'Tear out the page'], 1, 'Good documentation practice keeps the original readable and the correction traceable.'],
+    ['Calculations', 'How much heat (kcal) is needed to warm 1,000 kg of water from 30 to 80 °C? (cp = 1 kcal/kg·°C)', ['5,000', '50,000', '80,000', '500,000'], 1, 'Q = m·cp·ΔT = 1,000 × 1 × 50 = 50,000 kcal.'],
+    ['Calculations', 'A pump moves 10 m³/h of water against 30 m head. Hydraulic power is about…', ['0.08 kW', '0.8 kW', '8 kW', '30 kW'], 1, 'P = ρgQH = 1000 × 9.81 × (10/3600) × 30 ≈ 818 W ≈ 0.8 kW (before pump efficiency).']
+  ];
+  var REC = {
+    'Safety': [['/articles/permit-to-work-and-isolation/', 'Permit to work and isolation'], ['/articles/static-electricity-solvent-fires/', 'Static electricity and solvent fires']],
+    'Equipment': [['/equipment-instruments/', 'Process equipment and instrumentation'], ['/articles/centrifuge-cake-weight/', 'Centrifuges']],
+    'P&ID': [['/articles/how-to-read-a-pid/', 'How to read a P&ID'], ['/articles/instrumentation-basics/', 'Instrumentation basics']],
+    'Batch process': [['/articles/inerting-and-loc/', 'Inerting and oxygen limits'], ['/articles/batch-cycle-time-debottlenecking/', 'Batch cycle time']],
+    'Utilities': [['/calculators/steam-tables/', 'Steam tables'], ['/articles/cooling-tower-calculations/', 'Cooling tower calculations']],
+    'Documents': [['/articles/qa-gmp-deviation-capa/', 'QA, GMP, deviations and CAPA'], ['/articles/management-of-change/', 'Management of change']],
+    'Calculations': [['/calculators/steam-heating-calculator/', 'Steam heating calculator'], ['/calculators/pump-power-calculator/', 'Pump power calculator']]
+  };
+  // shuffle the options of each question so the right answer is not always in the same place
+  Q = Q.map(function (q) { var idx = q[2].map(function (_, i) { return i; }); for (var i = idx.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = idx[i]; idx[i] = idx[j]; idx[j] = t; } return [q[0], q[1], idx.map(function (i) { return q[2][i]; }), idx.indexOf(q[3]), q[4]]; });
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var host = document.getElementById('ir-qs'), ans = {};
+  host.innerHTML = Q.map(function (q, i) { return '<div class="ir-q"><p>' + (i + 1) + '. ' + esc(q[1]) + ' <small>' + esc(q[0]) + '</small></p><div class="ir-o">' + q[2].map(function (o, j) { return '<button type="button" data-q="' + i + '" data-j="' + j + '" aria-pressed="false">' + esc(o) + '</button>'; }).join('') + '</div><p class="ir-why" hidden></p></div>'; }).join('');
+  host.addEventListener('click', function (e) { var b = e.target.closest('button[data-q]'); if (!b || host.dataset.done) return; var q = +b.dataset.q; ans[q] = +b.dataset.j;
+    host.querySelectorAll('button[data-q="' + q + '"]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    document.getElementById('ir-count').textContent = Object.keys(ans).length + ' of 15 answered'; });
+  document.getElementById('ir-go').onclick = function () {
+    var n = Object.keys(ans).length; if (n < 15) { document.getElementById('ir-count').textContent = 'Answer all 15 first (' + n + ' done).'; return; }
+    host.dataset.done = '1'; var areas = {}, tot = 0;
+    Q.forEach(function (q, i) { areas[q[0]] = areas[q[0]] || [0, 0]; areas[q[0]][1]++; var ok = ans[i] === q[3]; if (ok) { areas[q[0]][0]++; tot++; }
+      host.querySelectorAll('button[data-q="' + i + '"]').forEach(function (x) { var j = +x.dataset.j; if (j === q[3]) x.classList.add('ok'); else if (j === ans[i]) x.classList.add('no'); });
+      var w = host.querySelectorAll('.ir-why')[i]; w.hidden = false; w.textContent = q[4]; });
+    var pct = Math.round(tot / 15 * 100), band = pct >= 80 ? 'Industry ready' : pct >= 60 ? 'Nearly there' : 'Building up';
+    var weak = Object.keys(areas).filter(function (a) { return areas[a][0] / areas[a][1] < 0.7; });
+    var rec = (weak.length ? weak : Object.keys(areas)).slice(0, 4).map(function (a) { return REC[a].map(function (r) { return '<li><a href="' + r[0] + '">' + esc(r[1]) + '</a> <span style="color:var(--muted)">(' + esc(a) + ')</span></li>'; }).join(''); }).join('');
+    document.getElementById('ir-out').innerHTML = '<div class="ir-res" id="ir-res"><p class="ir-big">' + pct + ' %</p><p style="margin:0 0 6px"><b>' + band + '.</b> ' + tot + ' of 15 right. Scroll up to see the explanation under each question.</p>' +
+      '<div class="ir-areas">' + Object.keys(areas).map(function (a) { var v = areas[a], r = v[0] / v[1]; return '<div><span>' + esc(a) + '</span><i style="width:' + Math.max(4, Math.round(r * 100)) + '%;background:' + (r >= 0.7 ? '#2f7a3e' : '#b04a28') + '"></i><b>' + v[0] + '/' + v[1] + '</b></div>'; }).join('') + '</div>' +
+      '<p style="margin:10px 0 0"><b>' + (weak.length ? 'Study next (free):' : 'Keep going (free):') + '</b></p><ul class="ir-rec">' + rec + '</ul>' +
+      '<div class="ir-cta"><p>Starting your first job soon? <b>The First 30 Days in a Chemical Plant</b> walks you through a plant in 3D, day by day: safety and permits, equipment, P&amp;IDs, utilities, a full batch, documents, troubleshooting and a Day-30 test, with a fresher toolkit in Excel.</p><a class="btn btn-primary" href="/exclusive/first-30-days-chemical-plant/">See what is inside</a></div></div>';
+    document.getElementById('ir-res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('ir-go').textContent = 'Try again'; document.getElementById('ir-go').onclick = function () { location.reload(); };
+  };
+})();
+</script>
