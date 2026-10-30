@@ -21,6 +21,8 @@ guide: false
   .ad .ts-btn { padding: 6px 11px; font-size: .82rem; }
   .ad .msg { min-height: 1.2em; font-size: .88rem; color: var(--brass); }
   .ad .mute { color: var(--muted); font-size: .85rem; }
+  .ad .sent { display: inline-block; margin-top: 6px; font-size: .82rem; color: #8fd3a3; } .ad .sent::before { content: "✓ "; }
+  .ad .row label { min-width: 70px; color: var(--paper); font-size: .9rem; }
   #toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); max-width: min(560px, calc(100vw - 32px)); background: #FDBE53; color: #0B1622; font-weight: 600; font-size: .9rem; padding: 12px 16px; border-radius: 8px; box-shadow: 0 6px 24px rgba(0,0,0,.4); z-index: 9999; }
   @media (max-width: 700px) { .ad table, .ad tbody, .ad tr, .ad td { display: block; } .ad thead { display: none; } .ad tr { border-bottom: 1px solid var(--grid-line); padding: 6px 0; } .ad td { border: 0; padding: 3px 0; } }
 </style>
@@ -50,6 +52,16 @@ const TPL_OK = 'Hello {name},\n\nWe have received your payment. {title} is now o
 const fill = (t, v) => t.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
 const FROM = 'pharmacheme.app@gmail.com';
 const gmail = (to, subject, body) => 'https://mail.google.com/mail/u/' + encodeURIComponent(FROM) + '/?view=cm&fs=1&to=' + encodeURIComponent(to) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+const NOTIFY = {{ site.notify_url | jsonify }};
+let MAILKEY = '';
+// Send through the PharmaChemE mail web app (from pharmacheme.app@gmail.com, BCC to the owner). Falls back to Gmail compose.
+async function postMail(to, subject, body) {
+  if (!MAILKEY || !NOTIFY) { sendMail(to, subject, body); return { ok: false, fallback: true, error: MAILKEY ? 'no mail web app' : 'mail key not saved' }; }
+  try {
+    const r = await fetch(NOTIFY, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'mail', key: MAILKEY, to, subject, body }) });
+    const j = await r.json(); if (j && j.ok) return j; throw new Error((j && j.error) || 'not sent');
+  } catch (e) { toast('Automatic email failed (' + e.message + '). Opening Gmail instead.'); sendMail(to, subject, body); return { ok: false, fallback: true, error: e.message }; }
+}
 function sendMail(to, subject, body, pre) {
   let w = pre || null;
   if (w && !w.closed) w.location.href = gmail(to, subject, body); else w = window.open(gmail(to, subject, body), '_blank');
@@ -79,13 +91,14 @@ async function load(user) {
   rows.sort((a, b) => a.email.localeCompare(b.email) || a.pid.localeCompare(b.pid));
   const people = new Set(rows.map(r => r.id)).size;
   const M = mocks.docs.map(d => d.id).sort(), IT = items.docs.map(d => d.id).sort();
-  const upi = (cfgDoc && cfgDoc.data().upi) || ls.get('ts-upi', ''), now = new Date();
+  const cfg = (cfgDoc && cfgDoc.data()) || {}, upi = cfg.upi || ls.get('ts-upi', ''), now = new Date(), MAILED = cfg.mailed || {}; MAILKEY = cfg.mailKey || '';
+  const sentNote = rid => { const t = MAILED[rid]; return t && t.toDate ? '<span class="sent">UPI email sent ' + esc(t.toDate().toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) + '</span>' : '<span class="mute">UPI email not sent yet</span>'; };
   const pname = pid => P[pid] ? P[pid].title : pid;
   root.innerHTML =
     '<p class="mute">Signed in as ' + esc(user.email) + ' · <button class="ts-link" id="out">Sign out</button></p>' +
-    '<section><h2>Your UPI ID</h2><div class="row"><input type="text" id="upi" placeholder="yourname@bank" value="' + esc(upi) + '" size="28"><button class="ts-btn" id="upi-save">Save</button><span class="mute">Saved to your account, so it works on any computer. Used in the reply emails.</span></div></section>' +
+    '<section><h2>Settings</h2><div class="row"><label for="upi">UPI ID</label><input type="text" id="upi" placeholder="yourname@bank" value="' + esc(upi) + '" size="28"><button class="ts-btn" id="upi-save">Save</button></div><div class="row"><label for="mkey">Mail key</label><input type="password" id="mkey" placeholder="from the mail web app" value="' + esc(MAILKEY) + '" size="28" autocomplete="off"><button class="ts-btn" id="mkey-save">Save</button><span class="mute">' + (MAILKEY ? 'Emails go out automatically from pharmacheme.app@gmail.com, with a BCC to your personal Gmail.' : 'Without the key, emails open in Gmail for you to send.') + '</span></div></section>' +
     '<section><h2>Requests waiting (' + R.length + ')</h2>' + (R.length ? '<table><thead><tr><th>Email</th><th>Item</th><th>Requested</th><th>Access until</th><th></th></tr></thead><tbody>' + R.map((r, i) =>
-      '<tr><td class="e">' + esc(r.email) + '<br><span class="mute">' + esc(r.name) + '</span></td><td>' + esc(pname(r.pid)) + '<br><span class="mute">' + esc(P[r.pid] ? P[r.pid].price : r.price || '') + '</span></td><td>' + esc(fmt(r.at?.toDate?.())) + '</td><td><input type="date" value="' + (P[r.pid] ? P[r.pid].until : '2099-12-31') + '" data-u="' + i + '"></td><td><div class="btns"><a class="ts-btn" data-pay="' + i + '" href="#">Email UPI ID</a><button class="ts-btn prim" data-grant="' + i + '">Payment received: grant</button><button class="ts-btn" data-del="' + i + '">Remove</button></div></td></tr>').join('') + '</tbody></table>' : '<p class="mute">No pending requests.</p>') + '</section>' +
+      '<tr><td class="e">' + esc(r.email) + '<br><span class="mute">' + esc(r.name) + '</span></td><td>' + esc(pname(r.pid)) + '<br><span class="mute">' + esc(P[r.pid] ? P[r.pid].price : r.price || '') + '</span></td><td>' + esc(fmt(r.at?.toDate?.())) + '</td><td><input type="date" value="' + (P[r.pid] ? P[r.pid].until : '2099-12-31') + '" data-u="' + i + '"></td><td><div class="btns"><a class="ts-btn" data-pay="' + i + '" href="#">' + (MAILED[r.id] ? 'Send UPI email again' : 'Email UPI ID') + '</a><button class="ts-btn prim" data-grant="' + i + '">Payment received: grant</button><button class="ts-btn" data-del="' + i + '">Remove</button></div>' + sentNote(r.id) + '</td></tr>').join('') + '</tbody></table>' : '<p class="mute">No pending requests.</p>') + '</section>' +
     '<section><h2>Give access directly</h2><div class="row"><input type="email" id="new-e" placeholder="student@gmail.com" size="26"><input type="text" id="new-n" placeholder="Name (optional)"><select id="new-p">' + prodOpts('gate-test-series') + '</select><input type="date" id="new-u" value="2027-03-31"><button class="ts-btn prim" id="new-go">Grant</button></div><p class="mute">Use the exact Google email the person signs in with. 31-12-2099 means lifetime.</p></section>' +
     '<section><h2>Access given (' + rows.length + ' items, ' + people + ' people)</h2>' + (rows.length ? '<table><thead><tr><th>Email</th><th>Item</th><th>Until</th><th>Status</th><th></th></tr></thead><tbody>' + rows.map((a, i) =>
       '<tr><td class="e">' + esc(a.email) + '<br><span class="mute">' + esc(a.name) + '</span></td><td>' + esc(pname(a.pid)) + '</td><td>' + esc(fmt(a.until)) + '</td><td>' + (a.until && a.until > now ? 'Active' : 'Ended') + '</td><td><div class="btns"><input type="date" value="' + (a.until ? a.until.toISOString().slice(0, 10) : '2099-12-31') + '" data-au="' + i + '"><button class="ts-btn" data-ext="' + i + '">Change date</button><button class="ts-btn" data-rev="' + i + '">Revoke</button></div></td></tr>').join('') + '</tbody></table>' : '<p class="mute">Nobody yet.</p>') + '</section>' +
@@ -95,6 +108,8 @@ async function load(user) {
   $('out').onclick = () => signOut(auth);
   $('upi-save').onclick = async () => { const v = $('upi').value.trim(); ls.set('ts-upi', v);
     try { await setDoc(doc(db, 'access', '_config'), { upi: v }, { merge: true }); toast('UPI ID saved.'); } catch (e) { toast('Saved in this browser only (' + (e.code || e.message) + ').'); } };
+  $('mkey-save').onclick = async () => { const v = $('mkey').value.trim(); try { await setDoc(doc(db, 'access', '_config'), { mailKey: v }, { merge: true }); MAILKEY = v; toast(v ? 'Mail key saved. Emails will now be sent automatically.' : 'Mail key removed.'); } catch (e) { toast('Could not save (' + (e.code || e.message) + ').'); } };
+  const markSent = async rids => { const m = {}; rids.forEach(id => { m[id] = serverTimestamp(); }); try { await setDoc(doc(db, 'access', '_config'), { mailed: m }, { merge: true }); } catch (e) { /* log only */ } };
   $('new-p').onchange = e => { $('new-u').value = (P[e.target.value] || {}).until || '2099-12-31'; };
   const grant = async (email, name, pid, untilStr) => {
     const until = new Date(untilStr + 'T23:59:59+05:30'), ref = doc(db, 'access', key(email)), base = { email: key(email), name: name || '', granted: serverTimestamp() };
@@ -105,18 +120,26 @@ async function load(user) {
   };
   const mailVars = (r, extra) => Object.assign({ name: r.name || 'there', email: r.email, title: pname(r.pid), price: P[r.pid] ? P[r.pid].price : r.price || '', url: SITE + (P[r.pid] ? P[r.pid].url : '/exclusive/') }, extra);
   root.querySelectorAll('[data-pay]').forEach(a => { const r = R[+a.dataset.pay];
-    a.onclick = e => { e.preventDefault(); const u = $('upi').value.trim(); if (!u) { toast('Type your UPI ID in the box at the top and press Save first.'); $('upi').focus(); $('upi').scrollIntoView({ block: 'center' }); return; }
+    a.onclick = async e => { e.preventDefault(); const u = $('upi').value.trim(); if (!u) { toast('Type your UPI ID in the box at the top and press Save first.'); $('upi').focus(); $('upi').scrollIntoView({ block: 'center' }); return; }
       const same = R.filter(x => x.email === r.email);
+      let rids = [r.id], subj, body;
       if (same.length > 1 && confirm(r.email + ' has requested ' + same.length + ' items. Send one email with the total for all of them?')) {
         const tot = same.reduce((s, x) => s + (parseInt(String((P[x.pid] || {}).price || x.price || '0').replace(/\D/g, ''), 10) || 0), 0);
-        sendMail(r.email, 'PharmaChemE: payment details for ' + same.length + ' items', fill(TPL_PAY, mailVars(r, { title: same.map(x => '\n  - ' + pname(x.pid) + ' (' + ((P[x.pid] || {}).price || '') + ')').join('') + '\n', price: '₹' + tot, upi: u, url: SITE + '/exclusive/' })));
-      } else sendMail(r.email, 'PharmaChemE ' + pname(r.pid) + ': payment details', fill(TPL_PAY, mailVars(r, { upi: u })));
+        rids = same.map(x => x.id); subj = 'PharmaChemE: payment details for ' + same.length + ' items';
+        body = fill(TPL_PAY, mailVars(r, { title: same.map(x => '\n  - ' + pname(x.pid) + ' (' + ((P[x.pid] || {}).price || '') + ')').join('') + '\n', price: '₹' + tot, upi: u, url: SITE + '/exclusive/' }));
+      } else { subj = 'PharmaChemE ' + pname(r.pid) + ': payment details'; body = fill(TPL_PAY, mailVars(r, { upi: u })); }
+      if (MAILED[r.id] && !confirm('A UPI email already went to ' + r.email + ' on ' + MAILED[r.id].toDate().toLocaleString('en-IN') + '. Send it again?')) return;
+      a.textContent = 'Sending…';
+      const res = await postMail(r.email, subj, body);
+      if (res.ok) { await markSent(rids); toast('Sent to ' + r.email + ' from pharmacheme.app@gmail.com. A copy is in your personal Gmail (BCC).'); load(user); }
+      else a.textContent = 'Email UPI ID';
     }; });
   root.querySelectorAll('[data-grant]').forEach(b => b.onclick = async () => { const i = +b.dataset.grant, r = R[i], ustr = root.querySelector('[data-u="' + i + '"]').value || '2099-12-31';
-    if (!confirm('Grant ' + pname(r.pid) + ' to ' + r.email + (ustr >= '2099' ? ' for life' : ' until ' + ustr) + '?\n\nGmail will open with the confirmation email.')) return; b.disabled = true;
-    const pre = window.open('about:blank', '_blank');
-    try { const until = await grant(r.email, r.name, r.pid, ustr); sendMail(r.email, 'Your PharmaChemE access is active: ' + pname(r.pid), fill(TPL_OK, mailVars(r, { until: until.getFullYear() >= 2099 ? '' : ' until ' + fmt(until) })), pre); setTimeout(() => load(user), 600); }
-    catch (e) { if (pre) pre.close(); b.disabled = false; toast('Could not grant: ' + (e.code || e.message)); } });
+    if (!confirm('Grant ' + pname(r.pid) + ' to ' + r.email + (ustr >= '2099' ? ' for life' : ' until ' + ustr) + '?\n\nA confirmation email will be sent to them.')) return; b.disabled = true;
+    try { const until = await grant(r.email, r.name, r.pid, ustr);
+      const res = await postMail(r.email, 'Your PharmaChemE access is active: ' + pname(r.pid), fill(TPL_OK, mailVars(r, { until: until.getFullYear() >= 2099 ? '' : ' until ' + fmt(until) })));
+      toast(res.ok ? 'Access given and confirmation sent to ' + r.email + '.' : 'Access given. Send the confirmation from the Gmail tab.'); setTimeout(() => load(user), 600); }
+    catch (e) { b.disabled = false; toast('Could not grant: ' + (e.code || e.message)); } });
   root.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => { const r = R[+b.dataset.del]; if (!confirm('Remove the request from ' + r.email + '?')) return; await deleteDoc(doc(db, 'requests', r.id)); load(user); });
   $('new-go').onclick = async () => { const e = $('new-e').value.trim(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) { toast('Enter a valid email.'); return; }
     try { await grant(e, $('new-n').value.trim(), $('new-p').value, $('new-u').value || '2099-12-31'); toast('Access given.'); load(user); } catch (er) { toast('Could not grant: ' + (er.code || er.message)); } };
