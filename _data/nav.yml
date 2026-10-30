@@ -199,12 +199,12 @@
   url: /exclusive/
   children:
     - { title: "All exclusive content", url: /exclusive/ }
-    - { title: "GATE CH test series (Paid)", url: /gate/test-series/ }
-    - { title: "3D concept books (Paid)", url: "/exclusive/#books" }
+    - { title: "GATE CH test series", url: /gate/test-series/ }
+    - { title: "3D concept books", url: "/exclusive/#books" }
     - { title: "Learning paths", url: "/exclusive/#paths" }
-    - { title: "Concept notes (Paid)", url: "/exclusive/#concepts" }
-    - { title: "Pro calculators (Paid)", url: "/exclusive/#calculators" }
-    - { title: "Excel templates (Paid)", url: "/exclusive/#templates" }
+    - { title: "Concept notes", url: "/exclusive/#concepts" }
+    - { title: "Pro calculators", url: "/exclusive/#calculators" }
+    - { title: "Excel templates", url: "/exclusive/#templates" }
     - { title: "Custom tools for your plant", url: /custom-solutions/ }
 - title: About
   url: /about/

@@ -11,7 +11,7 @@ layout: default
     <p class="ex-kind"><a href="{{ '/exclusive/' | relative_url }}#{{ grp.key }}">{{ grp.title }}</a></p>
     <h1>{{ it.title }}</h1>
     <p class="ex-short">{{ it.short }}</p>
-    <div class="ex-buy"><span class="ex-paid">Paid</span><span class="ex-amt">₹{{ it.price }}</span><span class="ex-terms">One payment by UPI, lifetime access for your Google account.</span></div>
+    <div class="ex-buy"><span class="ex-amt">₹{{ it.price }}</span><span class="ex-terms">One payment by UPI, lifetime access for your Google account.</span></div>
   </header>
   {%- if it.preview %}
   <figure class="ex-demo ex-shot"><img src="{{ it.preview | relative_url }}" alt="Preview of {{ it.title | escape }} with example rows" loading="lazy" width="2282" height="684"><figcaption><b>Preview</b> Example rows from the worksheet. The download includes every sheet described below.</figcaption></figure>

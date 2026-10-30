@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Exclusive Content: Paid Chemical Engineering Guides, Pro Calculators, Excel Templates and GATE Test Series"
+title: "Exclusive Content: 3D Chemical Engineering Books, Guides, Pro Calculators, Excel Templates and GATE Test Series"
 seo_title: "Exclusive Chemical Engineering Content | PharmaChemE"
 description: "Interactive 3D concept books, learning paths with certificates, detailed plant articles, concept notes, Pro design calculators, Excel templates and the GATE CH test series. Pay by UPI."
 breadcrumbs:
@@ -13,7 +13,7 @@ structured_data: |
     "@type": "CollectionPage",
     "name": "PharmaChemE exclusive content",
     "url": "https://www.pharmacheme.in/exclusive/",
-    "description": "Paid guides, calculators, templates and the GATE CH test series from PharmaChemE."
+    "description": "3D concept books, guides, calculators, templates and the GATE CH test series from PharmaChemE."
   }
 ---
 <link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
@@ -47,7 +47,7 @@ structured_data: |
 
   <section id="paths" class="ex-group">
     <h2>Learning paths</h2>
-    <p class="ex-blurb">A guided order through the paid items and the free tools that go with them. Your progress is saved to your Google account; finish every paid step and download a certificate.</p>
+    <p class="ex-blurb">A guided order through the exclusive items and the free tools that go with them. Your progress is saved to your Google account; finish every exclusive item in a path and download a certificate.</p>
     <div id="ex-paths" class="ex-paths">
       {%- for p in site.data.exclusive.paths %}
       <div class="pt"><div class="pt-head"><h3>{{ p.title }}</h3></div><p class="pt-blurb">{{ p.blurb }}</p><ol class="pt-steps">{% for st in p.steps %}{% if st.free %}<li class="pt-free"><a href="{{ st.free | relative_url }}">{{ st.title }}</a> <em>free</em></li>{% else %}{% assign si = site.data.exclusive.items | where: "id", st.item | first %}<li class="pt-lock"><a href="{{ '/exclusive/' | append: si.slug | append: '/' | relative_url }}">{{ si.title }}</a> <em class="pt-price">₹{{ si.price }}</em></li>{% endif %}{% endfor %}</ol></div>
@@ -57,7 +57,7 @@ structured_data: |
 
   <section id="gate" class="ex-group">
     <h2>GATE CH test series</h2>
-    <a class="ex-card ex-card-wide" href="{{ '/gate/test-series/' | relative_url }}"><span class="ex-paid">Paid</span><h3>GATE Chemical Engineering 2027 test series</h3><p>10 full-length mocks, 650 new questions in the current pattern, worked solutions, exam-style calculator and section-wise scores.</p><span class="ex-price">₹199 <small>access until 31 March 2027</small></span></a>
+    <a class="ex-card ex-card-wide" href="{{ '/gate/test-series/' | relative_url }}"><h3>GATE Chemical Engineering 2027 test series</h3><p>10 full-length mocks, 650 new questions in the current pattern, worked solutions, exam-style calculator and section-wise scores.</p><span class="ex-price">₹199 <small>access until 31 March 2027</small></span></a>
   </section>
 
   {% for g in site.data.exclusive.groups %}{% if g.key == "excel" or g.key == "books" %}{% continue %}{% endif %}
@@ -68,7 +68,7 @@ structured_data: |
     <div class="ex-cards">
       {%- assign items = site.data.exclusive.items | where: "group", g.key -%}
       {%- for it in items %}
-      <a class="ex-card" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><span class="ex-paid">Paid</span><span class="ex-owned" hidden>Yours</span><h3>{{ it.title }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }}</span></a>
+      <a class="ex-card" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><span class="ex-owned" hidden>Yours</span><h3>{{ it.title }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }}</span></a>
       {%- endfor %}
     </div>
   </section>
@@ -84,7 +84,7 @@ structured_data: |
     <h2>Questions people ask</h2>
     <h3>How do I pay?</h3><p>Open the item you want, sign in with Google and tap <b>Buy now</b>. Scan the QR with any UPI app (the amount fills in by itself), or on a phone tap to open your UPI app. Then enter the 12-digit UTR from your UPI app. We check the payment and switch the item on for your Google email, usually within a few hours, and email you when it opens.</p><h3>What if something goes wrong?</h3><p>Write to pharmacheme.app@gmail.com with your UTR. If we cannot give you access, we refund the full amount to the same UPI account.</p>
     <h3>Can I buy a whole learning path at once?</h3><p>Yes. Sign in, find the path above and tap <b>Buy the rest of this path</b>. Pay the total in one UPI payment and enter the UTR; we switch every item on together.</p>
-    <h3>How do I get the certificate?</h3><p>Finish every paid step of a path: answer the quick checks on each page of a 3D book, mark articles and notes as finished, and use each calculator or template once. The certificate then appears on the path, ready to print or save as PDF.</p>
+    <h3>How do I get the certificate?</h3><p>Finish every exclusive item in a path: answer the quick checks on each page of a 3D book, mark articles and notes as finished, and use each calculator or template once. The certificate then appears on the path, ready to print or save as PDF.</p>
     <h3>Do the 3D books work on a phone?</h3><p>Yes. Drag with one finger to turn the model. A recent phone or any laptop runs them smoothly.</p>
     <h3>How long do I keep access?</h3><p>Books, articles, notes, Pro calculators, templates and Excel versions stay open for your Google account. The GATE test series is open until 31 March 2027.</p>
     <h3>Are the free calculators going away?</h3><p>No. Every free calculator stays free. Where a calculator has an Excel version with live formulas, you will find it offered on that calculator's page.</p>

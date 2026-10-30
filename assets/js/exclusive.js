@@ -69,9 +69,9 @@ function pathHtml(p, focus) {
   if (s.complete) cta = '<a class="ts-btn prim" href="/exclusive/certificate/?path=' + esc(p.id) + '">Get your certificate</a>';
   else if (s.missing.length > 1) cta = '<button type="button" class="ts-btn prim" data-path-req="' + esc(p.id) + '">Buy the rest of this path, ₹' + s.total + '</button>';
   else if (next && next.id !== focus) cta = '<a class="ts-btn" href="' + esc(itemUrl(next)) + '">Next: ' + esc(next.title.split(':')[0]) + '</a>';
-  return '<div class="pt"><div class="pt-head"><h3>' + esc(p.title) + '</h3><span class="pt-count">' + (user ? s.done + ' of ' + s.paid.length + ' finished' : s.paid.length + ' paid steps') + '</span></div><p class="pt-blurb">' + esc(p.blurb) + '</p>' +
+  return '<div class="pt"><div class="pt-head"><h3>' + esc(p.title) + '</h3><span class="pt-count">' + (user ? s.done + ' of ' + s.paid.length + ' finished' : s.paid.length + (s.paid.length === 1 ? ' item' : ' items')) + '</span></div><p class="pt-blurb">' + esc(p.blurb) + '</p>' +
     '<div class="pt-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="Progress"><i style="width:' + pct + '%"></i></div><ol class="pt-steps">' + steps + '</ol>' +
-    (cta ? '<div class="pt-cta">' + cta + (s.complete ? '' : '<span class="ts-mute">Finish every paid step to earn the certificate.</span>') + '</div>' : '') + '</div>';
+    (cta ? '<div class="pt-cta">' + cta + (s.complete ? '' : '<span class="ts-mute">Finish every item in the path to earn the certificate.</span>') + '</div>' : '') + '</div>';
 }
 function drawPaths() {
   const box = document.getElementById('ex-paths'); if (!box) return;
@@ -225,7 +225,7 @@ async function certificate() {
   if (!p) { box.innerHTML = '<p class="ts-note">This learning path was not found. <a href="/exclusive/">See all paths</a>.</p>'; return; }
   if (!user) { box.innerHTML = '<p>Sign in with the Google account you used for the path.</p><button type="button" class="ts-btn prim" id="ex-cin">Sign in with Google</button>'; document.getElementById('ex-cin').onclick = signIn; return; }
   const s = pathState(p);
-  if (!s.complete) { box.innerHTML = '<p class="ts-note">Not yet: ' + s.done + ' of ' + s.paid.length + ' paid steps of <b>' + esc(p.title) + '</b> are finished for ' + esc(user.email) + '.</p><div id="ex-paths"></div>'; drawPathsFor(p); return; }
+  if (!s.complete) { box.innerHTML = '<p class="ts-note">Not yet: ' + s.done + ' of ' + s.paid.length + ' items of <b>' + esc(p.title) + '</b> are finished for ' + esc(user.email) + '.</p><div id="ex-paths"></div>'; drawPathsFor(p); return; }
   const when = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
   const name = (user.displayName || user.email).replace(/\s+/g, ' ');
   const ref = 'PCME-' + pid.toUpperCase().slice(0, 4) + '-' + Math.abs([...(user.email + pid)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)).toString(36).toUpperCase();
