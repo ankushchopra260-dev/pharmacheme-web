@@ -32,5 +32,26 @@
       [-3.9, 3.4].forEach(x => st.box(0.4, y0 - R1, 1.0, { pos: [x, (y0 - R1) / 2, 0], tint: '#efe6d2' }));
     }
   };
+  D.reactor = {
+    cam: { az: -0.4, el: 0.3, dist: 10, ty: 1.9 },
+    build(st, k) {
+      const T = window.THREE, R = 1.0, Hs = 1.7, y0 = 1.4;
+      for (let i = 0; i < 3; i++) { const a = i * 2.094 + 0.5; st.box(0.12, y0 + 0.1, 0.12, { pos: [Math.cos(a) * R * 0.85, (y0 + 0.1) / 2, Math.sin(a) * R * 0.85], tint: '#efe6d2' }); }
+      st.cyl(R + 0.14, R + 0.14, Hs * 0.8, { pos: [0, y0 + Hs * 0.4, 0], opacity: 0.16, tint: '#cfe0f7', seg: 44 });
+      st.cyl(R, R, Hs, { pos: [0, y0 + Hs / 2, 0], opacity: 0.24, tint: '#e4ecf3', seg: 48, open: true });
+      st.solid(new T.SphereGeometry(R, 36, 14, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), { pos: [0, y0, 0], scale: [1, 0.5, 1], opacity: 0.24, tint: '#e4ecf3' });
+      st.solid(new T.SphereGeometry(R, 36, 14, 0, Math.PI * 2, 0, Math.PI / 2), { pos: [0, y0 + Hs, 0], scale: [1, 0.5, 1], opacity: 0.3, tint: '#e4ecf3' });
+      const top = y0 + Hs + 0.5; st.box(0.5, 0.35, 0.5, { pos: [0, top + 0.2, 0], tint: '#e3d9c4' }); st.cyl(0.24, 0.24, 0.7, { pos: [0, top + 0.72, 0], tint: '#dde3d2' });
+      st.cyl(R - 0.03, R - 0.03, Hs * 0.6, { pos: [0, y0 + Hs * 0.3, 0], tint: '#8fb4e6', opacity: 0.5, hull: false, edges: false });
+      st.cyl(R - 0.04, R - 0.04, 0.12, { pos: [0, y0 + Hs * 0.6 + 0.06, 0], tint: '#c7a8e3', opacity: 0.8, hull: false, edges: false });
+      const ag = new T.Group(); st.world.add(ag);
+      st.cyl(0.04, 0.04, Hs + 0.4, { parent: ag, pos: [0, y0 + Hs / 2 + 0.15, 0], tint: '#d6d0c4', hull: false });
+      for (let i = 0; i < 3; i++) { const b = st.box(0.55, 0.05, 0.16, { parent: ag, pos: [0, y0 - 0.18, 0], tint: '#d6d0c4', hull: false }); b.rotation.y = i * 2.094; b.children.forEach(c => { c.position.x = 0.27; }); }
+      st.onFrame(dt => { ag.rotation.y += dt * 4; });
+      st.cyl(0.11, 0.11, 0.4, { pos: [0.55, top - 0.05, 0], tint: '#e3d9c4' });
+      st.flow(st.curve([[0.55, top - 0.3, 0], [0.55, y0 + Hs * 0.62, 0]]), { color: '#6b3fa0', count: 10, speed: 0.8, size: 0.05 });
+      st.flow(st.curve([[R + 0.5, y0 - 0.2, 0.4], [R + 0.16, y0 + 0.1, 0.3], [0.4, y0 + 0.7, R + 0.16], [-R - 0.16, y0 + 1.0, 0.3], [-R - 0.5, y0 + 1.3, 0]]), { color: k.COLD, count: 36, speed: 0.15, size: 0.05 });
+    }
+  };
   window.PCME_SB_DEMOS = D;
 })();

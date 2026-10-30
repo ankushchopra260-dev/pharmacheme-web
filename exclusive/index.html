@@ -31,7 +31,7 @@ structured_data: |
     <figure class="ex-hero-demo"><div class="ex-demo-stage" data-demo="hx" role="img" aria-label="Pencil-sketch shell-and-tube heat exchanger turning slowly, with hot and cold flows moving through it"></div><figcaption>A page from <a href="{{ '/exclusive/shell-and-tube-heat-exchanger-design/' | relative_url }}">Shell-and-tube heat exchangers in 3D</a></figcaption></figure>
   </header>
 
-  <nav class="ex-jump" aria-label="Sections"><a href="#books">3D concept books</a><a href="#paths">Learning paths</a><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}{% unless g.key == "excel" or g.key == "books" %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endunless %}{% endfor %}<a href="#custom">Custom tools</a></nav>
+  <nav class="ex-jump" aria-label="Sections"><a href="#books">3D concept books</a><a href="#paths">Learning paths</a><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}{% assign gi = site.data.exclusive.items | where: "group", g.key %}{% unless g.key == "excel" or g.key == "books" or gi.size == 0 %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endunless %}{% endfor %}<a href="#custom">Custom tools</a></nav>
 
   {%- assign bg = site.data.exclusive.groups | where: "key", "books" | first %}
   <section id="books" class="ex-group">
@@ -61,6 +61,7 @@ structured_data: |
   </section>
 
   {% for g in site.data.exclusive.groups %}{% if g.key == "excel" or g.key == "books" %}{% continue %}{% endif %}
+  {%- assign gi = site.data.exclusive.items | where: "group", g.key -%}{% if gi.size == 0 %}{% continue %}{% endif %}
   <section id="{{ g.key }}" class="ex-group">
     <h2>{{ g.title }}</h2>
     <p class="ex-blurb">{{ g.blurb }}</p>

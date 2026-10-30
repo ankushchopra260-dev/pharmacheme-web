@@ -200,7 +200,8 @@
   children:
     - { title: "All exclusive content", url: /exclusive/ }
     - { title: "GATE CH test series (Paid)", url: /gate/test-series/ }
-    - { title: "Detailed plant articles (Paid)", url: "/exclusive/#articles" }
+    - { title: "3D concept books (Paid)", url: "/exclusive/#books" }
+    - { title: "Learning paths", url: "/exclusive/#paths" }
     - { title: "Concept notes (Paid)", url: "/exclusive/#concepts" }
     - { title: "Pro calculators (Paid)", url: "/exclusive/#calculators" }
     - { title: "Excel templates (Paid)", url: "/exclusive/#templates" }

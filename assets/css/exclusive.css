@@ -177,3 +177,6 @@ a.ts-btn { display: inline-block; text-decoration: none; }
   .ex-books, .ex-paths { grid-template-columns: 1fr; }
   .cert-in { padding: 26px 16px; } .cert-name { font-size: 1.6rem; } .cert-k { font-size: 2rem; }
 }
+.ex-shot { background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid var(--grid-line); }
+.ex-shot img { display: block; width: 100%; height: auto; }
+.ex-shot figcaption { background: var(--panel); margin: 0; padding: 8px 12px; }

@@ -65,17 +65,22 @@ items:
     promote: ["/calculators/pump-power-calculator/", "/calculators/pipe-pressure-drop/", "/articles/pump-power-calculation/", "/articles/line-sizing-and-pressure-drop/", "/articles/pump-and-mechanical-seal-troubleshooting/"]
   - id: art-reactor-heat-scaleup
     slug: exothermic-reaction-scale-up-heat-removal-dosing
-    group: articles
-    title: "Scaling up an exothermic batch reaction: heat removal, U and dosing time"
-    short: Turn RC1 and DSC results into a safe plant dosing time, with the measured U of your reactor and the MTSR.
+    group: books
+    demo: reactor
+    title: "Scaling up an exothermic reaction in 3D, with the full article"
+    short: A 9-page interactive 3D book on heat removal, U, dosing, accumulation and MTSR, plus the full article with the RC1-to-plant worked example.
     price: 49
     what:
-      - Why heat removal per kg falls with scale, with numbers
-      - Measuring the real U of a plant reactor with a simple cooling test
-      - Building U from resistances, and why the glass lining dominates
-      - Dosing-controlled semi-batch reactions, accumulation, MTSR and Stoessel classes
-      - Worked example from RC1 data to a 6.3 kL glass-lined reactor
-      - Traps that catch experienced teams, and a tech-transfer checklist
+      - "Why the plant cannot cool like the lab: area per volume from 120 mm to 2.5 m"
+      - "Run a cooling test on a 3D reactor and get the real U"
+      - "Why the glass lining controls U: every resistance drawn to scale"
+      - "Agitation scale-up: constant power per volume against constant tip speed"
+      - "Semi-batch dosing: watch unreacted reagent build up and the heat flow meet the cooling line"
+      - "MTSR, MTT, T D24 and the Stoessel class, with the batch temperature after a cooling failure"
+      - "The shortest safe dosing time for your own reactor, U and coolant"
+      - "The agitator stops but dosing continues: the classic accident, with and without an interlock"
+      - "Low fill at the start of dosing: wetted jacket area and lost cooling"
+      - "Full article: worked example from RC1 data to a 6.3 kL glass-lined reactor, traps and a tech-transfer checklist"
     related: [/calculators/reagent-addition-time-calculator/, /calculators/batch-cooling-tr-calculator/, /process-safety/stoessel-criticality-classes/]
     promote: ["/calculators/reagent-addition-time-calculator/", "/calculators/batch-cooling-tr-calculator/", "/process-safety/stoessel-criticality-classes/", "/process-safety/cooling-failure-and-runaway/", "/process-safety/scale-up-and-tech-transfer/", "/process-safety/thermal-testing-dsc-arc-rc/", "/articles/semi-batch-dosing-accumulation/", "/articles/how-to-read-dsc-arc-rc1-tsu/", "/process-modelling/semi-batch-dosing-simulator/", "/process-modelling/heating-cooling-time-simulator/", "/articles/jacket-and-limpet-coil-design/", "/calculators/jacketed-vessel-heat-transfer/", "/articles/lab-to-plant-scale-up-checklist/"]
   - id: con-vle-activity-models
@@ -154,15 +159,21 @@ items:
   - id: tpl-hazop-worksheet
     slug: hazop-worksheet-excel
     group: templates
-    title: "HAZOP worksheet with guideword library (Excel)"
-    short: A ready HAZOP recording sheet with parameter and guideword lists, automatic risk rating and a library of typical causes.
+    title: "HAZOP study workbook (Excel)"
+    short: A complete HAZOP workbook from study cover to action close-out, with automatic deviation text, risk before and after, and an action tracker that fills itself.
     price: 49
+    preview: /assets/img/hazop-worksheet-preview.png
     what:
-      - Worksheet with drop-downs for parameter, guideword, severity, likelihood and status
-      - Automatic risk score and High / Medium / Low colouring
-      - Guideword library with typical causes and consequences as prompts
-      - 5 × 5 risk matrix you can adjust to your company's bands
-      - Three worked rows for a reactor dosing node
+      - "Study sheet: project, P&IDs and revisions, team with roles and attendance, documents reviewed"
+      - "Nodes sheet: design intent, boundaries, operating range and status for each node"
+      - "Worksheet with drop-downs for node, parameter, guideword, severity, likelihood and status; the deviation text and reference number fill in automatically"
+      - "Risk rated before and after each recommendation, coloured High, Medium and Low"
+      - "Recommendations numbered automatically; overdue actions turn red"
+      - "Action tracker that collects every recommendation with owner, due date, status and days overdue"
+      - "Summary for the close-out report: deviations, risk ratings and open actions by node"
+      - "Guideword library with 26 deviations and typical causes and consequences"
+      - "5 × 5 risk matrix with severity and likelihood definitions you can change to your company standard"
+      - "Worked example rows for a dosing tank, a reactor and its condenser; works in Excel, LibreOffice and Google Sheets"
     related: [/articles/hazop-made-practical/]
     promote: ["/articles/hazop-made-practical/", "/articles/how-to-read-a-pid/", "/articles/hira-and-jsa-risk-assessment/", "/articles/lopa-and-sil-basics/", "/articles/management-of-change/", "/process-safety/high-hazard-process-checklist/", "/process-safety/what-is-process-safety/"]
   - { id: xl-vessel-volume-calculator, slug: excel/vessel-volume-calculator, group: excel, price: 49, calc: /calculators/vessel-volume-calculator/, title: "Excel: vessel volume and level", short: "Dished-end vessel volume, liquid volume at a level and fill %, with live formulas." }

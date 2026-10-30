@@ -13,6 +13,9 @@ layout: default
     <p class="ex-short">{{ it.short }}</p>
     <div class="ex-buy"><span class="ex-paid">Paid</span><span class="ex-amt">₹{{ it.price }}</span><span class="ex-terms">One payment by UPI, lifetime access for your Google account.</span></div>
   </header>
+  {%- if it.preview %}
+  <figure class="ex-demo ex-shot"><img src="{{ it.preview | relative_url }}" alt="Preview of {{ it.title | escape }} with example rows" loading="lazy" width="2282" height="684"><figcaption><b>Preview</b> Example rows from the worksheet. The download includes every sheet described below.</figcaption></figure>
+  {%- endif %}
   {%- if it.demo %}
   <figure class="ex-demo"><div class="ex-demo-stage" data-demo="{{ it.demo }}" role="img" aria-label="Short animated preview of the 3D page"></div><figcaption><b>Preview</b> A short look at one page. In the book you turn it yourself, change the numbers and watch it respond.</figcaption></figure>
   {%- endif %}
