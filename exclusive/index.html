@@ -19,13 +19,13 @@ structured_data: |
 <link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <meta name="ex-v" content="{{ site.time | date: '%s' }}">
 <script type="application/json" id="ex-cat">{"items": {{ site.data.exclusive.items | jsonify }}, "paths": {{ site.data.exclusive.paths | jsonify }}}</script>
-<div class="container ex-hub" id="ex-hub" data-notify="{{ site.notify_url }}">
+<div class="container ex-hub" id="ex-hub" data-notify="{{ site.notify_url }}" data-upi="{{ site.upi_id }}" data-upi-name="{{ site.upi_name }}">
   <header class="ex-hero">
     <div class="ex-hero-copy">
       <h1>Exclusive content</h1>
       <p class="ex-hero-lead">Chemical engineering you can turn in your hands. Our 3D concept books draw the equipment in pencil, lift it off the page and let you change flows and temperatures while the numbers follow.</p>
       <p>Alongside them: full plant design guides, Pro calculators with PDF and Excel, ready templates and the GATE CH test series. Follow a learning path, tick off each step and earn a certificate.</p>
-      <ol class="ex-how"><li><b>Open an item</b> and sign in with Google.</li><li><b>Tap Request access.</b> We email you our UPI ID.</li><li><b>Pay and reply</b> with the reference. It opens, usually within a day.</li></ol>
+      <ol class="ex-how"><li><b>Open an item</b> and sign in with Google.</li><li><b>Pay by UPI</b> on the page: scan the QR or tap to open your UPI app.</li><li><b>Enter the UTR.</b> It opens for your account, usually within a few hours.</li></ol>
       <p class="ex-mine" id="ex-mine" hidden></p>
     </div>
     <figure class="ex-hero-demo"><div class="ex-demo-stage" data-demo="hx" role="img" aria-label="Pencil-sketch shell-and-tube heat exchanger turning slowly, with hot and cold flows moving through it"></div><figcaption>A page from <a href="{{ '/exclusive/shell-and-tube-heat-exchanger-design/' | relative_url }}">Shell-and-tube heat exchangers in 3D</a></figcaption></figure>
@@ -82,8 +82,8 @@ structured_data: |
 
   <div class="article-body ex-faq">
     <h2>Questions people ask</h2>
-    <h3>How do I pay?</h3><p>Open the item you want, sign in with Google and tap <b>Request access</b>. We email you our UPI ID. Pay from any UPI app and reply with the transaction reference. We switch the item on for your Google email, usually within a day.</p>
-    <h3>Can I buy a whole learning path at once?</h3><p>Yes. Sign in, find the path above and tap <b>Request the rest of this path</b>. We send one UPI request for the total and switch every item on together.</p>
+    <h3>How do I pay?</h3><p>Open the item you want, sign in with Google and tap <b>Buy now</b>. Scan the QR with any UPI app (the amount fills in by itself), or on a phone tap to open your UPI app. Then enter the 12-digit UTR from your UPI app. We check the payment and switch the item on for your Google email, usually within a few hours, and email you when it opens.</p><h3>What if something goes wrong?</h3><p>Write to pharmacheme.app@gmail.com with your UTR. If we cannot give you access, we refund the full amount to the same UPI account.</p>
+    <h3>Can I buy a whole learning path at once?</h3><p>Yes. Sign in, find the path above and tap <b>Buy the rest of this path</b>. Pay the total in one UPI payment and enter the UTR; we switch every item on together.</p>
     <h3>How do I get the certificate?</h3><p>Finish every paid step of a path: answer the quick checks on each page of a 3D book, mark articles and notes as finished, and use each calculator or template once. The certificate then appears on the path, ready to print or save as PDF.</p>
     <h3>Do the 3D books work on a phone?</h3><p>Yes. Drag with one finger to turn the model. A recent phone or any laptop runs them smoothly.</p>
     <h3>How long do I keep access?</h3><p>Books, articles, notes, Pro calculators, templates and Excel versions stay open for your Google account. The GATE test series is open until 31 March 2027.</p>

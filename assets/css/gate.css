@@ -199,3 +199,4 @@
 @media (max-width: 820px) { .ts-wrap { grid-template-columns: 1fr; } .ts-list li { grid-template-columns: 1fr auto; } .ts-list .ts-stat { grid-column: 1; } }
 
 .ts-paidtag { display: inline-block; vertical-align: middle; font: 700 .8rem var(--f-sans); padding: 3px 10px; border-radius: 5px; background: rgba(201,162,39,.16); color: var(--brass); border: 1px solid rgba(201,162,39,.45); margin-left: 6px; }
+.ts-paid { border-left: 3px solid #1E6B3A; background: rgba(30,107,58,.12); padding: 10px 12px; border-radius: 6px; margin: 0 0 10px; }

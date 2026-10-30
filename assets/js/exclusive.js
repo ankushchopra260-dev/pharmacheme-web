@@ -25,6 +25,9 @@ async function signIn() {
     if (e && e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') toast('Sign-in did not complete (' + (e.code || e.message) + '). Please try again.'); }
 }
 export function notify(url, data) { if (!url) return; try { fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) }).catch(() => {}); } catch (e) { /* ignore */ } }
+const CFGEL = panel || document.getElementById('ex-hub');
+const UPI = { upi: (CFGEL && CFGEL.dataset.upi) || '', name: (CFGEL && CFGEL.dataset.upiName) || 'PharmaChemE' };
+async function upiBox(o) { await loadScript('/assets/js/upi-pay.js?v=' + V); return window.PCME_UPI.box(Object.assign({}, UPI, o)); }
 const NOTIFY = (panel && panel.dataset.notify) || (document.getElementById('ex-hub') && document.getElementById('ex-hub').dataset.notify) || '';
 
 /* ---------- access and progress ---------- */
@@ -64,7 +67,7 @@ function pathHtml(p, focus) {
   const next = p.steps.map(x => x.item && ITEM[x.item]).filter(Boolean).find(it => !(owns(it.id) && finished(it.id)));
   let cta = '';
   if (s.complete) cta = '<a class="ts-btn prim" href="/exclusive/certificate/?path=' + esc(p.id) + '">Get your certificate</a>';
-  else if (s.missing.length > 1) cta = '<button type="button" class="ts-btn prim" data-path-req="' + esc(p.id) + '">Request the rest of this path, ₹' + s.total + '</button>';
+  else if (s.missing.length > 1) cta = '<button type="button" class="ts-btn prim" data-path-req="' + esc(p.id) + '">Buy the rest of this path, ₹' + s.total + '</button>';
   else if (next && next.id !== focus) cta = '<a class="ts-btn" href="' + esc(itemUrl(next)) + '">Next: ' + esc(next.title.split(':')[0]) + '</a>';
   return '<div class="pt"><div class="pt-head"><h3>' + esc(p.title) + '</h3><span class="pt-count">' + (user ? s.done + ' of ' + s.paid.length + ' finished' : s.paid.length + ' paid steps') + '</span></div><p class="pt-blurb">' + esc(p.blurb) + '</p>' +
     '<div class="pt-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="Progress"><i style="width:' + pct + '%"></i></div><ol class="pt-steps">' + steps + '</ol>' +
@@ -84,14 +87,17 @@ async function requestPath(pid, btn) {
   const p = (CAT.paths || []).find(x => x.id === pid); if (!p) return;
   const s = pathState(p); if (!s.missing.length) return;
   btn.disabled = true;
+  const rids = s.missing.map(it => key(user.email) + '__' + it.id);
   for (const it of s.missing) {
-    try { await setDoc(doc(db, 'requests', key(user.email) + '__' + it.id), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: it.id, title: it.title, price: '₹' + it.price }); } catch (e) { /* still email */ }
+    try { await setDoc(doc(db, 'requests', key(user.email) + '__' + it.id), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: it.id, title: it.title, price: '₹' + it.price }); } catch (e) { /* still show payment */ }
   }
   notify(NOTIFY, { email: user.email, name: user.displayName || '', item: 'path-' + pid, title: 'Learning path: ' + p.title + ' (' + s.missing.length + ' items)', price: '₹' + s.total, url: location.href.split('#')[0] });
-  const body = 'Hello,\n\nPlease give me access to the rest of the learning path "' + p.title + '":\n' + s.missing.map(it => '- ' + it.title + ' (₹' + it.price + ')').join('\n') + '\nTotal: ₹' + s.total + '\n\nGoogle sign-in email: ' + user.email + '\nName: ' + (user.displayName || '') + '\n\nPlease send me the UPI ID for payment.\n\nThank you.';
-  location.href = 'mailto:' + CONTACT + '?subject=' + encodeURIComponent('Access request: ' + p.title + ' path') + '&body=' + encodeURIComponent(body);
-  toast('Request sent for ' + s.missing.length + ' items. We will email you the UPI ID for ₹' + s.total + '.');
-  setTimeout(() => { btn.disabled = false; btn.textContent = 'Requested. Send the email again'; }, 1500);
+  const holder = document.createElement('div'); btn.replaceWith(holder);
+  holder.appendChild(await upiBox({ amount: s.total, key: 'p' + pid, note: 'PharmaChemE path ' + pid, onPaid: async utr => {
+    for (const rid of rids) await setDoc(doc(db, 'requests', rid), { utr, paidAt: serverTimestamp() }, { merge: true });
+    notify(NOTIFY, { email: user.email, name: user.displayName || '', item: 'path-' + pid + '|paid', title: 'PAID ₹' + s.total + ', UTR ' + utr + ': learning path ' + p.title, price: '₹' + s.total, url: location.href.split('#')[0] });
+    holder.innerHTML = '<div class="ts-paid"><b>Payment received for checking (UTR ' + esc(utr) + ').</b> We will switch on all ' + s.missing.length + ' items for ' + esc(user.email) + ' and email you, usually within a few hours.</div>';
+  } }));
 }
 
 /* ---------- 3D demos (hub and book pages) ---------- */
@@ -132,21 +138,32 @@ const mailto = () => 'mailto:' + CONTACT + '?subject=' + encodeURIComponent(subj
 const gmail = () => 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(CONTACT) + '&su=' + encodeURIComponent(subject()) + '&body=' + encodeURIComponent(mailBody());
 
 async function noAccess() {
-  let req = null;
-  try { const r = await getDoc(doc(db, 'requests', key(user.email) + '__' + ID)); if (r.exists()) req = r.data(); } catch (e) { /* ignore */ }
-  const when = req && req.at && req.at.toDate ? req.at.toDate().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
-  view(who() + (req ? '<div class="ts-step done"><b>Request sent' + (when ? ' on ' + esc(when) : '') + '.</b> We will email ' + esc(user.email) + ' with the UPI ID for ' + esc(PRICE) + '. After you pay, reply with the UPI transaction reference and this item opens here.</div><p class="ts-mute">No reply yet? <a href="' + esc(gmail()) + '" target="_blank" rel="noopener">Send it with Gmail</a>, <a href="' + esc(mailto()) + '">use your mail app</a>, or write to ' + esc(CONTACT) + '.</p>'
-    : '<ol class="ts-steps"><li><b>Request access.</b> This records your request and opens an email to us with the details filled in. Send it.</li><li><b>Pay ' + esc(PRICE) + ' by UPI.</b> We reply with our UPI ID; send back the transaction reference.</li><li><b>Open it here.</b> We switch it on for ' + esc(user.email) + ', usually within a day.</li></ol><button type="button" class="ts-btn prim" id="ex-req">Request access</button>'));
+  let req = null; const rid = key(user.email) + '__' + ID;
+  try { const r = await getDoc(doc(db, 'requests', rid)); if (r.exists()) req = r.data(); } catch (e) { /* ignore */ }
+  const amount = parseInt(String(PRICE).replace(/\D/g, ''), 10) || 0;
+  if (req && req.utr) {
+    const when = req.paidAt && req.paidAt.toDate ? req.paidAt.toDate().toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+    view(who() + '<div class="ts-paid"><b>Payment sent' + (when ? ' on ' + esc(when) : '') + ' (UTR ' + esc(req.utr) + ').</b> We check it and switch this item on for ' + esc(user.email) + ', usually within a few hours. You will get an email, and it will open on this page.</div><p class="ts-mute">Entered the wrong UTR? <button type="button" class="ts-link" id="ex-reutr">Enter it again</button>. Questions: ' + esc(CONTACT) + '.</p>');
+    bindWho(); document.getElementById('ex-reutr').onclick = () => showPay(); return;
+  }
+  if (req) return showPay();
+  view(who() + '<ol class="ts-steps"><li><b>Pay ' + esc(PRICE) + ' by UPI</b> here: scan the QR or tap to open your UPI app.</li><li><b>Enter the UTR</b> (12-digit reference) from your UPI app.</li><li><b>It opens here</b> for ' + esc(user.email) + ' once we see the payment, usually within a few hours. Lifetime access.</li></ol><button type="button" class="ts-btn prim" id="ex-req">Buy now, ' + esc(PRICE) + '</button>');
   bindWho();
-  const b = document.getElementById('ex-req');
-  if (b) b.onclick = async () => {
-    b.disabled = true;
-    const data = { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: ID, title: TITLE, price: PRICE };
-    try { await setDoc(doc(db, 'requests', key(user.email) + '__' + ID), data); } catch (e) { /* still send the email */ }
+  document.getElementById('ex-req').onclick = async e => {
+    e.target.disabled = true;
+    try { await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: ID, title: TITLE, price: PRICE }); } catch (er) { /* still show payment */ }
     notify(NOTIFY, { email: user.email, name: user.displayName || '', item: ID, title: TITLE, price: PRICE, url: location.href.split('#')[0] });
-    location.href = mailto();
-    setTimeout(noAccess, 900);
+    showPay();
   };
+  async function showPay() {
+    view(who() + '<p class="ts-ok"><b>Pay ' + esc(PRICE) + ' for this item.</b></p><div id="ex-pay"></div>');
+    bindWho();
+    document.getElementById('ex-pay').appendChild(await upiBox({ amount, key: 'i', note: 'PharmaChemE ' + ID, onPaid: async utr => {
+      await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: (req && req.at) || serverTimestamp(), item: ID, title: TITLE, price: PRICE, utr, paidAt: serverTimestamp() }, { merge: true });
+      notify(NOTIFY, { email: user.email, name: user.displayName || '', item: ID + '|paid', title: 'PAID ' + PRICE + ', UTR ' + utr + ': ' + TITLE, price: PRICE, url: location.href.split('#')[0] });
+      noAccess();
+    } }));
+  }
 }
 
 function b64Blob(b64, mime) { const bin = atob(b64), a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new Blob([a], { type: mime }); }

@@ -14,7 +14,7 @@ breadcrumbs:
 <link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <meta name="ex-v" content="{{ site.time | date: '%s' }}">
 <script type="application/json" id="ex-cat">{"items": {{ site.data.exclusive.items | jsonify }}, "paths": {{ site.data.exclusive.paths | jsonify }}}</script>
-<div class="container ex-hub" id="ex-hub" data-notify="{{ site.notify_url }}">
+<div class="container ex-hub" id="ex-hub" data-notify="{{ site.notify_url }}" data-upi="{{ site.upi_id }}" data-upi-name="{{ site.upi_name }}">
   <h1 class="ex-cert-h">Learning path certificate</h1>
   <div id="ex-cert" aria-live="polite"><p class="ts-busy">Checking your progress…</p></div>
 </div>

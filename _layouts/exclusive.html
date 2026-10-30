@@ -37,7 +37,7 @@ layout: default
     </section>
     <aside class="ex-access" aria-labelledby="ex-get">
       <h2 id="ex-get">Get access</h2>
-      <div id="ex-panel" class="ts-panel" data-contact="pharmacheme.app@gmail.com" data-price="₹{{ it.price }}" data-title="{{ it.title | escape }}" data-notify="{{ site.notify_url }}" aria-live="polite"><p class="ts-busy">Loading…</p></div>
+      <div id="ex-panel" class="ts-panel" data-contact="pharmacheme.app@gmail.com" data-price="₹{{ it.price }}" data-title="{{ it.title | escape }}" data-notify="{{ site.notify_url }}" data-upi="{{ site.upi_id }}" data-upi-name="{{ site.upi_name }}" aria-live="polite"><p class="ts-busy">Loading…</p></div>
     </aside>
   </div>
   <div id="ex-content" class="ex-content" hidden></div>

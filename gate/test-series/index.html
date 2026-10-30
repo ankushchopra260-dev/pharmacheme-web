@@ -42,7 +42,7 @@ breadcrumbs:
     url: /gate/
   - label: "Test series"
     url: /gate/test-series/
-last_modified_at: 2026-10-29
+last_modified_at: 2026-10-30
 ---
 <link rel="stylesheet" href="{{ '/assets/css/gate.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
@@ -65,7 +65,7 @@ last_modified_at: 2026-10-29
 
   <section class="ts-access" aria-labelledby="ts-get">
     <h2 id="ts-get">Get access</h2>
-    <div id="ts-panel" class="ts-panel" data-contact="pharmacheme.app@gmail.com" data-price="₹199" data-notify="{{ site.notify_url }}" aria-live="polite"><p class="ts-busy">Loading…</p></div>
+    <div id="ts-panel" class="ts-panel" data-contact="pharmacheme.app@gmail.com" data-price="₹199" data-notify="{{ site.notify_url }}" data-upi="{{ site.upi_id }}" data-upi-name="{{ site.upi_name }}" aria-live="polite"><p class="ts-busy">Loading…</p></div>
   </section>
 </div>
 
@@ -74,7 +74,7 @@ last_modified_at: 2026-10-29
 <div class="container article-body gs-all" style="margin-top:32px;">
   <h2>Questions people ask</h2>
   <h3>How do I pay?</h3>
-  <p>Sign in with Google and tap <b>Request access</b>. This opens an email to us with your sign-in address filled in. We reply with our UPI ID. Pay ₹199 from any UPI app and reply with the transaction reference. We then switch on access for that email address, usually within a day.</p>
+  <p>Sign in with Google and tap <b>Buy now</b>. Scan the QR with any UPI app (₹199 fills in by itself), or on a phone tap to open your UPI app. Enter the 12-digit UTR from your UPI app. We check the payment and switch on access for that email address, usually within a few hours, and email you. If we cannot give you access, we refund the full amount.</p>
   <h3>Can I use a different email from the one I paid with?</h3>
   <p>Access is tied to the Google account you sign in with on this page. If you want it on another address, mention it in your email before we switch it on.</p>
   <h3>Are these past GATE questions?</h3>

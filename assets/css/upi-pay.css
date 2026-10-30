@@ -1,0 +1,17 @@
+/* pay by UPI */
+.upi-box { border: 1px solid var(--grid-line); border-radius: 10px; padding: 14px; margin-top: 10px; background: rgba(255,255,255,.02); }
+.upi-top { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.upi-qr { width: 168px; height: 168px; background: #fff; border-radius: 8px; padding: 6px; display: grid; place-items: center; flex: none; }
+.upi-qr svg { width: 100%; height: 100%; display: block; }
+.upi-info { flex: 1; min-width: 180px; }
+.upi-info p { margin: 0 0 8px; }
+.upi-amt { font-size: 1.05rem; } .upi-amt b { color: var(--brass); font-size: 1.35rem; }
+.upi-how { color: var(--muted); font-size: .88rem; }
+.upi-app { display: inline-block; margin: 2px 0 10px; text-decoration: none; }
+.upi-id { font-size: .9rem; word-break: break-all; }
+.upi-utr { margin-top: 14px; } .upi-utr label { display: block; font-size: .9rem; margin-bottom: 6px; }
+.upi-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.upi-row input { flex: 1; min-width: 150px; font: 600 1rem var(--f-mono, monospace); letter-spacing: .06em; padding: 8px 10px; border-radius: 6px; border: 1px solid #2C4C6C; background: #0f1e2e; color: var(--paper); }
+.upi-err { color: #f2a08f; font-size: .86rem; margin: 6px 0 0 !important; min-height: 1em; }
+.upi-note { margin: 10px 0 0 !important; font-size: .82rem; }
+.ts-paid { border-left: 3px solid #1E6B3A; background: rgba(30,107,58,.12); padding: 10px 12px; border-radius: 6px; }
