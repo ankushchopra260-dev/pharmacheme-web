@@ -20,7 +20,7 @@ def main():
     for it in data['items']:
         d = os.path.join(ROOT, 'exclusive', it['slug']); os.makedirs(d, exist_ok=True)
         g = groups[it['group']]
-        kind = {'articles': 'Article', 'concepts': 'Article', 'calculators': 'SoftwareApplication', 'templates': 'Product', 'excel': 'Product'}[it['group']]
+        kind = {'books': 'Article', 'articles': 'Article', 'concepts': 'Article', 'calculators': 'SoftwareApplication', 'templates': 'Product', 'excel': 'Product'}[it['group']]
         sd = {'@context': 'https://schema.org', '@type': kind, 'name': it['title'], 'description': it['short'],
               'url': 'https://www.pharmacheme.in/exclusive/' + it['slug'] + '/', 'isAccessibleForFree': False, 'inLanguage': 'en',
               'author': {'@type': 'Person', '@id': 'https://www.pharmacheme.in/about/#ankush-chopra', 'name': 'Ankush Chopra', 'url': 'https://www.pharmacheme.in/about/'},

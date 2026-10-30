@@ -4,6 +4,8 @@ layout: default
 {%- assign it = site.data.exclusive.items | where: "id", page.item | first -%}
 {%- assign grp = site.data.exclusive.groups | where: "key", it.group | first -%}
 <link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<meta name="ex-v" content="{{ site.time | date: '%s' }}">
+<script type="application/json" id="ex-cat">{"items": {{ site.data.exclusive.items | jsonify }}, "paths": {{ site.data.exclusive.paths | jsonify }}}</script>
 <div class="container ex-page" data-item="{{ it.id }}" data-type="{{ it.group }}">
   <header class="ex-head">
     <p class="ex-kind"><a href="{{ '/exclusive/' | relative_url }}#{{ grp.key }}">{{ grp.title }}</a></p>
@@ -11,6 +13,9 @@ layout: default
     <p class="ex-short">{{ it.short }}</p>
     <div class="ex-buy"><span class="ex-paid">Paid</span><span class="ex-amt">₹{{ it.price }}</span><span class="ex-terms">One payment by UPI, lifetime access for your Google account.</span></div>
   </header>
+  {%- if it.demo %}
+  <figure class="ex-demo"><div class="ex-demo-stage" data-demo="{{ it.demo }}" role="img" aria-label="Short animated preview of the 3D page"></div><figcaption><b>Preview</b> A short look at one page. In the book you turn it yourself, change the numbers and watch it respond.</figcaption></figure>
+  {%- endif %}
   <div class="ex-layout">
     <section class="ex-preview" aria-labelledby="ex-inside">
       {%- if it.what %}
@@ -33,5 +38,6 @@ layout: default
     </aside>
   </div>
   <div id="ex-content" class="ex-content" hidden></div>
+  <section id="ex-paths" class="ex-paths" hidden aria-label="Learning paths"></section>
 </div>
 <script type="module" src="{{ '/assets/js/exclusive.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

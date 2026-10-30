@@ -102,3 +102,78 @@
   body { background: #fff !important; } .ex-content { margin: 0; } .ex-body { background: #fff; border: 0; color: #111; padding: 0; max-width: none; }
   .ex-body *, .ex-body h2, .ex-body h3 { color: #111 !important; } .ex-eq { background: #f6f2e3; } .ex-tbl th, .ex-tbl td { border-color: #ccc; }
 }
+
+/* ---------- hub hero with a live 3D page ---------- */
+.ex-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 28px; align-items: center; }
+.ex-hero-copy h1 { font-family: var(--f-display); color: var(--paper); font-size: 2.4rem; line-height: 1.05; margin: 4px 0 12px; }
+.ex-hero-copy p { color: var(--muted); line-height: 1.6; margin: 0 0 12px; max-width: 60ch; }
+.ex-hero-copy .ex-hero-lead { color: var(--paper); font-size: 1.12rem; }
+.ex-hero-demo { margin: 0; }
+.ex-hero-demo figcaption, .ex-demo figcaption { color: var(--muted); font-size: .84rem; margin-top: 8px; }
+.ex-hero-demo figcaption a { color: var(--brass); }
+.ex-demo-stage { position: relative; height: 340px; border-radius: 8px; background: #f5efe2; box-shadow: 0 1px 0 #d9ceb6, 0 3px 0 #e6dcc6, 0 14px 34px rgba(0,0,0,.45); overflow: hidden; }
+.ex-demo-stage::after { content: 'Preview'; position: absolute; left: 12px; top: 10px; font: 700 1.05rem Caveat, cursive; color: rgba(47,43,38,.6); pointer-events: none; }
+.ex-demo-stage canvas { position: absolute; inset: 0; }
+
+/* book cards */
+.ex-books { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.ex-bookcard { padding: 0; overflow: hidden; }
+.ex-bookcard .ex-demo-stage { height: 220px; border-radius: 0; box-shadow: none; }
+.ex-bookcard-txt { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; flex: 1; }
+.ex-bookcard .ex-owned { top: 12px; right: 12px; z-index: 2; }
+
+/* item page demo */
+.ex-demo { margin: 16px 0 0; }
+.ex-demo .ex-demo-stage { height: 360px; }
+.ex-demo figcaption b { color: var(--brass); margin-right: 6px; }
+.ex-book { margin-top: 8px; }
+.ex-finish { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--grid-line); }
+
+/* ---------- learning paths ---------- */
+.ex-paths { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; margin-top: 4px; }
+.ex-page .ex-paths { margin-top: 28px; }
+.ex-paths > h2 { grid-column: 1 / -1; font-family: var(--f-display); color: var(--paper); font-size: 1.3rem; margin: 0; }
+.pt { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 10px; padding: 16px 18px; color: var(--paper); display: flex; flex-direction: column; }
+.pt-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.pt-head h3 { font: 700 1.05rem/1.3 var(--f-sans); margin: 0; color: var(--paper); }
+.pt-count { color: var(--brass); font-size: .82rem; white-space: nowrap; }
+.pt-blurb { color: var(--muted); font-size: .88rem; margin: 6px 0 10px; line-height: 1.5; }
+.pt-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 12px; }
+.pt-bar i { display: block; height: 100%; background: var(--brass); border-radius: 99px; transition: width .4s; }
+.pt-steps { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 8px; }
+.pt-steps li { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 10px; font-size: .9rem; line-height: 1.35; }
+.pt-steps a { color: var(--paper); text-decoration: none; } .pt-steps a:hover { color: var(--brass); text-decoration: underline; }
+.pt-steps em { font-style: normal; font-size: .78rem; color: var(--muted); white-space: nowrap; }
+.pt-steps .pt-price { color: var(--brass); font-weight: 700; }
+.pt-dot { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--grid-line); font-size: .74rem; color: var(--muted); }
+.pt-own .pt-dot { border-color: var(--brass); color: var(--brass); }
+.pt-done .pt-dot { background: #1E6B3A; border-color: #1E6B3A; color: #E6F5EA; }
+.pt-done em { color: #8fd3a3; }
+.pt-free .pt-dot { border-style: dashed; }
+.pt-here a { color: var(--brass); font-weight: 600; }
+.pt-cta { margin-top: auto; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.pt-cta .ts-mute { font-size: .8rem; }
+a.ts-btn { display: inline-block; text-decoration: none; }
+
+/* ---------- certificate ---------- */
+.ex-cert-h { font-family: var(--f-display); color: var(--paper); font-size: 1.8rem; }
+.cert { background: #f5efe2; color: #2f2b26; border-radius: 6px; padding: 18px; max-width: 900px; box-shadow: 0 14px 34px rgba(0,0,0,.45); }
+.cert-in { border: 2px solid #2f2b26; outline: 1px solid #2f2b26; outline-offset: -8px; padding: 40px 36px; text-align: center; }
+.cert-brand { font: 700 1rem var(--f-display); letter-spacing: .04em; color: #8a6d12; margin: 0; }
+.cert-k { font: 700 2.4rem/1.1 Caveat, cursive; margin: 6px 0 18px; }
+.cert-this { margin: 0; font-size: .95rem; }
+.cert-name { font: 700 2.2rem/1.2 'IBM Plex Sans', sans-serif; margin: 8px 0 10px; border-bottom: 1px solid #2f2b26; display: inline-block; padding: 0 20px 6px; }
+.cert-path { font: 700 1.5rem/1.2 'IBM Plex Sans', sans-serif; margin: 8px 0 14px; }
+.cert-items { list-style: none; padding: 0; margin: 0 0 26px; font-size: .9rem; color: #5a5249; }
+.cert-items li { margin: 2px 0; }
+.cert-foot { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .85rem; border-top: 1px dashed #2f2b26; padding-top: 10px; }
+.cert-tools { margin-top: 16px; }
+@media print { body * { visibility: hidden; } #cert, #cert * { visibility: visible; } #cert { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; } }
+
+@media (max-width: 860px) {
+  .ex-hero { grid-template-columns: 1fr; }
+  .ex-hero-copy h1 { font-size: 2rem; }
+  .ex-demo-stage, .ex-demo .ex-demo-stage { height: 270px; }
+  .ex-books, .ex-paths { grid-template-columns: 1fr; }
+  .cert-in { padding: 26px 16px; } .cert-name { font-size: 1.6rem; } .cert-k { font-size: 2rem; }
+}

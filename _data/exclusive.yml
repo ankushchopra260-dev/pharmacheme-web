@@ -2,6 +2,9 @@
 # The content itself is in Firestore (collection "items", id = id below) and opens only for buyers.
 # Pages are made by tools/build_exclusive_pages.py from this file.
 groups:
+  - key: books
+    title: 3D concept books
+    blurb: Pencil-sketch equipment rises off the page. Turn it, change the flows and temperatures, and watch the physics respond. Each page ends with a quick check, and your progress is saved.
   - key: articles
     title: Detailed plant articles
     blurb: In-depth guides with full worked plant examples, for engineers who design, check and troubleshoot equipment.
@@ -21,19 +24,45 @@ groups:
 items:
   - id: art-shell-tube-hx-design
     slug: shell-and-tube-heat-exchanger-design
-    group: articles
-    title: "Shell-and-tube heat exchanger design: the plant engineer's method"
-    short: Size, rate and check a shell-and-tube exchanger by the Kern method, with a full toluene-cooler example.
-    price: 49
+    group: books
+    demo: hx
+    title: "Shell-and-tube heat exchangers in 3D, with the full design guide"
+    short: A 10-page interactive 3D book, from what is inside an exchanger to designing and troubleshooting one, plus the plant engineer's Kern-method design guide.
+    price: 99
     what:
-      - Choosing the TEMA type (BEM, BEU, AES, AKT) and which fluid goes in the tubes
-      - Six-step thermal design with LMTD, F correction and typical U values in kcal/h·m²·°C
-      - Tube layout, bundle and shell diameter, film coefficients by the Kern method
-      - Tube-side and shell-side pressure drop
-      - A complete worked example with two design passes
-      - Checklist for vendor datasheets and troubleshooting an underperforming cooler
+      - "Inside the exchanger: cut the shell away, follow both flows, add baffles and watch h and ΔP change"
+      - "Co- vs counter-current with live temperature profiles, LMTD and the temperature cross"
+      - "Two tube passes and the F factor, with your design on the F curve"
+      - "Fouling and U: every resistance drawn to scale, so you see which one controls"
+      - "TEMA types BEM, BEU and AES side by side: expansion, cleaning and cost"
+      - "Triangular, square and rotated-square pitch: real tube counts for any shell"
+      - "Bypass streams and sealing strips, with the Bell–Delaware bypass factor"
+      - "A steam condenser: saturation temperature, condensate rate and the air blanket at the vent"
+      - "A six-step design walk-through of a toluene cooler"
+      - "Troubleshooting: three plant days, read the instruments and find the cause"
+      - "Full notes: TEMA selection, Kern film coefficients, pressure drop, a worked example and a vendor-datasheet checklist"
     related: [/calculators/lmtd-calculator/, /calculators/overall-heat-transfer-coefficient-calculator/]
     promote: ["/calculators/lmtd-calculator/", "/calculators/overall-heat-transfer-coefficient-calculator/", "/articles/heat-exchanger-design-basics/", "/articles/heat-load-calculation/", "/calculators/heat-load-calculator/", "/equipment-instruments/"]
+  - id: book-fluid-flow-3d
+    slug: fluid-flow-3d-concept-book
+    group: books
+    demo: venturi
+    title: "Fluid flow in 3D: from Bernoulli to pumps and water hammer"
+    short: A 10-page interactive 3D book that makes pressure, friction, pumps and flowmeters visible, with live numbers on every page.
+    price: 99
+    what:
+      - "Venturi with three piezometer tubes, the energy line and cavitation at the throat"
+      - "Pump, tank and valve: pump curve, system curve and NPSH, with bubbles at the impeller eye"
+      - "Reynolds' dye experiment, the velocity profile and the friction factor"
+      - "Pipe friction and roughness on a live Moody chart"
+      - "Fittings by the Crane method, with the pressure line stepping down at each valve"
+      - "Orifice plate versus venturi: differential, permanent loss and the yearly pumping cost"
+      - "Two pumps in series or in parallel against your system curve"
+      - "Throttling valve versus VFD: affinity laws and the energy saved per year"
+      - "Water hammer: close a valve and watch the pressure wave, with Joukowsky and 2L/a"
+      - "Draining a tank: Torricelli, discharge coefficients and why the last half takes longest"
+    related: [/calculators/pump-power-calculator/, /calculators/pipe-pressure-drop/]
+    promote: ["/calculators/pump-power-calculator/", "/calculators/pipe-pressure-drop/", "/articles/pump-power-calculation/", "/articles/line-sizing-and-pressure-drop/", "/articles/pump-and-mechanical-seal-troubleshooting/"]
   - id: art-reactor-heat-scaleup
     slug: exothermic-reaction-scale-up-heat-removal-dosing
     group: articles
@@ -146,3 +175,42 @@ items:
   - { id: xl-drying-agent-calculator, slug: excel/drying-agent-calculator, group: excel, price: 49, calc: /calculators/drying-agent-calculator/, title: "Excel: drying agent requirement", short: "Molecular sieve or salt needed to bring a solvent to a water spec." }
   - { id: xl-packed-scrubber-calculator, slug: excel/packed-scrubber-calculator, group: excel, price: 49, calc: /calculators/packed-scrubber-calculator/, title: "Excel: packed scrubber sizing", short: "Column diameter, packed height, recirculation and scrubbing-solution use." }
   - { id: xl-pump-power-calculator, slug: excel/pump-power-calculator, group: excel, price: 49, calc: /calculators/pump-power-calculator/, title: "Excel: pump power", short: "Hydraulic, shaft and motor power from flow, head and efficiencies." }
+
+# Learning paths: a guided order through paid items and free tools. Progress is saved for signed-in buyers;
+# finishing every paid step unlocks a certificate. Steps: item = paid item id, or free = page url (not tracked).
+paths:
+  - id: heat-transfer
+    title: Heat exchangers for plant engineers
+    blurb: From the LMTD to a rated shell-and-tube exchanger you can defend in a design review.
+    steps:
+      - { free: /calculators/lmtd-calculator/, title: "LMTD and F correction (free calculator)" }
+      - { item: art-shell-tube-hx-design }
+      - { free: /calculators/overall-heat-transfer-coefficient-calculator/, title: "Overall U (free calculator)" }
+      - { item: xl-overall-heat-transfer-coefficient-calculator }
+      - { item: pro-hx-rating }
+  - id: fluid-flow
+    title: Fluid flow and pumps
+    blurb: See Bernoulli, cavitation and turbulence in 3D, then size real pumps and lines.
+    steps:
+      - { item: book-fluid-flow-3d }
+      - { free: /calculators/pipe-pressure-drop/, title: "Pipe pressure drop and NPSH (free calculator)" }
+      - { free: /calculators/pump-power-calculator/, title: "Pump power (free calculator)" }
+      - { item: xl-pump-power-calculator }
+  - id: reaction-safety
+    title: Safe scale-up of exothermic reactions
+    blurb: From calorimetry data to a plant dosing time, a cooling check and a HAZOP worksheet.
+    steps:
+      - { free: /process-safety/stoessel-criticality-classes/, title: "Stoessel criticality classes (free)" }
+      - { item: art-reactor-heat-scaleup }
+      - { item: xl-reagent-addition-time-calculator }
+      - { item: xl-batch-cooling-tr-calculator }
+      - { item: con-reactor-design-rtd }
+      - { item: tpl-hazop-worksheet }
+  - id: distillation
+    title: Distillation and VLE
+    blurb: From activity coefficients to the number of stages and the reflux your column needs.
+    steps:
+      - { item: con-vle-activity-models }
+      - { free: /solvents/azeotropes/, title: "Azeotropes (free)" }
+      - { item: pro-fug-column }
+      - { free: /calculators/batch-distillation-simulator/, title: "Batch distillation simulator (free)" }

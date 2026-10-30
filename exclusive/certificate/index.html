@@ -1,0 +1,21 @@
+---
+layout: default
+title: "Learning Path Certificate"
+seo_title: "Learning Path Certificate | PharmaChemE"
+description: "Your PharmaChemE learning path certificate."
+noindex: true
+sitemap: false
+breadcrumbs:
+  - label: "Exclusive content"
+    url: /exclusive/
+  - label: "Certificate"
+    url: /exclusive/certificate/
+---
+<link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<meta name="ex-v" content="{{ site.time | date: '%s' }}">
+<script type="application/json" id="ex-cat">{"items": {{ site.data.exclusive.items | jsonify }}, "paths": {{ site.data.exclusive.paths | jsonify }}}</script>
+<div class="container ex-hub" id="ex-hub" data-notify="{{ site.notify_url }}">
+  <h1 class="ex-cert-h">Learning path certificate</h1>
+  <div id="ex-cert" aria-live="polite"><p class="ts-busy">Checking your progress…</p></div>
+</div>
+<script type="module" src="{{ '/assets/js/exclusive.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -2,11 +2,11 @@
 layout: default
 title: "Exclusive Content: Paid Chemical Engineering Guides, Pro Calculators, Excel Templates and GATE Test Series"
 seo_title: "Exclusive Chemical Engineering Content | PharmaChemE"
-description: "Paid PharmaChemE content: GATE CH test series, detailed plant articles, concept notes, Pro design calculators and Excel templates. Pay by UPI."
+description: "Interactive 3D concept books, learning paths with certificates, detailed plant articles, concept notes, Pro design calculators, Excel templates and the GATE CH test series. Pay by UPI."
 breadcrumbs:
   - label: "Exclusive content"
     url: /exclusive/
-last_modified_at: 2026-10-29
+last_modified_at: 2026-10-30
 structured_data: |
   {
     "@context": "https://schema.org",
@@ -17,29 +17,57 @@ structured_data: |
   }
 ---
 <link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
-<div class="container ex-hub">
-  <header class="ex-hub-head">
-    <h1>Exclusive content</h1>
-    <p>Deeper material for engineers and students who want more than the free tools: full design guides with worked plant examples, Pro calculators with PDF and Excel, ready templates, and the GATE CH test series. Each item is bought on its own, paid by UPI, and stays open for your Google account.</p>
-    <ol class="ex-how"><li><b>Open the item</b> and sign in with Google.</li><li><b>Tap Request access.</b> We reply by email with our UPI ID.</li><li><b>Pay and reply</b> with the transaction reference. We switch it on, usually within a day.</li></ol>
-    <p class="ex-mine" id="ex-mine" hidden></p>
+<meta name="ex-v" content="{{ site.time | date: '%s' }}">
+<script type="application/json" id="ex-cat">{"items": {{ site.data.exclusive.items | jsonify }}, "paths": {{ site.data.exclusive.paths | jsonify }}}</script>
+<div class="container ex-hub" id="ex-hub" data-notify="{{ site.notify_url }}">
+  <header class="ex-hero">
+    <div class="ex-hero-copy">
+      <h1>Exclusive content</h1>
+      <p class="ex-hero-lead">Chemical engineering you can turn in your hands. Our 3D concept books draw the equipment in pencil, lift it off the page and let you change flows and temperatures while the numbers follow.</p>
+      <p>Alongside them: full plant design guides, Pro calculators with PDF and Excel, ready templates and the GATE CH test series. Follow a learning path, tick off each step and earn a certificate.</p>
+      <ol class="ex-how"><li><b>Open an item</b> and sign in with Google.</li><li><b>Tap Request access.</b> We email you our UPI ID.</li><li><b>Pay and reply</b> with the reference. It opens, usually within a day.</li></ol>
+      <p class="ex-mine" id="ex-mine" hidden></p>
+    </div>
+    <figure class="ex-hero-demo"><div class="ex-demo-stage" data-demo="hx" role="img" aria-label="Pencil-sketch shell-and-tube heat exchanger turning slowly, with hot and cold flows moving through it"></div><figcaption>A page from <a href="{{ '/exclusive/shell-and-tube-heat-exchanger-design/' | relative_url }}">Shell-and-tube heat exchangers in 3D</a></figcaption></figure>
   </header>
 
-  <nav class="ex-jump" aria-label="Sections"><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}{% unless g.key == "excel" %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endunless %}{% endfor %}<a href="#custom">Custom tools</a></nav>
+  <nav class="ex-jump" aria-label="Sections"><a href="#books">3D concept books</a><a href="#paths">Learning paths</a><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}{% unless g.key == "excel" or g.key == "books" %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endunless %}{% endfor %}<a href="#custom">Custom tools</a></nav>
+
+  {%- assign bg = site.data.exclusive.groups | where: "key", "books" | first %}
+  <section id="books" class="ex-group">
+    <h2>{{ bg.title }}</h2>
+    <p class="ex-blurb">{{ bg.blurb }}</p>
+    <div class="ex-books">
+      {%- assign books = site.data.exclusive.items | where: "group", "books" -%}
+      {%- for it in books %}
+      <a class="ex-card ex-bookcard" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><div class="ex-demo-stage" data-demo="{{ it.demo }}" aria-hidden="true"></div><div class="ex-bookcard-txt"><span class="ex-owned" hidden>Yours</span><h3>{{ it.title }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }} <small>lifetime access</small></span></div></a>
+      {%- endfor %}
+    </div>
+  </section>
+
+  <section id="paths" class="ex-group">
+    <h2>Learning paths</h2>
+    <p class="ex-blurb">A guided order through the paid items and the free tools that go with them. Your progress is saved to your Google account; finish every paid step and download a certificate.</p>
+    <div id="ex-paths" class="ex-paths">
+      {%- for p in site.data.exclusive.paths %}
+      <div class="pt"><div class="pt-head"><h3>{{ p.title }}</h3></div><p class="pt-blurb">{{ p.blurb }}</p><ol class="pt-steps">{% for st in p.steps %}{% if st.free %}<li class="pt-free"><a href="{{ st.free | relative_url }}">{{ st.title }}</a> <em>free</em></li>{% else %}{% assign si = site.data.exclusive.items | where: "id", st.item | first %}<li class="pt-lock"><a href="{{ '/exclusive/' | append: si.slug | append: '/' | relative_url }}">{{ si.title }}</a> <em class="pt-price">₹{{ si.price }}</em></li>{% endif %}{% endfor %}</ol></div>
+      {%- endfor %}
+    </div>
+  </section>
 
   <section id="gate" class="ex-group">
     <h2>GATE CH test series</h2>
     <a class="ex-card ex-card-wide" href="{{ '/gate/test-series/' | relative_url }}"><span class="ex-paid">Paid</span><h3>GATE Chemical Engineering 2027 test series</h3><p>10 full-length mocks, 650 new questions in the current pattern, worked solutions, exam-style calculator and section-wise scores.</p><span class="ex-price">₹199 <small>access until 31 March 2027</small></span></a>
   </section>
 
-  {% for g in site.data.exclusive.groups %}{% if g.key == "excel" %}{% continue %}{% endif %}
+  {% for g in site.data.exclusive.groups %}{% if g.key == "excel" or g.key == "books" %}{% continue %}{% endif %}
   <section id="{{ g.key }}" class="ex-group">
     <h2>{{ g.title }}</h2>
     <p class="ex-blurb">{{ g.blurb }}</p>
     <div class="ex-cards">
       {%- assign items = site.data.exclusive.items | where: "group", g.key -%}
       {%- for it in items %}
-      <a class="ex-card" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><span class="ex-paid">Paid</span><span class="ex-owned" hidden>Yours</span><h3>{{ it.title | remove: 'Pro: ' | remove: 'Excel: ' }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }}</span></a>
+      <a class="ex-card" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><span class="ex-paid">Paid</span><span class="ex-owned" hidden>Yours</span><h3>{{ it.title }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }}</span></a>
       {%- endfor %}
     </div>
   </section>
@@ -54,8 +82,10 @@ structured_data: |
   <div class="article-body ex-faq">
     <h2>Questions people ask</h2>
     <h3>How do I pay?</h3><p>Open the item you want, sign in with Google and tap <b>Request access</b>. We email you our UPI ID. Pay from any UPI app and reply with the transaction reference. We switch the item on for your Google email, usually within a day.</p>
-    <h3>How long do I keep access?</h3><p>Articles, notes, Pro calculators, templates and Excel versions stay open for your Google account. The GATE test series is open until 31 March 2027.</p>
-    <h3>Can I buy several items in one payment?</h3><p>Yes. Request each item you want; we send one UPI request for the total and switch them all on together.</p>
+    <h3>Can I buy a whole learning path at once?</h3><p>Yes. Sign in, find the path above and tap <b>Request the rest of this path</b>. We send one UPI request for the total and switch every item on together.</p>
+    <h3>How do I get the certificate?</h3><p>Finish every paid step of a path: answer the quick checks on each page of a 3D book, mark articles and notes as finished, and use each calculator or template once. The certificate then appears on the path, ready to print or save as PDF.</p>
+    <h3>Do the 3D books work on a phone?</h3><p>Yes. Drag with one finger to turn the model. A recent phone or any laptop runs them smoothly.</p>
+    <h3>How long do I keep access?</h3><p>Books, articles, notes, Pro calculators, templates and Excel versions stay open for your Google account. The GATE test series is open until 31 March 2027.</p>
     <h3>Are the free calculators going away?</h3><p>No. Every free calculator stays free. Where a calculator has an Excel version with live formulas, you will find it offered on that calculator's page.</p>
   </div>
 </div>
