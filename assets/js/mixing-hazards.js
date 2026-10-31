@@ -134,7 +134,7 @@
     ['diisopropylamine', 'Diisopropylamine', ['AMINE'], '108-18-9 dipa', 'diisopropylamine'], ['dipea', 'DIPEA (Hünig’s base)', ['AMINE', 'BASE'], '7087-68-5 diisopropylethylamine', 'dipea'],
     ['isopropylamine', 'Isopropylamine (MIPA)', ['AMINE'], '75-31-0 mipa', 'isopropylamine'], ['ethylenediamine', 'Ethylenediamine', ['AMINE'], '107-15-3 eda', 'ethylenediamine'],
     ['morpholine', 'Morpholine', ['AMINE'], '110-91-8', 'morpholine'], ['pyridine', 'Pyridine', ['AMINE'], '110-86-1', 'pyridine'], ['aniline', 'Aniline', ['AMINE'], '62-53-3', 'aniline'],
-    ['dma', 'N,N-Dimethylaniline', ['AMINE'], '121-69-7', 'n-n-dimethylaniline'], ['ammonia', 'Liquor ammonia (aqueous)', ['AMINE', 'W'], '1336-21-6 ammonium hydroxide', 'liquor-ammonia'],
+    ['dma', 'N,N-Dimethylaniline', ['AMINE'], '121-69-7', 'n-n-dimethylaniline'], ['n-n-diethylaniline', 'N,N-Diethylaniline', ['AMINE'], '91-66-7 diethylaniline', 'n-n-diethylaniline'], ['ammonia', 'Liquor ammonia (aqueous)', ['AMINE', 'W'], '1336-21-6 ammonium hydroxide', 'liquor-ammonia'],
     ['acetic-acid', 'Acetic acid', ['ACIDO'], '64-19-7', 'acetic-acid'], ['formic-acid', 'Formic acid', ['ACIDO'], '64-18-6', 'formic-acid', 'Decomposes to carbon monoxide with strong acids or on heating.'],
     ['propionic-acid', 'Propionic acid', ['ACIDO'], '79-09-4', 'propionic-acid'], ['tfa', 'Trifluoroacetic acid (TFA)', ['ACIDS', 'ACIDO'], '76-05-1', 'trifluoroacetic-acid'],
     ['msa', 'Methanesulfonic acid', ['ACIDS'], '75-75-2 msa', 'methanesulfonic-acid'], ['ptsa', 'p-Toluenesulfonic acid', ['ACIDS'], '104-15-4 6192-52-5 ptsa', 'p-toluenesulfonic-acid'],
