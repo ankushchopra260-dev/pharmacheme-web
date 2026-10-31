@@ -10,7 +10,7 @@
   const clean = t => String(t || '').replace(/\s+(Basics|Working level|Going deeper)$/, '');
   function load() {
     if (data) return Promise.resolve(data);
-    if (!loading) loading = fetch(box.dataset.src).then(r => r.json()).then(d => {
+    if (!loading) loading = fetch(box.dataset.src, { cache: 'no-cache' }).then(r => r.json()).then(d => {
       data = d.filter(r => !/PCCPL/i.test(r.u)).map(r => ({ r, t: (r.t || '').toLowerCase(), m: ((r.s || '') + ' ' + (r.w || '') + ' ' + (r.k || '')).toLowerCase(), x: (r.x || '').toLowerCase() }));
       return data;
     }).catch(() => { loading = null; return []; });

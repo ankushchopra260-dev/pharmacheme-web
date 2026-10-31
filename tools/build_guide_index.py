@@ -22,9 +22,11 @@ def kind(u):
     if u.startswith('/process-safety/case-studies/'): return 'Case study'
     if u.startswith('/process-safety/'): return 'Process safety'
     if u.startswith('/games/'): return 'Game'
+    if u.startswith('/exclusive/') and u != '/exclusive/': return 'Exclusive'
     if u.startswith('/molecules/'): return 'Molecule tool'
     return 'Page'
 
+EXI = {i['id']: i for i in (yaml.safe_load(open(f'{R}/_data/exclusive.yml')) or {}).get('items', [])}
 old = json.load(open(f'{R}/assets/data/site-search.json'))
 JS_KINDS = {'Interview', 'Animation', 'Equipment', 'Instrument', 'Agitator', 'Videos', 'Plant tour'}
 oldby = {}
@@ -42,7 +44,7 @@ for root, ds, fs in os.walk(R):
     if fm.get('noindex') or fm.get('sitemap') is False or fm.get('redirect_to'): continue
     u = '/' if rel == '.' else '/' + rel.replace(os.sep, '/') + '/'
     body = s.split('---', 2)[2]
-    if u in oldby and len(clean(body)) < 400:   # text is rendered by JavaScript: keep what we had
+    if u in oldby and len(clean(body)) < 400 and not fm.get('item'):   # text is rendered by JavaScript: keep what we had
         keep += [r for r in oldby[u] if id(r) not in keptids]; continue
     if u in oldby and all(r['k'] in JS_KINDS for r in oldby[u]) and u in ('/process-engineering-faq/', '/equipment-instruments/'):
         pass
@@ -64,6 +66,9 @@ for u, fm, body in sorted(pages):
             q = re.search(r'<p class="gs-q">([\s\S]*?)</p>', blk); sec = None
             new.append({'t': clean(q.group(1))[:160] if q else 'GATE question', 'u': u + '#' + qid, 'k': 'GATE question', 's': 'GATE Chemical practice question', 'x': clean(blk)[:600], 'w': 'gate practice question'})
     text = clean(body)
+    if fm.get('item') and u.startswith('/exclusive/'):   # page body comes from _data/exclusive.yml
+        it = EXI.get(fm['item']) or {}
+        text = (clean(str(it.get('short') or '')) + ' ' + ' '.join(clean(str(w)) for w in (it.get('what') or [])) + ' ' + text).strip()
     new.append({'t': title, 'u': u, 'k': k, 's': desc, 'x': text[:900], 'w': ('gate exam chemical engineering' if k == 'GATE' else 'process modelling simulation scale-up' if u.startswith('/process-modelling/') else '')})
     # sections by h2
     parts = re.split(r'<h[23]([^>]*)>([\s\S]*?)</h[23]>', body)

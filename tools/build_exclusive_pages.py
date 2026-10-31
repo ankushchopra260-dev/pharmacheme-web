@@ -29,7 +29,7 @@ def main():
         if kind == 'SoftwareApplication': sd['applicationCategory'] = 'EngineeringApplication'; sd['operatingSystem'] = 'Web browser'
         title = it['title'].replace('Pro: ', '').replace('Excel: ', 'Excel ')
         seo = (title[:52] + ' | PharmaChemE') if len(title) <= 52 else (title.split(':')[0][:52] + ' | PharmaChemE')
-        desc = it['short'] + ' ₹' + str(it['price']) + ' by UPI.'
+        desc = it.get('meta') or (it['short'] + ' ₹' + str(it['price']) + ' by UPI.')
         if it['group'] == 'excel':
             cs = open(os.path.join(ROOT, it['calc'].strip('/'), 'index.html'), encoding='utf-8').read()
             ct = re.search(r'^title:\s*"?(.*?)"?\s*$', cs, re.M).group(1)
@@ -39,7 +39,7 @@ def main():
         fm = ['---', 'layout: exclusive', f'item: {it["id"]}', f'title: {json.dumps(it["title"], ensure_ascii=False)}', f'seo_title: {json.dumps(seo, ensure_ascii=False)}',
               f'description: {json.dumps(desc, ensure_ascii=False)}', 'structured_data: |', '  ' + json.dumps(sd, ensure_ascii=False),
               *crumbs,
-              'last_modified_at: 2026-10-29', '---', '']
+              'last_modified_at: ' + str(it.get('updated', '2026-10-29')), '---', '']
         open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write('\n'.join(fm))
         made.append(it['slug'])
     print(len(made), 'pages')

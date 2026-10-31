@@ -2,11 +2,11 @@
 layout: default
 title: "Exclusive Content: 3D Chemical Engineering Books, Guides, Pro Calculators, Excel Templates and GATE Test Series"
 seo_title: "Exclusive Chemical Engineering Content | PharmaChemE"
-description: "Interactive 3D concept books, learning paths with certificates, detailed plant articles, concept notes, Pro design calculators, Excel templates and the GATE CH test series. Pay by UPI."
+description: "Interactive 3D concept books, learning paths with certificates, Pro calculators, Excel templates and the GATE CH test series for chemical engineers. Pay by UPI."
 breadcrumbs:
   - label: "Exclusive content"
     url: /exclusive/
-last_modified_at: 2026-10-30
+last_modified_at: 2026-10-31
 structured_data: |
   {
     "@context": "https://schema.org",
@@ -33,6 +33,20 @@ structured_data: |
 
   <nav class="ex-jump" aria-label="Sections"><a href="#books">3D concept books</a><a href="#paths">Learning paths</a><a href="#gate">GATE test series</a>{% for g in site.data.exclusive.groups %}{% assign gi = site.data.exclusive.items | where: "group", g.key %}{% unless g.key == "excel" or g.key == "books" or gi.size == 0 %}<a href="#{{ g.key }}">{{ g.title }}</a>{% endunless %}{% endfor %}<a href="#custom">Custom tools</a></nav>
 
+  {%- assign ft = site.data.exclusive.items | where: "featured", true | first %}
+  {%- if ft %}
+  <section class="ex-feature" aria-labelledby="ex-ft-h">
+    <div class="ex-feature-copy">
+      <p class="ex-feature-tag">For students and freshers</p>
+      <h2 id="ex-ft-h">{{ ft.title }}</h2>
+      <p>Thirty days, thirty 3D lessons. Each day shows you what to do and what to ask on the plant floor, then lets you try it: choose the safe assembly point in a gas leak, start a pump in the right order, trip an interlock, cut the layers at the sight glass, find a vacuum leak, hand over a shift.</p>
+      <ul><li>A quick check and free links on every day</li><li>Day-30 readiness test and a fresher toolkit in Excel</li><li>Works on a phone</li><li>Pairs with the free <a href="{{ '/plant-tour/' | relative_url }}">virtual plant tour</a></li></ul>
+      <p class="ex-feature-cta"><a class="btn btn-primary" href="{{ '/exclusive/' | append: ft.slug | append: '/' | relative_url }}#try">Try Day 1 free</a><a class="ex-feature-more" href="{{ '/exclusive/' | append: ft.slug | append: '/' | relative_url }}">All 30 days, ₹{{ ft.price }}</a></p>
+    </div>
+    <div class="ex-demo-stage" data-demo="{{ ft.demo }}" role="img" aria-label="Pencil-sketch chemical plant with production block, utilities, tank farm and flows"></div>
+  </section>
+  {%- endif %}
+
   {%- assign bg = site.data.exclusive.groups | where: "key", "books" | first %}
   <section id="books" class="ex-group">
     <h2>{{ bg.title }}</h2>
@@ -40,7 +54,7 @@ structured_data: |
     <div class="ex-books">
       {%- assign books = site.data.exclusive.items | where: "group", "books" -%}
       {%- for it in books %}
-      <a class="ex-card ex-bookcard" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><div class="ex-demo-stage" data-demo="{{ it.demo }}" aria-hidden="true"></div><div class="ex-bookcard-txt"><span class="ex-owned" hidden>Yours</span><h3>{{ it.title }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }} <small>lifetime access</small></span></div></a>
+      <a class="ex-card ex-bookcard" href="{{ '/exclusive/' | append: it.slug | append: '/' | relative_url }}" data-id="{{ it.id }}"><div class="ex-demo-stage" data-demo="{{ it.demo }}" aria-hidden="true"></div><div class="ex-bookcard-txt"><span class="ex-owned" hidden>Yours</span>{% if it.featured %}<span class="ex-star">Start here if you are new to plants</span>{% endif %}<h3>{{ it.title }}</h3><p>{{ it.short }}</p><span class="ex-price">₹{{ it.price }} <small>lifetime access</small></span></div></a>
       {%- endfor %}
     </div>
   </section>

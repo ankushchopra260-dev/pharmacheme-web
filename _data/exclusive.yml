@@ -47,6 +47,10 @@ items:
     slug: first-30-days-chemical-plant
     group: books
     demo: plant
+    sample: f30
+    featured: true
+    updated: "2026-10-31"
+    meta: "30 day-by-day 3D lessons for chemical engineering freshers: safety, equipment, P&IDs, utilities, batches, troubleshooting. Try Day 1 free."
     title: "The First 30 Days in a Chemical Plant"
     short: For students and freshers. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Ends with a Day-30 test and a fresher toolkit in Excel.
     price: 499
@@ -59,7 +63,7 @@ items:
       - "Every day: what to do on the plant, what to ask, an \"on the plant floor\" tip, a quick check and links to the free articles and calculators"
       - "Fresher toolkit (Excel): 30-day plan and diary, inspection checklist, equipment register, sample SOP, sample BMR with yield reconciliation, shift handover, self-assessment"
       - "A glossary of 33 plant words you will hear in week one"
-    related: [/freshers/industry-readiness-score/, /articles/how-to-read-a-pid/, /articles/permit-to-work-and-isolation/]
+    related: [/plant-tour/, /freshers/industry-readiness-score/, /articles/why-choose-chemical-engineering/, /articles/how-to-read-a-pid/, /articles/permit-to-work-and-isolation/]
     promote: ["/freshers/industry-readiness-score/", "/process-engineering-faq/", "/articles/how-to-read-a-pid/", "/articles/permit-to-work-and-isolation/", "/articles/qa-gmp-deviation-capa/", "/articles/hr-in-chemical-plants/", "/plant-tour/"]
   - id: book-fluid-flow-3d
     slug: fluid-flow-3d-concept-book

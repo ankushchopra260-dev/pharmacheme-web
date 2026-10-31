@@ -40,6 +40,12 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  if (/^\/assets\/data\//.test(url.pathname)) {
+    // search and guide data: always ask the server first, so new pages are findable straight after a deploy
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(res => { if (res.ok) { const copy = res.clone(); caches.open(FILES).then(c => c.put(req, copy)); } return res; }).catch(() => caches.match(req)));
+    return;
+  }
+
   if (/^\/(assets\/|favicon\.ico|manifest\.webmanifest)/.test(url.pathname)) {
     e.respondWith(caches.open(FILES).then(c => c.match(req).then(hit => {
       const net = fetch(req).then(res => { if (res.ok) c.put(req, res.clone()).then(() => trim(FILES, MAX_FILES)); return res; }).catch(() => hit);

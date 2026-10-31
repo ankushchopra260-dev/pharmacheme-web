@@ -94,8 +94,8 @@
   var AZ = [], AZ_URL = IDX_URL.replace(/guide-index\.json$/, 'azeotropes.json'), IF97_URL = IDX_URL.replace(/data\/guide-index\.json$/, 'js/if97.js');
   function loadIF97() { if (window.IF97) return Promise.resolve(); return new Promise(function (res) { var sc = document.createElement('script'); sc.src = IF97_URL; sc.onload = res; sc.onerror = res; document.head.appendChild(sc); }); }
   var SITE_URL = (CS && CS.getAttribute('data-search')) || IDX_URL.replace(/guide-index\.json$/, 'site-search.json');
-  function kindOf(u) { return /^\/solvents\//.test(u) ? 'Solvent data' : /^\/gate\//.test(u) ? 'GATE' : /^\/process-modelling\/.|^\/design-tools\/./.test(u) ? 'Tool' : /^\/(calculators|utilities)\/./.test(u) ? 'Calculator' : /^\/articles\/./.test(u) ? 'Article' : /^\/process-safety\/case-studies\//.test(u) ? 'Case study' : /^\/process-safety\//.test(u) ? 'Process safety' : /^\/games\//.test(u) ? 'Game' : 'Page'; }
-  function getJ(u) { return fetch(u).then(function (r) { return r.json(); }).catch(function () { return []; }); }
+  function kindOf(u) { return /^\/solvents\//.test(u) ? 'Solvent data' : /^\/gate\//.test(u) ? 'GATE' : /^\/process-modelling\/.|^\/design-tools\/./.test(u) ? 'Tool' : /^\/(calculators|utilities)\/./.test(u) ? 'Calculator' : /^\/articles\/./.test(u) ? 'Article' : /^\/process-safety\/case-studies\//.test(u) ? 'Case study' : /^\/process-safety\//.test(u) ? 'Process safety' : /^\/games\//.test(u) ? 'Game' : /^\/exclusive\/./.test(u) ? 'Exclusive' : 'Page'; }
+  function getJ(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.json(); }).catch(function () { return []; }); }
   function load() {
     if (IDX && SITE) return Promise.resolve();
     if (!loading) loading = Promise.all([window.PCE_GUIDE_INDEX ? Promise.resolve(window.PCE_GUIDE_INDEX) : getJ(IDX_URL), window.PCE_SITE_INDEX ? Promise.resolve(window.PCE_SITE_INDEX) : getJ(SITE_URL), getJ(FACTS_URL), getJ(PAGES_URL), getJ(AZ_URL).then(function (d) { AZ = d || []; }), loadIF97()])
@@ -191,7 +191,7 @@
     low.split(' ').forEach(function (w) { if (GL[w] && hits.indexOf(w) < 0) hits.push(w); });
     return hits;
   }
-  var TYPE_BONUS = { 'Solvent data': .5, GATE: .4, 'GATE question': 0, Calculator: .6, Section: .3, Tool: .5, Lesson: .4, 'Process safety': .25, Equipment: .3, Instrument: .25, Agitator: .2, Game: .2, Article: .3, Interview: 0, Page: 0, Videos: -.3, Animation: -.2 };
+  var TYPE_BONUS = { 'Solvent data': .5, GATE: .4, 'GATE question': 0, Calculator: .6, Section: .3, Tool: .5, Lesson: .4, 'Process safety': .25, Equipment: .3, Instrument: .25, Agitator: .2, Game: .2, Exclusive: .3, Article: .3, Interview: 0, Page: 0, Videos: -.3, Animation: -.2 };
   function search(q, prefer) {
     var g = glossFor(q), qw = words(q), extra = [];
     g.forEach(function (k) { words(GL[k][1] + ' ' + GL[k][3]).forEach(function (w) { if (qw.indexOf(w) < 0 && extra.indexOf(w) < 0) extra.push(w); }); });

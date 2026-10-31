@@ -116,6 +116,13 @@ async function demos() {
   });
 }
 
+/* ---------- free sample (one full page of a book, public) ---------- */
+async function samples() {
+  const el = document.querySelector('[data-sample="f30"]'); if (!el) return;
+  const start = async () => { try { await loadSB(); await loadScript('/assets/js/f30-sample.js?v=' + V); el.innerHTML = ''; window.PCME_F30_SAMPLE(el, { buy: '#ex-get' }); } catch (e) { el.innerHTML = '<p class="ex-sample-wait">The sample could not load. Please refresh the page.</p>'; } };
+  if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); start(); } }, { rootMargin: '300px' }); io.observe(el); } else start();
+}
+
 /* ---------- hub page ---------- */
 async function hub() {
   const mine = document.getElementById('ex-mine'); if (!mine) return;
@@ -235,4 +242,5 @@ async function certificate() {
 function drawPathsFor(p) { const b = document.getElementById('ex-paths'); if (b) { b.innerHTML = pathHtml(p, null); b.querySelectorAll('[data-path-req]').forEach(x => { x.onclick = () => requestPath(x.dataset.pathReq, x); }); } }
 
 demos();
+samples();
 onAuthStateChanged(auth, async u => { user = u; await loadMine(); if (document.getElementById('ex-cert')) certificate(); else if (page) item(); else hub(); });

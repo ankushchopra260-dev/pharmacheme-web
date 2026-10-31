@@ -16,7 +16,9 @@ layout: default
   {%- if it.preview %}
   <figure class="ex-demo ex-shot"><img src="{{ it.preview | relative_url }}" alt="Preview of {{ it.title | escape }} with example rows" loading="lazy" width="2282" height="684"><figcaption><b>Preview</b> Example rows from the worksheet. The download includes every sheet described below.</figcaption></figure>
   {%- endif %}
-  {%- if it.demo %}
+  {%- if it.sample %}
+  <section class="ex-demo ex-sample" id="try" aria-labelledby="ex-try"><h2 id="ex-try">Try Day 1 free</h2><p class="ex-sample-lead">The first day of the book, exactly as buyers get it: turn the plant, change the wind, choose the safe assembly point and answer the quick check. No sign-in needed.</p><div class="ex-sample-host" data-sample="{{ it.sample }}"><p class="ex-sample-wait">Loading Day 1…</p></div></section>
+  {%- elsif it.demo %}
   <figure class="ex-demo"><div class="ex-demo-stage" data-demo="{{ it.demo }}" role="img" aria-label="Short animated preview of the 3D page"></div><figcaption><b>Preview</b> A short look at one page. In the book you turn it yourself, change the numbers and watch it respond.</figcaption></figure>
   {%- endif %}
   <div class="ex-layout">
@@ -32,7 +34,7 @@ layout: default
       {{ content }}
       {%- if it.related or it.calc %}
       <h3>Free tools on this topic</h3>
-      <ul class="ex-rel">{% if it.calc %}<li><a href="{{ it.calc | relative_url }}">Try the free calculator first</a></li>{% endif %}{% for r in it.related %}{% assign base = r | split: '?' | first %}{% assign rp = site.pages | where: "url", base | first %}<li><a href="{{ r | relative_url }}">{% if rp %}{{ rp.title | split: ':' | first }}{% else %}{{ base }}{% endif %}</a></li>{% endfor %}</ul>
+      <ul class="ex-rel">{% if it.calc %}<li><a href="{{ it.calc | relative_url }}">Try the free calculator first</a></li>{% endif %}{% for r in it.related %}{% assign base = r | split: '?' | first %}{% assign rp = site.pages | where: "url", base | first %}<li><a href="{{ r | relative_url }}">{% if rp %}{{ rp.title | split: ':' | first }}{% elsif base == '/plant-tour/' %}Virtual plant tour in 3D{% else %}{{ base }}{% endif %}</a></li>{% endfor %}</ul>
       {%- endif %}
     </section>
     <aside class="ex-access" aria-labelledby="ex-get">

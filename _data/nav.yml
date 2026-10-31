@@ -161,9 +161,10 @@
     - { title: "Practice questions", url: /gate/practice/ }
     - { title: "Full mock test", url: /gate/mock-test/ }
     - { title: "Test series (Paid)", url: /gate/test-series/ }
-- title: Interview
+- title: Careers
   url: /process-engineering-faq/
   children:
+    - { title: "Why choose chemical engineering?", url: /articles/why-choose-chemical-engineering/ }
     - { title: "Interview questions and answers", url: /process-engineering-faq/ }
     - { title: "Industry readiness score (free)", url: /freshers/industry-readiness-score/ }
     - { title: "First 30 Days in a chemical plant (Paid)", url: /exclusive/first-30-days-chemical-plant/ }

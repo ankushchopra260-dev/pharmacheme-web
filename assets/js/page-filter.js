@@ -26,7 +26,7 @@
     let DATA = null, loading = false;
     function records(words) {
       if (!SRC || words.join('').length < 3) return null;
-      if (!DATA) { if (!loading) { loading = true; fetch(SRC).then(r => r.json()).then(d => { DATA = d; run(); }).catch(() => { }); } return null; }
+      if (!DATA) { if (!loading) { loading = true; fetch(SRC, { cache: 'no-cache' }).then(r => r.json()).then(d => { DATA = d; run(); }).catch(() => { }); } return null; }
       const out = [];
       for (const r of DATA) {
         const u = (r.u || '').split('#')[0]; if (!u.startsWith(TAB) || u === TAB) continue;
