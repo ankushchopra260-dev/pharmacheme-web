@@ -85,7 +85,31 @@ last_modified_at: 2026-10-21
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="what">What an MES does <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 150" width="100%" role="img" aria-labelledby="mes-title mes-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="mes-title">Review by exception in an electronic batch record</title>
+      <desc id="mes-desc">Every batch entry is checked automatically against its limits. Entries within limits are recorded. Only exceptions go to a person for review.</desc>
+      <defs><marker id="mes-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="10" y="50" width="160" height="50" rx="6"/>
+        <rect x="230" y="50" width="160" height="50" rx="6"/>
+        <rect x="450" y="10" width="260" height="40" rx="6"/>
+        <rect x="450" y="90" width="260" height="40" rx="6"/>
+        <line x1="170" y1="75" x2="228" y2="75" marker-end="url(#mes-arrow)"/>
+        <path d="M390 75 H 420 V 30 H 448" marker-end="url(#mes-arrow)"/>
+        <path d="M390 75 H 420 V 110 H 448" marker-end="url(#mes-arrow)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="14">
+        <text x="90" y="80" font-weight="700">Batch entries</text>
+        <text x="310" y="80" font-weight="700">Automatic checks</text>
+        <text x="580" y="35">Within limits: recorded</text>
+        <text x="580" y="115">Exception: reviewer decides</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">The reviewer's time goes to the exceptions, not to every entry. That is the point of review by exception.</figcaption>
+  </figure>
+
+  <h2 id="what">What an MES does<span class="lvl l1">Basics</span></h2>
   <p>A <b>manufacturing execution system (MES)</b> runs production at ISA-95 level 3: between the DCS that controls equipment and the ERP that plans orders and stock. In a pharma or fine-chemical plant its core is the <b>electronic batch record (eBMR or EBR)</b>: the master recipe becomes a guided, step-by-step electronic workflow, and the executed record is captured as the batch runs.</p>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>MES function</th><th>What it replaces or adds</th></tr>
