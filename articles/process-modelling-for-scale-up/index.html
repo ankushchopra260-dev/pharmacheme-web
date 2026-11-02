@@ -82,7 +82,33 @@ last_modified_at: 2026-10-20
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="what">What a process model is <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 150" width="100%" role="img" aria-labelledby="pm-title pm-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="pm-title">The process model loop</title>
+      <desc id="pm-desc">Inputs and conditions feed a model of balances, kinetics and equipment. The model predicts outputs. Predictions are compared with plant data and the model is adjusted.</desc>
+      <defs><marker id="pm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="10" y="45" width="160" height="60" rx="6"/>
+        <rect x="245" y="45" width="230" height="60" rx="6"/>
+        <rect x="550" y="45" width="160" height="60" rx="6"/>
+        <line x1="170" y1="75" x2="243" y2="75" marker-end="url(#pm-arrow)"/>
+        <line x1="475" y1="75" x2="548" y2="75" marker-end="url(#pm-arrow)"/>
+        <path d="M630 105 V 130 H 360 V 105" marker-end="url(#pm-arrow)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="14">
+        <text x="90" y="70" font-weight="700">Feed and conditions</text>
+        <text x="90" y="90" font-size="12">composition, T, P</text>
+        <text x="360" y="70" font-weight="700">Model</text>
+        <text x="360" y="90" font-size="12">balances, kinetics, equipment</text>
+        <text x="630" y="70" font-weight="700">Predicted outputs</text>
+        <text x="630" y="90" font-size="12">yield, heat, time</text>
+        <text x="360" y="146" font-size="12">compare with plant data and adjust the model</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">A model earns trust only when its predictions have been compared with real plant or lab results.</figcaption>
+  </figure>
+
+  <h2 id="what">What a process model is<span class="lvl l1">Basics</span></h2>
   <p>A process model is a set of equations that describes one step of the process, with numbers for the parts that depend on your chemistry and your equipment. The equations are standard chemical engineering: mole balances, heat balances, rate laws, vapour-liquid equilibrium and mixing correlations. What makes the model yours is the <strong>parameters</strong>:</p>
   <ul>
     <li><strong>From the lab</strong>: rate constants and activation energy, heat of reaction, solubility, thermal stability (TD24).</li>

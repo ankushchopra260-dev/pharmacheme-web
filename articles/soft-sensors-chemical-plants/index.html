@@ -85,7 +85,33 @@ last_modified_at: 2026-10-21
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="what">What a soft sensor is <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 150" width="100%" role="img" aria-labelledby="ss-title ss-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="ss-title">How a soft sensor works</title>
+      <desc id="ss-desc">Cheap, fast process measurements feed a model. The model estimates a quality value that is hard to measure directly. Occasional lab results are used to recalibrate the model.</desc>
+      <defs><marker id="ss-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="10" y="40" width="180" height="60" rx="6"/>
+        <rect x="270" y="40" width="180" height="60" rx="6"/>
+        <rect x="530" y="40" width="180" height="60" rx="6"/>
+        <line x1="190" y1="70" x2="268" y2="70" marker-end="url(#ss-arrow)"/>
+        <line x1="450" y1="70" x2="528" y2="70" marker-end="url(#ss-arrow)"/>
+        <path d="M620 102 V 128 H 360 V 102" stroke-dasharray="5 4" marker-end="url(#ss-arrow)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="14">
+        <text x="100" y="66" font-weight="700">Fast readings</text>
+        <text x="100" y="86" font-size="12">temperature, pressure, flow</text>
+        <text x="360" y="66" font-weight="700">Model</text>
+        <text x="360" y="86" font-size="12">calibrated to lab results</text>
+        <text x="620" y="66" font-weight="700">Estimated quality</text>
+        <text x="620" y="86" font-size="12">between lab samples</text>
+        <text x="490" y="146" font-size="12">occasional lab results recalibrate the model</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">The soft sensor is only as good as its calibration. Check it against the lab on a schedule.</figcaption>
+  </figure>
+
+  <h2 id="what">What a soft sensor is<span class="lvl l1">Basics</span></h2>
   <p>A <b>soft sensor</b> (also called a virtual sensor or inferential) estimates a quantity that is slow, expensive or impossible to measure online, using measurements the plant already logs. The lab may report an impurity every four hours; the soft sensor gives a best estimate every minute from temperatures, pressures, flows and power.</p>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>What you want to know</th><th>Fast inputs that often carry the information</th></tr>

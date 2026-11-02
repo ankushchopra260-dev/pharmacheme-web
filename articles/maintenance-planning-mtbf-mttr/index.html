@@ -81,7 +81,29 @@ last_modified_at: 2026-10-20
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="types">Breakdown, preventive and predictive <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 130" width="100%" role="img" aria-labelledby="mtbf-title mtbf-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="mtbf-title">MTBF and MTTR on one timeline</title>
+      <desc id="mtbf-desc">A run of operating time ends in a failure, then a repair period. The operating time is MTBF and the repair time is MTTR. Availability is MTBF divided by the sum of MTBF and MTTR.</desc>
+      <g stroke="currentColor" stroke-width="2" fill="none">
+        <rect x="20" y="40" width="500" height="44" rx="4"/>
+        <rect x="520" y="40" width="90" height="44" rx="4"/>
+        <line x1="20" y1="100" x2="610" y2="100"/>
+        <line x1="20" y1="94" x2="20" y2="106"/>
+        <line x1="520" y1="94" x2="520" y2="106"/>
+        <line x1="610" y1="94" x2="610" y2="106"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="14">
+        <text x="270" y="66" font-weight="700">Running: MTBF</text>
+        <text x="565" y="66" font-weight="700">Repair: MTTR</text>
+        <text x="270" y="122" font-size="12">time between failures</text>
+        <text x="565" y="122" font-size="12">time to restore</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">Availability = MTBF / (MTBF + MTTR). Example: 100 h running and 5 h repair give 100 / 105 = 95 %.</figcaption>
+  </figure>
+
+  <h2 id="types">Breakdown, preventive and predictive<span class="lvl l1">Basics</span></h2>
   <ul>
 <li><strong>Breakdown (run to failure):</strong> fix it when it fails. Acceptable for cheap, non-critical items with a spare available.</li>
 <li><strong>Preventive (time-based):</strong> service at fixed intervals or running hours: lubrication, seal and gasket changes, filter changes, calibration.</li>
