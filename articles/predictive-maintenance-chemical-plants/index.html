@@ -96,7 +96,30 @@ last_modified_at: 2026-10-21
   </table></div>
   <p>Predictive maintenance is condition-based maintenance with better eyes: more signals, watched continuously, with software (often machine learning) spotting the pattern earlier than a fixed alarm limit would. Which strategy each machine deserves depends on its criticality; see <a href="{{ '/articles/maintenance-planning-mtbf-mttr/' | relative_url }}">maintenance planning, MTBF and MTTR</a>.</p>
 
-  <h2 id="pf">The P-F curve: how much warning you get <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 180" width="100%" role="img" aria-labelledby="pf-title pf-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="pf-title">P-F curve</title>
+      <desc id="pf-desc">Condition of an asset falls over time. At the potential failure point P a defect can be detected. The functional failure point F follows. The gap between P and F is the warning time.</desc>
+      <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M40 30 C 250 35, 420 45, 500 75 S 600 115, 650 125"/>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4">
+        <line x1="500" y1="20" x2="500" y2="140"/>
+        <line x1="650" y1="20" x2="650" y2="140"/>
+      </g>
+      <line x1="500" y1="155" x2="650" y2="155" stroke="currentColor" stroke-width="2"/>
+      <g font-family="system-ui, sans-serif" fill="currentColor" font-size="13">
+        <text x="500" y="14" text-anchor="middle" font-weight="700">P: potential failure</text>
+        <text x="650" y="14" text-anchor="middle" font-weight="700">F: functional failure</text>
+        <text x="575" y="170" text-anchor="middle">P-F interval: the warning you get</text>
+        <text x="20" y="22" font-size="12">Condition</text>
+        <text x="700" y="160" font-size="12" text-anchor="end">Time</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">The shape is typical, not a measured curve for any one machine. The useful part is the gap between P and F, which sets how often you must check.</figcaption>
+  </figure>
+
+  <h2 id="pf">The P-F curve: how much warning you get<span class="lvl l1">Basics</span></h2>
   <p>Most failures of rotating equipment give warning. <b>P</b> is the point where a coming failure first becomes detectable (a rise in vibration, a hot bearing); <b>F</b> is the functional failure (the pump stops delivering). The time between them is the <b>P-F interval</b>. Reliability-centred maintenance practice says to check at intervals of about <b>half the P-F interval</b>, or less for high-risk failure modes, so that at least one check falls inside the warning window with time left to plan the repair.</p>
   <div class="dx-box">
     <h3>Check interval calculator</h3>

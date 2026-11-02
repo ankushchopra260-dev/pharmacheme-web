@@ -84,7 +84,32 @@ last_modified_at: 2026-10-21
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="tree">Start from one number: cost per kg <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 170" width="100%" role="img" aria-labelledby="kpi-title kpi-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="kpi-title">Cost per kg as the root of the KPI tree</title>
+      <desc id="kpi-desc">Cost per kilogram of product sits at the top. Below it are yield, cycle time, utilities, raw materials and labour, each of which a dashboard should track.</desc>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="260" y="10" width="200" height="50" rx="6"/>
+        <rect x="10" y="105" width="120" height="50" rx="6"/>
+        <rect x="150" y="105" width="120" height="50" rx="6"/>
+        <rect x="290" y="105" width="120" height="50" rx="6"/>
+        <rect x="430" y="105" width="120" height="50" rx="6"/>
+        <rect x="570" y="105" width="140" height="50" rx="6"/>
+        <path d="M360 60 V 80 H 70 V 105 M360 80 H 210 V 105 M360 80 V 105 M360 80 H 490 V 105 M360 80 H 640 V 105"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="14">
+        <text x="360" y="32" font-weight="700">Cost per kg of product</text>
+        <text x="70" y="128" font-size="13">Yield</text>
+        <text x="210" y="128" font-size="13">Cycle time</text>
+        <text x="350" y="128" font-size="13">Utilities</text>
+        <text x="490" y="128" font-size="13">Raw materials</text>
+        <text x="640" y="128" font-size="13">Labour</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">Start the dashboard from the one number that matters most, then show the drivers beneath it.</figcaption>
+  </figure>
+
+  <h2 id="tree">Start from one number: cost per kg<span class="lvl l1">Basics</span></h2>
   <p>A useful plant dashboard is a tree, not a wall of charts. At the top is the number management cares about; below it, the few drivers that move it; below those, what each shift can act on. In an API or specialty chemical plant the top number is usually <b>conversion cost or total cost per kg</b> of product (see <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">consumption norms and cost per kg</a>). Tap a KPI to see its definition, formula, data source and owner.</p>
   <div class="dx-box">
     <h3>KPI tree for a batch plant</h3>
