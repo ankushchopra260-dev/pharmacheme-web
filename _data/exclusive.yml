@@ -64,7 +64,7 @@ items:
       - "Fresher toolkit (Excel): 30-day plan and diary, inspection checklist, equipment register, sample SOP, sample BMR with yield reconciliation, shift handover, self-assessment"
       - "A glossary of 33 plant words you will hear in week one"
     related: [/plant-tour/, /freshers/industry-readiness-score/, /articles/why-choose-chemical-engineering/, /articles/how-to-read-a-pid/, /articles/permit-to-work-and-isolation/]
-    promote: ["/freshers/industry-readiness-score/", "/process-engineering-faq/", "/articles/how-to-read-a-pid/", "/articles/permit-to-work-and-isolation/", "/articles/qa-gmp-deviation-capa/", "/articles/hr-in-chemical-plants/", "/plant-tour/"]
+    promote: ["/freshers/industry-readiness-score/", "/process-engineering-faq/", "/articles/how-to-read-a-pid/", "/articles/permit-to-work-and-isolation/", "/articles/qa-gmp-deviation-capa/", "/articles/hr-in-chemical-plants/", "/plant-tour/", "/", "/design-tools/pid/", "/design-tools/pfd/"]
   - id: book-fluid-flow-3d
     slug: fluid-flow-3d-concept-book
     group: books
@@ -104,7 +104,7 @@ items:
       - "Low fill at the start of dosing: wetted jacket area and lost cooling"
       - "Full article: worked example from RC1 data to a 6.3 kL glass-lined reactor, traps and a tech-transfer checklist"
     related: [/calculators/reagent-addition-time-calculator/, /calculators/batch-cooling-tr-calculator/, /process-safety/stoessel-criticality-classes/]
-    promote: ["/calculators/reagent-addition-time-calculator/", "/calculators/batch-cooling-tr-calculator/", "/process-safety/stoessel-criticality-classes/", "/process-safety/cooling-failure-and-runaway/", "/process-safety/scale-up-and-tech-transfer/", "/process-safety/thermal-testing-dsc-arc-rc/", "/articles/semi-batch-dosing-accumulation/", "/articles/how-to-read-dsc-arc-rc1-tsu/", "/process-modelling/semi-batch-dosing-simulator/", "/process-modelling/heating-cooling-time-simulator/", "/articles/jacket-and-limpet-coil-design/", "/calculators/jacketed-vessel-heat-transfer/", "/articles/lab-to-plant-scale-up-checklist/"]
+    promote: ["/calculators/reagent-addition-time-calculator/", "/calculators/batch-cooling-tr-calculator/", "/calculators/mixing-scale-up-calculator/", "/process-safety/stoessel-criticality-classes/", "/process-safety/cooling-failure-and-runaway/", "/process-safety/scale-up-and-tech-transfer/", "/process-safety/thermal-testing-dsc-arc-rc/", "/articles/semi-batch-dosing-accumulation/", "/articles/how-to-read-dsc-arc-rc1-tsu/", "/process-modelling/semi-batch-dosing-simulator/", "/process-modelling/heating-cooling-time-simulator/", "/articles/jacket-and-limpet-coil-design/", "/calculators/jacketed-vessel-heat-transfer/", "/articles/lab-to-plant-scale-up-checklist/"]
   - id: con-vle-activity-models
     slug: vapour-liquid-equilibrium-activity-models
     group: concepts
