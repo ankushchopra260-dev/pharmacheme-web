@@ -81,7 +81,35 @@ last_modified_at: 2026-10-20
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="list">Start with a load list <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 150" width="100%" role="img" aria-labelledby="util-flow-title util-flow-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="util-flow-title">From equipment list to design utility capacity</title>
+      <desc id="util-flow-desc">Four steps in sequence: a load list of every equipment item, peak and average load per utility, a diversity factor, and the design capacity with margin.</desc>
+      <defs><marker id="util-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="10" y="40" width="150" height="70" rx="6"/>
+        <rect x="200" y="40" width="150" height="70" rx="6"/>
+        <rect x="390" y="40" width="150" height="70" rx="6"/>
+        <rect x="570" y="40" width="140" height="70" rx="6"/>
+        <line x1="160" y1="75" x2="198" y2="75" marker-end="url(#util-arrow)"/>
+        <line x1="350" y1="75" x2="388" y2="75" marker-end="url(#util-arrow)"/>
+        <line x1="540" y1="75" x2="568" y2="75" marker-end="url(#util-arrow)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle">
+        <text x="85" y="68" font-size="14" font-weight="700">Load list</text>
+        <text x="85" y="88" font-size="12">every equipment item</text>
+        <text x="275" y="68" font-size="14" font-weight="700">Peak and average</text>
+        <text x="275" y="88" font-size="12">per utility</text>
+        <text x="465" y="68" font-size="14" font-weight="700">Diversity factor</text>
+        <text x="465" y="88" font-size="12">not all run at once</text>
+        <text x="640" y="68" font-size="14" font-weight="700">Design capacity</text>
+        <text x="640" y="88" font-size="12">plus margin</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">The sequence used in this article. Each step uses the one before it, so an error in the load list carries through to the design capacity.</figcaption>
+  </figure>
+
+  <h2 id="list">Start with a load list<span class="lvl l1">Basics</span></h2>
   <p>For every consumer, list the utility, the peak load, the average load over a batch and the hours of use. Sources: the energy balance for heating and cooling, nameplate or calculated power for motors, and process requirements for nitrogen, vacuum and water. A spreadsheet row per equipment per utility is enough.</p>
 
   <h2 id="heat">Steam, cooling water, chilled water and brine <span class="lvl l1">Basics</span></h2>
