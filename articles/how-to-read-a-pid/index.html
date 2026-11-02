@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-21
+last_modified_at: 2026-11-02
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -118,7 +118,58 @@ last_modified_at: 2026-10-21
     <li><strong>Control valve:</strong> a bow-tie with an actuator drawn on top: a dome for a diaphragm actuator. Labels FC (fail closed) or FO (fail open) tell you what it does when air or power fails. That single label is one of the most safety-relevant facts on the drawing.</li>
     <li><strong>Relief valve (PSV):</strong> a valve symbol with a spring zig-zag, discharging at a right angle. A <strong>rupture disc</strong> is drawn as a curved line across the pipe.</li>
   </ul>
-  <p>Small symbols worth knowing: a filled bow-tie means a valve normally closed (some projects write NC instead); a blind or spectacle blind is drawn as a figure-of-eight; a reducer is a small trapezium; and drains and vents are short lines with a valve and a cap.</p>
+  <figure class="art-fig" style="margin:18px 0 22px;">
+    <svg viewBox="0 0 720 110" width="100%" role="img" aria-labelledby="valve-strip-title valve-strip-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="valve-strip-title">Common valve symbols on a P&amp;ID</title>
+      <desc id="valve-strip-desc">Gate, globe, ball, butterfly, check and control valve symbols drawn on a pipe line, each labelled.</desc>
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+        <!-- Gate: plain bow-tie on pipe -->
+        <line x1="0" y1="40" x2="120" y2="40"/>
+        <path d="M30 25 L60 40 L30 55 Z M90 25 L60 40 L90 55 Z"/>
+        <!-- Globe: bow-tie with a dot -->
+        <g transform="translate(120 0)">
+          <line x1="0" y1="40" x2="120" y2="40"/>
+          <path d="M30 25 L60 40 L30 55 Z M90 25 L60 40 L90 55 Z"/>
+          <circle cx="60" cy="40" r="4" fill="currentColor"/>
+        </g>
+        <!-- Ball: bow-tie with a circle -->
+        <g transform="translate(240 0)">
+          <line x1="0" y1="40" x2="120" y2="40"/>
+          <path d="M30 25 L60 40 L30 55 Z M90 25 L60 40 L90 55 Z"/>
+          <circle cx="60" cy="40" r="9"/>
+        </g>
+        <!-- Butterfly: disc across the pipe -->
+        <g transform="translate(360 0)">
+          <line x1="0" y1="40" x2="120" y2="40"/>
+          <line x1="60" y1="22" x2="60" y2="58"/>
+        </g>
+        <!-- Check: half-filled bow-tie -->
+        <g transform="translate(480 0)">
+          <line x1="0" y1="40" x2="120" y2="40"/>
+          <path d="M30 25 L60 40 L30 55 Z" fill="currentColor"/>
+          <path d="M90 25 L60 40 L90 55 Z"/>
+        </g>
+        <!-- Control valve: bow-tie with a diaphragm dome -->
+        <g transform="translate(600 0)">
+          <line x1="0" y1="40" x2="120" y2="40"/>
+          <path d="M30 25 L60 40 L30 55 Z M90 25 L60 40 L90 55 Z"/>
+          <line x1="60" y1="40" x2="60" y2="22"/>
+          <path d="M48 22 A12 12 0 0 1 72 22"/>
+        </g>
+      </g>
+      <g font-family="system-ui, sans-serif" font-size="13" fill="currentColor" text-anchor="middle">
+        <text x="60" y="90">Gate</text>
+        <text x="180" y="90">Globe</text>
+        <text x="300" y="90">Ball</text>
+        <text x="420" y="90">Butterfly</text>
+        <text x="540" y="90">Check</text>
+        <text x="660" y="90">Control</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">The same pipe line with six valve types. The shape tells you the valve type; the label or tag tells you its service. Drawn to the convention described above, not to a vendor standard.</figcaption>
+  </figure>
+
+  <p>Small symbols worth knowing:a filled bow-tie means a valve normally closed (some projects write NC instead); a blind or spectacle blind is drawn as a figure-of-eight; a reducer is a small trapezium; and drains and vents are short lines with a valve and a cap.</p>
 
   <h2 id="inst">Instrument bubbles and ISA letters <span class="lvl l2">Working level</span></h2>
   <p>Instruments are drawn as circles (bubbles). The line through the middle tells you where the instrument is seen:</p>
