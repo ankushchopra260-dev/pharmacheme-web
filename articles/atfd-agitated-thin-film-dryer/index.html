@@ -131,7 +131,12 @@ last_modified_at: 2026-10-20
   <h3>What is an ATFD used for?</h3>
   <p>Drying MEE concentrate to salt in ZLD, and handling viscous or heat-sensitive liquids.</p>
   <h3>How do you estimate ATFD capacity?</h3>
-  <p>Duty = U &times; A &times; &Delta;T; evaporation = duty / latent heat; feed = evaporation / fraction evaporated.</p>
+  <p>Work the sizing in three steps:</p>
+  <ol class="steps">
+    <li><strong>Heat duty.</strong> Duty = U &times; A &times; &Delta;T. With U = 690 kcal/h&middot;m&sup2;&middot;&deg;C, A = 10 m&sup2; and &Delta;T = 60 &deg;C: 690 &times; 10 &times; 60 = 4,14,000 kcal/h.</li>
+    <li><strong>Evaporation rate.</strong> Evaporation = duty / latent heat. At about 540 kcal/kg latent heat: 4,14,000 / 540 &asymp; 766 kg/h of water.</li>
+    <li><strong>Feed rate.</strong> Feed = evaporation / fraction evaporated. With 63 % of the feed evaporating: 766 / 0.63 &asymp; 1,216 kg/h, so about 1,200 kg/h of feed.</li>
+  </ol>
   <h3>Why concentrate in an MEE before the ATFD?</h3>
   <p>The MEE uses far less steam per kg of water than the ATFD.</p>
 

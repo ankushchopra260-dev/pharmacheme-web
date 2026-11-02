@@ -122,7 +122,13 @@ last_modified_at: 2026-10-20
   <div class="formula-box">
     &Delta;P = &rho;<sub>liquid</sub> &times; &omega;&sup2; &times; (r<sub>wall</sub>&sup2; &minus; r<sub>liquid surface</sub>&sup2;) / 2
   </div>
-  <p>In the example, with a 30 mm liquid layer on the cake (liquid surface at 450 mm radius) and liquid of 900 kg/m&sup3;, &Delta;P = 900 &times; 104.7&sup2; &times; (0.6&sup2; &minus; 0.45&sup2;) / 2 &asymp; 7.8 bar. A vacuum Nutsche can never exceed about 0.9 bar. That is the real reason a centrifuge filters and dewaters faster: the same cake resistance equation applies, with a much bigger pressure.</p>
+  <p>In the example, with a 30 mm liquid layer on the cake (liquid surface at 450 mm radius) and liquid of 900 kg/m&sup3;, the pressure across the cake is worked out in three steps:</p>
+  <ol class="steps">
+    <li><strong>Formula.</strong> &Delta;P = &rho; &times; &omega;&sup2; &times; (r<sub>2</sub>&sup2; &minus; r<sub>1</sub>&sup2;) / 2</li>
+    <li><strong>Substitute.</strong> &rho; = 900 kg/m&sup3;, &omega; = 104.7 rad/s, r<sub>2</sub> = 0.60 m, r<sub>1</sub> = 0.45 m.</li>
+    <li><strong>Calculate.</strong> &Delta;P = 900 &times; 104.7&sup2; &times; (0.36 &minus; 0.2025) / 2 &asymp; 7.8 bar.</li>
+  </ol>
+  <p>A vacuum Nutsche can never exceed about 0.9 bar. That is the real reason a centrifuge filters and dewaters faster: the same cake resistance equation applies, with a much bigger pressure.</p>
   <p>Once the liquid layer has drained, the remaining liquid is held in the pores by capillary forces. Spinning longer or faster removes more of it, but with diminishing returns: the residual moisture falls steeply in the first minutes and then levels off. If the cake is still too wet after a reasonable spin, the answer is usually in the crystals (fines blocking pores) or the wash (a viscous wash solvent), not more spin time. The <a href="{{ '/articles/filtration-calculation/' | relative_url }}">filtration article</a> explains how particle size drives cake resistance.</p>
 
   <h2 id="limits">Load, speed and safety limits <span class="lvl l3">Going deeper</span></h2>

@@ -121,7 +121,7 @@ last_modified_at: 2026-10-20
   <p>For 10 m&sup3;/min in a single stage, the theoretical power at 7.5 barg is about 7.7 % higher than at 6.5 barg. The rule of thumb is 6&ndash;8 % per bar. Many plants run at 7.5&ndash;8 barg because one user at the far end needs 6 barg and the header has a large pressure drop. Fixing that pipe, or giving the one user a small booster, is cheaper than running the whole system 1.5 bar high. A leak also grows with pressure, since choked flow is proportional to absolute pressure.</p>
 
   <h2 id="receiver">Air receiver size <span class="lvl l2">Working level</span></h2>
-  <div class="formula-box">V (m&sup3;) = Q (m&sup3;/min free air) &times; t (min) &times; 1.013 / (P<sub>1</sub> &minus; P<sub>2</sub>)</div>
+  <div class="formula-box">Step 1: V (m&sup3;) = Q (m&sup3;/min free air) &times; t (min) &times; 1.013 / (P<sub>1</sub> &minus; P<sub>2</sub>)<br>Step 2: Multiply the free-air flow Q by the time t.<br>Step 3: Multiply by 1.013 (bar) to convert to the reference pressure.<br>Step 4: Divide by the pressure drop (P<sub>1</sub> &minus; P<sub>2</sub>) to get the receiver volume V.</div>
   <p>To carry a 10 m&sup3;/min surge for 1 minute while the pressure may fall from 7.5 to 6.5 barg needs about 10 m&sup3;. A receiver near a big intermittent user (filter press, centrifuge discharge, bag filter pulse jets, pneumatic conveying) stops a standby compressor starting for a few seconds of demand, and gives a dryer time to work.</p>
 
   <h2 id="dryers">Dryers and dew point <span class="lvl l3">Going deeper</span></h2>
