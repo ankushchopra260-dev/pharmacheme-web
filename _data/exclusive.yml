@@ -50,9 +50,9 @@ items:
     sample: f30
     featured: true
     updated: "2026-10-31"
-    meta: "30 day-by-day 3D lessons for chemical engineering freshers: safety, equipment, P&IDs, utilities, batches, troubleshooting. Try Day 1 free."
-    title: "The First 30 Days in a Chemical Plant"
-    short: For students and freshers. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Ends with a Day-30 test and a fresher toolkit in Excel.
+    meta: "30 day-by-day 3D lessons plus the Industry Starter (7 modules, scored test, certificate) for chemical engineering freshers. Try Day 1 free."
+    title: "The First 30 Days in a Chemical Plant, with the Industry Starter"
+    short: "For students and freshers. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Then the Industry Starter: seven 3D modules on plant safety, equipment, utilities, P&IDs, batch records, process safety and troubleshooting, each with supervisor questions and sources. Ends with a Day-30 test, a scored final test and a certificate, plus a fresher toolkit in Excel. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Ends with a Day-30 test and a fresher toolkit in Excel."
     price: 499
     what:
       - "Week 1: the emergency plan with wind and assembly points, a 3D plant walk, PPE and permits, inside a glass-lined reactor, a centrifuge cycle, vacuum drying with a live LOD curve, and starting a pump in the right order"
@@ -63,27 +63,10 @@ items:
       - "Every day: what to do on the plant, what to ask, an \"on the plant floor\" tip, a quick check and links to the free articles and calculators"
       - "Fresher toolkit (Excel): 30-day plan and diary, inspection checklist, equipment register, sample SOP, sample BMR with yield reconciliation, shift handover, self-assessment"
       - "A glossary of 33 plant words you will hear in week one"
+      - "Industry Starter, modules 1 to 7: plant zones, PPE and permits, lockout; reactor heat removal, centrifuges and pump curves; steam, cooling water and the vacuum leak test; PFD and P&ID, tags and interlocks; batch cycle, yield and records; inerting, guards and gas alarms; NPSH, wet cake and the five whys"
+      - "Industry Starter final test: 21 questions, pass at 70 % (15 of 21), unlimited retakes, certificate with an ID"
     related: [/plant-tour/, /freshers/industry-readiness-score/, /articles/why-choose-chemical-engineering/, /articles/how-to-read-a-pid/, /articles/permit-to-work-and-isolation/]
     promote: ["/freshers/industry-readiness-score/", "/process-engineering-faq/", "/articles/how-to-read-a-pid/", "/articles/permit-to-work-and-isolation/", "/articles/qa-gmp-deviation-capa/", "/articles/hr-in-chemical-plants/", "/plant-tour/", "/", "/design-tools/pid/", "/design-tools/pfd/"]
-  - id: book-freshers-bundle
-    slug: complete-freshers-bundle
-    group: books
-    updated: "2026-11-02"
-    meta: "Complete Freshers Bundle: 7 interactive 3D modules on plant safety, equipment, utilities, P&IDs, batch records, process safety and troubleshooting, with a scored final test and certificate."
-    title: "The Complete Freshers Bundle: Industry Starter"
-    short: Seven 3D modules for final-year students and freshers entering chemical and pharmaceutical plants. Each module has a learning outcome, 3D scenes you can work with, quick checks, a worked example in kcal and °C, the questions your supervisor may ask, and a sources list. It ends with a scored final test (pass 70 %) and a certificate.
-    price: 499
-    what:
-      - "Module 1: plant zones in 3D, PPE matched to the task and the SDS, permit to work and lockout"
-      - "Module 2: jacketed reactor heat removal, centrifuge spinning force and guards, pump and system curves"
-      - "Module 3: steam and condensate, cooling-water range and approach, vacuum and the rate-of-rise leak test"
-      - "Module 4: PFD and P&ID, reading instrument tags and line numbers, interlocks and trips"
-      - "Module 5: a batch cycle and its bottleneck, yield reconciliation, records you can defend (ALCOA)"
-      - "Module 6: inerting by pressure cycles, guard interlocks, gas alarms and the lower explosive limit"
-      - "Module 7: NPSH and cavitation, wet cake and filtration, facts first and the five whys"
-      - "Final test: 21 questions, three per module, pass at 15 (70 %), unlimited retakes, certificate with an ID"
-    related: [/freshers/industry-readiness-score/, /plant-tour/, /articles/how-to-read-a-pid/, /articles/permit-to-work-and-isolation/, /process-engineering-faq/]
-    promote: ["/freshers/industry-readiness-score/", "/process-engineering-faq/", "/articles/how-to-read-a-pid/", "/articles/permit-to-work-and-isolation/"]
   - id: book-fluid-flow-3d
     slug: fluid-flow-3d-concept-book
     group: books
