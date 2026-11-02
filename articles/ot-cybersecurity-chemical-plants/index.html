@@ -90,7 +90,35 @@ last_modified_at: 2026-10-21
   <div class="art-note"><b>The case every plant should know</b><p>In 2017, attackers moved from the IT network into the OT network of a Middle East petrochemical facility and installed malware, later called TRITON, on its Triconex safety instrumented system controllers. The plant went to a safe state only because a bug in the malware tripped the controllers. The FBI warned in March 2022 that TRITON remains a threat to industrial control systems worldwide.</p></div>
   <p>Every AI, cloud or remote-support project adds connections into the plant network. Security has to be designed in, not added after the first incident.</p>
 
-  <h2 id="levels">Levels, zones and conduits <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 130" width="100%" role="img" aria-labelledby="ot-title ot-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="ot-title">Zones and conduits in a plant network</title>
+      <desc id="ot-desc">The business network is separated from the plant control zone by a controlled conduit. The safety system zone sits inside the plant zone with its own tighter control. Traffic between zones passes only through defined conduits.</desc>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="10" y="25" width="190" height="80" rx="8" stroke-dasharray="6 4"/>
+        <rect x="270" y="25" width="250" height="80" rx="8"/>
+        <rect x="320" y="45" width="150" height="40" rx="6"/>
+        <rect x="560" y="25" width="150" height="80" rx="8" stroke-dasharray="6 4"/>
+        <line x1="200" y1="65" x2="268" y2="65"/>
+        <line x1="520" y1="65" x2="558" y2="65"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="13">
+        <text x="105" y="62" font-weight="700">Business network</text>
+        <text x="105" y="82" font-size="11">email, ERP, internet</text>
+        <text x="395" y="36" font-weight="700" font-size="12">Plant control zone</text>
+        <text x="395" y="64" font-size="12">DCS, historian</text>
+        <text x="395" y="78" font-size="11">safety system inside</text>
+        <text x="635" y="62" font-weight="700">Remote access</text>
+        <text x="635" y="82" font-size="11">vendors, off-site</text>
+        <text x="235" y="58" font-size="11">conduit</text>
+        <text x="235" y="72" font-size="11">firewall</text>
+      </g>
+      <text x="360" y="124" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="currentColor">Dashed boxes are outside the control zone. Traffic crosses only through defined conduits.</text>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">A schematic of the zone and conduit idea, not a network design for any one plant.</figcaption>
+  </figure>
+
+  <h2 id="levels">Levels, zones and conduits<span class="lvl l1">Basics</span></h2>
   <p>The ISA/IEC 62443 series, developed by ISA and adopted by the IEC, is the main international standard set for securing industrial automation and control systems, built on shared responsibility between asset owners, suppliers, integrators and service providers. Its core design idea:</p>
   <ul>
     <li><b>Zones</b> group assets that share a security level requirement: for example the safety system, the DCS of one block, the historian and MES servers.</li>
