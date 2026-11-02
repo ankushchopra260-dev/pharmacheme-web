@@ -195,7 +195,11 @@ last_modified_at: 2026-10-20
   <h3>How do you calculate the boiling point of a solvent under vacuum?</h3>
   <p>Rearrange the Antoine equation: T<sub>b</sub> = B / (A &minus; log&#8321;&#8320;P) &minus; C, with P in mmHg and the solvent's A, B, C constants. Toluene at 100 mmHg boils at about 52 &deg;C.</p>
   <h3>How do you calculate heat load for solvent recovery?</h3>
-  <p>Heat duty (kcal/h) = vapour rate (kg/h) &times; latent heat (kcal/kg). 500 kg/h of toluene needs about 43,000 kcal/h, plus sensible heat to warm the batch and losses.</p>
+  <ol class="steps">
+    <li><strong>Formula.</strong> Heat duty (kcal/h) = vapour rate (kg/h) &times; latent heat (kcal/kg)</li>
+    <li><strong>Substitute.</strong> Vapour rate = 500 kg/h of toluene, latent heat = 86 kcal/kg</li>
+    <li><strong>Calculate.</strong> 500 &times; 86 = 43,000 kcal/h, plus sensible heat to warm the batch and losses</li>
+  </ol>
   <h3>Is mmHg the same as mbar?</h3>
   <p>No. 1 mmHg &asymp; 1.333 mbar. Check which unit your Antoine constants were fitted in.</p>
   <h3>Why can't I pull deeper vacuum to recover faster?</h3>

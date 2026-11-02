@@ -277,15 +277,31 @@ last_modified_at: 2026-10-20
 
   <h2 id="faq">Questions people ask</h2>
   <h3>What is the formula for pump power?</h3>
-  <p>Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 1,000, with &rho; in kg/m&sup3;, Q in m&sup3;/s and H in m. Divide by pump efficiency for shaft power, then by motor efficiency for motor input power.</p>
+  <ol class="steps">
+    <li><strong>Hydraulic power.</strong> P (kW) = &rho; &times; g &times; Q &times; H / 1,000, with &rho; in kg/m&sup3;, Q in m&sup3;/s and H in m.</li>
+    <li><strong>Shaft power.</strong> Divide the hydraulic power by the pump efficiency.</li>
+    <li><strong>Motor input power.</strong> Divide the shaft power by the motor efficiency.</li>
+  </ol>
   <h3>What is the quick formula from m&sup3;/h?</h3>
-  <p>Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367. For 50 m&sup3;/h of water at 30 m head, about 4.1 kW.</p>
+  <ol class="steps">
+    <li><strong>Formula.</strong> Hydraulic power (kW) = Q (m&sup3;/h) &times; H (m) &times; SG / 367</li>
+    <li><strong>Substitute.</strong> Q = 50 m&sup3;/h, H = 30 m, SG = 1.0 (water)</li>
+    <li><strong>Calculate.</strong> 50 &times; 30 &times; 1.0 / 367 = 4.1 kW</li>
+  </ol>
   <h3>What is the difference between hydraulic power and shaft power?</h3>
   <p>Hydraulic power is what the liquid receives. Shaft power is what the pump takes at its shaft; it is higher because of losses inside the pump. Shaft power = hydraulic power / pump efficiency.</p>
   <h3>What is the pump capacity formula?</h3>
-  <p>Turn the power formula round: Q (m&sup3;/h) = 367 &times; shaft power (kW) &times; pump efficiency / (H &times; SG). A 7.5 kW motor driving a 65 % efficient pump against 30 m of water gives roughly 55 m&sup3;/h. The pump curve gives the exact figure.</p>
+  <ol class="steps">
+    <li><strong>Formula.</strong> Q (m&sup3;/h) = 367 &times; shaft power (kW) &times; pump efficiency / (H &times; SG)</li>
+    <li><strong>Substitute.</strong> Shaft power = 7.5 kW, efficiency = 0.65, H = 30 m, SG = 1.0</li>
+    <li><strong>Calculate.</strong> Q = 367 &times; 7.5 &times; 0.65 / (30 &times; 1.0) = 59.6, so about 60 m&sup3;/h. The pump curve gives the exact figure.</li>
+  </ol>
   <h3>How do I convert pressure to head?</h3>
-  <p>Head (m) = &Delta;P (Pa) / (&rho; &times; 9.81). For water, 1 bar is about 10.2 m; for a lighter liquid the same pressure is more metres.</p>
+  <ol class="steps">
+    <li><strong>Formula.</strong> Head (m) = &Delta;P (Pa) / (&rho; &times; 9.81)</li>
+    <li><strong>Substitute.</strong> &Delta;P = 100,000 Pa (1 bar), &rho; = 1000 kg/m&sup3; (water)</li>
+    <li><strong>Calculate.</strong> 100,000 / (1000 &times; 9.81) = 10.2 m. A lighter liquid at the same pressure gives more metres of head.</li>
+  </ol>
   <h3>How much margin should a pump motor have?</h3>
   <p>A common rule is 125 % of shaft power up to 22 kW, 115 % from 22 to 55 kW and 110 % above that, then the next standard size. Also check the shaft power at the end of the pump curve.</p>
 

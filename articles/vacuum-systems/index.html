@@ -148,7 +148,11 @@ last_modified_at: 2026-10-20
   <h3>Why can't a liquid ring pump reach a deep vacuum?</h3>
   <p>Its seal liquid boils at the suction pressure: about 42 mbar for water at 30 &deg;C. A colder seal, a booster or an ejector extends the range.</p>
   <h3>How do you calculate pump-down time?</h3>
-  <p>t = (V/S) &times; ln(P<sub>0</sub>/P<sub>1</sub>); 6 m&sup3; with 250 m&sup3;/h to 50 mbar takes about 4.3 minutes ideally.</p>
+  <ol class="steps">
+    <li><strong>Formula.</strong> t = (V / S) &times; ln(P<sub>0</sub> / P<sub>1</sub>)</li>
+    <li><strong>Substitute.</strong> V = 6 m&sup3;, S = 250 m&sup3;/h, P<sub>0</sub> = 1,013 mbar, P<sub>1</sub> = 50 mbar</li>
+    <li><strong>Calculate.</strong> t = (6 / 250) &times; ln(20.3) = 0.072 h, about 4.3 minutes ideally</li>
+  </ol>
   <h3>How do you measure an air leak?</h3>
   <p>Rate-of-rise test: isolate the pump and record the pressure rise. 20 mbar in 10 minutes on 6 m&sup3; is about 0.85 kg/h of air.</p>
 
