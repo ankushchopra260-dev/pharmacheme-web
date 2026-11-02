@@ -50,9 +50,9 @@ items:
     sample: f30
     featured: true
     updated: "2026-10-31"
-    meta: "30 day-by-day 3D lessons plus the Industry Starter (7 modules, scored test, certificate) for chemical engineering freshers. Try Day 1 free."
+    meta: "30 day-by-day 3D lessons plus the Industry Starter (extra 3D pages, scored test, certificate) for chemical engineering freshers. Try Day 1 free."
     title: "The First 30 Days in a Chemical Plant, with the Industry Starter"
-    short: "For students and freshers. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Then the Industry Starter: seven 3D modules on plant safety, equipment, utilities, P&IDs, batch records, process safety and troubleshooting, each with supervisor questions and sources. Ends with a Day-30 test, a scored final test and a certificate, plus a fresher toolkit in Excel. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Ends with a Day-30 test and a fresher toolkit in Excel."
+    short: "For students and freshers. Thirty day-by-day lessons, each with a 3D scene you can work with, what to do and ask on the plant that day, a quick check and free links. Then the Industry Starter: 3D pages on what the 30 days do not cover (reactor heat removal, centrifuges, pump curves, tags and line numbers, guards, gas alarms, NPSH and filtration), each with supervisor questions and sources. Ends with a Day-30 test, a scored final test and a certificate, plus a fresher toolkit in Excel."
     price: 499
     what:
       - "Week 1: the emergency plan with wind and assembly points, a 3D plant walk, PPE and permits, inside a glass-lined reactor, a centrifuge cycle, vacuum drying with a live LOD curve, and starting a pump in the right order"
@@ -63,7 +63,7 @@ items:
       - "Every day: what to do on the plant, what to ask, an \"on the plant floor\" tip, a quick check and links to the free articles and calculators"
       - "Fresher toolkit (Excel): 30-day plan and diary, inspection checklist, equipment register, sample SOP, sample BMR with yield reconciliation, shift handover, self-assessment"
       - "A glossary of 33 plant words you will hear in week one"
-      - "Industry Starter, modules 1 to 7: plant zones, PPE and permits, lockout; reactor heat removal, centrifuges and pump curves; steam, cooling water and the vacuum leak test; PFD and P&ID, tags and interlocks; batch cycle, yield and records; inerting, guards and gas alarms; NPSH, wet cake and the five whys"
+      - "Industry Starter pages: permit to work and lockout; reactor heat removal; centrifuge spinning force and guards; pump and system curves; tags and line numbers; guard interlocks; gas alarms and the lower explosive limit; NPSH and cavitation; wet cake and filtration"
       - "Industry Starter final test: 21 questions, pass at 70 % (15 of 21), unlimited retakes, certificate with an ID"
     related: [/plant-tour/, /freshers/industry-readiness-score/, /articles/why-choose-chemical-engineering/, /articles/how-to-read-a-pid/, /articles/permit-to-work-and-isolation/]
     promote: ["/freshers/industry-readiness-score/", "/process-engineering-faq/", "/articles/how-to-read-a-pid/", "/articles/permit-to-work-and-isolation/", "/articles/qa-gmp-deviation-capa/", "/articles/hr-in-chemical-plants/", "/plant-tour/", "/", "/design-tools/pid/", "/design-tools/pfd/"]
