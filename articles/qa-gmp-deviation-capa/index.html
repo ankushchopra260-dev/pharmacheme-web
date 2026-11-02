@@ -81,7 +81,40 @@ last_modified_at: 2026-10-20
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="gmp">GMP in one idea <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 130" width="100%" role="img" aria-labelledby="gmp-title gmp-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="gmp-title">From deviation to CAPA and effectiveness check</title>
+      <desc id="gmp-desc">A deviation is recorded when execution departs from the batch record. It is investigated, leading to a corrective and preventive action. The action is later checked for effectiveness.</desc>
+      <defs><marker id="gmp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="35" width="130" height="55" rx="6"/>
+        <rect x="165" y="35" width="130" height="55" rx="6"/>
+        <rect x="325" y="35" width="130" height="55" rx="6"/>
+        <rect x="485" y="35" width="105" height="55" rx="6"/>
+        <rect x="615" y="35" width="100" height="55" rx="6"/>
+        <line x1="135" y1="62" x2="163" y2="62" marker-end="url(#gmp-arrow)"/>
+        <line x1="295" y1="62" x2="323" y2="62" marker-end="url(#gmp-arrow)"/>
+        <line x1="455" y1="62" x2="483" y2="62" marker-end="url(#gmp-arrow)"/>
+        <line x1="590" y1="62" x2="613" y2="62" marker-end="url(#gmp-arrow)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="12">
+        <text x="70" y="60" font-weight="700">Batch record</text>
+        <text x="70" y="78" font-size="11">the planned steps</text>
+        <text x="230" y="60" font-weight="700">Deviation recorded</text>
+        <text x="230" y="78" font-size="11">what differed</text>
+        <text x="390" y="60" font-weight="700">Investigation</text>
+        <text x="390" y="78" font-size="11">why it happened</text>
+        <text x="537" y="60" font-weight="700">CAPA</text>
+        <text x="537" y="78" font-size="11">fix and prevent</text>
+        <text x="665" y="60" font-weight="700">Effectiveness</text>
+        <text x="665" y="78" font-size="11">check later</text>
+      </g>
+      <text x="360" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="currentColor">Recording is not the end: the CAPA must be shown to work.</text>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">The GMP deviation path in outline. Each step has its own record and its own owner.</figcaption>
+  </figure>
+
+  <h2 id="gmp">GMP in one idea<span class="lvl l1">Basics</span></h2>
   <p>Good Manufacturing Practice asks one thing: <strong>can you prove every batch was made the approved way, by trained people, on qualified equipment, from approved materials, and that nothing unrecorded happened?</strong> For APIs the international reference is ICH Q7; in India the revised Schedule M of the Drugs Rules applies, and export customers bring their own regulators (US FDA, EU, WHO and others).</p>
 <p>The practical consequence is &ldquo;if it isn&rsquo;t written, it didn&rsquo;t happen&rdquo;. Records must be attributable, legible, contemporaneous, original and accurate, the ALCOA principle, which also applies to electronic data from DCS, balances and instruments.</p>
 

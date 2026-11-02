@@ -84,7 +84,36 @@ last_modified_at: 2026-10-21
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="fit">Where generative AI fits in GMP documents <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 130" width="100%" role="img" aria-labelledby="gen-title gen-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="gen-title">Answering from approved documents with a human check</title>
+      <desc id="gen-desc">A question is matched against approved documents only. The relevant clauses are retrieved and used to draft an answer with references. A qualified person reviews and approves the draft before use.</desc>
+      <defs><marker id="gen-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="35" width="130" height="55" rx="6"/>
+        <rect x="165" y="35" width="150" height="55" rx="6"/>
+        <rect x="345" y="35" width="150" height="55" rx="6"/>
+        <rect x="525" y="35" width="190" height="55" rx="6" stroke-dasharray="6 4"/>
+        <line x1="135" y1="62" x2="163" y2="62" marker-end="url(#gen-arrow)"/>
+        <line x1="315" y1="62" x2="343" y2="62" marker-end="url(#gen-arrow)"/>
+        <line x1="495" y1="62" x2="523" y2="62" marker-end="url(#gen-arrow)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="13">
+        <text x="70" y="58" font-weight="700">Question</text>
+        <text x="70" y="76" font-size="11">from a technician</text>
+        <text x="240" y="58" font-weight="700">Approved SOPs only</text>
+        <text x="240" y="76" font-size="11">clauses retrieved</text>
+        <text x="420" y="58" font-weight="700">Draft with references</text>
+        <text x="420" y="76" font-size="11">cites clause numbers</text>
+        <text x="620" y="58" font-weight="700">Qualified review</text>
+        <text x="620" y="76" font-size="11">approves before use</text>
+      </g>
+      <text x="360" y="120" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="currentColor">The dashed box is the step that cannot be skipped in a GMP setting.</text>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">A draft is never the record. The approved document and a qualified signature remain the authority.</figcaption>
+  </figure>
+
+  <h2 id="fit">Where generative AI fits in GMP documents<span class="lvl l1">Basics</span></h2>
   <p>Large language models are good at reading, sorting and drafting text, and SOPs, batch records, deviations and CAPAs are mostly text. They are also capable of &ldquo;confabulation&rdquo;, which NIST defines as the production of confidently stated but erroneous or false content. The rule that follows: let the model draft, search and summarise; let qualified people decide and sign.</p>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Task</th><th>Generative AI role</th><th>Who decides</th></tr>
