@@ -84,7 +84,28 @@ last_modified_at: 2026-10-21
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="what">Model, shadow or twin? <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 130" width="100%" role="img" aria-labelledby="dt-title dt-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="dt-title">Model, shadow and twin compared</title>
+      <desc id="dt-desc">A model is run offline. A shadow runs alongside the plant on live data but does not feed back. A twin is linked to live data and its results inform operating decisions.</desc>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="10" y="30" width="210" height="80" rx="6"/>
+        <rect x="255" y="30" width="210" height="80" rx="6"/>
+        <rect x="500" y="30" width="210" height="80" rx="6"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="14">
+        <text x="115" y="58" font-weight="700">Model</text>
+        <text x="115" y="80" font-size="12">run offline, design and study</text>
+        <text x="360" y="58" font-weight="700">Shadow</text>
+        <text x="360" y="80" font-size="12">follows live data, no feedback</text>
+        <text x="605" y="58" font-weight="700">Twin</text>
+        <text x="605" y="80" font-size="12">linked to live data, informs decisions</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">Each step adds a live link. Most plants should start with a shadow before trusting a twin to advise operators.</figcaption>
+  </figure>
+
+  <h2 id="what">Model, shadow or twin?<span class="lvl l1">Basics</span></h2>
   <p>&ldquo;Digital twin&rdquo; is used for almost anything with a 3D picture. A widely cited classification by Kritzinger and co-workers (2018) separates three things by how data flows between the plant and the model:</p>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Name</th><th>Plant &rarr; model</th><th>Model &rarr; plant</th><th>Example</th></tr>

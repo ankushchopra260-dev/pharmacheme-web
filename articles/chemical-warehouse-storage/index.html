@@ -81,7 +81,34 @@ last_modified_at: 2026-10-21
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
-  <h2 id="status">Every container has a status <span class="lvl l1">Basics</span></h2>
+  <figure class="art-fig" style="margin:18px 0 24px;">
+    <svg viewBox="0 0 720 130" width="100%" role="img" aria-labelledby="wh-title wh-desc" style="max-width:720px;color:currentColor;display:block;">
+      <title id="wh-title">Container status flow in a warehouse</title>
+      <desc id="wh-desc">A received container goes into quarantine. After sampling and testing it is either released for use or rejected. Only released containers can be issued.</desc>
+      <defs><marker id="wh-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="10" y="45" width="150" height="50" rx="6"/>
+        <rect x="200" y="45" width="150" height="50" rx="6"/>
+        <rect x="390" y="15" width="150" height="40" rx="6"/>
+        <rect x="390" y="75" width="150" height="40" rx="6"/>
+        <rect x="580" y="45" width="130" height="50" rx="6"/>
+        <line x1="160" y1="70" x2="198" y2="70" marker-end="url(#wh-arrow)"/>
+        <path d="M350 70 H 370 V 35 H 388" marker-end="url(#wh-arrow)"/>
+        <path d="M350 70 H 370 V 95 H 388" marker-end="url(#wh-arrow)"/>
+        <path d="M540 35 H 560 V 70 H 578" marker-end="url(#wh-arrow)"/>
+      </g>
+      <g font-family="system-ui, sans-serif" fill="currentColor" text-anchor="middle" font-size="14">
+        <text x="85" y="75" font-weight="700">Received: quarantine</text>
+        <text x="275" y="75" font-weight="700">Sampled and tested</text>
+        <text x="465" y="40">Released</text>
+        <text x="465" y="100">Rejected</text>
+        <text x="645" y="75" font-weight="700">Issued for use</text>
+      </g>
+    </svg>
+    <figcaption style="font-size:.9em;opacity:.8;margin-top:6px;">Only a released container moves to issue. A rejected one is kept apart until it is removed.</figcaption>
+  </figure>
+
+  <h2 id="status">Every container has a status<span class="lvl l1">Basics</span></h2>
   <p>Each container shows its material, lot number and status: <strong>Quarantine</strong>, <strong>Approved</strong>, <strong>Rejected</strong> or <strong>Under test</strong>. Rejected material is kept in a locked, separate area until it is returned or destroyed. In a warehouse management system the status is controlled in software, but a physical label still matters for anyone walking the floor.</p>
 
   <h2 id="seg">Segregation of incompatible materials <span class="lvl l1">Basics</span></h2>
