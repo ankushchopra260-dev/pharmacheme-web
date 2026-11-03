@@ -2,7 +2,7 @@
 layout: default
 guide: false
 title: Chemical Engineering Word Search
-description: "Seven word search puzzles for chemical engineers: unit operations, heat transfer, fluid flow, process safety, equipment, utilities and dimensionless numbers. Every word you find explains itself."
+description: "Free word search puzzles for chemical engineers: unit operations, heat transfer, fluid flow, process safety, equipment and dimensionless numbers."
 breadcrumbs:
   - label: Games
     url: /games/
@@ -42,7 +42,6 @@ last_modified_at: 2026-11-03
 <style>
   #ws * { box-sizing: border-box; }
   #ws {
-    --cell: clamp(21px, calc((100vw - 52px) / 13), 40px);
     --found1: #C9A227; --found2: #5AA9D6; --found3: #E08A5F;
     --found4: #86B96A; --found5: #B98BD1; --found6: #D9C06B;
     margin: 0 auto 48px;
@@ -80,20 +79,21 @@ last_modified_at: 2026-11-03
   #ws .ws-bar button:disabled { opacity: .4; cursor: not-allowed; }
 
   /* board + list */
-  #ws .ws-wrap { display: grid; grid-template-columns: auto minmax(220px, 1fr); gap: 26px; align-items: start; }
+  #ws .ws-wrap { display: grid; grid-template-columns: minmax(0, 560px) minmax(220px, 1fr); gap: 26px; align-items: start; }
   @media (max-width: 860px) { #ws .ws-wrap { grid-template-columns: 1fr; gap: 20px; } }
 
   #ws .ws-board { position: relative; }
+  /* 1fr columns: the grid can never be wider than the space it is given */
   #ws .ws-grid {
-    display: grid; grid-template-columns: repeat(13, var(--cell));
-    gap: 2px; padding: 10px; touch-action: none;
+    display: grid; grid-template-columns: repeat(13, 1fr);
+    gap: 2px; padding: 8px; touch-action: none;
     background: var(--panel); border: 1px solid var(--grid-line);
-    width: max-content; max-width: 100%;
+    width: 100%; max-width: 560px;
   }
   #ws .ws-grid button {
-    width: var(--cell); height: var(--cell); padding: 0; cursor: pointer;
+    width: 100%; aspect-ratio: 1; height: auto; min-width: 0; padding: 0; cursor: pointer;
     font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: calc(var(--cell) * .52); font-weight: 600; line-height: 1;
+    font-size: clamp(9px, 3.3vw, 19px); font-weight: 600; line-height: 1;
     color: var(--paper); background: #0E1C2B; border: 1px solid transparent;
     border-radius: 2px; transition: background .08s, color .08s;
   }
