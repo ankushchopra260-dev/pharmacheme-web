@@ -9,6 +9,7 @@
         - { title: "Overall U", url: /calculators/overall-heat-transfer-coefficient-calculator/ }
         - { title: "TR to Cool a Batch", url: /calculators/batch-cooling-tr-calculator/ }
         - { title: "Addition Time from RC1", url: /calculators/reagent-addition-time-calculator/ }
+        - { title: "Safe Addition Time & Orifice", url: /calculators/safe-addition-time-orifice-calculator/ }
     - title: "Heat load and solvent recovery"
       children:
         - { title: "Solvent Recovery (BP under vacuum)", url: /calculators/solvent-recovery-calculator/ }

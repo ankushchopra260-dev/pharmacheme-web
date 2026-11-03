@@ -403,6 +403,69 @@
     xl: [['Q', 'Total reaction heat', `{m}*{Hr}`, 'kcal'], ['cool', 'Cooling capacity', `{U}*{A}*({Tp}-{Tj})`, 'kcal/h'], ['td', 'Shortest dosing time', `{Q}*(1-{acc}/100)/({cool}*{use}/100)`, 'h'],
       ['dT', 'Adiabatic temperature rise', `{Hr}/{cp}`, '°C'], ['mtsr', 'MTSR', `{Tp}+{acc}/100*{dT}`, '°C'], ['ok', 'MTSR below MTT?', `IF({mtsr}<{MTT},"Yes","No")`, '']] };
 
+  /* Safe addition time from RC data, then the restriction orifice that cannot dose faster than that.
+     Accumulation is scaled from the RC run as acc = acc_RC x t_RC / t for dosing slower than the RC run (dosing-controlled reaction);
+     the orifice is sized at the highest driving head, so the flow at the start is the safe flow and it only falls after that. */
+  const DOSE = { grav: 'Gravity from a head tank', n2: 'Nitrogen-pressurised vessel', pump: 'Pump with a restriction orifice' };
+  function doseSafe(v) {
+    const Q = v.m * v.Hr, dTad = v.Hr / v.cp, cool = v.U * v.A * (v.Tp - v.Tj) * KJ, usable = cool * v.use / 100;   // kJ, °C, kJ/h
+    const accMax = Math.max(0, (v.MTT - v.Tp) / dTad * 100), acc = t => Math.min(v.acc, v.acc * v.tRC / t);
+    const tM = v.acc <= accMax ? v.tRC : (accMax > 0 ? v.tRC * v.acc / accMax : Infinity);
+    let t = Math.max(v.tRC, tM), tC = 0;
+    for (let i = 0; i < 30; i++) { tC = usable > 0 ? Q * (1 - acc(t) / 100) * v.pk / usable : Infinity; const n = Math.max(v.tRC, tM, tC); if (Math.abs(n - t) < 1e-6) break; t = n; }
+    t = Math.max(v.tRC, tM, tC); const gov = t - tC < 1e-4 ? 'jacket cooling' : t - tM < 1e-4 && tM > v.tRC ? 'MTSR limit' : 'RC tested time';
+    return { Q, dTad, cool, usable, accMax, tM, tC, t, gov, accT: acc(t), mtsr: v.Tp + acc(t) / 100 * dTad };
+  }
+  function doseOrifice(v, t) {
+    const g = 9.81, rho = v.rho, Vol = v.md / rho, Qs = Vol / t / 3600, Cd = v.cd;                 // m³, m³/s
+    const At = v.mode === 'pump' ? 0 : Math.PI * v.Dt * v.Dt / 4;
+    const dpGas = v.mode === 'n2' ? v.pn2 : 0, dpHead = ((v.mode === 'pump' ? v.dpo : dpGas) - (v.mode === 'pump' ? 0 : v.pr)) * 1e5 / (rho * g);
+    const H1 = v.mode === 'pump' ? dpHead : v.h1 + dpHead, drop = At > 0 ? Vol / At : 0, H2 = H1 - drop;
+    if (!(H1 > 0)) return { err: 'There is no driving head at the start: the liquid cannot flow into the reactor. Raise the head, the nitrogen pressure or the pressure drop.' };
+    if (v.mode !== 'pump' && v.h1 - drop < -1e-9) return { err: 'The reagent volume is more than the head tank holds above the orifice. Check the tank diameter and the starting level.' };
+    if (v.mode !== 'pump' && !(H2 > 0)) return { err: 'The driving head falls to zero before all the reagent is in: the reactor pressure is too high for this head. Raise the head or the nitrogen pressure.' };
+    const Ao = Qs / (Cd * Math.sqrt(2 * g * H1)), d = Math.sqrt(4 * Ao / Math.PI) * 1000;              // mm
+    const dr = Math.floor(d * 10 + 1e-9) / 10, Ar = Math.PI * Math.pow(dr / 1000, 2) / 4;
+    const time = A => v.mode === 'pump' ? Vol / (Cd * A * Math.sqrt(2 * g * H1)) / 3600 : H2 > 0 ? At / (Cd * A) * Math.sqrt(2 / g) * (Math.sqrt(H1) - Math.sqrt(H2)) / 3600 : NaN;
+    const q1 = Cd * Ar * Math.sqrt(2 * g * H1) * 3.6e6, q2 = v.mode === 'pump' ? q1 : Cd * Ar * Math.sqrt(2 * g * Math.max(H2, 0)) * 3.6e6;   // L/h
+    return { Vol, Qs, H1, H2, d, dr, tr: dr > 0 ? time(Ar) : NaN, tCalc: time(Ao), q1, q2 };
+  }
+  C.doseOrifice = { title: 'Safe addition time and restriction orifice from RC data', sub: 'Shortest safe dosing time from reaction calorimetry, then the orifice diameter that cannot dose faster',
+    inputs: [
+      { k: 'm', label: 'Batch mass at end of dosing', unit: 'kg', v: 3000 }, { k: 'cp', label: 'Batch cp (RC)', unit: 'kJ/kg·°C', v: 1.8 },
+      { k: 'Hr', label: 'Reaction heat (RC), per kg of final mass', unit: 'kJ/kg', v: 260 }, { k: 'acc', label: 'Accumulation at end of dosing (RC)', unit: '%', v: 12 },
+      { k: 'tRC', label: 'Dosing time in the RC run', unit: 'h', v: 2 }, { k: 'pk', label: 'Peak ÷ average heat flow (RC curve)', unit: '', v: 1.3 },
+      { k: 'Tp', label: 'Process temperature', unit: '°C', v: 40 }, { k: 'MTT', label: 'MTT (boiling point or safe limit)', unit: '°C', v: 64.5 },
+      { k: 'U', label: 'Overall U', unit: 'kcal/h·m²·°C', v: 250 }, { k: 'A', label: 'Wetted jacket area', unit: 'm²', v: 9 }, { k: 'Tj', label: 'Coolant temperature', unit: '°C', v: 10 },
+      { k: 'use', label: 'Use this much of the cooling', unit: '%', v: 70 },
+      { k: 'mode', label: 'How the reagent is dosed', type: 'sel', v: 'grav', opts: Object.entries(DOSE) },
+      { k: 'md', label: 'Reagent to dose', unit: 'kg', v: 600 }, { k: 'rho', label: 'Reagent density', unit: 'kg/m³', v: 1100 },
+      { k: 'Dt', label: 'Head tank inside diameter', unit: 'm', v: 1.0, show: v => v.mode !== 'pump' },
+      { k: 'h1', label: 'Liquid surface above the orifice at start', unit: 'm', v: 1.8, show: v => v.mode !== 'pump' },
+      { k: 'pn2', label: 'Nitrogen pad on the dosing vessel', unit: 'bar g', v: 0.5, show: v => v.mode === 'n2' },
+      { k: 'pr', label: 'Reactor pressure (vacuum as negative)', unit: 'bar g', v: 0, show: v => v.mode !== 'pump' },
+      { k: 'dpo', label: 'Pressure drop available across the orifice', unit: 'bar', v: 2, show: v => v.mode === 'pump' },
+      { k: 'cd', label: 'Discharge coefficient Cd', unit: '', v: 0.61 }],
+    run(v) {
+      if (!(v.m > 0 && v.cp > 0 && v.Hr > 0 && v.tRC > 0 && v.md > 0 && v.rho > 0 && v.cd > 0)) return { rows: [], notes: [['Masses, cp, reaction heat, RC time, density and Cd must be above zero.', 'bad']] };
+      const s = doseSafe(v);
+      if (!isFinite(s.t)) return { rows: [], notes: [[v.Tp >= v.MTT ? 'The process temperature is at or above the MTT.' : 'No dosing time is safe with these numbers: the cooling is zero or the MTSR limit cannot be met. Lower the process temperature, raise the cooling, or change the process.', 'bad']] };
+      const o = doseOrifice(v, s.t), notes = [];
+      notes.push([`<b>Safe addition time ${F(s.t, 2)} h</b>, set by the ${s.gov}. Jacket limit ${F(s.tC, 2)} h; MTSR limit ${F(s.tM, 2)} h; RC tested ${F(v.tRC, 2)} h.`, 'lead']);
+      if (s.mtsr >= v.MTT - 0.05) notes.push(['MTSR reaches the MTT at this time. Add a margin: dose slower, or lower the accumulation.', 'warn']);
+      if (s.accT > s.accMax) notes.push(['Accumulation is above the MTSR limit.', 'bad']);
+      if (o.err) { notes.push([o.err, 'bad']); return { rows: [['Safe addition time', F(s.t, 2), 'h'], ['MTSR at that time', F(s.mtsr, 1), '°C']], notes }; }
+      if (o.dr < 1) notes.push(['The orifice comes out below 1 mm: it will block. Dose with a metering pump, or reduce the head and use a larger orifice.', 'warn']);
+      if (v.mode === 'grav' || v.mode === 'n2') notes.push([`The flow falls from ${F(o.q1, 0)} to ${F(o.q2, 0)} L/h as the level drops, so the addition takes ${F(o.tr, 2)} h with the ${F(o.dr, 1)} mm orifice: longer than the safe minimum, never faster. The rate at the start is the one that must be safe.`]);
+      else notes.push(['With a pump, the orifice caps the flow if the control valve fails open or the pump runs at full speed. Check the pump curve gives at least this pressure drop at the capped flow.']);
+      notes.push(['Accumulation for slower dosing is scaled from the RC run (acc × t<sub>RC</sub>/t), valid when the reaction is fast compared with dosing. Never dose faster than the RC run without a new RC test, and confirm the chosen time with RC before plant use.']);
+      notes.push(['Orifice: Q = Cd·A·√(2gH), sharp-edged (Cd ≈ 0.61), line friction ignored, which errs towards a smaller orifice. Drill to the size shown, rounded down, and put a tag on it so it is never drilled out.']);
+      return { rows: [['Safe addition time', F(s.t, 2), 'h'], ['Orifice diameter (calculated)', F(o.d, 2), 'mm'], ['Drill size (rounded down to 0.1 mm)', F(o.dr, 1), 'mm'], ['Addition time with that orifice', F(o.tr, 2), 'h'],
+        ['Flow at start (maximum)', F(o.q1, 0), 'L/h'], ['Flow at end', F(o.q2, 0), 'L/h'], ['Reagent volume', F(o.Vol * 1000, 0), 'L'], ['Driving head at start', F(o.H1, 2), 'm of liquid'],
+        ['Total reaction heat', F(s.Q, 0), 'kJ'], ['Adiabatic temperature rise', F(s.dTad, 1), '°C'], ['Accumulation at that time', F(s.accT, 1), '%'], ['Largest accumulation the MTT allows', F(s.accMax, 1), '%'], ['MTSR', F(s.mtsr, 1), '°C'],
+        ['Jacket cooling capacity', F(s.cool / KJ, 0), 'kcal/h']], notes };
+    } };
+
   /* ---------------- Process: agitation, properties, drying, scrubbing ---------------- */
   const PRE = { water: ['Water', 997, 0.89, 18.02], meoh: ['Methanol', 791, 0.54, 32.04], etoh: ['Ethanol', 789, 1.07, 46.07], ipa: ['IPA', 786, 2.04, 60.1], ace: ['Acetone', 784, 0.31, 58.08],
     tol: ['Toluene', 867, 0.56, 92.14], mdc: ['MDC', 1326, 0.41, 84.93], etac: ['Ethyl acetate', 897, 0.42, 88.11], thf: ['THF', 889, 0.46, 72.11], hep: ['n-Heptane', 684, 0.39, 100.2],

@@ -1,0 +1,127 @@
+---
+layout: default
+title: "Safe Addition Time and Restriction Orifice Calculator from RC Data"
+seo_title: "Safe Addition Time & Dosing Orifice Calculator | PharmaChemE"
+description: "Free calculator: safe reagent addition time from reaction calorimetry (RC1) data, then the restriction orifice diameter for gravity, nitrogen or pump dosing."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Safe Addition Time and Restriction Orifice from RC Data",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "url": "https://www.pharmacheme.in/calculators/safe-addition-time-orifice-calculator/",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate a safe addition time from RC1 data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Take the longest of three times: the time the jacket needs to remove the heat released during dosing at the RC peak heat flow; the time that keeps accumulation low enough for the MTSR to stay below the MTT; and the dosing time actually tested in the RC run."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you size a restriction orifice for reagent dosing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Divide the reagent volume by the safe addition time to get the safe flow, then size the orifice from Q = Cd x A x square root of (2gH) at the highest driving head, usually the start of dosing. Round the drilled size down, never up."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is the addition from a head tank slower than the safe time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The orifice is sized so the flow at the start, with the tank full, equals the safe rate. As the level falls the head falls, so the flow slows down and the addition takes longer than the safe minimum. That is the safe direction."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: "Safe Addition Time and Restriction Orifice"
+    url: /calculators/safe-addition-time-orifice-calculator/
+last_modified_at: 2026-11-03
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Safe Addition Time and Restriction Orifice from RC Data</h1>
+  <p>Enter the reaction calorimetry (RC1) results and your reactor&rsquo;s cooling to get the shortest safe addition time for an exothermic reagent. Then pick how the reagent is dosed, from a head tank, from a nitrogen-pressurised vessel or with a pump, and get the orifice diameter that cannot dose faster than that. Results update as you type, and Download PDF saves a copy.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc" data-calc="doseOrifice"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>Step 1: the safe addition time</h2>
+  <p>The safe time is the <b>longest</b> of three limits:</p>
+  <ol>
+    <li><b>The jacket.</b> The heat released while dosing must not be more than the cooling you are willing to use. The heat released while dosing is the total reaction heat less what is still accumulated at the end. Because the heat flow in the RC curve has a peak above its average, the time is multiplied by the peak-to-average ratio:
+      <div class="formula-box">t<sub>jacket</sub> = Q<sub>reaction</sub> &times; (1 &minus; accumulation) &times; (peak &divide; average) &divide; usable cooling</div></li>
+    <li><b>The MTSR.</b> If the cooling fails at the end of dosing, the accumulated reagent can still react. MTSR = T<sub>process</sub> + accumulation &times; &Delta;T<sub>ad</sub> must stay below the MTT (the boiling point, or the lower safe limit from DSC or ARC). Dosing slower lowers the accumulation; the calculator scales it from the RC run as accumulation &times; t<sub>RC</sub>/t.</li>
+    <li><b>The RC run itself.</b> The plant must never dose faster than the time that was actually tested, because nobody has measured the accumulation at a faster rate.</li>
+  </ol>
+
+  <h2>Step 2: the restriction orifice</h2>
+  <p>The safe average flow is the reagent volume divided by the safe time. A sharp-edged orifice passes</p>
+  <div class="formula-box">Q = C<sub>d</sub> &times; A &times; &radic;(2gH) &nbsp;&nbsp; C<sub>d</sub> &asymp; 0.61</div>
+  <p>where H is the driving head in metres of liquid. The orifice is sized at the <b>highest</b> head, so the fastest the reagent can ever flow is the safe rate:</p>
+  <ul>
+    <li><b>Gravity from a head tank:</b> H = liquid surface above the orifice, minus the reactor pressure as head (a vacuum adds to it). The head falls as the tank empties, so the flow slows down. The time to empty is t = (A<sub>tank</sub> / C<sub>d</sub>A<sub>orifice</sub>) &times; &radic;(2/g) &times; (&radic;H<sub>1</sub> &minus; &radic;H<sub>2</sub>).</li>
+    <li><b>Nitrogen-pressurised vessel:</b> the nitrogen pad adds a nearly constant head, so the flow falls only a little.</li>
+    <li><b>Pump with a restriction orifice:</b> the pressure drop across the orifice sets the cap on the flow if the control valve fails open or the pump runs at full speed.</li>
+  </ul>
+
+  <h2>Worked example</h2>
+  <p>A 3,000 kg batch at c<sub>p</sub> 1.8 kJ/kg&middot;&deg;C, with reaction heat 260 kJ/kg from RC1: 7,80,000 kJ in all and an adiabatic rise of 144 &deg;C. The RC run dosed in 2 h and ended with 12 % accumulation; the heat-flow peak was 1.3 times the average. The process runs at 40 &deg;C in methanol (MTT 64.5 &deg;C), with U = 250, 9 m&sup2; and 10 &deg;C brine, using 70 % of the cooling: 47,250 kcal/h.</p>
+  <ol>
+    <li>MTSR limit: the MTT allows at most (64.5 &minus; 40) &divide; 144 = 17 % accumulation. The RC run gave 12 %, so the 2 h RC time already meets it.</li>
+    <li>Jacket limit: at 4.87 h the accumulation falls to about 4.9 %, and 7,80,000 &times; 0.951 &times; 1.3 &divide; 1,97,800 kJ/h = <b>4.87 h</b>. The jacket governs.</li>
+    <li>600 kg of reagent at 1,100 kg/m&sup3; is 545 L, a safe flow of 112 L/h.</li>
+    <li>From a 1.0 m head tank with the surface 1.8 m above the orifice: d = <b>3.3 mm</b>. The flow falls from 112 to 87 L/h as the level drops, and the addition takes about 5.5 h.</li>
+  </ol>
+  <p>Always confirm the chosen addition time with an RC run at that rate before using it in the plant. Background: <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a> and <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC, RC1 and TSU</a>.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>How do you calculate a safe addition time from RC1 data?</h3>
+  <p>Take the longest of three times: the time the jacket needs to remove the heat released during dosing at the RC peak heat flow; the time that keeps accumulation low enough for the MTSR to stay below the MTT; and the dosing time actually tested in the RC run.</p>
+  <h3>How do you size a restriction orifice for reagent dosing?</h3>
+  <p>Divide the reagent volume by the safe addition time to get the safe flow, then size the orifice from Q = C<sub>d</sub>A&radic;(2gH) at the highest driving head, usually the start of dosing. Round the drilled size down, never up.</p>
+  <h3>Why is the addition from a head tank slower than the safe time?</h3>
+  <p>The orifice is sized so the flow at the start, with the tank full, equals the safe rate. As the level falls the head falls, so the flow slows down and the addition takes longer than the safe minimum. That is the safe direction.</p>
+  <h3>What else should I check on the plant?</h3>
+  <p>Tag the orifice plate with its bore so it is never drilled out, keep a strainer upstream (a part-blocked orifice is slow, not unsafe, but a removed one is), and fit the high-temperature trip that stops dosing. A restriction orifice limits the rate; it does not replace the interlock.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/reagent-addition-time-calculator/' | relative_url }}">Reagent addition time from RC1 (simpler version)</a>
+    <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">Semi-batch dosing simulator</a>
+    <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes</a>
+    <a href="{{ '/process-engineering-training/' | relative_url }}">Process engineering course: Module 5, Reactors</a>
+    <a href="{{ '/calculators/' | relative_url }}">All calculators</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/utilities.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
