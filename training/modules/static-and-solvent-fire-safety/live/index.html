@@ -1,0 +1,32 @@
+---
+layout: default
+title: "Static Safety Live: Five Checks and a Tank Simulator"
+seo_title: "Static Safety Live: Solvent Static and Fire Checks | PharmaChemE"
+description: "Five live checks for a solvent static and fire safety session, plus a tank-filling charge simulator and a pipe-speed calculator. Free to use."
+breadcrumbs:
+  - label: Training
+    url: /training/
+  - label: "Training modules"
+    url: /training/modules/
+  - label: "Static and solvent fire safety"
+    url: /training/modules/static-and-solvent-fire-safety/
+  - label: "Live checks"
+    url: /training/modules/static-and-solvent-fire-safety/live/
+last_modified_at: 2026-11-03
+---
+<link rel="stylesheet" href="{{ '/assets/css/training.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container calc-page-head">
+  <h1>Static Safety Live</h1>
+  <p>Set the conditions, let the room call safe or unsafe, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Typical textbook values, for teaching.</p>
+  <p><label style="display:inline-flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="live-instant"> Show answers immediately</label> &nbsp; <a href="{{ '/training/modules/static-and-solvent-fire-safety/' | relative_url }}">Back to the module</a></p>
+</div>
+<section class="section" style="padding-top:0;"><div class="container" style="display:grid;gap:26px">
+  <div><h2>1. Spot the ignition sources</h2><div data-fx="s1"></div></div>
+  <div><h2>2. Is the headspace flammable?</h2><div data-fx="s2"></div></div>
+  <div><h2>3. Spark or no spark?</h2><div data-fx="s3"></div></div>
+  <div><h2>4. Safe to fill?</h2><div data-fx="s4"></div></div>
+  <div><h2>5. How many purges?</h2><div data-fx="s5"></div></div>
+  <div><h2>Extra: watch the charge build in a tank</h2><div data-fx="sim"></div></div>
+  <div><h2>Extra: filling speed and relaxation time</h2><div data-fx="fill"></div></div>
+</div></section>
+<script src="{{ '/assets/js/static-live.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

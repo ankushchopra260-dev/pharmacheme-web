@@ -295,6 +295,7 @@
         - { title: "Quiz", url: /process-safety/quiz/ }
         - { title: "Runaway! (game)", url: /games/runaway/ }
         - { title: "Stop the Hazard (game)", url: /games/stop-the-hazard/ }
+        - { title: "Free training modules", url: /training/modules/ }
 - title: Equipment
   url: /equipment-instruments/
   ncols: 2

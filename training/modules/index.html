@@ -1,0 +1,29 @@
+---
+layout: default
+title: "Free Training Modules for Plants, Classrooms and Teams"
+seo_title: "Free Plant Training Modules for Teachers, Students and Trainers | PharmaChemE"
+description: "Free, ready-to-run training sessions for chemical and pharma plants and classrooms: present on screen, share a link, download the deck, print the trainer's guide."
+breadcrumbs:
+  - label: Training
+    url: /training/
+  - label: "Training modules"
+    url: /training/modules/
+last_modified_at: 2026-11-03
+---
+<link rel="stylesheet" href="{{ '/assets/css/training.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container calc-page-head">
+  <h1>Free training modules</h1>
+  <p>Complete sessions you can run yourself in a classroom, a toolbox talk or a plant meeting. Each has slides with trainer notes, live checks and a printable guide. No login, no cost. Share the link.</p>
+</div>
+<section class="section" style="padding-top:8px;"><div class="container">
+  <div class="tk-cols" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+  {% for m in site.data.training %}
+    <a class="tk-card" style="display:block;text-decoration:none" href="{{ '/training/modules/' | append: m.slug | append: '/' | relative_url }}">
+      <h2 style="font-size:1.25rem;margin:0 0 8px;display:block">{{ m.title }}</h2>
+      <p style="color:var(--muted);margin:0 0 10px;font-size:.92rem;line-height:1.55">{{ m.short }}</p>
+      <small style="color:var(--brass);font-weight:600">{{ m.minutes }} minutes &middot; {{ m.level }}</small>
+    </a>
+  {% endfor %}
+  </div>
+  <p class="tk-cite" style="margin-top:18px">Want a session delivered to your team? See <a href="{{ '/training/' | relative_url }}">team training</a>. More modules are planned.</p>
+</div></section>

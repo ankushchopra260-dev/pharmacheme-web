@@ -1,0 +1,686 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Static &amp; Solvent Fire Safety | PharmaChemE training deck</title><meta name="robots" content="noindex"><link rel="canonical" href="https://www.pharmacheme.in/training/modules/static-and-solvent-fire-safety/"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#0B141C;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+section{position:absolute;inset:0;width:1920px;height:1080px;box-sizing:border-box;display:none;overflow:hidden}
+#stage > section:not(.on){display:none !important}
+section *{box-sizing:border-box}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding-left:1.2em}
+table{border-collapse:collapse} th,td{padding:.35em .6em;border-bottom:1px solid rgba(128,140,150,.35);text-align:left}
+th{font-weight:700}
+.notes{display:none}
+[data-build-in]{transition:opacity .5s ease,transform .5s ease}
+[data-build-in].hid{opacity:0;pointer-events:none}
+[data-build-in^="rise"].hid{transform:translateY(40px)}
+[data-build-in^="left"].hid{transform:translateX(-60px)}
+[data-build-in^="right"].hid{transform:translateX(60px)}
+[data-build-in^="pop"].hid{transform:scale(.85)}
+#np{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:#F7F8F8;color:#12202C;font:16px/1.5 system-ui,sans-serif;padding:12px 18px;display:none;z-index:5;border-top:4px solid #F2A900}
+#hud{position:fixed;right:12px;bottom:10px;color:#9FB0BE;font:13px system-ui,sans-serif;z-index:4;background:rgba(11,20,28,.6);padding:4px 10px;border-radius:6px}
+@media (prefers-reduced-motion: reduce){[data-build-in]{transition:none}}
+</style></head><body>
+<div id="stage">
+<section id="cover" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between">
+<div style="position:absolute;left:0;top:0;width:24px;height:1080px;background:#F2A900"></div>
+<iframe class="emb" style="position:absolute;left:1112px;top:180px;width:680px;height:720px;border:0" sandbox="allow-scripts" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:transparent;overflow:hidden}canvas{display:block}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;canvas id=&quot;c&quot; width=&quot;680&quot; height=&quot;720&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+var c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),t0=performance.now(),bolt=null,next=900;
+function drum(){x.lineWidth=6;x.strokeStyle=&#x27;#B8C7D3&#x27;;x.fillStyle=&#x27;#1B2E3E&#x27;;x.beginPath();x.ellipse(430,250,150,40,0,0,Math.PI*2);x.fill();x.stroke();x.beginPath();x.moveTo(280,250);x.lineTo(280,620);x.ellipse(430,620,150,40,0,Math.PI,0,true);x.lineTo(580,250);x.stroke();for(var i=0;i&lt;2;i++){x.beginPath();x.ellipse(430,370+i*130,150,40,0,0,Math.PI);x.stroke();}
+x.fillStyle=&#x27;#F2A900&#x27;;x.font=&#x27;600 30px Arial&#x27;;x.fillText(&#x27;TOLUENE&#x27;,365,450);
+x.strokeStyle=&#x27;#B8C7D3&#x27;;x.lineWidth=5;x.beginPath();x.moveTo(20,700);x.lineTo(20,300);x.lineTo(110,300);x.stroke();x.fillStyle=&#x27;#B8C7D3&#x27;;x.fillRect(110,284,40,32);}
+function mk(){var p=[[150,300]],n=9;for(var i=1;i&lt;n;i++){p.push([150+(278-150)*i/n,300+(Math.random()-.5)*70]);}p.push([278,330]);return p;}
+function draw(now){x.clearRect(0,0,680,720);var t=now-t0;
+var g=x.createRadialGradient(220,310,0,220,310,200);var a=bolt?Math.max(0,1-(t-bolt.t)/350):0;g.addColorStop(0,&#x27;rgba(242,169,0,&#x27;+(.55*a)+&#x27;)&#x27;);g.addColorStop(1,&#x27;rgba(242,169,0,0)&#x27;);x.fillStyle=g;x.fillRect(0,100,500,420);
+drum();
+for(var i=0;i&lt;14;i++){var y=600-((t/18+i*40)%330),xx=300+(i*53)%260;x.fillStyle=&#x27;rgba(184,199,211,.5)&#x27;;x.font=&#x27;600 26px Arial&#x27;;x.fillText(&#x27;+&#x27;,xx,y);}
+if(t&gt;next){bolt={t:t,p:mk()};next=t+1700+Math.random()*900;}
+if(bolt&amp;&amp;t-bolt.t&lt;220){x.strokeStyle=&#x27;#FFF4CC&#x27;;x.lineWidth=5;x.shadowColor=&#x27;#F2A900&#x27;;x.shadowBlur=30;x.beginPath();bolt.p.forEach(function(q,i){i?x.lineTo(q[0],q[1]):x.moveTo(q[0],q[1]);});x.stroke();x.shadowBlur=0;if(Math.random()&lt;.5)bolt.p=mk();}
+requestAnimationFrame(draw);}
+requestAnimationFrame(draw);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<p style="font-size:32px;color:#F2A900;font-weight:600">Process safety training</p>
+<div style="display:flex;flex-direction:column;gap:32px">
+<h1 style="font-family:'Oswald', Arial, sans-serif;font-size:160px;font-weight:600;line-height:1.0;color:#EEF1F3">One spark<br>is enough</h1>
+<p style="font-size:44px;color:#B8C7D3;line-height:1.3">Static electricity and<br>solvent fire safety</p>
+</div>
+<p style="font-size:28px;color:#B8C7D3">Ankush Chopra &middot; PharmaChemE</p>
+<aside class="notes">Welcome. Today is about one thing: how a spark too small to feel can set fire to the solvents we handle every day. Everyone in this room has a part in stopping it, from the operator charging a drum to the plant head who approves the budget for an earthing clamp. Keep it interactive: I will ask questions throughout, and towards the end we will try it live on screen.</aside>
+</section>
+<section id="hook" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3">Ever felt a shock getting out of a car?</h2>
+<div data-build-in="rise 1" style="position:absolute;left:128px;top:330px;width:784px;display:flex;flex-direction:column;gap:16px;border-top:8px solid #B8C7D3;padding:40px 0 0 0">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:160px;font-weight:600;line-height:1.0;color:#EEF1F3">~20 mJ</p>
+<p style="font-size:36px;color:#B8C7D3;line-height:1.35">A spark from a charged person. You feel it from about 1 mJ.</p>
+</div>
+<div data-build-in="rise 2" style="position:absolute;left:1008px;top:330px;width:784px;display:flex;flex-direction:column;gap:16px;border-top:8px solid #F2A900;padding:40px 0 0 0">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:160px;font-weight:600;line-height:1.0;color:#F2A900">0.24 mJ</p>
+<p style="font-size:36px;color:#B8C7D3;line-height:1.35">Enough to ignite toluene vapour in air. Methanol needs only 0.14 mJ.</p>
+</div>
+<p data-build-in="fade 3" style="position:absolute;left:128px;top:820px;width:1664px;font-size:44px;font-weight:600;color:#EEF1F3;line-height:1.3">A spark too small to feel can still start a solvent fire.</p>
+<aside class="notes">Start with a show of hands: who has felt a shock from a car door, a lift button or a trolley? That shock is roughly 10 to 25 millijoules. (Click: the first number appears.) You can feel a discharge from about 1 mJ. (Click.) Toluene vapour ignites at 0.24 mJ and methanol at 0.14 mJ, which is below what you can feel. (Click.) So when someone says “I didn’t feel any spark”, that proves nothing. Ask: how many drums of toluene or methanol did we handle this week?</aside>
+</section>
+<section id="demo" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Try it now: bend water with a balloon</h2>
+<iframe class="emb" style="position:absolute;left:1112px;top:270px;width:680px;height:660px;border:0" sandbox="allow-scripts" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:transparent;overflow:hidden}canvas{display:block}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;canvas id=&quot;c&quot; width=&quot;680&quot; height=&quot;660&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+var c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),t0=performance.now();
+function f(now){var t=(now-t0)/1000,ph=(t%8)/8,near=ph&lt;.5?ph*2:1-(ph-.5)*2;near=Math.min(1,Math.max(0,near*1.3-.15));
+x.clearRect(0,0,680,660);x.fillStyle=&#x27;#FBFCFC&#x27;;x.fillRect(0,0,680,660);
+x.fillStyle=&#x27;#8E9BA6&#x27;;x.fillRect(150,20,120,40);x.fillRect(195,60,30,30);
+x.strokeStyle=&#x27;#2C6FB7&#x27;;x.lineWidth=10;x.lineCap=&#x27;round&#x27;;x.beginPath();x.moveTo(210,92);
+for(var y=92;y&lt;=600;y+=8){var k=(y-92)/508,bend=near*130*Math.pow(k,1.6);x.lineTo(210+bend,y);}x.stroke();
+var bx=560-near*150,by=330;x.fillStyle=&#x27;#F2A900&#x27;;x.beginPath();x.ellipse(bx,by,95,115,0,0,7);x.fill();
+x.strokeStyle=&#x27;#8A5A00&#x27;;x.lineWidth=3;x.beginPath();x.moveTo(bx,by+115);x.quadraticCurveTo(bx-20,by+170,bx+10,by+230);x.stroke();
+x.fillStyle=&#x27;#12202C&#x27;;x.font=&#x27;700 34px Arial&#x27;;for(var i=0;i&lt;6;i++){var a=i/6*6.28+t*.6;x.fillText(&#x27;−&#x27;,bx-10+Math.cos(a)*50,by+12+Math.sin(a)*60);}
+x.font=&#x27;600 26px Arial&#x27;;x.fillStyle=&#x27;#12202C&#x27;;x.fillText(&#x27;Charged balloon&#x27;,bx-100,by-140);x.fillText(&#x27;Water stream&#x27;,40,640);
+requestAnimationFrame(f);}requestAnimationFrame(f);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="rise 1" style="position:absolute;left:128px;top:290px;width:920px;display:flex;gap:28px;align-items:start">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:600;color:#F2A900;line-height:1;width:60px">1</p>
+<p style="font-size:34px;color:#12202C;line-height:1.4">Rub a balloon on a wool sweater or dry hair for 10 seconds.</p>
+</div>
+<div data-build-in="rise 2" style="position:absolute;left:128px;top:440px;width:920px;display:flex;gap:28px;align-items:start">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:600;color:#F2A900;line-height:1;width:60px">2</p>
+<p style="font-size:34px;color:#12202C;line-height:1.4">Hold it near a thin stream of water from a tap or a bottle with a pin hole. Watch the stream bend.</p>
+</div>
+<div data-build-in="rise 3" style="position:absolute;left:128px;top:620px;width:920px;display:flex;gap:28px;align-items:start">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:600;color:#F2A900;line-height:1;width:60px">3</p>
+<p style="font-size:34px;color:#12202C;line-height:1.4">Now hold it over small bits of paper. They jump up to it.</p>
+</div>
+<p data-build-in="fade 4" style="position:absolute;left:128px;top:790px;width:920px;font-size:34px;font-weight:600;color:#12202C;line-height:1.4">Rubbing separated the charge. A pipe, a filter or a powder bag does exactly this to our solvents, all day.</p>
+<aside class="notes">A quick live demo to wake everyone up. You need a balloon, a wool cloth or sweater, a plastic water bottle with a pin hole in the cap, and a few bits of paper. Ask a volunteer from the plant head or executive group to do it; people enjoy watching a senior person get it to work. (Click through the steps as they do it.) Then make the point: nothing special happened here except rubbing two materials. That is all a solvent needs to charge up in a pipe or a filter, and all a powder needs when it slides out of a bag. Note: on a very humid day the balloon loses its charge faster; that is a useful talking point, because humidity helps with surfaces but does nothing for charge inside a liquid.</aside>
+</section>
+<section id="triangle" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">A solvent fire needs three things at once</h2>
+<div data-build-in="pop 1" style="position:absolute;left:128px;top:330px;width:520px;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;border-top:10px solid #F2A900;border-radius:12px;padding:40px;box-shadow:0 8px 24px rgba(18,32,44,0.10)">
+<span class="ico" style="color:#12202C;width:64px;height:64px;font-size:51px;line-height:1">⚡</span>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:52px;font-weight:600;color:#12202C">Fuel</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Solvent vapour mixed with air between its lower and upper flammable limits (LFL to UFL).</p>
+</div>
+<div data-build-in="pop 2" style="position:absolute;left:700px;top:330px;width:520px;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;border-top:10px solid #2C6FB7;border-radius:12px;padding:40px;box-shadow:0 8px 24px rgba(18,32,44,0.10)">
+<span class="ico" style="color:#12202C;width:64px;height:64px;font-size:51px;line-height:1">☁</span>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:52px;font-weight:600;color:#12202C">Oxygen</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Air has 21 % oxygen. Most solvent vapours cannot burn below about 10 %.</p>
+</div>
+<div data-build-in="pop 3" style="position:absolute;left:1272px;top:330px;width:520px;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;border-top:10px solid #12202C;border-radius:12px;padding:40px;box-shadow:0 8px 24px rgba(18,32,44,0.10)">
+<span class="ico" style="color:#12202C;width:64px;height:64px;font-size:51px;line-height:1">⚠</span>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:52px;font-weight:600;color:#12202C">Ignition</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">A static spark, a hot surface, a mobile phone, a non-flameproof tool or motor.</p>
+</div>
+<p data-build-in="rise 4" style="position:absolute;left:128px;top:830px;width:1664px;font-size:36px;font-weight:600;color:#12202C;line-height:1.35">Remove any one and there is no fire. Today we focus on the spark, and on keeping air out.</p>
+<aside class="notes">The fire triangle, but for vapour. Liquid does not burn; the vapour above it does, and only between the lower and upper flammable limits. Ask the room: which side of the triangle is hardest to remove in our plant? Usually the answer is fuel, because the solvent is the process. Oxygen we can remove by nitrogen inerting. Ignition we control by earthing, bonding, flameproof equipment and permits. Static is the ignition source that is invisible, so that is today’s focus.</aside>
+</section>
+<section id="solvents" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Know the solvents we charge</h2>
+<table data-build-in="fade 1" style="position:absolute;left:128px;top:300px;width:1664px;font-family:'Public Sans', Arial, sans-serif;font-size:30px;color:#12202C;background:#FBFCFC;border-radius:12px">
+<tr><th style="width:24%;text-align:left">Solvent</th><th style="width:16%;text-align:right">Flash point</th><th style="width:20%;text-align:right">Flammable range</th><th style="width:16%;text-align:right">Min. ignition energy</th><th style="width:24%;text-align:left">Holds static charge?</th></tr>
+<tr><td>Methanol</td><td style="text-align:right">11 °C</td><td style="text-align:right">6.0–36 %</td><td style="text-align:right">0.14 mJ</td><td>No, conductive</td></tr>
+<tr style="background:#F3F5F6"><td>Acetone</td><td style="text-align:right">−20 °C</td><td style="text-align:right">2.5–12.8 %</td><td style="text-align:right">1.15 mJ</td><td>No, conductive</td></tr>
+<tr><td>IPA</td><td style="text-align:right">12 °C</td><td style="text-align:right">2.0–12.7 %</td><td style="text-align:right">0.65 mJ</td><td>No, conductive</td></tr>
+<tr style="background:#F3F5F6"><td>Ethyl acetate</td><td style="text-align:right">−4 °C</td><td style="text-align:right">2.0–11.5 %</td><td style="text-align:right">0.46 mJ</td><td>No, conductive</td></tr>
+<tr><td><b>Toluene</b></td><td style="text-align:right">4 °C</td><td style="text-align:right">1.1–7.1 %</td><td style="text-align:right">0.24 mJ</td><td><b>Yes, low conductivity</b></td></tr>
+<tr style="background:#F3F5F6"><td><b>n-Hexane</b></td><td style="text-align:right">−22 °C</td><td style="text-align:right">1.1–7.5 %</td><td style="text-align:right">0.24 mJ</td><td><b>Yes, low conductivity</b></td></tr>
+<tr><td><b>n-Heptane</b></td><td style="text-align:right">−4 °C</td><td style="text-align:right">1.05–6.7 %</td><td style="text-align:right">0.24 mJ</td><td><b>Yes, low conductivity</b></td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6875">Typical literature values (closed-cup flash point, vol % in air). Check the SDS and IEC TS 60079-32-1 for the grade you use.</p>
+<aside class="notes">Walk down the table. Two things to notice. First, every flash point here is below a warm day, so the vapour above these liquids can be flammable at room temperature. Second, the last column: hydrocarbons like toluene, hexane and heptane hold static charge because they conduct electricity very poorly. Alcohols and ketones let charge leak away, but only if the container and equipment are earthed. A conductive solvent in a plastic bucket or an unearthed drum still charges up. Ask: which of these do we use most?</aside>
+</section>
+<section id="ambient" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3;width:1500px">On a warm day, the air is hotter than the flash point</h2>
+<div style="position:absolute;left:128px;top:638px;width:1664px;height:4px;background:#B8C7D3"></div>
+<p style="position:absolute;left:128px;top:656px;width:200px;font-size:24px;color:#B8C7D3">−30 °C</p>
+<p style="position:absolute;left:712px;top:656px;width:120px;font-size:24px;color:#B8C7D3">0 °C</p>
+<p style="position:absolute;left:1632px;top:656px;width:160px;font-size:24px;color:#B8C7D3;text-align:right">50 °C</p>
+<div data-build-in="fade 1" style="position:absolute;left:1272px;top:612px;width:416px;height:56px;background:#2C6FB7;border-radius:8px"></div>
+<p data-build-in="fade 1" style="position:absolute;left:1272px;top:470px;width:416px;font-size:30px;font-weight:600;color:#7FB2E8;line-height:1.3">Warm day<br>25 to 45 °C</p>
+<div data-build-in="rise 2" style="position:absolute;left:292px;top:570px;width:4px;height:140px;background:#F2A900"></div>
+<p data-build-in="rise 2" style="position:absolute;left:184px;top:470px;width:240px;font-size:26px;color:#F2A900;line-height:1.3;text-align:center">n-Hexane<br>−22 °C</p>
+<div data-build-in="rise 2" style="position:absolute;left:334px;top:570px;width:4px;height:140px;background:#F2A900"></div>
+<p data-build-in="rise 2" style="position:absolute;left:256px;top:720px;width:160px;font-size:26px;color:#F2A900;line-height:1.3;text-align:center">Acetone<br>−20 °C</p>
+<div data-build-in="rise 2" style="position:absolute;left:667px;top:570px;width:4px;height:140px;background:#F2A900"></div>
+<p data-build-in="rise 2" style="position:absolute;left:549px;top:470px;width:240px;font-size:26px;color:#F2A900;line-height:1.3;text-align:center">EtOAc, heptane<br>−4 °C</p>
+<div data-build-in="rise 2" style="position:absolute;left:833px;top:570px;width:4px;height:140px;background:#F2A900"></div>
+<p data-build-in="rise 2" style="position:absolute;left:755px;top:720px;width:160px;font-size:26px;color:#F2A900;line-height:1.3;text-align:center">Toluene<br>4 °C</p>
+<div data-build-in="rise 2" style="position:absolute;left:979px;top:570px;width:4px;height:140px;background:#F2A900"></div>
+<p data-build-in="rise 2" style="position:absolute;left:861px;top:470px;width:240px;font-size:26px;color:#F2A900;line-height:1.3;text-align:center">Methanol<br>11 °C</p>
+<div data-build-in="rise 2" style="position:absolute;left:999px;top:570px;width:4px;height:140px;background:#F2A900"></div>
+<p data-build-in="rise 2" style="position:absolute;left:921px;top:720px;width:160px;font-size:26px;color:#F2A900;line-height:1.3;text-align:center">IPA<br>12 °C</p>
+<p data-build-in="fade 3" style="position:absolute;left:128px;top:840px;width:1664px;font-size:32px;color:#EEF1F3;line-height:1.4">So the vapour space of every drum, tank and reactor can be flammable unless it is inerted. n-Hexane at 30 °C is even above its UFL, too rich to burn, until air enters as the drum empties.</p>
+<aside class="notes">The blue band is a warm day at many Indian plants, about 25 to 45 °C. (On a cold winter night near 5 °C, methanol and IPA fall below their flash points, but toluene, hexane, acetone, ethyl acetate and heptane do not.) (Click.) Now the flash points: every one of them sits to the left of the band. (Click.) This means: above the flash point, enough vapour is given off to reach the LFL. Every half-empty drum is a flammable headspace waiting for a spark. The hexane point is a trap: at 30 °C the drum headspace is about 25 % hexane, above the UFL of 7.5 %, so it is too rich. But while you empty it, air comes in and the mixture passes through the flammable range. Ask: when is a drum most dangerous? Answer: when it is nearly empty, or just emptied.</aside>
+</section>
+<section id="charge" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">What is static charge?</h2>
+<p style="position:absolute;left:128px;top:250px;width:1664px;font-size:34px;color:#3C4A57;line-height:1.4">Every material holds equal amounts of positive and negative charge. Static is what is left behind when that balance is disturbed and the charge cannot flow away.</p>
+<iframe class="emb" style="position:absolute;left:128px;top:380px;width:900px;height:540px;border:0" sandbox="allow-scripts" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:transparent;overflow:hidden}canvas{display:block}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;canvas id=&quot;c&quot; width=&quot;900&quot; height=&quot;540&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+var c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),t0=performance.now();
+var A=[],B=[];for(var i=0;i&lt;12;i++){A.push({x:60+(i%4)*70,y:150+Math.floor(i/4)*80});B.push({x:60+(i%4)*70,y:150+Math.floor(i/4)*80});}
+function lbl(s,xx,y,col){x.fillStyle=col||&#x27;#12202C&#x27;;x.font=&#x27;600 28px Arial&#x27;;x.fillText(s,xx,y);}
+function f(now){var t=((now-t0)/1000)%10,gap,mv,stage;
+if(t&lt;2){gap=140;mv=0;stage=&#x27;Two materials, each neutral&#x27;;}
+else if(t&lt;4){gap=140-(t-2)/2*140;mv=0;stage=&#x27;1. They touch&#x27;;}
+else if(t&lt;6.5){gap=0;mv=Math.min(1,(t-4)/2);stage=&#x27;2. A few electrons cross over&#x27;;}
+else{gap=Math.min(160,(t-6.5)/1.5*160);mv=1;stage=&#x27;3. Pulled apart: both are now charged&#x27;;}
+x.clearRect(0,0,900,540);x.fillStyle=&#x27;#FBFCFC&#x27;;x.fillRect(0,0,900,540);
+var ax=40,bx=ax+300+gap;
+x.fillStyle=&#x27;#DCE6F0&#x27;;x.fillRect(ax,110,300,260);x.fillStyle=&#x27;#F6E7C1&#x27;;x.fillRect(bx,110,300,260);
+x.strokeStyle=&#x27;#12202C&#x27;;x.lineWidth=3;x.strokeRect(ax,110,300,260);x.strokeRect(bx,110,300,260);
+lbl(&#x27;Material A&#x27;,ax+80,100);lbl(&#x27;Material B&#x27;,bx+80,100);
+for(var i=0;i&lt;12;i++){var p=A[i];x.fillStyle=&#x27;#C26A00&#x27;;x.font=&#x27;700 30px Arial&#x27;;x.fillText(&#x27;+&#x27;,ax+p.x-40,p.y);x.fillText(&#x27;+&#x27;,bx+p.x-40,p.y);}
+var moved=4;
+for(var i=0;i&lt;12;i++){var p=B[i];var sx=ax+p.x-10,sy=p.y+28;var ex=sx,ey=sy;
+ if(i&lt;moved&amp;&amp;mv&gt;0){var tx=bx+40+i*65,ty=362;ex=sx+(tx-sx)*mv;ey=sy+(ty-sy)*mv;if(mv&gt;=1){ex=tx;ey=ty;}}
+ x.fillStyle=&#x27;#1D5E9E&#x27;;x.font=&#x27;700 34px Arial&#x27;;x.fillText(&#x27;−&#x27;,ex,ey);}
+for(var i=0;i&lt;12;i++){var p=A[i];x.fillStyle=&#x27;#1D5E9E&#x27;;x.font=&#x27;700 34px Arial&#x27;;x.fillText(&#x27;−&#x27;,bx+p.x-10,p.y+28);}
+if(t&gt;=6.5){lbl(&#x27;Net positive&#x27;,ax+70,420,&#x27;#C26A00&#x27;);lbl(&#x27;Net negative&#x27;,bx+70,420,&#x27;#1D5E9E&#x27;);}
+x.fillStyle=&#x27;#12202C&#x27;;x.font=&#x27;700 30px Arial&#x27;;x.fillText(stage,40,500);
+requestAnimationFrame(f);}requestAnimationFrame(f);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="right 1" style="position:absolute;left:1092px;top:390px;width:700px;display:flex;flex-direction:column;gap:8px;border-left:8px solid #F2A900;padding:0 0 0 28px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Contact and separation</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Touching lets electrons cross. Separating leaves one side short and one side with extra.</p>
+</div>
+<div data-build-in="right 2" style="position:absolute;left:1092px;top:580px;width:700px;display:flex;flex-direction:column;gap:8px;border-left:8px solid #F2A900;padding:0 0 0 28px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">More rubbing, more charge</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Larger contact area and faster separation: high flow, fine filters, fast powder pouring.</p>
+</div>
+<div data-build-in="right 3" style="position:absolute;left:1092px;top:770px;width:700px;display:flex;flex-direction:column;gap:8px;border-left:8px solid #F2A900;padding:0 0 0 28px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Liquids and powders too</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Solvent against a pipe wall, powder against a bag: the same process.</p>
+</div>
+<aside class="notes">Start from basics; some people in the room will never have had this explained. Everything is made of atoms with positive nuclei and negative electrons, normally in balance, so objects are neutral. Watch the animation: when two different materials touch, a few electrons move from one to the other. When they are pulled apart, those electrons do not all go back. One material ends up positive, the other negative. That is static charge: a separated charge that stays where it is. (Click through the three points.) The more contact and the faster the separation, the more charge: this is why flow velocity, fine filters and pouring speed matter. And it is not only solids: a solvent flowing along a pipe wall or powder sliding out of a bag charges in exactly the same way. Link back to the balloon demo.</aside>
+</section>
+<section id="buildup" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">How charge builds up: a leaking bucket</h2>
+<iframe class="emb" style="position:absolute;left:128px;top:270px;width:960px;height:650px;border:0" sandbox="allow-scripts" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:transparent;overflow:hidden}canvas{display:block}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;canvas id=&quot;c&quot; width=&quot;960&quot; height=&quot;650&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+var c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),t0=performance.now(),L=[0,0],last=performance.now(),flash=[0,0];
+function bucket(ox,lev,leak,title,sub,fl){
+x.fillStyle=&#x27;#12202C&#x27;;x.font=&#x27;700 30px Arial&#x27;;x.fillText(title,ox,60);x.font=&#x27;500 24px Arial&#x27;;x.fillStyle=&#x27;#3C4A57&#x27;;x.fillText(sub,ox,92);
+x.fillStyle=&#x27;#8E9BA6&#x27;;x.fillRect(ox+150,110,90,26);x.fillRect(ox+150,136,24,20);
+x.strokeStyle=&#x27;#2C6FB7&#x27;;x.lineWidth=12;x.beginPath();x.moveTo(ox+162,158);x.lineTo(ox+162,520-lev*3.3);x.stroke();
+x.strokeStyle=&#x27;#12202C&#x27;;x.lineWidth=5;x.beginPath();x.moveTo(ox+60,190);x.lineTo(ox+80,520);x.lineTo(ox+340,520);x.lineTo(ox+360,190);x.stroke();
+x.fillStyle=&#x27;rgba(242,169,0,.55)&#x27;;var top=520-lev*3.3;x.beginPath();x.moveTo(ox+80-(lev/100)*0,520);x.lineTo(ox+80-(lev*3.3/330)*20,top);x.lineTo(ox+340+(lev*3.3/330)*20,top);x.lineTo(ox+340,520);x.fill();
+x.strokeStyle=&#x27;#2C6FB7&#x27;;x.lineWidth=Math.max(2,leak*1.6);if(lev&gt;1){x.beginPath();x.moveTo(ox+340,505);x.quadraticCurveTo(ox+380,510,ox+392,600);x.stroke();}
+x.fillStyle=&#x27;#12202C&#x27;;x.font=&#x27;600 24px Arial&#x27;;x.fillText(&#x27;generation&#x27;,ox+250,128);x.fillText(leak&gt;5?&#x27;big leak to earth&#x27;:&#x27;tiny leak&#x27;,ox+240,630);
+x.font=&#x27;700 26px Arial&#x27;;x.fillStyle=lev&gt;92?&#x27;#A23B1E&#x27;:&#x27;#12202C&#x27;;x.fillText(&#x27;Voltage &#x27;+Math.round(lev)+&#x27; %&#x27;,ox+110,560);
+if(fl&gt;0){x.strokeStyle=&#x27;rgba(242,169,0,&#x27;+fl+&#x27;)&#x27;;x.lineWidth=6;x.beginPath();x.moveTo(ox+200,180);x.lineTo(ox+180,150);x.lineTo(ox+220,140);x.lineTo(ox+195,100);x.stroke();x.fillStyle=&#x27;rgba(162,59,30,&#x27;+fl+&#x27;)&#x27;;x.font=&#x27;800 36px Arial&#x27;;x.fillText(&#x27;SPARK&#x27;,ox+240,175);}}
+function f(now){var dt=Math.min(.05,(now-last)/1000);last=now;
+var gen=22,leaks=[16,0.6];
+for(var i=0;i&lt;2;i++){var eq=gen/leaks[i]*6;L[i]+=(gen-leaks[i]*L[i]/6)*dt*1.2;if(L[i]&gt;100){L[i]=8;flash[i]=1;}flash[i]=Math.max(0,flash[i]-dt*1.5);}
+x.clearRect(0,0,960,650);x.fillStyle=&#x27;#FBFCFC&#x27;;x.fillRect(0,0,960,650);
+bucket(10,L[0],16,&#x27;Earthed metal&#x27;,&#x27;charge drains as fast as it is made&#x27;,flash[0]);
+bucket(490,L[1],0.6,&#x27;Isolated or insulating&#x27;,&#x27;plastic, unbonded drum, toluene&#x27;,flash[1]);
+requestAnimationFrame(f);}requestAnimationFrame(f);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="right 1" style="position:absolute;left:1140px;top:290px;width:652px;display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Tap = charge generated</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Flow, filtering, pouring, walking.</p>
+</div>
+<div data-build-in="right 2" style="position:absolute;left:1140px;top:430px;width:652px;display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Leak = path to earth</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Earthed metal and conductive liquids leak fast. Plastic, gaps and toluene barely leak.</p>
+</div>
+<div data-build-in="right 3" style="position:absolute;left:1140px;top:610px;width:652px;display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Level = voltage, V = Q ÷ C</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">When the field passes about 3 kV per mm, air breaks down: a spark.</p>
+</div>
+<p data-build-in="fade 4" style="position:absolute;left:1140px;top:790px;width:652px;font-size:32px;font-weight:600;color:#12202C;line-height:1.4">We cannot stop generation. We make sure the leak is bigger.</p>
+<aside class="notes">This is the key idea of the whole session, so slow down. Static is a race between generation and leakage. Think of a bucket: the tap is charge being generated by flow, filtering, pouring or walking. The hole is the path to earth. Left bucket: earthed metal, a big hole, the level never rises, no spark. Right bucket: an isolated drum, a plastic container or low-conductivity toluene, a tiny hole. The level keeps rising until it overflows: the voltage gets high enough that the air breaks down, roughly 3 kV per millimetre, and the stored charge jumps as a spark. Then it starts again. (Click through the points.) Voltage is charge divided by capacitance, V = Q ÷ C. The message: in a chemical plant we cannot stop charge being generated; our job is to make the leak bigger than the tap. Every control we discuss later, earthing, bonding, slow filling, waiting time, is about the size of the tap or the hole.</aside>
+</section>
+<section id="generate" data-transition="fade" data-section="How static is generated, where it builds up and how much energy it releases" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Static is made whenever things rub or separate</h2>
+<iframe class="emb" style="position:absolute;left:128px;top:272px;width:1664px;height:250px;border:0" sandbox="allow-scripts" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:transparent;overflow:hidden}canvas{display:block}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;canvas id=&quot;c&quot; width=&quot;1664&quot; height=&quot;250&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+var c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),P=[],W=[],t0=performance.now();
+for(var i=0;i&lt;26;i++)P.push({x:Math.random()*1300,y:70+Math.random()*90,v:2+Math.random()*1.5});
+function f(now){var t=(now-t0)/1000;x.clearRect(0,0,1664,250);
+x.fillStyle=&#x27;#FBFCFC&#x27;;x.fillRect(0,0,1664,250);
+x.fillStyle=&#x27;#CFE0F2&#x27;;x.fillRect(0,55,1300,120);x.fillStyle=&#x27;#8E9BA6&#x27;;x.fillRect(0,45,1300,10);x.fillRect(0,175,1300,10);
+x.fillStyle=&#x27;#12202C&#x27;;x.font=&#x27;600 26px Arial&#x27;;x.fillText(&#x27;Pipe wall&#x27;,16,34);x.fillText(&#x27;Liquid flowing&#x27;,16,214);
+x.fillStyle=&#x27;#2C6FB7&#x27;;x.fillRect(1300,30,300,190);x.fillStyle=&#x27;#FBFCFC&#x27;;x.font=&#x27;600 28px Arial&#x27;;x.fillText(&#x27;Receiving&#x27;,1370,110);x.fillText(&#x27;vessel&#x27;,1395,148);
+var n=Math.min(22,Math.floor(t*3)%40);
+for(var j=0;j&lt;22;j++){if(j&lt;n){x.fillStyle=&#x27;#12202C&#x27;;x.font=&#x27;700 30px Arial&#x27;;x.fillText(&#x27;−&#x27;,40+j*57,j%2?44:202);}}
+P.forEach(function(p){p.x+=p.v;if(p.x&gt;1300){p.x=0;}x.fillStyle=&#x27;#C26A00&#x27;;x.font=&#x27;700 32px Arial&#x27;;x.fillText(&#x27;+&#x27;,p.x,p.y+Math.sin(t*3+p.x/50)*6+16);});
+var q=Math.min(1,(t%13)/10);x.fillStyle=&#x27;rgba(194,106,0,&#x27;+(.15+.6*q)+&#x27;)&#x27;;x.beginPath();x.arc(1450,125,30+40*q,0,7);x.fill();
+x.fillStyle=&#x27;#FBFCFC&#x27;;x.font=&#x27;700 30px Arial&#x27;;x.fillText(&#x27;+ + +&#x27;,1412,136);
+requestAnimationFrame(f);}requestAnimationFrame(f);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="rise 1" style="position:absolute;left:128px;top:570px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #F2A900;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">Pumping in pipes</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">More charge at higher velocity</p>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:552px;top:570px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #F2A900;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">Filters, strainers</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">The biggest generators of all</p>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:976px;top:570px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #F2A900;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">Splash filling</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">Free fall from the top nozzle</p>
+</div>
+<div data-build-in="rise 1 auto" style="position:absolute;left:1400px;top:570px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #F2A900;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">Powder charging</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">Pouring from bags and liners</p>
+</div>
+<div data-build-in="rise 2" style="position:absolute;left:128px;top:770px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #2C6FB7;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">Two-phase stirring</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">Slurries, water in solvent</p>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:552px;top:770px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #2C6FB7;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">People walking</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">Non-ESD shoes, synthetic wear</p>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:976px;top:770px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #2C6FB7;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">Plastic containers</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">Buckets, funnels, jerry cans</p>
+</div>
+<div data-build-in="rise 2 auto" style="position:absolute;left:1400px;top:770px;width:392px;display:flex;flex-direction:column;gap:8px;background:#FBFCFC;border-left:8px solid #2C6FB7;border-radius:8px;padding:24px">
+<h3 style="font-size:30px;font-weight:700;color:#12202C">Gas and steam jets</h3>
+<p style="font-size:26px;color:#3C4A57;line-height:1.35">Cleaning, venting, blowing</p>
+</div>
+<aside class="notes">The animation shows the basic mechanism. When liquid flows through a pipe, charges separate at the wall. The liquid carries one charge (here shown as plus) into the vessel, and the opposite charge stays on the pipe wall. If the pipe is earthed, its charge leaks away safely. The charge in the liquid collects in the receiving vessel. (Click: first row.) These are the process sources: pumping, filters (a filter can make a hundred times more charge than the pipe), splash filling and powder charging. (Click: second row.) And these are everyday sources people forget: stirring two phases, people walking, plastic containers and gas jets. Ask: which of these happened in our plant today?</aside>
+</section>
+<section id="accumulate" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Charge becomes a hazard when it cannot escape</h2>
+<div data-build-in="left 1" style="position:absolute;left:128px;top:300px;width:800px;display:flex;flex-direction:column;gap:20px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#12202C">Isolated metal</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Metal that is not earthed stores charge and releases it all in one spark.</p>
+<ul style="font-size:30px;color:#12202C;line-height:1.5">
+<li>Drum on a plastic pallet or rubber wheels</li>
+<li>Flange with PTFE gasket and no jumper</li>
+<li>Hose coupling, funnel, scoop</li>
+<li>Loose level float inside a tank</li>
+<li>A person in non-ESD shoes</li>
+</ul>
+</div>
+<div data-build-in="right 2" style="position:absolute;left:992px;top:300px;width:800px;display:flex;flex-direction:column;gap:20px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#12202C">Low-conductivity liquids</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Charge stays inside the liquid for seconds to minutes, even in an earthed tank.</p>
+<table style="font-size:28px;color:#12202C;background:#FBFCFC;border-radius:10px">
+<tr><th style="width:34%;text-align:left">Class</th><th style="width:30%;text-align:left">Conductivity</th><th style="width:36%;text-align:left">Examples</th></tr>
+<tr><td><b>Low</b></td><td>below 50 pS/m</td><td>Toluene, hexane, heptane, xylene</td></tr>
+<tr><td>Medium</td><td>50 to 10⁴ pS/m</td><td>Some esters, ethers</td></tr>
+<tr><td>High</td><td>above 10⁴ pS/m</td><td>Alcohols, acetone, water</td></tr>
+</table>
+</div>
+<aside class="notes">Static only matters when it builds up. (Click.) Left: an isolated conductor. A drum on a plastic pallet, a flange with a PTFE gasket, a scoop, a person in ordinary shoes. Metal stores charge like a capacitor and dumps all of it in one spark, which is the most dangerous kind. (Click.) Right: low-conductivity liquids. Toluene and hexane hold their charge even inside an earthed metal tank, because the charge cannot move through the liquid to the wall quickly. That is why we wait before dipping or sampling. Classes from IEC TS 60079-32-1. Ask: can someone name an isolated conductor they saw this week?</aside>
+</section>
+<section id="relax" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3">Guess: how long does the charge stay?</h2>
+<p style="position:absolute;left:128px;top:250px;width:1664px;font-size:32px;color:#B8C7D3;line-height:1.4">Each table writes down a guess for the three solvents, in an earthed metal tank. Closest table wins.</p>
+<div style="position:absolute;left:128px;top:360px;width:520px;height:420px;background:#1B2E3E;border-radius:14px;border-top:10px solid #7FB2E8"></div>
+<p style="position:absolute;left:168px;top:400px;width:440px;font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#EEF1F3">Methanol</p>
+<p style="position:absolute;left:168px;top:480px;width:440px;font-size:28px;color:#B8C7D3">Conducts well</p>
+<p data-build-in="pop 1" style="position:absolute;left:168px;top:560px;width:440px;font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:600;color:#7FB2E8;line-height:1.05">A few microseconds</p>
+<div style="position:absolute;left:700px;top:360px;width:520px;height:420px;background:#1B2E3E;border-radius:14px;border-top:10px solid #F2A900"></div>
+<p style="position:absolute;left:740px;top:400px;width:440px;font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#EEF1F3">Toluene</p>
+<p style="position:absolute;left:740px;top:480px;width:440px;font-size:28px;color:#B8C7D3">Low conductivity</p>
+<p data-build-in="pop 2" style="position:absolute;left:740px;top:560px;width:440px;font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:600;color:#F2A900;line-height:1.05">About 20 seconds</p>
+<div style="position:absolute;left:1272px;top:360px;width:520px;height:420px;background:#1B2E3E;border-radius:14px;border-top:10px solid #FF7A62"></div>
+<p style="position:absolute;left:1312px;top:400px;width:440px;font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#EEF1F3">n-Hexane</p>
+<p style="position:absolute;left:1312px;top:480px;width:440px;font-size:28px;color:#B8C7D3">Very low conductivity</p>
+<p data-build-in="pop 3" style="position:absolute;left:1312px;top:560px;width:440px;font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:600;color:#FF7A62;line-height:1.05">Up to half an hour</p>
+<p data-build-in="fade 4" style="position:absolute;left:128px;top:820px;width:1664px;font-size:32px;color:#EEF1F3;line-height:1.4">Relaxation time τ = ε·ε₀ ÷ conductivity. This is why we wait before dipping or sampling, and wait longer for hexane and heptane.</p>
+<aside class="notes">A guessing game. Give each table 30 seconds to write three guesses, then reveal one by one. (Click.) Methanol: a few microseconds, because it conducts well; the charge reaches the earthed wall almost instantly. (Click.) Toluene: tens of seconds; with a conductivity around 1 pS/m and a dielectric constant of 2.4, the relaxation time is about 20 seconds. (Click.) Hexane: its conductivity can be 100 times lower, so the charge can stay for many minutes, up to about half an hour. (Click.) The formula: permittivity divided by conductivity. These are typical values; real conductivity depends on purity and water content, and very pure, dry solvent is the worst. Award a chocolate to the closest table.</aside>
+</section>
+<section id="energy" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Every type of discharge beats the solvent</h2>
+<div data-build-in="fade 1" style="position:absolute;left:640px;top:300px;width:233px;height:450px;background:#F7DE9A"></div>
+<p data-build-in="fade 1" style="position:absolute;left:128px;top:270px;width:480px;font-size:26px;font-weight:600;color:#7A5200;line-height:1.3">Shaded: solvent vapours ignite here, 0.14 to 1.15 mJ</p>
+<p style="position:absolute;left:128px;top:360px;width:480px;font-size:28px;color:#12202C;line-height:1.3"><b>Brush discharge</b><br>from plastic sheet, liner</p>
+<div data-build-in="left 2" style="position:absolute;left:640px;top:366px;width:352px;height:56px;background:#2C6FB7;border-radius:0 8px 8px 0"></div>
+<p data-build-in="fade 2 auto" style="position:absolute;left:1010px;top:372px;width:300px;font-size:30px;font-weight:700;color:#12202C">up to 4 mJ</p>
+<p style="position:absolute;left:128px;top:460px;width:480px;font-size:28px;color:#12202C;line-height:1.3"><b>Spark from a drum</b><br>100 pF charged to 20 kV</p>
+<div data-build-in="left 3" style="position:absolute;left:640px;top:466px;width:506px;height:56px;background:#2C6FB7;border-radius:0 8px 8px 0"></div>
+<p data-build-in="fade 3 auto" style="position:absolute;left:1164px;top:472px;width:300px;font-size:30px;font-weight:700;color:#12202C">about 20 mJ</p>
+<p style="position:absolute;left:128px;top:560px;width:480px;font-size:28px;color:#12202C;line-height:1.3"><b>Spark from a person</b><br>non-ESD shoes</p>
+<div data-build-in="left 4" style="position:absolute;left:640px;top:566px;width:528px;height:56px;background:#2C6FB7;border-radius:0 8px 8px 0"></div>
+<p data-build-in="fade 4 auto" style="position:absolute;left:1186px;top:572px;width:300px;font-size:30px;font-weight:700;color:#12202C">up to 25 mJ</p>
+<p style="position:absolute;left:128px;top:660px;width:480px;font-size:28px;color:#12202C;line-height:1.3"><b>Propagating brush</b><br>FIBC, plastic-lined pipe</p>
+<div data-build-in="left 5" style="position:absolute;left:640px;top:666px;width:880px;height:56px;background:#12202C;border-radius:0 8px 8px 0"></div>
+<p data-build-in="fade 5 auto" style="position:absolute;left:1536px;top:672px;width:256px;font-size:30px;font-weight:700;color:#12202C">1,000 mJ +</p>
+<div style="position:absolute;left:640px;top:750px;width:1100px;height:3px;background:#5A6875"></div>
+<p style="position:absolute;left:600px;top:762px;width:120px;font-size:24px;color:#5A6875;text-align:center">0.1</p>
+<p style="position:absolute;left:800px;top:762px;width:120px;font-size:24px;color:#5A6875;text-align:center">1</p>
+<p style="position:absolute;left:1020px;top:762px;width:120px;font-size:24px;color:#5A6875;text-align:center">10</p>
+<p style="position:absolute;left:1240px;top:762px;width:120px;font-size:24px;color:#5A6875;text-align:center">100</p>
+<p style="position:absolute;left:1460px;top:762px;width:120px;font-size:24px;color:#5A6875;text-align:center">1,000</p>
+<p style="position:absolute;left:1600px;top:762px;width:192px;font-size:24px;color:#5A6875;text-align:right">mJ, log scale</p>
+<p data-build-in="rise 6" style="position:absolute;left:128px;top:840px;width:1664px;font-size:32px;color:#12202C;line-height:1.4">Even the weakest discharge, from a plastic bag or liner, can ignite solvent vapour. Most powders need 10 mJ or more, which is why vapour is the bigger danger.</p>
+<aside class="notes">This chart uses a log scale because the numbers cover four orders of magnitude. (Click.) The shaded band is where our solvent vapours ignite. (Click through each bar.) A brush discharge from a plastic bag or liner: up to about 4 mJ, already well past the solvents. A spark from an unearthed drum or a person: about 20 to 25 mJ. A propagating brush discharge from a non-antistatic FIBC or a plastic-lined pipe: a thousand mJ or more, enough to ignite almost anything, including dust. Message: no static discharge is “too small” for solvent vapour. Typical values from IEC TS 60079-32-1 and NFPA 77.</aside>
+</section>
+<section id="worked" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3">Work it out: an operator walks to the reactor</h2>
+<p data-build-in="fade 1" style="position:absolute;left:128px;top:290px;width:1664px;font-family:'Oswald', Arial, sans-serif;font-size:140px;font-weight:500;color:#F2A900;line-height:1.1">E = ½ C V²</p>
+<div data-build-in="rise 2" style="position:absolute;left:128px;top:500px;width:500px;display:flex;flex-direction:column;gap:8px;border-top:6px solid #B8C7D3;padding:24px 0 0 0">
+<p style="font-size:28px;color:#B8C7D3">Body capacitance, C</p>
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;color:#EEF1F3">200 pF</p>
+</div>
+<div data-build-in="rise 3" style="position:absolute;left:710px;top:500px;width:500px;display:flex;flex-direction:column;gap:8px;border-top:6px solid #B8C7D3;padding:24px 0 0 0">
+<p style="font-size:28px;color:#B8C7D3">Body voltage after walking, V</p>
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;color:#EEF1F3">10 kV</p>
+</div>
+<div data-build-in="pop 4" style="position:absolute;left:1292px;top:500px;width:500px;display:flex;flex-direction:column;gap:8px;border-top:6px solid #F2A900;padding:24px 0 0 0">
+<p style="font-size:28px;color:#F2A900">Spark energy, E</p>
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;color:#F2A900">10 mJ</p>
+</div>
+<p data-build-in="fade 5" style="position:absolute;left:128px;top:760px;width:1664px;font-size:36px;color:#EEF1F3;line-height:1.4">½ × 200 × 10⁻¹² F × (10,000 V)² = 0.010 J = 10 mJ.<br>That is about <b>40 times</b> what toluene vapour needs, and 70 times for methanol.</p>
+<aside class="notes">Let us calculate one together. Ask the room to guess first: how much energy is in the spark when an operator touches the reactor manhole? (Click.) The formula is half C V squared. (Click.) A person has about 100 to 300 pF of capacitance; take 200. (Click.) Walking on a non-conductive floor in ordinary shoes easily charges you to 10 kV or more. (Click.) Half times 200 picofarads times 10,000 volts squared is 0.01 joule, 10 millijoules. (Click.) Toluene needs 0.24 mJ: 10 divided by 0.24 is about 40. Methanol 0.14 mJ: about 70 times. The fix is cheap: ESD footwear, a conductive floor, and touching an earthed point before opening anything.</aside>
+</section>
+<section id="myth1" data-transition="push" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Myth or fact? Round 1</h2>
+<div style="position:absolute;left:128px;top:280px;width:1664px;height:190px;background:#FBFCFC;border-radius:12px"></div>
+<p style="position:absolute;left:168px;top:300px;width:1000px;font-size:38px;font-weight:600;color:#12202C;line-height:1.3">“If I didn’t feel a spark, there wasn’t one.”</p>
+<p data-build-in="pop 1" style="position:absolute;left:1220px;top:296px;width:540px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#A23B1E">Myth</p>
+<p data-build-in="fade 1 auto" style="position:absolute;left:1220px;top:360px;width:540px;font-size:26px;color:#3C4A57;line-height:1.35">You feel sparks above about 1 mJ. Solvent vapour ignites at 0.14 to 1.15 mJ.</p>
+<div style="position:absolute;left:128px;top:490px;width:1664px;height:190px;background:#FBFCFC;border-radius:12px"></div>
+<p style="position:absolute;left:168px;top:510px;width:1000px;font-size:38px;font-weight:600;color:#12202C;line-height:1.3">“Methanol conducts, so it can never cause a static fire.”</p>
+<p data-build-in="pop 2" style="position:absolute;left:1220px;top:506px;width:540px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#A23B1E">Myth</p>
+<p data-build-in="fade 2 auto" style="position:absolute;left:1220px;top:570px;width:540px;font-size:26px;color:#3C4A57;line-height:1.35">In a plastic can or an unearthed drum the charge has nowhere to go. And the person can spark.</p>
+<div style="position:absolute;left:128px;top:700px;width:1664px;height:190px;background:#FBFCFC;border-radius:12px"></div>
+<p style="position:absolute;left:168px;top:720px;width:1000px;font-size:38px;font-weight:600;color:#12202C;line-height:1.3">“A sealed drum of hexane at 30 °C is too rich to burn.”</p>
+<p data-build-in="pop 3" style="position:absolute;left:1220px;top:716px;width:540px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#1D5E9E">Fact, but…</p>
+<p data-build-in="fade 3 auto" style="position:absolute;left:1220px;top:780px;width:540px;font-size:26px;color:#3C4A57;line-height:1.35">About 25 % vapour, above the UFL. Open it or empty it and air brings it into the flammable range.</p>
+<aside class="notes">A quick round. Read each statement, ask everyone to raise a hand for myth or keep it down for fact, then click to reveal. (Click.) One: myth. You feel discharges above about 1 mJ; solvents ignite far below that. (Click.) Two: myth. Conductive solvents relax quickly only when everything around them is earthed. In a plastic jerry can, or with an operator in non-ESD shoes, they can still give a spark. (Click.) Three: fact, with a big but. Hexane at 30 °C saturates the headspace at about 25 %, above its UFL of 7.5 %. The moment you open or empty it, air enters and the mixture passes through the flammable range. Keep score by table if you like.</aside>
+</section>
+<section id="bonding" data-transition="push" data-section="The controls: bonding, filling, inerting, powder charging and people" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Control 1: bond and earth every metal part</h2>
+<div data-build-in="rise 1" style="position:absolute;left:128px;top:300px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-radius:12px;padding:36px">
+<h3 style="font-size:36px;font-weight:700;color:#12202C">Clamp before you open</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Earth clamp on the drum, IBC or tanker before the lid or valve opens. Remove it last.</p>
+</div>
+<div data-build-in="rise 2" style="position:absolute;left:992px;top:300px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-radius:12px;padding:36px">
+<h3 style="font-size:36px;font-weight:700;color:#12202C">Bond across every gap</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Jumpers across PTFE-gasketed flanges, glass sections, hose couplings and sight glasses.</p>
+</div>
+<div data-build-in="rise 3" style="position:absolute;left:128px;top:560px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-radius:12px;padding:36px">
+<h3 style="font-size:36px;font-weight:700;color:#12202C">Test it, with a number</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Metal-to-metal bonds below 10 Ω. Static path to earth below 1 MΩ. Record the test.</p>
+</div>
+<div data-build-in="rise 4" style="position:absolute;left:992px;top:560px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-radius:12px;padding:36px">
+<h3 style="font-size:36px;font-weight:700;color:#12202C">Prefer clamps that prove it</h3>
+<p style="font-size:30px;color:#3C4A57;line-height:1.4">Earth monitoring clamps with a green light, interlocked with the transfer pump where possible.</p>
+</div>
+<p data-build-in="fade 5" style="position:absolute;left:128px;top:830px;width:1664px;font-size:32px;font-weight:600;color:#12202C;line-height:1.4">Paint, rust and dirt under a clamp can break the path. A clamp that looks fitted is not proof.</p>
+<aside class="notes">Our first and most basic control. (Click through the four cards.) Clamp before opening and remove last. Bond across every break in the metal path: PTFE gaskets and glass-lined sections are insulators. Test with a meter: below 10 ohms for a metal bond, which is a continuity check, and below one megohm to earth, which is the limit for static dissipation per IEC TS 60079-32-1. Where we can, buy clamps that check the earth path and show a green light, and interlock them with the pump. Ask the engineers: when did we last test the earthing points at the solvent yard? Ask the plant head: is there budget for monitored clamps?</aside>
+</section>
+<section id="filling" data-transition="push" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Control 2: fill slowly, from the bottom</h2>
+<iframe class="emb" style="position:absolute;left:128px;top:280px;width:780px;height:640px;border:0" sandbox="allow-scripts" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;html,body{margin:0;background:transparent;overflow:hidden}canvas{display:block}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;canvas id=&quot;c&quot; width=&quot;780&quot; height=&quot;640&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+var c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),t0=performance.now(),D=[];
+function vessel(ox,lvl,col){x.strokeStyle=&#x27;#12202C&#x27;;x.lineWidth=5;x.strokeRect(ox,170,300,380);x.fillStyle=col;x.fillRect(ox+3,550-lvl,294,lvl-3);}
+function f(now){var t=(now-t0)/1000,lv=60+((t*14)%240);x.clearRect(0,0,780,640);x.fillStyle=&#x27;#FBFCFC&#x27;;x.fillRect(0,0,780,640);
+x.font=&#x27;700 30px Arial&#x27;;x.fillStyle=&#x27;#A23B1E&#x27;;x.fillText(&#x27;Splash filling&#x27;,30,50);x.fillStyle=&#x27;#1D5E9E&#x27;;x.fillText(&#x27;Dip pipe&#x27;,450,50);
+x.font=&#x27;500 26px Arial&#x27;;x.fillStyle=&#x27;#A23B1E&#x27;;x.fillText(&#x27;Charge + mist&#x27;,30,90);x.fillStyle=&#x27;#1D5E9E&#x27;;x.fillText(&#x27;Calm surface&#x27;,450,90);
+vessel(30,lv,&#x27;#CFE0F2&#x27;);vessel(450,lv,&#x27;#CFE0F2&#x27;);
+x.fillStyle=&#x27;#8E9BA6&#x27;;x.fillRect(160,110,40,70);x.fillRect(580,110,40,70);x.fillRect(588,180,24,350);
+x.fillStyle=&#x27;#2C6FB7&#x27;;for(var i=0;i&lt;6;i++){var y=180+((t*420+i*60)%(370-lv));x.fillRect(172,y,16,26);}
+if(Math.random()&lt;.5)D.push({x:180,y:550-lv,vx:(Math.random()-.5)*7,vy:-3-Math.random()*5,l:1});
+D.forEach(function(d){d.x+=d.vx;d.y+=d.vy;d.vy+=.25;d.l-=.02;x.fillStyle=&#x27;rgba(44,111,183,&#x27;+d.l+&#x27;)&#x27;;x.beginPath();x.arc(d.x,d.y,4,0,7);x.fill();});D=D.filter(function(d){return d.l&gt;0&amp;&amp;d.y&lt;550;});
+if(Math.sin(t*2.3)&gt;.97){x.strokeStyle=&#x27;#F2A900&#x27;;x.lineWidth=4;x.beginPath();x.moveTo(60,210);x.lineTo(90,250);x.lineTo(75,255);x.lineTo(110,300);x.stroke();}
+x.fillStyle=&#x27;rgba(44,111,183,.6)&#x27;;for(var k=0;k&lt;3;k++){x.beginPath();x.arc(600+Math.sin(t*3+k)*30,545-lv*0+((t*30+k*20)%10)*0-6,0,0,7);x.fill();}
+x.fillStyle=&#x27;#12202C&#x27;;x.font=&#x27;500 24px Arial&#x27;;x.fillText(&#x27;Level rises from the bottom&#x27;,450,600);x.fillText(&#x27;Free fall through vapour&#x27;,30,600);
+requestAnimationFrame(f);}requestAnimationFrame(f);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+<div data-build-in="right 1" style="position:absolute;left:968px;top:290px;width:824px;display:flex;flex-direction:column;gap:6px;border-left:8px solid #F2A900;padding:0 0 0 28px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">1. Start at 1 m/s or less</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">until the pipe outlet is covered by liquid.</p>
+</div>
+<div data-build-in="right 2" style="position:absolute;left:968px;top:440px;width:824px;display:flex;flex-direction:column;gap:6px;border-left:8px solid #F2A900;padding:0 0 0 28px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">2. Use a dip pipe to the bottom</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Never splash fill from a top nozzle.</p>
+</div>
+<div data-build-in="right 3" style="position:absolute;left:968px;top:590px;width:824px;display:flex;flex-direction:column;gap:6px;border-left:8px solid #F2A900;padding:0 0 0 28px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">3. Avoid air and water slugs</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Stop–start pumping and an empty suction add charge.</p>
+</div>
+<div data-build-in="right 4" style="position:absolute;left:968px;top:740px;width:824px;display:flex;flex-direction:column;gap:6px;border-left:8px solid #F2A900;padding:0 0 0 28px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">4. Wait before you dip or sample</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">At least 30 s after a filter, longer for big tanks of toluene or hexane.</p>
+</div>
+<aside class="notes">The animation compares the two ways of filling. On the left, liquid falls through the vapour space, breaks into droplets and mist and generates charge; that is splash filling. On the right, a dip pipe brings liquid in at the bottom and the surface stays calm. (Click through the four rules.) One: start slowly, 1 m/s or less, until the outlet is submerged. Two: dip pipe to the bottom. Three: avoid air and water slugs; the Barton Solvents explosion we will see shortly involved stop–start filling. Four: give the charge time to relax before you put a dip tape or sample bottle into the tank, especially for low-conductivity solvents. Ask the supervisors: do all our solvent receivers have dip pipes?</aside>
+</section>
+<section id="inerting" data-transition="push" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Control 3: take the oxygen away</h2>
+<p style="position:absolute;left:128px;top:290px;width:780px;font-size:32px;color:#3C4A57;line-height:1.4">Most solvent vapours cannot burn below about 10 % oxygen, the limiting oxygen concentration (LOC). Run at 8 % or less, and check with an analyser.</p>
+<p data-build-in="fade 1" style="position:absolute;left:128px;top:470px;width:780px;font-family:'Oswald', Arial, sans-serif;font-size:60px;font-weight:500;color:#12202C;line-height:1.2">O₂ after n cycles<br>= 21 % × (P low ÷ P high)ⁿ</p>
+<p data-build-in="fade 2" style="position:absolute;left:128px;top:660px;width:780px;font-size:30px;color:#3C4A57;line-height:1.4">Pressure purge: nitrogen to 2 barg (3 bara), vent to atmosphere (1 bara). Each cycle cuts oxygen to one third.</p>
+<div style="position:absolute;left:1000px;top:800px;width:792px;height:3px;background:#5A6875"></div>
+<div style="position:absolute;left:1000px;top:562px;width:792px;height:0px;border-top:3px dashed #A23B1E"></div>
+<p style="position:absolute;left:1000px;top:520px;width:792px;font-size:24px;font-weight:600;color:#A23B1E;text-align:right">LOC about 10 %</p>
+<div style="position:absolute;left:1000px;top:610px;width:792px;height:0px;border-top:3px dashed #1D5E9E"></div>
+<p style="position:absolute;left:1000px;top:614px;width:792px;font-size:24px;font-weight:600;color:#1D5E9E;text-align:right">Target 8 %</p>
+<div data-build-in="rise 3" style="position:absolute;left:1030px;top:300px;width:180px;height:500px;background:#8E9BA6;border-radius:8px 8px 0 0"></div>
+<p data-build-in="rise 3" style="position:absolute;left:1030px;top:250px;width:180px;font-size:32px;font-weight:700;color:#12202C;text-align:center">21 %</p>
+<div data-build-in="rise 4" style="position:absolute;left:1290px;top:633px;width:180px;height:167px;background:#2C6FB7;border-radius:8px 8px 0 0"></div>
+<p data-build-in="rise 4" style="position:absolute;left:1290px;top:660px;width:180px;font-size:32px;font-weight:700;color:#FBFCFC;text-align:center">7 %</p>
+<div data-build-in="rise 5" style="position:absolute;left:1550px;top:744px;width:180px;height:56px;background:#1D5E9E;border-radius:8px 8px 0 0"></div>
+<p data-build-in="rise 5" style="position:absolute;left:1550px;top:690px;width:180px;font-size:32px;font-weight:700;color:#12202C;text-align:center">2.3 %</p>
+<p style="position:absolute;left:1030px;top:816px;width:180px;font-size:26px;color:#3C4A57;text-align:center">Air</p>
+<p style="position:absolute;left:1290px;top:816px;width:180px;font-size:26px;color:#3C4A57;text-align:center">1 cycle</p>
+<p style="position:absolute;left:1550px;top:816px;width:180px;font-size:26px;color:#3C4A57;text-align:center">2 cycles</p>
+<aside class="notes">Our third control is to remove oxygen with nitrogen. The LOC for most solvents is around 10 to 12 percent; methanol is about 10. Good practice, following NFPA 69, is to keep a margin below the LOC: we aim for 8 percent or less and confirm with an oxygen analyser rather than by assumption. (Click.) The formula for pressure purging. (Click.) Example: pressurise with nitrogen to 2 barg, which is 3 bar absolute, then vent to atmosphere. (Click through the bars.) Air is 21 percent. After one cycle, 21 divided by 3 is 7 percent: just under target, no margin. After two cycles, 2.3 percent. Ask: how many purge cycles does our SOP specify, and does anyone check the oxygen afterwards? Remember: an open manhole undoes the inerting.</aside>
+</section>
+<section id="powder" data-transition="push" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Control 4: powder into a solvent reactor</h2>
+<p style="position:absolute;left:128px;top:250px;width:1664px;font-size:32px;color:#3C4A57;line-height:1.4">The most common cause of flash fires in API and intermediate plants: charged powder falling through solvent vapour at an open manhole.</p>
+<div data-build-in="left 1" style="position:absolute;left:128px;top:380px;width:800px;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;border-top:10px solid #A23B1E;border-radius:12px;padding:40px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#A23B1E">Stop doing</h3>
+<ul style="font-size:30px;color:#12202C;line-height:1.5">
+<li>Tipping powder from plastic bags at an open manhole</li>
+<li>Plastic scoops, buckets and funnels</li>
+<li>Ordinary FIBCs near flammable vapour</li>
+<li>Charging while the reactor is hot or under air</li>
+</ul>
+</div>
+<div data-build-in="right 2" style="position:absolute;left:992px;top:380px;width:800px;display:flex;flex-direction:column;gap:20px;background:#FBFCFC;border-top:10px solid #1D5E9E;border-radius:12px;padding:40px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#1D5E9E">Do instead</h3>
+<ul style="font-size:30px;color:#12202C;line-height:1.5">
+<li>Charge solids first, solvent after, where the process allows</li>
+<li>Inert the reactor and keep a nitrogen sweep at the manhole</li>
+<li>Closed charging: powder transfer system, split valve, glove box</li>
+<li>Earthed metal chute, Type C earthed or Type D FIBC</li>
+</ul>
+</div>
+<aside class="notes">This slide matters most for us. Ask first: who has charged powder into a reactor that already had solvent in it? That is the classic flash fire. The powder and the plastic bag charge up as the powder slides out; a brush discharge from the bag (up to 4 mJ) easily ignites toluene or methanol vapour at the manhole. (Click.) Stop doing these. (Click.) Do these instead. The first option, solids before solvent, costs nothing if the chemistry allows; engineers, check with R and D. Type C FIBCs must be earthed; Type D dissipate charge without earthing. Plant head and executives: closed charging systems need capital, and this is where the risk is.</aside>
+</section>
+<section id="people" data-transition="push" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Control 5: the person is a conductor too</h2>
+<div data-build-in="pop 1" style="position:absolute;left:128px;top:300px;width:392px;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;border-radius:12px;padding:32px">
+<span class="ico" style="color:#2C6FB7;width:56px;height:56px;font-size:44px;line-height:1">👥</span>
+<h3 style="font-size:34px;font-weight:700;color:#12202C">ESD shoes</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Antistatic footwear on a conductive floor. Test the shoes at the entry.</p>
+</div>
+<div data-build-in="pop 2" style="position:absolute;left:552px;top:300px;width:392px;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;border-radius:12px;padding:32px">
+<span class="ico" style="color:#2C6FB7;width:56px;height:56px;font-size:44px;line-height:1">🔧</span>
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Touch earth first</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Touch an earthed point before opening a manhole or sampling.</p>
+</div>
+<div data-build-in="pop 3" style="position:absolute;left:976px;top:300px;width:392px;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;border-radius:12px;padding:32px">
+<span class="ico" style="color:#2C6FB7;width:56px;height:56px;font-size:44px;line-height:1">⚠</span>
+<h3 style="font-size:34px;font-weight:700;color:#12202C">No phones</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">No mobile phones or non-certified devices in solvent areas.</p>
+</div>
+<div data-build-in="pop 4" style="position:absolute;left:1400px;top:300px;width:392px;display:flex;flex-direction:column;gap:16px;background:#FBFCFC;border-radius:12px;padding:32px">
+<span class="ico" style="color:#2C6FB7;width:56px;height:56px;font-size:44px;line-height:1">⚡</span>
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Cotton, not synthetic</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Never take off a jacket or wipe with a dry cloth near open solvent.</p>
+</div>
+<p data-build-in="fade 5" style="position:absolute;left:128px;top:780px;width:1664px;font-size:34px;font-weight:600;color:#12202C;line-height:1.4">Managers set the example: walk into a solvent area in the right shoes, without a phone in your pocket.</p>
+<aside class="notes">(Click through the four cards.) The person is often the isolated conductor. ESD shoes only work on a conductive floor, so both need checking. Touching an earthed point first drains your charge safely. Mobile phones are not flameproof. Taking off a synthetic jacket or wiping a surface with a dry cloth can generate several kilovolts. (Click.) The last line is for the managers and executives in the room: people follow what you do, not what the SOP says. If you walk into the solvent store in leather shoes on a phone call, the rule is dead.</aside>
+</section>
+<section id="mystery" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3">Two-minute mystery: the sample bottle</h2>
+<p style="position:absolute;left:128px;top:250px;width:1664px;font-size:34px;color:#B8C7D3;line-height:1.45">Night shift. Toluene is pumped from an earthed drum through a cartridge filter into an earthed reactor. The moment the pump stops, the operator lowers a metal sample can on a nylon rope through the manhole. A flash fire follows.</p>
+<h3 data-build-in="fade 1" style="position:absolute;left:128px;top:480px;width:1664px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:500;color:#F2A900">Clues</h3>
+<div data-build-in="rise 2" style="position:absolute;left:128px;top:560px;width:520px;display:flex;flex-direction:column;gap:10px;border-top:6px solid #F2A900;padding:22px 0 0 0">
+<p style="font-size:30px;color:#EEF1F3;line-height:1.4">The drum and reactor clamps were both on and tested.</p>
+</div>
+<div data-build-in="rise 3" style="position:absolute;left:700px;top:560px;width:520px;display:flex;flex-direction:column;gap:10px;border-top:6px solid #F2A900;padding:22px 0 0 0">
+<p style="font-size:30px;color:#EEF1F3;line-height:1.4">The reactor had been opened earlier to add a catalyst.</p>
+</div>
+<div data-build-in="rise 4" style="position:absolute;left:1272px;top:560px;width:520px;display:flex;flex-direction:column;gap:10px;border-top:6px solid #F2A900;padding:22px 0 0 0">
+<p style="font-size:30px;color:#EEF1F3;line-height:1.4">The filter was new, with a fine 1 micron cartridge.</p>
+</div>
+<p data-build-in="pop 5" style="position:absolute;left:128px;top:790px;width:1664px;font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#EEF1F3">What lit it? Each table has two minutes.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8FA3B4">A made-up teaching scenario, built from common causes in published incident reports</p>
+<aside class="notes">Read the story slowly. (Click: clues, one at a time.) Then give each table two minutes to agree on the ignition source and every condition that had to be true. Take answers from two or three tables before showing the next slide. Good answers mention: the filter charged the toluene; toluene holds charge; no time was allowed for it to relax; the metal can on a nylon rope is an isolated conductor; and the headspace had air in it because the reactor was opened earlier.</aside>
+</section>
+<section id="mysteryans" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Solved: four things lined up</h2>
+<div data-build-in="left 1" style="position:absolute;left:128px;top:290px;width:800px;display:flex;flex-direction:column;gap:10px;background:#FBFCFC;border-left:10px solid #F2A900;border-radius:8px;padding:30px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">The filter charged the toluene</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">A fine new cartridge is a strong charge generator.</p>
+</div>
+<div data-build-in="right 2" style="position:absolute;left:992px;top:290px;width:800px;display:flex;flex-direction:column;gap:10px;background:#FBFCFC;border-left:10px solid #F2A900;border-radius:8px;padding:30px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">No time to relax</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Toluene keeps its charge for tens of seconds. Earthing the tank does not drain it at once.</p>
+</div>
+<div data-build-in="left 3" style="position:absolute;left:128px;top:540px;width:800px;display:flex;flex-direction:column;gap:10px;background:#FBFCFC;border-left:10px solid #F2A900;border-radius:8px;padding:30px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">An isolated conductor</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">The metal can on a nylon rope collected charge from the liquid and sparked.</p>
+</div>
+<div data-build-in="right 4" style="position:absolute;left:992px;top:540px;width:800px;display:flex;flex-direction:column;gap:10px;background:#FBFCFC;border-left:10px solid #F2A900;border-radius:8px;padding:30px">
+<h3 style="font-size:34px;font-weight:700;color:#12202C">Air in the headspace</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Opening for the catalyst let air in, and nobody re-inerted.</p>
+</div>
+<p data-build-in="fade 5" style="position:absolute;left:128px;top:810px;width:1664px;font-size:34px;font-weight:600;color:#12202C;line-height:1.4">The fix: wait before sampling, use an earthed sampling device or closed sampler, and re-inert after every opening.</p>
+<aside class="notes">(Click through the four answers, and give a point to each table that found it.) Notice that the clamps were on and tested, just like at Barton Solvents. The tank being earthed did not help, because the charge was inside the liquid and the spark came from the sample can, which was not earthed. Ask the supervisors: how do we take samples from solvent reactors today, and how long do we wait after a transfer?</aside>
+</section>
+<section id="barton" data-transition="fade" data-section="A real incident, the interactive check and what each role will do" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3">Barton Solvents, Kansas, 17 July 2007</h2>
+<p style="position:absolute;left:128px;top:250px;width:1664px;font-size:32px;color:#B8C7D3;line-height:1.4">A tanker was unloading VM&amp;P naphtha, a low-conductivity solvent, into a 15,000-gallon storage tank. The tank exploded and was thrown about 40 m into the air. Fire spread to the tank farm and about 6,000 residents were evacuated.</p>
+<h3 data-build-in="fade 1" style="position:absolute;left:128px;top:430px;width:1664px;font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:500;color:#F2A900">What lined up, according to the US Chemical Safety Board</h3>
+<div data-build-in="rise 2" style="position:absolute;left:128px;top:520px;width:392px;display:flex;flex-direction:column;gap:12px;border-top:6px solid #F2A900;padding:24px 0 0 0">
+<h3 style="font-size:32px;font-weight:700;color:#EEF1F3">Charged liquid</h3>
+<p style="font-size:28px;color:#B8C7D3;line-height:1.4">Nonconductive naphtha held its charge</p>
+</div>
+<div data-build-in="rise 3" style="position:absolute;left:552px;top:520px;width:392px;display:flex;flex-direction:column;gap:12px;border-top:6px solid #F2A900;padding:24px 0 0 0">
+<h3 style="font-size:32px;font-weight:700;color:#EEF1F3">Air in the line</h3>
+<p style="font-size:28px;color:#B8C7D3;line-height:1.4">Stop–start filling added bubbles and turbulence</p>
+</div>
+<div data-build-in="rise 4" style="position:absolute;left:976px;top:520px;width:392px;display:flex;flex-direction:column;gap:12px;border-top:6px solid #F2A900;padding:24px 0 0 0">
+<h3 style="font-size:32px;font-weight:700;color:#EEF1F3">Flammable headspace</h3>
+<p style="font-size:28px;color:#B8C7D3;line-height:1.4">Vapour and air above the liquid, not inerted</p>
+</div>
+<div data-build-in="rise 5" style="position:absolute;left:1400px;top:520px;width:392px;display:flex;flex-direction:column;gap:12px;border-top:6px solid #F2A900;padding:24px 0 0 0">
+<h3 style="font-size:32px;font-weight:700;color:#EEF1F3">Loose level float</h3>
+<p style="font-size:28px;color:#B8C7D3;line-height:1.4">A gap in its linkage likely sparked</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8FA3B4">Source: US CSB, Static Sparks Ignite Flammable Liquid, Barton Solvents final report, June 2008</p>
+<aside class="notes">A real case from the US Chemical Safety Board. Read the summary. (Click.) Then reveal the four conditions one by one and ask the room, before each click, “what else had to be true?” One: the naphtha is nonconductive, like our toluene and hexane. Two: stop–start filling introduced air, adding charge. Three: the headspace was flammable and not inerted. Four: the level float had a loose linkage, an isolated conductor inside the tank, and a spark likely jumped the gap. Eleven residents and a firefighter needed medical attention, and the facility was destroyed. Ask: which of these four could exist in our tank farm today?</aside>
+</section>
+<section id="notenough" data-transition="fade" style="background:#F2A900;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<p style="font-size:36px;font-weight:600;color:#12202C">The lesson from Barton</p>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:140px;font-weight:600;line-height:1.05;color:#12202C">The tank was earthed.<br>It still exploded.</h2>
+<p data-build-in="rise 1" style="position:absolute;left:128px;top:780px;width:1664px;font-size:40px;color:#12202C;line-height:1.4">Earthing is necessary, not sufficient. For low-conductivity solvents add inerting, slow filling, relaxation time and bonded internals.</p>
+<aside class="notes">Let this sink in. The CSB found that bonding and grounding of the transfer equipment was likely in place. Most safety data sheets for these solvents only say “bond and ground”, and people stop there. (Click.) For toluene, hexane and heptane, earthing is the start. You also need inerting, slow filling, time to relax before dipping, and every internal part, like floats, bonded. Ask the engineers: are our low-conductivity solvent tanks inerted?</aside>
+</section>
+<section id="myth2" data-transition="push" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">Myth or fact? Round 2</h2>
+<div style="position:absolute;left:128px;top:280px;width:1664px;height:190px;background:#FBFCFC;border-radius:12px"></div>
+<p style="position:absolute;left:168px;top:300px;width:1000px;font-size:38px;font-weight:600;color:#12202C;line-height:1.3">“Static is a winter problem. In the monsoon we are safe.”</p>
+<p data-build-in="pop 1" style="position:absolute;left:1220px;top:296px;width:540px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#A23B1E">Myth</p>
+<p data-build-in="fade 1 auto" style="position:absolute;left:1220px;top:360px;width:540px;font-size:26px;color:#3C4A57;line-height:1.35">Humidity helps surfaces leak charge. It does nothing for charge inside a flowing solvent.</p>
+<div style="position:absolute;left:128px;top:490px;width:1664px;height:190px;background:#FBFCFC;border-radius:12px"></div>
+<p style="position:absolute;left:168px;top:510px;width:1000px;font-size:38px;font-weight:600;color:#12202C;line-height:1.3">“The reactor is under nitrogen, so it cannot catch fire.”</p>
+<p data-build-in="pop 2" style="position:absolute;left:1220px;top:506px;width:540px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#A23B1E">Only if proven</p>
+<p data-build-in="fade 2 auto" style="position:absolute;left:1220px;top:570px;width:540px;font-size:26px;color:#3C4A57;line-height:1.35">Safe only while oxygen stays below the LOC. An open manhole or an empty N₂ header undoes it.</p>
+<div style="position:absolute;left:128px;top:700px;width:1664px;height:190px;background:#FBFCFC;border-radius:12px"></div>
+<p style="position:absolute;left:168px;top:720px;width:1000px;font-size:38px;font-weight:600;color:#12202C;line-height:1.3">“A filter in the line makes more charge than the whole pipe.”</p>
+<p data-build-in="pop 3" style="position:absolute;left:1220px;top:716px;width:540px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#1D5E9E">Fact</p>
+<p data-build-in="fade 3 auto" style="position:absolute;left:1220px;top:780px;width:540px;font-size:26px;color:#3C4A57;line-height:1.35">Fine filters are among the strongest generators. Give the liquid time to relax downstream.</p>
+<aside class="notes">Second round, same rules. (Click.) One: myth. Humid air makes surfaces of plastic and clothing slightly conductive, so they charge less. But the charge generated inside a liquid flowing through a pipe or filter is the same in any season. (Click.) Two: only if proven. Nitrogen protects only while the oxygen stays below the LOC, which you prove with an analyser. Opening a manhole for charging, or a nitrogen header running low, brings air back. (Click.) Three: fact. Micro filters and strainers generate far more charge than plain pipe; standards ask for residence time downstream of a filter before the liquid enters the tank. Who scored 6 out of 6 across both rounds?</aside>
+</section>
+<section id="tryit" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3">Now you call it: five live checks</h2>
+<p style="position:absolute;left:128px;top:250px;width:1664px;font-size:32px;color:#B8C7D3;line-height:1.4">I set the conditions on screen. You decide safe or unsafe before I reveal the answer.</p>
+<div data-build-in="left 1" style="position:absolute;left:128px;top:360px;width:1664px;display:flex;gap:32px;align-items:center;border-bottom:2px solid #2A3E50;padding:0 0 20px 0">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#F2A900;width:80px">1</p>
+<p style="font-size:34px;color:#EEF1F3"><b>Spot the ignition sources</b> in a solvent charging bay</p>
+</div>
+<div data-build-in="left 1 auto" style="position:absolute;left:128px;top:470px;width:1664px;display:flex;gap:32px;align-items:center;border-bottom:2px solid #2A3E50;padding:0 0 20px 0">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#F2A900;width:80px">2</p>
+<p style="font-size:34px;color:#EEF1F3"><b>Is the headspace flammable?</b> Pick a solvent and a temperature</p>
+</div>
+<div data-build-in="left 1 auto" style="position:absolute;left:128px;top:580px;width:1664px;display:flex;gap:32px;align-items:center;border-bottom:2px solid #2A3E50;padding:0 0 20px 0">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#F2A900;width:80px">3</p>
+<p style="font-size:34px;color:#EEF1F3"><b>Spark or no spark?</b> Charge a drum, a person, a funnel</p>
+</div>
+<div data-build-in="left 1 auto" style="position:absolute;left:128px;top:690px;width:1664px;display:flex;gap:32px;align-items:center;border-bottom:2px solid #2A3E50;padding:0 0 20px 0">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#F2A900;width:80px">4</p>
+<p style="font-size:34px;color:#EEF1F3"><b>Safe to fill?</b> Solvent, velocity, dip pipe, earthing</p>
+</div>
+<div data-build-in="left 1 auto" style="position:absolute;left:128px;top:800px;width:1664px;display:flex;gap:32px;align-items:center;padding:0 0 20px 0">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:56px;font-weight:600;color:#F2A900;width:80px">5</p>
+<p style="font-size:34px;color:#EEF1F3"><b>How many purges?</b> Nitrogen pressure and cycles</p>
+</div>
+<aside class="notes">Open the live page now: pharmacheme.in/training/modules/static-and-solvent-fire-safety/live/ (the button on the module page opens it in a new tab). It has the five stations in this order, plus a tank-filling simulator and a pipe-speed calculator. Tick "show answers immediately" if you want to skip the reveal. Each station follows the same rhythm: I explain the idea in one line, set up a situation, the room shouts safe or unsafe, then I reveal. Pick people from different roles to answer: ask a supervisor about the charging bay, an engineer about the purge calculation, the plant head about the drum. About 20 minutes for all five.</aside>
+</section>
+<section id="roles" data-transition="fade" style="background:#EEF1F3;color:#12202C;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#12202C">What each of us will do from Monday</h2>
+<div data-build-in="rise 1" style="position:absolute;left:128px;top:300px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-left:10px solid #F2A900;border-radius:8px;padding:32px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:600;color:#12202C">Plant supervisors</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Check the earth clamp and dip pipe before every solvent transfer. Stop the job if either is missing.</p>
+</div>
+<div data-build-in="rise 2" style="position:absolute;left:992px;top:300px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-left:10px solid #2C6FB7;border-radius:8px;padding:32px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:600;color:#12202C">Engineers</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Survey bonding and earthing with a meter. List every PTFE flange, float and plastic part in solvent service.</p>
+</div>
+<div data-build-in="rise 3" style="position:absolute;left:128px;top:580px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-left:10px solid #12202C;border-radius:8px;padding:32px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:600;color:#12202C">Executives</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Put static checks in the batch record and the permit. Buy only antistatic FIBCs and liners.</p>
+</div>
+<div data-build-in="rise 4" style="position:absolute;left:992px;top:580px;width:800px;display:flex;flex-direction:column;gap:12px;background:#FBFCFC;border-left:10px solid #A23B1E;border-radius:8px;padding:32px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:44px;font-weight:600;color:#12202C">Plant head</h3>
+<p style="font-size:28px;color:#3C4A57;line-height:1.4">Fund monitored earth clamps and closed powder charging. Walk the solvent area once a week.</p>
+</div>
+<aside class="notes">Before showing these, ask each group: what is one thing you can change next week? Write their answers on the board, then reveal these suggestions one by one. (Click four times.) The point is that each role has a different lever. Supervisors control the moment of transfer. Engineers own the hardware. Executives own documents and purchasing. The plant head owns money and example. Close by agreeing a date to review progress, for example in 30 days.</aside>
+</section>
+<section id="rules" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
+<div style="position:absolute;left:0;top:0;width:24px;height:1080px;background:#F2A900"></div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#EEF1F3">Five rules to take back to the plant</h2>
+<ol data-build-in="fade 1" style="position:absolute;left:128px;top:290px;width:1100px;font-size:40px;color:#EEF1F3;line-height:1.7">
+<li>Clamp first, open second, unclamp last.</li>
+<li>Fill from the bottom, slowly at the start.</li>
+<li>Inert, and prove it with an analyser.</li>
+<li>No plastic bags at an open manhole.</li>
+<li>Toluene and hexane need more than earthing.</li>
+</ol>
+<p data-build-in="pop 2" style="position:absolute;left:1260px;top:330px;width:532px;font-family:'Oswald', Arial, sans-serif;font-size:100px;font-weight:600;color:#F2A900;line-height:1.0;text-align:right">Questions?</p>
+<p style="position:absolute;left:1340px;top:700px;width:452px;font-size:28px;color:#B8C7D3;line-height:1.4;text-align:right">Ankush Chopra<br>PharmaChemE (pharmacheme.in)</p>
+<aside class="notes">Read the five rules aloud and ask the room to repeat the first one. Then take questions. If time allows, ask each table to name the one rule they think is most often broken here, and why.</aside>
+</section>
+
+</div>
+<div id="np"></div><div id="hud"></div>
+<script>
+const S=[...document.querySelectorAll('#stage > section')];let i=0,step=0,groups=[];
+function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080),st=document.getElementById('stage');st.style.transform=`scale(${k}) translate(-50%,-50%)`;st.style.transformOrigin='0 0';st.style.left='50%';st.style.top='50%';st.style.transform=`translate(-50%,-50%) scale(${k})`;st.style.transformOrigin='center center';}
+function parse(el){const p=el.getAttribute('data-build-in').split(/\s+/);return {order:+(p[1]||1),auto:p.includes('auto')};}
+function setup(){const els=[...S[i].querySelectorAll('[data-build-in]')];const m={};els.forEach(e=>{const o=parse(e).order;(m[o]=m[o]||[]).push(e);});groups=Object.keys(m).map(Number).sort((a,b)=>a-b).map(k=>m[k]);}
+function show(n,first){S.forEach((s,k)=>s.classList.toggle('on',k===n));i=n;setup();step=0;groups.flat().forEach(e=>e.classList.add('hid'));
+ if(!first&&false){}
+ const np=document.getElementById('np'),a=S[i].querySelector('.notes');np.textContent=a?a.textContent:'';hud();history.replaceState(null,'','#'+(i+1));}
+function reveal(g){let d=0;g.forEach(e=>{const au=parse(e).auto;if(au){d+=250;setTimeout(()=>e.classList.remove('hid'),d);}else e.classList.remove('hid');});}
+function next(){if(step<groups.length){reveal(groups[step]);step++;hud();}else if(i<S.length-1)show(i+1);}
+function prev(){if(step>0){step--;groups[step].forEach(e=>e.classList.add('hid'));hud();}else if(i>0){show(i-1);groups.flat().forEach(e=>e.classList.remove('hid'));step=groups.length;hud();}}
+let pw=null,t0=null;
+function title(k){const h=S[k]&&S[k].querySelector('h1,h2');return h?h.textContent.replace(/\s+/g,' ').trim():'';}
+function pv(){if(!pw||pw.closed)return;const d=pw.document,a=S[i].querySelector('.notes');
+ d.getElementById('n').textContent=a?a.textContent:'(no notes)';d.getElementById('c').textContent=`Slide ${i+1} of ${S.length}: ${title(i)}`;
+ d.getElementById('s').textContent=groups.length?`Clicks on this slide: ${step} of ${groups.length}`:'No clicks on this slide';
+ d.getElementById('x').textContent=i<S.length-1?`Next: ${title(i+1)}`:'Last slide';}
+function openPV(){pw=window.open('','presenter','width=1000,height=760');if(!pw){alert('Allow pop-ups for this file to open the presenter view.');return;}t0=t0||Date.now();
+ pw.document.open();pw.document.write(`<!doctype html><title>Presenter view</title><body style="margin:0;font:20px/1.55 system-ui,sans-serif;background:#12202C;color:#EEF1F3;padding:20px 26px">
+ <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline"><b id="c" style="font-size:24px;color:#F2A900"></b><span id="t" style="font:600 28px monospace"></span></div>
+ <div id="s" style="color:#9FB0BE;margin:6px 0 14px"></div><div id="n" style="font-size:24px;white-space:pre-wrap;background:#1B2E3E;border-radius:10px;padding:18px 22px"></div>
+ <div id="x" style="color:#9FB0BE;margin-top:14px"></div><div style="color:#6F8496;margin-top:10px;font-size:15px">Keys work here too: → next, ← back. Keep this window on your laptop screen and the slides on the projector.</div></body>`);pw.document.close();
+ pw.document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}});
+ setInterval(()=>{if(pw&&!pw.closed){const m=Math.floor((Date.now()-t0)/1000);pw.document.getElementById('t').textContent=Math.floor(m/60)+':'+String(m%60).padStart(2,'0');}},1000);pv();}
+function hud(){pv();document.getElementById('hud').textContent=`${i+1} / ${S.length}  ·  → next  ·  ← back  ·  N notes  ·  P presenter view  ·  F full screen`;}
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
+ else if(e.key==='n'||e.key==='N'){const np=document.getElementById('np');np.style.display=np.style.display==='block'?'none':'block';}
+ else if(e.key==='p'||e.key==='P')openPV();else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+ else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1);});
+document.getElementById('stage').addEventListener('click',next);
+addEventListener('resize',fit);fit();
+const h=parseInt(location.hash.slice(1));show(h>0&&h<=S.length?h-1:0,true);
+</script></body></html>
