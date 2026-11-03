@@ -165,6 +165,7 @@
     - { title: "Process safety lessons", url: /process-safety/ }
     - { title: "Equipment and instruments", url: /equipment-instruments/ }
     - { title: "Utilities calculators", url: /utilities/ }
+    - { title: "Free training modules", url: /training/modules/ }
   groups:
     - title: "Process safety"
       url: /articles/#process-safety
@@ -295,7 +296,6 @@
         - { title: "Quiz", url: /process-safety/quiz/ }
         - { title: "Runaway! (game)", url: /games/runaway/ }
         - { title: "Stop the Hazard (game)", url: /games/stop-the-hazard/ }
-        - { title: "Free training modules", url: /training/modules/ }
 - title: Equipment
   url: /equipment-instruments/
   ncols: 2
