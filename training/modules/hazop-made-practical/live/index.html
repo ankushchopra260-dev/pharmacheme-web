@@ -1,0 +1,31 @@
+---
+layout: default
+title: "HAZOP made practical: Live Checks"
+seo_title: "HAZOP made practical: Live Checks | PharmaChemE"
+description: "Five live HAZOP checks and a mini worksheet for a solvent feed line: guidewords, weak and useful rows, risk ranking and batch step deviations. Free to use."
+breadcrumbs:
+  - label: Training
+    url: /training/
+  - label: "Training modules"
+    url: /training/modules/
+  - label: "HAZOP made practical"
+    url: /training/modules/hazop-made-practical/
+  - label: "Live checks"
+    url: /training/modules/hazop-made-practical/live/
+last_modified_at: 2026-11-03
+---
+<link rel="stylesheet" href="{{ '/assets/css/training.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container calc-page-head">
+  <h1>HAZOP Live</h1>
+  <p>Let the room decide, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching examples, not a substitute for a real study.</p>
+  <p><label style="display:inline-flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="live-instant"> Show answers immediately</label> &nbsp; <a href="{{ '/training/modules/hazop-made-practical/' | relative_url }}">Back to the module</a></p>
+</div>
+<section class="section" style="padding-top:0;"><div class="container" style="display:grid;gap:26px">
+  <div><h2>1. Pick the guideword</h2><div data-fx="s1"></div></div>
+  <div><h2>2. Spot the weak row</h2><div data-fx="s2"></div></div>
+  <div><h2>3. Cause, consequence or safeguard?</h2><div data-fx="s3"></div></div>
+  <div><h2>4. Rank the risk</h2><div data-fx="s4"></div></div>
+  <div><h2>5. Batch step deviations</h2><div data-fx="s5"></div></div>
+  <div><h2>Extra: mini HAZOP worksheet for a solvent feed line</h2><div data-fx="sim"></div></div>
+</div></section>
+<script src="{{ '/assets/js/hazop-live.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

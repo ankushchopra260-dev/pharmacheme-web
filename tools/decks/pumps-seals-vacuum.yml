@@ -1,0 +1,18 @@
+- slug: pumps-seals-vacuum
+  title: "Pumps, seals and vacuum for operators"
+  short: "Where a pump likes to run, why NPSH and cavitation matter, why seals fail, and how vacuum and boiling work. Includes five live checks and a pump curve simulator."
+  minutes: "75 to 90"
+  level: "Operators, supervisors, engineers, students"
+  extra_live: ", a pump curve simulator"
+  related: '<a href="{{ ''/calculators/pump-power-calculator/'' | relative_url }}">pump power calculator</a>, <a href="{{ ''/articles/pump-and-mechanical-seal-troubleshooting/'' | relative_url }}">pump and seal troubleshooting</a>'
+  live_js: pumps-live.js
+  live_h1: "Pump Room Live"
+  live_desc: "Five live checks on cavitation, pump curves, boiling under vacuum, seal failures and speed changes, plus a pump curve simulator. Free to use."
+  live_intro: "Set the conditions, let the room call it, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching models with typical values."
+  live_blocks:
+    - ["1. Will it cavitate?", s1]
+    - ["2. Where does it run?", s2]
+    - ["3. Will it boil?", s3]
+    - ["4. Name the seal failure", s4]
+    - ["5. Speed change: flow, head and power", s5]
+    - ["Extra: pump curve, system curve and the valve", sim]

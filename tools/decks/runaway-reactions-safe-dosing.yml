@@ -1,0 +1,18 @@
+- slug: runaway-reactions-safe-dosing
+  title: "Runaway reactions and safe dosing"
+  short: "Why exothermic reactions run away, how accumulation hides the danger, and the controls that keep semi-batch dosing safe. Includes five live checks and a semi-batch dosing simulator."
+  minutes: "75 to 90"
+  level: "Plant teams, engineers, students"
+  extra_live: ", a semi-batch dosing simulator"
+  related: '<a href="{{ ''/process-safety/'' | relative_url }}">process safety</a>, <a href="{{ ''/calculators/reagent-addition-time-calculator/'' | relative_url }}">addition time from RC1</a>, <a href="{{ ''/process-modelling/semi-batch-dosing-simulator/'' | relative_url }}">semi-batch dosing simulator</a>'
+  live_js: runaway-live.js
+  live_h1: "Runaway Reactions Live"
+  live_desc: "Five live checks for a runaway reaction and safe dosing session, plus a semi-batch dosing simulator with a cooling failure switch. Free to use."
+  live_intro: "Set the conditions, let the room call safe or unsafe, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching models with typical values."
+  live_blocks:
+    - ["1. Adiabatic rise: how hot if the heat stays in?", s1]
+    - ["2. Accumulation: does the feed outrun the reaction?", s2]
+    - ["3. Criticality class: set the four temperatures", s3]
+    - ["4. Scale-up: can the plant remove the heat?", s4]
+    - ["5. Safeguards: what belongs in a safe set-up?", s5]
+    - ["Extra: semi-batch dosing with a cooling failure", sim]

@@ -1,0 +1,18 @@
+- slug: hazop-made-practical
+  title: "HAZOP made practical"
+  short: "How a team runs a HAZOP and writes rows someone can act on: nodes, guidewords, batch steps, risk ranking and closing actions."
+  minutes: "75 to 90"
+  level: "Operators, engineers, supervisors, students"
+  extra_live: " and a mini HAZOP worksheet"
+  related: '<a href="{{ ''/articles/hazop-made-practical/'' | relative_url }}">HAZOP made practical (article)</a>, <a href="{{ ''/process-safety/'' | relative_url }}">process safety</a>'
+  live_js: hazop-live.js
+  live_h1: "HAZOP Live"
+  live_desc: "Five live HAZOP checks and a mini worksheet for a solvent feed line: guidewords, weak and useful rows, risk ranking and batch step deviations. Free to use."
+  live_intro: "Let the room decide, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching examples, not a substitute for a real study."
+  live_blocks:
+    - ["1. Pick the guideword", s1]
+    - ["2. Spot the weak row", s2]
+    - ["3. Cause, consequence or safeguard?", s3]
+    - ["4. Rank the risk", s4]
+    - ["5. Batch step deviations", s5]
+    - ["Extra: mini HAZOP worksheet for a solvent feed line", sim]

@@ -1,0 +1,31 @@
+---
+layout: default
+title: "Pumps, seals and vacuum for operators: Live Checks"
+seo_title: "Pumps, seals and vacuum for operators: Live Checks | PharmaChemE"
+description: "Five live checks on cavitation, pump curves, boiling under vacuum, seal failures and speed changes, plus a pump curve simulator. Free to use."
+breadcrumbs:
+  - label: Training
+    url: /training/
+  - label: "Training modules"
+    url: /training/modules/
+  - label: "Pumps, seals and vacuum for operators"
+    url: /training/modules/pumps-seals-vacuum/
+  - label: "Live checks"
+    url: /training/modules/pumps-seals-vacuum/live/
+last_modified_at: 2026-11-03
+---
+<link rel="stylesheet" href="{{ '/assets/css/training.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container calc-page-head">
+  <h1>Pump Room Live</h1>
+  <p>Set the conditions, let the room call it, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching models with typical values.</p>
+  <p><label style="display:inline-flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="live-instant"> Show answers immediately</label> &nbsp; <a href="{{ '/training/modules/pumps-seals-vacuum/' | relative_url }}">Back to the module</a></p>
+</div>
+<section class="section" style="padding-top:0;"><div class="container" style="display:grid;gap:26px">
+  <div><h2>1. Will it cavitate?</h2><div data-fx="s1"></div></div>
+  <div><h2>2. Where does it run?</h2><div data-fx="s2"></div></div>
+  <div><h2>3. Will it boil?</h2><div data-fx="s3"></div></div>
+  <div><h2>4. Name the seal failure</h2><div data-fx="s4"></div></div>
+  <div><h2>5. Speed change: flow, head and power</h2><div data-fx="s5"></div></div>
+  <div><h2>Extra: pump curve, system curve and the valve</h2><div data-fx="sim"></div></div>
+</div></section>
+<script src="{{ '/assets/js/pumps-live.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

@@ -1,6 +1,122 @@
 - slug: static-and-solvent-fire-safety
-  title: "Static electricity and solvent fire safety"
-  short: "Why a spark you cannot feel ignites solvent vapour, and the five controls that stop it. Includes live checks and a tank-filling simulator."
-  minutes: "75 to 90"
-  level: "Plant teams, engineers, students"
-  slides: 27
+  title: Static electricity and solvent fire safety
+  short: Why a spark you cannot feel ignites solvent vapour, and the five controls that stop it. Includes live checks and a tank-filling simulator.
+  minutes: 75 to 90
+  level: Plant teams, engineers, students
+  extra_live: ', a tank-filling simulator'
+  related: <a href="{{ '/process-safety/' | relative_url }}">process safety</a>
+  live_js: static-live.js
+  live_h1: Static Safety Live
+  live_desc: Five live checks for a solvent static and fire safety session, plus a tank-filling charge simulator and a pipe-speed calculator. Free to use.
+  live_intro: Set the conditions, let the room call safe or unsafe, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Typical textbook values, for teaching.
+  live_blocks:
+  - - 1. Spot the ignition sources
+    - s1
+  - - 2. Is the headspace flammable?
+    - s2
+  - - 3. Spark or no spark?
+    - s3
+  - - 4. Safe to fill?
+    - s4
+  - - 5. How many purges?
+    - s5
+  - - 'Extra: watch the charge build in a tank'
+    - sim
+  - - 'Extra: filling speed and relaxation time'
+    - fill
+- slug: runaway-reactions-safe-dosing
+  title: Runaway reactions and safe dosing
+  short: Why exothermic reactions run away, how accumulation hides the danger, and the controls that keep semi-batch dosing safe. Includes five live checks and a semi-batch dosing simulator.
+  minutes: 75 to 90
+  level: Plant teams, engineers, students
+  extra_live: ', a semi-batch dosing simulator'
+  related: <a href="{{ '/process-safety/' | relative_url }}">process safety</a>, <a href="{{ '/calculators/reagent-addition-time-calculator/' | relative_url }}">addition time from RC1</a>, <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">semi-batch dosing simulator</a>
+  live_js: runaway-live.js
+  live_h1: Runaway Reactions Live
+  live_desc: Five live checks for a runaway reaction and safe dosing session, plus a semi-batch dosing simulator with a cooling failure switch. Free to use.
+  live_intro: Set the conditions, let the room call safe or unsafe, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching models with typical values.
+  live_blocks:
+  - - '1. Adiabatic rise: how hot if the heat stays in?'
+    - s1
+  - - '2. Accumulation: does the feed outrun the reaction?'
+    - s2
+  - - '3. Criticality class: set the four temperatures'
+    - s3
+  - - '4. Scale-up: can the plant remove the heat?'
+    - s4
+  - - '5. Safeguards: what belongs in a safe set-up?'
+    - s5
+  - - 'Extra: semi-batch dosing with a cooling failure'
+    - sim
+- slug: hazop-made-practical
+  title: HAZOP made practical
+  short: 'How a team runs a HAZOP and writes rows someone can act on: nodes, guidewords, batch steps, risk ranking and closing actions.'
+  minutes: 75 to 90
+  level: Operators, engineers, supervisors, students
+  extra_live: ' and a mini HAZOP worksheet'
+  related: <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical (article)</a>, <a href="{{ '/process-safety/' | relative_url }}">process safety</a>
+  live_js: hazop-live.js
+  live_h1: HAZOP Live
+  live_desc: 'Five live HAZOP checks and a mini worksheet for a solvent feed line: guidewords, weak and useful rows, risk ranking and batch step deviations. Free to use.'
+  live_intro: Let the room decide, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching examples, not a substitute for a real study.
+  live_blocks:
+  - - 1. Pick the guideword
+    - s1
+  - - 2. Spot the weak row
+    - s2
+  - - 3. Cause, consequence or safeguard?
+    - s3
+  - - 4. Rank the risk
+    - s4
+  - - 5. Batch step deviations
+    - s5
+  - - 'Extra: mini HAZOP worksheet for a solvent feed line'
+    - sim
+- slug: pumps-seals-vacuum
+  title: Pumps, seals and vacuum for operators
+  short: Where a pump likes to run, why NPSH and cavitation matter, why seals fail, and how vacuum and boiling work. Includes five live checks and a pump curve simulator.
+  minutes: 75 to 90
+  level: Operators, supervisors, engineers, students
+  extra_live: ', a pump curve simulator'
+  related: <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">pump power calculator</a>, <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">pump and seal troubleshooting</a>
+  live_js: pumps-live.js
+  live_h1: Pump Room Live
+  live_desc: Five live checks on cavitation, pump curves, boiling under vacuum, seal failures and speed changes, plus a pump curve simulator. Free to use.
+  live_intro: Set the conditions, let the room call it, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Teaching models with typical values.
+  live_blocks:
+  - - 1. Will it cavitate?
+    - s1
+  - - 2. Where does it run?
+    - s2
+  - - 3. Will it boil?
+    - s3
+  - - 4. Name the seal failure
+    - s4
+  - - '5. Speed change: flow, head and power'
+    - s5
+  - - 'Extra: pump curve, system curve and the valve'
+    - sim
+- slug: utilities-energy-saving
+  title: Utilities and energy saving
+  short: Where steam, cooling water, chilled water and compressed air waste energy in a batch plant, how to size each loss with simple arithmetic, and which fixes pay back first.
+  minutes: 75 to 90
+  level: Plant teams, engineers, students
+  extra_live: ', a savings planner'
+  related: <a href="{{ '/utilities/' | relative_url }}">utilities calculators</a>, <a href="{{ '/utilities/steam-boiler/' | relative_url }}">steam and boiler</a>, <a href="{{ '/utilities/cooling-tower/' | relative_url }}">cooling tower</a>
+  live_js: utilities-live.js
+  live_h1: Utilities Live
+  live_desc: 'Five live checks for a utilities and energy saving session: steam trap leak, cooling tower water balance, chiller versus VAM, compressed air leak and condensate return, plus a savings planner. Free to use.'
+  live_intro: Enter your own prices, set the conditions, let the room estimate, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. All defaults are illustrative.
+  live_blocks:
+  - - 1. Steam trap leak
+    - s1
+  - - 2. Cooling tower water balance
+    - s2
+  - - 3. Chiller or VAM?
+    - s3
+  - - 4. Compressed air leak
+    - s4
+  - - 5. Condensate return
+    - s5
+  - - 'Extra: savings planner and payback'
+    - sim
