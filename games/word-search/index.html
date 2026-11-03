@@ -1,0 +1,558 @@
+---
+layout: default
+guide: false
+title: Chemical Engineering Word Search
+description: "Seven word search puzzles for chemical engineers: unit operations, heat transfer, fluid flow, process safety, equipment, utilities and dimensionless numbers. Every word you find explains itself."
+breadcrumbs:
+  - label: Games
+    url: /games/
+  - label: Word Search
+    url: /games/word-search/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Chemical Engineering Word Search",
+    "description": "Seven themed word search puzzles for chemical and pharmaceutical engineers. Each word you find comes with its plain meaning and a link to learn more.",
+    "url": "https://www.pharmacheme.in/games/word-search/",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any (runs in a web browser)",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "author": {
+      "@type": "Person",
+      "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+      "name": "Ankush Chopra",
+      "url": "https://www.pharmacheme.in/about/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.pharmacheme.in/#organization",
+      "name": "PharmaChemE",
+      "url": "https://www.pharmacheme.in/"
+    }
+  }
+last_modified_at: 2026-11-03
+---
+
+<style>
+  #ws * { box-sizing: border-box; }
+  #ws {
+    --cell: clamp(21px, calc((100vw - 52px) / 13), 40px);
+    --found1: #C9A227; --found2: #5AA9D6; --found3: #E08A5F;
+    --found4: #86B96A; --found5: #B98BD1; --found6: #D9C06B;
+    margin: 0 auto 48px;
+  }
+  #ws .ws-head { margin-bottom: 18px; }
+  #ws .ws-head p { color: var(--muted); margin: 6px 0 0; max-width: 62ch; }
+
+  /* theme picker */
+  #ws .ws-themes { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 16px; }
+  #ws .ws-themes button {
+    font: inherit; font-size: .84rem; font-weight: 600; cursor: pointer;
+    padding: 7px 13px; border-radius: 999px; color: var(--paper);
+    background: var(--panel); border: 1px solid var(--grid-line);
+  }
+  #ws .ws-themes button:hover { border-color: var(--brass); color: var(--brass); }
+  #ws .ws-themes button[aria-pressed="true"] { background: var(--brass); border-color: var(--brass); color: #0B1622; }
+  #ws .ws-themes button .tick { opacity: .75; }
+
+  /* scoreboard */
+  #ws .ws-bar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px;
+    padding: 12px 16px; margin-bottom: 14px;
+    background: var(--panel); border: 1px solid var(--grid-line); border-left: 3px solid var(--brass);
+  }
+  #ws .ws-stat { display: flex; align-items: baseline; gap: 7px; }
+  #ws .ws-stat span { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  #ws .ws-stat b { font-size: 1.15rem; color: var(--paper); font-variant-numeric: tabular-nums; }
+  #ws .ws-bar .ws-acts { margin-left: auto; display: flex; gap: 8px; }
+  #ws .ws-bar button {
+    font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer;
+    padding: 7px 14px; color: var(--paper); background: transparent;
+    border: 1px solid var(--grid-line); border-radius: 3px;
+  }
+  #ws .ws-bar button:hover:not(:disabled) { border-color: var(--brass); color: var(--brass); }
+  #ws .ws-bar button:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* board + list */
+  #ws .ws-wrap { display: grid; grid-template-columns: auto minmax(220px, 1fr); gap: 26px; align-items: start; }
+  @media (max-width: 860px) { #ws .ws-wrap { grid-template-columns: 1fr; gap: 20px; } }
+
+  #ws .ws-board { position: relative; }
+  #ws .ws-grid {
+    display: grid; grid-template-columns: repeat(13, var(--cell));
+    gap: 2px; padding: 10px; touch-action: none;
+    background: var(--panel); border: 1px solid var(--grid-line);
+    width: max-content; max-width: 100%;
+  }
+  #ws .ws-grid button {
+    width: var(--cell); height: var(--cell); padding: 0; cursor: pointer;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: calc(var(--cell) * .52); font-weight: 600; line-height: 1;
+    color: var(--paper); background: #0E1C2B; border: 1px solid transparent;
+    border-radius: 2px; transition: background .08s, color .08s;
+  }
+  #ws .ws-grid button:hover { background: #17293C; }
+  #ws .ws-grid button:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
+  #ws .ws-grid button.sel { background: var(--brass); color: #0B1622; }
+  #ws .ws-grid button.anchor { box-shadow: inset 0 0 0 2px var(--brass); }
+  #ws .ws-grid button.hint { background: #2C4258; color: var(--brass); }
+  #ws .ws-grid button.found { color: #0B1622; }
+  #ws .ws-grid button.f1 { background: var(--found1); } #ws .ws-grid button.f2 { background: var(--found2); }
+  #ws .ws-grid button.f3 { background: var(--found3); } #ws .ws-grid button.f4 { background: var(--found4); }
+  #ws .ws-grid button.f5 { background: var(--found5); } #ws .ws-grid button.f6 { background: var(--found6); }
+  #ws .ws-hintline { margin: 10px 0 0; font-size: .82rem; color: var(--muted); min-height: 1.3em; }
+
+  /* word list */
+  #ws .ws-list h2 { font-size: 1rem; margin: 0 0 4px; color: var(--paper); }
+  #ws .ws-list .ws-sub { font-size: .8rem; color: var(--muted); margin: 0 0 12px; }
+  #ws .ws-list ol { list-style: none; margin: 0; padding: 0; }
+  #ws .ws-list li {
+    padding: 9px 0; border-bottom: 1px solid var(--grid-line);
+  }
+  #ws .ws-list li:last-child { border-bottom: 0; }
+  #ws .ws-list .w {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: .92rem; font-weight: 700; letter-spacing: .06em; color: var(--paper);
+  }
+  #ws .ws-list li.done .w { color: var(--muted); text-decoration: line-through; }
+  #ws .ws-list .why { display: none; margin: 5px 0 0; font-size: .84rem; line-height: 1.5; color: var(--muted); }
+  #ws .ws-list li.done .why { display: block; }
+  #ws .ws-list .why a { color: var(--brass); }
+  @media (max-width: 860px) { #ws .ws-list ol { columns: 2; column-gap: 20px; } #ws .ws-list li { break-inside: avoid; } }
+
+  /* win panel */
+  #ws .ws-win {
+    position: absolute; inset: 0; display: none; place-items: center; text-align: center;
+    background: rgba(11, 22, 34, .93); border: 1px solid var(--brass); padding: 20px;
+  }
+  #ws .ws-win.on { display: grid; }
+  #ws .ws-win h2 { font-size: 1.5rem; margin: 0 0 6px; color: var(--brass); }
+  #ws .ws-win p { margin: 0 0 16px; color: var(--paper); font-size: .92rem; }
+  #ws .ws-win .ws-winb { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  #ws .ws-win button {
+    font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; padding: 9px 18px;
+    background: var(--brass); color: #0B1622; border: 0; border-radius: 3px;
+  }
+  #ws .ws-win a.ghost {
+    font-size: .85rem; font-weight: 700; padding: 9px 18px; border-radius: 3px;
+    border: 1px solid var(--grid-line); color: var(--paper);
+  }
+  #ws .ws-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<div class="container" id="ws">
+  <div class="ws-head">
+    <h1>Chemical Engineering Word Search</h1>
+    <p>Seven puzzles across the subjects you work with every day. Drag across a word, or tap its first and last letter. Every word you find explains what it means, with a link to read more.</p>
+  </div>
+
+  <div class="ws-themes" id="wsThemes" role="group" aria-label="Choose a puzzle"></div>
+
+  <div class="ws-bar">
+    <div class="ws-stat"><span>Found</span><b id="wsFound">0 / 0</b></div>
+    <div class="ws-stat"><span>Time</span><b id="wsTime">0:00</b></div>
+    <div class="ws-stat"><span>Best</span><b id="wsBest">&ndash;</b></div>
+    <div class="ws-acts">
+      <button type="button" id="wsHint">Hint</button>
+      <button type="button" id="wsNew">New grid</button>
+    </div>
+  </div>
+
+  <div class="ws-wrap">
+    <div class="ws-board">
+      <div class="ws-grid" id="wsGrid" role="application" aria-label="Letter grid. Use arrow keys to move, Enter to mark the first and last letter of a word."></div>
+      <p class="ws-hintline" id="wsMsg">&nbsp;</p>
+      <div class="ws-win" id="wsWin">
+        <div>
+          <h2>Puzzle complete</h2>
+          <p id="wsWinMsg"></p>
+          <div class="ws-winb">
+            <button type="button" id="wsNext">Next puzzle</button>
+            <a class="ghost" href="{{ '/games/' | relative_url }}">All games</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-list">
+      <h2 id="wsTheme">&nbsp;</h2>
+      <p class="ws-sub" id="wsThemeSub">&nbsp;</p>
+      <ol id="wsWords"></ol>
+    </div>
+  </div>
+  <p class="ws-sr" id="wsLive" role="status" aria-live="polite"></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var N = 13;
+
+  /* Each entry: word, what it means, where to read more. Words are placed in the grid as written. */
+  var PUZZLES = [
+    { id: 'unitops', name: 'Unit operations', sub: 'The separations a batch plant runs on.', words: [
+      ['DISTILLATION', 'Separates liquids by the difference in their boiling points.', '/articles/distillation-basics/'],
+      ['FILTRATION', 'Holds solids back on a medium while the liquid passes through.', '/articles/filtration-calculation/'],
+      ['EXTRACTION', 'Moves a component into a solvent it dissolves in more readily.', '/articles/workup-and-phase-separation/'],
+      ['EVAPORATION', 'Concentrates a solution by boiling solvent away from it.', '/articles/falling-film-evaporator/'],
+      ['ABSORPTION', 'A gas is taken up into the bulk of a liquid, as in a scrubber.', '/articles/scrubber-design/'],
+      ['ADSORPTION', 'Molecules are held on a solid surface, as water is on a molecular sieve.', '/calculators/drying-agent-calculator/'],
+      ['NUCLEATION', 'The first crystals appear; it sets how many crystals you end up with.', '/articles/crystallisation-scale-up/'],
+      ['LEACHING', 'Washes a soluble component out of a solid with a liquid.', '/articles/workup-and-phase-separation/'],
+      ['DRYING', 'Removes the last solvent or moisture from a solid to meet its limit.', '/articles/drying-and-dryer-scale-up/'],
+      ['MIXING', 'Keeps the batch uniform so heat and reagent reach all of it.', '/articles/mixing-scale-up/']
+    ] },
+    { id: 'heat', name: 'Heat transfer', sub: 'Getting heat in, and getting it back out.', words: [
+      ['CONDUCTION', 'Heat moving through a solid, such as a reactor wall.', '/calculators/overall-heat-transfer-coefficient-calculator/'],
+      ['CONVECTION', 'Heat carried by a moving fluid, on either side of the wall.', '/articles/heat-exchanger-design-basics/'],
+      ['RADIATION', 'Heat crossing a gap as infrared, with no fluid needed.', '/articles/insulation-heat-loss/'],
+      ['CONDENSER', 'Turns vapour back to liquid, taking the latent heat out.', '/articles/steam-energy-and-condenser-selection/'],
+      ['REBOILER', 'Boils liquid at the base of a column to drive the separation.', '/articles/distillation-basics/'],
+      ['ENTHALPY', 'The heat content you add or remove to change state or temperature.', '/calculators/steam-tables/'],
+      ['FOULING', 'A deposit on the surface that quietly steals heat transfer.', '/calculators/overall-heat-transfer-coefficient-calculator/'],
+      ['JACKET', 'The outer shell that carries steam or brine around the vessel.', '/articles/jacket-and-limpet-coil-design/'],
+      ['BAFFLE', 'Guides flow across the tubes so it does not short-circuit the shell.', '/articles/heat-exchanger-design-basics/'],
+      ['LATENT', 'The heat of a phase change: most of what steam actually delivers.', '/articles/heat-load-calculation/'],
+      ['LMTD', 'The log mean temperature difference that drives the duty.', '/calculators/lmtd-calculator/']
+    ] },
+    { id: 'flow', name: 'Fluid flow and pumps', sub: 'Moving liquid without wrecking the pump.', words: [
+      ['CAVITATION', 'Vapour forms at the impeller eye and collapses, damaging it.', '/calculators/pipe-pressure-drop/'],
+      ['VISCOSITY', 'A fluid resistance to flowing; it sets much of your pressure drop.', '/calculators/solvent-mixture-density-viscosity-calculator/'],
+      ['TURBULENT', 'Chaotic flow at high Reynolds number; mixes well, costs pressure.', '/gate/formula-sheets/fluid-mechanics-mechanical-operations/'],
+      ['LAMINAR', 'Smooth layered flow at low Reynolds number, common in viscous liquids.', '/gate/formula-sheets/fluid-mechanics-mechanical-operations/'],
+      ['IMPELLER', 'The rotating wheel that adds energy to the liquid in a pump.', '/calculators/pump-power-calculator/'],
+      ['ROTAMETER', 'A float in a tapered tube: flow read straight off the scale.', '/articles/instrumentation-basics/'],
+      ['FRICTION', 'The loss along pipe walls and fittings that the pump must overcome.', '/articles/line-sizing-and-pressure-drop/'],
+      ['VENTURI', 'A throat that speeds the flow and drops its pressure, so you can measure it.', '/articles/instrumentation-basics/'],
+      ['STRAINER', 'Catches debris before it reaches the pump or the control valve.', '/articles/pump-and-mechanical-seal-troubleshooting/'],
+      ['GLAND', 'Where the shaft leaves the casing, sealed by packing or a mechanical seal.', '/articles/pump-and-mechanical-seal-troubleshooting/'],
+      ['NPSH', 'The suction head available before the liquid flashes to vapour.', '/calculators/pipe-pressure-drop/']
+    ] },
+    { id: 'safety', name: 'Process safety', sub: 'What keeps a batch from becoming an incident.', words: [
+      ['FLASHPOINT', 'The lowest temperature at which a liquid gives off ignitable vapour.', '/articles/static-electricity-solvent-fires/'],
+      ['INTERLOCK', 'An automatic action that trips the plant to a safe state.', '/articles/lopa-and-sil-basics/'],
+      ['EXOTHERM', 'A reaction giving out heat, which cooling has to keep up with.', '/process-safety/cooling-failure-and-runaway/'],
+      ['INERTING', 'Replacing oxygen with nitrogen so a flammable mixture cannot form.', '/articles/inerting-and-loc/'],
+      ['RUNAWAY', 'Heat released outpaces cooling, and temperature climbs out of control.', '/process-safety/stoessel-criticality-classes/'],
+      ['LOCKOUT', 'Locks and tags on isolations so equipment cannot be energised.', '/articles/permit-to-work-and-isolation/'],
+      ['RELIEF', 'A valve or vent that opens to stop the vessel overpressuring.', '/articles/relief-valve-sizing/'],
+      ['PERMIT', 'Written authorisation that sets out the job, hazards and isolations.', '/articles/permit-to-work-and-isolation/'],
+      ['STATIC', 'Charge built by flow or pouring, and a real ignition source for solvents.', '/articles/static-electricity-solvent-fires/'],
+      ['HAZOP', 'A structured study of deviations: no flow, more heat, reverse flow.', '/articles/hazop-made-practical/']
+    ] },
+    { id: 'equip', name: 'Plant equipment', sub: 'What the batch actually passes through.', words: [
+      ['CENTRIFUGE', 'Spins the slurry so liquid passes and the cake stays in the basket.', '/articles/centrifuge-cake-weight/'],
+      ['AUTOCLAVE', 'A pressure vessel for reactions run above atmospheric pressure.', '/articles/hydrogenation-safety/'],
+      ['AGITATOR', 'The shaft and blades that stir the batch and even out its heat.', '/articles/agitator-design/'],
+      ['NUTSCHE', 'A closed filter where the cake can be washed and dried in place.', '/articles/filtration-calculation/'],
+      ['EJECTOR', 'Uses steam through a nozzle to pull vacuum, with nothing rotating.', '/articles/vacuum-systems/'],
+      ['REACTOR', 'Where the reaction runs, usually glass-lined or stainless steel.', '/articles/reactor-selection/'],
+      ['COLUMN', 'A tower of trays or packing that separates by repeated contact.', '/articles/distillation-basics/'],
+      ['VESSEL', 'Any tank or receiver; its volume sets what batch size will fit.', '/calculators/vessel-volume-calculator/'],
+      ['DRYER', 'Takes wet cake to a dry solid at its loss-on-drying limit.', '/articles/atfd-agitated-thin-film-dryer/'],
+      ['LIMPET', 'A coil welded around the shell as an alternative to a plain jacket.', '/articles/jacket-and-limpet-coil-design/']
+    ] },
+    { id: 'util', name: 'Utilities', sub: 'The services every reactor depends on.', words: [
+      ['CONDENSATE', 'Water left after steam gives up its heat; a trap must drain it.', '/articles/steam-system-efficiency/'],
+      ['COMPRESSOR', 'Raises gas pressure, for instrument air or for a refrigeration loop.', '/articles/compressed-air-and-nitrogen/'],
+      ['NITROGEN', 'The inert gas used to purge, blanket and transfer solvents.', '/articles/compressed-air-and-nitrogen/'],
+      ['EFFLUENT', 'Waste water sent to treatment before it can be discharged.', '/articles/etp-basics/'],
+      ['CHILLER', 'Makes chilled water or brine for duties below cooling-water range.', '/articles/chiller-vs-vam/'],
+      ['COOLING', 'Tower water that carries plant heat away by evaporating a little of it.', '/articles/cooling-tower-calculations/'],
+      ['VACUUM', 'Lowers pressure so solvents boil off at a safer temperature.', '/articles/vacuum-systems/'],
+      ['BOILER', 'Raises the steam the whole plant heats with; statutory equipment.', '/articles/boilers-act-2025-compliance/'],
+      ['BRINE', 'Chilled salt or glycol solution for jackets below zero.', '/calculators/batch-cooling-tr-calculator/'],
+      ['STEAM', 'The heating utility you pay for in kilograms, not in degrees.', '/calculators/steam-heating-calculator/']
+    ] },
+    { id: 'dimless', name: 'Dimensionless numbers', sub: 'The groups GATE keeps asking about.', words: [
+      ['DAMKOHLER', 'Reaction rate against transport rate: which one is limiting.', '/gate/formula-sheets/chemical-reaction-engineering/'],
+      ['REYNOLDS', 'Inertial over viscous forces; it tells you laminar from turbulent.', '/gate/formula-sheets/fluid-mechanics-mechanical-operations/'],
+      ['SHERWOOD', 'Convective mass transfer over diffusive: the mass transfer twin of Nusselt.', '/gate/formula-sheets/mass-transfer/'],
+      ['NUSSELT', 'Convective heat transfer compared with conduction alone.', '/gate/formula-sheets/heat-transfer/'],
+      ['GRASHOF', 'Buoyancy against viscous forces, the driver in natural convection.', '/gate/formula-sheets/heat-transfer/'],
+      ['SCHMIDT', 'Momentum diffusivity over mass diffusivity.', '/gate/formula-sheets/mass-transfer/'],
+      ['PRANDTL', 'Momentum diffusivity over thermal diffusivity.', '/gate/formula-sheets/heat-transfer/'],
+      ['PECLET', 'Bulk flow against diffusion or conduction; high means plug flow.', '/gate/formula-sheets/chemical-reaction-engineering/'],
+      ['FROUDE', 'Inertia against gravity; it matters in agitation and open channels.', '/articles/mixing-scale-up/'],
+      ['WEBER', 'Inertia against surface tension, which sets droplet and bubble size.', '/articles/gas-liquid-mass-transfer-kla/'],
+      ['BIOT', 'Internal resistance to conduction against the external film resistance.', '/gate/formula-sheets/heat-transfer/']
+    ] }
+  ];
+
+  var DIRS = [[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[-1,-1],[1,-1]];
+  var $ = function (id) { return document.getElementById(id); };
+  var gridEl = $('wsGrid'), wordsEl = $('wsWords'), msgEl = $('wsMsg'), liveEl = $('wsLive');
+  var pi = 0, grid = [], cells = [], state = [], found = {}, colour = 0;
+  var anchor = null, dragFrom = null, dragging = false, preview = [];
+  var t0 = 0, ticking = null, hints = 0, focusR = 0, focusC = 0;
+
+  /* ---------- grid building ---------- */
+  function blank() { var g = [], r, c; for (r = 0; r < N; r++) { g.push([]); for (c = 0; c < N; c++) g[r].push(''); } return g; }
+
+  function tryPlace(g, w) {
+    var order = [], i;
+    for (i = 0; i < 160; i++) order.push(i);
+    for (i = 0; i < 160; i++) {
+      var d = DIRS[(Math.random() * 8) | 0], r = (Math.random() * N) | 0, c = (Math.random() * N) | 0;
+      var er = r + d[0] * (w.length - 1), ec = c + d[1] * (w.length - 1);
+      if (er < 0 || er >= N || ec < 0 || ec >= N) continue;
+      var ok = true, k;
+      for (k = 0; k < w.length; k++) {
+        var ch = g[r + d[0] * k][c + d[1] * k];
+        if (ch && ch !== w.charAt(k)) { ok = false; break; }
+      }
+      if (!ok) continue;
+      var at = [];
+      for (k = 0; k < w.length; k++) { g[r + d[0] * k][c + d[1] * k] = w.charAt(k); at.push([r + d[0] * k, c + d[1] * k]); }
+      return at;
+    }
+    return null;
+  }
+
+  function build(words) {
+    var attempt, i;
+    for (attempt = 0; attempt < 40; attempt++) {
+      var g = blank(), spots = {}, all = true;
+      var list = words.slice().sort(function (a, b) { return b[0].length - a[0].length; });
+      for (i = 0; i < list.length; i++) {
+        var at = tryPlace(g, list[i][0]);
+        if (!at) { all = false; break; }
+        spots[list[i][0]] = at;
+      }
+      if (!all) continue;
+      // fill the gaps with letters drawn from the puzzle's own words, so no letter stands out
+      var pool = words.map(function (w) { return w[0]; }).join('');
+      var r, c;
+      for (r = 0; r < N; r++) for (c = 0; c < N; c++) if (!g[r][c]) g[r][c] = pool.charAt((Math.random() * pool.length) | 0);
+      return { g: g, spots: spots };
+    }
+    return null;
+  }
+
+  /* ---------- rendering ---------- */
+  function themes() {
+    var box = $('wsThemes');
+    box.innerHTML = '';
+    PUZZLES.forEach(function (p, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', i === pi ? 'true' : 'false');
+      b.innerHTML = p.name + (done(p.id) ? ' <span class="tick" aria-hidden="true">&#10003;</span>' : '');
+      b.onclick = function () { pi = i; start(); };
+      box.appendChild(b);
+    });
+  }
+
+  function drawGrid() {
+    gridEl.innerHTML = ''; cells = [];
+    var r, c;
+    for (r = 0; r < N; r++) {
+      cells.push([]);
+      for (c = 0; c < N; c++) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = grid[r][c];
+        b.dataset.r = r; b.dataset.c = c;
+        b.tabIndex = (r === 0 && c === 0) ? 0 : -1;
+        b.setAttribute('aria-label', 'Row ' + (r + 1) + ' column ' + (c + 1) + ', letter ' + grid[r][c]);
+        gridEl.appendChild(b); cells[r].push(b);
+      }
+    }
+  }
+
+  function drawWords() {
+    var p = PUZZLES[pi];
+    $('wsTheme').textContent = p.name;
+    $('wsThemeSub').textContent = p.sub;
+    wordsEl.innerHTML = '';
+    p.words.forEach(function (w) {
+      var li = document.createElement('li');
+      li.dataset.w = w[0];
+      li.innerHTML = '<span class="w">' + w[0] + '</span><p class="why">' + w[1] +
+        ' <a href="' + w[2] + '">Read more &rarr;</a></p>';
+      wordsEl.appendChild(li);
+    });
+  }
+
+  /* ---------- selection ---------- */
+  function cellAt(e) {
+    var el = document.elementFromPoint(e.clientX, e.clientY);
+    if (!el || el.parentNode !== gridEl) return null;
+    return [+el.dataset.r, +el.dataset.c];
+  }
+
+  function lineBetween(a, b) {
+    var dr = b[0] - a[0], dc = b[1] - a[1];
+    if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) return null;
+    var steps = Math.max(Math.abs(dr), Math.abs(dc));
+    var sr = steps ? dr / steps : 0, sc = steps ? dc / steps : 0, out = [], k;
+    for (k = 0; k <= steps; k++) out.push([a[0] + sr * k, a[1] + sc * k]);
+    return out;
+  }
+
+  function showPreview(line) {
+    preview.forEach(function (p) { cells[p[0]][p[1]].classList.remove('sel'); });
+    preview = line || [];
+    preview.forEach(function (p) { cells[p[0]][p[1]].classList.add('sel'); });
+  }
+
+  function setAnchor(a) {
+    clearAnchor();
+    anchor = a;
+    if (a) cells[a[0]][a[1]].classList.add('anchor');
+  }
+  function clearAnchor() {
+    if (anchor) cells[anchor[0]][anchor[1]].classList.remove('anchor');
+    anchor = null;
+  }
+
+  function complete(a, b) {
+    var line = lineBetween(a, b);
+    showPreview(null); clearAnchor();
+    if (!line) { say('That is not a straight line. Go across, down or diagonally.'); return; }
+    var s = line.map(function (p) { return grid[p[0]][p[1]]; }).join('');
+    var rev = s.split('').reverse().join('');
+    var p = PUZZLES[pi], hit = null, i;
+    for (i = 0; i < p.words.length; i++) {
+      var w = p.words[i][0];
+      if (!found[w] && (w === s || w === rev)) { hit = p.words[i]; break; }
+    }
+    if (!hit) { say(found[s] || found[rev] ? 'Already found.' : 'Not one of the words. Try again.'); return; }
+    found[hit[0]] = true;
+    colour = colour % 6 + 1;
+    line.forEach(function (q) { var el = cells[q[0]][q[1]]; el.classList.add('found', 'f' + colour); });
+    var li = wordsEl.querySelector('li[data-w="' + hit[0] + '"]');
+    if (li) li.classList.add('done');
+    say(hit[0] + ': ' + hit[1]);
+    score();
+  }
+
+  function say(t) { msgEl.textContent = t; liveEl.textContent = t; }
+
+  /* ---------- score, timer, storage ---------- */
+  function key() { return 'ws-best-' + PUZZLES[pi].id; }
+  function done(id) { try { return !!localStorage.getItem('ws-best-' + id); } catch (e) { return false; } }
+  function best() { try { return localStorage.getItem(key()); } catch (e) { return null; } }
+  function mmss(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+
+  function score() {
+    var p = PUZZLES[pi], n = 0;
+    p.words.forEach(function (w) { if (found[w[0]]) n++; });
+    $('wsFound').textContent = n + ' / ' + p.words.length;
+    if (n === p.words.length) win();
+  }
+
+  function tick() {
+    var s = Math.floor((Date.now() - t0) / 1000);
+    $('wsTime').textContent = mmss(s);
+  }
+
+  function win() {
+    clearInterval(ticking); ticking = null;
+    var s = Math.floor((Date.now() - t0) / 1000), b = best(), isBest = !b || s < +b;
+    if (isBest) { try { localStorage.setItem(key(), String(s)); } catch (e) { } }
+    $('wsBest').textContent = mmss(isBest ? s : +b);
+    $('wsWinMsg').textContent = 'All ' + PUZZLES[pi].words.length + ' words in ' + mmss(s) +
+      (hints ? ', with ' + hints + (hints === 1 ? ' hint' : ' hints') : ', no hints') + '.' +
+      (isBest ? ' That is your best time.' : '');
+    $('wsWin').classList.add('on');
+    say('Puzzle complete. Every word above now shows what it means.');
+    themes();
+  }
+
+  /* ---------- hint ---------- */
+  $('wsHint').onclick = function () {
+    var p = PUZZLES[pi], left = p.words.filter(function (w) { return !found[w[0]]; });
+    if (!left.length) return;
+    var w = left[(Math.random() * left.length) | 0][0];
+    var spot = spots[w]; if (!spot) return;
+    hints++;
+    var el = cells[spot[0][0]][spot[0][1]];
+    el.classList.add('hint');
+    say('The first letter of ' + w.charAt(0) + '… is marked. ' + w.length + ' letters.');
+    setTimeout(function () { el.classList.remove('hint'); }, 2200);
+  };
+
+  $('wsNew').onclick = function () { start(); };
+  $('wsNext').onclick = function () { pi = (pi + 1) % PUZZLES.length; start(); };
+
+  /* ---------- pointer and keyboard ---------- */
+  gridEl.addEventListener('pointerdown', function (e) {
+    var c = cellAt(e); if (!c) return;
+    e.preventDefault();
+    dragFrom = c; dragging = true;
+    showPreview([c]);
+  });
+  gridEl.addEventListener('pointermove', function (e) {
+    if (!dragging || !dragFrom) return;
+    var c = cellAt(e); if (!c) return;
+    if (c[0] === dragFrom[0] && c[1] === dragFrom[1]) { showPreview([c]); return; }
+    var line = lineBetween(dragFrom, c);
+    if (line) showPreview(line);
+  });
+  window.addEventListener('pointerup', function (e) {
+    if (!dragging) return;
+    dragging = false;
+    var c = cellAt(e), from = dragFrom; dragFrom = null;
+    if (!c) { showPreview(null); return; }
+    if (c[0] === from[0] && c[1] === from[1]) {
+      // a tap: first tap sets the start, second tap finishes the word
+      showPreview(null);
+      if (anchor && (anchor[0] !== c[0] || anchor[1] !== c[1])) complete(anchor, c);
+      else if (anchor) clearAnchor();
+      else { setAnchor(c); say('Start set. Now tap the last letter.'); }
+      return;
+    }
+    complete(from, c);
+  });
+
+  gridEl.addEventListener('keydown', function (e) {
+    var t = e.target; if (!t.dataset || t.dataset.r === undefined) return;
+    var r = +t.dataset.r, c = +t.dataset.c, moved = true;
+    if (e.key === 'ArrowUp') r = Math.max(0, r - 1);
+    else if (e.key === 'ArrowDown') r = Math.min(N - 1, r + 1);
+    else if (e.key === 'ArrowLeft') c = Math.max(0, c - 1);
+    else if (e.key === 'ArrowRight') c = Math.min(N - 1, c + 1);
+    else moved = false;
+    if (moved) {
+      e.preventDefault();
+      t.tabIndex = -1;
+      var nx = cells[r][c]; nx.tabIndex = 0; nx.focus();
+      focusR = r; focusC = c;
+      if (anchor) { var line = lineBetween(anchor, [r, c]); showPreview(line || [anchor]); }
+      return;
+    }
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (anchor && (anchor[0] !== r || anchor[1] !== c)) complete(anchor, [r, c]);
+      else { setAnchor([r, c]); say('Start set. Move to the last letter and press Enter.'); }
+    }
+    if (e.key === 'Escape') { showPreview(null); clearAnchor(); }
+  });
+
+  /* ---------- start ---------- */
+  var spots = {};
+  function start() {
+    var p = PUZZLES[pi], built = build(p.words);
+    if (!built) { say('Could not lay out this puzzle. Press New grid.'); return; }
+    grid = built.g; spots = built.spots;
+    found = {}; colour = 0; hints = 0; anchor = null; preview = []; dragging = false; dragFrom = null;
+    $('wsWin').classList.remove('on');
+    drawGrid(); drawWords(); themes();
+    $('wsFound').textContent = '0 / ' + p.words.length;
+    var b = best(); $('wsBest').textContent = b ? mmss(+b) : '–';
+    $('wsTime').textContent = '0:00';
+    say('Find ' + p.words.length + ' words. Drag across one, or tap its first and last letter.');
+    t0 = Date.now();
+    if (ticking) clearInterval(ticking);
+    ticking = setInterval(tick, 500);
+  }
+
+  start();
+})();
+</script>
