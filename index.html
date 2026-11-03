@@ -193,8 +193,8 @@ last_modified_at: 2026-11-03
   <div class="container">
     <ul>
       <li><b>43</b> calculators &amp; models</li>
-      <li><b>90</b> articles</li>
-      <li><b>4</b> games</li>
+      <li><b>{{ site.pages | where_exp: "p", "p.url contains '/articles/'" | where_exp: "p", "p.url != '/articles/'" | size }}</b> articles</li>
+      <li><b>{{ site.pages | where_exp: "p", "p.url contains '/games/'" | where_exp: "p", "p.url != '/games/'" | size }}</b> games</li>
       <li><b>102</b> equipment &amp; instruments explained</li>
       <li><b>26</b> videos</li>
       <li>Free, no login</li>

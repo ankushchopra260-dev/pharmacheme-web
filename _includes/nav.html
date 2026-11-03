@@ -8,7 +8,7 @@
       <li class="has-sub{% if item.groups %} mega{% endif %}">
         <a href="{{ item.url | relative_url }}"{% if page.url contains item.url %} class="active"{% endif %} aria-haspopup="true">{{ item.title | escape }}</a>
         <button class="sub-toggle" type="button" aria-label="Show {{ item.title | escape }} pages" aria-expanded="false"></button>
-        <div class="sub"><div class="sub-inner">
+        <div class="sub"><div class="sub-inner"{% if item.groups and item.ncols %} style="--cols:{{ item.ncols }}"{% endif %}>
           {%- if item.groups %}
           {%- for g in item.groups %}
           <div class="sub-group"><p class="sub-head">{{ g.title | escape }}</p><ul>
@@ -20,6 +20,9 @@
           <ul>
             {%- for c in item.children %}<li><a href="{{ c.url | relative_url }}">{{ c.title | escape }}</a></li>{% endfor -%}
           </ul>
+          {%- endif %}
+          {%- if item.related %}
+          <p class="sub-related"><span>Related:</span>{% for r in item.related %} <a href="{{ r.url | relative_url }}">{{ r.title | escape }}</a>{% endfor %}</p>
           {%- endif %}
           <a class="sub-all" href="{{ item.url | relative_url }}">Open the {{ item.title | escape }} page</a>
         </div></div>
