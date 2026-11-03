@@ -1,0 +1,36 @@
+name: IndexNow
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'assets/data/**'
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Submit every public page, not just the ones that changed'
+        type: boolean
+        default: false
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Wait for GitHub Pages to publish the change
+        run: sleep 150
+      - name: Tell the search engines
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.all }}" = "true" ]; then
+            python3 tools/indexnow.py --all
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            python3 tools/indexnow.py --changed "${{ github.event.before }}" "${{ github.sha }}"
+          else
+            python3 tools/indexnow.py --changed HEAD~1 HEAD
+          fi
