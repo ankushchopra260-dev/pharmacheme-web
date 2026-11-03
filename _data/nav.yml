@@ -97,6 +97,7 @@
     - { title: "Runaway!", url: /games/runaway/ }
     - { title: "Stop the Hazard", url: /games/stop-the-hazard/ }
     - { title: "Troubleshooter", url: /games/troubleshooter/ }
+    - { title: "Word Search", url: /games/word-search/ }
 - title: Molecules
   url: /molecules/
   children:
