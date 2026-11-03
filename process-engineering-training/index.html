@@ -1,0 +1,260 @@
+---
+layout: default
+title: "Process Engineering Training for Batch Plants: Self-Paced Online Course"
+seo_title: "Process Engineering Training for Batch Plants | PharmaChemE"
+description: "Self-paced online process engineering course for API, agrochemical and specialty batch plants: 8 interactive modules, Excel assignments and a certificate."
+breadcrumbs:
+  - label: Training
+    url: /training/
+  - label: Process Engineering Training
+    url: /process-engineering-training/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Process Engineering for Batch Plants",
+    "description": "A self-paced online course for final-year students, freshers and early-career engineers in API, agrochemical and specialty chemical plants. Eight interactive modules, each with an Excel assignment and a worked solution, ending in a capstone and a certificate.",
+    "url": "https://www.pharmacheme.in/process-engineering-training/",
+    "inLanguage": "en",
+    "provider": {
+      "@type": "Organization",
+      "@id": "https://www.pharmacheme.in/#organization",
+      "name": "PharmaChemE",
+      "url": "https://www.pharmacheme.in/"
+    },
+    "instructor": {
+      "@type": "Person",
+      "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+      "name": "Ankush Chopra",
+      "url": "https://www.pharmacheme.in/about/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "category": "Paid",
+      "price": "999",
+      "priceCurrency": "INR"
+    },
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "Online",
+      "courseWorkload": "PT30H"
+    }
+  }
+last_modified_at: 2026-11-03
+---
+<link rel="stylesheet" href="{{ '/assets/css/live-plant.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<style>
+.pe-facts { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 18px 0 0; padding: 14px 18px; background: var(--panel); border: 1px solid var(--grid-line); border-left: 3px solid var(--brass); }
+.pe-facts div { display: flex; flex-direction: column; }
+.pe-facts span { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.pe-facts b { font-size: 1.02rem; color: var(--paper); }
+.pe-try .section-head p, .pe-try .art-fig { max-width: 760px; }
+.pe-weeks { list-style: none; margin: 0; padding: 0; counter-reset: wk; }
+.pe-weeks li { display: grid; grid-template-columns: 64px 1fr; gap: 6px 18px; padding: 18px 0; border-bottom: 1px solid var(--grid-line); }
+.pe-weeks li:last-child { border-bottom: 0; }
+.pe-wk { font-family: var(--f-display); font-size: 1.05rem; color: var(--brass); line-height: 1.2; }
+.pe-wk small { display: block; font-family: inherit; font-size: .7rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.pe-weeks h3 { margin: 0 0 4px; font-family: var(--f-display); font-size: 1.12rem; color: var(--paper); }
+.pe-weeks p { margin: 0 0 6px; color: var(--muted); font-size: .92rem; line-height: 1.55; }
+.pe-weeks .pe-do { color: var(--paper); font-size: .88rem; }
+.pe-weeks .pe-do b { color: var(--brass); font-weight: 600; }
+.pe-weeks .pe-tools { font-size: .82rem; }
+.pe-weeks .pe-tools a { color: var(--brass); }
+.pe-loop { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; counter-reset: st; }
+.pe-loop div { background: var(--panel); border: 1px solid var(--grid-line); border-radius: 4px; padding: 18px; }
+.pe-loop b { display: block; color: var(--paper); font-family: var(--f-display); font-size: 1.05rem; margin-bottom: 4px; }
+.pe-loop b::before { counter-increment: st; content: counter(st) ". "; color: var(--brass); }
+.pe-loop p { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.pe-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.pe-cols h3 { font-family: var(--f-display); color: var(--paper); font-size: 1.1rem; margin: 0 0 8px; }
+.pe-cols ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.7; font-size: .92rem; }
+.pe-fee { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
+.pe-price { background: var(--panel); border: 1px solid var(--brass); border-radius: 4px; padding: 22px; }
+.pe-price .amt { font-family: var(--f-display); font-size: 2.2rem; color: var(--brass); line-height: 1; }
+.pe-price .amt small { font-size: .9rem; color: var(--muted); font-family: inherit; }
+.pe-price ul { margin: 12px 0 0; padding-left: 18px; color: var(--paper); font-size: .9rem; line-height: 1.7; }
+.pe-faq h3 { font-size: 1rem; color: var(--paper); margin: 18px 0 4px; }
+.pe-faq p { color: var(--muted); margin: 0; font-size: .92rem; line-height: 1.6; }
+.pe-form-wrap { max-width: 680px; margin: 0 auto; }
+@media (max-width: 560px) { .pe-weeks li { grid-template-columns: 1fr; } }
+</style>
+
+<div class="container calc-page-head">
+  <h1>Process engineering for batch plants</h1>
+  <p>A self-paced online course for final-year students, freshers and engineers in their first few years at API, agrochemical and specialty chemical plants. Eight modules, each with an interactive lesson, a real plant calculation in Excel and a step-by-step worked solution. Learn when it suits you. You finish with eight worked calculations you can show in an interview, a capstone, and a certificate.</p>
+  <div class="pe-facts" role="list">
+    <div role="listitem"><span>Modules</span><b>8</b></div>
+    <div role="listitem"><span>Format</span><b>Self-paced, online</b></div>
+    <div role="listitem"><span>Time</span><b>About 30 hours in all</b></div>
+    <div role="listitem"><span>Access</span><b>Lifetime</b></div>
+    <div role="listitem"><span>Launch</span><b>Opening soon</b></div>
+  </div>
+  <div class="hero-actions" style="justify-content:flex-start; margin-top:16px;">
+    <a href="#register" class="btn btn-primary">Register your interest</a>
+    <a href="#try" class="btn btn-outline">Try a lesson first</a>
+  </div>
+</div>
+
+<section class="section" id="try" style="padding-top:8px;">
+  <div class="container pe-try">
+    <div class="section-head" style="text-align:left;"><h2>Try a piece of module 2 now</h2><p>This is how the lessons work: you change the numbers and see the result, instead of reading a slide. A pump runs where its curve meets the system curve. Throttle a valve or slow the pump, and watch where the duty point moves and how much energy each choice wastes.</p></div>
+    <figure class="art-fig" data-fig="pump-curve">
+      <figcaption>Pick throttling or a VFD, then drag the flow you need. In module 2 you size a real transfer line and pump in Excel, then check yourself against the worked solution.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section" style="padding-top:8px;">
+  <div class="container">
+    <div class="section-head" style="text-align:left;"><h2>What you cover, module by module</h2><p>Each module builds on the one before it, and ends with something you have calculated yourself.</p></div>
+    <ol class="pe-weeks">
+      <li><div class="pe-wk"><small>Module</small>1</div><div>
+        <h3>Reading a plant: balances, units and drawings</h3>
+        <p>Material and energy balances for a batch, the unit traps that cost marks and money, and how to read a PFD and a P&amp;ID line by line.</p>
+        <p class="pe-do"><b>You do:</b> a batch material balance with yield, and mark up a P&amp;ID.</p>
+        <p class="pe-tools">Uses: <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">material balance</a>, <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">reading a P&amp;ID</a>, <a href="{{ '/design-tools/pid/' | relative_url }}">P&amp;ID tool</a></p>
+      </div></li>
+      <li><div class="pe-wk"><small>Module</small>2</div><div>
+        <h3>Fluid flow: line sizing, pressure drop and pumps</h3>
+        <p>Velocity limits, friction and fittings, pump and system curves, NPSH and cavitation, and why the pump you have is not the pump you need.</p>
+        <p class="pe-do"><b>You do:</b> size a transfer line and pump, and check NPSH.</p>
+        <p class="pe-tools">Uses: <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">pressure drop</a>, <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">pump power</a>, the fluid-flow 3D book</p>
+      </div></li>
+      <li><div class="pe-wk"><small>Module</small>3</div><div>
+        <h3>Heat transfer: jackets, coils and heat load</h3>
+        <p>LMTD, overall U and fouling, jacket versus limpet coil, steam and brine, and how long a batch really takes to heat or cool.</p>
+        <p class="pe-do"><b>You do:</b> a heat-up and cool-down time for a jacketed reactor.</p>
+        <p class="pe-tools">Uses: <a href="{{ '/calculators/lmtd-calculator/' | relative_url }}">LMTD</a>, <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">overall U</a>, <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load</a></p>
+      </div></li>
+      <li><div class="pe-wk"><small>Module</small>4</div><div>
+        <h3>Separations: distillation, solvent recovery, filtration and drying</h3>
+        <p>Boiling under vacuum, azeotropes, batch distillation, solvent recovery time, filtration rate and drying, the steps that usually set a batch&rsquo;s cycle.</p>
+        <p class="pe-do"><b>You do:</b> plan a solvent recovery: vacuum, temperature, condenser and time.</p>
+        <p class="pe-tools">Uses: <a href="{{ '/calculators/batch-distillation-simulator/' | relative_url }}">batch distillation simulator</a>, <a href="{{ '/calculators/solvent-recovery-calculator/' | relative_url }}">solvent recovery</a>, <a href="{{ '/solvents/' | relative_url }}">138 solvents</a></p>
+      </div></li>
+      <li><div class="pe-wk"><small>Module</small>5</div><div>
+        <h3>Reactors and scale-up: mixing, dosing and exotherms</h3>
+        <p>Agitators and power, mixing scale-up, semi-batch dosing and accumulation, and what happens when cooling fails on an exothermic batch.</p>
+        <p class="pe-do"><b>You do:</b> a safe dosing time and a mixing scale-up from lab to plant.</p>
+        <p class="pe-tools">Uses: <a href="{{ '/calculators/agitator-simulator/' | relative_url }}">agitator simulator</a>, <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">mixing scale-up</a>, <a href="{{ '/games/runaway/' | relative_url }}">Runaway! game</a></p>
+      </div></li>
+      <li><div class="pe-wk"><small>Module</small>6</div><div>
+        <h3>Process safety: HAZOP, relief and inerting</h3>
+        <p>Running a HAZOP node, relief valve basics, inerting and oxygen limits, static, and management of change.</p>
+        <p class="pe-do"><b>You do:</b> a HAZOP on one node of a batch reactor.</p>
+        <p class="pe-tools">Uses: <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>, <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">relief sizing</a>, <a href="{{ '/process-safety/' | relative_url }}">process safety lessons</a></p>
+      </div></li>
+      <li><div class="pe-wk"><small>Module</small>7</div><div>
+        <h3>Debottlenecking and cost per kg</h3>
+        <p>Batch cycle time, the bottleneck step, OEE, utilities and consumption norms, and turning all of it into a cost per kilogram.</p>
+        <p class="pe-do"><b>You do:</b> find the bottleneck in a batch and cost the fix.</p>
+        <p class="pe-tools">Uses: <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">cycle time</a>, <a href="{{ '/articles/oee-batch-plants/' | relative_url }}">OEE</a>, <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">cost per kg</a></p>
+      </div></li>
+      <li><div class="pe-wk"><small>Module</small>8</div><div>
+        <h3>Capstone: one batch, end to end</h3>
+        <p>You take a generic batch process and work it through: balance, line and pump, heat-up time, solvent recovery, the safety review and the bottleneck. Then a final test.</p>
+        <p class="pe-do"><b>You do:</b> a short capstone report, checked against a model answer, then the final test. Pass the test for the certificate.</p>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" style="background:var(--panel); border-top:1px solid var(--grid-line); border-bottom:1px solid var(--grid-line);">
+  <div class="container">
+    <div class="section-head" style="text-align:left;"><h2>How each module works</h2></div>
+    <div class="pe-loop">
+      <div><b>Interactive lesson</b><p>About two hours, whenever suits you. Models you can change, worked examples and short checks as you go.</p></div>
+      <div><b>Plant calculation</b><p>An Excel assignment based on a real batch-plant problem. Units on every line, so the method is clear.</p></div>
+      <div><b>Quick quiz</b><p>Ten minutes to check the module has stuck before you move on.</p></div>
+      <div><b>Worked solution</b><p>Every step of the assignment explained, with the plant-floor checks an experienced engineer would add.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container pe-cols">
+    <div><h3>Who it is for</h3><ul>
+      <li>Final-year chemical engineering students heading for plant jobs</li>
+      <li>Freshers in their first year at a batch plant</li>
+      <li>Engineers in production, technology transfer or projects who want the calculations behind the plant</li>
+    </ul></div>
+    <div><h3>What you finish with</h3><ul>
+      <li>Eight worked plant calculations in Excel, yours to keep</li>
+      <li>A capstone report on a full batch process</li>
+      <li>A certificate with your name and a certificate ID</li>
+      <li><a href="{{ '/exclusive/first-30-days-chemical-plant/' | relative_url }}">The First 30 Days in a Chemical Plant</a>, included as pre-reading</li>
+    </ul></div>
+    <div><h3>Who made it</h3><ul>
+      <li>Ankush Chopra, chemical engineer working in API and agrochemical manufacturing</li>
+      <li>Process engineering, technology transfer and detailed engineering on the plant, every day</li>
+      <li><a href="{{ '/about/' | relative_url }}">More about PharmaChemE</a></li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container pe-fee">
+    <div class="pe-price">
+      <div class="amt">&#8377;999 <small>launch price</small></div>
+      <ul>
+        <li>All 8 modules: lessons, assignments and worked solutions</li>
+        <li>Capstone, final test and certificate</li>
+        <li>Lifetime access, at your own pace</li>
+        <li>The First 30 Days course included</li>
+      </ul>
+    </div>
+    <div class="pe-faq">
+      <h3>Do I need any software?</h3>
+      <p>No. A browser for the lessons, and Excel, LibreOffice Calc or Google Sheets for the assignments.</p>
+      <h3>Are there live classes?</h3>
+      <p>No. Everything is self-paced, so you can study around college or shifts. Each assignment has a step-by-step worked solution to check yourself against.</p>
+      <h3>When can I start?</h3>
+      <p>As soon as it opens, and at any time after that. People who register their interest hear first.</p>
+      <h3>Can I get a refund?</h3>
+      <p>The fee is not refundable once the course is open to you. If we cannot give you access, you get the full fee back.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="register" style="background:var(--panel); border-top:1px solid var(--grid-line);">
+  <div class="container pe-form-wrap">
+    <div class="section-head"><h2>Register your interest</h2><p>No payment now. We&rsquo;ll email you when the course opens. You decide then.</p></div>
+    <form class="enquiry-form" id="pe-form" action="https://formspree.io/f/maeyvvbg" method="POST">
+      <input type="hidden" name="_subject" value="Process engineering training: registration of interest">
+      <input type="hidden" name="source" value="Process engineering training page">
+      <div class="lp-two">
+        <div><label for="pe-name">Name</label><input type="text" id="pe-name" name="name" required autocomplete="name"></div>
+        <div><label for="pe-email">Email</label><input type="email" id="pe-email" name="email" required autocomplete="email"></div>
+      </div>
+      <div class="lp-two">
+        <div><label for="pe-phone">Phone / WhatsApp</label><input type="tel" id="pe-phone" name="phone" autocomplete="tel"></div>
+        <div><label for="pe-role">You are</label><select id="pe-role" name="role"><option>Final-year student</option><option>Fresher (first year in a plant)</option><option>Engineer, 1 to 3 years</option><option>Engineer, more than 3 years</option><option>Other</option></select></div>
+      </div>
+      <div><label for="pe-org">College or company</label><input type="text" id="pe-org" name="organisation" autocomplete="organization"></div>
+      <div><label for="pe-msg">What do you most want to be able to do?</label><textarea id="pe-msg" name="message" placeholder="For example: size a pump on my own, run a HAZOP node, plan a solvent recovery&hellip;"></textarea></div>
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <div id="pe-status" role="status" style="font-size:0.85rem; min-height:1.2em;"></div>
+      <button type="submit" class="btn btn-primary" id="pe-submit">Register my interest</button>
+    </form>
+  </div>
+</section>
+
+<script>
+(function () {
+  var form = document.getElementById('pe-form'), status = document.getElementById('pe-status'), btn = document.getElementById('pe-submit');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); btn.disabled = true; btn.textContent = 'Sending…'; status.textContent = ''; status.style.color = '';
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } }).then(function (r) {
+      if (r.ok) {
+        form.reset();
+        Array.prototype.forEach.call(form.children, function (n) { if (n !== status) n.style.display = 'none'; });
+        status.style.color = 'var(--brass)'; status.style.fontSize = '0.95rem';
+        status.textContent = 'Registered. We will email you when the course opens.';
+      } else return r.json().then(function (d) { status.style.color = 'var(--rust)'; status.textContent = (d && d.errors && d.errors.map(function (x) { return x.message; }).join(', ')) || 'Something went wrong. Please try again or email pharmacheme.app@gmail.com.'; });
+    }).catch(function () { status.style.color = 'var(--rust)'; status.textContent = 'Network error. Please try again or email pharmacheme.app@gmail.com.'; })
+      .finally(function () { btn.disabled = false; btn.textContent = 'Register my interest'; });
+  });
+})();
+</script>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
