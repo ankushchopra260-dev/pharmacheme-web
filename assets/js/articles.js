@@ -1438,6 +1438,126 @@
     ctl.addEventListener('input', draw); draw();
   };
 
+  /* Reactor mechanical parts: select a part to read what it does and what goes wrong */
+  M['reactorparts'] = function (fig) {
+    const c = C();
+    const PARTS = [
+      { n: 'Shell and dished heads', does: 'The pressure envelope. Thickness comes from design pressure, diameter, allowable stress and a corrosion allowance.', fails: 'Thinning from corrosion or erosion. Buckling if vacuum is pulled on a vessel not rated for it.', hit: [[214, 168, 12, 164], [374, 168, 12, 164], [248, 336, 104, 44]] },
+      { n: 'Top cover and flange', does: 'Carries every top nozzle and comes off for internal work. The main gasketed joint on the vessel.', fails: 'Gasket blows. Flange bent, or glass cracked, by tightening round the circle instead of in a star pattern.', hit: [[210, 128, 180, 46]] },
+      { n: 'Manhole', does: 'The largest opening: entry for cleaning, inspection and charging solids.', fails: 'Gasket failure, cover cracked by over-torque, davit arm seized.', hit: [[231, 101, 50, 45]] },
+      { n: 'Charging nozzle', does: 'Liquid and reagent addition, often with a dip pipe so dosing happens below the surface.', fails: 'Dip pipe corroded or snapped off. Dosing above the surface when the chemistry needs it below.', hit: [[205, 118, 32, 40]] },
+      { n: 'Vent to condenser', does: 'Vapour path to the condenser, and the vacuum connection.', fails: 'Chokes with solids. The most common single cause of a vacuum that will not pull down.', hit: [[317, 108, 36, 38]] },
+      { n: 'Relief device nozzle', does: 'Carries the safety valve, the rupture disc, or a disc under a valve.', fails: 'Isolated by mistake, fouled, or a burst disc nobody noticed had burst.', hit: [[347, 118, 32, 38]] },
+      { n: 'Jacket', does: 'Carries steam, hot water, cooling water or brine around the shell. A limpet coil gives higher velocity and a better coefficient.', fails: 'Scaled or fouled, so heating and cooling slow down. Rated for the utility, not for process material.', hit: [[198, 186, 24, 150], [376, 186, 24, 150]] },
+      { n: 'Jacket inlet', does: 'Utility supply, taken in at the bottom so the jacket fills from below.', fails: 'Strainer blocked. Supply valve throttled by someone chasing a different problem.', hit: [[394, 306, 44, 20]] },
+      { n: 'Jacket outlet', does: 'Utility return at the top, which keeps the jacket flooded.', fails: 'Condensate not draining if the steam trap has failed, so the jacket floods and heat transfer drops.', hit: [[394, 196, 44, 20]] },
+      { n: 'Motor and gearbox', does: 'Turns the shaft at working speed and torque, often through a variable-frequency drive.', fails: 'Breather chokes with dust, seals weep oil. Oil under the gearbox is a finding, not housekeeping.', hit: [[270, 24, 64, 66]] },
+      { n: 'Shaft seal', does: 'Seals where the rotating shaft passes through the cover. A double seal keeps barrier fluid above process pressure.', fails: 'Dry running when barrier fluid or its pressure is lost. Solids at the faces. Run-out from a bent shaft.', hit: [[282, 86, 36, 42]] },
+      { n: 'Shaft and impellers', does: 'Produce the flow and shear the duty needs. Shaft stiffness keeps deflection small and critical speed clear of running speed.', fails: 'Bent shaft chews out the seal. Loose impeller fasteners. Lowest impeller uncovered at minimum volume.', hit: [[254, 242, 92, 18], [250, 302, 100, 18], [294, 130, 12, 218]] },
+      { n: 'Baffle', does: 'Breaks the swirl so the agitator gives top-to-bottom flow instead of a vortex. In glass-lined vessels, one beaver-tail baffle through its own nozzle.', fails: 'Left out, so the batch spins as a block and mixing collapses. Fatigue cracking at the support.', hit: [[226, 198, 20, 122]] },
+      { n: 'Steady bearing', does: 'Supports the bottom of a long shaft. Cantilever designs leave it out on purpose.', fails: 'Wears in the batch and puts its debris into the product: a contamination route in pharma service.', hit: [[282, 346, 36, 24]] },
+      { n: 'Support lugs', does: 'Carry vessel, batch and agitator weight into the structure, and let the shell expand as it heats.', fails: 'Cracked grout, sheared anchor bolts, or shimming that stops the shell moving as it was meant to.', hit: [[178, 244, 28, 28], [394, 244, 28, 28]] },
+      { n: 'Bottom outlet valve', does: 'Discharges the batch. A flush-bottom valve sits level with the dished head so no heel is left above the seat.', fails: 'Passes while the batch is still reacting; the first sign is a warm discharge line. Seat damage from solids.', hit: [[278, 362, 44, 64]] }
+    ];
+
+    const svg = el('svg', { viewBox: '0 0 640 470', role: 'group', 'aria-label': 'Jacketed batch reactor. Select a part to read what it does and what goes wrong.' });
+    fig.insertBefore(svg, fig.querySelector('figcaption'));
+    const ctl = controls(fig, '<button type="button" data-go="-1">&#9664; Previous</button><button type="button" data-go="1">Next &#9654;</button><button type="button" data-num aria-pressed="false">Show numbers</button><span data-count></span>');
+    const rd = readout(fig);
+
+    const art = el('g', { fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, svg);
+    const nums = el('g', { opacity: 0 }, svg);
+    const hits = el('g', {}, svg);
+    const gs = PARTS.map(() => el('g', { stroke: 'currentColor', 'stroke-width': 1.8, color: c.ink }, art));
+    const L = (i, x1, y1, x2, y2) => el('line', { x1, y1, x2, y2 }, gs[i]);
+    const R = (i, x, y, w, h) => el('rect', { x, y, width: w, height: h }, gs[i]);
+    const P = (i, d) => el('path', { d }, gs[i]);
+
+    // 0 shell and heads
+    L(0, 220, 170, 220, 330); L(0, 380, 170, 380, 330); P(0, 'M220 330 Q300 395 380 330');
+    // 1 top cover and flange
+    P(1, 'M220 170 Q300 125 380 170'); R(1, 210, 166, 180, 7);
+    // 2 manhole
+    R(2, 238, 110, 36, 32); R(2, 233, 103, 46, 7);
+    // 3 charging nozzle
+    R(3, 214, 128, 16, 26); R(3, 209, 121, 26, 7);
+    // 4 vent
+    R(4, 326, 118, 20, 24); R(4, 321, 111, 30, 7);
+    // 5 relief
+    R(5, 356, 128, 16, 24); R(5, 351, 121, 26, 7);
+    // 6 jacket
+    P(6, 'M202 188 L202 332 Q300 412 398 332 L398 188'); L(6, 202, 188, 220, 188); L(6, 380, 188, 398, 188);
+    // 7 jacket inlet
+    L(7, 398, 315, 430, 315); L(7, 430, 308, 430, 322);
+    // 8 jacket outlet
+    L(8, 398, 205, 430, 205); L(8, 430, 198, 430, 212);
+    // 9 motor and gearbox
+    R(9, 282, 28, 40, 30); R(9, 277, 58, 50, 30);
+    L(9, 292, 35, 292, 51); L(9, 302, 35, 302, 51); L(9, 312, 35, 312, 51);
+    // 10 seal
+    R(10, 288, 88, 24, 36);
+    // 11 shaft and impellers
+    L(11, 300, 88, 300, 352);
+    L(11, 262, 252, 338, 252); P(11, 'M262 252 L268 245 M338 252 L332 259 M286 252 L292 245 M314 252 L308 259');
+    L(11, 258, 312, 342, 312); P(11, 'M258 312 L264 305 M342 312 L336 319 M284 312 L290 305 M316 312 L310 319');
+    // 12 baffle
+    R(12, 232, 200, 7, 118);
+    // 13 steady bearing
+    R(13, 290, 352, 20, 14);
+    // 14 support lugs
+    P(14, 'M202 250 L184 250 L184 268 L202 268'); P(14, 'M398 250 L416 250 L416 268 L398 268');
+    // 15 bottom outlet valve
+    L(15, 300, 366, 300, 386); P(15, 'M286 386 L314 406 L314 386 L286 406 Z');
+    L(15, 300, 406, 300, 422); L(15, 288, 422, 312, 422);
+
+    // liquid level, context only
+    el('path', { d: 'M222 268 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t18 0', fill: 'none', stroke: c.mute, 'stroke-width': 1.4, opacity: 0.8 }, art);
+
+    // numbers, shown on request; placed by hand so badges do not collide
+    const LAB = [[210, 320], [348, 168], [256, 126], [222, 141], [336, 130], [364, 140], [390, 270], [420, 330],
+      [420, 190], [302, 43], [300, 106], [300, 282], [236, 212], [300, 359], [192, 259], [300, 396]];
+    PARTS.forEach((p, i) => {
+      const x = LAB[i][0], y = LAB[i][1];
+      el('circle', { cx: x, cy: y, r: 11, fill: c.brass }, nums);
+      txt(nums, x, y + 4, String(i + 1), { 'text-anchor': 'middle', fill: '#0B1622', 'font-size': 12, 'font-weight': 700 });
+    });
+
+    // hit areas: largest first so small parts stay clickable on top
+    let sel = 0;
+    const area = p => p.hit.reduce((a, h) => a + h[2] * h[3], 0);
+    PARTS.map((p, i) => ({ p, i })).sort((a, b) => area(b.p) - area(a.p)).forEach(({ p, i }) => {
+      p.hit.forEach(h => {
+        const r = el('rect', { x: h[0], y: h[1], width: h[2], height: h[3], fill: 'rgba(0,0,0,0)', 'pointer-events': 'all', tabindex: 0, role: 'button', 'aria-label': p.n, style: 'cursor:pointer' }, hits);
+        r.addEventListener('click', () => show(i));
+        r.addEventListener('focus', () => show(i));
+        r.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(i); } });
+      });
+    });
+
+    function show(i) {
+      sel = (i + PARTS.length) % PARTS.length;
+      gs.forEach((g, k) => {
+        const on = k === sel;
+        g.setAttribute('color', on ? c.brass : c.ink);
+        g.setAttribute('stroke-width', on ? 3.2 : 1.8);
+        g.setAttribute('opacity', on ? 1 : 0.75);
+      });
+      const p = PARTS[sel];
+      rd.innerHTML = '<div class="hi"><span>Part ' + (sel + 1) + ' of ' + PARTS.length + '</span><b>' + p.n + '</b></div>' +
+        '<div><span><strong style="color:var(--paper)">What it does</strong><br>' + p.does + '</span></div>' +
+        '<div><span><strong style="color:var(--paper)">What goes wrong</strong><br>' + p.fails + '</span></div>';
+      ctl.querySelector('[data-count]').textContent = p.n;
+    }
+
+    ctl.addEventListener('click', e => {
+      const go = e.target.closest('[data-go]');
+      if (go) { show(sel + (+go.dataset.go)); return; }
+      const nb = e.target.closest('[data-num]');
+      if (nb) { const on = nb.getAttribute('aria-pressed') !== 'true'; nb.setAttribute('aria-pressed', String(on)); nums.setAttribute('opacity', on ? 1 : 0); }
+    });
+    show(0);
+  };
+
   window.PCME_ART = M;
   document.querySelectorAll('.art-fig[data-fig]').forEach(f => { const m = M[f.dataset.fig]; if (m) try { m(f); } catch (e) { console.error(e); } });
   // pause looping diagrams when off screen

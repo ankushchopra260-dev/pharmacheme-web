@@ -1,0 +1,239 @@
+---
+layout: default
+title: "Reactor Mechanical Parts: Shell, Nozzles, Agitator, Seal and Bottom Valve"
+seo_title: "Reactor Mechanical Parts Explained | PharmaChemE"
+description: "Every mechanical part of a jacketed reactor: shell and dished heads, nozzles, agitator and drive, shaft seal, gaskets, steady bearing and bottom valve."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Reactor Mechanical Parts
+    url: /articles/reactor-mechanical-parts/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Reactor Mechanical Parts: Shell, Nozzles, Agitator, Seal and Bottom Valve",
+        "description": "A part-by-part tour of a jacketed batch reactor: the pressure envelope, nozzles, agitator assembly, shaft seal, gaskets, supports and the bottom outlet valve, with what fails and what to check.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-03",
+        "dateModified": "2026-11-03"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What are the main mechanical parts of a chemical reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The pressure envelope (shell, top and bottom dished heads, and the jacket or limpet coil), the nozzles on the top head (manhole, charging, vent, relief device, thermowell, sight and light glass), the agitator assembly (motor, gearbox, coupling, shaft, impellers and any steady bearing), the shaft seal, the baffle, the support lugs, and the bottom outlet valve."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do reactor mechanical seals fail?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most often because the seal ran dry, because the barrier fluid was lost or its pressure fell below the process pressure, or because solids and crystals reached the seal faces. Shaft misalignment and excessive run-out wear the faces unevenly. A seal that starts weeping usually gave warning first through barrier fluid level or pressure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a steady bearing in a reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A bush at the bottom of the vessel that supports the lower end of a long agitator shaft and limits its deflection. It runs inside the batch, so it wears, and the wear debris ends up in the product. Many designs now use a shorter cantilever shaft with no steady bearing to avoid that contamination."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does the bolt tightening sequence matter on a glass-lined reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Glass takes compression but not bending. Tightening bolts one after another around a flange, or past the torque the maker specifies, bends the flange and cracks the lining at the nozzle or the joint. Tighten in a star pattern in stages, to the vendor's torque figure, with a calibrated wrench."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-03
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Reactor Mechanical Parts</h1>
+  <p class="article-meta">Equipment &middot; Reactors &middot; <span class="art-updated">November 2026</span></p>
+
+  <p class="art-lede">Most freshers learn a reactor as a box with a temperature and a volume. The plant teaches it differently: as thirty-odd mechanical parts, any one of which can hold up a batch. The seal weeps, the bottom valve passes, a gasket blows on the manhole, the gearbox breather is choked. This is a part-by-part tour of a jacketed batch reactor, what each part is for, and what goes wrong with it.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#map">The parts, on one drawing</a><span>Basics</span></li>
+    <li><a href="#envelope">The pressure envelope</a><span>Basics</span></li>
+    <li><a href="#nozzles">Nozzles and what goes in them</a><span>Basics</span></li>
+    <li><a href="#agitator">The agitator assembly</a><span>Working level</span></li>
+    <li><a href="#seal">The shaft seal</a><span>Working level</span></li>
+    <li><a href="#gaskets">Gaskets, clamps and bolt torque</a><span>Working level</span></li>
+    <li><a href="#bottom">The bottom outlet valve</a><span>Working level</span></li>
+    <li><a href="#supports">Supports, earthing and the nameplate</a><span>Going deeper</span></li>
+    <li><a href="#checks">What to check, and when</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="map">The parts, on one drawing <span class="lvl l1">Basics</span></h2>
+  <p>This is a jacketed batch reactor with a flanged top cover, the arrangement you will meet most often in an API or agrochemical plant. Select any part on the drawing &mdash; or step through them with the buttons &mdash; to see what it is for and what goes wrong with it.</p>
+
+  <figure class="art-fig" data-fig="reactorparts">
+    <figcaption>Tap a part, or use Previous and Next to walk through all sixteen. Turn on the numbers to match the drawing to the list below.</figcaption>
+  </figure>
+
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>#</th><th>Part</th><th>What it is for</th></tr>
+    <tr><td>1</td><td>Shell and dished heads</td><td>The pressure envelope: shell, top cover and bottom head.</td></tr>
+    <tr><td>2</td><td>Top cover and flange</td><td>Carries the top nozzles; comes off for internal work.</td></tr>
+    <tr><td>3</td><td>Manhole</td><td>Entry for cleaning, inspection and charging solids.</td></tr>
+    <tr><td>4</td><td>Charging nozzle</td><td>Liquid and reagent addition, often with a dip pipe.</td></tr>
+    <tr><td>5</td><td>Vent to condenser</td><td>Vapour path to the condenser, and the vacuum connection.</td></tr>
+    <tr><td>6</td><td>Relief device nozzle</td><td>Safety valve, rupture disc, or a disc under a valve.</td></tr>
+    <tr><td>7</td><td>Jacket</td><td>Carries steam, hot water, cooling water or brine around the shell.</td></tr>
+    <tr><td>8</td><td>Jacket inlet</td><td>Utility supply, at the bottom.</td></tr>
+    <tr><td>9</td><td>Jacket outlet</td><td>Utility return, at the top so the jacket stays flooded.</td></tr>
+    <tr><td>10</td><td>Motor and gearbox</td><td>Turns the shaft at working speed and torque.</td></tr>
+    <tr><td>11</td><td>Shaft seal</td><td>Seals where the rotating shaft passes through the cover.</td></tr>
+    <tr><td>12</td><td>Shaft and impellers</td><td>Produce the flow and shear the duty needs.</td></tr>
+    <tr><td>13</td><td>Baffle</td><td>Breaks the swirl so the agitator gives top-to-bottom flow.</td></tr>
+    <tr><td>14</td><td>Steady bearing</td><td>Supports the bottom of a long shaft.</td></tr>
+    <tr><td>15</td><td>Support lugs</td><td>Carry the weight into the structure and allow expansion.</td></tr>
+    <tr><td>16</td><td>Bottom outlet valve</td><td>Discharges the batch with no dead pocket above the seat.</td></tr>
+  </table></div>
+  <p>Not drawn, but on nearly every reactor: a <strong>thermowell</strong> for the temperature sensor, a <strong>sight glass</strong> and a <strong>light glass</strong> on the cover, a pressure gauge or transmitter, and an earthing boss.</p>
+
+  <h2 id="envelope">The pressure envelope <span class="lvl l1">Basics</span></h2>
+  <p>The shell, the two dished heads and the jacket together hold the pressure. The heads are usually <strong>torispherical</strong>, sometimes ellipsoidal where the design pressure is higher; a hemispherical head is the strongest and the most expensive. The wall thickness comes from the design pressure, the diameter, the material&rsquo;s allowable stress, the joint efficiency and a corrosion allowance, typically 1.5 to 3 mm on carbon steel.</p>
+  <p>Two numbers matter more than the rest, and they are different numbers for the shell and for the jacket:</p>
+  <ul>
+    <li><strong>Design pressure.</strong> The jacket is usually rated for the steam supply; the shell for the process. They are not interchangeable, and a jacket is not a place to put process material.</li>
+    <li><strong>Full vacuum.</strong> Any vessel that will ever see a vacuum distillation must be rated for full vacuum, not just internal pressure. Collapse under vacuum is a buckling failure and happens at a far lower differential than a burst.</li>
+  </ul>
+  <p>Both numbers are on the nameplate, with the hydrotest pressure, the design temperature, the maker, the serial number and the year. If you cannot read the nameplate, treat that as a finding, not a nuisance.</p>
+  <p>For how the metal or the lining is chosen against the chemistry, see <a href="{{ '/articles/materials-of-construction/' | relative_url }}">materials of construction</a> and <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">glass-lined reactor care</a>. For the jacket itself, including why a limpet coil gives a better coefficient than a plain jacket, see <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">jacket and limpet coil design</a>.</p>
+
+  <h2 id="nozzles">Nozzles and what goes in them <span class="lvl l1">Basics</span></h2>
+  <p>Almost everything that goes wrong on a reactor goes wrong at a nozzle, because every nozzle is a joint, and most are also a discontinuity in the lining.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Nozzle</th><th>What it carries</th><th>What goes wrong</th></tr>
+    <tr><td>Manhole</td><td>Access, solid charging</td><td>Gasket blows; cover cracked by over-torque; davit arm seized</td></tr>
+    <tr><td>Charging</td><td>Liquids, reagents, dip pipe</td><td>Dip pipe corroded or snapped; dosing above the surface when it should be below</td></tr>
+    <tr><td>Vent</td><td>Vapour to condenser, vacuum</td><td>Choked with solids; the biggest single cause of a lost vacuum</td></tr>
+    <tr><td>Relief</td><td>Safety valve, rupture disc</td><td>Isolated, fouled, or a burst disc nobody noticed had burst</td></tr>
+    <tr><td>Thermowell</td><td>Temperature sensor</td><td>Sensor not touching the bottom of the well, so the reading lags badly</td></tr>
+    <tr><td>Sight and light glass</td><td>Looking in</td><td>Fogged, or cracked by thermal shock when cold liquid hits hot glass</td></tr>
+  </table></div>
+  <p>A <strong>thermowell</strong> lets the sensor be changed without opening the vessel, at the cost of a slower response. If a batch temperature looks sluggish against the jacket, check that the element is seated at the bottom of the well before you suspect the control loop. More on this in <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">instrumentation basics</a>.</p>
+  <p>On the relief nozzle: a rupture disc below a safety valve keeps the process off the valve seat, which suits fouling or corrosive service. It also means a burst disc can sit unnoticed unless the gap between disc and valve is monitored. Sizing is its own subject &mdash; see <a href="{{ '/articles/relief-valve-sizing/' | relative_url }}">relief valve sizing</a>.</p>
+
+  <h2 id="agitator">The agitator assembly <span class="lvl l2">Working level</span></h2>
+  <p>From the top down: <strong>motor</strong>, <strong>gearbox</strong>, <strong>coupling</strong>, <strong>shaft</strong>, <strong>impellers</strong>, and on longer shafts a <strong>steady bearing</strong> at the base.</p>
+  <p>The gearbox is the part most often neglected. It has an oil level, a breather and a drain, and the breather chokes with dust until the casing cannot breathe and the seals start to weep oil. Oil on the top platform under a gearbox is a finding, not housekeeping.</p>
+  <p>The <strong>shaft</strong> has to be stiff enough that its running deflection stays small and its critical speed sits clear of the operating speed. This is why the same motor power can come on a much heavier shaft in a taller vessel. A shaft that has been bent &mdash; by a seized bottom bush, or by being used as a ladder rung during a shutdown &mdash; will chew out a seal in weeks.</p>
+  <p>The <strong>steady bearing</strong> deserves a decision rather than a habit. It supports the shaft bottom and allows a longer, slimmer shaft, but it runs submerged in the batch, wears, and puts its wear debris into the product. In pharmaceutical service that is a contamination route, so many reactors now use a shorter, stiffer cantilever shaft with no bottom bearing at all.</p>
+  <p>In a glass-lined reactor the baffle cannot be welded to the wall, so it is a single <strong>beaver-tail baffle</strong> hung through its own nozzle. One baffle does less than the four wall baffles of a stainless vessel, which is part of why glass-lined mixing numbers do not transfer directly from steel. Impeller choice, power number and baffling are covered in <a href="{{ '/articles/agitator-design/' | relative_url }}">agitator design basics</a>.</p>
+
+  <h2 id="seal">The shaft seal <span class="lvl l2">Working level</span></h2>
+  <p>This is the part that fails most, and the one that puts solvent vapour into the building when it does.</p>
+  <p><strong>Gland packing</strong> in a stuffing box is the old arrangement: rings of packing compressed around the shaft by a gland follower, often with a lantern ring part-way down for a flush. It is cheap and forgiving, it always leaks a little by design, and that is why it has been pushed out of solvent and toxic service.</p>
+  <p>A <strong>mechanical seal</strong> runs two flat faces against each other, one turning with the shaft and one static, with a thin film between them. A <strong>single</strong> seal has process on one side and atmosphere on the other. A <strong>double</strong> seal has two sets of faces with a barrier fluid between them, held above process pressure so that any leak is barrier fluid inward, not process outward. Any reactor handling a flammable or toxic solvent should be on a double seal with a monitored barrier system.</p>
+  <p>Seals fail for a short list of reasons:</p>
+  <ul>
+    <li><strong>Dry running.</strong> Barrier fluid lost or its pressure fallen below process pressure. The faces overheat in minutes.</li>
+    <li><strong>Solids at the faces.</strong> Crystallising batches and slurries grind the faces. A flush is there to keep them clear.</li>
+    <li><strong>Run-out and misalignment.</strong> A bent shaft or a badly aligned coupling loads one part of the face.</li>
+    <li><strong>Thermal shock.</strong> A sudden jacket swing moves the faces apart.</li>
+  </ul>
+  <p>The useful habit is to treat the barrier pot as an instrument. Its level and pressure trend downward before a seal fails, and that trend is the warning you get. A seal that is weeping already had a story earlier in the week.</p>
+
+  <h2 id="gaskets">Gaskets, clamps and bolt torque <span class="lvl l2">Working level</span></h2>
+  <p>On a glass-lined reactor the joints are made with <strong>PTFE envelope gaskets</strong> held by clamps or bolts onto glass-lined faces. Glass takes compression well and bending badly. Two rules follow, and both are broken regularly:</p>
+  <ol>
+    <li>Tighten in a <strong>star pattern, in stages</strong>, never one bolt at a time around the circle. Uneven pull bends the flange.</li>
+    <li>Tighten to the <strong>vendor&rsquo;s torque figure with a calibrated wrench</strong>, and stop there. &ldquo;A bit more&rdquo; is how nozzle flanges crack.</li>
+  </ol>
+  <p>A gasket is a consumable. Re-using one because the joint &ldquo;looked fine&rdquo; is a half-hour saved against a shift lost. Keep the right size and material in stores before the shutdown, not during it.</p>
+
+  <h2 id="bottom">The bottom outlet valve <span class="lvl l2">Working level</span></h2>
+  <p>The bottom outlet is where a reactor is emptied, and in a batch plant it is also where cross-contamination between products is most likely. A <strong>flush-bottom valve</strong> puts the seat level with the inside of the dished head, so there is no pocket above it holding a heel of the last batch. An ordinary valve mounted below a short stub leaves exactly such a pocket.</p>
+  <p>What to watch: a valve that <em>passes</em> while you are still reacting sends batch into the line below, and the first sign is often a warm discharge line. Seat damage from solids, and a stem seal that leaks when the valve is cold, are the other two common findings. Any work on it is isolation work &mdash; see <a href="{{ '/articles/permit-to-work-and-isolation/' | relative_url }}">permit to work and isolation</a>.</p>
+
+  <h2 id="supports">Supports, earthing and the nameplate <span class="lvl l3">Going deeper</span></h2>
+  <p><strong>Support lugs</strong> carry the full weight of vessel, batch and agitator into the structure, and they have to let the shell grow as it heats. Seized or badly shimmed supports load the shell in a way the designer never intended; cracked grout and sheared anchor bolts under a lug are worth a close look during any shutdown.</p>
+  <p><strong>Earthing</strong> is a process safety item, not an electrical formality. A glass-lined vessel is an insulator, so charge generated by pouring or by a solvent transfer has to be taken away through earthed metal parts, and the earthing boss and strap are part of that path. Continuity is testable, and should be tested. See <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity and solvent fires</a>.</p>
+  <p>The <strong>nameplate</strong> ties the vessel to its documentation: the design and test pressures, the design temperature, the material, the serial number and the year of manufacture. It is what a periodic statutory inspection works from. Rules differ by country and by state, so follow the inspection interval and the competent-person requirement that applies to your site rather than a number from a book. The same documentation trail is what a qualification exercise checks: <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">equipment qualification</a>.</p>
+
+  <h2 id="checks">What to check, and when <span class="lvl l3">Going deeper</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>When</th><th>What</th><th>Looking for</th></tr>
+    <tr><td>Every shift</td><td>Seal barrier pot</td><td>Level and pressure holding, above process pressure</td></tr>
+    <tr><td>Every shift</td><td>Gearbox and drive</td><td>Oil level, oil under the gearbox, unusual noise, vibration</td></tr>
+    <tr><td>Every shift</td><td>Bottom valve and lines</td><td>Passing valve, warm discharge line, stem leak</td></tr>
+    <tr><td>Every batch</td><td>Vent path to condenser</td><td>Free, not choked; vacuum reached as usual</td></tr>
+    <tr><td>Every batch</td><td>Temperature reading</td><td>Batch follows the jacket as it normally does</td></tr>
+    <tr><td>Shutdown</td><td>Glass lining</td><td>Spark test at nozzles, manhole and the bottom outlet</td></tr>
+    <tr><td>Shutdown</td><td>Shaft and impellers</td><td>Run-out, loose fasteners, bush wear, blade erosion</td></tr>
+    <tr><td>Shutdown</td><td>Supports and earthing</td><td>Cracked grout, sheared bolts, earth continuity</td></tr>
+    <tr><td>Statutory</td><td>Pressure parts</td><td>Thickness survey and hydrotest at the interval your rules set</td></tr>
+  </table></div>
+
+  <h2 id="mistakes">Mistakes I see most often</h2>
+  <ul>
+    <li>Treating the barrier pot as a tank to be topped up rather than an instrument that is warning you.</li>
+    <li>Tightening manhole or nozzle bolts round the circle instead of in a star pattern, and past the vendor&rsquo;s torque.</li>
+    <li>Pulling vacuum on a vessel rated only for internal pressure.</li>
+    <li>Assuming the jacket design pressure is the same as the shell&rsquo;s.</li>
+    <li>Blaming the control loop for a lagging temperature before checking that the sensor is seated in the thermowell.</li>
+    <li>Keeping a steady bearing in a pharmaceutical reactor without asking where its wear debris goes.</li>
+    <li>Re-using a gasket to save a shutdown half-hour.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What are the main mechanical parts of a chemical reactor?</h3>
+  <p>The pressure envelope (shell, dished heads, jacket or limpet coil), the nozzles on the top cover, the agitator assembly (motor, gearbox, coupling, shaft, impellers, steady bearing), the shaft seal, the baffle, the support lugs and the bottom outlet valve.</p>
+  <h3>Why do reactor mechanical seals fail?</h3>
+  <p>Usually dry running after barrier fluid is lost or its pressure drops below process pressure, solids reaching the faces, or a bent shaft and misalignment wearing the faces unevenly.</p>
+  <h3>What is a steady bearing in a reactor?</h3>
+  <p>A bush at the base that supports the bottom of a long agitator shaft. It runs in the batch and wears, so its debris is a contamination route; cantilever shafts avoid it entirely.</p>
+  <h3>Why does the bolt tightening sequence matter on a glass-lined reactor?</h3>
+  <p>Glass takes compression but not bending. Tightening round the circle, or past the specified torque, bends the flange and cracks the lining.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Green &amp; Southard (eds.), <i>Perry&rsquo;s Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019</li>
+    <li>Couper, Penney, Fair &amp; Walas, <i>Chemical Process Equipment: Selection and Design</i>, 3rd ed., Butterworth-Heinemann, 2012</li>
+    <li>Moss &amp; Basic, <i>Pressure Vessel Design Manual</i>, 4th ed., Butterworth-Heinemann, 2013</li>
+    <li>Paul, Atiemo-Obeng &amp; Kresta (eds.), <i>Handbook of Industrial Mixing</i>, Wiley, 2004</li>
+    <li>ASME <i>Boiler and Pressure Vessel Code</i>, Section VIII Division 1 (design of unfired pressure vessels)</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/glass-lined-reactor-care/' | relative_url }}">Glass-lined reactor care</a>
+    <a href="{{ '/articles/agitator-design/' | relative_url }}">Agitator design basics</a>
+    <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">Jacket and limpet coil design</a>
+    <a href="{{ '/articles/reactor-selection/' | relative_url }}">Reactor selection</a>
+    <a href="{{ '/articles/materials-of-construction/' | relative_url }}">Materials of construction</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

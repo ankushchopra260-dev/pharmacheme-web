@@ -127,13 +127,14 @@
         - { title: "Continuous and Flow Chemistry", url: /articles/continuous-flow-chemistry/ }
     - title: "Process design"
       url: /articles/#process-design
-      count: 14
+      count: 15
       children:
         - { title: "Heat Exchanger Design Basics", url: /articles/heat-exchanger-design-basics/ }
         - { title: "Distillation Basics", url: /articles/distillation-basics/ }
         - { title: "Relief Valve Sizing Basics", url: /articles/relief-valve-sizing/ }
         - { title: "Line Sizing and Pressure Drop", url: /articles/line-sizing-and-pressure-drop/ }
         - { title: "Agitator Design Basics", url: /articles/agitator-design/ }
+        - { title: "Reactor Mechanical Parts", url: /articles/reactor-mechanical-parts/ }
     - title: "Plant engineering & operations"
       url: /articles/#plant-engineering-operations
       count: 14
