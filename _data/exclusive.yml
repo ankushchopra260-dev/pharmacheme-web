@@ -48,7 +48,6 @@ items:
       - "Formula sheet: every formula in the course on one page"
       - "Final test: 24 questions, pass at 70 %, unlimited retakes, score by module, certificate with your name and an ID"
       - "Included: The First 30 Days in a Chemical Plant, as pre-reading"
-      - "New modules are added to the course over time, free for existing buyers"
     related: [/process-engineering-training/, /calculators/pipe-pressure-drop/, /calculators/lmtd-calculator/, /calculators/mixing-scale-up-calculator/, /articles/hazop-made-practical/, /articles/batch-cycle-time-debottlenecking/]
   - id: art-shell-tube-hx-design
     slug: shell-and-tube-heat-exchanger-design
