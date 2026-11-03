@@ -248,7 +248,7 @@
     const done = new Set(spec.done || []);
     let cur = -1, stage = null, pageApi = null;
     const compact = spec.pages.length > 12; if (compact) tabs.classList.add('sb-compact');
-    function drawTabs() { tabs.innerHTML = spec.pages.map((p, i) => (compact && spec.groups && spec.groups[i] ? '<span class="sb-wk">' + esc(spec.groups[i]) + '</span>' : '') + '<button type="button" data-i="' + i + '"' + (i === cur ? ' aria-current="page"' : '') + (compact ? ' title="' + esc(p.short || p.title) + '" aria-label="' + esc((p.label || 'Page') + ' ' + (i + 1) + ': ' + (p.short || p.title)) + '"' : '') + '><i>' + (done.has(i) ? '✓' : i + 1) + '</i>' + (compact ? '' : esc(p.short || p.title)) + '</button>').join('') + (spec.extraTab ? '<button type="button" data-i="x"' + (cur === 'x' ? ' aria-current="page"' : '') + '><i>¶</i>' + esc(spec.extraTab.title) + '</button>' : ''); }
+    function drawTabs() { tabs.innerHTML = spec.pages.map((p, i) => (compact && spec.groups && spec.groups[i] ? '<span class="sb-wk">' + esc(spec.groups[i]) + '</span>' : '') + '<button type="button" data-i="' + i + '"' + (i === cur ? ' aria-current="page"' : '') + (compact ? ' title="' + esc(p.short || p.title) + '" aria-label="' + esc((p.pg || ((p.label || 'Page') + ' ' + (i + 1))) + ': ' + (p.short || p.title)) + '"' : '') + '><i>' + (done.has(i) ? '✓' : (p.tab != null ? esc(p.tab) : i + 1)) + '</i>' + (compact ? '' : esc(p.short || p.title)) + '</button>').join('') + (spec.extraTab ? '<button type="button" data-i="x"' + (cur === 'x' ? ' aria-current="page"' : '') + '><i>¶</i>' + esc(spec.extraTab.title) + '</button>' : ''); }
     tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(b.dataset.i === 'x' ? 'x' : +b.dataset.i); });
     q('.sb-prev').onclick = () => go(cur === 'x' ? spec.pages.length - 1 : Math.max(0, cur - 1));
     q('.sb-next').onclick = () => go(cur === 'x' ? 'x' : cur + 1 < spec.pages.length ? cur + 1 : (spec.extraTab ? 'x' : cur));
@@ -258,7 +258,7 @@
       if (i === 'x') { spread.hidden = true; let ex = q('.sb-extra'); if (!ex) { ex = document.createElement('div'); ex.className = 'sb-extra'; spread.after(ex); spec.extraTab.render(ex); } ex.hidden = false; q('.sb-pg').textContent = spec.extraTab.title; foot.querySelector('.sb-next').disabled = true; foot.querySelector('.sb-prev').disabled = false; return; }
       const ex = q('.sb-extra'); if (ex) ex.hidden = true; spread.hidden = false;
       const p = spec.pages[i];
-      q('.sb-pg').textContent = (p.label || 'Page') + ' ' + (i + 1) + ' of ' + spec.pages.length;
+      q('.sb-pg').textContent = p.pg || ((p.label || 'Page') + ' ' + (i + 1) + ' of ' + spec.pages.length);
       foot.querySelector('.sb-prev').disabled = i === 0; foot.querySelector('.sb-next').disabled = i === spec.pages.length - 1 && !spec.extraTab;
       left.innerHTML = '<h3>' + esc(p.title) + '</h3><div class="sb-body">' + (p.html || '') + '</div>' + (p.try ? '<div class="sb-try"><b>Try this</b>' + p.try + '</div>' : '') + (p.check ? '<div class="sb-check"></div>' : '') + (p.free && p.free.length ? '<div class="sb-free"><b>Free on PharmaChemE</b><ul>' + p.free.map(f => '<li><a href="' + esc(f[0]) + '" target="_blank" rel="noopener">' + esc(f[1]) + '</a></li>').join('') + '</ul></div>' : '');
       if (p.check) check(left.querySelector('.sb-check'), p.check, i);
