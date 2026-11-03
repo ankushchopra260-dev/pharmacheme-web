@@ -2,6 +2,9 @@
 # The content itself is in Firestore (collection "items", id = id below) and opens only for buyers.
 # Pages are made by tools/build_exclusive_pages.py from this file.
 groups:
+  - key: courses
+    title: Self-paced courses
+    blurb: Full courses you work through at your own pace. Interactive 3D lessons, plant assignments with self-checking Excel, worked solutions, a final test and a certificate.
   - key: books
     title: 3D concept books
     blurb: Pencil-sketch equipment rises off the page. Turn it, change the flows and temperatures, and watch the physics respond. Each page ends with a quick check, and your progress is saved.
@@ -22,6 +25,31 @@ groups:
     blurb: The same method as the free calculator, as an Excel workbook with live formulas you can keep, edit and attach to your calculations.
 
 items:
+  - id: course-pe
+    slug: process-engineering-course
+    group: courses
+    demo: reactor
+    updated: "2026-11-03"
+    meta: "Self-paced process engineering course for batch plants: 8 modules of interactive 3D lessons, self-checking Excel assignments, worked solutions and a certificate."
+    title: "Process Engineering for Batch Plants (self-paced course)"
+    short: "For final-year students, freshers and early-career engineers in API, agrochemical and specialty plants. Eight modules, each with two interactive 3D lessons, a real plant assignment you work in a self-checking Excel workbook, a step-by-step worked solution and a quiz. Ends with a 24-question final test and a certificate. The First 30 Days book is included as pre-reading."
+    price: 999
+    what:
+      - "Module 1, Balances and units: kilograms to moles to yield, and the unit traps (vacuum vs absolute, kcal vs kW, TR) that cost money. Assignment: a batch material balance with yield and wet cake"
+      - "Module 2, Fluid flow and pumps: velocity, Reynolds number and pressure drop; pump head, power and the NPSH check. Assignment: size a transfer line and its pump"
+      - "Module 3, Heat transfer: LMTD and why counter-current wins; how long a batch takes to heat. Assignment: heat a batch with steam, then cool it with cooling water"
+      - "Module 4, Separations: boiling under vacuum and what the condenser needs; why the last filtrate takes the longest. Assignment: plan a vacuum solvent recovery"
+      - "Module 5, Reactors: mixing scale-up from lab to plant; dosing, accumulation and the MTSR. Assignment: scale the agitation, then set a safe dosing time"
+      - "Module 6, Process safety: a HAZOP node, deviation by deviation; inerting by pressure or vacuum purge. Assignment: inert a reactor before a flammable charge"
+      - "Module 7, Debottlenecking: find the bottleneck of an equipment train; fixed cost and cost per kg. Assignment: find the bottleneck and cost the fix"
+      - "Module 8, Capstone: one batch end to end, from the balance through the pump and the recovery to the monthly output"
+      - "Every assignment has a worked solution, step by step with units, plus a four-question quiz"
+      - "Assignment workbook (Excel): one sheet per module; type your answers and each one shows ✓ or ✗ against the key"
+      - "Formula sheet: every formula in the course on one page"
+      - "Final test: 24 questions, pass at 70 %, unlimited retakes, score by module, certificate with your name and an ID"
+      - "Included: The First 30 Days in a Chemical Plant, as pre-reading"
+      - "New modules are added to the course over time, free for existing buyers"
+    related: [/process-engineering-training/, /calculators/pipe-pressure-drop/, /calculators/lmtd-calculator/, /calculators/mixing-scale-up-calculator/, /articles/hazop-made-practical/, /articles/batch-cycle-time-debottlenecking/]
   - id: art-shell-tube-hx-design
     slug: shell-and-tube-heat-exchanger-design
     group: books

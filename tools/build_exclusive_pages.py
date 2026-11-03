@@ -20,12 +20,16 @@ def main():
     for it in data['items']:
         d = os.path.join(ROOT, 'exclusive', it['slug']); os.makedirs(d, exist_ok=True)
         g = groups[it['group']]
-        kind = {'books': 'Article', 'articles': 'Article', 'concepts': 'Article', 'calculators': 'SoftwareApplication', 'templates': 'Product', 'excel': 'Product'}[it['group']]
+        kind = {'courses': 'Course', 'books': 'Article', 'articles': 'Article', 'concepts': 'Article', 'calculators': 'SoftwareApplication', 'templates': 'Product', 'excel': 'Product'}[it['group']]
         sd = {'@context': 'https://schema.org', '@type': kind, 'name': it['title'], 'description': it['short'],
               'url': 'https://www.pharmacheme.in/exclusive/' + it['slug'] + '/', 'isAccessibleForFree': False, 'inLanguage': 'en',
               'author': {'@type': 'Person', '@id': 'https://www.pharmacheme.in/about/#ankush-chopra', 'name': 'Ankush Chopra', 'url': 'https://www.pharmacheme.in/about/'},
               'offers': {'@type': 'Offer', 'price': str(it['price']), 'priceCurrency': 'INR', 'availability': 'https://schema.org/InStock', 'url': 'https://www.pharmacheme.in/exclusive/' + it['slug'] + '/'}}
         if kind == 'Article': sd['headline'] = it['title']; sd['hasPart'] = {'@type': 'WebPageElement', 'isAccessibleForFree': False, 'cssSelector': '.ex-content'}; sd.pop('offers')
+        if kind == 'Course':
+            sd['provider'] = {'@type': 'Organization', '@id': 'https://www.pharmacheme.in/#organization', 'name': 'PharmaChemE', 'url': 'https://www.pharmacheme.in/'}
+            sd['instructor'] = sd.pop('author'); sd['offers']['category'] = 'Paid'
+            sd['hasCourseInstance'] = {'@type': 'CourseInstance', 'courseMode': 'Online', 'courseWorkload': 'PT20H'}
         if kind == 'SoftwareApplication': sd['applicationCategory'] = 'EngineeringApplication'; sd['operatingSystem'] = 'Web browser'
         title = it['title'].replace('Pro: ', '').replace('Excel: ', 'Excel ')
         seo = (title[:52] + ' | PharmaChemE') if len(title) <= 52 else (title.split(':')[0][:52] + ' | PharmaChemE')
