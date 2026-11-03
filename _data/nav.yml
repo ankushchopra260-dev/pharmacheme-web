@@ -165,8 +165,16 @@
     - { title: "Process safety lessons", url: /process-safety/ }
     - { title: "Equipment and instruments", url: /equipment-instruments/ }
     - { title: "Utilities calculators", url: /utilities/ }
-    - { title: "Free training modules", url: /training/modules/ }
   groups:
+    - title: "Free training modules"
+      url: /training/modules/
+      count: 5
+      children:
+        - { title: "Static electricity and solvent fires", url: /training/modules/static-and-solvent-fire-safety/ }
+        - { title: "Runaway reactions and safe dosing", url: /training/modules/runaway-reactions-safe-dosing/ }
+        - { title: "HAZOP made practical", url: /training/modules/hazop-made-practical/ }
+        - { title: "Pumps, seals and vacuum", url: /training/modules/pumps-seals-vacuum/ }
+        - { title: "Utilities and energy saving", url: /training/modules/utilities-energy-saving/ }
     - title: "Process safety"
       url: /articles/#process-safety
       count: 12
