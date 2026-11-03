@@ -445,16 +445,16 @@
       { k: 'pn2', label: 'Nitrogen pad on the dosing vessel', unit: 'bar g', v: 0.5, show: v => v.mode === 'n2' },
       { k: 'pr', label: 'Reactor pressure (vacuum as negative)', unit: 'bar g', v: 0, show: v => v.mode !== 'pump' },
       { k: 'dpo', label: 'Pressure drop available across the orifice', unit: 'bar', v: 2, show: v => v.mode === 'pump' },
-      { k: 'tuse', label: 'Addition time to design for (0 = safe minimum)', unit: 'h', v: 0 },
+      { k: 'tuse', label: 'Addition time to design for (calculated; type to change, clear to reset)', unit: 'h', v: NaN, auto: v => { const t = doseSafe(v).t; return isFinite(t) ? +t.toFixed(2) : NaN; } },
       { k: 'cd', label: 'Discharge coefficient Cd (0.61 sharp-edged)', unit: '', v: 0.61 }],
     run(v) {
       if (!(v.m > 0 && v.cp > 0 && v.Hr > 0 && v.tRC > 0 && v.md > 0 && v.rho > 0 && v.cd > 0)) return { rows: [], notes: [['Masses, cp, reaction heat, RC time, density and Cd must be above zero.', 'bad']] };
       const s = doseSafe(v);
       if (!isFinite(s.t)) return { rows: [], notes: [[v.Tp >= v.MTT ? 'The process temperature is at or above the MTT.' : 'No dosing time is safe with these numbers: the cooling is zero or the MTSR limit cannot be met. Lower the process temperature, raise the cooling, or change the process.', 'bad']] };
-      const tD = v.tuse > 0 ? v.tuse : s.t, o = doseOrifice(v, tD), notes = [];
+      const ed = !!(v.__edited && v.__edited.tuse) && v.tuse > 0, tD = ed ? v.tuse : s.t, o = doseOrifice(v, tD), notes = [];
       notes.push([`<b>Safe addition time ${F(s.t, 2)} h</b>, set by the ${s.gov}. Jacket limit ${F(s.tC, 2)} h; MTSR limit ${F(s.tM, 2)} h; RC tested ${F(v.tRC, 2)} h.`, 'lead']);
-      if (v.tuse > 0 && v.tuse < s.t - 1e-6) notes.push([`The ${F(v.tuse, 2)} h you entered is shorter than the safe minimum of ${F(s.t, 2)} h. The orifice below would let the reagent in faster than the jacket or the MTSR allows. Do not use it.`, 'bad']);
-      else if (v.tuse > 0) notes.push([`The orifice is sized for your ${F(v.tuse, 2)} h, which is longer than the safe minimum.`, 'good']);
+      if (ed && v.tuse < s.t - 0.005) notes.push([`The ${F(v.tuse, 2)} h you entered is shorter than the safe minimum of ${F(s.t, 2)} h. The orifice below would let the reagent in faster than the jacket or the MTSR allows. Do not use it.`, 'bad']);
+      else if (ed && v.tuse > s.t + 0.005) notes.push([`The orifice is sized for your ${F(v.tuse, 2)} h, which is longer than the safe minimum.`, 'good']);
       if (s.mtsr >= v.MTT - 0.05) notes.push(['MTSR reaches the MTT at this time. Add a margin: dose slower, or lower the accumulation.', 'warn']);
       if (s.accT > s.accMax) notes.push(['Accumulation is above the MTSR limit.', 'bad']);
       if (o.err) { notes.push([o.err, 'bad']); return { rows: [['Safe addition time', F(s.t, 2), 'h'], ['MTSR at that time', F(s.mtsr, 1), '°C']], notes }; }
@@ -463,7 +463,7 @@
       else notes.push(['With a pump, the orifice caps the flow if the control valve fails open or the pump runs at full speed. Check the pump curve gives at least this pressure drop at the capped flow.']);
       notes.push(['Accumulation for slower dosing is scaled from the RC run (acc × t<sub>RC</sub>/t), valid when the reaction is fast compared with dosing. Never dose faster than the RC run without a new RC test, and confirm the chosen time with RC before plant use.']);
       notes.push(['Orifice: Q = Cd·A·√(2gH), sharp-edged (Cd ≈ 0.61), line friction ignored, which errs towards a smaller orifice. Drill to the size shown, rounded down, and put a tag on it so it is never drilled out.']);
-      return { rows: [['Safe addition time', F(s.t, 2), 'h']].concat(v.tuse > 0 ? [['Addition time designed for', F(v.tuse, 2), 'h']] : []).concat([['Orifice diameter (calculated)', F(o.d, 2), 'mm'], ['Drill size (rounded down to 0.1 mm)', F(o.dr, 1), 'mm'], ['Addition time with that orifice', F(o.tr, 2), 'h'],
+      return { rows: [['Safe addition time', F(s.t, 2), 'h']].concat(ed ? [['Addition time designed for', F(v.tuse, 2), 'h']] : []).concat([['Orifice diameter (calculated)', F(o.d, 2), 'mm'], ['Drill size (rounded down to 0.1 mm)', F(o.dr, 1), 'mm'], ['Addition time with that orifice', F(o.tr, 2), 'h'],
         ['Flow at start (maximum)', F(o.q1, 0), 'L/h'], ['Flow at end', F(o.q2, 0), 'L/h'], ['Reagent volume', F(o.Vol * 1000, 0), 'L'], ['Driving head at start', F(o.H1, 2), 'm of liquid'],
         ['Total reaction heat', F(s.Q, 0), 'kJ'], ['Adiabatic temperature rise', F(s.dTad, 1), '°C'], ['Accumulation at that time', F(s.accT, 1), '%'], ['Largest accumulation the MTT allows', F(s.accMax, 1), '%'], ['MTSR', F(s.mtsr, 1), '°C'],
         ['Jacket cooling capacity', F(s.cool / KJ, 0), 'kcal/h']]), notes };
@@ -573,8 +573,9 @@
   const pcmeRead = (k) => { try { const m = location.hash.match(/[#&]s=([A-Za-z0-9_-]+)/); if (!m) return null; const o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); return o && o.k === k ? o : null; } catch (e) { return null; } };
   function mount(el) {
     const id = el.dataset.calc, c = C[id]; if (!c) return;
-    const v = {}; c.inputs.forEach(i => v[i.k] = i.v);
-    { const st = pcmeRead('ut'); if (st && st.id === id && st.v) Object.keys(v).forEach(k => { if (st.v[k] !== undefined) v[k] = st.v[k]; }); }
+    const v = {}; c.inputs.forEach(i => v[i.k] = i.v); v.__edited = {};
+    { const st = pcmeRead('ut'); if (st && st.id === id && st.v) Object.keys(v).forEach(k => { if (st.v[k] !== undefined && st.v[k] !== null) v[k] = st.v[k]; }); if (!v.__edited || typeof v.__edited !== 'object') v.__edited = {}; }
+    const autoFill = () => c.inputs.forEach(i => { if (!i.auto || v.__edited[i.k]) return; v[i.k] = i.auto(v); const f = form && form.querySelector(`[data-k="${i.k}"]`); if (f && document.activeElement !== f) f.value = isFinite(v[i.k]) ? v[i.k] : ''; });
     el.innerHTML = `<div class="ut-card"><div class="ut-hd"><h3>${esc(c.title)}</h3><p>${esc(c.sub)}</p></div><div class="ut-body"><form class="ut-in" autocomplete="off"></form><div class="ut-out" aria-live="polite"></div></div><div class="ut-tools"><button type="button" class="ut-xl">Download PDF</button><span>${c.xl ? 'with live formulas' : 'inputs and results'}</span></div></div>`;
     const form = el.querySelector('.ut-in'), out = el.querySelector('.ut-out'), xb = el.querySelector('.ut-xl');
     xb.addEventListener('click', () => {
@@ -588,10 +589,11 @@
     function drawInputs() {
       form.innerHTML = c.inputs.filter(i => !i.show || i.show(v)).map(i => `<label class="ut-f"><span>${esc(i.label)}${i.unit && i.type !== 'sel' ? ` <i>${esc(i.unit)}</i>` : ''}</span>${i.type === 'sel'
         ? `<select data-k="${i.k}">${i.opts.map(o => `<option value="${o[0]}"${o[0] === v[i.k] ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select>`
-        : `<input data-k="${i.k}" type="number" step="any" inputmode="decimal" value="${v[i.k]}">`}</label>`).join('');
+        : `<input data-k="${i.k}" type="number" step="any" inputmode="decimal" value="${isFinite(v[i.k]) ? v[i.k] : ''}">`}</label>`).join('');
     }
     function calc() {
-      const bad = c.inputs.filter(i => i.type !== 'sel' && (!i.show || i.show(v)) && !isFinite(v[i.k]));
+      autoFill();
+      const bad = c.inputs.filter(i => i.type !== 'sel' && !i.auto && (!i.show || i.show(v)) && !isFinite(v[i.k]));
       if (bad.length) { out.innerHTML = '<p class="ut-empty">Fill in every value to see the result.</p>'; return; }
       const r = c.run(v);
       const leadN = (r.notes || []).filter(n => n[1] === 'lead'); r.notes = (r.notes || []).filter(n => n[1] !== 'lead');
@@ -600,8 +602,10 @@
     }
     form.addEventListener('input', e => { const k = e.target.dataset.k; if (!k) return; const spec = c.inputs.find(i => i.k === k);
       v[k] = spec.type === 'sel' ? e.target.value : (e.target.value === '' ? NaN : +e.target.value);
+      if (spec.auto) v.__edited[k] = e.target.value !== '';
       if (spec.type === 'sel') { const o = c.onSel && c.onSel(k, v[k]); if (o) Object.assign(v, o); drawInputs(); const f = form.querySelector(`[data-k="${k}"]`); if (f) f.focus(); }
       calc(); });
+    form.addEventListener('focusout', () => setTimeout(autoFill, 0));
     drawInputs(); calc();
   }
   window.PCME_UTIL = { C, steam };
