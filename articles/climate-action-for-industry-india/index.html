@@ -1,0 +1,189 @@
+---
+layout: default
+title: "Climate Action for Indian Industry: Scopes, PAT, Carbon Credits and Net Zero"
+seo_title: "Climate Action for Indian Industry: PAT and CCTS | PharmaChemE"
+description: "Greenhouse gas basics, Scope 1, 2 and 3 with a worked plant inventory, India's targets, PAT, the carbon credit trading scheme and a practical order of action."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Climate Action for Industry
+    url: /articles/climate-action-for-industry-india/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Climate Action for Indian Industry: Scopes, PAT, Carbon Credits and Net Zero",
+        "description": "Greenhouse gas basics, Scope 1, 2 and 3 emissions, India's climate targets, PAT, the carbon credit trading scheme and a practical emissions reduction order for chemical and pharma plants.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between Scope 1, 2 and 3 emissions?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Scope 1 is what you burn or release on site. Scope 2 is the emissions behind the electricity, steam or cooling you buy. Scope 3 is everything else in the value chain, such as purchased materials, transport and waste."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which grid emission factor should an Indian plant use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the latest weighted average from the Central Electricity Authority's CO2 Baseline Database. Version 20.0 gives 0.727 t CO2/MWh for FY 2023-24. The CEA updates it, so confirm the current version before reporting."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my pharma or agrochemical plant covered by PAT or the carbon credit trading scheme?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not usually, as the sectors notified so far are energy-intensive ones such as cement, steel, chlor-alkali, refining and textiles. Check the current BEE notifications for your sector and site, because lists change."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should we buy carbon credits to reach net zero?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only after measuring and cutting your own emissions. Efficiency, fuel switching and clean power come first, and credits are for the remainder you cannot avoid."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Climate Action for Indian Industry: Scopes, PAT, Carbon Credits and Net Zero</h1>
+  <p class="article-meta">Utilities &middot; Energy management &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A customer asks for your carbon number, a new rule mentions designated consumers, and the word net zero appears in a management presentation. This page explains what those mean for a chemical or pharma plant, how to build a first inventory, and which rules apply as of November 2026.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#basics">Greenhouse gases and CO2e</a><span>Basics</span></li>
+    <li><a href="#scopes">Scope 1, 2 and 3 in plain terms</a><span>Basics</span></li>
+    <li><a href="#inventory">A worked example inventory</a><span>Working level</span></li>
+    <li><a href="#commitments">India's commitments</a><span>Working level</span></li>
+    <li><a href="#pat">Energy Conservation Act and PAT</a><span>Working level</span></li>
+    <li><a href="#ccts">Carbon credit trading scheme</a><span>Working level</span></li>
+    <li><a href="#markets">CDM and carbon markets</a><span>Going deeper</span></li>
+    <li><a href="#order">A practical order of action</a><span>Going deeper</span></li>
+    <li><a href="#now">What to do now</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="basics">Greenhouse gases and CO2e: the unit everything is counted in <span class="lvl l1">Basics</span></h2>
+  <p>A plant releases several greenhouse gases, not only carbon dioxide. Methane, nitrous oxide and refrigerant gases trap far more heat per kilogram than CO<sub>2</sub> does. To add them up, each gas is multiplied by its <strong>global warming potential</strong> (GWP) and the result is written as <strong>CO<sub>2</sub> equivalent</strong>, or CO<sub>2</sub>e. A kilogram of a refrigerant with a GWP of about 1,400 counts as about 1,400 kg of CO<sub>2</sub>e, which is why a small leak from a chiller matters more than it looks.</p>
+  <p>For a batch plant, most of the number comes from three places: fuel burned on site (boiler coal, gas, furnace oil, diesel for generators), electricity bought from the grid, and a long tail of purchased goods, transport and waste. Climate action for industry is mostly a question of measuring those three, then reducing them in a sensible order.</p>
+  <h2 id="scopes">Scope 1, 2 and 3 in plain terms <span class="lvl l1">Basics</span></h2>
+  <p>The GHG Protocol, the accounting method most companies and buyers use, sorts emissions into three scopes.</p>
+  <ul>
+    <li><strong>Scope 1:</strong> emissions from sources you own or control. Boiler and thermic fluid heater fuel, DG set diesel, company vehicles, process vents and refrigerant leaks.</li>
+    <li><strong>Scope 2:</strong> emissions from the electricity, steam, heat or cooling you buy. The emission happens at the power station, but it is counted in your inventory.</li>
+    <li><strong>Scope 3:</strong> everything else in your value chain: purchased raw materials and solvents, transport, business travel, waste disposal, and the use of your products.</li>
+  </ul>
+  <p>Scope 2 can be reported two ways. A <em>location-based</em> figure uses the average emission factor of the grid you are connected to. A <em>market-based</em> figure reflects the contracts you have chosen, so renewable power you buy directly can lower it. The GHG Protocol working groups were still revising both Scope 2 methods when this page was written, so check the current guidance before publishing a report.</p>
+  <h2 id="inventory">A worked example: a simple inventory for a batch plant <span class="lvl l2">Working level</span></h2>
+  <p>An inventory is a table: activity data multiplied by an emission factor. The figures below are <strong>illustrative</strong> and use round numbers. Replace each one with your own meter readings, purchase records and the latest published factors.</p>
+  <table>
+    <thead><tr><th>Source</th><th>Scope</th><th>Activity (per year)</th><th>Factor (illustrative)</th><th>t CO<sub>2</sub>e</th></tr></thead>
+    <tbody>
+      <tr><td>Boiler coal</td><td>1</td><td>3,000 t</td><td>1.8 t CO<sub>2</sub>/t coal</td><td>5,400</td></tr>
+      <tr><td>DG set diesel</td><td>1</td><td>120,000 L</td><td>2.68 kg CO<sub>2</sub>/L</td><td>322</td></tr>
+      <tr><td>Chiller refrigerant leak (R-134a)</td><td>1</td><td>50 kg</td><td>GWP about 1,430</td><td>72</td></tr>
+      <tr><td>Grid electricity</td><td>2</td><td>6,000 MWh</td><td>0.727 t CO<sub>2</sub>/MWh</td><td>4,362</td></tr>
+      <tr><td><strong>Total, Scope 1 and 2</strong></td><td></td><td></td><td></td><td><strong>10,156</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="formula-box">
+    Emissions (t CO<sub>2</sub>e) = activity data &times; emission factor<br>
+    Grid example: 6,000 MWh &times; 0.727 t/MWh = 4,362 t
+    <small>Coal and fuel factors depend on the actual fuel grade. Use the calorific value and carbon content from your supplier's analysis where you have them.</small>
+  </div>
+  <p>The grid factor in the table, 0.727 t CO<sub>2</sub>/MWh, is the weighted average for FY 2023-24 in version 20.0 of the Central Electricity Authority's CO<sub>2</sub> Baseline Database. The CEA updates this database, so use the latest version when you build your own inventory.</p>
+  <p>Notice what the table shows. In this example the boiler fuel is more than half of the total, so a steam efficiency project, a switch to a cleaner fuel or a condensate return project moves the number more than anything else. That is typical of plants with a coal or oil boiler. A plant with a gas boiler will see a different split.</p>
+  <h3>How to build the first inventory in a month</h3>
+  <ul>
+    <li>Fix the boundary: which sites and which legal entity. Keep it the same each year.</li>
+    <li>List every fuel and electricity meter. The electricity bills and fuel purchase records already hold most of the data.</li>
+    <li>Add refrigerant top-ups from the maintenance log. What you topped up is what leaked.</li>
+    <li>Choose a base year with good data and keep it fixed, so later years can be compared against it.</li>
+    <li>Record the source and date of every emission factor. An inventory you cannot trace is not worth much.</li>
+    <li>Leave Scope 3 for the second pass, starting with the largest purchased materials and with transport.</li>
+  </ul>
+  <h2 id="commitments">India's commitments and the national picture <span class="lvl l2">Working level</span></h2>
+  <p>India's updated climate pledge under the Paris Agreement for the period to 2035 was approved by the Union Cabinet on 25 March 2026, as reported by the national press. As reported, it commits India to cut the emission intensity of its GDP by at least 47 percent from the 2005 level by 2035, to reach about 60 percent of installed power capacity from non-fossil sources by 2035, and to create a carbon sink of 3.5 to 4.0 billion tonnes of CO<sub>2</sub>e through forest and tree cover. The national goal of net zero by 2070 is unchanged. These are national targets. They are not limits on any single plant, but they explain the direction of rules that will reach plants.</p>
+  <p>Three instruments turn the national goals into plant-level obligations: the Energy Conservation Act, the Perform, Achieve and Trade scheme and the carbon credit trading scheme.</p>
+  <h2 id="pat">The Energy Conservation Act and PAT <span class="lvl l2">Working level</span></h2>
+  <p>The Energy Conservation Act, 2001 lets the government notify <strong>designated consumers</strong>: large users of energy in listed sectors. A designated consumer must appoint a certified energy manager, file an annual energy return and get periodic energy audits done by an accredited auditor, according to the Bureau of Energy Efficiency (BEE).</p>
+  <p>Perform, Achieve and Trade (PAT) sits on top of this. Each designated consumer gets a target to reduce its specific energy consumption (energy per unit of product) over a three-year cycle. A plant that beats its target earns energy saving certificates that can be sold. A plant that misses must buy certificates or pay a penalty. BEE's list shows that cycles have covered sectors such as cement, iron and steel, chlor-alkali, fertiliser, pulp and paper, textiles, thermal power and refineries. A pharma or agrochemical formulation plant is usually not in those lists, but a large chemical complex may be. Check the current BEE notification for your sector and plant.</p>
+  <p>The Energy Conservation (Amendment) Act, 2022, passed by Parliament in December 2022, widened the law. It allows the government to set up a carbon credit trading scheme and to require designated consumers to meet a minimum share of their energy from non-fossil sources. The designated consumer categories in the Act include chemicals and petrochemicals. Penalties for non-compliance with the non-fossil obligation can reach Rs 10 lakh, plus a further amount linked to the excess energy used.</p>
+  <h2 id="ccts">India's carbon credit trading scheme <span class="lvl l2">Working level</span></h2>
+  <p>The scheme was notified in June 2023 under the amended Act. As of early 2026, per the International Carbon Action Partnership, targets had been notified for seven sectors (aluminium, cement, chlor-alkali, pulp and paper, petroleum refining, petrochemicals and textiles), covering roughly 490 entities. The targets are set as emission intensity, meaning tonnes of CO<sub>2</sub>e per unit of product, against a base year of FY 2024. An entity that beats its target earns carbon credit certificates; one that falls short must buy them. The first compliance phase covers FY 2026 and FY 2027, and offsets are not allowed in the compliance market. A separate domestic offset mechanism is being built.</p>
+  <p><strong>As of November 2026</strong> pharma and most agrochemical plants are not among the sectors with notified targets, but sector lists, timelines and trading dates have been moving, so check BEE for the current position. Even outside the compliance scheme, a plant that supplies a regulated buyer will soon be asked for a carbon number.</p>
+  <h2 id="markets">From the Clean Development Mechanism to today's carbon markets <span class="lvl l3">Going deeper</span></h2>
+  <p>Older Indian energy projects were often financed in part by selling credits under the Clean Development Mechanism, a mechanism created under the Kyoto Protocol. You will still see CDM in older project files, and the CEA's CO<sub>2</sub> Baseline Database was originally published as a CDM baseline tool. Today the picture is different: compliance trading is domestic, under the scheme above, while voluntary credits depend on buyer trust. Voluntary credits are best treated as a last step for emissions that cannot be removed, not as a substitute for reducing them.</p>
+  <h2 id="order">A practical order of action <span class="lvl l3">Going deeper</span></h2>
+  <p>Net zero means that the emissions you cannot avoid are balanced by verified removals or reductions, after you have cut your own. The order that usually pays best in a batch plant is:</p>
+  <ol>
+    <li><strong>Measure.</strong> Sub-meter the big users. You cannot cut what you have not found.</li>
+    <li><strong>Use less.</strong> Steam leaks and trap failures, compressed air leaks, cooling tower and chiller control, correct pump and fan sizing. These often pay back within a year.</li>
+    <li><strong>Switch fuel.</strong> A cleaner boiler fuel, a heat pump for low-grade heat, or electrifying a small process heater where the grid is cleaner.</li>
+    <li><strong>Buy or make clean power.</strong> Rooftop solar and open access renewable supply. See the article on solar for industrial plants.</li>
+    <li><strong>Offset the remainder,</strong> with credits you can defend, and only after the steps above.</li>
+  </ol>
+  <div class="art-note"><b>On the plant</b><p>The cheapest tonne is the one that was never emitted. Plants that start with a steam and compressed air walk-through usually find the first savings in a week, long before any solar or offset discussion.</p></div>
+  <h2 id="now">What a chemical or pharma plant should do now <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Check whether any site of yours is a designated consumer, and whether your sector appears in the BEE or carbon trading notifications.</li>
+    <li>Build the Scope 1 and 2 inventory and keep the working file, factors and dates.</li>
+    <li>Set an energy performance indicator for each large user, such as kWh per kg of product or kg of steam per kg of product, so that savings are visible.</li>
+    <li>Ask your largest customers what carbon information they will need. It is cheaper to build the data once.</li>
+    <li>Reread consent conditions and statutory returns together with energy data. The same meters often serve both.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between Scope 1, 2 and 3 emissions?</h3>
+  <p>Scope 1 is what you burn or release on site. Scope 2 is the emissions behind the electricity, steam or cooling you buy. Scope 3 is everything else in the value chain, such as purchased materials, transport and waste.</p>
+  <h3>Which grid emission factor should an Indian plant use?</h3>
+  <p>Use the latest weighted average from the Central Electricity Authority's CO2 Baseline Database. Version 20.0 gives 0.727 t CO2/MWh for FY 2023-24. The CEA updates it, so confirm the current version before reporting.</p>
+  <h3>Is my pharma or agrochemical plant covered by PAT or the carbon credit trading scheme?</h3>
+  <p>Not usually, as the sectors notified so far are energy-intensive ones such as cement, steel, chlor-alkali, refining and textiles. Check the current BEE notifications for your sector and site, because lists change.</p>
+  <h3>Should we buy carbon credits to reach net zero?</h3>
+  <p>Only after measuring and cutting your own emissions. Efficiency, fuel switching and clean power come first, and credits are for the remainder you cannot avoid.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Bureau of Energy Efficiency, PAT scheme overview: <a href="https://beeindia.gov.in/objective.php" rel="noopener">beeindia.gov.in/objective.php</a> (designated consumers and sector lists per cycle)</li>
+    <li>PRS Legislative Research, Energy Conservation (Amendment) Bill, 2022: <a href="https://prsindia.org/billtrack/the-energy-conservation-amendment-bill-2022" rel="noopener">prsindia.org</a></li>
+    <li>International Carbon Action Partnership, Indian Carbon Credit Trading Scheme: <a href="https://icapcarbonaction.com/en/ets/indian-carbon-credit-trading-scheme" rel="noopener">icapcarbonaction.com</a></li>
+    <li>Central Electricity Authority, CO2 Baseline Database for the Indian Power Sector, User Guide Version 20.0: <a href="https://cea.nic.in/wp-content/uploads/2021/03/User_Guide_Version_20.0.pdf" rel="noopener">cea.nic.in</a></li>
+    <li>The Quint, report on India's updated NDC for 2031 to 2035, 26 March 2026: <a href="https://www.thequint.com/climate-change/india-update-climate-pledge-ndcs-net-zero-emissions-cut" rel="noopener">thequint.com</a></li>
+    <li>WRI and WBCSD, <i>The Greenhouse Gas Protocol: A Corporate Accounting and Reporting Standard</i> (the Scope 1, 2 and 3 framework)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/articles/solar-and-renewables-for-industrial-plants/' | relative_url }}">Solar and renewables for industrial plants</a>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/articles/pollution-control-consent-cte-cto/' | relative_url }}">Pollution control consents</a>
+    <a href="{{ '/utilities/' | relative_url }}">Utilities calculators</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

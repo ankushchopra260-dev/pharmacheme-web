@@ -1,0 +1,219 @@
+---
+layout: default
+title: "Life Cycle Cost of Plant Equipment: Motors, Pumps, Chillers and Compressors"
+seo_title: "Life Cycle Cost (LCC) of Plant Equipment | PharmaChemE"
+description: "Why energy outweighs purchase price for motors, pumps, chillers and compressors, with a worked 10-year life cycle cost example, NPV, payback and sensitivity."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Life Cycle Cost of Plant Equipment
+    url: /articles/life-cycle-cost-plant-equipment/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Life Cycle Cost of Plant Equipment: Motors, Pumps, Chillers and Compressors",
+        "description": "What goes into life cycle cost, how discounting works, a worked ten-year example comparing two motors, and when payback, NPV and IRR mislead.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is life cycle cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The total cost of owning equipment over its life: purchase, installation, energy, maintenance, downtime and disposal, with future costs brought back to today's value by discounting. For equipment that runs for long hours, such as motors, pumps, chillers and compressors, energy is usually the largest part."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which discount rate should I use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the rate your finance team uses for project decisions, often called the hurdle rate. The 10 percent in the worked example is an assumption. Run the calculation at a lower and a higher rate too, and see whether the decision changes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is the cheapest equipment ever the right choice?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, when the equipment runs few hours, is standby only, or will be replaced soon. Then the extra cost of a more efficient machine is not repaid. In the worked example, the efficient motor stops paying off when it runs below roughly 1,400 hours a year."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I use payback or NPV?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Payback is quick and good for screening, but it ignores what happens after the payback and the time value of money. NPV counts the whole life and is the better basis for choosing between options. Look at both."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Life Cycle Cost of Plant Equipment: Motors, Pumps, Chillers and Compressors</h1>
+  <p class="article-meta">Utilities &middot; Energy management &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A purchase order compares prices. A plant lives with the equipment for ten or fifteen years, and for anything that runs all day, the electricity it uses can cost many times what it cost to buy. Life cycle cost is the way to put both on one page. This article explains what goes into it, how discounting works in plain words, and works one example through to the end.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why the purchase price misleads</a><span>Basics</span></li>
+    <li><a href="#parts">What goes into life cycle cost</a><span>Basics</span></li>
+    <li><a href="#money">Discounting in plain words</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: two motors over ten years</a><span>Working level</span></li>
+    <li><a href="#sens">What if the hours or tariff are different?</a><span>Working level</span></li>
+    <li><a href="#methods">Payback, NPV and IRR: when each misleads</a><span>Going deeper</span></li>
+    <li><a href="#sheet">A simple spreadsheet layout</a><span>Going deeper</span></li>
+    <li><a href="#check">A decision checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why the purchase price misleads <span class="lvl l1">Basics</span></h2>
+  <p>Think of a pump motor that runs about 7,000 hours a year. At Rs 8 per kWh, a 45 kW load costs over Rs 27 lakh of electricity every year. The motor itself may cost Rs 1.4 lakh. Within the first three weeks of running, the electricity has already cost more than the motor, and the plant keeps paying for the next ten years.</p>
+  <p>That is why a small difference in efficiency, a motor that is 2 points better or a pump that sits nearer its best point, can be worth far more than a discount on the price. It is also why the choice is rarely made well when purchase and operations sit in different departments: purchase sees the price, operations pays the bill.</p>
+  <p>The same applies to chillers, compressors and boilers. It does not apply to equipment that seldom runs, such as a standby pump or a fire pump. For those, the price and maintenance matter most.</p>
+
+  <h2 id="parts">What goes into life cycle cost <span class="lvl l1">Basics</span></h2>
+  <div class="formula-box">
+    LCC = capital + installation + energy + maintenance + downtime + disposal
+    <small>Each future cost is converted to today's value before adding (see the next section).</small>
+  </div>
+  <ul>
+    <li><strong>Capital:</strong> the price of the equipment, with the drive, starter, spares and commissioning.</li>
+    <li><strong>Installation:</strong> foundation, piping, cabling, civil work, and the cost of the shutdown to fit it.</li>
+    <li><strong>Energy:</strong> power or fuel, over the running hours, at the real tariff including demand charges where they apply. This is usually the largest item for continuous equipment.</li>
+    <li><strong>Maintenance:</strong> routine service, spares, seals, bearings, overhauls.</li>
+    <li><strong>Downtime:</strong> what a failure costs. In a batch plant, a lost batch or a delayed campaign can cost far more than the repair. This line is easy to forget and can dominate for critical equipment.</li>
+    <li><strong>Disposal:</strong> removal and scrap value, small for most equipment.</li>
+  </ul>
+
+  <h2 id="money">Discounting in plain words <span class="lvl l2">Working level</span></h2>
+  <p>A rupee next year is worth less than a rupee today, because today's rupee could be invested or used to repay a loan. The <strong>discount rate</strong> says how much less. At a discount rate of 10 percent, Rs 1 lakh received in five years is worth about Rs 0.62 lakh today.</p>
+  <div class="formula-box">
+    Present value = cash in year t / (1 + r)<sup>t</sup><br>
+    Annual energy cost in year t = first-year cost &times; (1 + g)<sup>t&minus;1</sup>
+    <small>r: discount rate. g: yearly rise in the energy price. Both are assumptions to set with your finance team.</small>
+  </div>
+  <p>Energy prices usually rise, so the cost in later years is larger, but each rupee is also discounted more. For a ten-year life, with 3 percent yearly price rise and a 10 percent discount rate, the energy cost of year 1 is worth <strong>6.88</strong> times its value when summed over ten years. This single factor lets you jump from a first-year cost to a ten-year present value. Without any price rise, the factor would be about 6.14.</p>
+
+  <h2 id="example">Worked example: two motors over ten years <span class="lvl l2">Working level</span></h2>
+  <p>A pump needs 45 kW at the shaft, nearly all of the 7,000 hours it runs each year. We compare a standard motor with a premium efficiency motor. Every figure is an assumption for illustration.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Assumption</th><th>Standard motor A</th><th>Premium motor B</th></tr>
+    <tr><td>Efficiency at this load</td><td>92.0 %</td><td>94.0 %</td></tr>
+    <tr><td>Purchase price</td><td>Rs 1,40,000</td><td>Rs 2,20,000</td></tr>
+    <tr><td>Installation</td><td>Rs 20,000</td><td>Rs 20,000</td></tr>
+    <tr><td>Maintenance per year</td><td>Rs 6,000</td><td>Rs 6,000</td></tr>
+    <tr><td>Shaft load, hours, tariff</td><td colspan="2">45 kW, 7,000 h/year, Rs 8 per kWh</td></tr>
+    <tr><td>Life, discount rate, price rise</td><td colspan="2">10 years, 10 %, 3 % per year</td></tr>
+  </table></div>
+  <p><strong>Step 1: input power.</strong> Motor A takes 45 / 0.92 = 48.91 kW. Motor B takes 45 / 0.94 = 47.87 kW. The difference is about 1.04 kW.</p>
+  <p><strong>Step 2: yearly energy.</strong> A uses 48.91 &times; 7,000 = 3,42,391 kWh, which costs Rs 27.39 lakh in year 1. B uses 3,35,106 kWh, which costs Rs 26.81 lakh. B saves 7,285 kWh, or about Rs 58,300 in year 1.</p>
+  <p><strong>Step 3: present value over ten years.</strong> With the factor 6.88, the energy of A is worth about Rs 188.55 lakh and that of B about Rs 184.54 lakh. Maintenance of Rs 6,000 a year, discounted at 10 percent with no price rise, is worth about Rs 0.37 lakh for each.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Present value, Rs lakh</th><th>Motor A</th><th>Motor B</th></tr>
+    <tr><td>Purchase and installation</td><td>1.60</td><td>2.40</td></tr>
+    <tr><td>Energy, ten years</td><td>188.55</td><td>184.54</td></tr>
+    <tr><td>Maintenance, ten years</td><td>0.37</td><td>0.37</td></tr>
+    <tr><td><strong>Life cycle cost</strong></td><td><strong>190.52</strong></td><td><strong>187.31</strong></td></tr>
+  </table></div>
+  <p>The premium motor is Rs 0.80 lakh dearer to buy and cheaper by <strong>Rs 3.21 lakh</strong> over its life. The purchase price of motor A is less than 1 percent of its life cycle cost, and energy is about 99 percent. These are the answers to compare:</p>
+  <ul>
+    <li><strong>Simple payback</strong> of the extra Rs 0.80 lakh: 0.80 / 0.583 = 1.4 years.</li>
+    <li><strong>NPV</strong> of choosing B: +Rs 3.21 lakh, the present value of the savings (Rs 4.01 lakh) minus the extra cost (Rs 0.80 lakh).</li>
+    <li><strong>IRR</strong> of the extra spend: about 75 percent a year.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Check the efficiency at your real load, not the nameplate figure. Motors are most efficient near 60 to 100 percent of their rating, and a motor that is much larger than the load runs at a lower efficiency. Right-sizing is part of the same saving.</p></div>
+
+  <h2 id="sens">What if the hours or tariff are different? <span class="lvl l2">Working level</span></h2>
+  <p>The answer above depends on the running hours. Same motors, same assumptions, changing only the hours per year:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Hours per year</th><th>Saving in year 1</th><th>Simple payback</th><th>NPV of premium motor</th></tr>
+    <tr><td>2,000</td><td>Rs 0.17 lakh</td><td>4.8 years</td><td>+Rs 0.35 lakh</td></tr>
+    <tr><td>3,000</td><td>Rs 0.25 lakh</td><td>3.2 years</td><td>+Rs 0.92 lakh</td></tr>
+    <tr><td>5,000</td><td>Rs 0.42 lakh</td><td>1.9 years</td><td>+Rs 2.07 lakh</td></tr>
+    <tr><td>7,000</td><td>Rs 0.58 lakh</td><td>1.4 years</td><td>+Rs 3.21 lakh</td></tr>
+    <tr><td>8,000</td><td>Rs 0.67 lakh</td><td>1.2 years</td><td>+Rs 3.78 lakh</td></tr>
+  </table></div>
+  <p>The premium motor stops paying off at about 1,400 hours a year. Below that, buy the standard one. The tariff matters in the same direction: at 7,000 hours, Rs 6 per kWh gives an NPV of +Rs 2.21 lakh and Rs 10 per kWh gives +Rs 4.21 lakh. If you assume no price rise at all, the NPV falls to +Rs 2.78 lakh, still positive. A decision that holds across the range of hours, tariffs and discount rates is robust. A decision that flips inside the range needs a second look.</p>
+
+  <h2 id="methods">Payback, NPV and IRR: when each misleads <span class="lvl l3">Going deeper</span></h2>
+  <p>Three measures are in common use, and each answers a different question.</p>
+  <ul>
+    <li><strong>Simple payback</strong> asks how fast the money comes back. It is easy and good for screening, but it ignores everything after the payback year and ignores the time value of money.</li>
+    <li><strong>NPV</strong> adds all the discounted savings and subtracts the cost. A positive NPV means the choice earns more than the discount rate. It counts the whole life.</li>
+    <li><strong>IRR</strong> is the discount rate at which the NPV is zero. It is a percentage, so it is easy to compare, but it can mislead when cash flows change sign more than once (an overhaul in the middle gives more than one answer) and it hides the size of the project.</li>
+  </ul>
+  <p>An example of payback misleading, in Rs lakh and at 10 percent. Option X costs 10 and saves 6 a year for 2 years: payback 1.7 years, NPV about +0.4. Option Y costs 10 and saves 3 a year for 15 years: payback 3.3 years, NPV about +12.8. Payback ranks X first. NPV ranks Y far ahead, because Y keeps saving after X has stopped.</p>
+  <p>When the budget is limited, rank projects by NPV per rupee invested, not by NPV alone, so that a small project with a high return is not pushed out by a large one.</p>
+
+  <h2 id="sheet">A simple spreadsheet layout <span class="lvl l3">Going deeper</span></h2>
+  <p>One sheet per option, with inputs in a block at the top (efficiency, price, hours, tariff, price rise, discount rate, life) so that you can change them and watch the result move. Below it, one row per year:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Year</th><th>Capital</th><th>Energy</th><th>Maintenance</th><th>Total</th><th>Discount factor</th><th>Present value</th></tr>
+    <tr><td>0</td><td>price + installation</td><td>0</td><td>0</td><td>sum</td><td>1.000</td><td>= total</td></tr>
+    <tr><td>1</td><td>0</td><td>kW &times; hours &times; tariff</td><td>fixed</td><td>sum</td><td>1 / (1 + r)</td><td>= total &times; factor</td></tr>
+    <tr><td>2 to 10</td><td>0</td><td>year 1 &times; (1 + g)<sup>t&minus;1</sup></td><td>fixed</td><td>sum</td><td>1 / (1 + r)<sup>t</sup></td><td>= total &times; factor</td></tr>
+  </table></div>
+  <p>Add the present value column to get the life cycle cost. For a comparison, put the two options side by side and take the difference in the Total column to get the cash flow of the extra spend, then use the NPV and IRR functions of the spreadsheet on that cash flow. Add a second tab with the table of hours and tariff that you saw above.</p>
+
+  <h2 id="check">A decision checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Do you know the real running hours and the load, from a meter or a log, not from the nameplate?</li>
+    <li>Is the tariff the marginal rate you will pay, including demand charges?</li>
+    <li>Have you included downtime, if a failure stops production?</li>
+    <li>Does the answer hold when hours are 30 percent lower and the discount rate is 4 points higher?</li>
+    <li>Is the equipment sized for the real duty? An oversized machine loses the benefit of a better one.</li>
+    <li>Will the savings be metered after installation, so the decision can be checked?</li>
+  </ul>
+  <p>The same method works for chillers, compressors and boilers. The inputs are different (kW per TR, specific power, boiler efficiency), but the steps are the same. A list of the energy-saving options to evaluate this way is in <a href="{{ '/articles/energy-saving-opportunities-by-utility/' | relative_url }}">Energy-saving opportunities by utility</a>.</p>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is life cycle cost?</h3>
+  <p>The total cost of owning equipment over its life: purchase, installation, energy, maintenance, downtime and disposal, with future costs discounted to today's value. For equipment that runs long hours, energy is usually the largest part.</p>
+  <h3>Which discount rate should I use?</h3>
+  <p>The rate your finance team uses for project decisions. The 10 percent here is an assumption. Run the calculation at a lower and a higher rate and see whether the decision changes.</p>
+  <h3>Is the cheapest equipment ever the right choice?</h3>
+  <p>Yes, when it runs few hours, is standby only, or will be replaced soon. In the example, the premium motor stops paying off below roughly 1,400 hours a year.</p>
+  <h3>Should I use payback or NPV?</h3>
+  <p>Payback is quick and good for screening. NPV counts the whole life and is the better basis for choosing between options. Look at both.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Europump and Hydraulic Institute, <i>Pump Life Cycle Costs: A Guide to LCC Analysis for Pumping Systems</i>, 2001</li>
+    <li>US Department of Energy and Hydraulic Institute, <i>Improving Pumping System Performance: A Sourcebook for Industry</i></li>
+    <li>IEC 60034-30-1, rotating electrical machines: efficiency classes of line-operated AC motors</li>
+    <li>Bureau of Energy Efficiency (India), guide books for the National Certification Examination for Energy Managers and Energy Auditors, chapter on financial management</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/energy-saving-opportunities-by-utility/' | relative_url }}">Energy-saving opportunities by utility</a>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM</a>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a>
+    <a href="{{ '/utilities/chillers-vam/' | relative_url }}">Chillers and VAM calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

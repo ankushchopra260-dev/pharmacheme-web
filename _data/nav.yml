@@ -189,6 +189,13 @@
         - { title: "Lab to Plant Scale-up Checklist", url: /articles/lab-to-plant-scale-up-checklist/ }
         - { title: "Semi-Batch Dosing and Accumulation", url: /articles/semi-batch-dosing-accumulation/ }
         - { title: "Crystallisation Scale-up", url: /articles/crystallisation-scale-up/ }
+    - title: "Energy management"
+      url: /articles/#energy-management
+      count: 8
+      children:
+        - { title: "ISO 50001 for batch plants", url: /articles/iso-50001-energy-management-batch-plants/ }
+        - { title: "Energy review: SEU, baseline, EnPI", url: /articles/energy-review-seu-baseline-enpi/ }
+        - { title: "Energy saving by utility", url: /articles/energy-saving-opportunities-by-utility/ }
     - title: "Chemical reactions"
       url: /articles/#chemical-reactions
       count: 9

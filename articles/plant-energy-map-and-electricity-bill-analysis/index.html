@@ -1,0 +1,221 @@
+---
+layout: default
+title: "Plant Energy Map and Electricity Bill Analysis: Find Your Biggest Savings"
+seo_title: "Plant Energy Map and Electricity Bill Analysis | PharmaChemE"
+description: "How to draw an energy map of a batch plant, reconcile it with the electricity bill, and read demand, power factor and time-of-day charges to find real savings."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Plant Energy Map and Electricity Bill Analysis
+    url: /articles/plant-energy-map-and-electricity-bill-analysis/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Plant Energy Map and Electricity Bill Analysis: Find Your Biggest Savings",
+        "description": "How to draw an energy map of a batch plant, reconcile it with the electricity bill, and read demand, power factor and time-of-day charges to find real savings.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a plant energy map?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A plant energy map is a tree that follows electricity from the incoming supply to sections, utilities and individual machines, with the annual kWh of each branch written beside it. It shows where energy goes, which loads are measured and which are only estimated."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why should the energy map total match the electricity bill?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The bill is the one number that is measured and audited. If the sum of your estimated loads is more than a few percent away from the billed kWh, some loads are missing or some estimates are wrong, so the map cannot yet be trusted to rank savings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between contract demand and recorded demand?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Contract demand is the kVA you agreed with the utility. Recorded demand is the highest kVA the meter measured in a billing period. Many tariffs bill the higher of the recorded demand and a fixed share of contract demand, so read your own tariff order."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does power factor matter if my bill is in kWh?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on the tariff. Under kVAh billing, low power factor raises the billed units directly. Under kWh billing, low power factor usually triggers a penalty or loses an incentive. Either way it also loads cables and transformers, so correcting it is worth checking."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Plant Energy Map and Electricity Bill Analysis</h1>
+  <p class="article-meta">Utilities &middot; Energy management &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Ask five people in a plant where the electricity goes and you will hear five different answers: the chillers, the vacuum pumps, the compressors, &ldquo;the reactors, obviously&rdquo;. Nobody has checked, because nobody has drawn it. This article shows how to draw an energy map on one sheet of paper, make it agree with the bill, and then read the bill itself for three kinds of saving that need no new equipment.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why a map before any project</a><span>Basics</span></li>
+    <li><a href="#tree">Drawing the tree</a><span>Basics</span></li>
+    <li><a href="#table">The table behind the map</a><span>Working level</span></li>
+    <li><a href="#meter">What to meter, and how</a><span>Working level</span></li>
+    <li><a href="#bill">Reading the electricity bill</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: twelve months of bills</a><span>Going deeper</span></li>
+    <li><a href="#track">A tracking sheet that stays alive</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why a map before any project <span class="lvl l1">Basics</span></h2>
+  <p>Energy projects usually start from a supplier&rsquo;s proposal: a better drive here, a heat pump there. The proposal is about the supplier&rsquo;s product, not about your plant. An energy map reverses the order. It first shows where the kilowatt-hours go, so that the first project goes to the biggest and most flexible user, not to the one with the best brochure.</p>
+  <p>The map also settles arguments. When someone says &ldquo;lighting is a big load&rdquo;, the map says 4 % of the bill. When someone says the compressors are fine, the map says 12 % of the bill and the leak test says a third of that is leaking. Numbers on a shared sheet move a discussion from opinion to priority.</p>
+
+  <h2 id="tree">Drawing the tree <span class="lvl l1">Basics</span></h2>
+  <p>Start at the top with the incoming supply and work down, the way the electrical single-line diagram does. The levels are usually:</p>
+  <ul>
+    <li><strong>Incomer:</strong> the utility meter, plus any diesel generator, captive solar or other source feeding the same bus.</li>
+    <li><strong>Main distribution:</strong> the transformers, the capacitor panel and the main feeders.</li>
+    <li><strong>Sections:</strong> production blocks, utilities (chillers, cooling towers, compressors, boiler auxiliaries), effluent treatment, warehouse, offices and lighting.</li>
+    <li><strong>Machines:</strong> only for the big ones. A 90 kW chiller compressor gets its own box. Thirty small exhaust fans share one.</li>
+  </ul>
+  <p>Draw utilities as their own sub-trees, not buried inside production. A cooling tower serves many blocks, so splitting its power by block hides the fact that it is a single large user you can improve in one place.</p>
+  <p>Mark each box with one of three tags: <strong>M</strong> for metered, <strong>L</strong> for logged for a few days with a clamp-on meter, <strong>E</strong> for estimated from nameplate, loading and running hours. The mix of tags tells you at a glance how much of the map is knowledge and how much is guess.</p>
+  <div class="art-note"><b>On the plant</b><p>Walk the tree with the shift electrician before you finalise it. Every plant has a feeder nobody remembers: a borewell pump, a contractor&rsquo;s welding supply, a lab furnace on a spare breaker. They show up on the bill and nowhere on the drawings.</p></div>
+
+  <h2 id="table">The table behind the map <span class="lvl l2">Working level</span></h2>
+  <p>The tree is the picture. The table is the proof. Give each user a row with its annual kWh and how that figure was obtained. For an estimated user the usual arithmetic is:</p>
+  <div class="formula-box">
+    Annual kWh = connected kW &times; average load factor &times; running hours per year
+    <small>Average load factor is the fraction of rated power drawn on average. Motors are rarely at full load, so 0.6 to 0.8 is common for pumps and fans, but measure it for the big ones.</small>
+  </div>
+  <p>Then add the column of rows and compare it with the billed kWh for the same twelve months. In the illustrative plant below the map explains 28.9 lakh kWh against 29.4 lakh billed.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>User</th><th>Annual kWh (illustrative)</th><th>Basis</th></tr></thead>
+    <tbody>
+      <tr><td>Chilled water and HVAC</td><td>7,80,000</td><td>L: logged chillers, pumps, AHUs</td></tr>
+      <tr><td>Reactors and agitators</td><td>4,40,000</td><td>E: kW, batches per year, hours per batch</td></tr>
+      <tr><td>Compressed air</td><td>3,55,000</td><td>M: compressor sub-meter</td></tr>
+      <tr><td>Process and utility pumps</td><td>2,70,000</td><td>E: motor kW and hours</td></tr>
+      <tr><td>Vacuum systems</td><td>1,90,000</td><td>E, checked by clamp-on on two pumps</td></tr>
+      <tr><td>Cooling tower fans and pumps</td><td>1,50,000</td><td>L</td></tr>
+      <tr><td>Effluent treatment and water treatment</td><td>1,20,000</td><td>M: ETP feeder meter</td></tr>
+      <tr><td>Lighting</td><td>1,10,000</td><td>E: fixture count, watts, hours</td></tr>
+      <tr><td>Others (labs, offices, small motors)</td><td>4,75,000</td><td>E: remainder, to be broken down</td></tr>
+      <tr><td><strong>Total of the map</strong></td><td><strong>28,90,000</strong></td><td>Billed: 29,40,000 (map is 1.7 % low)</td></tr>
+    </tbody>
+  </table></div>
+  <p>A gap of a few percent is normal, because losses in cables and transformers are not in any single row. A gap of 15 % means something big is missing. A large &ldquo;Others&rdquo; row, like the one above, is itself a finding: it is 16 % of the bill and nobody knows what is in it. That row is the next place to put a clamp-on logger.</p>
+
+  <h2 id="meter">What to meter, and how <span class="lvl l2">Working level</span></h2>
+  <p>You do not need a meter on every motor. Use the 80/20 rule: rank the rows, and make sure the rows that together make up about 80 % of the bill have a real measurement.</p>
+  <ul>
+    <li><strong>Permanent sub-meters</strong> (with a pulse or Modbus output) for the large, continuous users: the chiller plant, the compressor house, the ETP, each large production block. They pay back through daily kWh tracking.</li>
+    <li><strong>Clamp-on logging for 3 to 7 days</strong> for everything else that is big enough to matter. Log kW and power factor, not only current, and cover at least one full batch cycle so that the log sees both the peak and the quiet period.</li>
+    <li><strong>One-off spot readings</strong> for small loads, with running hours taken from the log book or the control system.</li>
+  </ul>
+  <p>Record what the plant was doing during the logging: which batches, which chillers on, outside temperature. A kW trace without that context is hard to use later.</p>
+
+  <h2 id="bill">Reading the electricity bill <span class="lvl l2">Working level</span></h2>
+  <p>Tariffs differ by state and by consumer category, and they change with each regulator&rsquo;s tariff order. So the points below describe the common structure. Use them to know what to look for on your own bill, and read your own tariff order for the actual rules.</p>
+  <h3>Demand and energy</h3>
+  <p>An industrial bill typically has a <strong>demand charge</strong> (a rate per kVA per month) and an <strong>energy charge</strong> (a rate per kWh or kVAh). Demand is set by <strong>contract demand</strong>, the kVA you agreed with the utility, and by <strong>recorded demand</strong>, the highest kVA the meter saw in the period, usually averaged over a short interval such as 15 or 30 minutes. Many tariffs bill the higher of the recorded demand and a fixed share of contract demand, and some add an extra charge for exceeding contract demand.</p>
+  <p>Two things follow. A single short peak can set the demand charge for the whole month, so starting several large motors together is expensive. And a contract demand far above what you ever use means you may be paying for capacity you do not need.</p>
+  <h3>Load factor</h3>
+  <p>Load factor tells you how evenly the plant draws power:</p>
+  <div class="formula-box">
+    Load factor = kWh in the month / (maximum demand in kW &times; hours in the month)
+    <small>Maximum demand in kW is the recorded kVA times the average power factor. A higher load factor means a flatter demand curve.</small>
+  </div>
+  <p>Batch plants often sit at 50 to 60 %. Raising it means moving or staggering loads, not using less energy, and it lowers the demand charge per unit consumed.</p>
+  <h3>Power factor and the kVAh question</h3>
+  <p>Power factor is real power (kW) divided by apparent power (kVA). Motors and transformers draw reactive power that does no work but still loads the cables, the transformer and the utility&rsquo;s network. Utilities handle this in one of two ways. Some bill in <strong>kVAh</strong>, so any drop in power factor directly increases the billed units. Others bill in kWh and add a penalty below a threshold, or give an incentive above one. Either way, the bill shows the monthly average power factor, and it is worth watching.</p>
+  <h3>Time-of-day tariff</h3>
+  <p>Many states charge more for energy in peak hours and give a rebate in off-peak or solar hours. The slots and the differentials are in your tariff order. The saving is the difference in rate times the energy you can move from one slot to another, so the question to ask is what you can move, not what you can switch off.</p>
+
+  <h2 id="example">Worked example: twelve months of bills <span class="lvl l3">Going deeper</span></h2>
+  <p>All numbers here are illustrative, with a made-up tariff, to show the method. Take a plant with a contract demand of 800 kVA and these twelve months:</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>Month</th><th>kWh</th><th>Recorded demand, kVA</th><th>Load factor</th></tr></thead>
+    <tbody>
+      <tr><td>Apr</td><td>2,45,000</td><td>640</td><td>55 %</td></tr>
+      <tr><td>May</td><td>2,60,000</td><td>690</td><td>53 %</td></tr>
+      <tr><td>Jun</td><td>2,70,000</td><td>720</td><td>54 %</td></tr>
+      <tr><td>Jul</td><td>2,55,000</td><td>660</td><td>54 %</td></tr>
+      <tr><td>Aug</td><td>2,50,000</td><td>650</td><td>54 %</td></tr>
+      <tr><td>Sep</td><td>2,52,000</td><td>655</td><td>56 %</td></tr>
+      <tr><td>Oct</td><td>2,48,000</td><td>640</td><td>54 %</td></tr>
+      <tr><td>Nov</td><td>2,35,000</td><td>610</td><td>56 %</td></tr>
+      <tr><td>Dec</td><td>2,30,000</td><td>600</td><td>54 %</td></tr>
+      <tr><td>Jan</td><td>2,28,000</td><td>590</td><td>54 %</td></tr>
+      <tr><td>Feb</td><td>2,25,000</td><td>585</td><td>60 %</td></tr>
+      <tr><td>Mar</td><td>2,42,000</td><td>630</td><td>54 %</td></tr>
+    </tbody>
+  </table></div>
+  <p>The total is 29.4 lakh kWh, the average demand is about 640 kVA, and load factor is calculated at a power factor of 0.96. Assume an energy rate of Rs 7 per kWh or kVAh and a demand charge of Rs 450 per kVA per month, as made-up round numbers. Three savings stand out.</p>
+  <h3>1. Demand peaks</h3>
+  <p>Most months sit near 640 kVA, but June reaches 720 and May 690. If the peak is a simultaneous start of two big loads, for example a vacuum system and a chiller after a power dip, a simple start delay between them can take about 60 kVA off the peak. That is 60 &times; 450 = Rs 27,000 a month, or Rs 3.24 lakh a year, for a timer and a procedure. The cool months have lower peaks, so the saving comes from the few hot months that set the highest demand.</p>
+  <h3>2. Power factor</h3>
+  <p>Suppose the monthly average power factor is 0.92 and the plant is billed in kVAh. For 2,50,000 kWh the billed kVAh is 2,50,000 / 0.92 = 2,71,739. At 0.98 it would be 2,50,000 / 0.98 = 2,55,102. The difference of 16,637 kVAh at Rs 7 is about Rs 1.16 lakh a month. For a 600 kW running load the reactive power to remove is 600 &times; (tan(cos&#8315;&sup1; 0.92) &minus; tan(cos&#8315;&sup1; 0.98)) = about 134 kVAr, so a bank of that order, with detuned reactors if harmonics are present, pays back in months. Check first whether failed capacitors in the existing bank are the real cause.</p>
+  <h3>3. Time-of-day shift</h3>
+  <p>Suppose 150 kW of load can move from a peak slot to an off-peak slot without touching production: pre-cooling the chilled water tank, running the effluent aerators or filling an overhead water tank. Four hours a day for 30 days is 150 &times; 4 &times; 30 = 18,000 kWh. At an assumed differential of Rs 1.5 per kWh that is Rs 27,000 a month, or about Rs 3.2 lakh a year. Read your own tariff order for the real slots and differentials.</p>
+  <p>The three savings together are about Rs 20 lakh a year in this example (3.24 + 13.97 + 3.24). None of them reduces kWh much, which is the point: the bill has more in it than kWh.</p>
+
+  <h2 id="track">A tracking sheet that stays alive <span class="lvl l3">Going deeper</span></h2>
+  <p>A one-time map goes stale in a year. Keep a simple monthly sheet, with one row per month and these columns:</p>
+  <ul>
+    <li>billed kWh or kVAh, recorded kVA, contract demand, monthly power factor and the bill amount;</li>
+    <li>production for the month (kg or batches), so you can compute specific energy in kWh per kg;</li>
+    <li>kWh of each permanent sub-meter, and the share of the bill each one explains;</li>
+    <li>a note column for the big events: shutdowns, new equipment, a changed chiller set point.</li>
+  </ul>
+  <p>Three charts are enough: kWh per kg over the months, recorded kVA against contract kVA, and the sub-meter shares. When a number moves, the notes column usually explains why. When it does not, that is the next thing to investigate. The monthly sheet is also the natural input to an energy baseline if you later work towards an energy management system.</p>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a plant energy map?</h3>
+  <p>A tree from the incoming supply down to sections, utilities and big machines, with annual kWh written beside each branch and a tag saying whether the figure is metered, logged or estimated.</p>
+  <h3>Why should the energy map total match the electricity bill?</h3>
+  <p>The bill is the only audited number. If your loads add up to more than a few percent away from it, something is missing or wrongly estimated, and the ranking of savings cannot be trusted yet.</p>
+  <h3>What is the difference between contract demand and recorded demand?</h3>
+  <p>Contract demand is the kVA you agreed with the utility. Recorded demand is the highest kVA the meter measured in the period. Many tariffs bill the higher of recorded demand and a fixed share of contract demand, so read your own tariff order.</p>
+  <h3>Does power factor matter if my bill is in kWh?</h3>
+  <p>Usually yes. Under kVAh billing, low power factor raises the billed units directly. Under kWh billing, it normally triggers a penalty or loses an incentive. It also loads cables and transformers.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Bureau of Energy Efficiency, <i>Energy Efficiency in Electrical Utilities</i>, guide book for the national certification examination for energy managers and auditors (free from beeindia.gov.in)</li>
+    <li>ISO 50006, <i>Energy management systems: Measuring energy performance using energy baselines and energy performance indicators</i></li>
+    <li>Your state electricity regulatory commission&rsquo;s current tariff order, for demand charge, power factor and time-of-day rules</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/utilities/' | relative_url }}">Utilities calculators</a>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">Water and power utilities</a>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency and the cost of steam</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

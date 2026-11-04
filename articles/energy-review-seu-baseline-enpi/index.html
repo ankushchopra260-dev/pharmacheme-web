@@ -1,0 +1,208 @@
+---
+layout: default
+title: "Energy Review: SEU, Baseline and EnPI for Chemical Plants"
+seo_title: "Energy Review: SEU, Baseline and EnPI | PharmaChemE"
+description: "How to run an energy review: choose significant energy uses, build an energy baseline with a regression example, and set EnPIs such as kWh/t and kW/TR."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Energy review: SEU, baseline, EnPI"
+    url: /articles/energy-review-seu-baseline-enpi/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Energy Review: SEU, Baseline and EnPI for Chemical Plants",
+        "description": "Choosing significant energy uses, building baselines (with a worked regression example), choosing EnPIs and setting targets for batch plants.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a significant energy use (SEU)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A significant energy use is an area, process or piece of equipment with substantial energy consumption or large potential for improvement. Plants usually pick the largest users covering about 80 percent of each energy source, plus any smaller area with clear scope for savings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is an energy baseline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An energy baseline is a quantitative reference for a defined period that you compare later energy performance against. For plants with changing output it is best built as a normalised model, such as energy against production and weather."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between an energy baseline and an EnPI?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The EnPI is the measure you track, such as kWh per tonne or kW per TR. The baseline is the reference value of that measure for a fixed past period, used to judge whether performance improved."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is kWh per tonne a good enough indicator?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not on its own for a batch plant. It rises when production falls because of fixed loads. It is better to also compare actual energy with a baseline model that includes production, so you see real changes in efficiency."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Energy Review: SEU, Baseline and EnPI for Chemical Plants</h1>
+  <p class="article-meta">Utilities &middot; Energy management &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Before you can save energy you need to know where it goes and how to tell if you improved. This article walks through the energy review: picking significant energy uses, building a baseline that survives changing production, choosing indicators and turning them into targets.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">What the energy review is for</a><span>Basics</span></li>
+    <li><a href="#seu">Choosing significant energy uses</a><span>Basics</span></li>
+    <li><a href="#vars">Relevant variables</a><span>Working level</span></li>
+    <li><a href="#baseline">Energy baseline methods</a><span>Working level</span></li>
+    <li><a href="#regression">A worked regression example</a><span>Working level</span></li>
+    <li><a href="#adjust">When the baseline must change</a><span>Going deeper</span></li>
+    <li><a href="#enpi">Energy performance indicators</a><span>Working level</span></li>
+    <li><a href="#targets">From review to objectives and targets</a><span>Going deeper</span></li>
+    <li><a href="#pitfalls">Common pitfalls</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">What the energy review is for <span class="lvl l1">Basics</span></h2>
+  <p>A plant bill tells you how much you spent. It does not tell you where the energy went or whether you are improving. The <strong>energy review</strong> is the analysis that answers both. It lists every energy source, splits the use into areas, picks the few that matter most, and sets up the measures you will use to judge progress.</p>
+  <p>It produces four things: the list of <strong>significant energy uses</strong> (SEUs), the <strong>energy baseline</strong> (EnB), the <strong>energy performance indicators</strong> (EnPIs) and a ranked list of improvement opportunities. Everything later in an energy management system, from targets to monthly reviews, leans on these four. A weak review gives weak targets.</p>
+
+  <h2 id="seu">Choosing significant energy uses <span class="lvl l1">Basics</span></h2>
+  <p>A significant energy use is an area of substantial consumption, or one with large scope for improvement, or both. You do not need to track a hundred items. You need to find the few that move the total.</p>
+  <ol class="steps">
+    <li><strong>Total each energy source for a year:</strong> grid electricity, diesel for the DG set, coal, biomass or furnace oil for the boiler, natural gas, LPG.</li>
+    <li><strong>List the uses of each source:</strong> reactors and agitators, vacuum, drying, chilled water, boiler, compressed air, HVAC, lighting, utilities pumps and fans, effluent treatment.</li>
+    <li><strong>Estimate the annual use of each one</strong> from sub-meters, motor ratings with running hours, or steam and fuel balances. The estimates should add up close to the total on the bill.</li>
+    <li><strong>Rank them and keep the largest.</strong> A common practical guide is to take the biggest users that together cover about 80 percent of each source. It is a rule of thumb, not a requirement of the standard.</li>
+    <li><strong>Add the ones with high potential</strong> even if they are smaller, such as a compressed air system with obvious leaks.</li>
+  </ol>
+  <div class="art-note"><b>Illustrative example</b><p>A plant uses 4,00,000 kWh a month. Estimates put HVAC at 30 percent, chillers and chilled water pumps at 20, compressed air and nitrogen at 14, vacuum pumps at 11, agitators and process motors at 10, cooling tower and pumps at 7, and everything else at 8. The first five uses together are 85 percent of the total, so they are the SEUs. Cooling water joins the list because a quick check showed oversized pumps with a throttled discharge.</p></div>
+
+  <h2 id="vars">Relevant variables <span class="lvl l2">Working level</span></h2>
+  <p>For each SEU, note what makes its energy use go up and down. These are the <strong>relevant variables</strong>. They are what you normalise for when comparing one period with another.</p>
+  <ul>
+    <li><strong>Production:</strong> kilograms made, number of batches or reactor hours.</li>
+    <li><strong>Weather:</strong> ambient wet-bulb for cooling towers, dry-bulb for HVAC and chillers. Degree days summarise it for heating and cooling load.</li>
+    <li><strong>Product mix:</strong> a product that needs vacuum drying uses more than one that is filtered and packed.</li>
+    <li><strong>Operating hours and shifts:</strong> campaign weeks and shutdowns.</li>
+    <li><strong>Process conditions:</strong> reaction temperature, jacket service, steam pressure, vacuum level.</li>
+  </ul>
+
+  <h2 id="baseline">Energy baseline methods <span class="lvl l2">Working level</span></h2>
+  <p>The baseline is the reference you compare future energy use with. It must be a fixed period of data, and it must cover a long enough time to include normal swings. Several methods are in common use.</p>
+  <ul>
+    <li><strong>Average of 12 months.</strong> Simple and easy to explain. It works when production is steady. It fails when output changes, because a busy month looks like waste and a quiet month looks like a saving.</li>
+    <li><strong>Same period last year.</strong> Removes seasonal effects but carries over every one-off of that year.</li>
+    <li><strong>Average with outliers removed.</strong> Acceptable if the removed months are explained (a long shutdown, a trial campaign) and the reason is recorded.</li>
+    <li><strong>Best period achieved.</strong> A tough target rather than a baseline. It is useful for setting goals, not for measuring savings.</li>
+    <li><strong>Normalised baseline.</strong> Adjust for production and weather with a simple model. This is the strongest method for batch plants, and the next section shows it.</li>
+    <li><strong>Design or benchmark data.</strong> Useful for new or recently commissioned equipment where history is short.</li>
+  </ul>
+
+  <h2 id="regression">A worked regression example <span class="lvl l2">Working level</span></h2>
+  <p>Take a plant meter reading for 12 months with the production in tonnes (all numbers here are illustrative).</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>Month</th><th>Product (t)</th><th>Electricity (kWh)</th><th>kWh per t</th></tr></thead>
+    <tbody><tr><td>April</td><td>40</td><td>30,700</td><td>768</td></tr><tr><td>May</td><td>55</td><td>34,550</td><td>628</td></tr><tr><td>June</td><td>48</td><td>33,280</td><td>693</td></tr><tr><td>July</td><td>62</td><td>37,020</td><td>597</td></tr><tr><td>August</td><td>35</td><td>28,950</td><td>827</td></tr><tr><td>September</td><td>58</td><td>36,330</td><td>626</td></tr><tr><td>October</td><td>66</td><td>38,010</td><td>576</td></tr><tr><td>November</td><td>45</td><td>31,800</td><td>707</td></tr><tr><td>December</td><td>52</td><td>34,370</td><td>661</td></tr><tr><td>January</td><td>60</td><td>36,300</td><td>605</td></tr><tr><td>February</td><td>38</td><td>29,980</td><td>789</td></tr><tr><td>March</td><td>50</td><td>33,400</td><td>668</td></tr></tbody>
+  </table></div>
+  <p>Total electricity is 4,04,690 kWh for 609 t, so the simple average is about <strong>665 kWh/t</strong>. But look at the last column: the plant used about 832 kWh/t in the quietest month (35 t) and about 579 kWh/t in the busiest (66 t). A plant that keeps the lights, HVAC and utilities on regardless of output has a large fixed load, so the ratio falls as production rises.</p>
+  <p>A straight-line fit of energy against production separates the two parts. Least squares gives:</p>
+  <div class="formula-box">
+    Energy (kWh/month) &asymp; 18,900 + 293 &times; Production (t)
+    <small>Fixed part about 18,900 kWh a month. Variable part about 293 kWh per tonne. The fit explains about 99 percent of the month-to-month variation (R&sup2; &asymp; 0.99).</small>
+  </div>
+  <p>This is now the baseline. It says that at 45 t, the plant should use about 18,900 + 293 &times; 45 &asymp; 32,000 kWh. Suppose next April it makes 45 t and uses 34,500 kWh. The plant used about 2,500 kWh more than the baseline predicts, about 8 percent. With the simple average it would have looked fine: 34,500 / 45 = 767 kWh/t is above 665, but a manager could say the product is different. The regression answers the question properly, because it compares against what this tonnage should have used.</p>
+  <div class="art-note"><b>How to check the fit</b><p>Plot the points and the line. If the points scatter widely, the model is missing a variable (product mix, weather). Add one at a time. If a month sits far from the line, find out why before deciding whether to keep it. A high R&sup2; alone does not make a model good: a model with only two or three points can fit perfectly.</p></div>
+
+  <h2 id="adjust">When the baseline must change <span class="lvl l3">Going deeper</span></h2>
+  <p>The baseline is not edited every time results look bad. It is adjusted only when something about the plant changes in a way that your variables do not capture. Typical reasons are a major capacity expansion, a change in product portfolio, a change in boundary (a new block brought under the meter), or a finding that the original data was wrong. Each adjustment is recorded with the date and the reason, so a later reader can follow the logic. Otherwise a baseline that drifts to match the present hides real losses.</p>
+
+  <h2 id="enpi">Energy performance indicators <span class="lvl l2">Working level</span></h2>
+  <p>An EnPI is a measure of energy performance you will review regularly. Pick ones that respond to what operators and engineers can change, and that you can actually measure. A mix of plant-level and equipment-level indicators works best.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>Area</th><th>Typical indicator</th><th>What it shows</th></tr></thead>
+    <tbody>
+      <tr><td>Whole plant</td><td>kWh per tonne of product, or the gap against the regression baseline</td><td>Overall progress, normalised for output</td></tr>
+      <tr><td>Boiler</td><td>Evaporation ratio (kg steam per kg fuel), stack temperature, blowdown percentage</td><td>Combustion and heat recovery performance</td></tr>
+      <tr><td>Steam use</td><td>kg steam per tonne of product, condensate return percentage</td><td>Process steam efficiency and recovery</td></tr>
+      <tr><td>Chillers</td><td>kW per TR</td><td>Refrigeration efficiency against load</td></tr>
+      <tr><td>Compressed air</td><td>kW per m&sup3;/min of free air delivered, leakage percentage</td><td>Generation efficiency and wastage</td></tr>
+      <tr><td>Cooling tower</td><td>Approach temperature, kW of fan and pump per TR of heat rejected</td><td>Heat rejection effectiveness</td></tr>
+      <tr><td>Pumps and fans</td><td>kW per unit of flow at the operating point, motor loading percentage</td><td>Oversizing and throttling losses</td></tr>
+      <tr><td>HVAC</td><td>kWh per day against degree days, air changes against requirement</td><td>Fixed load control</td></tr>
+    </tbody>
+  </table></div>
+  <p>Each EnPI needs a defined formula, a unit, a data source and a measurement frequency. Write it down once and use it every month. If the formula changes, the history is no longer comparable.</p>
+
+  <h2 id="targets">From review to objectives and targets <span class="lvl l3">Going deeper</span></h2>
+  <p>With the SEUs, baselines and EnPIs in hand, set objectives and targets in a way that traces to the review. A good target names the SEU, the indicator, the baseline value, the target value, the date, the action and the owner.</p>
+  <ul>
+    <li><strong>Weak:</strong> reduce energy use by 5 percent.</li>
+    <li><strong>Better:</strong> bring compressed air specific power from 0.19 to 0.17 kW per m&sup3;/min by March by fixing leaks and lowering the setpoint by 0.5 bar. Owner: utilities engineer.</li>
+  </ul>
+  <p>Rank opportunities by saving, investment, ease of implementation and any link to safety or compliance. Operating changes with no investment come first. They cost nothing and build credibility for projects that need budget.</p>
+
+  <h2 id="pitfalls">Common pitfalls <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>A single ratio hides fixed load.</strong> kWh per tonne rises when output falls even if nothing got worse. Pair it with a regression baseline, or track fixed and variable parts separately.</li>
+    <li><strong>Mixed product campaigns.</strong> Comparing a month of an energy-light product with a month of an energy-heavy one tells you about the mix, not the efficiency. Track by product or product family where you can.</li>
+    <li><strong>Estimates treated as measurements.</strong> A motor rating times running hours overstates use if the motor is lightly loaded. Spot-check with a clamp meter before ranking SEUs.</li>
+    <li><strong>No data plan.</strong> If nobody reads the meter, the indicator fails. The planning clause of ISO 50001 includes a plan for collecting energy data for this reason.</li>
+    <li><strong>Gaming the baseline.</strong> A baseline chosen after a poor year makes any result look good. Fix the method and the period before the improvement work begins.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a significant energy use (SEU)?</h3>
+  <p>A significant energy use is an area, process or piece of equipment with substantial energy consumption or large potential for improvement. Plants usually pick the largest users covering about 80 percent of each energy source, plus any smaller area with clear scope for savings.</p>
+  <h3>What is an energy baseline?</h3>
+  <p>An energy baseline is a quantitative reference for a defined period that you compare later energy performance against. For plants with changing output it is best built as a normalised model, such as energy against production and weather.</p>
+  <h3>What is the difference between an energy baseline and an EnPI?</h3>
+  <p>The EnPI is the measure you track, such as kWh per tonne or kW per TR. The baseline is the reference value of that measure for a fixed past period, used to judge whether performance improved.</p>
+  <h3>Is kWh per tonne a good enough indicator?</h3>
+  <p>Not on its own for a batch plant. It rises when production falls because of fixed loads. It is better to also compare actual energy with a baseline model that includes production, so you see real changes in efficiency.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>ISO 50001:2018, <i>Energy management systems: Requirements with guidance for use</i></li>
+    <li>ISO 50006, <i>Energy management systems: Measuring energy performance using energy baselines (EnB) and energy performance indicators (EnPI)</i></li>
+    <li>ISO 50002, <i>Energy audits: Requirements with guidance for use</i></li>
+    <li>Bureau of Energy Efficiency, Government of India: <a href="https://beeindia.gov.in/" rel="noopener">beeindia.gov.in</a></li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/iso-50001-energy-management-batch-plants/' | relative_url }}">ISO 50001 for batch plants</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency and the cost of steam</a>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM</a>
+    <a href="{{ '/utilities/' | relative_url }}">Utilities calculators</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

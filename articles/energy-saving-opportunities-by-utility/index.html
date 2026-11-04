@@ -1,0 +1,233 @@
+---
+layout: default
+title: "Energy-Saving Opportunities in a Batch Plant, Utility by Utility"
+seo_title: "Energy Saving Opportunities by Utility | PharmaChemE"
+description: "A practical checklist of energy-saving opportunities in a batch plant: chilled water, compressed air, steam, electrical and pumps, with what to measure first."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Energy-Saving Opportunities by Utility
+    url: /articles/energy-saving-opportunities-by-utility/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Energy-Saving Opportunities in a Batch Plant, Utility by Utility",
+        "description": "Chilled water, compressed air, steam, electrical system and pumps: what to measure first, quick wins, capital projects and the indicator to track for each utility.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Where should a plant start with energy saving?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Start with measurement. List the energy sources and the biggest users, then fix the no-cost and low-cost items first: compressed air leaks and pressure setting, steam leaks and insulation, chilled water set points, power factor and demand. Larger projects come after the numbers show where the money is."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does a VFD always save energy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. A variable frequency drive saves energy when the load really varies and the speed can come down. A drive on a motor that runs at full speed all day only adds drive losses. Measure the load pattern first, and check the saving with a meter after installation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is an energy performance indicator in a plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A ratio you can measure and compare month to month, such as kW per TR for chillers, kWh per 100 cfm for compressors, kg of steam per kg of fuel for a boiler, or kWh per kg of product. It tells you whether efficiency is improving or slipping, whatever the production level."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you know the saving was real?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compare metered energy before and after, adjusted for production and weather. The saving is the adjusted baseline minus the actual use. Without a meter or a baseline, a saving is only an estimate."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Energy-Saving Opportunities in a Batch Plant, Utility by Utility</h1>
+  <p class="article-meta">Utilities &middot; Energy management &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Ask five engineers where a plant wastes energy and you will get five different answers, usually the machine each one looks after. A better method is to go utility by utility, measure first, take the cheap wins, and only then argue about capital projects. This is a checklist for chilled water, compressed air, steam, the electrical system and pumps in a batch chemical or pharma plant.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#measure">Measure before you fix</a><span>Basics</span></li>
+    <li><a href="#chilled">Chilled water and HVAC</a><span>Basics</span></li>
+    <li><a href="#air">Compressed air</a><span>Working level</span></li>
+    <li><a href="#steam">Steam and boiler</a><span>Working level</span></li>
+    <li><a href="#electrical">The electrical system</a><span>Working level</span></li>
+    <li><a href="#pumps">Pumps</a><span>Working level</span></li>
+    <li><a href="#priority">Which first? A prioritisation table</a><span>Going deeper</span></li>
+    <li><a href="#verify">Check that the saving is real</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="measure">Measure before you fix <span class="lvl l1">Basics</span></h2>
+  <p>Energy saving is easier to start than to finish. A plant buys an efficient motor here and a drive there, and a year later the bill is the same, because nobody knew which utility was using what. Three habits prevent that.</p>
+  <ul>
+    <li><strong>Know the split.</strong> Write down every energy source (grid power, diesel, coal or gas, biomass) and the main users of each. A simple tree from the incoming meter to the utility blocks and then to the big machines is enough to start.</li>
+    <li><strong>Pick an indicator for each utility.</strong> A ratio such as kW per TR or kWh per kg of product, not just total kWh. Totals rise and fall with production, ratios show efficiency.</li>
+    <li><strong>Start with the large and the cheap.</strong> The few biggest users account for most of the bill. Fix the no-cost items there first.</li>
+  </ul>
+  <p>The sections below follow the same pattern for each utility: what to measure, quick wins, capital projects and the indicator to track. All prices, tariffs and ranges in this article are illustrative, so replace them with your own.</p>
+
+  <h2 id="chilled">Chilled water and HVAC <span class="lvl l1">Basics</span></h2>
+  <p>Chillers and air handling units are often the largest electrical load in a pharma plant, because the building and the process both need cooling all year.</p>
+  <p><strong>Measure first.</strong> Chilled water supply and return temperatures, the chiller input power from a meter, and the cooling delivered, so you can work out kW per TR. Note how many hours each chiller, pump and AHU fan runs, including nights and holidays.</p>
+  <p><strong>Quick wins.</strong></p>
+  <ul>
+    <li>Run the chilled water set point as high as the process and room conditions allow. A warmer set point lowers the lift the compressor has to make. A few percent of chiller power per degree is a common rule of thumb, but the figure depends on the machine, so test it on yours.</li>
+    <li>Clean condenser tubes on schedule. Fouling raises the condensing temperature and the compressor works harder for the same cooling.</li>
+    <li>Keep the cooling tower in good shape: fill, fans, water distribution and the approach to wet bulb. A tower that cannot reach its approach costs the chiller directly.</li>
+    <li>Switch off chillers, pumps and AHUs that are running for nobody. Shift changes, weekends and idle rooms are the usual culprits.</li>
+    <li>Insulate chilled water lines, valves and AHU coil headers. A cold bare surface gains heat all day.</li>
+  </ul>
+  <p><strong>Capital projects.</strong> Variable speed drives on AHU fans and chilled water pumps where the load varies, better sequencing of several chillers, a water-side economiser or free cooling in the cool months, and replacing an old chiller. A VAM driven by waste heat is a different cost balance, covered in <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM</a>.</p>
+  <div class="art-note"><b>On the plant</b><p>In a GMP area the air change rate, room pressure cascade and humidity are validated conditions. Do not reduce airflow or set points in a clean room to save power without QA agreement and a documented change. The savings are in the plant around it: the chiller, tower, pumps and unoccupied areas.</p></div>
+  <p><strong>Track.</strong> kW per TR, chilled water temperature difference, and kWh per day of the chilled water plant.</p>
+
+  <h2 id="air">Compressed air <span class="lvl l2">Working level</span></h2>
+  <p>Compressed air is among the most expensive ways to move energy. Most of the electricity becomes heat, and a good share of the air produced can leak away. The basics of generation, drying and nitrogen are in <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>.</p>
+  <p><strong>Measure first.</strong> Compressor power and delivered flow (a free air delivery test), load and unload hours, pressure at the compressor and at the farthest user, and the leakage fraction. A simple leak test: run the compressor with all users shut and see how often it loads, and for how long.</p>
+  <p><strong>Quick wins.</strong></p>
+  <ul>
+    <li>Set the generation pressure to what the most demanding user really needs, plus the pipe drop. A common rule of thumb is that each bar of extra pressure costs roughly 6 to 8 percent more compressor power, and leaks grow with pressure too.</li>
+    <li>Find and fix leaks with an ultrasonic detector or soapy water, tag them, and repeat the survey on a calendar. Leaks come back.</li>
+    <li>Turn off air to machines that are not running, and stop using air where something else works: a blower for cleaning or drying, a vacuum for pickup, an electric stirrer in place of air sparging.</li>
+    <li>Remove open drains and blow-offs left cracked open, and replace faulty condensate drain valves.</li>
+  </ul>
+  <p><strong>Capital projects.</strong> A variable speed compressor, or a smaller trim machine, so that the plant does not run a large unit unloaded for hours; separate high-pressure users on a booster or a dedicated small machine instead of raising pressure for everyone; a ring main of adequate size; a receiver in the right place; heat recovery from the compressor cooling.</p>
+  <p><strong>Track.</strong> Specific power (kW per 100 cfm, or kWh per Nm&sup3;), leakage percentage, unloaded hours as a share of running hours, and pressure drop from receiver to the farthest user.</p>
+
+  <h2 id="steam">Steam and boiler <span class="lvl l2">Working level</span></h2>
+  <p>In many plants steam is the largest fuel bill, and its losses are mostly out of sight: a blowing trap, an open flash vent, bare flanges. Worked numbers for these are in <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>.</p>
+  <p><strong>Measure first.</strong> Fuel flow, steam flow and feed water flow, so you can calculate the evaporation ratio (kg of steam per kg of fuel). Flue gas oxygen and temperature, the share of condensate returned, feed water temperature, and the surface temperature of insulated lines and valves.</p>
+  <p><strong>Quick wins.</strong></p>
+  <ul>
+    <li>Survey the steam traps every year, and fix the ones blowing through or blocked. Fix visible steam leaks at once.</li>
+    <li>Restore missing insulation, especially on valves, flanges and the jackets of old vessels. A bare flange loses far more than the pipe beside it.</li>
+    <li>Set the blowdown from the measured TDS of boiler water, not from a fixed habit. Too much blowdown wastes hot water, too little risks carryover and scale.</li>
+    <li>Tune the air to fuel ratio against flue gas oxygen. Too much excess air carries heat up the stack, too little gives smoke and carbon monoxide.</li>
+    <li>Return as much condensate as you can, and keep it hot. A common rule of thumb is about 1 percent of fuel for every 6 &deg;C rise in feed water temperature.</li>
+  </ul>
+  <p><strong>Capital projects.</strong> An economiser on the flue, a closed condensate recovery system with flash steam recovery, automatic blowdown control, a variable speed drive on the forced draft fan, a fuel change if it makes sense for cost and emissions, and replacing an old boiler.</p>
+  <div class="art-note"><b>On the plant</b><p>Batch plants have peaky steam demand, because several reactors heat up at the same time at the start of shifts. Staggering the heat-up steps by even half an hour can flatten the load, so the boiler runs at a steadier, more efficient firing rate. It costs nothing but a schedule change.</p></div>
+  <p><strong>Track.</strong> Evaporation ratio, condensate returned as a percentage of steam, flue gas temperature and oxygen, and steam per kg of product.</p>
+
+  <h2 id="electrical">The electrical system <span class="lvl l2">Working level</span></h2>
+  <p>Before looking at any motor, read twelve months of electricity bills. They show the energy used, the maximum demand, the power factor and the tariff slabs, and often point to savings that need no equipment.</p>
+  <p><strong>Measure first.</strong> Monthly kWh and demand against the contract demand, power factor, time-of-day use, and a motor survey: rated power, measured power or current, and running hours of the larger motors.</p>
+  <p><strong>Quick wins.</strong></p>
+  <ul>
+    <li><strong>Demand.</strong> Compare recorded maximum demand with the contract demand. If the plant never gets near it, the contract may be too high; if it often exceeds it, look at starting large loads at the same time.</li>
+    <li><strong>Time of day.</strong> Where the tariff has peak and off-peak slots, move flexible loads such as water transfer, some batch heating and charging of equipment out of the expensive slots.</li>
+    <li><strong>Power factor.</strong> Test the capacitors, replace weak ones and keep the automatic correction panel working. At 500 kW, a power factor of 0.90 means about 556 kVA, while 0.99 means about 505 kVA, a difference of about 50 kVA that a kVA-based tariff will charge for. Check how your own tariff treats power factor.</li>
+    <li><strong>Idle running.</strong> Switch off motors, lights and ventilation that are not needed, and fit timers or occupancy sensors where people forget.</li>
+    <li><strong>Lighting.</strong> Change to LED, and use daylight where the building allows.</li>
+  </ul>
+  <p><strong>Capital projects.</strong> When a motor is replaced or an oversized motor is found, choose a higher efficiency class (IE3 or better in the IEC classification) and size it for the real load. Add sub-meters on the big users, correct voltage with the transformer tap changer where the supply is high, and consider harmonic filters for plants with many drives.</p>
+  <p>Be careful with rewinding. A rewound motor can lose a little efficiency, and a poor rewind more. Keep a log of rewinds and compare no-load current before and after, as a check on the quality of the work.</p>
+  <p><strong>Track.</strong> Power factor, maximum demand as a percentage of contract demand, motor loading percentage, and kWh per kg of product.</p>
+
+  <h2 id="pumps">Pumps <span class="lvl l2">Working level</span></h2>
+  <p>A plant can have hundreds of pumps. Most are fine, a few are far from the duty they were bought for, and those few waste a lot of power. Pump basics and calculation are in <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>, and the reliability side in <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and mechanical seal troubleshooting</a>.</p>
+  <p><strong>Measure first.</strong> The real duty point (flow and head), how far the discharge valve is throttled, motor current, and where that point sits on the pump curve compared with the best efficiency point.</p>
+  <p><strong>Quick wins.</strong></p>
+  <ul>
+    <li>Look for pumps with the discharge valve mostly closed to hold flow down. That pressure drop is paid for in power. If the pump is much bigger than the duty, trim the impeller or fit a smaller one instead of throttling.</li>
+    <li>Close recirculation or bypass lines left open, so the pump does not move the same liquid in a circle.</li>
+    <li>Clean strainers, and descale heat exchanger side and pipework that has built up resistance.</li>
+    <li>Shut down standby or redundant pumps that run together with the duty pump without a reason.</li>
+  </ul>
+  <p><strong>Capital projects.</strong> A variable speed drive where demand varies through the day, a correctly sized replacement pump for one far from its best efficiency point, and larger suction and discharge pipes where friction is a large part of the head.</p>
+  <div class="formula-box">
+    Power &prop; speed&sup3; (affinity law)<br>
+    Speed down 10 %: power &asymp; 0.9&sup3; = 0.73 of the original, a 27 % cut
+    <small>This holds when the system has little static head. With a large static head, the saving from slowing the pump is smaller.</small>
+  </div>
+  <p><strong>Track.</strong> kWh per m&sup3; pumped, pump efficiency from a test, and the operating flow as a percentage of the best efficiency flow.</p>
+
+  <h2 id="priority">Which first? A prioritisation table <span class="lvl l3">Going deeper</span></h2>
+  <p>Once the list is long, rank it. This table is a starting point. The effort and speed of payback depend on your plant and your tariff.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Opportunity</th><th>Effort</th><th>Payback</th><th>Measure first</th></tr>
+    <tr><td>Fix compressed air leaks</td><td>Low</td><td>Usually fast</td><td>Leakage percentage by shutdown test</td></tr>
+    <tr><td>Lower compressor pressure to the real need</td><td>Low</td><td>Usually fast</td><td>Highest pressure a user really needs</td></tr>
+    <tr><td>Chilled water set point and condenser cleaning</td><td>Low</td><td>Usually fast</td><td>kW per TR before and after</td></tr>
+    <tr><td>Steam trap survey, leaks and insulation repair</td><td>Low to medium</td><td>Fast</td><td>Trap status, surface temperatures</td></tr>
+    <tr><td>Contract demand and power factor correction</td><td>Low to medium</td><td>Fast</td><td>Twelve months of bills</td></tr>
+    <tr><td>Open throttled pumps, trim impellers</td><td>Low to medium</td><td>Fast to medium</td><td>Duty point against pump curve</td></tr>
+    <tr><td>Condensate recovery and flash steam recovery</td><td>Medium</td><td>Medium</td><td>Condensate returned, feed water temperature</td></tr>
+    <tr><td>Variable speed drives on varying loads</td><td>Medium</td><td>Medium</td><td>Load profile over a typical week</td></tr>
+    <tr><td>Higher efficiency motors at replacement</td><td>Medium</td><td>Depends on hours</td><td>Loading and running hours</td></tr>
+    <tr><td>New chiller, boiler or compressor</td><td>High</td><td>Longer</td><td>Existing efficiency and remaining life</td></tr>
+  </table></div>
+  <p>Do the top of the table first. It builds the habit of measuring, and the money saved can fund the lower rows. For the bigger items, compare the cost over the life of the equipment, not just the purchase price.</p>
+
+  <h2 id="verify">Check that the saving is real <span class="lvl l3">Going deeper</span></h2>
+  <p>Not every energy project saves energy. A drive fitted to a pump that always runs at full speed adds drive losses. A single large compressor that replaces several small ones can use more power at part load, because it spends hours running unloaded. A new chiller can disappoint if the cooling tower cannot support it. The only protection is to measure.</p>
+  <ul>
+    <li><strong>Set a baseline</strong> before the change, from metered data over a representative period.</li>
+    <li><strong>Adjust for what changes</strong>: production, ambient temperature, hours.</li>
+    <li><strong>Calculate the saving</strong> as adjusted baseline minus actual use, and convert to rupees with the real tariff.</li>
+    <li><strong>Keep the indicator on a chart</strong> so that a slow slide back to old habits is visible.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Where should a plant start with energy saving?</h3>
+  <p>With measurement. List the energy sources and the biggest users, then fix the no-cost and low-cost items first: compressed air leaks and pressure, steam leaks and insulation, chilled water set points, power factor and demand.</p>
+  <h3>Does a VFD always save energy?</h3>
+  <p>No. It saves energy when the load varies and the speed can come down. On a motor that runs at full speed all day, it only adds drive losses. Measure the load pattern first and check the saving afterwards.</p>
+  <h3>What is an energy performance indicator in a plant?</h3>
+  <p>A ratio you can measure and compare, such as kW per TR, kWh per 100 cfm, kg of steam per kg of fuel, or kWh per kg of product. It shows whether efficiency is improving whatever the production level.</p>
+  <h3>How do you know the saving was real?</h3>
+  <p>Compare metered energy before and after, adjusted for production and weather. The saving is the adjusted baseline minus the actual use.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Bureau of Energy Efficiency (India), guide books for the National Certification Examination for Energy Managers and Energy Auditors, free on the BEE website</li>
+    <li>US Department of Energy, <i>Improving Compressed Air System Performance: A Sourcebook for Industry</i></li>
+    <li>US Department of Energy and Hydraulic Institute, <i>Improving Pumping System Performance: A Sourcebook for Industry</i></li>
+    <li>US Department of Energy, <i>Improving Steam System Performance: A Sourcebook for Industry</i></li>
+    <li>IEC 60034-30-1, rotating electrical machines: efficiency classes of line-operated AC motors</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM</a>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations</a>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
+    <a href="{{ '/articles/life-cycle-cost-plant-equipment/' | relative_url }}">Life cycle cost of plant equipment</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a>
+    <a href="{{ '/utilities/' | relative_url }}">Utilities calculators</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

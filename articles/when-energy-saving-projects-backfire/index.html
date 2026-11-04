@@ -1,0 +1,191 @@
+---
+layout: default
+title: "When Energy-Saving Projects Backfire: VFDs, Compressors and Claimed Savings"
+seo_title: "When Energy-Saving Projects Backfire in Plants | PharmaChemE"
+description: "Why some energy-saving projects raise consumption: VFDs at full speed, one big compressor unloading, nameplate savings, and how to verify by measurement."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: When Energy-Saving Projects Backfire
+    url: /articles/when-energy-saving-projects-backfire/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "When Energy-Saving Projects Backfire: VFDs, Compressors and Claimed Savings",
+        "description": "Why some energy-saving projects raise consumption: VFDs at full speed, one big compressor unloading, nameplate savings, and how to verify by measurement.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can a variable frequency drive increase energy consumption?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. A drive has its own losses, typically a few percent, so a pump or fan that still runs at full speed uses slightly more energy than it did on a direct-on-line starter. The saving only comes when the drive actually slows the machine to match the load."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why can replacing several small compressors with one large one raise power use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A large compressor at low demand spends much of its time unloaded, and an unloaded screw compressor still draws a large share of its full-load power. Several small units let the plant run some at full load and only one at part load, which wastes less."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why compare before and after energy use with normalisation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Energy use changes with production, weather and other drivers. Comparing raw kWh before and after a project can show a saving that is really a drop in production. Normalising to the same conditions, with a baseline equation, shows what the project itself did."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I avoid claiming savings from nameplate data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Measure the actual load before the project and again after it. Motors, pumps and compressors usually run well below their nameplate rating, so a saving worked out at rated power can be far larger than the one the meter shows."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>When Energy-Saving Projects Backfire</h1>
+  <p class="article-meta">Utilities &middot; Energy management &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Most energy projects deliver what they promise. Some deliver nothing, and a few quietly make the electricity bill go up. The reasons are rarely mysterious: the equipment was fitted but not used as designed, the saving was worked out on paper at nameplate load, or nobody checked with a meter afterwards. This article walks through the common cases, with the engineering behind each, and ends with a checklist.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why good projects go wrong</a><span>Basics</span></li>
+    <li><a href="#vfd">A drive that never slows down</a><span>Basics</span></li>
+    <li><a href="#comp">One big compressor in place of several small ones</a><span>Working level</span></li>
+    <li><a href="#others">Other ways to lose a saving</a><span>Working level</span></li>
+    <li><a href="#nameplate">Savings claimed from the nameplate</a><span>Working level</span></li>
+    <li><a href="#mv">Proving it: before and after, normalised</a><span>Going deeper</span></li>
+    <li><a href="#check">A checklist before you sign off</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why good projects go wrong <span class="lvl l1">Basics</span></h2>
+  <p>An energy project changes one thing in a system that has many. The technology may be sound and the result still disappointing, for four common reasons:</p>
+  <ul>
+    <li><strong>The equipment is not controlled as designed.</strong> A drive left in manual, a sensor not connected, a set point that was changed during commissioning and never restored.</li>
+    <li><strong>The saving was calculated from the wrong load.</strong> Nameplate power is the maximum, and most machines run well below it.</li>
+    <li><strong>The new equipment suits the average, not the real pattern of use.</strong> The part-load behaviour of a machine decides the result more than its full-load efficiency.</li>
+    <li><strong>Nobody measured afterwards.</strong> Without a before and after measurement, a project that failed looks the same as one that worked.</li>
+  </ul>
+  <p>None of this means energy projects are risky. It means the commissioning and the verification are part of the project, not extras.</p>
+
+  <h2 id="vfd">A drive that never slows down <span class="lvl l1">Basics</span></h2>
+  <p>A variable frequency drive (VFD) saves energy by slowing a pump or fan when less flow is needed. Because power rises roughly with the cube of speed on a fan or on a pump with little static head, a modest speed cut gives a large power cut. That is the whole case for the drive.</p>
+  <p>But a drive is also a piece of electronics with losses, typically a few percent of the power through it. If the machine still runs at 50 Hz all day, as it did before, it now draws a little more than it did, not less. This happens more often than it should, for example when:</p>
+  <ul>
+    <li>the drive is in manual at full speed because the control loop was never tuned or the sensor was never installed;</li>
+    <li>the pump is throttled by a valve and the drive follows a fixed speed, so the valve still wastes the energy;</li>
+    <li>the drive was installed on a constant-flow service, such as a closed loop that never changes, where there is nothing to save.</li>
+  </ul>
+  <p>An illustrative number: a pump with a 45 kW shaft load and a motor efficiency of 0.93 draws 45 / 0.93 = 48.4 kW from the supply. Put a drive with 97 % efficiency in front of it, running at full speed, and the draw becomes 45 / (0.93 &times; 0.97) = 49.9 kW. That is 1.5 kW more, or about 12,000 kWh over 8,000 hours, plus the cooling load of the drive panel. Used at 45 Hz on a variable load, the same drive would cut far more than that. The difference is in how it is used.</p>
+  <div class="art-note"><b>On the plant</b><p>Whenever you find a drive running at exactly 50 Hz, ask two questions: what signal is it meant to follow, and is that signal connected? If neither has an answer, either fix the loop or bypass the drive to remove its losses.</p></div>
+
+  <h2 id="comp">One big compressor in place of several small ones <span class="lvl l2">Working level</span></h2>
+  <p>It sounds efficient to replace a bank of small compressors with one large, modern unit. Sometimes it is. But a compressor&rsquo;s efficiency at part load is very different from its efficiency at full load, and the plant&rsquo;s demand is almost never at full load.</p>
+  <p>A load/unload screw compressor, when it reaches the upper pressure, does not switch off. It unloads, and it keeps drawing a large share of its full-load power, often about 25 to 35 % for a typical oil-flooded machine, while producing no air. So the power at a given load fraction <em>f</em> is roughly:</p>
+  <div class="formula-box">
+    P = P<sub>full</sub> &times; [ f + (1 &minus; f) &times; u ]
+    <small>f is the fraction of time loaded (about the demand divided by capacity). u is the unloaded power fraction. Both depend on the machine and the receiver size, so treat the result as a model.</small>
+  </div>
+  <h3>Worked example (illustrative)</h3>
+  <p>Take four small units of 7.5 kW and 40 cfm each, and one large unit of 30 kW and 160 cfm, the same full-load specific power of 0.1875 kW per cfm. Assume u = 0.30 for all of them.</p>
+  <p><strong>Demand of 100 cfm.</strong> The small units run two at full load (80 cfm, 15 kW) and one at 20 cfm, which is half loaded: 7.5 &times; (0.5 + 0.5 &times; 0.3) = 4.9 kW. The fourth is off. The total is 19.9 kW. The large unit is loaded 100 / 160 = 62.5 % of the time: 30 &times; (0.625 + 0.375 &times; 0.3) = 22.1 kW. The large unit uses about 2.3 kW more, which over 8,000 hours is 18,000 kWh, or Rs 1.26 lakh a year at an assumed Rs 7 per kWh.</p>
+  <p><strong>Demand of 60 cfm.</strong> The small units use one full (7.5 kW) plus one half-loaded (4.9 kW): 12.4 kW. The large unit is 37.5 % loaded: 30 &times; (0.375 + 0.625 &times; 0.3) = 16.9 kW. The penalty has grown to 4.5 kW, because the lower the demand, the more of the large machine&rsquo;s power goes into running unloaded.</p>
+  <p>The fix is not to buy back the old machines. It is to match the compressor to the demand pattern: one fixed-speed machine for the steady base load plus one variable-speed machine to follow the swings. If a variable-speed unit of 30 kW at 62.5 % load draws about 5 % more than a pure proportional share, as an assumption for drive and part-load losses, it uses 30 &times; 0.625 &times; 1.05 = 19.7 kW, about the same as the four small units and 2.4 kW less than the big load/unload unit. Larger receivers and sensible pressure bands help the load/unload case too.</p>
+  <p>The lesson holds well beyond compressors: <strong>read the part-load curve, not just the full-load number.</strong> It applies to chillers, boilers, pumps and transformers as well.</p>
+
+  <h2 id="others">Other ways to lose a saving <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Oversizing.</strong> A pump or fan chosen with a generous margin runs far from its best efficiency point, so a drive that cannot fully fix this recovers only part of the loss. Match the equipment to the real duty.</li>
+    <li><strong>Throttling after a drive is fitted.</strong> If the control valve stays at 60 % open and the drive is set to a fixed speed, the energy is still burned across the valve. Open the valve, then let the drive control the flow.</li>
+    <li><strong>New equipment left in manual.</strong> A chiller sequencer, an AHU controller or a lighting sensor that was bypassed during commissioning saves nothing until it is switched back to automatic.</li>
+    <li><strong>Changed set points that drift back.</strong> A higher chilled water set point or lower boiler pressure saves energy only until someone restores the old value to quiet a complaint.</li>
+    <li><strong>Moving the load, not removing it.</strong> A more efficient dryer that needs more compressed air, or a heat recovery unit that adds fan power, can offset part of its own saving. Count the whole system.</li>
+  </ul>
+
+  <h2 id="nameplate">Savings claimed from the nameplate <span class="lvl l2">Working level</span></h2>
+  <p>A common error in proposals is to work out the saving from rated power: a 15 kW motor replaced by a more efficient 15 kW motor, saving the efficiency difference on 15 kW for 8,000 hours. But if the machine only draws 6 kW from the shaft, the saving applies to 6 kW, not to 15.</p>
+  <p>With illustrative efficiencies of 0.91 and 0.925 at full load, the claim on 15 kW is 15 / 0.91 &minus; 15 / 0.925 = 0.27 kW, or about 2,140 kWh a year. At the real 6 kW shaft load the motor runs at partial load, so assume efficiencies of 0.86 for the old one and 0.88 for the new one: 6 / 0.86 &minus; 6 / 0.88 = 0.16 kW, or about 1,270 kWh. The nameplate claim is about 70 % too high. The bigger finding is that the motor is oversized: a smaller motor with the right drive would save more than a better one of the wrong size.</p>
+  <p>A clamp-on reading takes ten minutes and replaces assumption with a measured fact. Make it a rule that every proposal states the measured load.</p>
+
+  <h2 id="mv">Proving it: before and after, normalised <span class="lvl l3">Going deeper</span></h2>
+  <p>Comparing the bill from before with the bill from after is not enough, because production, weather and product mix also change. A reliable check has three steps:</p>
+  <ol>
+    <li><strong>Measure the baseline period</strong> at the right resolution: daily kWh at the meter serving the project, and the drivers you think matter, such as kg of product or degree days.</li>
+    <li><strong>Fit a baseline equation</strong>, usually a straight line of energy against the main driver.</li>
+    <li><strong>After the project, compare actual use with what the baseline predicts for the same conditions.</strong> The difference is the saving.</li>
+  </ol>
+  <div class="formula-box">
+    Baseline: kWh per day = a + b &times; production
+    <small>Illustrative fit for a block: kWh per day = 3,200 + 1.9 &times; kg per day. The fixed part a is the energy used even when nothing is made.</small>
+  </div>
+  <p>Suppose a block used 15,000 kWh on a day with 6,200 kg of product. After a project it uses 14,300 kWh on a day with 5,400 kg. Raw numbers say 700 kWh saved, 4.7 %. But the baseline predicts 3,200 + 1.9 &times; 5,400 = 13,460 kWh for 5,400 kg. The block used 840 kWh more than expected, so the project has not saved anything on that day. One day is noise, but the method is the point: the baseline makes the comparison fair.</p>
+  <p>Standards such as ISO 50015 and the IPMVP protocol describe this in more detail, including how to deal with non-routine events and how long to measure. For a small project a few weeks of daily data is often enough.</p>
+
+  <h2 id="check">A checklist before you sign off <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Was the actual load measured, not read from the nameplate?</li>
+    <li>Does the proposal use the part-load curve at the real duty, not only full-load efficiency?</li>
+    <li>Is every new controller in automatic, with the sensor wired and the set point written down?</li>
+    <li>For a drive: what signal does it follow, and what is its speed at typical load?</li>
+    <li>Have old throttling valves and bypass lines been opened or closed as the design needs?</li>
+    <li>Is there a baseline equation and a metered before and after comparison, normalised for production?</li>
+    <li>Does someone own the set points and check them monthly?</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Can a variable frequency drive increase energy consumption?</h3>
+  <p>Yes. A drive has losses of a few percent, so a machine that still runs at full speed uses slightly more than before. The saving comes only when the drive slows the machine to match the load.</p>
+  <h3>Why can replacing several small compressors with one large one raise power use?</h3>
+  <p>A large compressor at low demand spends a lot of time unloaded, and an unloaded screw compressor still draws a large share of its full-load power. Several small units let some run at full load and only one at part load.</p>
+  <h3>Why compare before and after energy use with normalisation?</h3>
+  <p>Energy use follows production, weather and other drivers. A raw comparison can show a saving that is really lower production. A baseline equation shows what the project itself did.</p>
+  <h3>How do I avoid claiming savings from nameplate data?</h3>
+  <p>Measure the actual load before and after. Machines usually run well below rating, so a saving worked out at rated power can be far larger than the one the meter shows.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>ISO 50015, <i>Energy management systems: Measurement and verification of energy performance of organizations</i></li>
+    <li>Efficiency Valuation Organization, <i>International Performance Measurement and Verification Protocol (IPMVP)</i></li>
+    <li>Bureau of Energy Efficiency, <i>Energy Efficiency in Electrical Utilities</i>, guide book for the national certification examination for energy managers and auditors (free from beeindia.gov.in)</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM</a>
+    <a href="{{ '/articles/plant-energy-map-and-electricity-bill-analysis/' | relative_url }}">Plant energy map and electricity bill analysis</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

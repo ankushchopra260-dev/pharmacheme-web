@@ -1,0 +1,190 @@
+---
+layout: default
+title: "Solar and Renewable Power for Industrial Plants in India: Routes, Rules and Payback"
+seo_title: "Solar for Industrial Plants in India: Payback | PharmaChemE"
+description: "Rooftop, captive, group captive and open access solar for plants: net metering, a worked payback, sizing against load and tariff, and plant safety checks."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Solar and Renewables for Plants
+    url: /articles/solar-and-renewables-for-industrial-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Solar and Renewable Power for Industrial Plants in India: Routes, Rules and Payback",
+        "description": "Rooftop, captive, group captive and open access solar for Indian industrial plants: net metering rules, a worked payback, sizing against load and tariff, and plant-specific safety checks.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between net metering and gross metering for rooftop solar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Under net metering, the solar energy you generate offsets what you draw from the grid in the same billing period. Under gross metering, all the solar energy is sold to the distribution company at a set tariff while you buy your power at the normal tariff. As of November 2026, net metering applies up to 500 kW or the sanctioned load, whichever is lower, and the details vary by state."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a group captive solar project?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Several buyers share an off-site solar plant. To get captive status, a user must own at least 26 percent of the generating company and consume at least 51 percent of the power it produces in proportion to that ownership. The captive rules have been amended since, so confirm the current wording."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will rooftop solar reduce my maximum demand charge?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not reliably. Solar output falls on cloudy days and after sunset, and the monthly maximum demand can occur at those times. Check the load profile before counting on a saving."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How big a solar plant do I need for 5 percent of my energy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Divide 5 percent of your annual consumption in kWh by the yield per kWp. For 6,000 MWh a year and 1,450 kWh per kWp per year, that is about 207 kWp. Use a site simulation for the real yield."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Solar and Renewable Power for Industrial Plants in India: Routes, Rules and Payback</h1>
+  <p class="article-meta">Utilities &middot; Energy management &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Adding solar to a chemical plant is part engineering, part contract, and part rules that change by state. This page compares the ways to buy it, works through a payback on placeholder numbers, and covers the points that are specific to a plant with solvents, DG sets and a classified area.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why solar fits a batch plant</a><span>Basics</span></li>
+    <li><a href="#routes">Five ways to get solar power</a><span>Basics</span></li>
+    <li><a href="#rules">The rules that decide the economics</a><span>Working level</span></li>
+    <li><a href="#payback">A simple payback calculation</a><span>Working level</span></li>
+    <li><a href="#sizing">Sizing against your load and bill</a><span>Working level</span></li>
+    <li><a href="#battery">Battery storage</a><span>Going deeper</span></li>
+    <li><a href="#safety">Plant-specific safety points</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">Why solar fits a batch plant, and where it does not <span class="lvl l1">Basics</span></h2>
+  <p>A batch plant draws power in the daytime for reactors, agitators, chillers, compressors and HVAC, and the sun is strongest at the same time. That makes solar one of the easier ways to cut grid purchases, and to cut Scope 2 emissions along with them. The limits are real, though: a roof can only hold so many panels, solar makes nothing at night, and a plant that runs three shifts still buys most of its power from the grid. Plan for a share of the plant's energy, not all of it.</p>
+  <p>This page covers how the supply routes differ, a payback calculation you can redo with your own numbers, sizing, the interaction with your electricity bill, and the safety and compatibility points that are specific to a chemical plant. Rules differ by state and change often, so treat everything marked <em>as of November 2026</em> as a starting point and confirm it with your state regulator or distribution company.</p>
+  <h2 id="routes">Five ways to get solar power <span class="lvl l1">Basics</span></h2>
+  <table>
+    <thead><tr><th>Route</th><th>Who owns it</th><th>Where it sits</th><th>Main point to check</th></tr></thead>
+    <tbody>
+      <tr><td>Rooftop, owned (CAPEX)</td><td>You</td><td>Your roof or land</td><td>Net or gross metering rules in your state</td></tr>
+      <tr><td>Rooftop, third party (OPEX or PPA)</td><td>Developer</td><td>Your roof</td><td>Tariff per kWh, term, buy-out and roof access</td></tr>
+      <tr><td>Captive, on site or off site</td><td>You, or a company you own</td><td>Your site or a solar park</td><td>Captive status tests, wheeling charges</td></tr>
+      <tr><td>Group captive</td><td>You and other buyers together</td><td>Off site</td><td>Equity and consumption thresholds</td></tr>
+      <tr><td>Open access from a generator</td><td>Generator</td><td>Off site</td><td>Open access charges, banking</td></tr>
+    </tbody>
+  </table>
+  <p>Rooftop on your own roof is the simplest and is usually the first step. Off-site routes can supply a much larger share, because a roof limits how much you can install, but they bring more paperwork and ongoing charges.</p>
+  <h2 id="rules">The rules that decide the economics <span class="lvl l2">Working level</span></h2>
+  <h3>Net metering and gross metering</h3>
+  <p>Under the Electricity (Rights of Consumers) rules as amended in 2021, net metering is available for rooftop systems up to 500 kW or the sanctioned load, whichever is lower. Above that, the consumer is on gross metering, which means the solar output is sold to the distribution company at a tariff set by the state commission. A consumer may also choose gross metering below the cap. In practice the state commission and the distribution company decide the details, such as banking of surplus energy and billing period, so the same system can pay back at very different speeds in different states. <strong>As of November 2026</strong> check your state's current rooftop solar regulations.</p>
+  <h3>Open access and green energy open access</h3>
+  <p>The Green Energy Open Access Rules, 2022 lowered the minimum contracted capacity for open access from 1 MW to 100 kW, and set no minimum for captive consumers, according to law firm summaries of the rules. Only transmission, wheeling, cross-subsidy surcharge and standby charges can be levied on green open access customers, and applications are deemed approved if the nodal agency does not respond within 15 days. Banking is allowed on a monthly basis. The cross-subsidy surcharge is a large item, so ask the developer for a delivered cost per kWh that includes every charge, not only the generation tariff.</p>
+  <h3>Captive and group captive</h3>
+  <p>To qualify as a captive user under the Electricity Rules, 2005, a consumer must own at least 26 percent of the generating company and consume at least 51 percent of the electricity it produces in proportion to that ownership. The Supreme Court upheld this reading in a ruling reported in October 2023. Captive status brings exemption from the cross-subsidy surcharge. The captive rules have been amended again since then, so a legal check of the current wording is essential before you invest in equity.</p>
+  <h2 id="payback">A simple payback calculation you can redo <span class="lvl l2">Working level</span></h2>
+  <p>The example below uses <strong>placeholder numbers</strong>. Replace the yield with a simulation for your own roof, the tariff with your last twelve electricity bills, and the cost with real quotations.</p>
+  <table>
+    <thead><tr><th>Input</th><th>Illustrative value</th><th>Edit with</th></tr></thead>
+    <tbody>
+      <tr><td>System size</td><td>500 kWp</td><td>Usable roof area and load</td></tr>
+      <tr><td>Specific yield</td><td>1,450 kWh per kWp per year</td><td>Vendor simulation for your site</td></tr>
+      <tr><td>Energy value</td><td>Rs 7.0 per kWh</td><td>Your tariff at the time of generation</td></tr>
+      <tr><td>Installed cost</td><td>Rs 40,000 per kWp</td><td>Written quotations</td></tr>
+      <tr><td>O&amp;M</td><td>1 percent of capex per year</td><td>Contract value</td></tr>
+    </tbody>
+  </table>
+  <div class="formula-box">
+    Annual energy = 500 kWp &times; 1,450 = 7,25,000 kWh<br>
+    Annual value = 7,25,000 &times; Rs 7.0 = Rs 50.75 lakh<br>
+    Capex = 500 &times; Rs 40,000 = Rs 200 lakh<br>
+    Net annual saving = 50.75 &minus; 2.0 (O&amp;M) = Rs 48.75 lakh<br>
+    Simple payback = 200 / 48.75 &asymp; 4.1 years
+    <small>Illustrative. Panel output falls slightly each year, tariffs change, and subsidy or tax benefits are not included.</small>
+  </div>
+  <p>Simple payback is a screening tool. A better comparison, if you are choosing between owning and a third-party tariff, is cost per kWh over the life of the system, including replacement of inverters part-way through.</p>
+  <h2 id="sizing">Sizing against your load and your bill <span class="lvl l2">Working level</span></h2>
+  <p>Start from data, not roof area. Get the half-hourly or hourly load profile from your meter or distribution company and plot it. Size the system so that the solar output stays below the daytime base load on most days. Surplus beyond your own use goes to the grid, where it earns little or nothing under many rules.</p>
+  <p>Three links to the electricity bill matter:</p>
+  <ul>
+    <li><strong>Energy charges.</strong> Solar offsets the kWh you buy, and it is worth most when the tariff in the sunny hours is high.</li>
+    <li><strong>Demand charges.</strong> Solar does not reliably lower the maximum demand, because the maximum can occur on a cloudy afternoon or after dark. Do not count on a demand charge saving unless the profile shows it.</li>
+    <li><strong>Time-of-day tariffs.</strong> Some states charge more at peak hours that fall outside solar hours, which changes the value of each kWh. The 2021 rules encourage time-of-day tariffs, so check how your state applies them.</li>
+  </ul>
+  <h3>Reaching a target such as 5 percent from renewables</h3>
+  <p>Suppose the plant uses 6,000 MWh a year. A 5 percent share is 300 MWh. At 1,450 kWh per kWp per year that is about 207 kWp, or roughly 210 kWp with a margin. That is a small rooftop project and a good first step. A larger share, say 25 percent, would need about 1,000 kWp and probably an off-site route.</p>
+  <h2 id="battery">Battery storage in one paragraph <span class="lvl l3">Going deeper</span></h2>
+  <p>A battery stores midday surplus for use later. It makes sense where evening peak tariffs are high or where the grid is unreliable, but the cost per kWh delivered is still well above a plain solar plant. Usually it is better to size solar to what you use at midday and add storage only when a specific tariff or reliability case supports it.</p>
+  <h2 id="safety">Plant-specific safety and compatibility points <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Hazardous areas.</strong> Keep inverters, junction boxes and DC cabling out of classified zones, or use equipment certified for that zone. A roof above a solvent area can be inside a vent or relief discharge path. Include the layout in your zone classification review.</li>
+    <li><strong>Roof loading and cable routes.</strong> Get a structural check for the added weight and wind load. Plan cable routes that do not cross process areas or relief paths.</li>
+    <li><strong>Fire.</strong> DC circuits stay live in daylight even when the plant is shut. Specify DC isolation that fire fighters can reach, and keep panels away from vents, stacks and chimneys.</li>
+    <li><strong>DG synchronisation.</strong> Grid-tied inverters shut down when the grid fails. If you run DG sets in an outage, ask the vendor how the system behaves, and whether the DG can carry the inverter mix without tripping.</li>
+    <li><strong>Harmonics and power factor.</strong> Ask for the inverter's harmonic data and check it with the power quality at your transformer, especially if you already run VFDs and capacitor banks.</li>
+    <li><strong>Cleaning and corrosion.</strong> Dust, acid fumes and salt cut output. Plan cleaning, and use coatings and fasteners suited to your atmosphere.</li>
+  </ul>
+  <h3>What to ask a vendor</h3>
+  <ul>
+    <li>A simulation of output for your roof, with the shading and tilt assumptions.</li>
+    <li>The warranty on panels (output) and inverters (replacement), and who services in your area.</li>
+    <li>Total installed cost, with what is excluded: structural work, cable trays, net meter fees, approvals.</li>
+    <li>For a third-party tariff, the escalation, the term and the buy-out terms.</li>
+    <li>References from plants of your type, ideally a chemical site that you can visit.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Treat the solar vendor like any other contractor working in a classified plant: a permit to work, a hot work permit and a site induction before anyone climbs the roof.</p></div>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between net metering and gross metering for rooftop solar?</h3>
+  <p>Under net metering, the solar energy you generate offsets what you draw from the grid in the same billing period. Under gross metering, all the solar energy is sold to the distribution company at a set tariff while you buy your power at the normal tariff. As of November 2026, net metering applies up to 500 kW or the sanctioned load, whichever is lower, and the details vary by state.</p>
+  <h3>What is a group captive solar project?</h3>
+  <p>Several buyers share an off-site solar plant. To get captive status, a user must own at least 26 percent of the generating company and consume at least 51 percent of the power it produces in proportion to that ownership. The captive rules have been amended since, so confirm the current wording.</p>
+  <h3>Will rooftop solar reduce my maximum demand charge?</h3>
+  <p>Not reliably. Solar output falls on cloudy days and after sunset, and the monthly maximum demand can occur at those times. Check the load profile before counting on a saving.</p>
+  <h3>How big a solar plant do I need for 5 percent of my energy?</h3>
+  <p>Divide 5 percent of your annual consumption in kWh by the yield per kWp. For 6,000 MWh a year and 1,450 kWh per kWp per year, that is about 207 kWp. Use a site simulation for the real yield.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Down To Earth, Rooftop solar: how will India's new net metering norms play out, 30 June 2021: <a href="https://www.downtoearth.org.in/energy/rooftop-solar-how-will-india-s-new-net-metering-norms-play-out-77716" rel="noopener">downtoearth.org.in</a></li>
+    <li>Nishith Desai Associates, Ministry of Power notifies new Green Energy Open Access Rules, 2022: <a href="https://nishithdesai.com/research-and-articles/hotline/green-hotline/ministry-of-power-notifies-new-green-energy-open-access-rules-2022-6243" rel="noopener">nishithdesai.com</a></li>
+    <li>Mercom India, Supreme Court clarifies ownership and consumption terms for captive power projects, 11 October 2023: <a href="https://www.mercomindia.com/supreme-court-ownership-consumption-captive-power-projects" rel="noopener">mercomindia.com</a></li>
+    <li>Ministry of New and Renewable Energy: <a href="https://mnre.gov.in" rel="noopener">mnre.gov.in</a> (current rooftop solar programmes and guidelines)</li>
+    <li>Your state electricity regulatory commission and distribution company: the current rooftop solar, open access and captive regulations for your state</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/climate-action-for-industry-india/' | relative_url }}">Climate action for Indian industry</a>
+    <a href="{{ '/utilities/water-dg-power/' | relative_url }}">Water, DG and power calculators</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/articles/chiller-vs-vam/' | relative_url }}">Chiller vs VAM</a>
+    <a href="{{ '/utilities/' | relative_url }}">Utilities calculators</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
