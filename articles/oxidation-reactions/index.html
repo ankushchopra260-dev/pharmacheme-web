@@ -1,0 +1,177 @@
+---
+layout: default
+title: "Oxidation Reactions in Plants: Oxidants, Hazards and Controls"
+seo_title: "Oxidation Reactions in Chemical Plants: Hazards and Controls | PharmaChemE"
+description: "Hydrogen peroxide, hypochlorite, nitric acid, peracids, KMnO4 and air: what each oxidant does, where oxidations go wrong, and how to test and quench safely."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Oxidation Reactions
+    url: /articles/oxidation-reactions/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Oxidation Reactions in Plants: Oxidants, Hazards and Controls",
+        "description": "The common oxidants used in chemical plants, the main hazards of oxidation steps, how to avoid over-oxidation, and how to test for and quench excess oxidant.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is hydrogen peroxide dangerous in a reactor with metal contamination?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Traces of iron, copper, manganese and other metals catalyse its decomposition to water and oxygen. The decomposition releases heat and oxygen gas, and the oxygen can make the headspace above a flammable solvent ignitable. Clean, passivated equipment and a known metal content are part of the control."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you check that excess oxidant has been destroyed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use starch-iodide paper, which turns blue-black with most oxidants, or peroxide test strips with a stated range. Quench with a reducing agent such as sodium bisulfite, metabisulfite, sulfite or thiosulfate, then test again and get a negative result before concentrating, distilling or drying the product."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is over-oxidation and how is it controlled?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is the reaction going one step further than intended, for example an alcohol to an aldehyde and then to an acid, or a sulfide to a sulfoxide and then to a sulfone. It is controlled by the oxidant stoichiometry, a slow metered feed, temperature and in-process analysis."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can air be used as an oxidant in a solvent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only with care. Oxygen plus flammable solvent vapour can form an ignitable atmosphere. The headspace oxygen must stay below the limiting oxygen concentration for the solvent, often by diluting the air with nitrogen, and the process must be designed and tested for that."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Oxidation Reactions in Plants: Oxidants, Hazards and Controls</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">An oxidation puts a strong oxidiser and an organic material in the same vessel. That is the whole problem in one sentence. Oxidants store energy, many decompose by themselves, and the organics around them are fuel. This article walks through the common oxidants, where batches go wrong, and the checks that keep an oxidation under control.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#oxidants">The common oxidants</a><span>Basics</span></li>
+    <li><a href="#hazards">Where oxidations go wrong</a><span>Basics</span></li>
+    <li><a href="#h2o2">Worked example: hydrogen peroxide decomposition</a><span>Working level</span></li>
+    <li><a href="#air">Air and oxygen with flammable solvents</a><span>Working level</span></li>
+    <li><a href="#selectivity">Selectivity and over-oxidation</a><span>Working level</span></li>
+    <li><a href="#quench">Testing for and quenching excess oxidant</a><span>Going deeper</span></li>
+    <li><a href="#controls">Materials and controls</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="oxidants">The common oxidants <span class="lvl l1">Basics</span></h2>
+  <p>Each oxidant has a personality. Knowing it is half of the safety work.</p>
+  <ul>
+    <li><strong>Air or oxygen:</strong> cheap and clean, but with flammable solvents it creates an ignitable atmosphere unless the oxygen is kept below the limiting level.</li>
+    <li><strong>Hydrogen peroxide:</strong> sold as aqueous solutions, commonly in the range of 30 to 50 %. Its by-product is water. It decomposes to water and oxygen, and metals catalyse that.</li>
+    <li><strong>Sodium hypochlorite (bleach):</strong> used alone or with TEMPO for alcohol oxidations. It decomposes on heating and in the presence of some metals. Mixed with acid it releases chlorine gas, and it can chlorinate organics as a side reaction.</li>
+    <li><strong>Potassium permanganate:</strong> a solid. It is added in portions, gives a brown manganese dioxide sludge that has to be filtered, and can ignite certain organics on contact in the dry state.</li>
+    <li><strong>Nitric acid:</strong> a strong oxidant and nitrating agent at the same time. It evolves nitrogen oxide gases, often has an induction period, and mixtures with organic solvents can be hazardous.</li>
+    <li><strong>Peracids</strong> (peracetic acid, m-chloroperbenzoic acid): effective for epoxidations and similar steps, but they are heat and shock sensitive in concentrated form and can accumulate.</li>
+  </ul>
+
+  <h2 id="hazards">Where oxidations go wrong <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Accumulation.</strong> If the oxidant is dosed while the reaction is slow (cold, no catalyst, poor mixing), it builds up. When the reaction starts, it all reacts at once. This is the same logic as in <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing</a>.</li>
+    <li><strong>Decomposition of the oxidant.</strong> Peroxides and hypochlorite can decompose on their own, releasing heat and gas (oxygen, chlorine). Metal contamination, high temperature and the wrong pH speed this up.</li>
+    <li><strong>Peroxide formation and concentration.</strong> Peroxides can form in ethers and some other solvents, and a distillation that concentrates them is a classic accident route.</li>
+    <li><strong>Gas evolution.</strong> Oxygen, nitrogen oxides or carbon dioxide can leave faster than the vent handles, and the foam can carry liquid into the vent line.</li>
+    <li><strong>Wrong order of addition.</strong> Putting a strong oxidant into a hot vessel that already holds fuel is a common start to an incident.</li>
+  </ul>
+
+  <h2 id="h2o2">Worked example: hydrogen peroxide decomposition <span class="lvl l2">Working level</span></h2>
+  <p>Decomposition of hydrogen peroxide follows 2 H<sub>2</sub>O<sub>2</sub> &rarr; 2 H<sub>2</sub>O + O<sub>2</sub>, releasing roughly 98 kJ per mole of H<sub>2</sub>O<sub>2</sub>. The following numbers are illustrative and use typical values.</p>
+  <div class="formula-box">
+    1 kg of 30 % H<sub>2</sub>O<sub>2</sub> contains 300 g, about 8.8 mol<br>
+    Heat released &asymp; 8.8 mol &times; 98 kJ/mol &asymp; 860 kJ<br>
+    Oxygen released &asymp; 4.4 mol &asymp; 108 litres at room conditions
+    <small>Illustrative. Real values depend on the solution strength and temperature.</small>
+  </div>
+  <p>If this heat stays in the 1 kg of solution (specific heat roughly 3.6 kJ per kg per K), the temperature would rise by well over 200 K in theory. In reality the water boils and absorbs a large part of the heat, which means steam and oxygen leave together. A single 1,000 kg charge of 30 % solution would release more than 100 cubic metres of oxygen. The vent, the headspace oxygen and the nearby solvent must be thought through before the oxidant is charged, not after.</p>
+
+  <h2 id="air">Air and oxygen with flammable solvents <span class="lvl l2">Working level</span></h2>
+  <p>Liquid-phase oxidation with air is attractive, but vapour above a flammable solvent plus oxygen can burn. Each solvent has a <strong>limiting oxygen concentration</strong> (LOC) below which flame does not propagate. The headspace must be kept below it, with a safety margin, for example by diluting the air with nitrogen and monitoring oxygen in the vent. The numbers and the control philosophy are covered in <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>. The point to take away: choose the solvent and the oxygen level together, and do not scale up an air oxidation that was only run in an open flask.</p>
+
+  <h2 id="selectivity">Selectivity and over-oxidation <span class="lvl l2">Working level</span></h2>
+  <p>Many targets sit in the middle of an oxidation ladder, and the reaction rarely stops by itself.</p>
+  <ul>
+    <li>Alcohol &rarr; aldehyde &rarr; carboxylic acid</li>
+    <li>Sulfide &rarr; sulfoxide &rarr; sulfone</li>
+    <li>Alkene &rarr; epoxide &rarr; diol or ring-opened by-products</li>
+  </ul>
+  <p>The ways to hold the reaction at the right rung are the same everywhere: control the oxidant stoichiometry (often just under or at one equivalent), dose slowly, keep the temperature low and constant, and track the conversion by HPLC or GC so the feed can be stopped on the right result, not on the clock. Note that a lower temperature can slow the reaction and cause accumulation, so the right temperature is a balance that calorimetry helps to find.</p>
+
+  <h2 id="quench">Testing for and quenching excess oxidant <span class="lvl l3">Going deeper</span></h2>
+  <p>After the reaction, residual oxidant must be destroyed before any concentration, distillation, or sending the stream to effluent.</p>
+  <ul>
+    <li><strong>Test.</strong> Starch-iodide paper turns blue-black with most oxidants. Peroxide test strips give a reading within a stated range. Use both, and keep fresh strips, because old ones fail silently.</li>
+    <li><strong>Quench.</strong> Common reducing agents are sodium bisulfite, metabisulfite, sulfite and thiosulfate. The quench itself is exothermic, so add the reducing agent as a metered solution and watch the temperature. Under acidic conditions, bisulfite and sulfite can release sulfur dioxide, so check the pH and the vent.</li>
+    <li><strong>Re-test.</strong> Do not stop at one dose of quench. Test again and record a negative result before the next step.</li>
+  </ul>
+  <p>Leave a note on the batch record: no distillation, evaporation or drying until the peroxide test is negative.</p>
+
+  <h2 id="controls">Materials and controls <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Materials.</strong> Check every wetted part against the supplier data for the oxidant and concentration: metal, lining, gasket, hose and pump seal. Copper, brass and rusty iron are poor choices with peroxides. Chloride plus oxidant can pit stainless steel.</li>
+    <li><strong>Passivation and cleanliness.</strong> Equipment used with hydrogen peroxide is usually cleaned and passivated, and kept free of rust and residues.</li>
+    <li><strong>Test the mixture.</strong> DSC or similar thermal testing on the reaction mass, and on the oxidant with the solvent, shows the onset temperature and the energy. See <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC and RC1 data</a>.</li>
+    <li><strong>Dosing.</strong> Meter the oxidant by pump or controlled valve, with interlocks on temperature, agitator and cooling, and a rule that dosing does not begin until the vessel is at the right temperature and mixing.</li>
+    <li><strong>Venting.</strong> Size the vent for the gas that decomposition could release, and keep the oxygen away from flammable vapour.</li>
+    <li><strong>Dedicated systems.</strong> Do not share transfer lines and hoses between oxidants and organics.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Before charging a new batch of oxidant, ask three questions: what happens if it all reacts in the next five minutes, what happens if it decomposes instead, and where does the gas go. If the answers are not on the batch card, the batch is not ready.</p></div>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is hydrogen peroxide dangerous with metal contamination?</h3>
+  <p>Traces of iron, copper or manganese catalyse its decomposition to water and oxygen, which releases heat and gas and can make the headspace above a flammable solvent ignitable.</p>
+  <h3>How do you check that excess oxidant has been destroyed?</h3>
+  <p>Test with starch-iodide paper or peroxide strips, quench with a reducing agent such as bisulfite or thiosulfate, and test again. Get a negative result before concentrating or drying.</p>
+  <h3>What is over-oxidation?</h3>
+  <p>The reaction going one step too far, for example sulfide to sulfone. Control it with stoichiometry, slow dosing, temperature and in-process analysis.</p>
+  <h3>Can air be used as an oxidant in a solvent?</h3>
+  <p>Only with care. The headspace oxygen must stay below the limiting oxygen concentration, often by diluting the air with nitrogen.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Urben (ed.), <i>Bretherick's Handbook of Reactive Chemical Hazards</i>, Elsevier</li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH, 2008 (2nd ed. 2020)</li>
+    <li>Clayden, Greeves and Warren, <i>Organic Chemistry</i>, Oxford University Press</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read DSC, ARC and RC1</a>
+    <a href="{{ '/process-safety/chemical-mixing-hazards/' | relative_url }}">Chemical mixing hazards</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,189 @@
+---
+layout: default
+title: "Common Mistakes in Batch Reactions and How to Avoid Them"
+seo_title: "Common Batch Reaction Mistakes and Fixes | PharmaChemE"
+description: "Fourteen common mistakes in plant batch reactions, each with the symptom, the cause and the fix, plus a pre-batch checklist and batch record good practice."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Common Mistakes in Batch Reactions
+    url: /articles/common-mistakes-in-batch-reactions/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Common Mistakes in Batch Reactions and How to Avoid Them",
+        "description": "Common batch reaction mistakes in plants, with symptom, cause and fix for each, a pre-batch checklist and batch record good practice.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the most common cause of a failed batch reaction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A deviation from the intended charge: wrong quantity, wrong order, wrong temperature at the time of charging, or a reagent of different quality. Most of these are preventable by a second check and a clear batch record."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why must I confirm that a reaction has started before adding more reagent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If the reaction has not started, added reagent accumulates. When the reaction finally starts, all the accumulated reagent can react at once and release its heat faster than the cooling can remove it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is one in-process sample enough to decide a reaction is complete?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually not. A single sample can be unrepresentative, taken too early, or measure the wrong thing. Two samples a defined time apart that agree show the reaction has stopped changing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do reactions that worked in the lab fail in the plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because heat removal, mixing, heat-up and cool-down times, and addition times all change with scale. A plant reactor has much less cooling area per litre than a lab flask."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Common Mistakes in Batch Reactions and How to Avoid Them</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Most bad batches are not mysteries. They are the same handful of mistakes, repeated across products and plants: something charged wrongly, something added too fast, something not mixed, something not checked. This page lists fourteen of them, each as a symptom, a cause and a fix, so you can recognise them on the floor and in the batch record.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#charge">Mistakes at charging</a><span>Basics</span></li>
+    <li><a href="#run">Mistakes during the reaction</a><span>Basics</span></li>
+    <li><a href="#check">Mistakes in checking and sampling</a><span>Working level</span></li>
+    <li><a href="#scale">Mistakes caused by scale</a><span>Working level</span></li>
+    <li><a href="#after">Mistakes after the reaction</a><span>Working level</span></li>
+    <li><a href="#list">A pre-batch checklist</a><span>Going deeper</span></li>
+    <li><a href="#record">Batch record good practice</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="charge">Mistakes at charging <span class="lvl l1">Basics</span></h2>
+
+  <h3>1. Wrong quantity or wrong material</h3>
+  <p><strong>Symptom:</strong> low yield, a different impurity profile, or a reaction that behaves oddly (too slow or too fast). <strong>Cause:</strong> a mis-read weight, a wrong unit (kg against litres), a similar-looking drum, or a calculation error carried into the batch card. <strong>Fix:</strong> verify the material and grade against the batch card before charging, use a second person check for critical charges, and write the calculation on the card so it can be rechecked. For liquids, convert litres to kg using the actual density at the actual temperature.</p>
+
+  <h3>2. Wrong order of charging</h3>
+  <p><strong>Symptom:</strong> an unexpected exotherm, a lump of solid, a gas release or a side product. <strong>Cause:</strong> two reagents meeting in a different order from the validated process. Adding water to acid, or a base to an acid chloride, can be completely different from the reverse. <strong>Fix:</strong> number the steps on the batch card, and make the order a signed step. Do not rely on memory, even for a product run many times.</p>
+
+  <h3>3. Charging at the wrong temperature</h3>
+  <p><strong>Symptom:</strong> a sudden temperature rise right after charging, or a charge that does not dissolve. <strong>Cause:</strong> a reagent added while the batch is too warm (fast initial reaction) or too cold (reagent accumulates and reacts later). <strong>Fix:</strong> state the charging temperature range on the card and check it before the first drop. This is the same logic as in <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing</a>: colder is not automatically safer.</p>
+
+  <h2 id="run">Mistakes during the reaction <span class="lvl l1">Basics</span></h2>
+
+  <h3>4. Adding too fast</h3>
+  <p><strong>Symptom:</strong> temperature climbing during dosing, the jacket at full cooling, pressure or foam rising. <strong>Cause:</strong> a wish to save time, a pump set above the validated rate, or a dosing time shortened to fit the shift. <strong>Fix:</strong> state the minimum dosing time on the card, limit the pump or restrict the line so the rate cannot exceed the safe value, and stop dosing on high temperature.</p>
+
+  <h3>5. Agitator off or too slow</h3>
+  <p><strong>Symptom:</strong> two layers in the sight glass, a temperature that suddenly rises when the agitator is restarted, solids at the bottom. <strong>Cause:</strong> a tripped motor, a slipped belt, a broken shaft or a speed set too low for the volume. <strong>Fix:</strong> check agitation before dosing begins, interlock dosing to the agitator (a rotation signal, not only motor current), and never restart an agitator blindly after a long stop during an exothermic dosing. Wait and assess first.</p>
+
+  <h3>6. Moisture or air getting in</h3>
+  <p><strong>Symptom:</strong> low yield, hydrolysed product, a reaction that will not start, or white fumes at the vent. <strong>Cause:</strong> wet solvent, wet equipment after cleaning, an open manhole, a leaking gland, or a humid day with a long open charge. <strong>Fix:</strong> test solvent water content before use for moisture-sensitive steps, confirm the reactor is dry, keep a nitrogen blanket, and keep open charges short. See <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>.</p>
+
+  <h3>7. Not confirming initiation</h3>
+  <p><strong>Symptom:</strong> no temperature rise after the first portion, then a sudden large exotherm. <strong>Cause:</strong> a reaction with an induction period that is dosed on a timer. <strong>Fix:</strong> define a measurable sign of initiation (a temperature rise, a colour change, gas evolution or an in-process test) and do not continue the main dosing until it is seen. If it is not seen, stop and escalate.</p>
+
+  <h2 id="check">Mistakes in checking and sampling <span class="lvl l2">Working level</span></h2>
+
+  <h3>8. Ignoring hold time or sampling too early</h3>
+  <p><strong>Symptom:</strong> the in-process result shows incomplete reaction, so the batch is extended, but the next result is no better, or the batch is worked up and the yield is low. <strong>Cause:</strong> a sample taken before the reaction mixture is uniform, or before the hold time is over. <strong>Fix:</strong> state the minimum hold time, sample only after it and after agitation has mixed the batch, and record the time of the sample.</p>
+
+  <h3>9. Trusting a single in-process check</h3>
+  <p><strong>Symptom:</strong> a batch released as complete that later shows starting material, or the reverse. <strong>Cause:</strong> a single sample that was not representative, or a method that does not see the species that matters. <strong>Fix:</strong> take two samples a defined time apart and release only when they agree. When the result is borderline, repeat rather than guess. Make sure the method measures what you actually need to know.</p>
+
+  <h3>10. Temperature probe in the wrong place</h3>
+  <p><strong>Symptom:</strong> the displayed temperature is stable but the product shows degradation or the reaction behaves as if hotter. <strong>Cause:</strong> a probe above the liquid level at a low volume, in a dead zone, or in a thermowell with a slow response. <strong>Fix:</strong> know where the probe sits relative to the liquid level at every volume used in the process, and check the response time on fast exotherms. Use an independent high-temperature alarm.</p>
+
+  <h2 id="scale">Mistakes caused by scale <span class="lvl l2">Working level</span></h2>
+
+  <h3>11. Not allowing for heat-up and cool-down time</h3>
+  <p><strong>Symptom:</strong> the batch spends far longer at temperature than in the lab, creating more impurity, or the cooling to the next step takes hours longer than expected. <strong>Cause:</strong> a plant reactor has much less heat transfer area per litre than a flask, so heating and cooling are slower. <strong>Fix:</strong> include the real heat-up and cool-down times in the process time, and check the effect of long times at temperature on impurities. A rough check can use the <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load calculation</a>.</p>
+
+  <h3>12. Scaling by volume only</h3>
+  <p><strong>Symptom:</strong> a reaction that was easy at 1 litre is hard to control at 3,000 litres. <strong>Cause:</strong> volume rises with the cube of the size, but cooling area and mixing do not keep pace. <strong>Fix:</strong> check dosing time against cooling capacity, mixing against the reaction need (see <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a>) and use the <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">scale-up checklist</a>.</p>
+
+  <h2 id="after">Mistakes after the reaction <span class="lvl l2">Working level</span></h2>
+
+  <h3>13. Poor quench or work-up</h3>
+  <p><strong>Symptom:</strong> a burst of heat or gas during quench, an emulsion, a product lost in the wrong layer. <strong>Cause:</strong> quenching too fast, in the wrong order, or without allowing for residual reactive reagent. <strong>Fix:</strong> treat the quench as a reaction step with its own dosing rate and temperature limit, and check pH, layer identity and phase volumes before discarding anything.</p>
+
+  <h3>14. Cross-contamination and previous-batch residue</h3>
+  <p><strong>Symptom:</strong> an unexpected impurity, colour or a reaction that behaves differently from earlier batches. <strong>Cause:</strong> residue from the previous product in a reactor, line, pump or filter, or the wrong cleaning solvent. <strong>Fix:</strong> follow a line clearance and cleaning check before each campaign, and list the dead legs and low points where product can hide.</p>
+
+  <h2 id="list">A pre-batch checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Right product, right batch card version and right size of batch.</li>
+    <li>Reactor clean, dry and free of the previous product, with line clearance signed.</li>
+    <li>Every raw material identified, in grade and in date, and quantities calculated and rechecked by a second person.</li>
+    <li>Agitator, cooling, heating, vent, scrubber and nitrogen checked and working.</li>
+    <li>Temperature probe and high-temperature alarm checked, and the probe covered by liquid at the working volume.</li>
+    <li>Dosing rate and minimum dosing time known, and the dosing pump or valve set within the limit.</li>
+    <li>Charging order and temperature written on the card.</li>
+    <li>Sign of initiation, hold time and in-process checks defined.</li>
+    <li>What to do if the reaction does not start, if cooling is lost or if the agitator stops: known to everyone on the shift.</li>
+  </ul>
+
+  <h2 id="record">Batch record good practice <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Record actual values, not just ticks: actual weights, temperatures, times and sample results.</li>
+    <li>Record the time of each step, so a later investigation can rebuild what happened.</li>
+    <li>Note every deviation as it happens, with the action taken and who approved it.</li>
+    <li>Make the card say <em>why</em> for the critical limits, so operators understand what they protect.</li>
+    <li>Review batches that went wrong and batches that went right with a small change. Both teach something.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>When a batch goes wrong, the quickest way to learn is to read the record with a simple question: what was different from the last good batch? The answer is nearly always one of the fourteen items on this page. A good record makes that question easy to answer, and a vague record makes it impossible.</p></div>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the most common cause of a failed batch?</h3>
+  <p>A deviation in the charge: wrong quantity, order, temperature or material quality. A second check and a clear batch record prevent most of them.</p>
+  <h3>Why confirm initiation before adding more reagent?</h3>
+  <p>If the reaction has not started, reagent accumulates. When it does start, the accumulated reagent can react at once faster than cooling can remove the heat.</p>
+  <h3>Is one in-process sample enough?</h3>
+  <p>Usually not. Two samples a defined time apart that agree show the reaction has stopped changing.</p>
+  <h3>Why do lab reactions fail in the plant?</h3>
+  <p>Heat removal, mixing, heating and cooling times and addition times all change with scale. A plant reactor has much less cooling area per litre.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH, 2008 (2nd ed. 2020)</li>
+    <li>Center for Chemical Process Safety, <i>Guidelines for Chemical Reactivity Evaluation and Application to Process Design</i>, Wiley</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/process-safety/cooling-failure-and-runaway/' | relative_url }}">Cooling failure and runaway</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

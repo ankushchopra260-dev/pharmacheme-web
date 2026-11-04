@@ -1,0 +1,166 @@
+---
+layout: default
+title: "Common Chemical Reactions in API and Agrochemical Plants: A Practical Map"
+seo_title: "Common Chemical Reactions in Plants: Hazards and Controls | PharmaChemE"
+description: "A map of the reaction types met in API and agrochemical plants: esterification, nitration, hydrogenation, Grignard, oxidation, amide formation and more, with the hazard and key control for each."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Common Chemical Reactions in Plants
+    url: /articles/common-chemical-reactions-in-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Common Chemical Reactions in API and Agrochemical Plants: A Practical Map",
+        "description": "The reaction types met in API and agrochemical plants, with the typical hazard and key control point for each, and where to read more.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which common plant reactions are the most exothermic?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nitration, sulfonation with oleum or chlorosulfonic acid, halogenation with chlorine, Grignard formation and quench, and many oxidations release a large amount of heat. They are usually run semi-batch with dosing limited by cooling capacity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which reactions are limited by equilibrium rather than speed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Esterification and its reverse, hydrolysis, are the classic examples. Conversion stops at an equilibrium value unless a product such as water is removed or one reactant is used in excess."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are some reactions called hazardous even when the reaction itself is well known?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because the hazard often lies in the reagent, the intermediate or the by-product rather than the main reaction: hydrogen with a catalyst, organometallic reagents that react with water, or diazonium salts that can decompose violently when dry or warm."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where should I start if I am new to plant reactions?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Start with the batch mistakes article and the semi-batch dosing article, then read the article for the reaction type you handle."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Common Chemical Reactions in API and Agrochemical Plants</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A multipurpose plant runs dozens of different products in the same reactors, but the reaction types repeat. Once you know the family a reaction belongs to, you know most of what to worry about: how much heat it makes, what can go wrong, and which control matters most. This page is a map of those families, with a link to a longer article for each.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why group reactions into families</a><span>Basics</span></li>
+    <li><a href="#map">The map: nine families in one table</a><span>Basics</span></li>
+    <li><a href="#thermal">The families that release a lot of heat</a><span>Working level</span></li>
+    <li><a href="#reagent">The families where the reagent is the hazard</a><span>Working level</span></li>
+    <li><a href="#limited">The families limited by equilibrium or selectivity</a><span>Working level</span></li>
+    <li><a href="#diazo">Diazotisation: a family to treat with respect</a><span>Going deeper</span></li>
+    <li><a href="#read">Which article should I read?</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why group reactions into families <span class="lvl l1">Basics</span></h2>
+  <p>A new operator or graduate engineer meets a long list of product names. It is easy to think each one is a separate problem. It is not. A nitration of one compound and a nitration of another share the same acid system, the same heat release pattern and the same type of runaway. An esterification of one acid and another share the same equilibrium and the same fix.</p>
+  <p>So when you meet a new step, ask three questions. <strong>How much heat does it release and how fast?</strong> <strong>Is the hazard in the reaction or in what you add to it?</strong> <strong>Does it run to completion, or does it stop at an equilibrium?</strong> The answers place it in a family, and the family tells you what to check first.</p>
+
+  <h2 id="map">The map: nine families in one table <span class="lvl l1">Basics</span></h2>
+  <p>The table below is a quick guide, not a safety assessment. The real heat, hazard and limits for any specific step must come from your own process data, calorimetry and hazard review.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>Family</th><th>Heat</th><th>Main hazard</th><th>Key control</th></tr></thead>
+    <tbody>
+      <tr><td>Esterification and hydrolysis</td><td>Low to moderate</td><td>Acid catalyst handling, corrosion, flammable alcohol vapour</td><td>Water removal and temperature control to push equilibrium</td></tr>
+      <tr><td>Nitration, sulfonation, halogenation</td><td>High</td><td>Runaway, decomposition of nitro compounds, toxic and corrosive gases</td><td>Dosing limited by cooling, tight temperature limits, agitation interlock</td></tr>
+      <tr><td>Hydrogenation and reduction</td><td>High to very high</td><td>Hydrogen, pyrophoric catalyst, pressure</td><td>Inerting, leak-tight system, catalyst handling procedure, gas feed limit</td></tr>
+      <tr><td>Grignard, Friedel-Crafts, coupling</td><td>High (initiation and quench)</td><td>Water reactivity, delayed initiation, HCl and metal residues</td><td>Dry system, confirm initiation before dosing, controlled quench</td></tr>
+      <tr><td>Oxidation</td><td>High</td><td>Strong oxidiser with organics, peroxides, gas evolution</td><td>Compatibility check, slow dosing, oxygen and peroxide control</td></tr>
+      <tr><td>Amide formation and acylation</td><td>Moderate to high</td><td>Acid chloride reactivity, HCl evolution, coupling agent sensitisers</td><td>Controlled addition, scrubber, moisture exclusion</td></tr>
+      <tr><td>Neutralisation and salt formation</td><td>Moderate</td><td>Heat of neutralisation, gas release, pH overshoot</td><td>Dosing rate, temperature, pH control</td></tr>
+      <tr><td>Condensations</td><td>Low to moderate</td><td>By-product water or alcohol, side reactions, base handling</td><td>By-product removal, stoichiometry, temperature</td></tr>
+      <tr><td>Diazotisation</td><td>Moderate</td><td>Unstable diazonium salts, nitrogen release</td><td>Low temperature, never dry, use at once</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="thermal">The families that release a lot of heat <span class="lvl l2">Working level</span></h2>
+  <p>Nitration, sulfonation and halogenation are the classic fast exotherms of fine chemicals. A strong mixed acid or a chlorinating agent meets an organic compound, and heat comes out as fast as the reagent is added. The reactor is rarely the limit. The <em>cooling</em> is. These steps are run semi-batch, and the dosing time is chosen from the cooling capacity and from how much unreacted reagent can be allowed to sit in the reactor. That idea is explained in <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>.</p>
+  <p>The second hazard in this family is what happens if the mixture gets hot. Many nitro compounds decompose violently at temperatures not far above the process temperature. That is why reaction calorimetry and DSC are done before scale-up, and why the maximum temperature after a cooling failure matters as much as the normal operating temperature. See <a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a>.</p>
+  <p>Oxidations behave similarly. A strong oxidiser and an organic compound together can release a great deal of energy, and some intermediates, such as peroxides, are themselves unstable. The key habits are slow dosing, checking compatibility of every material in contact and knowing the oxygen limits in the vapour space. See <a href="{{ '/articles/oxidation-reactions/' | relative_url }}">Oxidation reactions</a>.</p>
+
+  <h2 id="reagent">The families where the reagent is the hazard <span class="lvl l2">Working level</span></h2>
+  <p>In <strong>hydrogenation and reduction</strong>, the reaction heat is large, but the bigger concern is hydrogen: a very wide flammable range and a very low ignition energy, together with a catalyst that can ignite on contact with air when dry. The controls are a leak-tight system, thorough inerting before and after, a written procedure for charging and filtering the catalyst, and a limit on how fast hydrogen can reach the reactor. See <a href="{{ '/articles/hydrogenation-and-reduction/' | relative_url }}">Hydrogenation and reduction</a>.</p>
+  <p>In <strong>Grignard, Friedel-Crafts and coupling reactions</strong>, the hazard is that the reagents react violently with water and that initiation can be delayed. If the reaction does not start, an operator may keep dosing, and then a large amount of reagent starts to react at once. The control is to confirm initiation with a measurable sign before the main dosing, to keep the system dry and to treat the quench as a reaction step in its own right. See <a href="{{ '/articles/grignard-friedel-crafts-coupling/' | relative_url }}">Grignard, Friedel-Crafts and coupling reactions</a>.</p>
+  <p>In <strong>amide formation and acylation</strong>, acid chlorides and anhydrides react quickly with water, amines and alcohols and release HCl or an acid. The hazard is a fast heat release, gas to the scrubber and moisture that ruins the batch. Some modern coupling agents are also skin sensitisers, so handling matters. See <a href="{{ '/articles/amide-formation-and-acylation/' | relative_url }}">Amide formation and acylation</a>.</p>
+
+  <h2 id="limited">The families limited by equilibrium or selectivity <span class="lvl l2">Working level</span></h2>
+  <p>Not every reaction is a thermal worry. <strong>Esterification and hydrolysis</strong> are the textbook equilibrium reactions. The reaction goes forwards and backwards, so conversion stops at a value set by the equilibrium constant. You do not get more by waiting. You get more by removing a product (often water), by using one reactant in excess, or by changing the temperature. See <a href="{{ '/articles/esterification-and-hydrolysis/' | relative_url }}">Esterification and hydrolysis</a>.</p>
+  <p><strong>Condensations</strong> and <strong>neutralisations</strong> sit in the middle. They are usually gentler than the families above, but they still release heat, they still make by-products, and they still reward good dosing and temperature control. Neutralisation, in particular, is often underestimated: strong acid into strong base releases a substantial heat in a short time, and pH can overshoot into a region where the product degrades.</p>
+  <p>For a general approach to getting more product from any of these, read <a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">How to improve reaction conversion and yield</a>.</p>
+
+  <h2 id="diazo">Diazotisation: a family to treat with respect <span class="lvl l3">Going deeper</span></h2>
+  <p>Diazotisation converts an aromatic amine into a diazonium salt, usually with sodium nitrite and acid at low temperature. The product is useful because it can be converted into many other compounds. It is also unstable. Diazonium salts can decompose, releasing nitrogen and heat, and some can be explosive when dry or when allowed to warm. This is why such reactions are run cold, kept in solution, used immediately and never isolated as a dry solid without a specific, reviewed procedure.</p>
+  <p>Treat it as a reaction where the temperature limit is a hard limit, where excess nitrite is checked and managed, and where the time between making and using the intermediate is kept short. If your plant runs this chemistry, it needs its own hazard study. This article does not give process details for it, because they vary too much by compound.</p>
+  <div class="art-note"><b>On the plant</b><p>Most serious reaction incidents in fine chemicals trace back to a few themes: a cooling or agitation failure during a fast exotherm, a reagent added in the wrong order or at the wrong time, and a reaction that did not start when expected. The family tells you which theme to expect. The batch record and the interlocks are where you defend against it. See <a href="{{ '/articles/common-mistakes-in-batch-reactions/' | relative_url }}">Common mistakes in batch reactions</a>.</p></div>
+
+  <h2 id="read">Which article should I read? <span class="lvl l1">Guide</span></h2>
+  <ul>
+    <li><strong>I run a reaction that releases a lot of heat:</strong> start with semi-batch dosing and accumulation, then nitration, sulfonation and halogenation, or oxidation.</li>
+    <li><strong>I run a reaction with hydrogen, a metal or an organometallic reagent:</strong> read hydrogenation and reduction, or Grignard, Friedel-Crafts and coupling.</li>
+    <li><strong>My reaction stops before the starting material is gone:</strong> read esterification and hydrolysis for equilibrium, then how to improve conversion and yield.</li>
+    <li><strong>My batches vary from one to the next:</strong> read common mistakes in batch reactions.</li>
+    <li><strong>I make amides or use acid chlorides:</strong> read amide formation and acylation.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Which common plant reactions are the most exothermic?</h3>
+  <p>Nitration, sulfonation with strong reagents, halogenation with chlorine, Grignard formation and quench, and many oxidations. They are run semi-batch with dosing limited by cooling.</p>
+  <h3>Which reactions are limited by equilibrium?</h3>
+  <p>Esterification and hydrolysis. Conversion stops at an equilibrium value unless you remove a product or use one reactant in excess.</p>
+  <h3>Why are some reactions called hazardous even when well known?</h3>
+  <p>Because the hazard often lies in the reagent, intermediate or by-product: hydrogen and catalyst, water-reactive organometallics, or diazonium salts that decompose when dry or warm.</p>
+  <h3>Where should I start?</h3>
+  <p>Start with common mistakes in batch reactions and semi-batch dosing, then read the article for your reaction type.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH, 2008 (2nd ed. 2020)</li>
+    <li>Bretherick's Handbook of Reactive Chemical Hazards, Elsevier (latest edition)</li>
+    <li>Levenspiel, <i>Chemical Reaction Engineering</i>, 3rd ed., Wiley, 1999</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes, with calculator</a>
+    <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read DSC, ARC, RC1 and TSU</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/molecules/reaction/' | relative_url }}">Reaction builder</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

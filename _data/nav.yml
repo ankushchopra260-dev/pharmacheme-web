@@ -189,6 +189,13 @@
         - { title: "Lab to Plant Scale-up Checklist", url: /articles/lab-to-plant-scale-up-checklist/ }
         - { title: "Semi-Batch Dosing and Accumulation", url: /articles/semi-batch-dosing-accumulation/ }
         - { title: "Crystallisation Scale-up", url: /articles/crystallisation-scale-up/ }
+    - title: "Chemical reactions"
+      url: /articles/#chemical-reactions
+      count: 9
+      children:
+        - { title: "Common reactions in plants", url: /articles/common-chemical-reactions-in-plants/ }
+        - { title: "Common mistakes in batch reactions", url: /articles/common-mistakes-in-batch-reactions/ }
+        - { title: "Improve conversion and yield", url: /articles/improve-reaction-conversion-and-yield/ }
     - title: "Process design"
       url: /articles/#process-design
       count: 15

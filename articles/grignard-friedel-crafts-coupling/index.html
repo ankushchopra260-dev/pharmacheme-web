@@ -1,0 +1,188 @@
+---
+layout: default
+title: "Grignard, Friedel-Crafts and Coupling Reactions at Scale: Common Mistakes and Controls"
+seo_title: "Grignard, Friedel-Crafts and Pd Coupling at Scale | PharmaChemE"
+description: "Grignard initiation and quench, Friedel-Crafts with AlCl3, Suzuki and Heck coupling: what goes wrong at plant scale and the controls that prevent it."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Grignard, Friedel-Crafts and Coupling
+    url: /articles/grignard-friedel-crafts-coupling/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Grignard, Friedel-Crafts and Coupling Reactions at Scale: Common Mistakes and Controls",
+        "description": "Grignard initiation and quench, Friedel-Crafts with aluminium chloride and palladium coupling reactions at plant scale, with the common failures and the controls that prevent them.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is Grignard initiation dangerous at scale?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Grignard formation often has an induction period. If the halide keeps being dosed before the reaction starts, it accumulates. When initiation finally happens, all of that halide reacts at once and the heat can exceed the cooling and boil the solvent. Confirm initiation on a small portion (temperature rise, reflux, or an in-line measurement) before dosing the rest."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does Friedel-Crafts acylation need more than one equivalent of aluminium chloride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The ketone product binds strongly to aluminium chloride and ties it up, so the catalyst is not released until the aqueous work-up. In practice a little over one equivalent is used, which is why the quench is large and the aluminium waste is significant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is residual palladium removed after a coupling reaction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Typically by a combination of steps: a scavenger such as thiol-functionalised silica or activated carbon, a wash with a complexing agent, and crystallisation of the product. The target comes from the ICH Q3D elemental impurities guideline and the maximum daily dose of the drug."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do coupling reactions need an inert atmosphere?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually yes. Oxygen oxidises the active palladium(0) catalyst and the phosphine ligand, and it promotes homocoupling of the boronic acid. Degas the solvent by nitrogen sparging or vacuum and nitrogen cycles before adding the catalyst."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Grignard, Friedel-Crafts and Coupling Reactions at Scale</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Three reaction families that look simple on paper and cause most of the surprises on the plant floor: a Grignard that will not start and then starts all at once, a Friedel-Crafts quench that fills the scrubber, and a palladium coupling that stalls because someone forgot to degas. This article covers what each one needs and where batches go wrong.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#grignard">Grignard: the induction period problem</a><span>Basics</span></li>
+    <li><a href="#grignard-controls">Confirming initiation, solvents and quench</a><span>Working level</span></li>
+    <li><a href="#fc">Friedel-Crafts with aluminium chloride</a><span>Working level</span></li>
+    <li><a href="#coupling">Pd coupling: Suzuki, Heck and Buchwald</a><span>Working level</span></li>
+    <li><a href="#pd">Removing palladium to ppm level</a><span>Going deeper</span></li>
+    <li><a href="#fail">Common failures and a checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="grignard">Grignard: the induction period problem <span class="lvl l1">Basics</span></h2>
+  <p>A Grignard reagent (RMgX) is made by adding an organic halide to magnesium metal in an ether solvent. The magnesium surface is covered by an oxide layer, so the reaction often does not start at once. This delay is the <strong>induction period</strong>. It can last minutes or, on a bad day, much longer.</p>
+  <p>The danger is simple. If the halide is dosed on schedule while nothing is reacting, it accumulates in the reactor. When the surface finally activates, the reaction rate jumps and all the stored halide reacts together. The heat release can exceed the cooling capacity and boil the solvent. This is the same accumulation idea as in <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing</a>, with one difference: the reaction rate is not smooth, it switches on.</p>
+  <p>Water is the other enemy. Grignard reagents react with water to give the alkane and magnesium salts, and the reaction is fast and exothermic. Wet solvent, wet equipment or a damp nitrogen line will kill the reagent and waste the batch, and the extra heat is not helpful either.</p>
+
+  <h2 id="grignard-controls">Confirming initiation, solvents and quench <span class="lvl l2">Working level</span></h2>
+  <h3>Confirm initiation before the main dose</h3>
+  <p>The standard approach is to charge the magnesium and solvent, add a small portion of the halide (often 5 to 10 % of the total), and wait for clear evidence that the reaction has started before dosing the rest. Typical evidence:</p>
+  <ul>
+    <li>a temperature rise above the jacket temperature that cannot be explained by the dosing itself;</li>
+    <li>onset of reflux or a change in the appearance of the mixture, for example cloudiness or colour;</li>
+    <li>an in-line measurement such as FTIR or a heat-flow signal, where the plant has it.</li>
+  </ul>
+  <p>If it does not start, stop the feed. Options include a few crystals of iodine, a small amount of 1,2-dibromoethane, a little pre-made Grignard from an earlier batch, or gentle warming of the heel. Whatever the method, write it in the batch record, and never let the dosing timer run on its own. A hold point with a <em>go</em> signal from the operator or the control system is worth more than any extra cooling.</p>
+  <h3>Solvent choice</h3>
+  <p>Diethyl ether (boiling point about 35 &deg;C) is easy to run but very flammable and forms peroxides. Tetrahydrofuran (about 66 &deg;C) is widely used and also forms peroxides on storage. 2-Methyltetrahydrofuran (about 80 &deg;C) is a common plant alternative with a higher boiling point and easier phase separation after the quench. Whichever is used, test stored ether solvents for peroxides before use and before any distillation, and keep the solvent water content within the limit set in the process, usually checked by Karl Fischer titration.</p>
+  <h3>The quench is a second reaction</h3>
+  <p>After the Grignard has reacted with the substrate, the mixture holds magnesium alkoxide, leftover reagent and often unreacted magnesium. Adding water or acid releases heat, and acid on leftover magnesium metal gives hydrogen gas. Common controls are a slow, metered quench into cooled aqueous ammonium chloride or dilute acid, good agitation, a vent path sized for the gas, and a check that the nitrogen sweep keeps the headspace below the flammable limit during hydrogen evolution.</p>
+  <div class="art-note"><b>On the plant</b><p>The most useful interlock on a Grignard step is not a high-temperature trip. It is a rule that the main halide feed cannot start until a defined temperature rise has been seen after the initiation charge. The high-temperature trip only helps after the accumulation has already happened.</p></div>
+
+  <h2 id="fc">Friedel-Crafts with aluminium chloride <span class="lvl l2">Working level</span></h2>
+  <p>Friedel-Crafts acylation attaches an acyl group to an aromatic ring using an acid chloride and aluminium chloride (AlCl<sub>3</sub>). Three points matter at scale.</p>
+  <ul>
+    <li><strong>AlCl<sub>3</sub> reacts with moisture.</strong> It releases hydrogen chloride on contact with water or damp air. Charging it from drums needs dry conditions, a closed charging route and a scrubber on the vent. Corrosion of anything not glass-lined or suitably lined is a real risk, because wet HCl attacks stainless steel.</li>
+    <li><strong>The catalyst is not catalytic in acylation.</strong> The ketone product binds to AlCl<sub>3</sub> and holds it, so a little over one equivalent is used. That is why the quench is large. Alkylation, in contrast, needs less catalyst, but it brings its own problems: rearrangement of the alkyl group and over-alkylation.</li>
+    <li><strong>HCl is generated during the reaction.</strong> A typical acylation releases one mole of HCl per mole of product. The off-gas rate follows the dosing rate, so the scrubber and the vent line must be sized for the fastest dosing step, not the average.</li>
+  </ul>
+  <h3>The quench</h3>
+  <p>Breaking the aluminium complex means adding the reaction mass to water, ice or dilute hydrochloric acid. This is strongly exothermic and releases more HCl. The usual practice is a reverse quench: the reaction mass is added slowly to the cold aqueous phase, not the other way round, so there is always an excess of water to absorb the heat. The result is an acidic aluminium-containing aqueous stream that has to go to effluent treatment, and the volume and salt load should be in the plant's waste plan before the first batch.</p>
+  <p>Solvents are often chlorinated or aromatic. Dichloromethane is easy to run but is increasingly restricted, so check what the current process and the site's permits allow. Reaction mass with AlCl<sub>3</sub> and some solvents can be incompatible, so check the compatibility rather than assume it.</p>
+
+  <h2 id="coupling">Pd coupling: Suzuki, Heck and Buchwald <span class="lvl l2">Working level</span></h2>
+  <p>Palladium-catalysed couplings join two fragments with a very small amount of metal. The three you will meet most often:</p>
+  <ul>
+    <li><strong>Suzuki:</strong> an aryl halide with a boronic acid or ester, a base (often potassium carbonate or phosphate) and usually a solvent with some water.</li>
+    <li><strong>Heck:</strong> an aryl halide with an alkene and a base, often at higher temperature.</li>
+    <li><strong>Buchwald-Hartwig:</strong> an aryl halide with an amine, usually with a strong base such as sodium tert-butoxide, which is itself moisture sensitive and needs careful handling.</li>
+  </ul>
+  <p>The active catalyst is palladium(0), held in solution by a ligand, commonly a phosphine. Oxygen damages both. The signs are a black precipitate of palladium metal, a stalled conversion and extra by-products such as the boronic acid coupling with itself (homocoupling). The fix is practical: degas the solvent by nitrogen sparging or by vacuum and nitrogen cycles, keep a nitrogen blanket, and add the catalyst last, after the system is oxygen-free.</p>
+  <p>These reactions are often described as mild, but at scale they can release a meaningful amount of heat, especially if the catalyst activates late and the substrates have accumulated. Treat a new coupling like any other exothermic step: measure the heat release by calorimetry and keep an eye on any step where everything is charged and then heated.</p>
+
+  <h2 id="pd">Removing palladium to ppm level <span class="lvl l3">Going deeper</span></h2>
+  <p>In a medicine, the limit for residual metals is set by the ICH Q3D guideline on elemental impurities. For palladium the oral permitted daily exposure in that guideline is 100 micrograms per day, which for a 10 g daily dose corresponds to a concentration limit of 10 ppm. The real limit for a product depends on its dose and route, so confirm it with the regulatory team.</p>
+  <div class="formula-box">
+    Concentration limit (ppm) = PDE (&micro;g/day) / maximum daily dose (g/day)
+    <small>Illustrative: 100 &micro;g/day / 10 g/day = 10 ppm. Always use the dose of your own product.</small>
+  </div>
+  <p>Typical tools, often used in combination:</p>
+  <ul>
+    <li>treatment of the product solution with activated carbon;</li>
+    <li>scavenger resins or silica carrying thiol, thiourea or amine groups;</li>
+    <li>a wash with an aqueous complexing agent such as N-acetylcysteine;</li>
+    <li>crystallisation, which often rejects metal into the mother liquor.</li>
+  </ul>
+  <p>Palladium measurement needs ICP-MS or similar, so build the sampling time into the batch cycle. A batch that fails the metal limit after crystallisation is expensive to rework.</p>
+
+  <h2 id="fail">Common failures and a checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Grignard:</strong> dosing continued without confirmed initiation; wet solvent; quench too fast; hydrogen from leftover magnesium not vented.</li>
+    <li><strong>Friedel-Crafts:</strong> AlCl<sub>3</sub> exposed to humid air; scrubber undersized; quench done in the wrong direction; aqueous waste not planned.</li>
+    <li><strong>Coupling:</strong> oxygen in the solvent; catalyst added before degassing; base not dry; no metal-removal step planned until the first batch fails.</li>
+  </ul>
+  <p><strong>Before the first batch, check:</strong></p>
+  <ul>
+    <li>Water content of solvent and equipment against the process limit.</li>
+    <li>A hold point for initiation, with defined evidence, on any Grignard step.</li>
+    <li>Calorimetry data for the reaction and the quench.</li>
+    <li>Scrubber capacity for HCl, sized for the peak rate.</li>
+    <li>Material compatibility of every wetted part, including gaskets.</li>
+    <li>Nitrogen supply and an oxygen check before adding catalyst.</li>
+    <li>Waste streams, metal limits and sampling plan for the product.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is Grignard initiation dangerous at scale?</h3>
+  <p>Because the halide can accumulate while nothing reacts, and then react all at once. Confirm initiation on a small portion (temperature rise, reflux, or an in-line measurement) before dosing the rest.</p>
+  <h3>Why does Friedel-Crafts acylation need more than one equivalent of AlCl<sub>3</sub>?</h3>
+  <p>The ketone product binds to the aluminium chloride and holds it until the aqueous work-up, so a little over one equivalent is used and the quench and waste are large.</p>
+  <h3>How is residual palladium removed?</h3>
+  <p>Usually by a combination of a scavenger (thiol silica or activated carbon), a complexing wash and crystallisation. The target comes from ICH Q3D and the maximum daily dose of the drug.</p>
+  <h3>Do coupling reactions need an inert atmosphere?</h3>
+  <p>Usually yes. Oxygen oxidises the palladium(0) catalyst and the ligand and promotes homocoupling. Degas the solvent and add the catalyst last.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Clayden, Greeves and Warren, <i>Organic Chemistry</i>, Oxford University Press</li>
+    <li>Urben (ed.), <i>Bretherick's Handbook of Reactive Chemical Hazards</i>, Elsevier</li>
+    <li>ICH Q3D, <i>Guideline for Elemental Impurities</i>, International Council for Harmonisation</li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH, 2008 (2nd ed. 2020)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+    <a href="{{ '/process-safety/cooling-failure-and-runaway/' | relative_url }}">Cooling failure and runaway</a>
+    <a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

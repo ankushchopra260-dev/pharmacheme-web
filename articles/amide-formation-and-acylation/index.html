@@ -1,0 +1,194 @@
+---
+layout: default
+title: "Amide Formation and Acylation at Scale: Reagents, Exotherms and Work-up"
+seo_title: "Amide Formation and Acylation at Plant Scale | PharmaChemE"
+description: "Acid chlorides, anhydrides, EDC, HATU, CDI and mixed anhydrides: how to pick the route, control the exotherm and gas, avoid racemisation and plan the work-up."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Amide Formation and Acylation
+    url: /articles/amide-formation-and-acylation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Amide Formation and Acylation at Scale: Reagents, Exotherms and Work-up",
+        "description": "Routes to amides and acylated products at plant scale: acid chlorides, anhydrides, coupling reagents, base choice, exotherm and gas evolution, racemisation, impurities and work-up.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is an acid chloride amidation more dangerous than it looks?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The reaction is fast and strongly exothermic, and the base that captures the hydrogen chloride adds more heat. Because it is fast, the heat follows the dosing rate, so cooling capacity sets the dosing time. Moisture also turns the acid chloride into the acid and more hydrogen chloride."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gases come off when making an acid chloride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Thionyl chloride gives sulfur dioxide and hydrogen chloride. Oxalyl chloride with catalytic DMF gives carbon monoxide, carbon dioxide and hydrogen chloride. All need a scrubber and a vent sized for the peak rate, and carbon monoxide needs special attention for toxicity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is N-acylurea and why does it matter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is a by-product from carbodiimide reagents such as EDC and DCC. The activated intermediate can rearrange to a stable N-acylurea instead of reacting with the amine, which lowers yield and adds an impurity that can be hard to remove."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is racemisation avoided in amide coupling?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "By keeping the activation time short, running cold, using a weaker base such as N-methylmorpholine, and using an additive or a reagent known to give low racemisation. The final product should be checked by chiral HPLC."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Amide Formation and Acylation at Scale</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Joining an acid to an amine is the most common bond-forming step in pharma and agro chemistry. In the flask it is one line on a scheme. On the plant it brings acid chlorides that hydrolyse on contact with damp air, gas that has to be scrubbed, a slurry of amine salt that clogs the agitator, and a wash sequence that can foam over. This article goes through the routes and what to watch at each.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#routes">Four routes to an amide</a><span>Basics</span></li>
+    <li><a href="#acid-chloride">Acid chlorides: the exotherm and the gas</a><span>Working level</span></li>
+    <li><a href="#base">Base choice and Schotten-Baumann</a><span>Working level</span></li>
+    <li><a href="#coupling">Coupling agents and mixed anhydrides</a><span>Working level</span></li>
+    <li><a href="#impurities">Racemisation and impurities</a><span>Going deeper</span></li>
+    <li><a href="#workup">Work-up and wash sequence</a><span>Going deeper</span></li>
+    <li><a href="#scale">Scale-up cautions</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="routes">Four routes to an amide <span class="lvl l1">Basics</span></h2>
+  <p>A carboxylic acid will not simply react with an amine at plant temperatures, so the acid is first <em>activated</em>. The common ways:</p>
+  <ul>
+    <li><strong>Acid chloride.</strong> Made with thionyl chloride or oxalyl chloride, then reacted with the amine and a base. Cheap and fast, but moisture sensitive and gas generating.</li>
+    <li><strong>Anhydride.</strong> For example acetic anhydride for acetylation. Milder than an acid chloride, but half of the anhydride leaves as the acid, so it is less atom efficient.</li>
+    <li><strong>Coupling reagent.</strong> EDC, DCC, CDI, HATU, propylphosphonic anhydride (T3P) and similar. Gentle conditions and good for sensitive or chiral substrates, but the reagents are costly and leave by-products to remove.</li>
+    <li><strong>Mixed anhydride.</strong> The acid reacts with a chloroformate such as isobutyl chloroformate and a base at low temperature, and the amine is added next.</li>
+  </ul>
+  <p>The right route is a trade-off between cost, waste, safety and the chirality of the substrate. Large-scale routes often start with the cheapest activation and move to a coupling reagent only if the acid chloride route fails on selectivity.</p>
+
+  <h2 id="acid-chloride">Acid chlorides: the exotherm and the gas <span class="lvl l2">Working level</span></h2>
+  <h3>Making the acid chloride</h3>
+  <p>Thionyl chloride converts the acid to the acid chloride and releases sulfur dioxide and hydrogen chloride. Oxalyl chloride, usually with a catalytic amount of DMF, releases carbon monoxide, carbon dioxide and hydrogen chloride. Both reagents react violently with water. The off-gas rate rises with temperature and with dosing rate, so:</p>
+  <ul>
+    <li>size the vent and the caustic scrubber for the peak gas rate, not for the average;</li>
+    <li>keep carbon monoxide, which is toxic and flammable, out of any area where it can accumulate;</li>
+    <li>treat the DMF-activated reagent as a potentially unstable species and check it by thermal testing before scale-up.</li>
+  </ul>
+  <h3>The amidation itself</h3>
+  <p>An acid chloride reacts with an amine very fast, and the base that captures the hydrogen chloride adds neutralisation heat. Because the reaction is fast, the heat release follows the dosing rate, so the cooling capacity decides the dosing time. The numbers below are illustrative.</p>
+  <div class="formula-box">
+    Heat of reaction (illustrative): 100 kJ/mol<br>
+    Batch: 1,000 mol of acid chloride in 500 kg of mass, c<sub>p</sub> 1.8 kJ/kg&middot;K<br>
+    Total heat = 1,000 &times; 100 = 100,000 kJ<br>
+    &Delta;T<sub>ad</sub> = 100,000 / (500 &times; 1.8) &asymp; 110 K<br>
+    Dosed over 2 hours: average heat rate = 100,000 / 7,200 &asymp; 14 kW
+    <small>Measure the real heat of reaction by calorimetry before using it for a design.</small>
+  </div>
+  <p>A 110 K adiabatic rise on a solvent that boils at 40 to 80 &deg;C is a serious number. This is the same logic as in <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing</a>: the dosing time must be long enough for the jacket, and the reaction must keep up with the feed so that little acid chloride accumulates.</p>
+  <p>Moisture matters twice. Water hydrolyses the acid chloride to the acid and hydrogen chloride, which wastes the reagent and consumes base, and damp solvent can also shift the temperature profile. Check the water content of the solvent and the amine before the charge.</p>
+
+  <h2 id="base">Base choice and Schotten-Baumann <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Triethylamine</strong> and <strong>diisopropylethylamine</strong> capture HCl in organic solvents. Triethylamine hydrochloride often precipitates as a thick slurry, so check that the agitator can handle it and that the solids can be filtered or washed out.</li>
+    <li><strong>Pyridine</strong> works well but has a strong odour and a higher toxicity profile, so many plants try to avoid it.</li>
+    <li><strong>N-methylmorpholine</strong> is a weaker base that is useful where racemisation is a concern.</li>
+    <li><strong>Inorganic bases</strong> such as sodium hydroxide, sodium carbonate or potassium carbonate are used in <strong>Schotten-Baumann</strong> conditions: a two-phase system of water and an organic solvent, with the acid chloride added to the mixture. It is cheap and the heat is moderated by the water, but the acid chloride can hydrolyse in competition, so keep the temperature low and the pH in the range the process specifies, and stir well so that the reaction happens at the interface quickly.</li>
+  </ul>
+
+  <h2 id="coupling">Coupling agents and mixed anhydrides <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>EDC</strong> (a carbodiimide) gives a water-soluble urea by-product that washes out. <strong>DCC</strong> gives dicyclohexylurea, which is insoluble and filtered off, but DCC is a strong skin sensitiser.</li>
+    <li><strong>CDI</strong> forms an acyl imidazole and releases carbon dioxide, so the gas rate needs to be controlled. It is moisture sensitive and leaves imidazole to wash away.</li>
+    <li><strong>HATU</strong> and similar benzotriazole-based reagents are effective and give low racemisation, but they are expensive for large scale, and the benzotriazole family has thermal hazards, so check them by DSC.</li>
+    <li><strong>T3P</strong> (propylphosphonic anhydride) is widely used at scale because its by-products are water soluble and easy to wash out.</li>
+    <li><strong>Mixed anhydrides</strong> are formed at low temperature, often around minus 15 &deg;C, with a chloroformate and a tertiary amine. Poor temperature control can give the wrong carbonyl attack and a urethane by-product.</li>
+  </ul>
+
+  <h2 id="impurities">Racemisation and impurities <span class="lvl l3">Going deeper</span></h2>
+  <p>When the acid has a stereocentre next to the carbonyl, as in amino acids, activation can make that centre easy to epimerise, often through an oxazolone intermediate. The levers are practical: keep the activation time short, work cold, pick a weaker base, and use a reagent or additive known for low racemisation. Always confirm the optical purity of the product by chiral HPLC.</p>
+  <p>Common impurities to plan for:</p>
+  <ul>
+    <li><strong>N-acylurea</strong> from carbodiimides: the activated intermediate rearranges instead of meeting the amine.</li>
+    <li><strong>Urea by-products</strong> from the coupling agent, which need to be filtered or washed out.</li>
+    <li><strong>Diacylation</strong> where the amine has more than one reactive site, or the amide is acylated again.</li>
+    <li><strong>Unreacted acid</strong> from hydrolysis of the acid chloride.</li>
+  </ul>
+
+  <h2 id="workup">Work-up and wash sequence <span class="lvl l3">Going deeper</span></h2>
+  <p>A typical sequence is a dilute acid wash (removes the leftover amine and base), a dilute base wash such as sodium bicarbonate (removes the leftover acid and additives) and a brine wash, with phase cuts checked by pH and by in-process analysis. Practical cautions:</p>
+  <ul>
+    <li>Quench any leftover acid chloride deliberately, with water or an alcohol, at a controlled rate and temperature, before the washes.</li>
+    <li>Bicarbonate on residual acid releases carbon dioxide. Add it slowly, keep the vent open and expect foam.</li>
+    <li>Check the pH of each aqueous cut, because a wrong pH can pull the product into the wrong phase.</li>
+    <li>Plan what happens to the salt-bearing aqueous streams and the solids.</li>
+  </ul>
+
+  <h2 id="scale">Scale-up cautions <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Measure the heat of reaction and the heat of neutralisation by calorimetry, and set the dosing time from the cooling capacity.</li>
+    <li>Size the scrubber and the vent for the peak gas rate of the activation step.</li>
+    <li>Confirm that the agitator can keep an amine hydrochloride slurry moving.</li>
+    <li>Define water limits for solvents and raw materials, and keep acid chlorides under nitrogen.</li>
+    <li>Do thermal testing on the activated species and on any DMF-containing reagent mixture.</li>
+    <li>Interlock the feed on temperature, agitation and cooling, as for any exothermic dosing step.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>A frequent surprise is the thick slurry. The reaction was fine in the lab flask with a magnetic bar. On the plant, the amine salt packs on the vessel wall and the heat transfer drops just when the heat release is at its peak. Ask for the slurry behaviour, not only the heat data.</p></div>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is an acid chloride amidation more dangerous than it looks?</h3>
+  <p>It is fast and strongly exothermic, the base adds more heat, and moisture turns the acid chloride into acid and HCl. Cooling capacity sets the dosing time.</p>
+  <h3>What gases come off when making an acid chloride?</h3>
+  <p>Thionyl chloride gives SO<sub>2</sub> and HCl. Oxalyl chloride with DMF gives CO, CO<sub>2</sub> and HCl. All need a scrubber and a vent sized for the peak rate.</p>
+  <h3>What is N-acylurea?</h3>
+  <p>A by-product from carbodiimides such as EDC and DCC, formed when the activated intermediate rearranges instead of reacting with the amine.</p>
+  <h3>How is racemisation avoided?</h3>
+  <p>Short activation time, low temperature, a weaker base and a low-racemisation reagent, confirmed by chiral HPLC.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Valeur and Bradley, Amide bond formation: beyond the myth of coupling reagents, <i>Chemical Society Reviews</i>, 2009, 38, 606</li>
+    <li>Dunetz, Magano and Weisenburger, Large-scale applications of amide coupling reagents for the synthesis of pharmaceuticals, <i>Organic Process Research and Development</i>, 2016, 20, 140</li>
+    <li>Urben (ed.), <i>Bretherick's Handbook of Reactive Chemical Hazards</i>, Elsevier</li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH, 2008 (2nd ed. 2020)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and jacket cooling</a>
+    <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read DSC, ARC and RC1</a>
+    <a href="{{ '/calculators/reagent-addition-time-calculator/' | relative_url }}">Reagent addition time calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,188 @@
+---
+layout: default
+title: "Hydrogenation and Reductions in Plants: Catalysts, Mass Transfer and Safety"
+seo_title: "Catalytic Hydrogenation and Reductions: Plant Guide | PharmaChemE"
+description: "How catalytic hydrogenation runs in plants: catalysts, hydrogen mass transfer, hydrogen and catalyst safety, poisoning, metal hydrides and H2 uptake monitoring."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Hydrogenation and Reduction
+    url: /articles/hydrogenation-and-reduction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Hydrogenation and Reductions in Plants: Catalysts, Mass Transfer and Safety",
+        "description": "Catalysts, mass transfer limits, hydrogen and pyrophoric catalyst safety, selectivity, poisoning, filtration, metal hydride reductions and monitoring by hydrogen uptake.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is my hydrogenation slower at plant scale than in the lab?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually gas-liquid mass transfer. Hydrogen dissolves poorly and the plant reactor has less agitation and gas dispersion per litre. Raise pressure or improve the agitation and sparging before adding more catalyst."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is spent hydrogenation catalyst dangerous?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It can hold adsorbed hydrogen and ignite solvent vapour when it contacts air, especially if the filter cake dries. Filter under nitrogen, keep it wet and store it under water."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I avoid losing a halogen when reducing a nitro group?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Choose a catalyst less prone to dehalogenation, such as a platinum or modified catalyst, keep temperature and pressure moderate, and stop at the theoretical hydrogen uptake."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the main hazard of sodium borohydride and lithium aluminium hydride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Both release hydrogen when quenched. Lithium aluminium hydride reacts violently with water, so the quench must be slow, cooled and vented to a safe place."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Hydrogenation and Reductions in Plants</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Hydrogenation looks simple on paper: a compound, a catalyst and hydrogen. In a plant it is a three-phase reaction (gas, liquid and solid) with a very flammable gas and a catalyst that can ignite solvent. Most of the trouble comes from three places: getting hydrogen to the catalyst, handling the catalyst safely, and keeping the reduction from going too far.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#basics">How a hydrogenation works</a><span>Basics</span></li>
+    <li><a href="#catalysts">Common catalysts</a><span>Basics</span></li>
+    <li><a href="#masstransfer">Mass transfer: why scale-up changes the rate</a><span>Working level</span></li>
+    <li><a href="#heat">Heat of reaction: a worked example</a><span>Working level</span></li>
+    <li><a href="#hsafety">Hydrogen safety</a><span>Working level</span></li>
+    <li><a href="#catsafety">Handling, filtering and recovering the catalyst</a><span>Going deeper</span></li>
+    <li><a href="#selectivity">Over-reduction and poisoning</a><span>Going deeper</span></li>
+    <li><a href="#hydrides">Chemical reductions: metal hydrides and metals in acid</a><span>Going deeper</span></li>
+    <li><a href="#monitor">Monitoring by hydrogen uptake</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="basics">How a hydrogenation works <span class="lvl l1">Basics</span></h2>
+<p>In <strong>catalytic hydrogenation</strong>, hydrogen adds across a double bond, a nitro group, a nitrile or another reducible group, on the surface of a metal catalyst. The catalyst sits suspended in the liquid as fine solid particles.</p>
+  <p>For the reaction to happen, hydrogen has to travel through several steps: from the gas into the liquid, through the liquid to the catalyst particle, and onto the metal surface, where it reacts with the substrate. Any one of these can be the slow step, and the slowest one sets the rate.</p>
+  <p>A <strong>chemical reduction</strong> uses a reagent instead of hydrogen gas: sodium borohydride, lithium aluminium hydride, or a metal in acid such as iron (the Bechamp reduction used for nitro compounds). These avoid the gas but bring their own hazards, covered below.</p>
+  <h2 id="catalysts">Common catalysts <span class="lvl l1">Basics</span></h2>
+<ul>
+    <li><strong>Palladium on carbon (Pd/C).</strong> The general-purpose choice for nitro groups, double bonds and benzyl-group removal. Usually supplied wet with water (about 50 percent) to reduce the fire risk. Dry Pd/C can ignite solvent vapour.</li>
+    <li><strong>Raney nickel.</strong> A cheaper, active nickel catalyst for nitro, nitrile and many other reductions. It is pyrophoric when dry, so it is always kept under water or solvent.</li>
+    <li><strong>Platinum catalysts</strong> (platinum on carbon, or platinum oxide, which forms the active platinum in situ). Used where palladium is too reactive or gives the wrong selectivity.</li>
+  </ul>
+  <p>Catalyst choice sets selectivity as much as the conditions do. The same nitro compound with a halogen on the ring can lose the halogen over Pd/C, but not over a platinum catalyst or a modified one.</p>
+  <h2 id="masstransfer">Mass transfer: why scale-up changes the rate <span class="lvl l2">Working level</span></h2>
+<p>Hydrogen dissolves poorly in most solvents, so the amount in solution at any moment is small. The rate at which it can be replaced, the gas-liquid mass transfer, often limits the whole reaction at plant scale, even when the same reaction was kinetically controlled in a small autoclave.</p>
+  <div class="formula-box">
+    Hydrogen supply rate = k<sub>L</sub>a &times; (C<sup>*</sup> &minus; C<sub>bulk</sub>)<br>
+    C<sup>*</sup> &prop; hydrogen partial pressure (Henry&rsquo;s law)
+    <small>k<sub>L</sub>a: volumetric mass transfer coefficient, set by agitation, gas dispersion and vessel geometry. C<sup>*</sup>: hydrogen solubility at the interface.</small>
+  </div>
+  <p>Two things raise the supply: <strong>higher pressure</strong> (more dissolved hydrogen) and <strong>better gas dispersion</strong> (a higher k<sub>L</sub>a through a gas-inducing agitator, a good sparger or a loop reactor). Raising the temperature speeds the chemistry but often hurts selectivity, and it does not fix a supply problem.</p>
+  <p>If the reaction is hydrogen-starved, increasing the catalyst loading will not help. See <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">gas-liquid mass transfer (kLa)</a> and <a href="{{ '/articles/hydrogen-solubility-in-solvents/' | relative_url }}">hydrogen solubility in solvents</a>.</p>
+  <h2 id="heat">Heat of reaction: a worked example <span class="lvl l2">Working level</span></h2>
+<p>Reducing a nitro group to an amine is strongly exothermic, of the order of 500 kJ per mole (a typical value, to be measured for your substrate), and uses three moles of hydrogen per mole of nitro compound.</p>
+  <p>Illustrative case: 100 kg of nitrobenzene (molar mass 123 g/mol) in a 1,000 kg batch with solvent, specific heat about 2.0 kJ/kg&middot;K.</p>
+  <div class="formula-box">
+    Moles of substrate = 100,000 / 123 &asymp; 813 mol<br>
+    Heat = 813 mol &times; 500 kJ/mol &asymp; 4.1 &times; 10<sup>5</sup> kJ<br>
+    &Delta;T<sub>ad</sub> = 4.1 &times; 10<sup>5</sup> / (1,000 &times; 2.0) &asymp; 200 K<br>
+    Hydrogen needed = 3 &times; 813 = 2,440 mol &asymp; 55 Nm<sup>3</sup>
+    <small>Illustrative. Nm<sup>3</sup> at 0 &deg;C and 1 atm, 22.4 L/mol.</small>
+  </div>
+  <p>Here the reaction rate follows the hydrogen supply, so the hydrogen feed is also your heat control. That is a useful handle, but only if the reaction is really hydrogen-limited and the catalyst is not being added or restarted in a way that releases a stored charge of heat.</p>
+  <div class="art-note"><b>On the plant</b><p>Nitro reductions go through intermediates, including hydroxylamines, that can accumulate if hydrogen runs short or the catalyst is poisoned. These intermediates can be thermally unstable. A stalled nitro reduction should be treated as a hazard, not only a delay: do not heat it to push it along without understanding what has built up.</p></div>
+  <h2 id="hsafety">Hydrogen safety <span class="lvl l2">Working level</span></h2>
+<ul>
+    <li><strong>Wide flammable range.</strong> Hydrogen burns in air from roughly 4 to 75 percent by volume, and its minimum ignition energy is extremely low, far below that of solvent vapours. A static spark is enough (see <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">static electricity and solvent fires</a>).</li>
+    <li><strong>It leaks.</strong> Hydrogen is very light and passes through joints that hold other gases. Use leak-tested connections, detectors mounted high, and ventilation that removes the gas from the ceiling.</li>
+    <li><strong>Purge both ways.</strong> Nitrogen before introducing hydrogen, so there is no air in the vessel, and nitrogen again afterwards, before opening. Prove the oxygen level (see <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and LOC</a>).</li>
+    <li><strong>Earth and bond</strong> everything: reactor, lines, filters and hoses.</li>
+    <li><strong>Vent safely.</strong> Vent hydrogen and nitrogen purges to a safe location, with a flame arrestor where required by your standards.</li>
+    <li><strong>Pressure equipment.</strong> Keep hydrogen systems within their rated pressure and temperature. At elevated temperature, hydrogen can damage some steels, so check the material.</li>
+  </ul>
+  <h2 id="catsafety">Handling, filtering and recovering the catalyst <span class="lvl l3">Going deeper</span></h2>
+<p>The most common accident pattern is not in the reactor. It is at the filter, when a spent catalyst containing adsorbed hydrogen meets air and solvent vapour.</p>
+  <ul>
+    <li>Purge the reactor with nitrogen and release hydrogen pressure before any transfer.</li>
+    <li>Filter in a <strong>closed, nitrogen-blanketed</strong> filter. Do not pull air through the cake, and do not let it dry.</li>
+    <li>Keep the cake wet with solvent or water. Transfer the spent catalyst to a labelled container under water.</li>
+    <li>Recover precious metal through an approved recycler. Keep a record of mass in and out.</li>
+    <li>Control residual metal in the product. Regulators set limits for residual metals such as palladium in pharmaceuticals (ICH Q3D), so plan a polishing filter or scavenger step where needed.</li>
+  </ul>
+  <p>Fine catalyst can pass through a worn filter cloth. Check the filtrate for colour, and filter through a finer guard filter before the next step.</p>
+  <h2 id="selectivity">Over-reduction and poisoning <span class="lvl l3">Going deeper</span></h2>
+<p><strong>Over-reduction</strong> removes more than you wanted: a halogen lost from the ring, an aromatic ring partly saturated, or a benzylic group cleaved. The levers are catalyst type, temperature, pressure and stopping at the right hydrogen uptake. A modified catalyst or a small amount of an inhibitor can protect a sensitive group.</p>
+  <p><strong>Poisoning</strong> shows up as a reaction that starts and then slows or stops. Common poisons are sulfur compounds, some amines, halide residues, carbon monoxide and heavy metals carried from earlier steps. Check upstream materials, and run a small test on every new lot of feed. Adding more catalyst can restart the reaction but usually hides the cause.</p>
+  <h2 id="hydrides">Chemical reductions: metal hydrides and metals in acid <span class="lvl l3">Going deeper</span></h2>
+<ul>
+    <li><strong>Sodium borohydride (NaBH<sub>4</sub>).</strong> Milder and easier to handle. It slowly releases hydrogen in water and faster in alcohols or acid, so a quench evolves hydrogen. Add quench liquid slowly, keep the vessel vented to a safe place, and control temperature.</li>
+    <li><strong>Lithium aluminium hydride (LiAlH<sub>4</sub>).</strong> Reacts violently with water and alcohols and is used in ether solvents. A common laboratory work-up for n grams of hydride adds n mL of water, then n mL of 15 percent sodium hydroxide, then 3n mL of water, slowly with cooling. At plant scale, many companies prefer milder reagents because of this hazard.</li>
+    <li><strong>Boranes</strong> can form from borohydride with acids or certain additives. They are toxic and flammable. Know the conditions where they form.</li>
+    <li><strong>Iron or zinc in acid.</strong> Used widely for nitro reductions. They avoid hydrogen gas but produce hydrogen as a by-product in acid, large volumes of metal sludge, and an exothermic start that can be delayed. Plan the sludge handling before the first batch.</li>
+  </ul>
+  <h2 id="monitor">Monitoring by hydrogen uptake <span class="lvl l3">Going deeper</span></h2>
+<p>Hydrogen consumption tells you how far the reaction has gone. Measure it with a mass flow meter on the hydrogen feed, or by the pressure fall in a calibrated reservoir.</p>
+  <div class="formula-box">
+    n(H<sub>2</sub>) = &Delta;P &times; V / (R &times; T)<br>
+    Example: 200 L reservoir, &Delta;P = 10 bar, 30 &deg;C &rarr; n = 10<sup>6</sup> Pa &times; 0.2 m<sup>3</sup> / (8.314 &times; 303) &asymp; 79 mol
+    <small>Ideal gas approximation. Hydrogen departs from ideal behaviour by a few percent at tens of bar, so apply a compressibility factor for accurate balances.</small>
+  </div>
+  <p>Plot uptake against time. The curve should plateau at the theoretical amount (3 mol per mole in the nitro example). A plateau below that points to poisoning or a leak; uptake above it points to over-reduction or a side reaction. Add samples by HPLC or GC to confirm, and set the end-point from the data, not from the clock.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is my hydrogenation slower at plant scale than in the lab?</h3>
+  <p>Usually gas-liquid mass transfer. Hydrogen dissolves poorly and the plant reactor has less agitation and gas dispersion per litre. Raise pressure or improve the agitation and sparging before adding more catalyst.</p>
+  <h3>Why is spent hydrogenation catalyst dangerous?</h3>
+  <p>It can hold adsorbed hydrogen and ignite solvent vapour when it contacts air, especially if the filter cake dries. Filter under nitrogen, keep it wet and store it under water.</p>
+  <h3>How do I avoid losing a halogen when reducing a nitro group?</h3>
+  <p>Choose a catalyst less prone to dehalogenation, such as a platinum or modified catalyst, keep temperature and pressure moderate, and stop at the theoretical hydrogen uptake.</p>
+  <h3>What is the main hazard of sodium borohydride and lithium aluminium hydride?</h3>
+  <p>Both release hydrogen when quenched. Lithium aluminium hydride reacts violently with water, so the quench must be slow, cooled and vented to a safe place.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Anderson, <i>Practical Process Research and Development: A Guide for Organic Chemists</i>, 2nd ed., Academic Press, 2012</li>
+    <li>Levenspiel, <i>Chemical Reaction Engineering</i>, 3rd ed., Wiley, 1999</li>
+    <li>Urben (ed.), <i>Bretherick&rsquo;s Handbook of Reactive Chemical Hazards</i>, Elsevier</li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH, 2008 (2nd ed. 2020)</li>
+    <li>ICH Q3D, <i>Guideline for Elemental Impurities</i></li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">Gas-liquid mass transfer (kLa)</a>
+    <a href="{{ '/articles/hydrogen-solubility-in-solvents/' | relative_url }}">Hydrogen solubility in solvents</a>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench</a>
+    <a href="{{ '/articles/agitator-design/' | relative_url }}">Agitator design basics</a>
+    <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration calculations</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

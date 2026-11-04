@@ -1,0 +1,179 @@
+---
+layout: default
+title: "Esterification and Hydrolysis in Plants: Equilibrium, Water Removal and Common Problems"
+seo_title: "Esterification and Hydrolysis: Equilibrium, Conversion | PharmaChemE"
+description: "Why esterification stalls near 67 percent, how excess alcohol and water removal fix it, plus catalysts, hydrolysis, saponification and common plant problems."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Esterification and Hydrolysis
+    url: /articles/esterification-and-hydrolysis/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Esterification and Hydrolysis in Plants: Equilibrium, Water Removal and Common Problems",
+        "description": "Fischer esterification equilibrium, excess alcohol and water removal, acid catalysts, hydrolysis and saponification, common plant problems and how to monitor conversion.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does my esterification stop at around 65 to 70 percent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because it has reached equilibrium. For a 1 : 1 feed with an equilibrium constant near 4, the maximum conversion is about 67 percent. More time or catalyst will not change it. Use excess alcohol or remove water."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it better to use excess alcohol or to remove water?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Removing water is usually more effective and cheaper in the long run. A 3 : 1 alcohol excess gives about 90 percent in the example here, but removing most of the water gives more without the extra alcohol to recover."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between hydrolysis and saponification?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrolysis is the reversible reaction of an ester with water, usually acid catalysed. Saponification uses a base, goes to completion and gives the salt of the acid, which must be acidified to recover the free acid."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I track conversion during the batch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Titrate the acid value, check water by Karl Fischer, and run GC for the full composition. In a Dean-Stark setup, compare the water collected with the theoretical amount."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Esterification and Hydrolysis in Plants</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">&ldquo;The batch is stuck at 68 percent acid and nothing we do moves it.&rdquo; Anyone who has run an acid and alcohol reaction has heard this. Nothing is wrong with the reactor. The reaction has reached equilibrium, and the only way forward is to change the equilibrium, not to wait longer. This page explains how, and what else goes wrong around an esterification.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What esterification is, and why it stops</a><span>Basics</span></li>
+    <li><a href="#lechatelier">Moving the equilibrium: Le Chatelier in the plant</a><span>Basics</span></li>
+    <li><a href="#worked">Worked example: how much conversion can you get?</a><span>Working level</span></li>
+    <li><a href="#water">Ways to remove water</a><span>Working level</span></li>
+    <li><a href="#catalyst">Catalysts and corrosion</a><span>Working level</span></li>
+    <li><a href="#hydrolysis">Hydrolysis and saponification</a><span>Working level</span></li>
+    <li><a href="#problems">Common problems and what causes them</a><span>Going deeper</span></li>
+    <li><a href="#monitor">Monitoring conversion</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="what">What esterification is, and why it stops <span class="lvl l1">Basics</span></h2>
+<p>An <strong>esterification</strong> joins a carboxylic acid and an alcohol to make an ester and water. The classic route is the Fischer esterification: acid, alcohol and a strong acid catalyst, heated together. Ethyl acetate, butyl acetate, many fragrance esters and a large number of pharma intermediates are made this way.</p>
+  <div class="formula-box">
+    RCOOH + R&prime;OH &#8652; RCOOR&prime; + H<sub>2</sub>O
+    <small>The double arrow matters. The reaction runs in both directions, and the reverse reaction is hydrolysis.</small>
+  </div>
+  <p>As water builds up, the reverse reaction speeds up. Eventually the forward and reverse rates match and the composition stops changing. That is <strong>equilibrium</strong>. A catalyst makes you reach it faster, but it cannot move it. So when a batch stalls, heating longer or adding more catalyst usually just wastes steam.</p>
+  <h2 id="lechatelier">Moving the equilibrium: Le Chatelier in the plant <span class="lvl l1">Basics</span></h2>
+<p>There are only two levers: add more of a reactant, or take a product away. Everything we do in an esterification is one of these.</p>
+  <ul>
+    <li><strong>Use one reactant in excess.</strong> Usually the cheaper, more easily recovered one, often the alcohol (methanol, ethanol, n-butanol). The excess is then distilled and recycled.</li>
+    <li><strong>Remove water as it forms.</strong> This is the strongest lever because it can drive the reaction close to completion.</li>
+    <li><strong>Remove the ester as it forms,</strong> when it is the lowest boiler (for example, methyl acetate or ethyl acetate leaving through a column).</li>
+  </ul>
+  <h2 id="worked">Worked example: how much conversion can you get? <span class="lvl l2">Working level</span></h2>
+<p>Take acetic acid and ethanol, where the equilibrium constant is roughly K &asymp; 4 near typical reaction temperatures (an illustrative round number; real values vary with temperature and medium). With the amounts in moles, K = [ester][water] / ([acid][alcohol]).</p>
+  <div class="formula-box">
+    1 : 1 feed: x<sup>2</sup> / (1 &minus; x)<sup>2</sup> = 4 &rarr; x = 0.67<br>
+    Alcohol : acid = 3 : 1: x<sup>2</sup> / ((1 &minus; x)(3 &minus; x)) = 4 &rarr; x = 0.90<br>
+    Alcohol : acid = 5 : 1 &rarr; x = 0.945 &nbsp;&middot;&nbsp; 10 : 1 &rarr; x = 0.974
+    <small>x is the fraction of the acid converted. Calculated from the mass-action expression above, illustrative K.</small>
+  </div>
+  <p>That is the 65 to 70 percent stall for a 1 : 1 feed. A threefold excess of alcohol lifts it to about 90 percent, but each further step buys less. Past 5 : 1 you are mostly paying for a bigger reactor and more distillation.</p>
+  <p>Now remove water instead. Keep a 1 : 1 feed but remove 90 percent of the water formed, so only 10 percent stays in the pot. Then 0.1x<sup>2</sup> = 4(1 &minus; x)<sup>2</sup> and x &asymp; 0.86. Remove water almost completely and conversion approaches 100 percent. This is why plants prefer water removal to a huge alcohol excess.</p>
+  <h2 id="water">Ways to remove water <span class="lvl l2">Working level</span></h2>
+<ul>
+    <li><strong>Azeotropic distillation (Dean-Stark or a decanter).</strong> Add an entrainer such as toluene or cyclohexane. The solvent and water boil off together, condense, and separate in a decanter. The solvent returns to the reactor and the water is drawn off. Watch the water collected: it tells you how far the reaction has gone.</li>
+    <li><strong>Using the reactant as the entrainer.</strong> With n-butanol, the butanol and water form a heterogeneous azeotrope, so the alcohol itself carries the water out and returns after separation.</li>
+    <li><strong>Vacuum and a sweep.</strong> Lower the pressure to boil water off at a lower temperature, useful when the product is heat sensitive. A nitrogen sweep across the headspace helps too.</li>
+    <li><strong>Molecular sieves or other drying agents.</strong> Useful in small or high-value batches. At plant scale, handling and regenerating the sieves usually costs more than distillation.</li>
+  </ul>
+  <p>Check the vapour line. If it is long, uninsulated or sloping the wrong way, condensed water runs back into the reactor and undoes the work.</p>
+  <h2 id="catalyst">Catalysts and corrosion <span class="lvl l2">Working level</span></h2>
+<p>The usual catalyst is a strong acid: sulfuric acid, p-toluenesulfonic acid (p-TSA), methanesulfonic acid, or a solid acid such as a sulfonic ion-exchange resin. Each has a trade-off.</p>
+  <ul>
+    <li><strong>Sulfuric acid</strong> is cheap and strong, but at higher temperature it chars organics (dark colour), dehydrates alcohols to ethers or olefins, and attacks stainless steel. It needs a neutralisation step and makes salt waste.</li>
+    <li><strong>p-TSA and methanesulfonic acid</strong> are milder on colour and easier to handle as a solid or liquid, but they cost more.</li>
+    <li><strong>Ion-exchange resins</strong> can be filtered off and reused, give cleaner product and little salt, but have a temperature limit set by the resin grade and can be fouled by water, metals or basic impurities.</li>
+  </ul>
+  <p>Glass-lined reactors tolerate hot acid well, but not hot strong alkali, which will etch the glass. Stainless steel is more forgiving with alkali but can corrode in hot dilute sulfuric acid or with chloride present. Check the material of construction against the actual acid strength and temperature, not only the name on the drum.</p>
+  <h2 id="hydrolysis">Hydrolysis and saponification <span class="lvl l2">Working level</span></h2>
+<p><strong>Hydrolysis</strong> is the reverse reaction: ester and water give acid and alcohol. Because it is the same equilibrium, the logic is flipped. Use a large excess of water and remove the alcohol (often by distillation) to push it forward.</p>
+  <p><strong>Saponification</strong> is hydrolysis with a base, for example sodium hydroxide. The acid product is immediately turned into its carboxylate salt, which cannot go back to the ester. So saponification goes to completion, not to an equilibrium. The price is a stoichiometric quantity of alkali and a salt that must later be acidified to recover the free acid.</p>
+  <div class="art-note"><b>On the plant</b><p>Saponification consumes alkali one-for-one, so the pH falls as the reaction proceeds. If the pH stays high long after you expected it to drop, the ester is not reacting, often because it is a separate layer and the agitation is too gentle. The reaction happens at the interface, so mixing sets the rate.</p></div>
+  <h2 id="problems">Common problems and what causes them <span class="lvl l3">Going deeper</span></h2>
+<h3>Conversion stalls early</h3>
+  <p>Check water first. Wet alcohol, wet solvent, or condensate running back from the vapour line all push the equilibrium the wrong way. Then check catalyst quantity and temperature. Remember that a long stall at a number close to the calculated equilibrium is not a fault: it is the reaction doing exactly what the thermodynamics say.</p>
+  <h3>Product goes back during work-up</h3>
+  <p>Water and acid are still present when you wash or heat the ester, so it hydrolyses. Neutralise the catalyst before you add large amounts of water, wash cold, and do not hold a wet, acidic batch at temperature while waiting for a tank.</p>
+  <h3>Dark colour</h3>
+  <p>Usually sulfuric acid at too high a temperature, oxygen in the headspace, or impurities in the feed. Lower the temperature, switch to a milder catalyst, and keep the headspace inerted.</p>
+  <h3>Emulsions in the wash</h3>
+  <p>Soaps from partial saponification, residual fatty acids or fine solids stabilise emulsions. Reduce the agitation during the wash, adjust pH, add brine, warm the mixture slightly, and give it settling time.</p>
+  <h3>Unexpected by-products</h3>
+  <p>Alcohol dehydration gives ethers and olefins at high temperature with strong acid. Diethyl ether from ethanol is a flammable, volatile by-product that can also appear in the vent. Keep the temperature moderate and earth every transfer, because ester and alcohol vapours are flammable and low in conductivity.</p>
+  <h2 id="monitor">Monitoring conversion <span class="lvl l3">Going deeper</span></h2>
+<p>The simplest tool is the <strong>acid value</strong>: the milligrams of potassium hydroxide needed to neutralise the acid in one gram of sample.</p>
+  <div class="formula-box">
+    Acid value (mg KOH/g) = V &times; N &times; 56.1 / W<br>
+    Conversion &asymp; 1 &minus; AV<sub>t</sub> / AV<sub>0</sub>
+    <small>V: titre in mL, N: normality of KOH, W: sample mass in g, 56.1: molar mass of KOH. The conversion shortcut ignores dilution by the alcohol and water, so use it as a trend.</small>
+  </div>
+  <p>Gas chromatography gives the actual composition of acid, alcohol and ester. Karl Fischer titration measures water, which tells you whether the water removal is working. In a Dean-Stark system, the volume of water collected is a live indicator: compare it with the theoretical water for the batch.</p>
+  <p>Set a release criterion before the batch starts, for example acid value below a stated limit and water below a stated limit, and sample at fixed intervals. A batch that stops moving should trigger a water check, not a longer hold.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why does my esterification stop at around 65 to 70 percent?</h3>
+  <p>Because it has reached equilibrium. For a 1 : 1 feed with an equilibrium constant near 4, the maximum conversion is about 67 percent. More time or catalyst will not change it. Use excess alcohol or remove water.</p>
+  <h3>Is it better to use excess alcohol or to remove water?</h3>
+  <p>Removing water is usually more effective and cheaper in the long run. A 3 : 1 alcohol excess gives about 90 percent in the example here, but removing most of the water gives more without the extra alcohol to recover.</p>
+  <h3>What is the difference between hydrolysis and saponification?</h3>
+  <p>Hydrolysis is the reversible reaction of an ester with water, usually acid catalysed. Saponification uses a base, goes to completion and gives the salt of the acid, which must be acidified to recover the free acid.</p>
+  <h3>How do I track conversion during the batch?</h3>
+  <p>Titrate the acid value, check water by Karl Fischer, and run GC for the full composition. In a Dean-Stark setup, compare the water collected with the theoretical amount.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Levenspiel, <i>Chemical Reaction Engineering</i>, 3rd ed., Wiley, 1999</li>
+    <li>Anderson, <i>Practical Process Research and Development: A Guide for Organic Chemists</i>, 2nd ed., Academic Press, 2012</li>
+    <li>Smith, <i>March&rsquo;s Advanced Organic Chemistry</i>, Wiley (esterification and ester hydrolysis)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent swap and selection</a>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing and scale-up calculations</a>
+    <a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

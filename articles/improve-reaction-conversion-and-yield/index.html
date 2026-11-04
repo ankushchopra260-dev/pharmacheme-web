@@ -1,0 +1,211 @@
+---
+layout: default
+title: "How to Improve Reaction Conversion and Yield in a Batch Plant"
+seo_title: "Improve Reaction Conversion and Yield: Practical Guide | PharmaChemE"
+description: "Conversion, yield and selectivity explained with a worked example, how to tell equilibrium from slow kinetics, the levers that raise conversion, and a troubleshooting table for stalled batches."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Improve Reaction Conversion and Yield
+    url: /articles/improve-reaction-conversion-and-yield/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "How to Improve Reaction Conversion and Yield in a Batch Plant",
+        "description": "Conversion, yield and selectivity, equilibrium against kinetics, the main levers for improving conversion, in-process control, scale-up effects and a troubleshooting table.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between conversion, yield and selectivity?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Conversion is the fraction of the limiting reactant that reacted. Selectivity is the fraction of what reacted that became the desired product. Yield is the fraction of the limiting reactant that became the desired product, which equals conversion multiplied by selectivity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I tell if a reaction is stopped by equilibrium or is just slow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Take samples over time. If the composition keeps changing, the reaction is slow. If it levels off at the same value even after more time or more catalyst, it has reached equilibrium. Removing a product or adding excess of a reactant will move an equilibrium, while more time will not."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does raising the temperature always improve yield?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. A higher temperature speeds up the main reaction, but it often speeds up side reactions and degradation more, so selectivity can fall. For exothermic equilibrium reactions, a higher temperature can also lower the equilibrium conversion."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does yield sometimes drop on scale-up?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Longer heat-up, cool-down and addition times, poorer mixing and slower heat removal change the local conditions. Reactions that compete with each other are the most sensitive, because mixing and temperature affect them differently."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>How to Improve Reaction Conversion and Yield in a Batch Plant</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">&ldquo;The yield is low, can we push it up?&rdquo; is one of the most common questions in a plant. The honest first answer is another question: low because the reaction did not finish, because it made the wrong thing, or because product was lost afterwards? Each has a different fix. This page shows how to tell them apart and which levers to pull.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#terms">Conversion, selectivity and yield</a><span>Basics</span></li>
+    <li><a href="#eq">Equilibrium or slow? Diagnose first</a><span>Basics</span></li>
+    <li><a href="#levers">The levers for raising conversion</a><span>Working level</span></li>
+    <li><a href="#stall">Why a batch stalls: a decision table</a><span>Working level</span></li>
+    <li><a href="#temp">Temperature: faster, but at what price</a><span>Working level</span></li>
+    <li><a href="#ipc">Using samples to learn the kinetics</a><span>Going deeper</span></li>
+    <li><a href="#scale">What changes on scale-up</a><span>Going deeper</span></li>
+    <li><a href="#doe">Design of experiments in brief</a><span>Going deeper</span></li>
+    <li><a href="#trouble">Troubleshooting table</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="terms">Conversion, selectivity and yield <span class="lvl l1">Basics</span></h2>
+  <p>These three words are often mixed up, and mixing them up leads to the wrong fix.</p>
+  <div class="formula-box">
+    Conversion X = (moles of limiting reactant reacted) / (moles fed)<br>
+    Selectivity S = (moles of desired product formed) / (moles of limiting reactant reacted)<br>
+    Yield Y = (moles of desired product formed) / (moles of limiting reactant fed) = X &times; S
+    <small>Moles are used so the stoichiometric ratio is taken into account. Use consistent basis for all three.</small>
+  </div>
+  <h3>Worked example (illustrative)</h3>
+  <p>A reactor is charged with 100 mol of reactant A, the limiting reactant. At the end, 10 mol of A remain. So 90 mol reacted: <strong>conversion is 90 %</strong>. Of those 90 mol, 81 mol became the desired product B (the rest went to by-products). <strong>Selectivity is 81 / 90 = 90 %</strong>. The <strong>yield is 81 / 100 = 81 %</strong>, which is 0.90 &times; 0.90.</p>
+  <p>Now see why the distinction matters. To raise the yield to 90 %, you could push conversion to 100 % while keeping selectivity at 90 %, or you could keep conversion at 90 % and lift selectivity to 100 %. The first is about reaction progress. The second is about side reactions. They need different actions. Isolated yield adds a third loss, in work-up and crystallisation, on top of the reaction yield.</p>
+
+  <h2 id="eq">Equilibrium or slow? Diagnose first <span class="lvl l1">Basics</span></h2>
+  <p>If conversion is low, the first job is to find out whether the reaction is <em>slow</em> or has reached an <em>equilibrium</em>. The sample trend tells you.</p>
+  <ul>
+    <li><strong>Slow:</strong> composition keeps changing between samples. More time, a higher temperature or more catalyst will help.</li>
+    <li><strong>Equilibrium:</strong> composition levels off and stays the same, even with more time or catalyst. More time does nothing. You need to change the position of the equilibrium.</li>
+    <li><strong>Dead catalyst or reagent:</strong> the reaction runs and then stops, and a fresh charge of catalyst or reagent restarts it.</li>
+  </ul>
+  <h3>Example: moving an equilibrium (illustrative)</h3>
+  <p>Take an esterification with an equilibrium constant K of about 4 (a typical order of magnitude for simple acid and alcohol, and it depends on the system). With acid and alcohol in a 1:1 ratio, K = x&sup2; / (1 &minus; x)&sup2;, which gives a conversion of x = 2/3, about 67 %. With a 3:1 excess of alcohol, K = x&sup2; / ((1 &minus; x)(3 &minus; x)) gives x of about 90 %. No change in time or catalyst achieves this. Only the composition changed. Removing the water as it forms does the same job, and is how plants often finish these reactions. See <a href="{{ '/articles/esterification-and-hydrolysis/' | relative_url }}">Esterification and hydrolysis</a>.</p>
+
+  <h2 id="levers">The levers for raising conversion <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Temperature.</strong> Raises the rate. It may lower selectivity, and for an exothermic equilibrium reaction it lowers the equilibrium conversion. See below.</li>
+    <li><strong>Concentration.</strong> Higher concentration usually speeds up the reaction, but may raise viscosity, heat release per volume and by-products from reactant-reactant side reactions.</li>
+    <li><strong>Stoichiometric excess.</strong> A small excess of the cheaper or easier-to-remove reactant pushes conversion of the limiting one. Check the cost of removing the excess afterwards.</li>
+    <li><strong>Catalyst loading.</strong> More catalyst speeds up the reaction up to a point. Beyond it, you may only add cost, impurities and filtration load. Confirm the catalyst is active and not poisoned.</li>
+    <li><strong>Mixing and mass transfer.</strong> In two-phase or solid-liquid reactions, the rate may be set by how fast material moves between phases, not by the chemistry. Higher agitation or a smaller particle size can raise conversion with no change in chemistry.</li>
+    <li><strong>Removal of a by-product.</strong> Taking water, HCl or an alcohol out of the mixture drives the reaction forward. It is the most powerful lever for equilibrium reactions.</li>
+    <li><strong>Solvent.</strong> A solvent can change solubility, rate, selectivity and the ease of removing by-products. A solvent that forms an azeotrope with water can serve for water removal.</li>
+  </ul>
+
+  <h2 id="stall">Why a batch stalls: a decision table <span class="lvl l2">Working level</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>What you see</th><th>Likely reason</th><th>First thing to try</th></tr></thead>
+    <tbody>
+      <tr><td>Conversion creeps up with each sample</td><td>Reaction is slow</td><td>Allow more time, raise temperature a little, check catalyst amount</td></tr>
+      <tr><td>Conversion levels off and does not move</td><td>Equilibrium</td><td>Remove a product or add excess of a reactant</td></tr>
+      <tr><td>Reaction ran then stopped; a fresh charge restarts it</td><td>Catalyst or reagent consumed or poisoned</td><td>Check raw material quality, moisture and catalyst age</td></tr>
+      <tr><td>Conversion differs across batches with the same recipe</td><td>Variation in raw material, moisture, mixing or temperature</td><td>Compare batch records and raw material test results</td></tr>
+      <tr><td>Conversion is fine but yield is low</td><td>Side reactions or loss in work-up</td><td>Check selectivity, impurity profile and mass balance</td></tr>
+      <tr><td>Conversion is lower at plant scale than in the lab</td><td>Mixing, heat transfer or addition time differences</td><td>Review agitation, addition time and temperature profile</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="temp">Temperature: faster, but at what price <span class="lvl l2">Working level</span></h2>
+  <p>A common rule of thumb says the reaction rate roughly doubles for every 10 K rise. It comes from the Arrhenius equation, and it is only a guide. For an activation energy of about 50 kJ/mol, going from 50 &deg;C to 60 &deg;C raises the rate by a factor of about 1.75. A reaction with a higher activation energy responds more strongly, and one with a lower one responds less.</p>
+  <div class="formula-box">
+    k = A &times; exp(&minus;E<sub>a</sub> / (R &times; T))<br>
+    k<sub>2</sub> / k<sub>1</sub> = exp[ (E<sub>a</sub> / R) &times; (1/T<sub>1</sub> &minus; 1/T<sub>2</sub>) ]
+    <small>T in kelvin, R = 8.314 J/mol&middot;K. The rule of thumb is a rough guide for moderate E<sub>a</sub> near room temperature to 100 &deg;C.</small>
+  </div>
+  <p>The limit of the rule is that <strong>side reactions have activation energies too</strong>. If an impurity-forming reaction has a higher activation energy than the main one, a hotter batch makes proportionally more of it, and selectivity falls. You gain conversion and lose yield. If it has a lower one, heating helps both. You find out by measuring impurity levels at two or three temperatures, not by guessing.</p>
+  <p>Temperature has two more traps. For exothermic reversible reactions, a higher temperature <em>lowers</em> the equilibrium conversion. And in exothermic semi-batch reactions, a colder batch can <em>raise</em> accumulation. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>.</p>
+
+  <h2 id="ipc">Using samples to learn the kinetics <span class="lvl l3">Going deeper</span></h2>
+  <p>A few well-timed samples teach a lot. Take samples at fixed intervals through a normal batch (for example every 30 minutes) and plot reactant, product and key impurities against time. The shape tells you the story:</p>
+  <ul>
+    <li>A straight fall in reactant suggests a zero-order or mass-transfer-limited step. A curve that flattens suggests first-order or equilibrium behaviour.</li>
+    <li>An impurity that rises late in the batch is formed from the product or from a prolonged hold. Shortening the hold may help.</li>
+    <li>An impurity that rises at the start is tied to charging conditions, such as local excess of one reagent.</li>
+  </ul>
+  <p>Add a mass balance to each sample: if the sum of reactant, product and known impurities is falling, material is going somewhere you cannot see, such as a gas, a solid on the wall or an unmeasured by-product. Measure at two temperatures and you can estimate how sensitive the main and side reactions are to temperature. For a simple model of how dosing rate and temperature interact, try the <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">semi-batch dosing simulator</a>.</p>
+
+  <h2 id="scale">What changes on scale-up <span class="lvl l3">Going deeper</span></h2>
+  <p>A reaction that gave a high yield in the lab can give a lower one in the plant for physical reasons, not chemical ones.</p>
+  <ul>
+    <li><strong>Longer addition and heat-up times</strong> give more time for side reactions and degradation.</li>
+    <li><strong>Slower heat removal</strong> can create local hot spots where selectivity falls.</li>
+    <li><strong>Poorer mixing</strong> hurts reactions that compete with each other, because the feed point sees a high local concentration before it disperses. The product of a fast first step may react further with fresh reagent.</li>
+    <li><strong>Different surface and wall effects</strong>, including catalyst settling and solids on the walls, can alter conversion.</li>
+  </ul>
+  <p>The fix is to carry the lab observations into the plant design: keep the dosing time, feed point and agitation in line with what mattered in the lab. The <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">scale-up checklist</a> and <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a> help.</p>
+
+  <h2 id="doe">Design of experiments in brief <span class="lvl l3">Going deeper</span></h2>
+  <p>The usual way to improve a process is to change one factor at a time. It is slow, and it misses interactions: a higher temperature may help only when the catalyst amount is low. <strong>Design of experiments (DoE)</strong> changes several factors together in a planned pattern, so you learn the effect of each and of their interactions from fewer runs.</p>
+  <p>A simple start is a two-level full factorial. With three factors (say temperature, catalyst loading and dosing time), each at a low and a high value, you run 2 &times; 2 &times; 2 = 8 experiments, plus a centre point or two to check for curvature. The results show which factors matter and which pairs interact. Then you focus a second round of experiments on the important factors. Keep the changes within safe limits, and check any new combination against the hazard data first.</p>
+
+  <h2 id="trouble">Troubleshooting table <span class="lvl l3">Going deeper</span></h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>Problem</th><th>Things to check</th></tr></thead>
+    <tbody>
+      <tr><td>Low conversion, slow</td><td>Temperature at the probe, catalyst quality and amount, agitation, concentration</td></tr>
+      <tr><td>Low conversion, flat</td><td>Equilibrium: remove a product, add excess, review temperature</td></tr>
+      <tr><td>Good conversion, many impurities</td><td>Temperature too high, hold too long, local excess at feed point, raw material quality</td></tr>
+      <tr><td>Good reaction yield, low isolated yield</td><td>Work-up losses, mother liquor losses, solubility, filtration, transfers</td></tr>
+      <tr><td>Batch-to-batch variation</td><td>Moisture, raw material lots, charge accuracy, timing, sampling method</td></tr>
+      <tr><td>Yield falls on scale-up</td><td>Addition time, heat removal, mixing, time at temperature</td></tr>
+    </tbody>
+  </table></div>
+  <div class="art-note"><b>On the plant</b><p>Before changing the recipe, check the mass balance. If reactant plus product plus known impurities do not add up, the missing material is the real problem, and no change in temperature or catalyst will fix it. Look for losses in the vent, in the filtrate, on the filter cloth and in the wash first.</p></div>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between conversion, yield and selectivity?</h3>
+  <p>Conversion is how much of the limiting reactant reacted. Selectivity is how much of that became product. Yield is how much of the feed became product: conversion times selectivity.</p>
+  <h3>How do I tell equilibrium from a slow reaction?</h3>
+  <p>Sample over time. If the composition keeps changing, it is slow. If it levels off even with more time or catalyst, it is at equilibrium, and you must remove a product or add an excess.</p>
+  <h3>Does a higher temperature always help?</h3>
+  <p>No. It speeds the main reaction but may speed side reactions more, and for exothermic equilibria it lowers the equilibrium conversion.</p>
+  <h3>Why does yield drop on scale-up?</h3>
+  <p>Longer heat-up and addition times, poorer mixing and slower heat removal change local conditions, and competing reactions are the most sensitive.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Levenspiel, <i>Chemical Reaction Engineering</i>, 3rd ed., Wiley, 1999</li>
+    <li>Fogler, <i>Elements of Chemical Reaction Engineering</i>, 6th ed., Pearson, 2020</li>
+    <li>Montgomery, <i>Design and Analysis of Experiments</i>, Wiley (latest edition)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing and scale-up calculations</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">Semi-batch dosing simulator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

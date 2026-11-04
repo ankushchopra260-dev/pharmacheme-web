@@ -1,0 +1,173 @@
+---
+layout: default
+title: "Nitration, Sulfonation and Halogenation: Heat, Dosing and Off-Gas Control"
+seo_title: "Nitration, Sulfonation, Halogenation Hazards and Control | PharmaChemE"
+description: "Why nitration, sulfonation and halogenation are so exothermic, and how acid strength, dosing, agitation, quench and off-gas scrubbing keep them safe."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Nitration, Sulfonation and Halogenation
+    url: /articles/nitration-sulfonation-halogenation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Nitration, Sulfonation and Halogenation: Heat, Dosing and Off-Gas Control",
+        "description": "Heat release, mixed acid strength, dosing control, selectivity, quench and spent acid, halogen off-gas handling and safe-practice checks for nitration, sulfonation and halogenation.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why are nitration, sulfonation and halogenation so exothermic?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "They replace a hydrogen with a strongly bonded group and form stable products such as water, HCl or a sulfonic acid, releasing roughly 100 to 200 kJ per mole of substrate in typical cases. Measure the real value by calorimetry."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does spent acid strength matter in nitration?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Water formed in the reaction dilutes the acid and reduces the amount of nitronium ion. A weak acid slows the reaction, which can let nitric acid accumulate and then react suddenly when conditions change."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should I do about HCl and chlorine off-gas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Route it to a scrubber sized for the peak gas rate: water for HCl and caustic for chlorine. Check caustic strength and circulation, and protect against suck-back into the reactor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I reduce di- and poly-substituted by-products?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Control stoichiometry and temperature, make sure mixing is good where the reagent enters, and stop at a defined conversion from sampling."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Nitration, Sulfonation and Halogenation in Plants</h1>
+  <p class="article-meta">Scale-up &middot; Reaction engineering &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">These three reaction families put a group onto an aromatic ring or a carbon chain: NO<sub>2</sub>, SO<sub>3</sub>H or a halogen. They share three traits: they release a lot of heat, they use aggressive reagents, and they can produce more than one product if you let them. A good batch comes down to controlling the rate at which the reaction happens, not just the temperature on the display.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why they are hazardous</a><span>Basics</span></li>
+    <li><a href="#heat">A worked heat-release number</a><span>Working level</span></li>
+    <li><a href="#nitration">Nitration: mixed acid and acid strength</a><span>Working level</span></li>
+    <li><a href="#sulfonation">Sulfonation: agents, reversibility and viscosity</a><span>Working level</span></li>
+    <li><a href="#halogenation">Halogenation: chlorine, bromine and off-gas</a><span>Working level</span></li>
+    <li><a href="#selectivity">Selectivity and over-reaction</a><span>Going deeper</span></li>
+    <li><a href="#quench">Quench, spent acid and thermal stability</a><span>Going deeper</span></li>
+    <li><a href="#safe">A safe-practice checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">Why they are hazardous <span class="lvl l1">Basics</span></h2>
+<p>All three are <strong>substitution reactions</strong> with a strongly exothermic step. Typical heats of reaction are of the order of 100 to 200 kJ per mole of substrate reacted, and the exact figure depends on the substrate and conditions, so it must be measured by calorimetry for your process.</p>
+  <p>The reagents add their own risk. Nitric acid is a strong oxidiser and can attack organics as well as nitrate them. Oleum and chlorosulfonic acid react violently with water. Chlorine is toxic at very low concentrations. And the products themselves, especially nitro compounds, can be thermally unstable.</p>
+  <p>The core question for every one of these steps is the same as in a dosing step: if cooling or agitation failed right now, what would the reaction mass do? That is the logic of the <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing article</a>, and it applies here in full.</p>
+  <h2 id="heat">A worked heat-release number <span class="lvl l2">Working level</span></h2>
+<p>Illustrative case: a nitration of 10 kmol of substrate, with a heat of reaction of &minus;130 kJ/mol. The reaction mass, including acid, is 5,000 kg with a specific heat of about 2.0 kJ/kg&middot;K.</p>
+  <div class="formula-box">
+    Total heat = 10,000 mol &times; 130 kJ/mol = 1.3 &times; 10<sup>6</sup> kJ<br>
+    &Delta;T<sub>ad</sub> = 1.3 &times; 10<sup>6</sup> / (5,000 &times; 2.0) = 130 K<br>
+    Heat rate if dosed over 4 h = 1.3 &times; 10<sup>6</sup> / 14,400 s &asymp; 90 kW<br>
+    Heat rate if dosed over 1 h &asymp; 360 kW
+    <small>All numbers illustrative. Heat release rate assumes each portion reacts as it is added.</small>
+  </div>
+  <p>If the jacket can remove 150 kW, a 4-hour dose is comfortable and a 1-hour dose is not. And if 20 percent of the dosed reagent has not yet reacted when cooling fails, the batch can rise by about 0.2 &times; 130 = 26 K from the process temperature. That is the MTSR calculation.</p>
+  <h2 id="nitration">Nitration: mixed acid and acid strength <span class="lvl l2">Working level</span></h2>
+<p>Most aromatic nitrations use <strong>mixed acid</strong>: nitric acid in sulfuric acid. The sulfuric acid is not a bystander. It helps form the nitronium ion (NO<sub>2</sub><sup>+</sup>), the species that actually attacks the ring, and it absorbs the water formed during the reaction.</p>
+  <p>As the reaction proceeds, water builds up and the acid weakens. Weak acid forms less nitronium ion, so the reaction slows. Plants track this with the <em>strength of the spent acid</em> (and a related term, the dehydrating value of sulfuric acid). If the acid is already weak or the temperature is too low, nitric acid can accumulate unreacted. Later, a small rise in temperature or a restart of the agitator can make the reaction accelerate all at once.</p>
+  <div class="art-note"><b>On the plant</b><p>Many nitrations are two-phase: an organic layer and an acid layer. The reaction happens at the interface, so the agitator sets the rate. If the agitator stops, the phases separate and unreacted reagent collects. On restart the interface area jumps and so does the heat release. Interlock the feed on agitator rotation, and have a defined restart procedure.</p></div>
+  <h2 id="sulfonation">Sulfonation: agents, reversibility and viscosity <span class="lvl l2">Working level</span></h2>
+<p>Sulfonating agents range from concentrated sulfuric acid to oleum, sulfur trioxide and chlorosulfonic acid. A stronger agent is faster and more exothermic, and also more hazardous to handle.</p>
+  <ul>
+    <li><strong>Reversibility.</strong> Sulfonation is reversible: hot dilute acid can remove the group again (desulfonation). Product quality depends on acid strength and temperature, not only on time.</li>
+    <li><strong>Sulfones and other by-products</strong> form when the temperature or the SO<sub>3</sub> concentration is too high.</li>
+    <li><strong>Viscosity.</strong> Reaction masses often become thick, which hurts mixing and heat transfer exactly when you need them most.</li>
+    <li><strong>Chlorosulfonic acid</strong> releases HCl gas and reacts violently with water. Keep the reactor dry and route the off-gas to a scrubber.</li>
+  </ul>
+  <h2 id="halogenation">Halogenation: chlorine, bromine and off-gas <span class="lvl l2">Working level</span></h2>
+<p>Chlorination and bromination substitute a halogen for hydrogen and release one mole of HCl or HBr per mole substituted. That acid gas has to go somewhere. Size the off-gas line and scrubber for the peak gas rate, not the average.</p>
+  <ul>
+    <li><strong>Scrubbing.</strong> HCl is absorbed in water first (a heat-releasing step in itself), and unreacted chlorine is taken up by caustic: Cl<sub>2</sub> + 2NaOH &rarr; NaCl + NaOCl + H<sub>2</sub>O. A scrubber that runs out of caustic stops working without any warning, so monitor its strength and circulation.</li>
+    <li><strong>Suck-back.</strong> When the reaction cools or the gas stops, the vacuum in the reactor can pull scrubber liquid backwards. Fit a trap or a break tank.</li>
+    <li><strong>Ring versus side chain.</strong> Chlorination of toluene shows how conditions steer selectivity: Lewis acids such as iron chloride favour the ring, while light and heat favour the side chain. Traces of iron from rust or equipment can change the product.</li>
+    <li><strong>Bromine</strong> is dense, volatile and corrosive. Dose it below the liquid surface, and keep a neutralising solution at hand.</li>
+    <li><strong>Solvent compatibility.</strong> Some solvents react with chlorine or are chlorinated themselves. Confirm the solvent is inert under the conditions.</li>
+  </ul>
+  <p>For absorbent choices and scrubber sizing, see <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}">gas scrubbing agents</a> and <a href="{{ '/articles/scrubber-design/' | relative_url }}">scrubber design</a>.</p>
+  <h2 id="selectivity">Selectivity and over-reaction <span class="lvl l3">Going deeper</span></h2>
+<p>Once the first group is on the ring, a second can follow. Di- and poly-nitro, di-sulfonated and polychlorinated products are the usual impurities, and they are hard to separate and, for nitro compounds, more hazardous.</p>
+  <p>The levers are the same in every case: <strong>stoichiometry</strong> (do not overcharge the reagent), <strong>temperature</strong> (higher temperature favours more substitution and by-products), <strong>acid strength</strong> or catalyst, and <strong>mixing</strong> (a local excess of reagent where it enters creates over-reaction even when the bulk charge is correct). Sample and stop at a defined conversion instead of letting the reaction run on.</p>
+  <h2 id="quench">Quench, spent acid and thermal stability <span class="lvl l3">Going deeper</span></h2>
+<ul>
+    <li><strong>Quench the right way round.</strong> Add the strong acid mass to water or ice, not water into acid, with agitation and cooling. Dilution heat is large and can boil the water locally.</li>
+    <li><strong>Spent acid.</strong> Spent mixed acid contains nitric acid and organics. Recover, reconcentrate or neutralise it under a defined procedure, and do not mix nitric-containing waste with organic solvent waste, which can react violently.</li>
+    <li><strong>Nitro compound stability.</strong> Nitro compounds can decompose with a large release of energy. Measure the onset temperature and energy by DSC (see <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC, RC1 and TSU</a>). Acids, bases and metals can lower the onset, so test with realistic contaminants.</li>
+    <li><strong>Distillation.</strong> Never distil a nitro compound or a distillation residue to dryness without stability data. Keep a margin well below the decomposition onset.</li>
+  </ul>
+  <h2 id="safe">A safe-practice checklist <span class="lvl l3">Going deeper</span></h2>
+<ul>
+    <li>Measure heat of reaction, accumulation and decomposition data before scale-up.</li>
+    <li>Interlock the feed on high temperature, low temperature (reaction not starting), agitator rotation and cooling loss.</li>
+    <li>Limit the dosing rate physically and charge by mass or flow meter, not by eye.</li>
+    <li>Confirm the reaction has started (a small temperature rise or sample result) before continuing the dose.</li>
+    <li>Provide relief sized for the runaway case and a safe place for the discharge.</li>
+    <li>Dedicate and label acid lines and drums. Keep nitric acid away from organic materials and solvents.</li>
+    <li>Scrub all off-gas and monitor scrubber strength. Fit gas detectors where chlorine, HCl or NOx can escape.</li>
+  </ul>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why are nitration, sulfonation and halogenation so exothermic?</h3>
+  <p>They replace a hydrogen with a strongly bonded group and form stable products such as water, HCl or a sulfonic acid, releasing roughly 100 to 200 kJ per mole of substrate in typical cases. Measure the real value by calorimetry.</p>
+  <h3>Why does spent acid strength matter in nitration?</h3>
+  <p>Water formed in the reaction dilutes the acid and reduces the amount of nitronium ion. A weak acid slows the reaction, which can let nitric acid accumulate and then react suddenly when conditions change.</p>
+  <h3>What should I do about HCl and chlorine off-gas?</h3>
+  <p>Route it to a scrubber sized for the peak gas rate: water for HCl and caustic for chlorine. Check caustic strength and circulation, and protect against suck-back into the reactor.</p>
+  <h3>How do I reduce di- and poly-substituted by-products?</h3>
+  <p>Control stoichiometry and temperature, make sure mixing is good where the reagent enters, and stop at a defined conversion from sampling.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH, 2008 (2nd ed. 2020)</li>
+    <li>Urben (ed.), <i>Bretherick&rsquo;s Handbook of Reactive Chemical Hazards</i>, Elsevier</li>
+    <li>Anderson, <i>Practical Process Research and Development: A Guide for Organic Chemists</i>, 2nd ed., Academic Press, 2012</li>
+    <li><i>Ullmann&rsquo;s Encyclopedia of Industrial Chemistry</i>, Wiley-VCH (entries on aromatic nitro compounds and on sulfonation)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/process-safety/stoessel-criticality-classes/' | relative_url }}">Stoessel criticality classes, with calculator</a>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench</a>
+    <a href="{{ '/articles/gas-scrubbing-agents/' | relative_url }}">Gas scrubbing agents</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and jacket cooling</a>
+    <a href="{{ '/calculators/reagent-addition-time-calculator/' | relative_url }}">Reagent addition time calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
