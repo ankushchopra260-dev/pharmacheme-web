@@ -9,15 +9,25 @@
     ['cw', 'Cooling water'], ['pw', 'Process / DM / soft water'], ['chw', 'Chilled water'], ['brine', 'Brine / glycol'],
     ['liq', 'Solvent or process liquid'], ['cond', 'Condensate (pumped)'],
     ['steam', 'Steam'], ['air', 'Compressed air'], ['n2', 'Nitrogen'], ['gas', 'Other gas']];
-  const SOLV = { '': ['Type your own', '', ''], water: ['Water', 997, 0.89], methanol: ['Methanol', 791, 0.55], ethanol: ['Ethanol', 789, 1.07], ipa: ['IPA', 786, 2.0], acetone: ['Acetone', 784, 0.31],
-    toluene: ['Toluene', 867, 0.56], mdc: ['Methylene chloride (MDC)', 1325, 0.41], ea: ['Ethyl acetate', 897, 0.43], hexane: ['n-Hexane', 655, 0.30], dmf: ['DMF', 944, 0.80], thf: ['THF', 889, 0.46], acn: ['Acetonitrile', 786, 0.34], h2so4: ['Sulphuric acid 98%', 1830, 24], naoh: ['Caustic lye 48%', 1500, 20] };
+  /* Liquids at about 20-25 °C: [name, density kg/m³, viscosity cP, group]. Typical values for sizing; check your grade and temperature. */
+  const SOLV = { '': ['Type your own', '', '', ''],
+    methanol: ['Methanol', 791, 0.55, 'Alcohols'], ethanol: ['Ethanol', 789, 1.07, 'Alcohols'], ipa: ['Isopropanol (IPA)', 786, 2.0, 'Alcohols'], npropanol: ['n-Propanol', 803, 1.95, 'Alcohols'], nbutanol: ['n-Butanol', 810, 2.6, 'Alcohols'], isobutanol: ['Isobutanol', 802, 3.3, 'Alcohols'], secbutanol: ['sec-Butanol', 808, 3.1, 'Alcohols'], eg: ['Ethylene glycol', 1113, 16, 'Alcohols'], dEG: ['Diethylene glycol', 1118, 30, 'Alcohols'], pg: ['Propylene glycol', 1033, 40, 'Alcohols'], glycerol: ['Glycerol', 1261, 950, 'Alcohols'],
+    acetone: ['Acetone', 784, 0.31, 'Ketones'], mek: ['MEK (methyl ethyl ketone)', 805, 0.40, 'Ketones'], mibk: ['MIBK', 800, 0.58, 'Ketones'], chexanone: ['Cyclohexanone', 947, 2.0, 'Ketones'],
+    ea: ['Ethyl acetate', 897, 0.43, 'Esters'], ma: ['Methyl acetate', 927, 0.37, 'Esters'], ipac: ['Isopropyl acetate', 872, 0.52, 'Esters'], ba: ['n-Butyl acetate', 876, 0.69, 'Esters'],
+    thf: ['THF', 889, 0.46, 'Ethers'], mthf: ['2-MeTHF', 850, 0.60, 'Ethers'], mtbe: ['MTBE', 735, 0.27, 'Ethers'], dee: ['Diethyl ether', 713, 0.22, 'Ethers'], dioxane: ['1,4-Dioxane', 1033, 1.2, 'Ethers'], anisole: ['Anisole', 995, 1.0, 'Ethers'],
+    hexane: ['n-Hexane', 655, 0.30, 'Hydrocarbons'], heptane: ['n-Heptane', 684, 0.39, 'Hydrocarbons'], chex: ['Cyclohexane', 774, 0.89, 'Hydrocarbons'], toluene: ['Toluene', 867, 0.56, 'Hydrocarbons'], xylene: ['Xylene (mixed)', 864, 0.62, 'Hydrocarbons'], benzene: ['Benzene', 874, 0.60, 'Hydrocarbons'],
+    mdc: ['Methylene chloride (MDC)', 1325, 0.41, 'Chlorinated'], chloroform: ['Chloroform', 1480, 0.54, 'Chlorinated'], ctc: ['Carbon tetrachloride', 1594, 0.91, 'Chlorinated'], edc: ['1,2-Dichloroethane (EDC)', 1246, 0.78, 'Chlorinated'], cb: ['Chlorobenzene', 1106, 0.76, 'Chlorinated'], odcb: ['o-Dichlorobenzene', 1306, 1.3, 'Chlorinated'],
+    dmf: ['DMF', 944, 0.80, 'Polar aprotic and amines'], dmac: ['DMAc', 937, 0.92, 'Polar aprotic and amines'], dmso: ['DMSO', 1095, 2.0, 'Polar aprotic and amines'], nmp: ['NMP', 1028, 1.67, 'Polar aprotic and amines'], acn: ['Acetonitrile', 786, 0.34, 'Polar aprotic and amines'], pyridine: ['Pyridine', 982, 0.88, 'Polar aprotic and amines'], tea: ['Triethylamine', 726, 0.36, 'Polar aprotic and amines'], aniline: ['Aniline', 1022, 3.8, 'Polar aprotic and amines'], nitrobenzene: ['Nitrobenzene', 1199, 1.9, 'Polar aprotic and amines'],
+    water: ['Water', 997, 0.89, 'Water, acids and alkalis'], acoh: ['Acetic acid (glacial)', 1049, 1.06, 'Water, acids and alkalis'], hcooh: ['Formic acid', 1220, 1.6, 'Water, acids and alkalis'], hcl: ['Hydrochloric acid 30%', 1150, 1.9, 'Water, acids and alkalis'], h2so4: ['Sulphuric acid 98%', 1830, 24, 'Water, acids and alkalis'], naoh: ['Caustic lye 48%', 1500, 20, 'Water, acids and alkalis'] };
+  const SOLV_GROUPS = [...new Set(Object.values(SOLV).map(v => v[3]).filter(Boolean))];
+  const solvOptions = pre => SOLV_GROUPS.map(g => '<optgroup label="' + g + '">' + Object.entries(SOLV).filter(([k, v]) => v[3] === g).map(([k, v]) => '<option value="' + pre + k + '">' + v[0] + '</option>').join('') + '</optgroup>').join('');
   const params = new URLSearchParams(location.search);
   const st = { u: FLUIDS.some(f => f[0] === params.get('fluid')) ? params.get('fluid') : 'cw', q: +params.get('flow') || 50, p: 7, len: 100, rho: 867, mu: 0.56, solv: 'toluene', T: '', sch: '', more: false };
 
   box.innerHTML = `
 <form class="ls-form" id="ls-form" autocomplete="off">
-  <label class="ls-f"><span>What flows in the line</span><select id="ls-u">${FLUIDS.map(f => '<option value="' + f[0] + '">' + f[1] + '</option>').join('')}</select></label>
-  <label class="ls-f ls-solv"><span>Liquid</span><select id="ls-solv">${Object.entries(SOLV).map(([k, v]) => '<option value="' + k + '">' + v[0] + '</option>').join('')}</select></label>
+  <label class="ls-f"><span>What flows in the line</span><select id="ls-u">${FLUIDS.map(f => '<option value="' + f[0] + '">' + f[1] + '</option>').join('')}${solvOptions('s:')}</select></label>
+  <label class="ls-f ls-solv"><span>Liquid</span><select id="ls-solv"><option value="">Type your own</option>${solvOptions('')}</select></label>
   <label class="ls-f"><span>Flow</span><span class="ls-in"><input id="ls-q" type="number" step="any" min="0" inputmode="decimal"><b id="ls-qu"></b></span></label>
   <label class="ls-f ls-pr"><span>Pressure in the line</span><span class="ls-in"><input id="ls-p" type="number" step="any" inputmode="decimal"><b>barg</b></span></label>
   <label class="ls-f"><span>Line length</span><span class="ls-in"><input id="ls-len" type="number" step="any" min="0" inputmode="decimal"><b>m</b></span></label>
@@ -33,13 +43,15 @@
 <div class="ls-out" id="ls-out" aria-live="polite"></div>`;
 
   const ids = ['u', 'solv', 'q', 'p', 'len', 'rho', 'mu', 'T', 'sch'];
-  function syncInputs() { $('#ls-u').value = st.u; $('#ls-solv').value = st.solv; $('#ls-q').value = st.q; $('#ls-p').value = st.p; $('#ls-len').value = st.len; $('#ls-rho').value = st.rho; $('#ls-mu').value = st.mu; $('#ls-T').value = st.T; $('#ls-sch').value = st.sch; }
+  function syncInputs() { $('#ls-u').value = st.u === 'liq' && st.solv ? 's:' + st.solv : st.u; $('#ls-solv').value = st.solv; $('#ls-q').value = st.q; $('#ls-p').value = st.p; $('#ls-len').value = st.len; $('#ls-rho').value = st.rho; $('#ls-mu').value = st.mu; $('#ls-T').value = st.T; $('#ls-sch').value = st.sch; }
   syncInputs();
   box.addEventListener('input', e => { const id = e.target.id.replace('ls-', ''); if (!ids.includes(id)) return; const v = e.target.value;
-    if (id === 'u' || id === 'solv' || id === 'sch') st[id] = v; else st[id] = v === '' ? '' : +v;
-    if (id === 'solv' && SOLV[v][1]) { st.rho = SOLV[v][1]; st.mu = SOLV[v][2]; $('#ls-rho').value = st.rho; $('#ls-mu').value = st.mu; }
-    if ((id === 'rho' || id === 'mu') && st.solv) { st.solv = ''; $('#ls-solv').value = ''; }
-    if (id === 'u') { const U = L.UTIL[v]; st.p = U.kind === 'steam' ? 7 : U.kind === 'gas' ? 6 : 3; $('#ls-p').value = st.p; st.q = U.unit === 'kg/h' ? 1000 : U.unit === 'Nm³/h' ? 200 : 50; $('#ls-q').value = st.q; }
+    if (id === 'u' && v.startsWith('s:')) { st.u = 'liq'; st.solv = v.slice(2); st.rho = SOLV[st.solv][1]; st.mu = SOLV[st.solv][2]; $('#ls-solv').value = st.solv; $('#ls-rho').value = st.rho; $('#ls-mu').value = st.mu; }
+    else if (id === 'u' || id === 'solv' || id === 'sch') st[id] = v; else st[id] = v === '' ? '' : +v;
+    if (id === 'solv' && SOLV[v] && SOLV[v][1]) { st.rho = SOLV[v][1]; st.mu = SOLV[v][2]; $('#ls-rho').value = st.rho; $('#ls-mu').value = st.mu; }
+    if ((id === 'rho' || id === 'mu') && st.solv) { st.solv = ''; $('#ls-solv').value = ''; $('#ls-u').value = 'liq'; }
+    if (id === 'solv') $('#ls-u').value = v ? 's:' + v : 'liq';
+    if (id === 'u') { const U = L.UTIL[st.u]; st.p = U.kind === 'steam' ? 7 : U.kind === 'gas' ? 6 : 3; $('#ls-p').value = st.p; st.q = U.unit === 'kg/h' ? 1000 : U.unit === 'Nm³/h' ? 200 : 50; $('#ls-q').value = st.q; }
     calc(); });
 
   const fmt = (x, d) => isFinite(x) ? (+x).toFixed(d) : '';
