@@ -8,8 +8,8 @@ ONLY = sys.argv[1:]
 LANDING = r'''---
 layout: default
 title: "{title}: Free Training Module"
-seo_title: "{title} Training | Free Slides and Live Demos"
-description: "A free {N}-slide training session. {short} Trainer notes, live checks and a printable guide for teachers, trainers, students and plant teams."
+seo_title: "{seo_name} Free Training | PharmaChemE"
+description: "Free {N}-slide training session on {title_l}, with trainer notes, live checks and a printable guide for trainers and teachers."
 breadcrumbs:
   - label: Training
     url: /training/
@@ -82,7 +82,7 @@ document.getElementById('tm-wa').href='https://wa.me/?text='+encodeURIComponent(
 LIVE = r'''---
 layout: default
 title: "{title}: Live Checks"
-seo_title: "{title}: Live Checks | PharmaChemE"
+seo_title: "{seo_name} Live Checks | PharmaChemE"
 description: "{live_desc}"
 breadcrumbs:
   - label: Training
@@ -109,8 +109,8 @@ last_modified_at: 2026-11-03
 HUB = r'''---
 layout: default
 title: "Free Training Modules for Plants, Classrooms and Teams"
-seo_title: "Free Plant Training Modules for Teachers, Students and Trainers | PharmaChemE"
-description: "Free, ready-to-run training sessions for chemical and pharma plants and classrooms: present on screen, share a link, download the deck, print the trainer's guide."
+seo_title: "Free Plant Training Modules | PharmaChemE"
+description: "Free, ready-to-run plant training sessions: slides with trainer notes, live checks and a printable guide for teachers, trainers and students."
 breadcrumbs:
   - label: Training
     url: /training/
@@ -148,7 +148,7 @@ def make(m):
         rows.append((t, txt(n.group(1)) if n else ''))
     N = len(rows)
     items = ''.join(f'<li><details><summary>{html.escape(t)}</summary><p>{html.escape(n) if n else "No notes for this slide."}</p></details></li>\n' for t, n in rows)
-    ctx = dict(N=N, items=items, slug=slug, title=title, short=m['short'], short_j=json.dumps(m['short'])[1:-1], mins=m['minutes'],
+    ctx = dict(title_l=title[0].lower()+title[1:] if not title[:2].isupper() else title, seo_name=m.get('seo_name', title), N=N, items=items, slug=slug, title=title, short=m['short'], short_j=json.dumps(m['short'])[1:-1], mins=m['minutes'],
                extra_live=m.get('extra_live', ''), related=m.get('related', ''), live_desc=m.get('live_desc', ''), live_h1=m.get('live_h1', ''),
                live_intro=m.get('live_intro', ''), live_js=m.get('live_js', ''),
                live_blocks='\n'.join(f'  <div><h2>{h}</h2><div data-fx="{fx}"></div></div>' for h, fx in m.get('live_blocks', [])))

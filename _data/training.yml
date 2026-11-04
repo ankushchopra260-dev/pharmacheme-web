@@ -24,6 +24,7 @@
     - sim
   - - 'Extra: filling speed and relaxation time'
     - fill
+  seo_name: Static and Solvent Fire Safety
 - slug: runaway-reactions-safe-dosing
   title: Runaway reactions and safe dosing
   short: Why exothermic reactions run away, how accumulation hides the danger, and the controls that keep semi-batch dosing safe. Includes five live checks and a semi-batch dosing simulator.
@@ -48,6 +49,7 @@
     - s5
   - - 'Extra: semi-batch dosing with a cooling failure'
     - sim
+  seo_name: Runaway Reactions and Safe Dosing
 - slug: hazop-made-practical
   title: HAZOP made practical
   short: 'How a team runs a HAZOP and writes rows someone can act on: nodes, guidewords, batch steps, risk ranking and closing actions.'
@@ -72,6 +74,7 @@
     - s5
   - - 'Extra: mini HAZOP worksheet for a solvent feed line'
     - sim
+  seo_name: HAZOP Made Practical
 - slug: pumps-seals-vacuum
   title: Pumps, seals and vacuum for operators
   short: Where a pump likes to run, why NPSH and cavitation matter, why seals fail, and how vacuum and boiling work. Includes five live checks and a pump curve simulator.
@@ -96,6 +99,7 @@
     - s5
   - - 'Extra: pump curve, system curve and the valve'
     - sim
+  seo_name: Pumps, Seals and Vacuum
 - slug: utilities-energy-saving
   title: Utilities and energy saving
   short: Where steam, cooling water, chilled water and compressed air waste energy in a batch plant, how to size each loss with simple arithmetic, and which fixes pay back first.
@@ -105,7 +109,7 @@
   related: <a href="{{ '/utilities/' | relative_url }}">utilities calculators</a>, <a href="{{ '/utilities/steam-boiler/' | relative_url }}">steam and boiler</a>, <a href="{{ '/utilities/cooling-tower/' | relative_url }}">cooling tower</a>
   live_js: utilities-live.js
   live_h1: Utilities Live
-  live_desc: 'Five live checks for a utilities and energy saving session: steam trap leak, cooling tower water balance, chiller versus VAM, compressed air leak and condensate return, plus a savings planner. Free to use.'
+  live_desc: 'Five live checks for a utilities session: steam trap leak, cooling tower water, chiller versus VAM, compressed air leak, condensate return, and a savings planner.'
   live_intro: Enter your own prices, set the conditions, let the room estimate, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. All defaults are illustrative.
   live_blocks:
   - - 1. Steam trap leak
@@ -120,3 +124,4 @@
     - s5
   - - 'Extra: savings planner and payback'
     - sim
+  seo_name: Utilities and Energy Saving
