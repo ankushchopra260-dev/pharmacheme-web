@@ -1,0 +1,126 @@
+---
+layout: default
+title: "Pipe Dimensions and Schedules: NPS 1/8 to 24, Sch 40, 80, 160"
+seo_title: "Pipe Dimensions and Schedules, NPS 1/8 to 24 | PharmaChemE"
+description: "Free pipe size lookup: OD, wall thickness, ID, flow area and weight for carbon and stainless pipe (ASME B36.10M, B36.19M), with a velocity check."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Pipe Dimensions and Schedules",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the inside diameter of 4 inch Schedule 40 pipe?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "NPS 4 (DN 100) has an outside diameter of 114.3 mm and a Schedule 40 wall of 6.02 mm, so the inside diameter is 102.26 mm."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between NPS and DN?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "NPS is the inch-based nominal size and DN is the metric equivalent: NPS 1 is DN 25, NPS 2 is DN 50, NPS 4 is DN 100 and NPS 12 is DN 300. Both are labels, not measured dimensions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Schedule 40 the same as standard weight?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only up to NPS 10. From NPS 12 upward standard weight has a 9.53 mm wall while Schedule 40 is thicker. Extra strong equals Schedule 80 up to NPS 8."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are 40S and 80S only listed up to NPS 12?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ASME B36.19M gives the 40S and 80S walls only up to NPS 12. Larger stainless pipe is listed here in 5S and 10S only."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Design Tools
+    url: /design-tools/
+  - label: "Pipe Dimensions and Schedules"
+    url: /design-tools/pipe-dimensions/
+last_modified_at: 2026-11-04
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pipe-dimensions.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container st-head">
+  <h1>Pipe Dimensions and Schedules</h1>
+  <p>Pick a pipe size and schedule. Read the inside diameter, flow area, weight and surface.</p>
+</div>
+<div class="container">
+  <div id="pd-app"><noscript>This tool needs JavaScript.</noscript></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>What NPS and schedule mean</h2>
+  <p>NPS (nominal pipe size) is a label, not a measurement. DN is its metric twin: NPS 1 is DN 25, NPS 2 is DN 50, NPS 4 is DN 100. For sizes up to NPS 12 the label is only close to the real outside diameter; for NPS 14 and above it equals the outside diameter in inches. The schedule is a wall-thickness class. The outside diameter stays fixed for a given NPS, and a higher schedule only makes the wall thicker, so the inside diameter gets smaller.</p>
+  <div class="formula-box">
+    ID = OD − 2 × wall &nbsp;&nbsp; Area = π/4 × ID² &nbsp;&nbsp; Steel weight ≈ 0.02466 × (OD − wall) × wall kg/m
+  </div>
+  <p>The weight formula uses OD and wall in mm and a steel density of 7.85 g/cm³. Stainless uses about 7.90.</p>
+
+  <h2>Why a 6 inch pipe is not 6 inch inside</h2>
+  <p>NPS 6 has an outside diameter of 168.3 mm (6.625 inch). With the Schedule 40 wall of 7.11 mm the inside diameter is about 154 mm (6.07 inch). With Schedule 160 it drops to about 132 mm. The same OD keeps flanges, fittings and supports interchangeable whatever the wall.</p>
+
+  <h2>Standard, extra strong and the schedules</h2>
+  <p>Standard weight (STD), extra strong (XS) and double extra strong (XXS) are older names. STD equals Schedule 40 up to NPS 10 and XS equals Schedule 80 up to NPS 8. Above that they differ: NPS 12 STD is 9.53 mm against 10.31 mm for Schedule 40. Stainless pipe under ASME B36.19M uses the S schedules, 5S, 10S, 40S and 80S, where 40S and 80S match STD and XS. Here they are given to NPS 12 only.</p>
+
+  <h2>Choosing a schedule</h2>
+  <p>Pressure, temperature, corrosion allowance and the code decide the wall. The wall must be at least the calculated thickness plus corrosion allowance and the mill tolerance (12.5% under for seamless), and then the next standard schedule above it is taken. Use the <a href="{{ '/calculators/vessel-thickness-calculator/' | relative_url }}">vessel thickness calculator</a> for the principle, and your piping class for the real selection. Many utility and process lines in plants run in Schedule 40 carbon steel or Schedule 10S stainless; higher pressures, steam and cyclic duty push to 80 or 160.</p>
+  <p>For the flow side, the inside diameter is what sets velocity and pressure drop. Use the <a href="{{ '/design-tools/line-sizing/' | relative_url }}">line sizing tool</a> or the <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">pipe pressure drop calculator</a> after picking a candidate here.</p>
+
+  <h2>Frequently asked questions</h2>
+  <h3>What is the inside diameter of 4 inch Schedule 40 pipe?</h3>
+  <p>The OD is 114.3 mm and the wall 6.02 mm, so the ID is 102.26 mm.</p>
+  <h3>What is the difference between NPS and DN?</h3>
+  <p>NPS is the inch label and DN the metric one. NPS 12 is DN 300. Neither is a measured dimension.</p>
+  <h3>Is Schedule 40 the same as standard weight?</h3>
+  <p>Only up to NPS 10. From NPS 12 the standard wall is 9.53 mm and Schedule 40 is thicker.</p>
+  <h3>Why are 40S and 80S only listed to NPS 12?</h3>
+  <p>ASME B36.19M gives those walls to NPS 12. Larger stainless pipe appears in 5S and 10S only.</p>
+
+  <p style="color:var(--muted);font-size:.92rem;">Dimensions are nominal values from ASME B36.10M and B36.19M. Real pipe varies by mill tolerance. Weights are calculated, not catalogue figures. Gaps in the table mean no standard size exists. Always check your project piping class before ordering.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing calculator</a>
+    <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">Pipe pressure drop calculator</a>
+    <a href="{{ '/calculators/vessel-thickness-calculator/' | relative_url }}">Vessel thickness calculator</a>
+    <a href="{{ '/design-tools/pid/' | relative_url }}">P&amp;ID builder</a>
+    <a href="{{ '/articles/line-sizing-and-pressure-drop/' | relative_url }}">Line sizing and pressure drop (article)</a>
+    <a href="{{ '/articles/how-to-read-a-pid/' | relative_url }}">How to read a P&amp;ID</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pipe-dimensions.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

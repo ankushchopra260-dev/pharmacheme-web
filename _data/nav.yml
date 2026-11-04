@@ -103,6 +103,7 @@
         - { title: "Line Sizing", url: /design-tools/line-sizing/ }
         - { title: "P&ID Drawing", url: /design-tools/pid/ }
         - { title: "PFD Drawing", url: /design-tools/pfd/ }
+        - { title: "Pipe dimensions and schedules", url: /design-tools/pipe-dimensions/ }
     - title: "Related"
       children:
         - { title: "How to Read a P&ID", url: /articles/how-to-read-a-pid/ }
@@ -120,6 +121,7 @@
         - { title: "Compressed Air & Nitrogen", url: /utilities/compressed-air-nitrogen/ }
         - { title: "Water, DG & Power", url: /utilities/water-dg-power/ }
         - { title: "MEE Steam Economy", url: /utilities/mee-steam-economy/ }
+        - { title: "Psychrometric Calculator", url: /utilities/psychrometric-calculator/ }
     - title: "Read"
       url: /articles/#utilities
       more: "All 6 utilities articles"

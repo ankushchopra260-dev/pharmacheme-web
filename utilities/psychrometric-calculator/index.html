@@ -1,0 +1,136 @@
+---
+layout: default
+title: "Psychrometric Calculator and Interactive Chart: Humidity, Dew Point, Wet Bulb, Enthalpy"
+seo_title: "Psychrometric Calculator and Chart | PharmaChemE"
+description: "Free psychrometric calculator with an interactive chart: relative humidity, dew point, wet bulb, enthalpy, plus cooling coil, mixing and heating loads in kW and TR."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Psychrometric Calculator",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between dry bulb, wet bulb and dew point?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Dry bulb is the ordinary air temperature. Wet bulb is the temperature of a wet surface cooled by evaporation, so it is lower than dry bulb unless the air is saturated. Dew point is the temperature at which the air becomes saturated and starts to condense when cooled at constant moisture content."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I calculate the cooling load of an air handling unit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Find the enthalpy of the entering and leaving air on the psychrometric chart, convert the volume flow to dry air mass flow using the specific volume, then load = mass flow x (h in - h out). Divide by 3.517 to get tons of refrigeration."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does altitude change psychrometric properties?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lower barometric pressure at altitude lets the same vapour pressure correspond to a higher humidity ratio, and the air is less dense. Wet bulb, humidity ratio, enthalpy and specific volume all shift, so use the actual site pressure for dryer and AHU design."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens when two air streams mix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The mixed state lies on the straight line joining the two states on the chart, at the point set by the dry air mass ratio. If the line crosses the saturation curve, fog forms."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Utilities
+    url: /utilities/
+  - label: Psychrometric Calculator
+    url: /utilities/psychrometric-calculator/
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/psychrometric.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Psychrometric Calculator and Chart</h1>
+  <p>Find relative humidity, dew point, wet bulb, enthalpy and density of moist air from any two properties, then see the point on an interactive chart. Switch tabs for the cooling coil load, the mixing of two air streams, or the heat needed for a dryer or heater.</p>
+  <ul class="ut-jump">
+    <li><a href="#psy">Calculator</a></li><li><a href="#guide">How it works</a></li><li><a href="#faq">FAQ</a></li>
+  </ul>
+</div>
+
+<div class="container ut-grid">
+  <div id="psy"><noscript><p class="ut-empty">This calculator needs JavaScript.</p></noscript></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+  <h2>The terms, in plain words</h2>
+  <p>Moist air is dry air plus water vapour. Four temperatures describe it. <strong>Dry bulb</strong> is what a normal thermometer reads. <strong>Wet bulb</strong> is what a thermometer reads with a wet wick, cooled by evaporation, so it sits below dry bulb unless the air is already full. <strong>Dew point</strong> is the temperature at which the air would be full and start to drop water if cooled with no moisture added or removed. <strong>Relative humidity</strong> compares the vapour actually present with the most the air could hold at that dry bulb. The <strong>humidity ratio</strong> is the plain mass of water per kg of dry air, and it is the property that stays fixed when air is only heated or cooled without condensation.</p>
+
+  <h2>The equations used</h2>
+  <div class="formula-box">
+    Humidity ratio W = 0.621945 &times; p<sub>w</sub> / (p &minus; p<sub>w</sub>)<br>
+    Relative humidity = p<sub>w</sub> / p<sub>ws</sub>(t) &times; 100<br>
+    Enthalpy h = 1.006 t + W (2501 + 1.86 t) &nbsp;kJ/kg dry air<br>
+    Specific volume v = 0.287042 (t + 273.15)(1 + 1.607858 W) / p &nbsp;m&sup3;/kg dry air<br>
+    Cooling load = (m&sup3;/h &divide; v) &times; (h<sub>in</sub> &minus; h<sub>out</sub>) / 3600 &nbsp;kW
+  </div>
+  <p>Here p is the barometric pressure in kPa, p<sub>w</sub> the partial pressure of water vapour and p<sub>ws</sub> the saturation pressure at the dry bulb, found from the Hyland-Wexler correlation for water (and ice below 0 &deg;C). Wet bulb and dew point are solved numerically. Air is treated as an ideal gas mixture, which is accurate to well under 1 % at normal process conditions. Altitude sets the pressure with the standard-atmosphere relation, or you can type the pressure directly.</p>
+
+  <h2>Worked example: sizing an AHU cooling coil</h2>
+  <p>Fresh air at 30 &deg;C and 60 % RH is 10,000 m&sup3;/h and must leave the coil at 13 &deg;C and 95 % RH for a clean room. Entering enthalpy is about 71.2 kJ/kg and leaving about 35.4 kJ/kg, specific volume is 0.881 m&sup3;/kg, so dry air flow is about 11,350 kg/h and the load is roughly 113 kW, or 32 TR. About half of that is latent heat spent condensing roughly 82 kg/h of water. Use the Cooling coil tab to see the exact figures and the process line on the chart.</p>
+
+  <h2>Where psychrometrics shows up in a plant</h2>
+  <h3>Air handling units and cleanrooms</h3>
+  <p>Cooling the air below its dew point removes moisture, and reheating afterwards brings the relative humidity down to the setpoint. The chart makes it obvious why chasing a low humidity with a coil alone forces very cold chilled water and then a large reheat.</p>
+  <h3>Dryers</h3>
+  <p>Hot air dries a product because heating drops the relative humidity and raises the amount of water the air can carry. The wet bulb of the inlet air is the surface temperature of the product during constant-rate drying, which is why heat-sensitive solids can be dried in hot air. Exhaust that is nearly saturated means efficient use of heat, but also a risk of condensation in ducts and bag filters.</p>
+  <h3>Cooling towers</h3>
+  <p>A tower cannot cool water below the ambient wet bulb, so the design wet bulb at site altitude and monsoon humidity decides the approach. Use the State point tab with your site pressure to get the right wet bulb from a dry bulb and humidity reading.</p>
+
+  <h2>Limits of this tool</h2>
+  <p>Valid for roughly &minus;60 to 120 &deg;C and pressures from about 50 to 110 kPa. The small enhancement factor for real gas behaviour is neglected. The coil process line is drawn straight between entering and leaving states, but a real coil follows a curve toward the apparatus dew point. Results are for design estimates and should be checked against the equipment vendor's data.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>What is the difference between dry bulb, wet bulb and dew point?</h3>
+  <p>Dry bulb is the ordinary air temperature. Wet bulb is lower, because evaporation cools a wet surface. Dew point is the temperature where the air becomes saturated when cooled at constant moisture. For saturated air all three are equal.</p>
+  <h3>How do I calculate the cooling load of an air handling unit?</h3>
+  <p>Convert the volume flow to dry air mass flow using the specific volume, then multiply by the enthalpy drop across the coil. Divide kW by 3.517 for tons of refrigeration. The Cooling coil tab does this and splits the load into sensible and latent parts.</p>
+  <h3>Why does altitude change the results?</h3>
+  <p>At lower pressure the same vapour pressure means a higher humidity ratio, and the air is less dense, so fans move less mass and coils carry less load per cubic metre. Enter the site altitude or the actual barometric pressure.</p>
+  <h3>What happens when two air streams mix?</h3>
+  <p>Humidity ratio and enthalpy mix in proportion to the dry air mass of each stream, so the result lies on the straight line between the two states. If that line crosses the saturation curve the mixture becomes foggy, which is common when cold return air meets hot humid fresh air.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/utilities/cooling-tower/' | relative_url }}">Cooling tower calculators</a>
+    <a href="{{ '/utilities/chillers-vam/' | relative_url }}">Chillers and VAM</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load calculator</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations: article</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/psychrometric.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

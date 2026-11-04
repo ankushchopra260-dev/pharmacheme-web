@@ -1,0 +1,33 @@
+/* Psychrometric calculator (extends utilities.css) */
+.ps-card { grid-column: 1 / -1; }
+.ps-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
+.ps-tab { font: 600 .85rem var(--f-sans); color: var(--muted); background: transparent; border: 1px solid var(--grid-line); border-radius: 4px; padding: 8px 14px; cursor: pointer; min-height: 40px; }
+.ps-tab[aria-selected="true"] { color: var(--bg-deep); background: var(--brass); border-color: var(--brass); }
+.ps-tab:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+.ps-site { margin-bottom: 14px; max-width: 520px; }
+.ps-card select, .ps-card input[type=number] { width: 100%; min-width: 0; }
+.ps-table th, .ps-table td { white-space: nowrap; text-align: right; }
+.ps-table th:first-child, .ps-table td:first-child { text-align: left; white-space: normal; }
+.ps-chartwrap { margin-top: 22px; border-top: 1px solid var(--grid-line); padding-top: 14px; }
+#ps-chart { width: 100%; height: auto; display: block; background: #0E1C2B; border: 1px solid var(--grid-line); border-radius: 4px; touch-action: manipulation; }
+.ps-bg { fill: #0B1622; }
+.ps-grid { stroke: #16293D; stroke-width: 1; }
+.ps-ax, .ps-axt { fill: var(--muted); font: 12px var(--f-mono); }
+.ps-axt { font-size: 13px; fill: #8DA7C0; }
+.ps-rh { fill: none; stroke: #3E7FB0; stroke-width: 1.2; }
+.ps-sat { fill: none; stroke: #6FB6E8; stroke-width: 2.2; }
+.ps-h { fill: none; stroke: #8A7424; stroke-width: 1; stroke-dasharray: 4 3; }
+.ps-hl { fill: #B79B2E; font: 11px var(--f-mono); }
+.ps-rl { fill: #7FB4DC; font: 11px var(--f-mono); }
+.ps-proc { stroke: var(--paper); stroke-width: 2; stroke-dasharray: 6 4; }
+.ps-pt { stroke: var(--bg-deep); stroke-width: 2; }
+.ps-pt.a { fill: var(--brass); } .ps-pt.b { fill: #E8806E; } .ps-pt.m { fill: #7CD3A4; }
+.ps-ptl { fill: var(--paper); font: 700 15px var(--f-sans); paint-order: stroke; stroke: var(--bg-deep); stroke-width: 3px; }
+.ps-hit { fill: transparent; cursor: crosshair; }
+.ps-hint { font-size: .8rem; color: var(--muted); margin: 8px 0 0; }
+.ut-res dd small { color: var(--muted); font-weight: 400; margin-left: 4px; }
+@media (max-width: 600px) { .ps-tab { flex: 1 1 45%; } }
+#ps-body > *, .ut-body > *, .ps-card, #psy { min-width: 0; }
+.ps-card { max-width: 100%; overflow: hidden; }
+.ps-table-wrap, .ps-card .ut-table-wrap { overflow-x: auto; max-width: 100%; }
+@media (max-width: 600px) { .ps-table th, .ps-table td { padding: 6px 6px; font-size: .78rem; } .ps-table td:first-child { min-width: 92px; } }
