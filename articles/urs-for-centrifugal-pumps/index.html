@@ -1,0 +1,196 @@
+---
+layout: default
+title: "URS for Centrifugal Pumps: What to Specify and What Goes Wrong"
+seo_title: "URS for Centrifugal Pumps: A Practical Guide | PharmaChemE"
+description: "How to write a user requirement specification for a process pump: fluid data, duty range, NPSH, seals, materials, drive, a worked example and common mistakes."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: URS for Centrifugal Pumps
+    url: /articles/urs-for-centrifugal-pumps/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "URS for Centrifugal Pumps: What to Specify and What Goes Wrong",
+        "description": "What to put in a user requirement specification for a process centrifugal pump, with a worked solvent transfer example and common mistakes.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a URS for a pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A user requirement specification states what the pump must do in the plant: the fluid, flow range, head, suction conditions, materials, seal, drive, safety, documents and how each requirement will be verified. It is written by the user, before the vendor selects a model."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the most important data to include in a pump URS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The fluid properties including vapour pressure, the flow range with minimum and maximum, the differential head, and the suction conditions that set NPSH available. Most pump problems trace back to one of these being missing or given as a single point."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should a URS name a specific pump make or model?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It should state requirements and acceptance criteria. Naming a model locks the project into one solution and weakens the design review. If a plant standardises on a make for spares reasons, state that as a requirement with the reason."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is the URS checked after the pump is delivered?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Through design qualification before manufacture, a factory acceptance test with a performance run, a site acceptance test and then installation and operational qualification under the quality system. Each URS requirement should map to a test or document."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>URS for Centrifugal Pumps: What to Specify and What Goes Wrong</h1>
+  <p class="article-meta">Plant engineering &middot; URS and procurement &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A pump is bought against the page you send the vendor. If that page lists one duty point and the word "solvent", the pump will be right on paper and wrong on the plant. This article shows what a process pump URS should say, with a worked example and the mistakes to avoid.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why the URS decides how the pump behaves for 20 years</a><span>Basics</span></li>
+    <li><a href="#fluid">Start with the fluid, not the pump</a><span>Basics</span></li>
+    <li><a href="#duty">Duty: flow, head, suction and the operating range</a><span>Working level</span></li>
+    <li><a href="#mech">Seals, materials, drive and the rest of the specification</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: a solvent transfer pump</a><span>Working level</span></li>
+    <li><a href="#mistakes">Common URS mistakes for pumps</a><span>Going deeper</span></li>
+    <li><a href="#verify">Verifying the URS: DQ, FAT, SAT and performance</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">Why the URS decides how the pump behaves for 20 years <span class="lvl l1">Basics</span></h2>
+  <p>A user requirement specification (URS) is the document that says what the plant needs from a piece of equipment, in the plant's own words, before anyone picks a make or a model. For a pump, it is the page that the vendor, the project engineer, the maintenance team and, in pharma, quality assurance all read. It states what the pump must do. It does not say which pump to buy.</p>
+  <p>That sounds simple, and yet most pump problems on a plant start on this page. A pump is sold against the duty point written in the enquiry. If the URS says "10 m&sup3;/h at 35 m head" and nothing else, the vendor will quote a pump that is right at exactly that point. It may cavitate at the real suction level, run hot at the lowest flow, leak at the seal on the actual solvent, or sit at the far end of its curve for most of the year. Every one of these is a gap in the URS, not a fault of the pump.</p>
+  <p>A good URS is short enough to read and complete enough to bid against. This article walks through what a process pump URS should contain, with a worked example, the mistakes that cause trouble later, and how the URS is checked at the end. It follows the same logic as the general project flow in <a href="{{ '/articles/project-execution-urs-to-handover/' | relative_url }}">URS to handover</a> and the qualification steps in <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">DQ, IQ, OQ and PQ</a>.</p>
+  <p>Centrifugal pumps are the default for most solvent and water transfer, so this article is about them. Positive displacement pumps (gear, diaphragm, lobe) need many of the same entries but also need entries for pulsation, relief and viscosity limits.</p>
+  <h2 id="fluid">Start with the fluid, not the pump <span class="lvl l1">Basics</span></h2>
+  <p>The first block of the URS describes what will flow through the pump. Without it, nothing else can be checked. For each fluid or fluid family, state:</p>
+  <ul>
+    <li><strong>Name and composition</strong>, including water content and common impurities. If the pump will see several solvents, list them all, or say which one is the worst case.</li>
+    <li><strong>Density and viscosity</strong> over the whole temperature range. A pump that is selected on water properties will give a different head and power on a viscous liquid.</li>
+    <li><strong>Vapour pressure at the maximum pumping temperature.</strong> This is what sets the net positive suction head (NPSH) the pump needs from the system. It is the most commonly missing number.</li>
+    <li><strong>Solids:</strong> none, fine slurry, crystals, fibres. Give particle size and percentage. Solids decide the impeller type, the seal arrangement and the wear materials.</li>
+    <li><strong>Hazards:</strong> flash point, toxicity, corrosivity, static accumulation, polymerisation or crystallisation on stagnation. These feed the seal, material and hazardous-area entries below.</li>
+    <li><strong>Cleaning and changeover:</strong> will the pump be flushed, steamed out, or cleaned in place between products? Multi-product pharma plants need this stated, because it drives drainability and hygienic design.</li>
+  </ul>
+  <p>Write the fluid data as a small table with minimum, normal and maximum columns for temperature, density and viscosity. A single number invites a single-point design.</p>
+  <h2 id="duty">Duty: flow, head, suction and the operating range <span class="lvl l2">Working level</span></h2>
+  <p>The second block is the hydraulic duty. State a range, not a point.</p>
+  <ul>
+    <li><strong>Flow:</strong> minimum, normal and maximum. The minimum matters most. Centrifugal pumps run badly at low flow: heat builds up, vibration rises and seals suffer. If the process will sometimes trickle, say so.</li>
+    <li><strong>Differential head</strong> at each flow, or the static head, the line pressures at the two ends and a statement of the pipe route. Add a margin only where the project standard allows one, and say how much, so the vendor does not add a second margin on top.</li>
+    <li><strong>Suction conditions:</strong> the lowest liquid level in the supply vessel, its pressure (atmospheric, vacuum or pressurised), the suction pipe size and length, and the temperature.</li>
+    <li><strong>Operating and design pressure and temperature</strong> of the pump casing, which are set by the worst case the pump can see, including a closed discharge valve and steam-out or CIP if used.</li>
+    <li><strong>Duty and standby:</strong> one running pump, or duty plus standby, and whether the standby must start automatically.</li>
+  </ul>
+  <p>Two equations sit behind most of these entries. The first gives the power the liquid receives. The second gives the suction pressure the pump can count on.</p>
+  <div class="formula-box">
+    Hydraulic power (kW) = (Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>rho; Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; g Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; Q Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; H) / (3.6 Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; 10<sup>6</sup>)<br>
+    NPSHa = (P<sub>s</sub> &minus; P<sub>v</sub>) / (&rho; g) + z<sub>s</sub> &minus; h<sub>f</sub>
+    <small>&rho; in kg/m&sup3;, Q in m&sup3;/h, H in m. P<sub>s</sub>: absolute pressure on the liquid surface. P<sub>v</sub>: vapour pressure at pumping temperature. z<sub>s</sub>: liquid level above the pump centreline. h<sub>f</sub>: suction line friction loss, in metres of liquid.</small>
+  </div>
+  <p>Put the NPSH available in the URS, calculated for the lowest level and the highest temperature, and ask the vendor to show that the required NPSH at every duty point sits below it by the margin your standard specifies. Our <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">pump power calculator</a> gives the hydraulic and shaft power, and the <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">pipe pressure drop and NPSH calculator</a> helps with the suction side. The article on <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">pump power</a> explains the curves behind them.</p>
+  <h2 id="mech">Seals, materials, drive and the rest of the specification <span class="lvl l2">Working level</span></h2>
+  <p>The third block covers the physical build. This is where many sites carry their own standard, so the URS should refer to it by document number rather than repeat it.</p>
+  <ul>
+    <li><strong>Standard:</strong> many process plants ask for pumps to a recognised process pump standard such as API 610 or ISO 5199 for solvent and chemical duty. Lighter-duty or hygienic services may reference a different standard. State which, and any exceptions.</li>
+    <li><strong>Shaft seal:</strong> single mechanical seal, double (pressurised barrier) seal, or sealless (magnetic drive or canned). Say which the process allows. Toxic or flammable solvents often call for a double seal or a sealless design. If a seal flush or barrier fluid is used, the URS should name the supply and say what happens if it fails. Seal failure is the most common pump failure, as the article on <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">pump and seal troubleshooting</a> explains.</li>
+    <li><strong>Materials of construction</strong> for casing, impeller, shaft and seal faces and elastomers, with the corrosion basis. Glass-lined or lined pumps need a clear statement of the maximum temperature step, because lining does not tolerate thermal shock.</li>
+    <li><strong>Hygienic design</strong> where it applies: drainable casing, surface finish, no dead legs, and product-contact materials documented. The ASME BPE standard is the usual reference for bioprocess and high-purity services.</li>
+    <li><strong>Drive:</strong> motor power with a stated margin over the maximum shaft power, speed, whether a variable frequency drive will be used, and the starting method. Remember that a VFD changes the operating range, so the pump must still work at the lowest speed.</li>
+    <li><strong>Hazardous area:</strong> the zone and gas group of the installation, so that motor, instruments and any heat-generating parts are certified for it.</li>
+    <li><strong>Noise, vibration and baseplate:</strong> maximum sound level, vibration limits and whether a common baseplate is required.</li>
+    <li><strong>Instrumentation:</strong> pressure gauges on both sides, a temperature or dry-run protection device, vibration or bearing temperature sensors for larger machines, and signals to the control system.</li>
+  </ul>
+  <p>A short list of "must have" and "should have" items helps the vendor see where there is room to offer alternatives.</p>
+  <h2 id="example">Worked example: a solvent transfer pump <span class="lvl l2">Working level</span></h2>
+  <p>Here is how the entries come together for a toluene transfer pump that moves solvent from a storage tank to a reactor charging vessel. All values are illustrative and are not a recommendation.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Item</th><th>URS entry (illustrative)</th></tr></thead><tbody><tr><td>Service</td><td>Toluene transfer, storage tank to reactor charging vessel, intermittent, about 2 hours per batch</td></tr><tr><td>Fluid data</td><td>Density 850 kg/m&sup3; at 40 &deg;C; viscosity under 1 mPa&middot;s; vapour pressure about 8 kPa at 40 &deg;C; clean, no solids; flammable and harmful</td></tr><tr><td>Flow</td><td>5 m&sup3;/h minimum, 10 m&sup3;/h normal, 15 m&sup3;/h maximum</td></tr><tr><td>Head</td><td>35 m at normal flow, with the static and line-loss breakdown attached</td></tr><tr><td>Suction</td><td>Atmospheric tank, lowest liquid level 2 m above pump centreline, suction friction loss 0.5 m at maximum flow</td></tr><tr><td>NPSH available</td><td>About 12.7 m at the lowest level and 40 &deg;C (calculation below)</td></tr><tr><td>Design</td><td>Casing design 10 barg at 60 &deg;C; closed-discharge case to be checked</td></tr><tr><td>Configuration</td><td>One duty pump, one spare in store</td></tr><tr><td>Seal</td><td>Double mechanical seal with a barrier fluid system and low-level alarm</td></tr><tr><td>Materials</td><td>Stainless steel wetted parts, with seal face and elastomer materials stated for toluene</td></tr><tr><td>Drive</td><td>Flameproof motor for the installed zone, fixed speed, motor sized above maximum shaft power</td></tr><tr><td>Verification</td><td>Hydraulic test, certified material records, FAT with performance run, installation and operation checks on site</td></tr></tbody></table></div>
+  <p>The suction check. With atmospheric pressure of 101.3 kPa on the tank surface, a vapour pressure of about 7.9 kPa at 40 &deg;C, a liquid level 2 m above the pump and 0.5 m of friction loss:</p>
+  <div class="formula-box">
+    NPSHa = (101.3 &minus; 7.9) &times; 1000 / (850 &times; 9.81) + 2 &minus; 0.5<br>
+    = 93,400 / 8,339 + 1.5 = 11.2 + 1.5 &asymp; 12.7 m
+  </div>
+  <p>If the vendor's curve shows a required NPSH of about 3.5 m at maximum flow, the margin is about 9 m, which is comfortable. If the supply tank were kept under vacuum, or the level could drop to the tank bottom, the same pump could be in trouble. This is why the URS lists the lowest level and the highest temperature rather than the normal ones.</p>
+  <p>The power check. At 10 m&sup3;/h and 35 m, the hydraulic power is 850 &times; 9.81 &times; 10 &times; 35 / 3,600,000 &asymp; 0.81 kW. At an assumed 50 % efficiency for a small pump, the shaft power is about 1.6 kW, so a 3 kW motor leaves a healthy margin. Check this against the actual curve once the vendor responds.</p>
+  <h2 id="mistakes">Common URS mistakes for pumps <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>One duty point only.</strong> The pump is right at one flow and wrong everywhere else. State the range, and ask for the curve with the operating region marked.</li>
+    <li><strong>No NPSH available.</strong> The vendor cannot check cavitation margin if the suction conditions are not given. Always include level, pressure, temperature, vapour pressure and suction line loss.</li>
+    <li><strong>No minimum flow.</strong> Batch plants often recirculate or throttle. If the pump will run at 20 % flow, say so, and ask what minimum continuous flow the vendor allows.</li>
+    <li><strong>Wrong or generic fluid data.</strong> "Solvent" is not a specification. A pump chosen for isopropyl alcohol may not suit hot toluene.</li>
+    <li><strong>Margins stacked on margins.</strong> The process engineer adds 20 % to the flow, the vendor adds 10 % to the head and the motor gets another 15 %. The pump ends up oversized, throttled and inefficient. State where the margin is applied, once.</li>
+    <li><strong>Seal left to the vendor's default.</strong> A standard single seal may be wrong for a toxic or flammable solvent. Decide the seal philosophy in the URS.</li>
+    <li><strong>Ignoring cleaning and steam-out.</strong> Casing design temperature and elastomers then fail at the first CIP cycle.</li>
+    <li><strong>Mixing requirements with solutions.</strong> "Supply a magnetic drive pump" may exclude a better option. If the real requirement is "no leakage to atmosphere", write that.</li>
+  </ul>
+<div class="art-note"><b>On the plant</b><p>When a pump fails early, reread its URS. More often than not, the cause (a dry run, a low level, a warm tank, a missed solid) was a condition the plant knew about and no one wrote down.</p></div>
+  <h2 id="verify">Verifying the URS: DQ, FAT, SAT and performance <span class="lvl l3">Going deeper</span></h2>
+  <p>A URS is only useful if it is checked at the end. In a regulated plant this is formal. The URS is the reference for design qualification (DQ), which confirms that the vendor's proposed design meets each requirement before manufacture. Then a factory acceptance test (FAT) at the vendor's works, usually a hydraulic performance test and a check of materials and documents. A site acceptance test (SAT) follows after delivery and installation, and the installation and operational qualification steps follow under the quality system. Frameworks such as the ISPE baseline guides and GAMP-style risk thinking describe how deep each step needs to go for a given system, and the <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">qualification article</a> covers the sequence in more detail.</p>
+  <p>To make this smooth, write the URS so that every requirement can be tested:</p>
+  <ul>
+    <li>Number each requirement so it can be traced to a test.</li>
+    <li>Say how it will be verified: by calculation, by document review, by test or by inspection.</li>
+    <li>State the acceptance criterion in numbers where possible: head and flow within a stated tolerance of the curve, no leakage on test, vibration under a stated limit, noise under a stated level.</li>
+    <li>Mark which requirements are critical to product quality or safety, because those get the closest verification.</li>
+  </ul>
+  <p>Keep a changes log. If the process changes after the URS is issued, for example a new solvent or a higher temperature, the URS and the pump selection should be revisited through the plant's change control, not left to drift.</p>
+  <p>You can draft the structure of a URS quickly with the <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a>, then add the plant-specific numbers from the checks above.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a URS for a pump?</h3>
+  <p>A user requirement specification states what the pump must do in the plant: the fluid, flow range, head, suction conditions, materials, seal, drive, safety, documents and how each requirement will be verified. It is written by the user, before the vendor selects a model.</p>
+  <h3>What is the most important data to include in a pump URS?</h3>
+  <p>The fluid properties including vapour pressure, the flow range with minimum and maximum, the differential head, and the suction conditions that set NPSH available. Most pump problems trace back to one of these being missing or given as a single point.</p>
+  <h3>Should a URS name a specific pump make or model?</h3>
+  <p>No. It should state requirements and acceptance criteria. Naming a model locks the project into one solution and weakens the design review. If a plant standardises on a make for spares reasons, state that as a requirement with the reason.</p>
+  <h3>How is the URS checked after the pump is delivered?</h3>
+  <p>Through design qualification before manufacture, a factory acceptance test with a performance run, a site acceptance test and then installation and operational qualification under the quality system. Each URS requirement should map to a test or document.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>API 610 and ISO 5199, process centrifugal pump standards (general reference)</li>
+    <li>ASME BPE, bioprocessing equipment standard (general reference)</li>
+    <li>ISPE Baseline Guide: Commissioning and Qualification, and ISPE GAMP guidance (general reference)</li>
+    <li>Hydraulic Institute, <i>Centrifugal Pump Design and Application</i> (NPSH and operating range concepts)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power rating calculator</a>
+    <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">Pipe pressure drop and NPSH</a>
+    <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing</a>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and seal troubleshooting</a>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification: DQ, IQ, OQ, PQ</a>
+    <a href="{{ '/articles/urs-for-heat-exchangers/' | relative_url }}">URS for heat exchangers</a>
+    <a href="{{ '/equipment-instruments/' | relative_url }}">Equipment and instruments</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

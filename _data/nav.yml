@@ -104,6 +104,7 @@
         - { title: "P&ID Drawing", url: /design-tools/pid/ }
         - { title: "PFD Drawing", url: /design-tools/pfd/ }
         - { title: "Pipe dimensions and schedules", url: /design-tools/pipe-dimensions/ }
+        - { title: "URS Builder", url: /design-tools/urs-builder/ }
     - title: "Related"
       children:
         - { title: "How to Read a P&ID", url: /articles/how-to-read-a-pid/ }
@@ -205,6 +206,13 @@
         - { title: "Common reactions in plants", url: /articles/common-chemical-reactions-in-plants/ }
         - { title: "Common mistakes in batch reactions", url: /articles/common-mistakes-in-batch-reactions/ }
         - { title: "Improve conversion and yield", url: /articles/improve-reaction-conversion-and-yield/ }
+    - title: "URS and equipment specification"
+      url: /articles/#urs-equipment-specification
+      count: 4
+      children:
+        - { title: "URS for centrifugal pumps", url: /articles/urs-for-centrifugal-pumps/ }
+        - { title: "URS for heat exchangers", url: /articles/urs-for-heat-exchangers/ }
+        - { title: "URS for batch reactors", url: /articles/urs-for-batch-reactors/ }
     - title: "Process design"
       url: /articles/#process-design
       count: 15

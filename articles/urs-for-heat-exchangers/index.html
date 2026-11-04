@@ -1,0 +1,186 @@
+---
+layout: default
+title: "URS for Heat Exchangers: Duty, Fouling, Leak Safety"
+seo_title: "URS for Heat Exchangers: A Practical Guide | PharmaChemE"
+description: "How to write a URS for a heat exchanger or condenser: process data, duty check, fouling, leak safety, materials, a worked example and common mistakes."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: URS for Heat Exchangers
+    url: /articles/urs-for-heat-exchangers/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "URS for Heat Exchangers: Duty, Fouling, Leak Safety",
+        "description": "What to put in a user requirement specification for a heat exchanger or condenser, with a worked example and common mistakes.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What should a heat exchanger URS include?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Both fluids with flows, temperatures, pressures, properties and fouling tendency, allowable pressure drops, operating cases including the hottest cooling water day and cleaning, materials, standards, leak safety, cleaning access and how each requirement will be verified."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does cooling water temperature matter so much in the URS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Condensers and coolers are limited by the temperature difference to the water. A unit sized on average supply temperature may fail to meet the duty in summer, so the URS must state the hottest design supply temperature and the allowable return."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should the URS specify tube count and shell size?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Normally no. The URS states the duty, constraints and acceptance criteria. The vendor does the thermal design. You can specify things that matter to operation, such as removable bundle, which fluid is on the tube side or a double tube sheet."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I decide on leak protection for a heat exchanger?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Consider what happens if the wall fails. If cross-contamination causes a safety or quality problem, specify a double tube sheet or double-wall design with leak detection, or arrange pressures so the clean side stays higher. Record the decision in the URS and risk assessment."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>URS for Heat Exchangers: Duty, Fouling, Leak Safety</h1>
+  <p class="article-meta">Plant engineering &middot; URS and procurement &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A heat exchanger is easy to under-specify: two fluids, one wall. This article shows what a URS should say about duty, fouling, cooling water, cleaning and leak safety, with a worked solvent condenser example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">What a heat exchanger URS has to capture</a><span>Basics</span></li>
+    <li><a href="#process">Process data: both sides, every case</a><span>Basics</span></li>
+    <li><a href="#duty">Duty and sizing logic</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: a solvent condenser</a><span>Working level</span></li>
+    <li><a href="#build">Construction, safety and hygiene requirements</a><span>Working level</span></li>
+    <li><a href="#mistakes">Common URS mistakes for heat exchangers</a><span>Going deeper</span></li>
+    <li><a href="#verify">Verification and acceptance</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">What a heat exchanger URS has to capture <span class="lvl l1">Basics</span></h2>
+  <p>A heat exchanger looks like the simplest equipment on a plant: two fluids, one wall, heat moves across. That is why its specification is so often left thin. "Condenser, 15 m&sup2;, stainless steel" is a sentence that gets quoted, built and delivered, and then fails to condense at the real cooling water temperature, fouls in two months, or contaminates a product because a tube leaked into it.</p>
+  <p>A user requirement specification (URS) for a heat exchanger states the duty, both fluids, the allowed pressure drops, the materials, the cleaning and leak-safety needs and the way the unit will be verified. It leaves the thermal design (shell diameter, tube count, baffle layout) to the vendor, who is better placed to do it, but it gives them every input they need and a way to check the answer. This article follows the same flow as the <a href="{{ '/articles/project-execution-urs-to-handover/' | relative_url }}">URS to handover</a> article and applies it to shell and tube, plate and double pipe units. The thermal basics are in <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">heat exchanger design basics</a>.</p>
+  <h2 id="process">Process data: both sides, every case <span class="lvl l1">Basics</span></h2>
+  <p>The thermal duty is only meaningful with data for both sides. For the hot and the cold stream, give:</p>
+  <ul>
+    <li><strong>Fluid name and composition</strong>, and whether it condenses, boils or stays single phase.</li>
+    <li><strong>Mass or volume flow</strong> at minimum, normal and maximum.</li>
+    <li><strong>Inlet and outlet temperatures</strong>, or the heat duty and one temperature. State the cooling water supply temperature for the hottest day of the year, not the annual average. A condenser designed on a 28 &deg;C supply will struggle at 33 &deg;C.</li>
+    <li><strong>Operating and design pressure</strong> on each side, and whether either side sees vacuum.</li>
+    <li><strong>Allowable pressure drop</strong> on each side. This is a real constraint: a low allowance forces a larger exchanger or a different layout.</li>
+    <li><strong>Physical properties:</strong> density, viscosity, specific heat and thermal conductivity, over the temperature range. For a condensing vapour, also the latent heat and the amount of non-condensable gas.</li>
+    <li><strong>Fouling tendency</strong> of each fluid, with any experience from similar service, and the fouling resistance the vendor must assume.</li>
+  </ul>
+  <p>Put the data in a table, one column per case (normal, maximum, minimum, upset, cleaning). The cleaning case is often forgotten, and a hot caustic or steam clean is frequently the worst temperature the unit ever sees.</p>
+  <h2 id="duty">Duty and sizing logic <span class="lvl l2">Working level</span></h2>
+  <p>The URS should show the heat duty and the basis on which the area will be checked, so you can challenge the vendor's offer. Three relations cover most checks:</p>
+  <div class="formula-box">
+    Q = m &times; c<sub>p</sub> &times; &Delta;T &nbsp;&nbsp;(or m &times; &lambda; for a condensing vapour)<br>
+    LMTD = (&Delta;T<sub>1</sub> &minus; &Delta;T<sub>2</sub>) / ln(&Delta;T<sub>1</sub> / &Delta;T<sub>2</sub>)<br>
+    A = Q / (U &times; LMTD)
+    <small>Q in W, m in kg/s, c<sub>p</sub> in J/kg&middot;K, &lambda; latent heat in J/kg, U overall coefficient in W/m&sup2;&middot;K, A in m&sup2;. For multi-pass units, apply a correction factor to the LMTD.</small>
+  </div>
+  <p>The overall coefficient U depends on the two film coefficients, the wall and the fouling resistances. Typical ranges are published in handbooks such as Perry's and in Sinnott's design volume, and they are only a first estimate. The vendor will calculate U for the real geometry. Your job in the URS is to give honest fouling data, because fouling resistance can cut U sharply and decides how much surplus area is needed.</p>
+  <p>You can run a quick area check yourself with the <a href="{{ '/calculators/lmtd-calculator/' | relative_url }}">LMTD calculator</a>. Ask the vendor to state the surplus area over the clean requirement, and agree a sensible figure so the unit can still perform when partly fouled, without being so large that it behaves badly at low load.</p>
+  <h2 id="example">Worked example: a solvent condenser <span class="lvl l2">Working level</span></h2>
+  <p>A reactor condenser must condense 150 kg/h of toluene vapour at its boiling point and subcool it slightly. All numbers below are illustrative.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Item</th><th>Value used</th></tr></thead><tbody><tr><td>Vapour flow</td><td>150 kg/h (0.0417 kg/s)</td></tr><tr><td>Latent heat of toluene</td><td>About 360 kJ/kg</td></tr><tr><td>Condensing temperature</td><td>110 &deg;C</td></tr><tr><td>Cooling water</td><td>Supply 30 &deg;C, return 38 &deg;C (allowable rise 8 K)</td></tr><tr><td>Assumed U</td><td>About 700 W/m&sup2;&middot;K for a clean condenser with fouled-water allowance</td></tr></tbody></table></div>
+  <p>Duty: Q = 0.0417 &times; 360,000 &asymp; 15 kW. For the 8 K water rise, the water flow is 15,000 / (4,180 &times; 8) &asymp; 0.45 kg/s, which is about 1.6 m&sup3;/h.</p>
+  <div class="formula-box">
+    &Delta;T<sub>1</sub> = 110 &minus; 30 = 80 K, &nbsp;&Delta;T<sub>2</sub> = 110 &minus; 38 = 72 K<br>
+    LMTD = (80 &minus; 72) / ln(80/72) = 8 / 0.1054 &asymp; 75.9 K<br>
+    A = 15,000 / (700 &times; 75.9) &asymp; 0.28 m&sup2;
+  </div>
+  <p>The clean area is tiny, so in practice the vendor will choose a standard small unit. A larger real-world concern is the hottest-day case. With a 35 &deg;C water supply and a 5 K allowed rise, the duty is the same, but the temperature margins and the water flow change. The URS should list both cases. If the vapour carries non-condensables, such as nitrogen purge, the effective coefficient drops sharply, and the vent arrangement becomes part of the requirement.</p>
+  <p>This is also where safety enters. If tubes leak, toluene could enter the cooling water, or water could enter the reactor system. A requirement for the water side to run at a higher pressure than the process side, or for a double tube sheet with a leak detection space, is a URS entry, not a vendor choice.</p>
+  <h2 id="build">Construction, safety and hygiene requirements <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Type and standard:</strong> shell and tube to TEMA class and the pressure vessel code applied on site (for example ASME Section VIII), or plate type to a stated standard. Say which class of service applies (chemical process, general commercial).</li>
+    <li><strong>Materials:</strong> tubes, shell, tubesheets, gaskets and channel covers, with the corrosion basis for both fluids. Chlorides in cooling water and stress corrosion cracking of stainless steel on the water side are classic traps, and the article on <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">cooling water</a> shows how chloride and temperature build up.</li>
+    <li><strong>Which fluid goes where:</strong> fouling or corrosive fluid on the tube side (easier to clean) or shell side, and the flow direction. Do not leave this entirely to the vendor.</li>
+    <li><strong>Leak safety:</strong> where cross-contamination is a hazard, ask for a double tube sheet, a double-wall design, or a pressure arrangement that keeps the clean fluid at higher pressure, with detection. In pharma, a leak between product and utility is a quality event, so the choice should be documented.</li>
+    <li><strong>Cleaning and access:</strong> removable tube bundle, access for mechanical cleaning, drainage and venting points, and CIP compatibility. Fixed tubesheet units cannot be cleaned on the shell side.</li>
+    <li><strong>Hygienic design</strong> where required: surface finish on the product side, no crevices, drainable orientation and gasket materials suitable for the product (ASME BPE as a reference).</li>
+    <li><strong>Thermal expansion and pressure relief:</strong> the effect of blocked-in cold side with hot fluid on the other (thermal relief), tube rupture case, and any relief device requirement.</li>
+    <li><strong>Insulation, nozzles, lifting lugs, tagging and orientation</strong> to match the plot plan.</li>
+  </ul>
+  <h2 id="mistakes">Common URS mistakes for heat exchangers <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Average cooling water temperature.</strong> The unit fails on the hottest week. Always give the summer design supply and the allowable return.</li>
+    <li><strong>No fouling data.</strong> The vendor uses a default and the plant finds the real value after commissioning. Give experience from similar service.</li>
+    <li><strong>Pressure drop left open.</strong> The offered unit meets the duty with a pressure drop the pump cannot supply.</li>
+    <li><strong>Ignoring the turndown case.</strong> A condenser sized for full load can behave badly at 20 % load, sub-cooling the condensate or flooding.</li>
+    <li><strong>Unstated cleaning method.</strong> A fixed-tubesheet unit with a sticky fluid on the shell side cannot be cleaned. Say how it will be cleaned.</li>
+    <li><strong>Leak consequence not considered.</strong> The plant has to live with the leak it did not plan for.</li>
+    <li><strong>Large safety margin everywhere.</strong> Extra area is not free: low velocities foul faster. Ask for surplus area to be stated and justified.</li>
+  </ul>
+<div class="art-note"><b>Check before ordering</b><p>Draw the two fluids on a one-page sketch with temperatures, pressures and the pressure on each side. If the URS cannot be matched to that sketch, something is missing.</p></div>
+  <h2 id="verify">Verification and acceptance <span class="lvl l3">Going deeper</span></h2>
+  <p>Heat exchangers are mostly verified by documents and tests rather than performance runs. Typical acceptance items in the URS:</p>
+  <ul>
+    <li><strong>Design review (DQ):</strong> thermal rating sheet, mechanical calculations, drawings, materials list and a comparison against each URS requirement.</li>
+    <li><strong>Factory tests:</strong> hydrostatic pressure test of both sides, material certificates, weld inspection as the code requires, and a leak test of the tube-to-tubesheet joints. A helium or pressure-decay test may be specified for critical services.</li>
+    <li><strong>Site checks:</strong> installation against the drawings, orientation, nozzle connections, venting and drain points, then performance at start-up: measured duty and outlet temperatures against the rating sheet. The <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">qualification article</a> shows how this fits into the usual sequence.</li>
+    <li><strong>Performance monitoring:</strong> record clean performance at start-up so that fouling can be tracked later by comparing outlet temperatures and pressure drop with the baseline.</li>
+  </ul>
+  <p>Number each requirement and give a verification method for it. Use the <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a> to produce the table, then fill in your own numbers.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What should a heat exchanger URS include?</h3>
+  <p>Both fluids with flows, temperatures, pressures, properties and fouling tendency, allowable pressure drops, operating cases including the hottest cooling water day and cleaning, materials, standards, leak safety, cleaning access and how each requirement will be verified.</p>
+  <h3>Why does cooling water temperature matter so much in the URS?</h3>
+  <p>Condensers and coolers are limited by the temperature difference to the water. A unit sized on average supply temperature may fail to meet the duty in summer, so the URS must state the hottest design supply temperature and the allowable return.</p>
+  <h3>Should the URS specify tube count and shell size?</h3>
+  <p>Normally no. The URS states the duty, constraints and acceptance criteria. The vendor does the thermal design. You can specify things that matter to operation, such as removable bundle, which fluid is on the tube side or a double tube sheet.</p>
+  <h3>How do I decide on leak protection for a heat exchanger?</h3>
+  <p>Consider what happens if the wall fails. If cross-contamination causes a safety or quality problem, specify a double tube sheet or double-wall design with leak detection, or arrange pressures so the clean side stays higher. Record the decision in the URS and risk assessment.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>TEMA Standards of the Tubular Exchanger Manufacturers Association (general reference)</li>
+    <li>ASME Boiler and Pressure Vessel Code, Section VIII, and ASME BPE (general reference)</li>
+    <li>Perry&rsquo;s Chemical Engineers&rsquo; Handbook, heat transfer section (typical U ranges and fouling concepts)</li>
+    <li>Sinnott, R. K., <i>Coulson and Richardson&rsquo;s Chemical Engineering, Vol. 6</i>, heat exchanger design</li>
+    <li>ISPE baseline guides and GAMP guidance (general reference)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a>
+    <a href="{{ '/calculators/lmtd-calculator/' | relative_url }}">LMTD calculator</a>
+    <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing</a>
+    <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">Heat exchanger design basics</a>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations</a>
+    <a href="{{ '/articles/urs-for-centrifugal-pumps/' | relative_url }}">URS for centrifugal pumps</a>
+    <a href="{{ '/articles/urs-for-distillation-columns/' | relative_url }}">URS for distillation columns</a>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification: DQ, IQ, OQ, PQ</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,111 @@
+---
+layout: default
+title: "URS Builder for Pumps, Heat Exchangers, Columns and Reactors"
+seo_title: "URS Builder for Process Equipment | PharmaChemE"
+description: "Free URS builder for pharma and chemical equipment. Pick a pump, exchanger, column or reactor, fill the inputs and export a draft URS to Word, PDF or CSV."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "URS Builder for Process Equipment",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a URS in pharma and chemical projects?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A user requirement specification states what the user needs from a piece of equipment in terms of process duty, quality, safety, documentation and testing. It is written before purchase, so suppliers can quote against it and the delivered equipment can be qualified against it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between a URS and a datasheet?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A URS says what the user requires and why. A datasheet records the numerical design data, and the supplier's own datasheet states what is offered. The URS comes first and the datasheet answers it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is a URS the same as a design qualification?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The URS is the input. Design qualification checks that the supplier's proposed design meets the URS, and later IQ, OQ and PQ trace back to the same requirements."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use this URS for a non-GMP plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Set GMP-regulated product to No and the qualification and hygienic clauses drop out, leaving the process, mechanical, safety and testing requirements."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: Design Tools
+    url: /design-tools/
+  - label: "URS Builder"
+    url: /design-tools/urs-builder/
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/urs-builder.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container st-head">
+  <h1>URS Builder for Process Equipment</h1>
+  <p>Choose a pump, heat exchanger, distillation column or batch reactor. Fill in the duty and tick the requirements. The specification updates as you go.</p>
+</div>
+<div class="container">
+  <div id="urs-app"><noscript>This tool needs JavaScript.</noscript></div>
+</div>
+<div class="container article-body" style="margin-top:28px;">
+  <h2>What a URS is and why it comes first</h2>
+  <p>A user requirement specification (URS) is the document in which the user states what a piece of equipment must do. It covers the process duty, materials and cleanability, safety, documentation, testing and delivery. It is written before any purchase order, so that every supplier quotes against the same text and the buyer can compare offers fairly.</p>
+  <p>Writing it late is expensive. A pump bought on a datasheet alone may arrive with the wrong seal, a heat exchanger without drain points, a column that cannot be cleaned, or a reactor whose relief sizing basis was never agreed. Each of these is a requirement that should have been written down in the URS and checked at design review, FAT and SAT.</p>
+  <h2>URS, datasheet, FDS and DQ</h2>
+  <p>The URS says what the user needs and why. The datasheet holds the numbers. The supplier's functional or design specification says how the supplier will meet the URS. Design qualification then checks that proposed design against the URS, and installation, operational and performance qualification (IQ, OQ, PQ) trace back to the same requirement IDs. That is why each clause here has an ID, a priority and a verification method.</p>
+  <h2>How to use this builder</h2>
+  <p>The builder covers four equipment types: centrifugal pumps, heat exchangers (shell and tube or plate), distillation columns (packed or tray, batch or continuous) and jacketed, agitated batch reactors (glass-lined or stainless steel). Pick the equipment, enter your document details and the process inputs, then review the clause list. Clauses that depend on your inputs, such as hazardous area, CIP or GMP status, appear or disappear automatically. Change the priority or the verification method of any clause, and add your own requirements at the end. Export to PDF through the print dialog, to Word, to CSV for a traceability matrix, or copy it as plain text.</p>
+  <p>Your draft is saved in this browser only. Nothing is sent to a server.</p>
+  <h2>Frequently asked questions</h2>
+  <h3>What is a URS in pharma and chemical projects?</h3>
+  <p>A user requirement specification states what the user needs from a piece of equipment in terms of process duty, quality, safety, documentation and testing. It is written before purchase, so suppliers can quote against it and the delivered equipment can be qualified against it.</p>
+  <h3>What is the difference between a URS and a datasheet?</h3>
+  <p>A URS says what the user requires and why. A datasheet records the numerical design data, and the supplier's own datasheet states what is offered. The URS comes first and the datasheet answers it.</p>
+  <h3>Is a URS the same as a design qualification?</h3>
+  <p>No. The URS is the input. Design qualification checks that the supplier's proposed design meets the URS, and later IQ, OQ and PQ trace back to the same requirements.</p>
+  <h3>Can I use this URS for a non-GMP plant?</h3>
+  <p>Yes. Set GMP-regulated product to No and the qualification and hygienic clauses drop out, leaving the process, mechanical, safety and testing requirements.</p>
+  <p style="color:var(--muted);font-size:.92rem;">The clauses are a general starting point, not a finished specification. Review every requirement against your own quality system, standards, site rules and risk assessment before issue. Standards are named in general terms and you should confirm the current editions that apply to your project.</p>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification: DQ, IQ, OQ, PQ</a>
+    <a href="{{ '/articles/urs-for-centrifugal-pumps/' | relative_url }}">URS for centrifugal pumps</a>
+    <a href="{{ '/articles/urs-for-heat-exchangers/' | relative_url }}">URS for heat exchangers</a>
+    <a href="{{ '/articles/urs-for-distillation-columns/' | relative_url }}">URS for distillation columns</a>
+    <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line sizing calculator</a>
+    <a href="{{ '/design-tools/pid/' | relative_url }}">P&amp;ID builder</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/urs-builder.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

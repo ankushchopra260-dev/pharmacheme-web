@@ -98,4 +98,51 @@ ${show.map(r => `<tr class="${r === best ? 'pick' : ''}"><td>${r.nb} NB <small>$
 </tbody></table>`;
   }
   calc();
+
+  /* ---------- velocity from flow and density (separate panel, does not touch the sizing above) ---------- */
+  (function () {
+    const host = document.createElement('div'); host.className = 'ls ls-vel'; host.id = 'ls-vel';
+    const anchor = bar.nextSibling; box.parentNode.insertBefore(host, anchor);
+    const UNITS = [['m3h', 'm³/h'], ['kgh', 'kg/h'], ['th', 't/h'], ['lmin', 'L/min']];
+    const CHECK = [['', 'No comparison'], ['cw', 'Water (cooling, process, chilled)'], ['liq', 'Solvent or process liquid'], ['cond', 'Pumped condensate']];
+    const v = { rho: 867, q: 12, qu: 'm3h', nb: 50, sch: '40', idm: '', mode: 'nb', chk: 'liq', vt: 1.5 };
+    host.innerHTML = `
+<form class="ls-form" autocomplete="off" onsubmit="return false">
+  <h2 class="ls-h">Velocity from flow and density</h2>
+  <label class="ls-f"><span>Density</span><span class="ls-in"><input data-k="rho" type="number" step="any" min="0" inputmode="decimal"><b>kg/m³</b></span></label>
+  <label class="ls-f"><span>Flow</span><span class="ls-in"><input data-k="q" type="number" step="any" min="0" inputmode="decimal"><select data-k="qu" class="ls-qsel">${UNITS.map(u => '<option value="' + u[0] + '">' + u[1] + '</option>').join('')}</select></span></label>
+  <label class="ls-f"><span>Pipe size</span><select data-k="mode"><option value="nb">Standard size (NB and schedule)</option><option value="id">Type the inside diameter</option></select></label>
+  <label class="ls-f lv-nb"><span>Nominal size</span><select data-k="nb">${L.NBS.map(n => '<option value="' + n + '">' + n + ' NB (' + INCH[n] + ')</option>').join('')}</select></label>
+  <label class="ls-f lv-nb"><span>Schedule</span><select data-k="sch"><option value="10S">Sch 10S</option><option value="40">Sch 40</option><option value="80">Sch 80</option></select></label>
+  <label class="ls-f lv-id"><span>Inside diameter</span><span class="ls-in"><input data-k="idm" type="number" step="any" min="0" inputmode="decimal"><b>mm</b></span></label>
+  <label class="ls-f"><span>Compare with usual limits for</span><select data-k="chk">${CHECK.map(c => '<option value="' + c[0] + '">' + c[1] + '</option>').join('')}</select></label>
+  <label class="ls-f"><span>Target velocity (to find the pipe ID)</span><span class="ls-in"><input data-k="vt" type="number" step="any" min="0" inputmode="decimal"><b>m/s</b></span></label>
+</form>
+<div class="ls-out" id="lv-out" aria-live="polite"></div>`;
+    const q = s => host.querySelector(s);
+    host.querySelectorAll('[data-k]').forEach(el => { el.value = v[el.dataset.k]; });
+    function calc2() {
+      host.classList.toggle('lv-byid', v.mode === 'id');
+      const out = q('#lv-out');
+      const flowM3s = (() => { const x = +v.q, r = +v.rho; if (!(x > 0)) return 0; if (v.qu === 'm3h') return x / 3600; if (v.qu === 'lmin') return x / 1000 / 60;
+        if (!(r > 0)) return 0; return (v.qu === 'kgh' ? x : x * 1000) / 3600 / r; })();
+      if (!(flowM3s > 0)) { out.innerHTML = '<p class="ls-empty">' + (v.qu === 'kgh' || v.qu === 'th' ? 'Enter the density and the flow.' : 'Enter the flow.') + '</p>'; return; }
+      const D = v.mode === 'id' ? (+v.idm > 0 ? +v.idm / 1000 : 0) : L.pipeID(+v.nb, v.sch);
+      let html = '';
+      if (D > 0) {
+        const vel = flowM3s / (Math.PI * D * D / 4), c = v.chk ? L.UTIL[v.chk].crit : null;
+        let verdict = '', cls = '';
+        if (c) { if (vel > c.vmax) { verdict = 'Above the usual ' + c.vmax + ' m/s limit. Use a bigger pipe.'; cls = ' bad'; } else if (vel < c.vmin) verdict = 'Below the usual ' + c.vmin + ' m/s. Fine for small flows, but solids or air can settle out.'; else verdict = 'Within the usual ' + c.vmin + '–' + c.vmax + ' m/s range.'; }
+        html += `<div class="ls-answer${cls}"><div class="ls-big"><span>Fluid velocity</span><strong>${vel.toFixed(2)} m/s</strong><em>${v.mode === 'id' ? 'ID ' + (+v.idm).toFixed(1) + ' mm' : v.nb + ' NB (' + INCH[v.nb] + ') · Sch ' + v.sch + ' · ID ' + (D * 1000).toFixed(1) + ' mm'}</em></div>
+<dl class="ls-kv"><div><dt>Volume flow</dt><dd>${(flowM3s * 3600).toFixed(2)} m³/h</dd></div>${+v.rho > 0 ? `<div><dt>Mass flow</dt><dd>${(flowM3s * v.rho * 3600).toFixed(0)} kg/h</dd></div>` : ''}</dl></div>${verdict ? '<p class="ls-why">' + verdict + '</p>' : ''}`;
+      } else html += '<p class="ls-empty">Enter the inside diameter.</p>';
+      if (+v.vt > 0) {
+        const Dt = Math.sqrt(4 * flowM3s / (Math.PI * +v.vt)), pick = L.NBS.find(n => { const d = L.pipeID(n, v.sch); return d && d >= Dt; });
+        html += `<p class="ls-why">For ${(+v.vt).toFixed(2)} m/s the inside diameter must be ${(Dt * 1000).toFixed(1)} mm. ${pick ? 'The smallest Sch ' + v.sch + ' pipe at least that big is ' + pick + ' NB (' + INCH[pick] + '), ID ' + (L.pipeID(pick, v.sch) * 1000).toFixed(1) + ' mm, which gives ' + (flowM3s / (Math.PI * L.pipeID(pick, v.sch) ** 2 / 4)).toFixed(2) + ' m/s.' : 'That is bigger than the standard sizes listed here.'}</p>`;
+      }
+      out.innerHTML = html;
+    }
+    host.addEventListener('input', e => { const k = e.target.dataset && e.target.dataset.k; if (!k) return; const x = e.target.value; v[k] = ['qu', 'mode', 'nb', 'sch', 'chk'].includes(k) ? x : (x === '' ? '' : +x); calc2(); });
+    calc2();
+  })();
 })();

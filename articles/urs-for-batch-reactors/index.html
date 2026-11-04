@@ -1,0 +1,198 @@
+---
+layout: default
+title: "URS for Batch Reactors: Duty, Mixing, Relief, Cleaning"
+seo_title: "URS for Batch Reactors: A Practical Guide | PharmaChemE"
+description: "How to write a URS for a batch reactor: process cases, heat duty, mixing, pressure and vacuum, relief, materials, cleaning, a worked 6.3 m3 example and mistakes."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: URS for Batch Reactors
+    url: /articles/urs-for-batch-reactors/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "URS for Batch Reactors: Duty, Mixing, Relief, Cleaning",
+        "description": "What to put in a user requirement specification for a jacketed batch reactor, with a worked example and common mistakes.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-04",
+        "dateModified": "2026-11-04"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What should a batch reactor URS include?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The products and reactions it must handle, batch sizes and fill range, temperature and pressure range, heat duty for heating, cooling and reaction exotherm, mixing needs, charging and discharge methods, materials, relief and safety requirements, cleaning and changeover, utilities, and how each requirement will be verified."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I size the jacket duty in a reactor URS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the worst case heat release rate, not the average, and the weakest coolant temperature on the hottest day. Check that U times area times the available temperature difference exceeds the peak heat release with margin, and state the heat-up and cool-down times you need."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should the URS fix the vessel volume and agitator type?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "State the batch volumes, fill range and the mixing duties such as solids suspension, gas dispersion or fast blending. Specify the agitator type only where it is a process or cleaning requirement. Leave the detailed design to the vendor against stated acceptance criteria."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who is responsible for the relief system?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The user defines the credible scenarios and the process data. The relief device sizing is checked by the process safety team. The URS should require that the vessel design pressure, relief set point and discharge route are consistent and documented."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-04
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>URS for Batch Reactors: Duty, Mixing, Relief, Cleaning</h1>
+  <p class="article-meta">Plant engineering &middot; URS and procurement &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A reactor is bought once and used for years, for products that are not all known on the day it is ordered. This article shows what a URS should say about process cases, heat duty, mixing, pressure, relief and cleaning, with a worked 6.3 m&sup3; example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">What a reactor URS has to capture</a><span>Basics</span></li>
+    <li><a href="#process">Process cases and operating window</a><span>Basics</span></li>
+    <li><a href="#duty">Heat duty: heating, cooling and exotherm</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: a 6.3 m&sup3; solvent reactor</a><span>Working level</span></li>
+    <li><a href="#build">Construction, mixing, safety and cleaning</a><span>Working level</span></li>
+    <li><a href="#mistakes">Common URS mistakes for reactors</a><span>Going deeper</span></li>
+    <li><a href="#verify">Verification and acceptance</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">What a reactor URS has to capture <span class="lvl l1">Basics</span></h2>
+  <p>A batch reactor is a vessel, a jacket, an agitator and a set of nozzles, but it is used as a heat exchanger, a mixer, a pressure vessel and a charging point all at once. That is why a thin specification such as "6.3 m&sup3; glass-lined reactor with agitator" causes trouble later: the jacket cannot remove the exotherm of the second product, the agitator does not suspend the solids, or the vacuum system cannot pull the vessel down in the time the cycle allows.</p>
+  <p>A user requirement specification (URS) for a reactor states what the vessel must do, for which products, under which limits, and how you will prove it. It does not draw the vessel. The vendor does the detailed design, but needs the process cases, the duties and the constraints to do it properly, and you need clear criteria to judge the offer.</p>
+  <h2 id="process">Process cases and operating window <span class="lvl l1">Basics</span></h2>
+  <p>Start with what will actually run in the vessel, including products not yet in the plan if you expect them. For each product or product family, give:</p>
+  <ul>
+    <li><strong>Reaction type and chemistry:</strong> for example condensation, nitration, hydrogenation, esterification, so the vendor sees the hazards and the material needs.</li>
+    <li><strong>Batch size and fill range:</strong> minimum and maximum working volume. Agitators and probes behave differently at 30 % fill than at 80 %.</li>
+    <li><strong>Temperature range:</strong> minimum and maximum operating temperature, and the cleaning temperature if it is higher.</li>
+    <li><strong>Pressure range:</strong> full vacuum, atmospheric or positive pressure, and for vacuum the required time to reach a stated pressure.</li>
+    <li><strong>Charging and discharge:</strong> liquids by pump or vacuum, solids by manway or charging hopper, gases from cylinders, and how the batch leaves (bottom valve, pump, filter or centrifuge). Say how long each step may take.</li>
+    <li><strong>Physical behaviour:</strong> viscosity range, solids content, foaming, gas evolution, crystallisation on the walls, boiling or reflux duty.</li>
+    <li><strong>Hazards:</strong> flammable solvents, corrosive or toxic reagents, dust, static, exotherms, gas release.</li>
+  </ul>
+  <p>Put the cases in a table with one column per product or case. A reactor specified for the average product is the wrong reactor for the hardest one.</p>
+  <h2 id="duty">Heat duty: heating, cooling and exotherm <span class="lvl l2">Working level</span></h2>
+  <p>The jacket is the reactor&rsquo;s heat exchanger, and the URS needs the duties it must meet. Three numbers cover most of them: the sensible heat for heating and cooling, the heat released by reaction, and the heat transfer capability of the jacket.</p>
+  <div class="formula-box">
+    Q<sub>sensible</sub> = m &times; c<sub>p</sub> &times; &Delta;T &nbsp;&nbsp;(kJ), divide by time in s for kW<br>
+    Q<sub>reaction</sub>(kW) = total heat release (kJ) / dosing time (s)<br>
+    Q<sub>jacket</sub> = U &times; A &times; (T<sub>batch</sub> &minus; T<sub>jacket mean</sub>)
+    <small>m in kg, c<sub>p</sub> in kJ/kg&middot;K, U in W/m&sup2;&middot;K, A in m&sup2;. The jacket must remove at least the peak reaction heat rate, not the average.</small>
+  </div>
+  <p>The overall coefficient U depends on the vessel lining, the wall thickness, the jacket type and the fluid inside, and for glass-lined steel is usually much lower than for stainless. Use the <a href="{{ '/calculators/jacketed-vessel-heat-transfer/' | relative_url }}">jacketed vessel heat transfer calculator</a> for a quick estimate and the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load calculator</a> for the sensible heat. For exothermic steps, the dosing rate sets the heat release rate, so read <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">dosing and accumulation in semi-batch reactions</a> before fixing the cooling requirement.</p>
+  <p>State these in the URS: the heat-up time and cool-down time the cycle needs, the coolant supply temperature on the hottest day, the highest heat release rate you expect, and whether the jacket also needs to supply low-temperature duty such as chilled water or brine. Ask the vendor to state the jacket area, U value assumed and the resulting capability at stated temperatures, so you can check it.</p>
+  <h2 id="example">Worked example: a 6.3 m&sup3; solvent reactor <span class="lvl l2">Working level</span></h2>
+  <p>A multipurpose reactor is to run a toluene-based exothermic step. All numbers are illustrative.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Item</th><th>Value used</th></tr></thead><tbody>
+    <tr><td>Nominal volume</td><td>6.3 m&sup3;</td></tr>
+    <tr><td>Working volume</td><td>4.5 m&sup3; (about 70 % fill)</td></tr>
+    <tr><td>Liquid density, specific heat</td><td>870 kg/m&sup3;, 1.7 kJ/kg&middot;K</td></tr>
+    <tr><td>Liquid mass</td><td>4.5 &times; 870 = 3,915 kg</td></tr>
+    <tr><td>Heat-up</td><td>25 &deg;C to 90 &deg;C in 2 h</td></tr>
+    <tr><td>Reaction heat release</td><td>1,150 MJ over a 4 h dosing period</td></tr>
+    <tr><td>Jacket area, assumed U</td><td>12 m&sup2;, 300 W/m&sup2;&middot;K</td></tr>
+    <tr><td>Batch temperature during dosing</td><td>80 &deg;C</td></tr>
+  </tbody></table></div>
+  <p>Heat-up duty: 3,915 &times; 1.7 &times; 65 = 432,600 kJ. Over 2 h (7,200 s) this is about 60 kW, which the jacket service must supply on top of any heat losses.</p>
+  <p>Reaction duty: 1,150,000 kJ over 14,400 s is about 80 kW. This is the average. If the reaction is faster at the start, the peak is higher, and the URS should say so.</p>
+  <div class="formula-box">
+    Required &Delta;T = 80,000 / (300 &times; 12) = 22.2 K<br>
+    Jacket mean temperature &le; 80 &minus; 22.2 &asymp; 57.8 &deg;C<br>
+    Capability at &Delta;T = 25 K: 300 &times; 12 &times; 25 = 90 kW (margin about 12 %)
+  </div>
+  <p>So cooling water at 30 to 35 &deg;C gives plenty of driving force for this step at 80 &deg;C. The check that matters is the hottest-day case and any product run at lower batch temperature: at 50 &deg;C the mean driving force with 33 the available &Delta;T with 33 &deg;C water is only about 17 K minus the return rise, and the capabilitydeg;C supply water (about 35 the available &Delta;T with 33 &deg;C water is only about 17 K minus the return rise, and the capabilitydeg;C mean) is only about 15 K, and the capability falls to roughly 300 &times; 12 &times; 15 = 54 kW, below the 80 kW needed. The URS should therefore list the low-temperature product as a separate case and require chilled water or a slower dosing rate. The same table feeds the mixing requirement: at an agitator power of 0.5 kW/m&sup3; on 4.5 m&sup3;, the shaft power is about 2.3 kW, a figure to check against the vendor&rsquo;s selection with the <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">mixing scale-up calculator</a>.</p>
+  <h2 id="build">Construction, mixing, safety and cleaning <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Materials and lining:</strong> stainless steel, glass-lined steel, Hastelloy or other alloy, chosen against every reagent, acid and cleaning agent, including temperature. Glass-lined vessels have thermal shock limits on jacket-to-batch temperature difference, which the URS should respect.</li>
+    <li><strong>Design pressure and temperature:</strong> from full vacuum to the maximum credible pressure, and the code applied (for example ASME Section VIII or the local pressure vessel code). The <a href="{{ '/calculators/vessel-thickness-calculator/' | relative_url }}">vessel thickness calculator</a> gives a first check on wall thickness.</li>
+    <li><strong>Agitator:</strong> the mixing duties (blending, solids suspension, gas dispersion, heat transfer), the viscosity range and fill range, drive and speed control, seal type (mechanical seal, dry-running double seal, flush system) and whether bottom entry is wanted. Specify the duty, not just the impeller.</li>
+    <li><strong>Baffles, probes and nozzles:</strong> temperature probes at low fill, a bottom outlet valve that drains cleanly, a sight glass and light, a manway, spare nozzles and a dip pipe for sub-surface addition.</li>
+    <li><strong>Condenser and vacuum:</strong> reflux or distillation duty, condenser size, vacuum pump capacity and the required pump-down time to a stated pressure.</li>
+    <li><strong>Relief and safety:</strong> credible scenarios (cooling failure, agitator failure, runaway, fire, blocked outlet, overcharge), relief device type and set pressure, discharge to a catch tank or scrubber. See the <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">relief valve sizing calculator</a> for a screening calculation. The URS should require a documented relief basis.</li>
+    <li><strong>Instrumentation and control:</strong> temperature, pressure, level or weight, agitator speed or power, interlocks (for example dosing stops on high temperature or agitator trip), alarms and data logging.</li>
+    <li><strong>Static and fire safety:</strong> earthing and bonding of all conductive parts, inerting with nitrogen, and suitability for flammable atmospheres (ATEX or equivalent area classification).</li>
+    <li><strong>Cleaning and changeover:</strong> spray ball coverage, drainability, no dead legs, CIP compatibility, and cleaning validation needs for multi-product use. A surface finish and hygienic design standard applies where product contact matters.</li>
+    <li><strong>Utilities and documentation:</strong> steam, cooling water, chilled water, nitrogen, vacuum and electrical loads, plus drawings, certificates and manuals.</li>
+  </ul>
+  <h2 id="mistakes">Common URS mistakes for reactors <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Specifying only the volume.</strong> The vessel is chosen, but the duties it must perform are not stated.</li>
+    <li><strong>Average heat release.</strong> Jacket capability matches the average and fails at the peak.</li>
+    <li><strong>Summer water temperature ignored.</strong> Cooling works in January and not in May.</li>
+    <li><strong>Only one product considered.</strong> The next product has different viscosity, solids or corrosion needs.</li>
+    <li><strong>Low-fill behaviour forgotten.</strong> Probes sit in air and the agitator vortexes at the minimum batch.</li>
+    <li><strong>Relief treated as a vendor item.</strong> Scenarios belong to the user, and design pressure, set point and discharge must agree.</li>
+    <li><strong>Cleaning left to later.</strong> Dead legs and unreachable surfaces are very expensive to fix after delivery.</li>
+    <li><strong>No acceptance test for performance.</strong> Heat-up time, pump-down time and mixing are written as wishes, not criteria.</li>
+  </ul>
+  <div class="art-note"><b>Check before ordering</b><p>For every product in the table, ask: can the jacket remove its peak heat on the hottest day, can the agitator do its duty at minimum fill, and are the materials safe with every liquid it sees? If any answer is unknown, the URS is not finished.</p></div>
+  <h2 id="verify">Verification and acceptance <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Design review (DQ):</strong> drawings, calculations, jacket rating, agitator selection, relief basis and a compliance table against each URS clause.</li>
+    <li><strong>Factory acceptance (FAT):</strong> pressure test, vacuum leak test, material certificates, lining spark test for glass-lined vessels, agitator run, seal check and instrument calibration.</li>
+    <li><strong>Site checks (IQ/OQ):</strong> installation against drawings, utilities connected, then water-based tests: heat-up time with water, cool-down time, vacuum pump-down time, agitator speed range, interlocks and alarms. The <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">qualification article</a> shows the usual sequence.</li>
+    <li><strong>Process performance (PQ):</strong> a first product batch with recorded temperatures and heat balance against the design figures.</li>
+  </ul>
+  <p>Number each requirement, give it a priority and a verification method. Use the <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a> to produce the table, then add your own numbers. The related guides on <a href="{{ '/articles/urs-for-heat-exchangers/' | relative_url }}">heat exchangers</a> cover the condenser and cooler attached to the reactor.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What should a batch reactor URS include?</h3>
+  <p>The products and reactions it must handle, batch sizes and fill range, temperature and pressure range, heat duty for heating, cooling and reaction exotherm, mixing needs, charging and discharge methods, materials, relief and safety requirements, cleaning and changeover, utilities, and how each requirement will be verified.</p>
+  <h3>How do I size the jacket duty in a reactor URS?</h3>
+  <p>Use the worst case heat release rate, not the average, and the weakest coolant temperature on the hottest day. Check that U times area times the available temperature difference exceeds the peak heat release with margin, and state the heat-up and cool-down times you need.</p>
+  <h3>Should the URS fix the vessel volume and agitator type?</h3>
+  <p>State the batch volumes, fill range and the mixing duties such as solids suspension, gas dispersion or fast blending. Specify the agitator type only where it is a process or cleaning requirement. Leave the detailed design to the vendor against stated acceptance criteria.</p>
+  <h3>Who is responsible for the relief system?</h3>
+  <p>The user defines the credible scenarios and the process data. The relief device sizing is checked by the process safety team. The URS should require that the vessel design pressure, relief set point and discharge route are consistent and documented.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>ASME Boiler and Pressure Vessel Code, Section VIII, and ASME BPE (general reference)</li>
+    <li>Perry&rsquo;s Chemical Engineers&rsquo; Handbook, heat transfer and agitation sections</li>
+    <li>Paul, Atiemo-Obeng and Kresta (eds.), <i>Handbook of Industrial Mixing</i></li>
+    <li>Stoessel, F., <i>Thermal Safety of Chemical Processes</i> (reaction heat and cooling failure scenarios)</li>
+    <li>ISPE baseline guides and GAMP guidance (general reference)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a>
+    <a href="{{ '/calculators/jacketed-vessel-heat-transfer/' | relative_url }}">Jacketed vessel heat transfer</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load calculator</a>
+    <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing scale-up calculator</a>
+    <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">Relief valve sizing</a>
+    <a href="{{ '/calculators/vessel-thickness-calculator/' | relative_url }}">Vessel thickness calculator</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/urs-for-heat-exchangers/' | relative_url }}">URS for heat exchangers</a>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification: DQ, IQ, OQ, PQ</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
