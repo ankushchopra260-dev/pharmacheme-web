@@ -362,6 +362,7 @@
       children:
         - { title: "Pro calculators", url: "/exclusive/#calculators" }
         - { title: "Excel templates", url: "/exclusive/#templates" }
+        - { title: "Plant planning apps", url: "/exclusive/#apps" }
     - title: "Companies"
       children:
         - { title: "Custom tools for your plant", url: /custom-solutions/ }

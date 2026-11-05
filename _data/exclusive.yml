@@ -23,6 +23,9 @@ groups:
   - key: excel
     title: Excel versions of the free calculators
     blurb: The same method as the free calculator, as an Excel workbook with live formulas you can keep, edit and attach to your calculations.
+  - key: apps
+    title: Plant planning apps
+    blurb: Single-file apps that run in your browser with no install and no internet. Your data stays in the file on your computer.
 
 items:
   - id: course-pe
@@ -240,6 +243,73 @@ items:
 
 # Learning paths: a guided order through paid items and free tools. Progress is saved for signed-in buyers;
 # finishing every paid step unlocks a certificate. Steps: item = paid item id, or free = page url (not tracked).
+
+  - id: app-costing-workbench
+    slug: manufacturing-costing-workbench
+    group: apps
+    updated: '2026-11-05'
+    preview: /assets/img/tool-costing-preview.png
+    meta: 'Offline costing app for batch plants: stage-wise norms, utilities, CAPEX, fixed cost and a final cost sheet in one HTML file.'
+    title: 'Costing workbench (offline app)'
+    short: 'Build the cost sheet of a multi-stage batch process in one HTML file that works offline. Raw material norms roll up stage by stage, then utilities, waste, vacuum, equipment cost and fixed cost give the cost per kg for each customer.'
+    price: 499
+    what:
+      - 'Eight modules: Basic details, RM norms, Waste norms, Vacuum, Equipment and CAPEX, Power and fuel, Fixed cost, Final cost sheet'
+      - 'Stages that feed one another: link a stage output as the next stage input, with branching and merging flows, and overall norms roll up automatically'
+      - 'Effluent, vacuum time and utility use entered once per stage, with a row created for each stage automatically'
+      - 'Fixed cost with circular references resolved by iteration'
+      - 'Margin tables per customer, so one process gives a cost sheet and price for each buyer'
+      - 'Save your costings in the browser, export the cost sheet as CSV, or save the whole app with your data baked in as a new HTML file'
+      - 'Works offline in any modern browser. No account, no install, nothing is uploaded'
+    promote:
+      - /articles/consumption-norms-and-cost-per-kg/
+      - /articles/opex-reduction-api-plants/
+      - /exclusive/batch-manufacturing-cost-sheet-excel/
+
+  - id: app-capacity-planner
+    slug: equipment-capacity-planner
+    group: apps
+    updated: '2026-11-05'
+    preview: /assets/img/tool-capacity-preview.png
+    meta: 'Offline equipment and capacity planner for batch plants: equipment master, capacity chart, product clash matrix and turnover dashboard.'
+    title: 'Equipment and capacity planner (offline app)'
+    short: 'See which equipment each product uses, how much each stage can make in a month, where two products clash for the same vessel, and what turnover a production plan gives. One HTML file that works offline.'
+    price: 399
+    what:
+      - 'Equipment tab: every vessel and unit by block, with up to seven product and stage slots per equipment'
+      - 'Capacity chart: batch size, yield, batch cycle time and days per month for each stage, with output and monthly stage capacity calculated live'
+      - 'Parallel streams that add up, shared-equipment time splits, and a Sale or Captive tag for each stage'
+      - 'Product matrix: equipment carrying the same set of products is grouped, and any row with more than one product is flagged as a clash'
+      - 'Dashboard: tick products to see equipment occupied and available, turnover per month, and the design capacity of each product'
+      - 'Monthly production plan: download an Excel template, fill it in and import it back'
+      - 'Export and import your data as JSON, and save the whole app with your data as a new HTML file'
+      - 'Comes with sample data so you can see it working, then replace it with your own plant. Works offline, nothing is uploaded'
+    promote:
+      - /articles/batch-cycle-time-debottlenecking/
+      - /articles/plant-energy-map-and-electricity-bill-analysis/
+
+  - id: app-rm-stock-pr
+    slug: raw-material-stock-pr-decision-tool
+    group: apps
+    updated: '2026-11-05'
+    preview: /assets/img/tool-rmstock-preview.png
+    meta: 'Offline raw material stock and PR decision tool: monthly requirement, net position, safety stock and a PR log in one HTML file.'
+    title: 'Raw material stock and PR tool (offline app)'
+    short: 'Know what to order this month. Enter the production plan and norms, and the tool works out the requirement, safety stock and net position of every raw material, and flags shortage, thin cushion or sufficient stock before you raise a purchase requisition.'
+    price: 299
+    what:
+      - 'Requirement of every raw material calculated live from norms times the monthly production plan'
+      - 'Net position = (stock + in transit + open PO) minus (required + safety stock), with Shortage, Thin cushion and Sufficient status'
+      - 'Safety stock from days of cover, with default safety days and an override for any material'
+      - 'Click a material to see which products use it and how much each one needs'
+      - 'Products and BOM tab: add products, edit the bill of materials and the production plan'
+      - 'PR log: record each PR when you raise it, and see which ones were raised while stock was sufficient, to catch repeat over-ordering'
+      - 'Excel input sheet to fill in and import, and a CSV export of the PR list'
+      - 'Comes with sample data so you can see it working, then replace it with your own materials. Works offline, nothing is uploaded'
+    promote:
+      - /articles/consumption-norms-and-cost-per-kg/
+      - /articles/material-and-energy-balance/
+
 paths:
   - id: fresher
     title: Industry-ready chemical engineer
