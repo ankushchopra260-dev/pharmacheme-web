@@ -1,0 +1,263 @@
+---
+layout: default
+title: "Fault Detection Methods Compared: Which One to Use"
+seo_title: "Fault Detection Methods Compared for Plants | PharmaChemE"
+description: "Compare limit alarms, SPC, model-based, PCA and machine learning fault detection for chemical plants, with a worked false alarm and detection delay example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Fault Detection Methods Compared
+    url: /articles/fault-detection-methods-compared/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Fault Detection Methods Compared: Which One to Use",
+        "description": "Rule based, statistical, model-based, PCA and machine learning fault detection compared for chemical and pharma plants, with a worked example.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-05"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the simplest fault detection method that works?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A well chosen limit on a trusted signal, often combined with a deviation check against a setpoint or a twin instrument. It is easy to explain and maintain, but it only catches faults that push one signal past a threshold."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need machine learning to detect faults in a batch plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually not at the start. Many plants get most of the value from clean data, sensible limits, control charts and a few first-principles checks. Machine learning is worth considering when faults involve many signals and you have enough labelled history."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the trade-off between false alarms and missed detections?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tightening a threshold catches smaller faults sooner but raises the false alarm rate. Widening it cuts false alarms but delays or misses real faults. You cannot improve both with the same detector, only choose a balance or use a better detector."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much data do I need before a statistical detector is reliable?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You need enough normal operation to cover the usual range of conditions, including different products, campaigns and seasons. A few weeks may do for a stable continuous unit, but a multi-product plant needs far more history to avoid false alarms."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do fault detection projects fail in plants?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Common causes are poor sensor data, no agreed list of normal operating modes, thresholds set once and never reviewed, and alarms nobody owns. The method is rarely the main problem."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-05
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Fault Detection Methods Compared: Which One to Use</h1>
+  <p class="article-meta">Process monitoring &middot; Fault detection &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">There is no single best way to detect faults in a plant. Each method catches some problems early and misses others. This article compares the five common families, explains the false alarm trade-off with a worked example, and gives a simple way to choose.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what-detection-means">What fault detection means</a><span>Basics</span></li>
+    <li><a href="#five-families">The five families of methods</a><span>Basics</span></li>
+    <li><a href="#data-quality">Data quality comes first</a><span>Working level</span></li>
+    <li><a href="#trade-off">False alarms versus missed faults</a><span>Working level</span></li>
+    <li><a href="#worked-example">Worked example: limit alarm versus CUSUM</a><span>Working level</span></li>
+    <li><a href="#how-to-choose">How to choose</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol></nav>
+
+  <h2 id="what-detection-means">What fault detection means <span class="lvl l1">Basics</span></h2>
+  <p>Fault detection answers one question: is the process behaving differently from normal? It does not say why. Finding the cause is a separate step, usually called diagnosis. Keep the two apart in your mind, because a method that is good at the first can be weak at the second.</p>
+  <p>A fault can be a failed sensor, a fouled exchanger, a sticking valve, a leaking seal, a wrong raw material, or a slow drift in catalyst activity. Some faults jump. Others creep. A good detector is judged on three things:</p>
+  <ul>
+    <li><b>Detection delay:</b> how long after the fault starts before you get a signal.</li>
+    <li><b>False alarm rate:</b> how often it signals when nothing is wrong.</li>
+    <li><b>Missed detections:</b> how many real faults never trigger it.</li>
+  </ul>
+  <p>Every method trades these three against each other. Knowing the trade is more useful than knowing the maths of any one method.</p>
+
+  <h2 id="five-families">The five families of methods <span class="lvl l1">Basics</span></h2>
+  <h3>1. Limit and rule based</h3>
+  <p>This is the familiar high and low alarm, a deviation from setpoint, a rate of change check, or a rule such as "if the jacket is open and the temperature is not rising, flag it". It is the oldest approach and still the most used.</p>
+  <ul>
+    <li><b>Strengths:</b> simple, transparent, cheap, and every operator understands it.</li>
+    <li><b>Limits:</b> looks at one signal or a few at a time. It cannot see a fault that keeps every signal inside its own limits but breaks the relationship between them. Thresholds are often set once and left.</li>
+  </ul>
+
+  <h3>2. Statistical process control (SPC)</h3>
+  <p>Control charts set limits from the actual spread of normal data rather than from a design guess. A Shewhart chart with 3-sigma limits suits large, sudden shifts. Cumulative sum (CUSUM) and exponentially weighted moving average (EWMA) charts add up small deviations over time, so they catch small, persistent shifts sooner.</p>
+  <ul>
+    <li><b>Strengths:</b> limits come from data, the false alarm rate is known in advance, and the charts are well documented.</li>
+    <li><b>Limits:</b> assumes the normal data is stable and roughly bell-shaped, and mostly works one signal at a time. Autocorrelated data from fast sensors breaks the usual false alarm calculations.</li>
+  </ul>
+
+  <h3>3. Model-based (first principles)</h3>
+  <p>Here you write a mass balance, energy balance or equipment equation and compare its prediction with the measurement. The gap, called the residual, should be near zero in normal operation. A growing residual points to a fault, and its pattern often hints at the cause.</p>
+  <ul>
+    <li><b>Strengths:</b> works with little fault history, and the residual has physical meaning. A heat balance residual on a condenser tells you something an alarm cannot.</li>
+    <li><b>Limits:</b> needs a model that is good enough, plus the effort to build and maintain it. Model error and instrument error both show up in the residual, and they are hard to separate.</li>
+  </ul>
+
+  <h3>4. Data-driven multivariate statistics (PCA and relatives)</h3>
+  <p>Methods such as principal component analysis learn the normal relationships between many signals from history. They then flag samples that break those relationships, even if no single signal looks odd. This is the multivariate version of a control chart.</p>
+  <ul>
+    <li><b>Strengths:</b> sees faults that no single limit would catch, needs only normal data to train, and handles dozens of correlated signals.</li>
+    <li><b>Limits:</b> assumes roughly linear relationships and a single operating mode. It tells you that something is off, and the contribution plots point towards suspect signals but do not prove a cause.</li>
+  </ul>
+
+  <h3>5. Machine learning</h3>
+  <p>This covers neural networks, support vector machines, nearest neighbour methods, Gaussian mixtures, Bayesian networks and similar tools. Published reviews of data-driven fault detection in chemical processes group them with the multivariate statistical methods and note that choosing among them is not straightforward and depends on the type of fault.</p>
+  <ul>
+    <li><b>Strengths:</b> can capture non-linear behaviour and several operating modes, and can classify known fault types if labelled examples exist.</li>
+    <li><b>Limits:</b> needs more data, often labelled data that most plants do not have. Results can be hard to explain to operators and auditors, and models can degrade quietly when the process changes.</li>
+  </ul>
+
+  <h3>Side by side</h3>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>Family</th><th>Needs</th><th>Catches well</th><th>Misses</th></tr></thead>
+    <tbody>
+      <tr><td>Limit and rule</td><td>Engineering knowledge</td><td>Large single-signal excursions</td><td>Slow drifts, broken relationships</td></tr>
+      <tr><td>SPC charts</td><td>Stable normal history</td><td>Shifts in one signal, small ones with CUSUM or EWMA</td><td>Multi-signal faults</td></tr>
+      <tr><td>Model-based</td><td>A trusted model</td><td>Physical faults such as fouling or leaks</td><td>Anything the model ignores</td></tr>
+      <tr><td>PCA type</td><td>Clean normal history</td><td>Correlation breaks across many signals</td><td>Faults in a mode it never saw</td></tr>
+      <tr><td>Machine learning</td><td>Lots of data, ideally labelled</td><td>Complex, non-linear patterns</td><td>Faults unlike the training data</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 id="data-quality">Data quality comes first <span class="lvl l2">Working level</span></h2>
+  <p>A weak detector on good data beats a clever one on bad data. Before choosing a method, check these:</p>
+  <ul>
+    <li><b>Sensor health:</b> stuck values, frozen readings, spikes and calibration drift will each look like a fault, or hide one.</li>
+    <li><b>Sampling:</b> the interval must be short compared with how fast the fault develops. Compression in the historian can erase small changes.</li>
+    <li><b>Time alignment:</b> signals from lab, manual logs and the control system need a common time base.</li>
+    <li><b>Operating modes:</b> startup, shutdown, cleaning, product changeover and batch phases behave differently. Mixing them in one "normal" set inflates the limits and blinds the detector.</li>
+    <li><b>Known bad periods:</b> remove or label periods when the plant was already faulty. Otherwise the detector learns the fault as normal.</li>
+  </ul>
+  <div class="art-note"><b>Rule of thumb.</b> Spend the first half of any monitoring project on data checks and mode definitions. The method choice is the easy half.</div>
+
+  <h2 id="trade-off">False alarms versus missed faults <span class="lvl l2">Working level</span></h2>
+  <p>Every detector has a threshold. Lower it and you catch smaller faults sooner, but you raise the false alarm rate. Raise it and the reverse happens. This is a trade-off, not a tuning mistake.</p>
+  <p>For control charts the usual measure is the average run length (ARL): the average number of samples before a signal. In normal operation you want it long. When a shift has occurred you want it short. For a Shewhart chart with 3-sigma limits, the in-control ARL is about 371 samples, and a 1-sigma shift takes about 44 samples to flag on average, according to the NIST engineering statistics handbook. The same source shows that CUSUM is faster for small shifts, while Shewhart is faster for large ones.</p>
+  <p>False alarms also have a human cost. An alarm that fires often and means nothing gets ignored, so the real one is ignored too. Choose a false alarm rate that operators can live with, then judge methods by the delay they achieve at that rate.</p>
+
+  <h2 id="worked-example">Worked example: limit alarm versus CUSUM <span class="lvl l2">Working level</span></h2>
+  <p>Take a reactor temperature that normally sits at 80.0 °C with a standard deviation of 0.5 °C from sample to sample, one reading per minute. The data below is synthetic and for illustration only. Two detectors watch for an upward shift:</p>
+  <ul>
+    <li><b>Detector A, a fixed high limit.</b> Alarm when a single reading exceeds 81.4 °C. That is 2.74 standard deviations above normal.</li>
+    <li><b>Detector B, a one-sided CUSUM.</b> It accumulates the amount by which each standardised reading exceeds 0.5, resets at zero, and alarms when the sum passes 4.</li>
+  </ul>
+  <p>The limit for A was chosen so both detectors have the same false alarm behaviour, about one false alarm per 330 readings, which is roughly one every 5.5 hours. That makes the comparison fair. I then simulated each detector many thousands of times with a step increase in the mean of 0.5, 1, 2 and 3 standard deviations, and recorded the average number of minutes to alarm.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>Shift in mean</th><th>Size in °C</th><th>Limit alarm (min)</th><th>CUSUM (min)</th></tr></thead>
+    <tbody>
+      <tr><td>None (false alarm interval)</td><td>0</td><td>331</td><td>333</td></tr>
+      <tr><td>0.5 sigma</td><td>0.25</td><td>79</td><td>27</td></tr>
+      <tr><td>1 sigma</td><td>0.5</td><td>24</td><td>8.4</td></tr>
+      <tr><td>2 sigma</td><td>1.0</td><td>4.4</td><td>3.3</td></tr>
+      <tr><td>3 sigma</td><td>1.5</td><td>1.6</td><td>2.2</td></tr>
+    </tbody>
+  </table></div>
+  <p>Read the table like this. A slow 0.25 °C creep, perhaps from a fouling jacket or a drifting sensor, takes the limit alarm about 79 minutes to flag on average. CUSUM flags it in about 27. A sudden 1.5 °C jump is caught by the limit alarm slightly sooner, because CUSUM needs a few samples to build up. Neither detector is better in every case.</p>
+  <p>Notice what stayed constant: the false alarm interval. Without matching it you would be comparing a tight detector with a loose one, and the tighter one always looks faster. When someone shows you a detection delay, ask what false alarm rate it was bought at.</p>
+  <div class="art-note"><b>Limit of this example.</b> It assumes independent, bell-shaped noise and a clean step change. Real data is autocorrelated and shifts are often ramps. Both effects usually raise the false alarm rate and change the delays. Treat the numbers as a demonstration of the trade-off, not as figures for your plant. A rough guide is that the pattern holds, but you should simulate with your own data before setting thresholds.</div>
+
+  <h2 id="how-to-choose">How to choose <span class="lvl l3">Going deeper</span></h2>
+  <p>Start from the fault you are afraid of, not from the method you like.</p>
+  <ol>
+    <li><b>One signal, large and fast fault:</b> a limit or deviation alarm is enough. Do not over-engineer it.</li>
+    <li><b>One signal, small and slow drift:</b> use CUSUM or EWMA on that signal.</li>
+    <li><b>A physical cause you can write an equation for:</b> add a balance or model residual. Heat duty on an exchanger and material balance across a unit are the classic cases.</li>
+    <li><b>Many correlated signals, faults that break their relationships:</b> consider PCA type monitoring, after the data checks above.</li>
+    <li><b>Non-linear behaviour, many modes, plenty of labelled history:</b> machine learning may earn its cost. Compare it against a simpler baseline before accepting it.</li>
+  </ol>
+  <p>In practice plants layer them. Limits protect against the obvious. SPC catches drift on key quality variables. A balance residual watches a critical exchanger. A multivariate model watches the whole unit. Each layer is simple enough to explain on its own.</p>
+  <p>For regulated plants, also think about validation. A transparent rule or control chart is easier to document and justify than a model nobody can interpret. Where a detector influences a quality decision, the extra effort of explaining it is part of its cost.</p>
+
+  <h2 id="mistakes">Common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><b>Training on faulty data.</b> If the "normal" set includes a fouled period, the detector will accept fouling as normal.</li>
+    <li><b>Ignoring operating modes.</b> One set of limits for startup, steady running and cleaning gives wide limits and missed faults, or constant false alarms.</li>
+    <li><b>Judging by detection delay alone.</b> A detector set very tight looks fast and floods operators with false alarms.</li>
+    <li><b>Set once, never reviewed.</b> Equipment ages, raw materials change and seasons shift. Thresholds need a scheduled review.</li>
+    <li><b>Treating detection as diagnosis.</b> A signal says something changed. Someone still has to find out what, and the response procedure should exist before the alarm does.</li>
+    <li><b>Buying complexity first.</b> Trying machine learning before checking sensors and limits often wastes months.</li>
+  </ul>
+
+  <h2 id="checklist">Checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Name the faults you want to catch and the delay you can accept for each.</li>
+    <li>Agree an acceptable false alarm interval with the operators.</li>
+    <li>Check sensor health, sampling interval and time alignment.</li>
+    <li>Define operating modes and exclude known bad periods from training data.</li>
+    <li>Start with the simplest method that meets the delay target at that false alarm rate.</li>
+    <li>Test on past incidents: would the detector have caught them, and when?</li>
+    <li>Write down who owns each alarm and what they should do.</li>
+    <li>Review thresholds on a schedule.</li>
+  </ul>
+
+  <h2 id="faq">FAQ</h2>
+  <h3>What is the simplest fault detection method that works?</h3>
+  <p>A well chosen limit on a trusted signal, often combined with a deviation check against a setpoint or a twin instrument. It is easy to explain and maintain, but it only catches faults that push one signal past a threshold.</p>
+  <h3>Do I need machine learning to detect faults in a batch plant?</h3>
+  <p>Usually not at the start. Many plants get most of the value from clean data, sensible limits, control charts and a few first-principles checks. Machine learning is worth considering when faults involve many signals and you have enough labelled history.</p>
+  <h3>What is the trade-off between false alarms and missed detections?</h3>
+  <p>Tightening a threshold catches smaller faults sooner but raises the false alarm rate. Widening it cuts false alarms but delays or misses real faults. You cannot improve both with the same detector, only choose a balance or use a better detector.</p>
+  <h3>How much data do I need before a statistical detector is reliable?</h3>
+  <p>You need enough normal operation to cover the usual range of conditions, including different products, campaigns and seasons. A few weeks may do for a stable continuous unit, but a multi-product plant needs far more history to avoid false alarms.</p>
+  <h3>Why do fault detection projects fail in plants?</h3>
+  <p>Common causes are poor sensor data, no agreed list of normal operating modes, thresholds set once and never reviewed, and alarms nobody owns. The method is rarely the main problem.</p>
+
+  <h2 id="sources">Sources</h2>
+  <ul>
+    <li>NIST/SEMATECH e-Handbook of Statistical Methods, <a href="https://itl.nist.gov/div898/handbook/pmc/section3/pmc3231.htm" rel="noopener">CUSUM and Shewhart run length comparison</a></li>
+    <li><a href="https://knova.um.edu.my/research_publications_2016_2020/7167" rel="noopener">A review of data-driven fault detection and diagnosis methods: applications in chemical process systems</a> (abstract)</li>
+    <li>Worked example: author's own simulation with synthetic data, 4000 runs per case, illustrative only.</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">Control charts and SPC for batch plants</a>
+        <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA fault detection explained</a>
+        <a href="{{ '/articles/reading-process-trends-to-find-faults/' | relative_url }}">Reading process trends to find faults</a>
+        <a href="{{ '/articles/alarm-management-basics-plants/' | relative_url }}">Alarm management basics</a>
+        <a href="{{ '/articles/tennessee-eastman-process-explained/' | relative_url }}">The Tennessee Eastman process explained</a>
+        <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors in chemical plants</a>
+        <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+        <a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance in chemical plants</a>
+        <a href="{{ '/articles/fault-tree-analysis/' | relative_url }}">Fault tree analysis</a>
+        <a href="{{ '/games/troubleshooter/' | relative_url }}">Troubleshooter game</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}" defer></script>

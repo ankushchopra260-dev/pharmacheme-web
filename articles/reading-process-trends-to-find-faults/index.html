@@ -1,0 +1,233 @@
+---
+layout: default
+title: "Reading Process Trends to Find Faults"
+seo_title: "Reading Process Trends to Find Faults | PharmaChemE"
+description: "Learn to read plant trends: drift, step, oscillation, flatline and saturation, and how to tell a sensor fault from a process fault, with a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Reading Process Trends to Find Faults
+    url: /articles/reading-process-trends-to-find-faults/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Reading Process Trends to Find Faults",
+        "description": "How to recognise drift, step changes, oscillation, flatlines and saturation on plant trends, and how to separate sensor faults from process faults.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-05"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I tell a sensor fault from a real process change?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Look for a second witness. A real change shows up in related measurements: a true temperature rise changes pressure, cooling duty or flow. A sensor fault shows in one signal only, often with a perfectly flat line, a sudden unphysical jump or a value that disagrees with a neighbouring instrument."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does a loop oscillate with a steady period?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Common causes are aggressive tuning, a sticky valve (stiction) with integral action, a disturbance from another loop, or a cycling upstream unit. Putting the loop in manual is a quick test: if the cycle stops, the cause is inside the loop; if it continues, it comes from outside."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does a flat trend with no noise mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Real process signals almost always have some noise. A trend that stays at exactly one value for many samples usually means a frozen transmitter, a communication fault, a held value or a signal that was forced. Check the instrument and the data path before trusting the number."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does a control valve at 100 percent output tell me?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The controller has run out of room. The measurement cannot reach the setpoint because the valve, pump, heater or utility is at its limit. Look for fouling, a blocked line, low utility supply or a setpoint that is too demanding, and remember integral wind-up can follow."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long a time window should I look at?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use at least two windows: a short one covering a few cycles of the loop to see oscillation and noise, and a long one of days or weeks to see drift and seasonal effects. Many faults are invisible in one window and obvious in the other."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-05
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Reading Process Trends to Find Faults</h1>
+  <p class="article-meta">Process monitoring &middot; Fault detection &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A trend screen shows more than numbers. The shape of a line often names the fault before any alarm does. This article teaches five shapes (drift, step, oscillation, flatline, saturation), how to separate a sensor fault from a real process fault, and a worked example on made-up data.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why the shape of a trend matters</a><span>Basics</span></li>
+    <li><a href="#baseline">Start with the normal picture</a><span>Basics</span></li>
+    <li><a href="#shapes">Five shapes and what they usually mean</a><span>Working level</span></li>
+    <li><a href="#sensor">Sensor fault or process fault?</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: five synthetic trends</a><span>Working level</span></li>
+    <li><a href="#limits">What trend reading cannot do</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist for a trend review</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why the shape of a trend matters</h2>
+  <p>An alarm tells you a limit was crossed. A trend tells you how the line got there. Slow, quick, smooth, jagged, regular or random: each shape points to a different cause, and each cause needs a different action.</p>
+  <p>Most shift engineers do this by feel after a few years. This article writes the habit down so that a student or a new engineer can build it faster. It uses four common loop types: temperature, pressure, flow and level.</p>
+  <p>Always think of a loop as three lines: the setpoint (SP), the measurement or process variable (PV), and the controller output (OP) that drives the valve or heater. Looking at PV alone hides half the story. Plot all three together.</p>
+
+  <h2 id="baseline">Start with the normal picture</h2>
+  <p>You cannot spot abnormal until you know normal. For each important loop, note three things when the plant is running well:</p>
+  <ul>
+    <li><strong>The typical level of noise.</strong> A flow signal may wobble by 1 % and a reactor temperature by 0.2 &deg;C. That wobble is healthy.</li>
+    <li><strong>The typical range of OP.</strong> A control valve that normally sits at 40 to 60 % has room to act. One at 95 % does not.</li>
+    <li><strong>The response to a known event.</strong> What does the loop do after a setpoint change or a batch charge? Keep one good example for comparison.</li>
+  </ul>
+  <p>Take the baseline from a stable period of the plant, not from the average of all history. A long average mixes good and bad days.</p>
+
+  <h2 id="shapes">Five shapes and what they usually mean</h2>
+  <h3>1. Drift: a slow ramp away from normal</h3>
+  <p>The PV creeps up or down over hours or days while the setpoint stays put. Typical causes: fouling of a heat exchanger (outlet temperature slowly worsens), a sensor losing calibration, catalyst ageing, a filter blocking (flow falls, pressure drop rises), or a slow leak in a vessel (level falls faster than expected).</p>
+  <p>Drift is the shape alarms miss, because each step is small. Compare today with the same operating point a week ago.</p>
+  <h3>2. Step: a sudden, lasting jump</h3>
+  <p>The line moves to a new level in one or two samples and stays there. A step on a measurement often means something was changed: a new batch, a valve switched, a manual override, a recalibration, a strainer cleaned, or a transmitter replaced. A step with no matching event in the log deserves a question.</p>
+  <h3>3. Oscillation: a regular cycle</h3>
+  <p>The PV moves up and down with a steady period. The usual suspects are an aggressively tuned controller, a sticky control valve, interaction with another loop, or a disturbance from upstream such as a cycling pump or batch discharge. A sticky valve typically gives a squared-off or saw-tooth wave with the OP ramping and reversing, while tuning problems tend to give smoother, sine-like waves that change with load. The <a href="https://controlstation.com/valve-stiction-pid-control-detection/">Control Station note on valve stiction</a> describes the stiction signature and the manual-mode test well.</p>
+  <p>The simplest test is to put the loop in manual. If the cycle stops, the cause is inside the loop (tuning or valve). If it carries on, the cause is outside.</p>
+  <h3>4. Flatline: a line with no noise at all</h3>
+  <p>Real signals jitter. A line that sits at exactly the same value for a long run is almost never real. It points to a frozen transmitter, a failed input card or communication link, a value held by the system, or a forced signal. Check the instrument and the data path first.</p>
+  <h3>5. Saturation: the output has hit its limit</h3>
+  <p>The OP sits at 100 % (or 0 %) and the PV cannot reach the setpoint. The valve is wide open, the heater is at full power or the pump is at maximum speed. Look for something that has reduced capacity: fouling, a blocked line, a low steam or water supply, a pump wearing, or a setpoint that asks for more than the equipment can do. If the controller has integral action, watch for wind-up, where the OP stays pinned long after the cause is fixed.</p>
+
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Shape</th><th>First suspects</th><th>First check</th></tr></thead><tbody>
+    <tr><td>Drift</td><td>Fouling, calibration loss, ageing, leak</td><td>Compare with same operating point last week</td></tr>
+    <tr><td>Step</td><td>Operator or maintenance change, new batch</td><td>Match the time to the log</td></tr>
+    <tr><td>Oscillation</td><td>Tuning, valve stiction, upstream cycling</td><td>Put loop in manual</td></tr>
+    <tr><td>Flatline</td><td>Frozen transmitter, comms fault, forced value</td><td>Check the instrument and the data path</td></tr>
+    <tr><td>Saturation</td><td>Lost capacity, blocked line, bad setpoint</td><td>Look at OP and the utility supply</td></tr>
+  </tbody></table></div>
+
+  <h2 id="sensor">Sensor fault or process fault?</h2>
+  <p>This is the question behind most trend reviews. The answer rests on one idea: a real process change leaves footprints elsewhere.</p>
+  <ul>
+    <li><strong>Look for a second witness.</strong> If a reactor temperature rises for real, the jacket outlet temperature, the cooling flow, the pressure or the condenser load will move too. If only one signal moves, suspect the sensor.</li>
+    <li><strong>Check physical sense.</strong> A liquid temperature cannot jump 15 &deg;C in one second in a 5 m&sup3; vessel. A level cannot rise while the inlet valve is closed and the outlet is open.</li>
+    <li><strong>Compare redundant or related instruments.</strong> Two level transmitters on one tank, a flow meter against a tank level change, or a pressure reading against the saturation pressure of the boiling liquid.</li>
+    <li><strong>Check the noise.</strong> A failed sensor often looks too quiet (frozen) or too noisy (loose wiring, air in an impulse line).</li>
+    <li><strong>Check the controller output.</strong> If the PV looks wrong but the OP is calm and the product quality is fine, the controller may be reacting to a bad number, or the number may be correct and the plant is simply stable.</li>
+  </ul>
+  <p>Where an instrument is suspect, a reference check with a calibrated handheld or a field gauge settles it faster than any amount of staring at the screen.</p>
+
+  <h2 id="example">Worked example: five synthetic trends</h2>
+  <p>All data below is made up for illustration. I generated eight hours of one-minute readings (480 samples) for five signals and then measured each shape with simple statistics. This is the kind of arithmetic a monitoring tool does in the background.</p>
+  <ul>
+    <li><strong>A, reactor temperature:</strong> steady at 80 &deg;C with noise of about 0.2 &deg;C, then a slow ramp of 0.01 &deg;C per minute from minute 120.</li>
+    <li><strong>B, feed flow:</strong> 120 L/h with noise of about 0.8 L/h, falling by 15 L/h at minute 240.</li>
+    <li><strong>C, tank level:</strong> 50 % with a regular cycle of 30 minutes and 4 % amplitude.</li>
+    <li><strong>D, vessel pressure:</strong> 2.50 bar with small noise, then frozen from minute 300.</li>
+    <li><strong>E, loop with saturation:</strong> controller output moves to 100 % at minute 200 and the PV slides away from its setpoint.</li>
+  </ul>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Signal</th><th>Test</th><th>Result</th><th>Reading</th></tr></thead><tbody>
+    <tr><td>A temperature</td><td>Slope over last 4 h</td><td>0.59 &deg;C/h (first 2 h: 0.04 &deg;C/h); total rise 3.6 &deg;C</td><td>Drift</td></tr>
+    <tr><td>B flow</td><td>Mean before and after minute 240</td><td>119.95 and 105.00 L/h; step of 14.95 L/h with noise sd 0.76 before and 0.77 after</td><td>Step, same noise</td></tr>
+    <tr><td>C level</td><td>Spectrum peak</td><td>30 minute period, amplitude 4.0 %, about 97 % of the variance in that one peak</td><td>Oscillation</td></tr>
+    <tr><td>D pressure</td><td>Noise sd before and after minute 300</td><td>0.015 bar before; 0.000 after, 180 identical values</td><td>Flatline</td></tr>
+    <tr><td>E loop</td><td>Share of time OP at or above 99 % after minute 200</td><td>100 %; PV 6.2 units below setpoint at the end</td><td>Saturation</td></tr>
+  </tbody></table></div>
+  <div class="formula-box">
+    <p>Slope: least-squares line through the last 240 points, in units per hour</p>
+    <p>Step size: mean after minus mean before, compared with noise sd / &radic;n</p>
+    <p>Period: 1 / frequency of the largest peak in the Fourier spectrum</p>
+  </div>
+  <p>Notice what the numbers say. The drift in A is too slow to trip any alarm at 80 &deg;C, but its slope is 15 times the early slope. The step in B changes the mean without changing the noise, which suggests a real flow change or a re-zeroed meter, not a failing one. The perfectly zero noise in D is a stronger sign of a frozen sensor than the value itself. The data for C is a pure sine wave plus noise, which is neat: real sticky valves give squared-off waves, so use the shape together with the period.</p>
+  <div class="art-note"><b>Try it on your own plant</b><p>Export one week of one-minute data for three loops you know well. Plot PV, SP and OP together. Name the shape in each plot before you look at any alarm log. Then check whether the log agrees.</p></div>
+
+  <h2 id="limits">What trend reading cannot do</h2>
+  <ul>
+    <li><strong>It does not find the root cause by itself.</strong> A shape narrows the suspects. You still need a field check, a log entry or a second measurement.</li>
+    <li><strong>It does not scale.</strong> A plant has thousands of tags. People can review a handful of key loops by eye; the rest needs automated checks such as the ones in the articles on <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">control charts</a> and <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA fault detection</a>.</li>
+    <li><strong>Historian compression can hide the truth.</strong> If the historian stores a point only when the value moves by more than a deadband, small noise and oscillations vanish and a flatline can look normal. See <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian basics</a>.</li>
+    <li><strong>Several faults can overlap.</strong> A drift on top of an oscillation on top of a step is hard to read by eye.</li>
+    <li><strong>Closed-loop control can hide a fault.</strong> A good controller keeps the PV flat while the OP drifts. Always look at OP.</li>
+  </ul>
+
+  <h2 id="mistakes">Common mistakes</h2>
+  <ul>
+    <li><strong>Looking at PV alone.</strong> The OP often tells you the fault first.</li>
+    <li><strong>Using one time window.</strong> A four-hour window hides weekly drift; a month window hides a ten-minute cycle.</li>
+    <li><strong>Trusting a clean-looking line.</strong> A perfectly smooth line may be a frozen value or a heavily averaged one.</li>
+    <li><strong>Ignoring the event log.</strong> Many steps are explained by a recipe step, a transfer or a maintenance job.</li>
+    <li><strong>Retuning the controller before checking the valve.</strong> A sticky valve cannot be tuned away; the cycle returns.</li>
+    <li><strong>Judging by one tag.</strong> A process fault should leave a second witness.</li>
+  </ul>
+
+  <h2 id="checklist">Checklist for a trend review</h2>
+  <ul>
+    <li>PV, SP and OP plotted on the same time axis.</li>
+    <li>A short window and a long window both viewed.</li>
+    <li>Shape named: drift, step, oscillation, flatline, saturation or noise change.</li>
+    <li>Time of any step matched against the operator and maintenance log.</li>
+    <li>Related tags checked for a second witness.</li>
+    <li>Noise level compared with the normal baseline.</li>
+    <li>If the loop oscillates, manual-mode test planned.</li>
+    <li>Finding recorded with the date, so the next review can compare.</li>
+  </ul>
+  <p>The <a href="{{ '/games/troubleshooter/' | relative_url }}">troubleshooter game</a> gives practice with this style of thinking.</p>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do I tell a sensor fault from a real process change?</h3>
+  <p>Look for a second witness. A real change shows up in related measurements: a true temperature rise changes pressure, cooling duty or flow. A sensor fault shows in one signal only, often with a perfectly flat line, a sudden unphysical jump or a value that disagrees with a neighbouring instrument.</p>
+  <h3>Why does a loop oscillate with a steady period?</h3>
+  <p>Common causes are aggressive tuning, a sticky valve (stiction) with integral action, a disturbance from another loop, or a cycling upstream unit. Putting the loop in manual is a quick test: if the cycle stops, the cause is inside the loop; if it continues, it comes from outside.</p>
+  <h3>What does a flat trend with no noise mean?</h3>
+  <p>Real process signals almost always have some noise. A trend that stays at exactly one value for many samples usually means a frozen transmitter, a communication fault, a held value or a signal that was forced. Check the instrument and the data path before trusting the number.</p>
+  <h3>What does a control valve at 100 percent output tell me?</h3>
+  <p>The controller has run out of room. The measurement cannot reach the setpoint because the valve, pump, heater or utility is at its limit. Look for fouling, a blocked line, low utility supply or a setpoint that is too demanding, and remember integral wind-up can follow.</p>
+  <h3>How long a time window should I look at?</h3>
+  <p>Use at least two windows: a short one covering a few cycles of the loop to see oscillation and noise, and a long one of days or weeks to see drift and seasonal effects. Many faults are invisible in one window and obvious in the other.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://controlstation.com/valve-stiction-pid-control-detection/">Control Station: Valve stiction, why it undermines PID control and how to detect it</a></li>
+    <li>Worked example: synthetic data generated for this article (random seed fixed, 480 one-minute samples per signal); not plant data</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+    <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors in chemical plants</a>
+    <a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance in chemical plants</a>
+    <a href="{{ '/articles/plant-kpi-dashboard/' | relative_url }}">Plant KPI dashboard</a>
+    <a href="{{ '/games/troubleshooter/' | relative_url }}">Troubleshooter game</a>
+    <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">Control charts for batch plants</a>
+    <a href="{{ '/articles/alarm-management-basics-plants/' | relative_url }}">Alarm management basics</a>
+    <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA fault detection explained</a>
+    <a href="{{ '/articles/fault-detection-methods-compared/' | relative_url }}">Fault detection methods compared</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

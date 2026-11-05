@@ -1,0 +1,226 @@
+---
+layout: default
+title: "The Tennessee Eastman Process Explained: A Fault Detection Benchmark"
+seo_title: "Tennessee Eastman Process Explained | PharmaChemE"
+description: "What the Tennessee Eastman process is, its units, 52 variables and fault scenarios, why researchers use it, and where the benchmark falls short for real plants."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Tennessee Eastman Process Explained
+    url: /articles/tennessee-eastman-process-explained/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "The Tennessee Eastman Process Explained: A Fault Detection Benchmark",
+        "description": "A plain-English guide to the Tennessee Eastman process: units, reactions, 52 variables, fault scenarios, detection metrics and the limits of the benchmark.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-05"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the Tennessee Eastman process?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is a simulated chemical plant published by Downs and Vogel in 1993, based on a real process. It has a reactor, condenser, separator, stripper and recycle compressor, and it is widely used to test control and fault detection methods."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many variables and faults does it have?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The usual data sets use 52 variables: 41 measurements and 11 manipulated variables. The original paper defines 20 disturbances, and a later revision of the model adds eight more. Many papers quote 21 fault cases, so check which set a study used."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is the Tennessee Eastman process a real plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It is a nonlinear simulation built from a real industrial process, with the chemicals and kinetics disguised. No real equipment produces its data."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is the Tennessee Eastman process not enough to prove a method works?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is one simulated plant with clean, well-labelled faults of known timing. Real plants have messy data, missing labels, changing operating modes and instrument drift. A method that scores well on the benchmark may still fail in a plant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can a plant engineer use it to learn fault detection?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. It gives a safe, free way to try control charts, PCA and machine learning on a multivariable process with known faults, before touching real plant data."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-05
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>The Tennessee Eastman Process Explained: A Fault Detection Benchmark</h1>
+  <p class="article-meta">Digitalization &middot; Fault detection &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">If you read anything on fault detection, you will meet the Tennessee Eastman process within a page or two. This article explains what it is, what is in the data, how results are scored, and why a good score on it does not mean a method is ready for your plant.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What the Tennessee Eastman process is</a><span>Basics</span></li>
+    <li><a href="#plant">The plant: units, components and reactions</a><span>Basics</span></li>
+    <li><a href="#variables">The 52 variables</a><span>Working level</span></li>
+    <li><a href="#faults">The fault scenarios</a><span>Working level</span></li>
+    <li><a href="#metrics">How detection is scored</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: detection rate versus fault size</a><span>Working level</span></li>
+    <li><a href="#limits">Limits of the benchmark</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes when using it</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist before you trust a result</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What the Tennessee Eastman process is <span class="lvl l1">Basics</span></h2>
+  <p>The Tennessee Eastman process is not a real plant. It is a computer simulation of a chemical plant, published by J. J. Downs and E. F. Vogel in 1993 in <i>Computers &amp; Chemical Engineering</i> under the title "A plant-wide industrial process control problem". It was built from a real industrial process, with the chemicals and some details disguised, and it was released as a challenge: how would you control a whole plant, not just one loop?</p>
+  <p>Control engineers took it up first. Later, researchers working on fault detection realised it was also a handy test bed. It is nonlinear, it has many interacting variables, it has a recycle, and it comes with a list of built-in disturbances that can be switched on at a chosen time. That means you can generate data with a fault whose start time you know exactly, and then ask whether your method notices it, and how quickly.</p>
+  <p>For a plant engineer, the value is simple. It lets you practise the methods in this series, such as <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">control charts</a> and <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA-based fault detection</a>, on realistic multivariable data without risking a real plant or waiting for a real fault.</p>
+
+  <h2 id="plant">The plant: units, components and reactions <span class="lvl l1">Basics</span></h2>
+  <p>The process has five major units: a two-phase reactor, a partial condenser, a vapour-liquid separator, a product stripper and a recycle compressor. Eight components are involved, labelled A to H. A, C, D and E are the reactants, B is an inert, and the products are G and H, with F as a by-product.</p>
+  <p>The commonly quoted reactions are:</p>
+  <div class="formula-box">
+    A(g) + C(g) + D(g) &rarr; G(liq)<br>
+    A(g) + C(g) + E(g) &rarr; H(liq)<br>
+    A(g) + E(g) &rarr; F(liq)<br>
+    3 D(g) &rarr; 2 F(liq)
+    <small>All four reactions are irreversible and exothermic. The by-product reactions waste feed, so the control system tries to keep them small.</small>
+  </div>
+  <p>The flow is easy to picture. Fresh feeds go to the reactor. The hot reactor product vapour goes through the condenser to the separator. Uncondensed gas is sent back by the compressor to the reactor, with a small purge to stop inerts building up. The liquid from the separator goes to the stripper, which removes the remaining light components, and the G and H product leaves. A purge and a recycle like this are common in real plants, which is one reason the case is liked: a disturbance in one place travels around the loop and shows up everywhere.</p>
+  <p>The plant can run in several operating modes, which differ in the ratio of G to H and in production rate. A base case with a 50/50 mass ratio of G to H is the one most often used.</p>
+
+  <h2 id="variables">The 52 variables <span class="lvl l2">Working level</span></h2>
+  <p>Most fault detection papers use 52 variables per sample. They are split into:</p>
+  <ul>
+    <li><strong>41 measurements.</strong> These include flows, temperatures, pressures, levels, compressor and cooling duties, and stream composition readings.</li>
+    <li><strong>11 manipulated variables.</strong> These are valve positions and similar controller outputs, such as feed flows, purge, product flow, coolant flows and steam to the stripper.</li>
+  </ul>
+  <p>Some papers describe the count differently, for example 12 manipulated variables, and one paper in the sources below even gives a text breakdown that does not add up to its own table. This is a warning in itself. Always check how a study counts variables, because adding or dropping channels changes results.</p>
+  <p>The training and test files in the widely used fault detection data sets are sampled every 3 minutes. A typical faulty test run has 960 samples (48 hours). The first 160 samples are normal, and the fault starts at sample 160. A normal training set of several hundred samples is supplied for building the model.</p>
+
+  <h2 id="faults">The fault scenarios <span class="lvl l2">Working level</span></h2>
+  <p>The original paper defines 20 disturbances, written IDV(1) to IDV(20). They fall into several types:</p>
+  <ul>
+    <li><strong>Step changes</strong> (IDV 1-7): for example a change in the A to C feed ratio, a change in the D feed temperature, or a change in cooling water inlet temperature.</li>
+    <li><strong>Random variations</strong> (IDV 8-12, 16-18 and 20): feed composition or temperature moving randomly, or other unexplained random changes.</li>
+    <li><strong>A slow drift</strong> (IDV 13): the reaction kinetics change slowly.</li>
+    <li><strong>Sticking valves</strong> (IDV 14, 15 and 19): a valve or valves that stick or show stiction.</li>
+  </ul>
+  <p>A later revision of the model by Bathelt, Ricker and Jelali (2015) adds eight further random-variation disturbances, numbered IDV(21) to IDV(28), covering feed temperatures and pressures and the circulation of cooling water. It also fixes a solver-dependence problem in the random number handling and adds extra measurements. Many fault detection papers refer to "21 faults", while the original definition has 20, and the set depends on which data files were used. When you compare published numbers, make sure they used the same fault list.</p>
+  <p>Faults differ in how hard they are to catch. Some, such as the large feed step changes, show up in a handful of samples. Others barely change the measured values at all. In published results, faults 3, 9 and 15 are well known as nearly invisible to simple methods, since their effect on the measurements is hidden in the noise. Several papers leave them out for that reason. In one set of results quoted in the sources, a PCA-based model reliably missed faults 5, 16 and 19, because the control loops compensate for those disturbances and push the measurements back toward normal.</p>
+  <p>That last point matters for real plants. A good controller can hide a developing fault. The measured variable returns to its set point, while the valve output (the manipulated variable) drifts. Always include the controller outputs in your monitoring.</p>
+
+  <h2 id="metrics">How detection is scored <span class="lvl l2">Working level</span></h2>
+  <p>Because the fault start time is known, results are summarised with a few simple numbers:</p>
+  <ul>
+    <li><strong>Fault detection rate (FDR)</strong>: the share of samples after the fault starts that raise an alarm. Higher is better.</li>
+    <li><strong>False alarm rate (FAR)</strong>: the share of samples before the fault starts that raise an alarm. For a 99 % limit, about 1 % is expected.</li>
+    <li><strong>Detection delay</strong>: how many samples pass after the fault starts before the alarm is confirmed. At 3 minutes per sample, 10 samples is 30 minutes.</li>
+  </ul>
+  <p>These three always trade against each other. A tighter limit cuts false alarms but raises delay and lowers FDR. A paper that quotes only FDR, without FAR and delay, tells you very little.</p>
+
+  <h2 id="example">Worked example: detection rate versus fault size <span class="lvl l2">Working level</span></h2>
+  <p>This example uses made-up data, not Tennessee Eastman files, so you can see how the three scores behave. It has five correlated variables. A model is trained on 500 normal samples, and a Hotelling T&sup2; statistic with a 99 % limit is used (see the <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA article</a> for how T&sup2; works). Each test run has 960 samples with a step shift added to variable 1 from sample 161. The size of the shift is given in standard deviations of that variable. An alarm counts as confirmed after 3 alarms in a row. Each row is the average of 200 random runs, calculated in Python with a fixed seed.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Shift (std dev)</th><th>False alarm rate (%)</th><th>Detection rate (%)</th><th>Median delay (samples)</th><th>Runs never confirmed (of 200)</th></tr></thead><tbody>
+    <tr><td>0 (no fault)</td><td>1.0</td><td>1.0</td><td>none</td><td>200</td></tr>
+    <tr><td>1</td><td>1.1</td><td>3.4</td><td>too few runs</td><td>193</td></tr>
+    <tr><td>2</td><td>1.0</td><td>17.0</td><td>161</td><td>5</td></tr>
+    <tr><td>3</td><td>1.0</td><td>50.3</td><td>8</td><td>0</td></tr>
+    <tr><td>4</td><td>1.0</td><td>84.5</td><td>0</td><td>0</td></tr>
+    <tr><td>6</td><td>1.2</td><td>99.9</td><td>0</td><td>0</td></tr>
+  </tbody></table></div>
+  <p>Read the table row by row. The false alarm rate stays near 1 %, as designed. A shift of one standard deviation is almost never confirmed. At two standard deviations the detection rate is only 17 %, and the median confirmation takes 161 samples, which is 8 hours at 3 minutes per sample. At three standard deviations the rate is about half and the delay 8 samples (24 minutes). Only large shifts are caught at once. The detection rate is not a fixed property of the method. It depends strongly on fault size, which is why one average score across all faults can mislead you.</p>
+  <p>This is illustrative only. The values depend on the correlation structure, the limit and the confirmation rule I chose.</p>
+
+  <h2 id="limits">Limits of the benchmark <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>It is a simulation.</strong> Its noise is simulated, its sensors do not drift or fail on their own, and nobody has to calibrate its analysers.</li>
+    <li><strong>Faults are clean and labelled.</strong> Each run has one fault, starting at a known sample. Real plants have several overlapping problems and no label saying when they started.</li>
+    <li><strong>Operating conditions are narrow.</strong> The data come mostly from one operating mode. Real batch and campaign plants change grade, rate and recipe, and a model built for one mode will raise false alarms in another.</li>
+    <li><strong>It is continuous.</strong> Most pharma and fine chemical plants are batch or semi-batch, with start and end phases, and different statistics are needed. The benchmark says little about those.</li>
+    <li><strong>Many papers differ in details.</strong> Variable counts, which faults are included, how data are split and how scores are averaged vary, so published numbers are not always comparable. One study quoted here used only 17 of the 20 disturbances, and set aside three of them as too hard.</li>
+    <li><strong>Overfitting to the benchmark is a risk.</strong> After thirty years of papers, methods and settings are tuned until they work well on exactly these data.</li>
+    <li><strong>It does not test the human side.</strong> Alarm floods, operator workload and who responds are outside the simulation.</li>
+  </ul>
+
+  <h2 id="mistakes">Common mistakes when using it <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Comparing numbers across papers</strong> that used different fault lists, variable sets or data splits.</li>
+    <li><strong>Reporting only the average FDR.</strong> Always report false alarms and delay, and show results per fault.</li>
+    <li><strong>Training on data that includes the fault.</strong> Use only normal samples to build the model.</li>
+    <li><strong>Ignoring the 160-sample normal period</strong> when counting false alarms, or counting alarms from the start of the file as detections.</li>
+    <li><strong>Dropping the hard faults quietly.</strong> If faults 3, 9 or 15 are left out, say so.</li>
+    <li><strong>Treating a high score as proof the method is plant-ready.</strong> It is a first filter, not a validation.</li>
+  </ul>
+
+  <h2 id="checklist">Checklist before you trust a result <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Which version of the model and which fault list was used?</li>
+    <li>How many variables, and which ones were included?</li>
+    <li>Was the model trained on normal data only, and tested on separate files?</li>
+    <li>Are false alarm rate, detection rate and delay all reported, fault by fault?</li>
+    <li>Which faults were excluded, and why?</li>
+    <li>What would change on a real plant: noise, drift, modes, missing labels?</li>
+  </ul>
+  <p>For how the main method families compare, see <a href="{{ '/articles/fault-detection-methods-compared/' | relative_url }}">fault detection methods compared</a>.</p>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the Tennessee Eastman process?</h3>
+  <p>It is a simulated chemical plant published by Downs and Vogel in 1993, based on a real process. It has a reactor, condenser, separator, stripper and recycle compressor, and it is widely used to test control and fault detection methods.</p>
+  <h3>How many variables and faults does it have?</h3>
+  <p>The usual data sets use 52 variables: 41 measurements and 11 manipulated variables. The original paper defines 20 disturbances, and a later revision of the model adds eight more. Many papers quote 21 fault cases, so check which set a study used.</p>
+  <h3>Is the Tennessee Eastman process a real plant?</h3>
+  <p>No. It is a nonlinear simulation built from a real industrial process, with the chemicals and kinetics disguised. No real equipment produces its data.</p>
+  <h3>Why is the Tennessee Eastman process not enough to prove a method works?</h3>
+  <p>It is one simulated plant with clean, well-labelled faults of known timing. Real plants have messy data, missing labels, changing operating modes and instrument drift. A method that scores well on the benchmark may still fail in a plant.</p>
+  <h3>Can a plant engineer use it to learn fault detection?</h3>
+  <p>Yes. It gives a safe, free way to try control charts, PCA and machine learning on a multivariable process with known faults, before touching real plant data.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Downs, J. J. and Vogel, E. F., "A plant-wide industrial process control problem", <i>Computers &amp; Chemical Engineering</i>, 17(3), 1993 (original definition of the process)</li>
+    <li><a href="https://arxiv.org/pdf/1911.04386">Fault Detection and Identification using Bayesian Recurrent Neural Networks</a> (arXiv 1911.04386): 52 variables, 21 faults, 3-minute sampling, fault at sample 160</li>
+    <li><a href="https://arxiv.org/pdf/2103.12222">Explainability: Relevance based Dynamic Deep Learning Algorithm for Fault Detection and Diagnosis in Chemical Processes</a> (arXiv 2103.12222): units, fault types, excluded faults</li>
+    <li><a href="https://folk.ntnu.no/skoge/prost/proceedings/adchem2015/media/papers/0010.pdf">Bathelt, Ricker and Jelali, Revision of the Tennessee Eastman Process Model</a> (2015): 20 original disturbances, eight added</li>
+    <li><a href="https://folk.ntnu.no/skoge/prost/proceedings/aiche-2008/data/papers/P132590.pdf">Tennessee Eastman process description, AIChE 2008 conference paper</a>: reactions, units, operating modes</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/fault-detection-methods-compared/' | relative_url }}">Fault detection methods compared</a>
+    <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA fault detection explained</a>
+    <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">Control charts for batch plants</a>
+    <a href="{{ '/articles/reading-process-trends-to-find-faults/' | relative_url }}">Reading process trends to find faults</a>
+    <a href="{{ '/articles/alarm-management-basics-plants/' | relative_url }}">Alarm management basics</a>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+    <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors in chemical plants</a>
+    <a href="{{ '/articles/fault-tree-analysis/' | relative_url }}">Fault tree analysis</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

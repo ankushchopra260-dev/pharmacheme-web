@@ -1,0 +1,231 @@
+---
+layout: default
+title: "PCA Fault Detection Explained: T2, Q and Contribution Plots"
+seo_title: "PCA Fault Detection: T2, Q and Contributions | PharmaChemE"
+description: "How PCA fault detection works in plain English: scaling, principal components, Hotelling T2 and Q statistics, limits, contribution plots and a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: PCA Fault Detection Explained
+    url: /articles/pca-fault-detection-explained/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "PCA Fault Detection Explained: T2, Q and Contribution Plots",
+        "description": "A plain-English guide to PCA-based fault detection for process plants, with a worked example on illustrative data.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-05"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does PCA fault detection actually do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It learns how your process variables normally move together from good historical data, then flags samples that break those relationships (Q statistic) or sit unusually far along them (T2 statistic)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between T2 and Q?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "T2 measures how extreme a sample is inside the model, in the directions where the data normally varies. Q measures how far the sample sits from the model, which catches new patterns such as a drifting sensor or a broken correlation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many principal components should I keep?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Enough to capture the real process variation but not the noise. Common choices are cross-validation, a scree plot, or a cumulative variance target. Check the choice by testing on a separate good period."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can PCA tell me the root cause of a fault?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Contribution plots point to the variables that look wrong, but correlated variables can smear the contribution. They are a place to start looking, and the cause still needs engineering judgement."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does PCA work for batch processes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, but batch data needs extra handling because the trajectories have time and phase structure. Unfolding the batch data or monitoring phase by phase are common approaches, and batches must be aligned first."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-05
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>PCA Fault Detection Explained: T2, Q and Contribution Plots</h1>
+  <p class="article-meta">Process monitoring &middot; Fault detection &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A plant has hundreds of trends and nobody can watch them all. Principal component analysis (PCA) learns how the variables normally move together, then warns you when they stop doing so. This article explains the idea, the two statistics, the limits and a small worked example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea in one picture <span class="lvl l1">Start here</span></a></li>
+    <li><a href="#steps">Building the model <span class="lvl l2">Core</span></a></li>
+    <li><a href="#stats">T2 and Q: two ways to be abnormal <span class="lvl l2">Core</span></a></li>
+    <li><a href="#limits">Control limits <span class="lvl l3">Going deeper</span></a></li>
+    <li><a href="#example">Worked example <span class="lvl l2">Core</span></a></li>
+    <li><a href="#contrib">Contribution plots <span class="lvl l2">Core</span></a></li>
+    <li><a href="#cannot">What PCA cannot do <span class="lvl l1">Start here</span></a></li>
+    <li><a href="#mistakes">Common mistakes <span class="lvl l2">Core</span></a></li>
+    <li><a href="#checklist">Checklist <span class="lvl l1">Start here</span></a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="idea">The idea in one picture <span class="lvl l1">Start here</span></h2>
+  <p>Think of a reactor with six measurements: feed flow, reactor temperature, jacket temperature, pressure, cooling flow and condenser temperature. They are not independent. When the feed goes up, the cooling flow goes up. When the reactor is hotter, the jacket and condenser are hotter too.</p>
+  <p>So the data do not fill a six-dimensional cloud. They lie close to a thin flat shape, perhaps two-dimensional. PCA finds that flat shape from good historical data. Two kinds of abnormal behaviour then become easy to see:</p>
+  <ul>
+    <li>The sample slides far along the flat shape. The process is still obeying its usual relationships, but it is further from normal than usual. This is what <strong>T2</strong> detects.</li>
+    <li>The sample leaves the flat shape. A relationship that always held has broken. A sensor drifts, a valve sticks, a pump loses flow. This is what <strong>Q</strong> detects.</li>
+  </ul>
+  <p>A single-variable alarm cannot see the second kind. Each variable can stay inside its own limits while the relationship between them is plainly wrong. For single-variable charts, start with <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">control charts for batch plants</a>.</p>
+
+  <h2 id="steps">Building the model <span class="lvl l2">Core</span></h2>
+  <ol>
+    <li><strong>Pick good data.</strong> Use a period when the process ran normally and the product was good. Remove start-ups, shutdowns, instrument faults and known upsets. This step matters more than any maths.</li>
+    <li><strong>Scale each variable.</strong> Subtract its mean and divide by its standard deviation (autoscaling). Without this, a variable measured in large units, such as flow in kg/h, would dominate one measured in bar.</li>
+    <li><strong>Find the principal components.</strong> These are new axes, each a weighted mix of the original variables. The first points along the direction of greatest variation, the second along the next greatest at right angles, and so on. The usual tool is singular value decomposition or an eigen-decomposition of the correlation matrix.</li>
+    <li><strong>Keep the first A components.</strong> Keep those that carry real process variation and drop those that carry mostly noise.</li>
+    <li><strong>Compute limits</strong> for T2 and Q from the good data, at a chosen false alarm rate such as 1%.</li>
+    <li><strong>Test on a separate good period.</strong> If it alarms often, the model or the training data is not representative.</li>
+  </ol>
+  <p>The weights are called loadings. Each component produces a score for every sample, which is the sample&rsquo;s position along that axis.</p>
+
+  <h2 id="stats">T2 and Q: two ways to be abnormal <span class="lvl l2">Core</span></h2>
+  <p><strong>Hotelling&rsquo;s T2</strong> is the sum of the squared scores, each divided by the variance of that component. It is a distance from the centre of normal operation, measured inside the model and weighted so that directions with small normal spread count for more.</p>
+  <div class="formula-box">T2 = &sum; (t<sub>a</sub>)&sup2; / &lambda;<sub>a</sub> &nbsp;&nbsp; for a = 1 to A<br>
+  Q = &Sigma; (x<sub>j</sub> &minus; x&#770;<sub>j</sub>)&sup2; &nbsp;&nbsp; sum over all variables of the squared residual</div>
+  <p><strong>Q</strong>, also called the squared prediction error (SPE), is the squared length of what the model cannot explain. Rebuild each scaled variable from the kept components, subtract that from the real value, square the differences and add them up. A large Q means the sample has left the flat shape.</p>
+  <p>Use both. T2 alone misses a broken correlation. Q alone misses a large but normal-looking move.</p>
+
+  <h2 id="limits">Control limits <span class="lvl l3">Going deeper</span></h2>
+  <p>For T2, a common limit based on the F distribution is:</p>
+  <div class="formula-box">T2 limit = A (n &minus; 1)(n + 1) / [ n (n &minus; A) ] &times; F(1 &minus; &alpha;; A, n &minus; A)</div>
+  <p>Here n is the number of training samples, A the number of components kept and &alpha; the false alarm rate. For Q, a widely used approximation (Jackson and Mudholkar) uses the eigenvalues of the discarded components and a normal quantile. Many software packages compute both for you.</p>
+  <p>These formulas assume the scores are roughly normal and the samples are independent. Process data are often autocorrelated, so the real false alarm rate can be higher than &alpha;. Check it on a separate good period, and if needed set the limits from the empirical distribution of good data instead.</p>
+
+  <h2 id="example">Worked example <span class="lvl l2">Core</span></h2>
+  <p>The data below are <strong>made up for illustration</strong>. Six variables were generated from two hidden drivers (a feed rate and a reactor temperature) plus noise, giving 500 good samples for training.</p>
+  <ul>
+    <li>After autoscaling, the first two components explain 74.8% and 20.2% of the variance, a total of 95.0%. The other four carry 5.0%, mostly noise. So A = 2.</li>
+    <li>At &alpha; = 1%, the T2 limit is 9.33 and the Q limit is 1.13.</li>
+    <li>On the training data itself, 0.6% of samples exceed the T2 limit and 1.2% exceed the Q limit, close to the 1% target.</li>
+  </ul>
+  <p>Then 60 new samples were generated for each of four cases and checked against the limits.</p>
+  <table class="art-table">
+    <thead><tr><th>Case</th><th>What was changed</th><th>T2 alarms</th><th>Q alarms</th></tr></thead>
+    <tbody>
+      <tr><td>Normal</td><td>Nothing</td><td>0%</td><td>0%</td></tr>
+      <tr><td>A: sensor drift</td><td>Jacket temperature reading +3 &deg;C</td><td>2%</td><td>97%</td></tr>
+      <tr><td>B: cooling loss</td><td>Cooling flow 6 units too low</td><td>0%</td><td>100%</td></tr>
+      <tr><td>C: big feed rise</td><td>Feed driver +3 standard deviations, all variables follow</td><td>65%</td><td>2%</td></tr>
+    </tbody>
+  </table>
+  <p>The pattern is the point. Cases A and B break the normal relationships, so Q catches them and T2 barely notices. Case C moves the process far along its usual relationships, so T2 catches it and Q does not. In case A, the +3 &deg;C offset is small enough that the jacket temperature alone might sit inside its own control limits.</p>
+  <div class="art-note"><b>Remember</b><p>These results come from synthetic data with clean, linear relationships and no autocorrelation. Real plants are messier, so expect more false alarms and slower detection.</p></div>
+
+  <h2 id="contrib">Contribution plots <span class="lvl l2">Core</span></h2>
+  <p>An alarm says something is wrong, not what. A contribution plot breaks the alarmed statistic into a bar for each variable. For Q, each variable&rsquo;s bar is its squared residual, and the bars add up to Q. For T2, the bars come from each variable&rsquo;s loadings and scores, and they can be positive or negative, so they are usually ranked by size.</p>
+  <p>In the example, the average Q contributions across the 60 faulty samples were:</p>
+  <table class="art-table">
+    <thead><tr><th>Case</th><th>Largest contributor</th><th>Next</th></tr></thead>
+    <tbody>
+      <tr><td>A: jacket sensor +3 &deg;C</td><td>Jacket T, 61%</td><td>Reactor T, 15%</td></tr>
+      <tr><td>B: cooling flow low</td><td>Cooling flow, 63%</td><td>Feed flow, 21%</td></tr>
+    </tbody>
+  </table>
+  <p>Both point to the right variable first. But look at the second column. Feed flow gets 21% in case B even though nothing is wrong with it. This is <strong>smearing</strong>: the model expects cooling flow to follow feed flow, so when cooling flow is low, feed flow also looks inconsistent. Treat the top bars as a short list to check, not as a verdict.</p>
+
+  <h2 id="cannot">What PCA cannot do <span class="lvl l1">Start here</span></h2>
+  <ul>
+    <li><strong>It is linear.</strong> Strongly nonlinear behaviour, such as reaction rates versus temperature over a wide range, fits poorly.</li>
+    <li><strong>It assumes one operating mode.</strong> Different products, grades or phases need separate models or a model that handles modes.</li>
+    <li><strong>It does not know the cause.</strong> It sees a deviation from history, not why.</li>
+    <li><strong>It cannot catch a fault that was in the training data.</strong> If the sensor was already drifting, the model learned that as normal.</li>
+    <li><strong>Slow drift can hide.</strong> A very slow change can be absorbed by periodic retraining or be mistaken for normal variation.</li>
+    <li><strong>Batch processes need extra work.</strong> Trajectories must be aligned and unfolded, or monitored phase by phase.</li>
+  </ul>
+
+  <h2 id="mistakes">Common mistakes <span class="lvl l2">Core</span></h2>
+  <ul>
+    <li><strong>Training on dirty data.</strong> Upsets and instrument faults inside the training set widen the limits and hide the very problems you want to find.</li>
+    <li><strong>Skipping scaling.</strong> The largest numbers then dominate the model.</li>
+    <li><strong>Including too many components.</strong> Noise components make the model fit the training data well and the new data badly. Test on a separate period.</li>
+    <li><strong>Mixing operating modes.</strong> A model built across two products describes neither.</li>
+    <li><strong>Trusting contribution plots as root cause.</strong> Smearing misleads. Confirm with a field check or a trend review, as in <a href="{{ '/articles/reading-process-trends-to-find-faults/' | relative_url }}">reading process trends to find faults</a>.</li>
+    <li><strong>Never retraining, or retraining blindly.</strong> After a real process change the model is out of date. But retraining on faulty data teaches the model that the fault is normal.</li>
+  </ul>
+
+  <h2 id="checklist">Checklist <span class="lvl l1">Start here</span></h2>
+  <ul>
+    <li>Normal-operation data selected and cleaned, with the periods and reasons recorded.</li>
+    <li>Instruments checked and calibrated before the data period.</li>
+    <li>Variables autoscaled; one operating mode per model.</li>
+    <li>Number of components chosen and justified, for example by cross-validation.</li>
+    <li>Limits set at an agreed false alarm rate and tested on a separate good period.</li>
+    <li>Both T2 and Q monitored, with contribution plots available to the operator.</li>
+    <li>A named owner, a response procedure and a retraining rule.</li>
+  </ul>
+  <p>Good data access matters here. A <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian</a> that keeps time-aligned data makes model building far easier.</p>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What does PCA fault detection actually do?</h3>
+  <p>It learns how your process variables normally move together from good historical data, then flags samples that break those relationships (Q statistic) or sit unusually far along them (T2 statistic).</p>
+  <h3>What is the difference between T2 and Q?</h3>
+  <p>T2 measures how extreme a sample is inside the model, in the directions where the data normally varies. Q measures how far the sample sits from the model, which catches new patterns such as a drifting sensor or a broken correlation.</p>
+  <h3>How many principal components should I keep?</h3>
+  <p>Enough to capture the real process variation but not the noise. Common choices are cross-validation, a scree plot, or a cumulative variance target. Check the choice by testing on a separate good period.</p>
+  <h3>Can PCA tell me the root cause of a fault?</h3>
+  <p>No. Contribution plots point to the variables that look wrong, but correlated variables can smear the contribution. They are a place to start looking, and the cause still needs engineering judgement.</p>
+  <h3>Does PCA work for batch processes?</h3>
+  <p>Yes, but batch data needs extra handling because the trajectories have time and phase structure. Unfolding the batch data or monitoring phase by phase are common approaches, and batches must be aligned first.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://metricgate.com/docs/hotelling-t2-process-monitoring/">Hotelling T2 process monitoring (MetricGate documentation)</a>: T2 definition and F-distribution control limit</li>
+    <li><a href="https://metricgate.com/docs/contribution-plots-fault/">Contribution plots for fault diagnosis (MetricGate documentation)</a>: Q and T2 contributions, smearing and limitations</li>
+    <li>Jackson, J. E. and Mudholkar, G. S., &ldquo;Control procedures for residuals associated with principal component analysis&rdquo;, <i>Technometrics</i>, 1979 (Q limit approximation, general reference)</li>
+    <li>Chiang, L. H., Russell, E. L. and Braatz, R. D., <i>Fault Detection and Diagnosis in Industrial Systems</i>, Springer, 2001 (general reference)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">Control charts for batch plants</a>
+    <a href="{{ '/articles/reading-process-trends-to-find-faults/' | relative_url }}">Reading process trends to find faults</a>
+    <a href="{{ '/articles/fault-detection-methods-compared/' | relative_url }}">Fault detection methods compared</a>
+    <a href="{{ '/articles/tennessee-eastman-process-explained/' | relative_url }}">Tennessee Eastman process explained</a>
+    <a href="{{ '/articles/alarm-management-basics-plants/' | relative_url }}">Alarm management basics</a>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+    <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors in chemical plants</a>
+    <a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a>
+    <a href="{{ '/articles/fault-tree-analysis/' | relative_url }}">Fault tree analysis</a>
+    <a href="{{ '/games/troubleshooter/' | relative_url }}">Troubleshooter game</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

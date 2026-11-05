@@ -213,6 +213,16 @@
         - { title: "URS for centrifugal pumps", url: /articles/urs-for-centrifugal-pumps/ }
         - { title: "URS for heat exchangers", url: /articles/urs-for-heat-exchangers/ }
         - { title: "URS for batch reactors", url: /articles/urs-for-batch-reactors/ }
+    - title: "Process monitoring and fault detection"
+      url: /articles/#process-monitoring-fault-detection
+      count: 6
+      children:
+        - { title: "Control Charts for Batch Plants", url: /articles/control-charts-spc-batch-plants/ }
+        - { title: "Reading Process Trends to Find Faults", url: /articles/reading-process-trends-to-find-faults/ }
+        - { title: "Alarm Management Basics", url: /articles/alarm-management-basics-plants/ }
+        - { title: "PCA Fault Detection Explained", url: /articles/pca-fault-detection-explained/ }
+        - { title: "Tennessee Eastman Process Explained", url: /articles/tennessee-eastman-process-explained/ }
+        - { title: "Fault Detection Methods Compared", url: /articles/fault-detection-methods-compared/ }
     - title: "Process design"
       url: /articles/#process-design
       count: 15

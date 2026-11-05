@@ -1,0 +1,211 @@
+---
+layout: default
+title: "Alarm Management Basics for Chemical and Pharma Plants"
+seo_title: "Alarm Management Basics for Plants | PharmaChemE"
+description: "How to fix a noisy alarm system: philosophy, rationalisation, priorities, chattering, standing alarms and EEMUA 191 and ISA-18.2 KPIs, with a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Alarm Management Basics
+    url: /articles/alarm-management-basics-plants/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Alarm Management Basics for Chemical and Pharma Plants",
+        "description": "Alarm philosophy, rationalisation, priorities, chattering and standing alarms, KPIs and deadband and delay, with a worked example using made-up alarm log data.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-05"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How many alarms per hour is acceptable for an operator?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EEMUA 191 treats fewer than one alarm per 10 minutes in steady running as very likely acceptable. A long-term average of about 12 alarms per hour, around two per 10 minutes, is a commonly quoted ceiling. Fewer is better, and the right figure depends on how much attention each alarm needs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is an alarm flood?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A common definition is a 10-minute period with more than 10 new alarms. EEMUA 191 treats the flood as continuing until a 10-minute period with fewer than five new alarms. During a flood, operators cannot respond to each alarm properly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a chattering alarm and how do I stop it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A chattering alarm switches repeatedly between alarm and normal in a short time, often defined as three or more activations within one minute. The usual fixes are a deadband, an on-delay, better signal filtering, or fixing the instrument or process cause."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between a standing alarm and a stale alarm?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Both mean an alarm that stays active for a long time without being cleared. Stale is most often defined as active for more than 24 hours. Standing alarms hide new problems and usually point to a setpoint, instrument or procedure that needs fixing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is shelving an alarm the same as disabling it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Shelving is a controlled, temporary suppression that is recorded, time limited and visible to the operator and the supervisor. Silently disabling an alarm leaves no record and is a management of change problem."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-05
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Alarm Management Basics for Chemical and Pharma Plants</h1>
+  <p class="article-meta">Process monitoring &middot; Control room practice &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">An alarm is a request for an operator to act. When a control room shows hundreds a day, most are ignored, and the one that matters is lost. This article covers the basics of fixing that: philosophy, rationalisation, priorities, chattering, standing alarms, KPIs and a worked example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">What an alarm is for</a><span>Basics</span></li>
+    <li><a href="#lifecycle">Philosophy, rationalisation and the lifecycle</a><span>Basics</span></li>
+    <li><a href="#priority">Priorities that mean something</a><span>Basics</span></li>
+    <li><a href="#kpi">The numbers to track</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: one week of a made-up alarm log</a><span>Working level</span></li>
+    <li><a href="#fixes">Deadband, delay and other fixes</a><span>Working level</span></li>
+    <li><a href="#shelving">Shelving, suppression and change control</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">What an alarm is for <span class="lvl l1">Basics</span></h2>
+  <p>An alarm should tell an operator three things: something needs attention, it needs attention now, and there is a defined action to take. If any of the three is missing, it is not really an alarm. It is a message, a status, or noise.</p>
+  <p>Modern control systems make alarms cheap. Anyone can add a high alarm to a tag with a few clicks, so over the years a plant collects thousands of them. Nobody removes one, because nobody wants to be the person who removed the alarm before an incident. The result is a control room where operators acknowledge alarms by habit, and where a real warning looks the same as the fifty beside it.</p>
+  <p>Alarm management is the discipline of keeping the alarm list small, meaningful and manageable. The two widely used references are EEMUA 191 (a guide to design, management and procurement of alarm systems) and ISA-18.2, also published as IEC 62682 (management of alarm systems for the process industries). Both are paid documents, so this article gives original explanations of the ideas and the commonly quoted benchmarks, not the text of the standards. Read the standards themselves before you set a site policy.</p>
+  <h2 id="lifecycle">Philosophy, rationalisation and the lifecycle <span class="lvl l1">Basics</span></h2>
+  <p>ISA-18.2 describes alarm management as a lifecycle, not a one-off clean-up. The stages include identifying alarms, rationalising them, designing the operator display, training, implementing, operating, monitoring and changing the system under control. You do not need the clause numbers to use the idea: alarm quality decays unless somebody keeps measuring it and keeps the change process honest.</p>
+  <p>Two documents sit at the centre.</p>
+  <ul>
+    <li><strong>The alarm philosophy</strong> is a short site document. It defines what qualifies as an alarm, the priority levels and what each means, the response times expected, how alarms are named and worded, who may change a limit, and the KPIs and targets. Without one, every engineer invents their own rules.</li>
+    <li><strong>The rationalisation record</strong> is a table with one row per alarm. For each alarm it records the consequence if ignored, the time the operator has to respond, the expected action, the priority and the limit. An alarm that cannot fill these columns is a candidate for removal or for conversion into an indication.</li>
+  </ul>
+  <p>Rationalisation is done in a workshop with an operator, a process engineer and an instrument engineer in the room. The questions are simple. What goes wrong if this alarm is ignored? How long before it does? What does the operator do? Is there another alarm that already tells them the same thing? Alarms that fail these questions are the cheapest improvement you will ever make.</p>
+  <h2 id="priority">Priorities that mean something <span class="lvl l1">Basics</span></h2>
+  <p>Priority tells the operator what to look at first. It should come from the consequence and the time available, not from the engineer's mood on the day. A simple way is a small matrix: the severity of the consequence (safety, environment, product quality, production loss) against how quickly the operator must act.</p>
+  <p>Many sites aim for roughly 80 percent low, 15 percent medium and 5 percent high priority alarms. This is a rule of thumb, not a law, but it carries a useful message. If half your alarms are high priority, then high means nothing. Keep the top priority rare and always actionable, and tie it to safety or serious quality consequences.</p>
+  <h2 id="kpi">The numbers to track <span class="lvl l2">Working level</span></h2>
+  <p>You cannot manage what you do not count, and a historian or alarm journal gives you the data. If you have not yet set up the logging side, <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian basics</a> covers it. The commonly used indicators are:</p>
+  <ul>
+    <li><strong>Average alarm rate.</strong> EEMUA 191 treats fewer than one new alarm per 10 minutes in steady running as very likely acceptable, and fewer than ten in 10 minutes after an upset as manageable but difficult. A long-term average of about 12 alarms per hour (roughly two per 10 minutes) is often quoted as an upper limit for one operator.</li>
+    <li><strong>Peak rate and floods.</strong> An alarm flood is commonly defined as a 10-minute period with more than 10 new alarms. EEMUA 191 treats the flood as continuing until a 10-minute period with fewer than five new alarms.</li>
+    <li><strong>Top contributors.</strong> If the ten most frequent alarms produce more than about 20 percent of the total, a few nuisance alarms are doing most of the damage. The good news is that fixing them is quick.</li>
+    <li><strong>Chattering alarms.</strong> A common test is three or more activations of the same alarm within one minute.</li>
+    <li><strong>Stale or standing alarms.</strong> An alarm that stays active for an extended period, most often taken as 24 hours.</li>
+    <li><strong>Priority distribution</strong> against the philosophy target.</li>
+  </ul>
+  <p>Treat these as screening numbers. A plant with five alarms an hour can still be badly served if they are the wrong alarms, and a batch plant with long quiet spells and short busy ones will always have a high peak rate. Look at the shape over time, not only the average.</p>
+  <h2 id="example">Worked example: one week of a made-up alarm log <span class="lvl l2">Working level</span></h2>
+  <p>All data below is made up for illustration. A control room covering one reactor train and its utilities is assumed to be run by one operator at a time. I generated a seven-day alarm log of 2,104 alarms from 40 tags, including two upsets and one tag that chatters, and computed the indicators with a short Python script.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Indicator</th><th>Result</th><th>Compare with</th></tr></thead><tbody>
+<tr><td>Alarms per day</td><td>301</td><td>-</td></tr>
+<tr><td>Alarms per hour</td><td>12.5</td><td>About 12 per hour ceiling</td></tr>
+<tr><td>Alarms per 10 minutes (average)</td><td>2.1</td><td>Under 1 is very likely acceptable</td></tr>
+<tr><td>10-minute periods with 1 or fewer alarms</td><td>42 %</td><td>-</td></tr>
+<tr><td>Flood periods (more than 10 in 10 min)</td><td>6 of 1,008 (0.6 %)</td><td>Peak 32 in 10 min</td></tr>
+<tr><td>Share of alarms inside flood periods</td><td>6.5 %</td><td>-</td></tr>
+<tr><td>Share from the top 5 tags</td><td>57 %</td><td>-</td></tr>
+<tr><td>Share from the top 10 tags</td><td>70 %</td><td>Above 20 % means nuisance alarms</td></tr>
+<tr><td>Priority split high / medium / low</td><td>3.8 / 47.7 / 48.6 %</td><td>Target near 5 / 15 / 80 %</td></tr>
+<tr><td>Chattering tags</td><td>1 (tag T00, 440 alarms)</td><td>3 or more in 1 minute</td></tr>
+</tbody></table></div>
+  <p>Reading the table, the plant looks fine on average (12.5 per hour is only just over the commonly quoted ceiling) but the average hides three problems. First, the top ten tags produce 70 percent of the load, so the problem is concentrated. Second, one chattering tag alone produces 21 percent of all alarms (440 of 2,104). Third, the priority split is upside down: almost half the alarms are medium priority, which means priority is not guiding the operator.</p>
+  <p>The action plan writes itself. Fix the chattering tag first, then take the next nine tags to a rationalisation workshop, then re-assign priorities. If the top ten tags were halved, the week would drop by roughly a third of its alarms without touching the other 30 tags.</p>
+<div class="art-note"><b>Why the top tags matter</b><p>Alarm counts follow a very uneven pattern: a few tags do most of the shouting. That is why alarm improvement projects pay back so quickly. Always start with a bad-actor list, not with a plant-wide rewrite.</p></div>
+  <h2 id="fixes">Deadband, delay and other fixes <span class="lvl l2">Working level</span></h2>
+  <p>Most nuisance alarms come from a measurement that wobbles around its limit. Three simple settings deal with most of them.</p>
+  <ul>
+    <li><strong>Deadband (hysteresis).</strong> The alarm clears only when the value has moved a set distance back from the limit, for example 0.5 units below a high limit.</li>
+    <li><strong>On-delay.</strong> The value must stay beyond the limit for a set time before the alarm is raised, for example 5 to 10 seconds for a noisy flow signal.</li>
+    <li><strong>Filtering.</strong> A small filter on the signal removes spikes. Do not filter a signal so much that a real excursion arrives late.</li>
+  </ul>
+  <p>To see what these do, I simulated a made-up 4-hour level signal, sampled each second. It has a slow drift that really crosses a high limit of 62.0 three times, plus random noise. The count of alarms raised depends strongly on the settings:</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Deadband</th><th>On-delay</th><th>Alarms in 4 hours</th></tr></thead><tbody>
+<tr><td>0</td><td>0 s</td><td>806</td></tr>
+<tr><td>0.5</td><td>0 s</td><td>257</td></tr>
+<tr><td>0.5</td><td>5 s</td><td>25</td></tr>
+<tr><td>1.0</td><td>10 s</td><td>3</td></tr>
+</tbody></table></div>
+  <p>The last row gives three alarms for three real excursions. Be careful, though. A bigger deadband and a longer delay also make the alarm later and wider, so each setting has to be checked against the time the operator needs to respond. For a fast-moving hazard such as a runaway reaction temperature, long delays are not acceptable. The right answer comes from the rationalisation record, not from a default number.</p>
+  <p>Other fixes include removing duplicate alarms (the same fault flagged by three instruments), turning a sequence of alarms into one first-out alarm, suppressing alarms that are expected in a particular state (for example a low flow alarm on a pump that is deliberately stopped), and converting informational alarms into event messages. State-based suppression should be designed and approved, not improvised. Where you find yourself writing many exceptions, the underlying issue is often a limit that was set without looking at normal operation. <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors</a> and better measurements can also replace several weak alarms with one reliable one.</p>
+  <h2 id="shelving">Shelving, suppression and change control <span class="lvl l3">Going deeper</span></h2>
+  <p>Sometimes an alarm must be quiet for a while, such as a failed transmitter waiting for a spare. Shelving is the controlled way to do it. A shelved alarm is hidden from the main list for a limited time, the reason and the person are recorded, it comes back automatically, and supervisors can see what is shelved. Silently disabling an alarm in the control system does none of these things.</p>
+  <p>Treat alarm limits, priorities and suppression logic as part of the validated configuration. Changes should go through the same change control as other control system changes, with the rationalisation record updated. In a GMP plant an alarm that protects product quality may also be a data integrity or deviation matter, so find out how your quality system views it before you change it. A standing alarm also tells you something: if a high temperature alarm has been on for three days, either the limit is wrong or the plant is running outside its design, and either one needs a decision.</p>
+  <p>Alarm data is also a good source for fault analysis. The order in which alarms arrive often points to the first cause, which links to <a href="{{ '/articles/fault-tree-analysis/' | relative_url }}">fault tree analysis</a>, and the long-term trend of an instrument's alarm count can be an early sign of a failing sensor, a topic touched on in <a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">predictive maintenance</a>.</p>
+  <h2 id="mistakes">Common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Treating the clean-up as a one-time project.</strong> Without monthly KPIs and change control, the count creeps back within a year.</li>
+    <li><strong>Setting limits by habit.</strong> Alarm at 90 percent of range because it is tidy, instead of at the value that leaves the operator enough time to act.</li>
+    <li><strong>Using alarms as messages.</strong> "Pump running" and "batch step complete" belong in the event log, not the alarm list.</li>
+    <li><strong>Changing the priority instead of fixing the cause.</strong> Lowering a nuisance alarm to low priority hides it but does not remove the noise.</li>
+    <li><strong>Excessive delays on fast hazards.</strong> A delay that cleans up the screen can also remove the time the operator needs.</li>
+    <li><strong>Ignoring the operators.</strong> They know which alarms are useless. Leave them out of the workshop and you will repeat mistakes.</li>
+  </ul>
+  <h2 id="checklist">Checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Is there a written alarm philosophy with priority definitions and KPI targets?</li>
+    <li>Do you have a monthly report of alarm rate, floods, top ten tags, chattering and stale alarms?</li>
+    <li>Does every alarm have a consequence, response time and action on record?</li>
+    <li>Are the top ten bad actors under review, with an owner for each?</li>
+    <li>Are shelving and suppression controlled, time limited and visible?</li>
+    <li>Do alarm changes go through change control, with the record updated?</li>
+  </ul>
+  <p>For practice in diagnosing a plant problem from the symptoms, try the <a href="{{ '/games/troubleshooter/' | relative_url }}">troubleshooter game</a>.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How many alarms per hour is acceptable for an operator?</h3>
+  <p>EEMUA 191 treats fewer than one alarm per 10 minutes in steady running as very likely acceptable. A long-term average of about 12 alarms per hour, around two per 10 minutes, is a commonly quoted ceiling. Fewer is better, and the right figure depends on how much attention each alarm needs.</p>
+  <h3>What is an alarm flood?</h3>
+  <p>A common definition is a 10-minute period with more than 10 new alarms. EEMUA 191 treats the flood as continuing until a 10-minute period with fewer than five new alarms. During a flood, operators cannot respond to each alarm properly.</p>
+  <h3>What is a chattering alarm and how do I stop it?</h3>
+  <p>A chattering alarm switches repeatedly between alarm and normal in a short time, often defined as three or more activations within one minute. The usual fixes are a deadband, an on-delay, better signal filtering, or fixing the instrument or process cause.</p>
+  <h3>What is the difference between a standing alarm and a stale alarm?</h3>
+  <p>Both mean an alarm that stays active for a long time without being cleared. Stale is most often defined as active for more than 24 hours. Standing alarms hide new problems and usually point to a setpoint, instrument or procedure that needs fixing.</p>
+  <h3>Is shelving an alarm the same as disabling it?</h3>
+  <p>No. Shelving is a controlled, temporary suppression that is recorded, time limited and visible to the operator and the supervisor. Silently disabling an alarm leaves no record and is a management of change problem.</p>
+  <div class="art-note"><b>Limits of this article</b><p>The benchmarks here are commonly quoted screening values, and the worked example uses made-up data. Your alarm philosophy must be set from your own hazards, response times and the current editions of EEMUA 191, ISA-18.2 and IEC 62682.</p></div>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.chemengonline.com/alarm-management-numbers/">Chemical Engineering, Alarm management by the numbers</a></li>
+    <li><a href="https://controlglobal.com/protect/safety-instrumented-systems/article/11382017/asm-alarm-management-guidelines-and-isa-182-how-do-they-stack-up">Control Global, ASM alarm management guidelines and ISA-18.2: how do they stack up?</a></li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/process-historian-basics/' | relative_url }}">Process historian basics</a>
+    <a href="{{ '/articles/soft-sensors-chemical-plants/' | relative_url }}">Soft sensors in chemical plants</a>
+    <a href="{{ '/articles/predictive-maintenance-chemical-plants/' | relative_url }}">Predictive maintenance</a>
+    <a href="{{ '/articles/fault-tree-analysis/' | relative_url }}">Fault tree analysis</a>
+    <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">Control charts and SPC for batch plants</a>
+    <a href="{{ '/articles/reading-process-trends-to-find-faults/' | relative_url }}">Reading process trends to find faults</a>
+    <a href="{{ '/articles/fault-detection-methods-compared/' | relative_url }}">Fault detection methods compared</a>
+    <a href="{{ '/games/troubleshooter/' | relative_url }}">Troubleshooter game</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
