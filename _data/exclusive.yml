@@ -252,7 +252,7 @@ items:
     meta: 'Offline costing app for batch plants: stage-wise norms, utilities, CAPEX, fixed cost and a final cost sheet in one HTML file.'
     title: 'Costing workbench (offline app)'
     short: 'Build the cost sheet of a multi-stage batch process in one HTML file that works offline. Raw material norms roll up stage by stage, then utilities, waste, vacuum, equipment cost and fixed cost give the cost per kg for each customer.'
-    price: 499
+    price: 4999
     what:
       - 'Eight modules: Basic details, RM norms, Waste norms, Vacuum, Equipment and CAPEX, Power and fuel, Fixed cost, Final cost sheet'
       - 'Stages that feed one another: link a stage output as the next stage input, with branching and merging flows, and overall norms roll up automatically'
@@ -274,7 +274,7 @@ items:
     meta: 'Offline equipment and capacity planner for batch plants: equipment master, capacity chart, product clash matrix and turnover dashboard.'
     title: 'Equipment and capacity planner (offline app)'
     short: 'See which equipment each product uses, how much each stage can make in a month, where two products clash for the same vessel, and what turnover a production plan gives. One HTML file that works offline.'
-    price: 399
+    price: 3999
     what:
       - 'Equipment tab: every vessel and unit by block, with up to seven product and stage slots per equipment'
       - 'Capacity chart: batch size, yield, batch cycle time and days per month for each stage, with output and monthly stage capacity calculated live'
@@ -296,7 +296,7 @@ items:
     meta: 'Offline raw material stock and PR decision tool: monthly requirement, net position, safety stock and a PR log in one HTML file.'
     title: 'Raw material stock and PR tool (offline app)'
     short: 'Know what to order this month. Enter the production plan and norms, and the tool works out the requirement, safety stock and net position of every raw material, and flags shortage, thin cushion or sufficient stock before you raise a purchase requisition.'
-    price: 299
+    price: 2999
     what:
       - 'Requirement of every raw material calculated live from norms times the monthly production plan'
       - 'Net position = (stock + in transit + open PO) minus (required + safety stock), with Shortage, Thin cushion and Sufficient status'
