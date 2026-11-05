@@ -49,6 +49,11 @@ structured_data: |
       <span class="ex-type">{{ g.chip | default: g.title }}{% if it.sample %}<em>Free preview</em>{% endif %}</span>
       <h3>{{ it.title }}</h3>
       <p>{{ it.meta | default: it.short | truncate: 130 }}</p>
+      {%- if it.demo %}<div class="ex-prev" aria-hidden="true"><div class="ex-demo-stage" data-demo="{{ it.demo }}"></div></div>
+      {%- elsif it.preview %}<div class="ex-prev" aria-hidden="true"><img src="{{ it.preview | relative_url }}" alt="" loading="lazy" width="2282" height="684"></div>
+      {%- elsif it.what %}<div class="ex-prev" aria-hidden="true"><ul>{% for w in it.what limit: 3 %}<li>{{ w | truncate: 78 }}</li>{% endfor %}</ul></div>
+      {%- elsif g.key == "excel" %}<div class="ex-prev" aria-hidden="true"><ul><li>An Excel workbook with the same method as the free calculator</li><li>Live formulas, yellow input cells and protected formulas</li></ul></div>
+      {%- endif %}
       <span class="ex-price">₹{{ it.price }}</span>
     </a>
     {%- endfor %}{% endfor %}

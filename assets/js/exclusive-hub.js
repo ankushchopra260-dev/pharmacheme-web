@@ -21,6 +21,14 @@
     try { history.replaceState(null, '', group === 'all' ? location.pathname : '#' + group); } catch (e) { /* ignore */ }
     apply(); }); });
   q.addEventListener('input', apply);
+  /* preview opens when a card scrolls into view, or on hover and keyboard focus */
+  var withPrev = cards.filter(function (c) { return c.querySelector('.ex-prev'); });
+  function seen(c) { c.classList.add('is-seen'); }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { seen(e.target); io.unobserve(e.target); } }); }, { threshold: 0.6 });
+    withPrev.forEach(function (c) { io.observe(c); });
+  } else withPrev.forEach(seen);
+  withPrev.forEach(function (c) { c.addEventListener('mouseenter', function () { seen(c); }); c.addEventListener('focus', function () { seen(c); }); });
   var h = (location.hash || '').replace('#', '');
   var hm = { calculators: 'calculators', templates: 'templates', excel: 'excel', apps: 'apps', books: 'books', concepts: 'concepts', articles: 'articles', courses: 'courses', gate: 'gate' };
   if (hm[h]) { var t = chips.filter(function (b) { return b.getAttribute('data-g') === hm[h]; })[0]; if (t) t.click(); else apply(); } else apply();

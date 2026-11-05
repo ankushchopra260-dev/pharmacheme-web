@@ -237,3 +237,14 @@ a.ts-btn { display: inline-block; text-decoration: none; }
 .ex-faq summary { cursor: pointer; font-weight: 700; color: var(--paper); }
 .ex-faq details p { margin: 8px 0 0; color: var(--muted); }
 @media (max-width: 640px) { .ex-top h1 { font-size: 1.7rem; } }
+
+/* preview that opens when a card scrolls into view */
+.ex-prev { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .5s ease, opacity .5s ease, margin .5s ease; }
+.ex-item.is-seen .ex-prev { max-height: 190px; opacity: 1; margin: 8px 0 2px; }
+.ex-prev img { display: block; width: 100%; height: 110px; object-fit: cover; object-position: left top; border-radius: 6px; background: #fff; }
+.ex-prev .ex-demo-stage { height: 150px; border-radius: 6px; box-shadow: none; }
+.ex-prev ul { margin: 0; padding-left: 16px; color: var(--muted); font-size: .8rem; line-height: 1.45; }
+.ex-prev li { margin-bottom: 3px; }
+@media (prefers-reduced-motion: reduce) { .ex-prev { transition: none; } }
+.ex-item p { flex: 0 0 auto; }
+.ex-item .ex-price { margin-top: auto; padding-top: 6px; }
