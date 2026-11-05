@@ -3,27 +3,35 @@
 # Pages are made by tools/build_exclusive_pages.py from this file.
 groups:
   - key: courses
+    chip: Courses
     title: Self-paced courses
     blurb: Full courses you work through at your own pace. Interactive 3D lessons, plant assignments with self-checking Excel, worked solutions, a final test and a certificate.
   - key: books
+    chip: 3D books
     title: 3D concept books
     blurb: Pencil-sketch equipment rises off the page. Turn it, change the flows and temperatures, and watch the physics respond. Each page ends with a quick check, and your progress is saved.
   - key: articles
+    chip: Plant articles
     title: Detailed plant articles
     blurb: In-depth guides with full worked plant examples, for engineers who design, check and troubleshoot equipment.
   - key: concepts
+    chip: Concept notes
     title: Concept notes
     blurb: Chapter-length notes on core chemical engineering concepts, with derivations kept short and every worked problem solved to the number. Useful for GATE, interviews and design work.
   - key: calculators
+    chip: Pro calculators
     title: Pro calculators
     blurb: Bigger design tools than the free calculators, each with a PDF report and an Excel version with live formulas.
   - key: templates
+    chip: Excel templates
     title: Excel templates
     blurb: Ready-to-use workbooks for everyday plant engineering work.
   - key: excel
+    chip: Excel calculators
     title: Excel versions of the free calculators
     blurb: The same method as the free calculator, as an Excel workbook with live formulas you can keep, edit and attach to your calculations.
   - key: apps
+    chip: Plant apps
     title: Plant planning apps
     blurb: Single-file apps that run in your browser with no install and no internet. Your data stays in the file on your computer.
 
