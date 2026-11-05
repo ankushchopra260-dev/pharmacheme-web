@@ -2,7 +2,7 @@
 layout: default
 title: "URS Builder for Pumps, Heat Exchangers, Columns and Reactors"
 seo_title: "URS Builder for Process Equipment | PharmaChemE"
-description: "Free URS builder for pharma and chemical equipment. Pick a pump, exchanger, column or reactor, fill the inputs and export a draft URS to Word, PDF or CSV."
+description: "Free URS builder for 34 pharma and chemical equipment types: reactors, filters, dryers, condensers, pumps and more. Export a draft URS to Word, PDF or CSV."
 structured_data: |
   {
     "@context": "https://schema.org",
@@ -68,13 +68,13 @@ breadcrumbs:
     url: /design-tools/
   - label: "URS Builder"
     url: /design-tools/urs-builder/
-last_modified_at: 2026-11-04
+last_modified_at: 2026-11-05
 ---
 <link rel="stylesheet" href="{{ '/assets/css/simple-tools.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <link rel="stylesheet" href="{{ '/assets/css/urs-builder.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container st-head">
   <h1>URS Builder for Process Equipment</h1>
-  <p>Choose a pump, heat exchanger, distillation column or batch reactor. Fill in the duty and tick the requirements. The specification updates as you go.</p>
+  <p>Choose a category, then the equipment: reactors, heat exchangers, filters, dryers, pumps and more. Fill in the duty and tick the requirements. The specification updates as you go.</p>
 </div>
 <div class="container">
   <div id="urs-app"><noscript>This tool needs JavaScript.</noscript></div>
@@ -86,7 +86,7 @@ last_modified_at: 2026-11-04
   <h2>URS, datasheet, FDS and DQ</h2>
   <p>The URS says what the user needs and why. The datasheet holds the numbers. The supplier's functional or design specification says how the supplier will meet the URS. Design qualification then checks that proposed design against the URS, and installation, operational and performance qualification (IQ, OQ, PQ) trace back to the same requirement IDs. That is why each clause here has an ID, a priority and a verification method.</p>
   <h2>How to use this builder</h2>
-  <p>The builder covers four equipment types: centrifugal pumps, heat exchangers (shell and tube or plate), distillation columns (packed or tray, batch or continuous) and jacketed, agitated batch reactors (glass-lined or stainless steel). Pick the equipment, enter your document details and the process inputs, then review the clause list. Clauses that depend on your inputs, such as hazardous area, CIP or GMP status, appear or disappear automatically. Change the priority or the verification method of any clause, and add your own requirements at the end. Export to PDF through the print dialog, to Word, to CSV for a traceability matrix, or copy it as plain text.</p>
+  <p>The builder covers 34 equipment types in seven categories. Reaction and vessels: batch reactors (glass-lined, stainless steel or Hastelloy), pressure reactors, storage tanks and receivers. Heat transfer: heat exchangers (shell and tube, plate or graphite), condensers, subcoolers, reboilers and chillers. Mass transfer: distillation columns and scrubbers. Filtration and separation: ANF, ANFD, PNF, sparkler and cartridge filters and centrifuges. Drying: RVD, RCVD, DCVD, Nauta, paddle, tray, vacuum tray, fluid bed and spray dryers. Fluid movement and vacuum: centrifugal, diaphragm and dosing pumps and vacuum pumps. Solids handling: mills, sifters and blenders. Pick a category and the equipment, enter your document details and the process inputs, then review the clause list. Clauses that depend on your inputs, such as hazardous area, CIP or GMP status, appear or disappear automatically. Every dropdown can also be typed over, so you can enter a value that is not in the list. Change the priority or the verification method of any clause, and add your own requirements at the end. Export to PDF through the print dialog, to Word, to CSV for a traceability matrix, or copy it as plain text.</p>
   <p>Your draft is saved in this browser only. Nothing is sent to a server.</p>
   <h2>Frequently asked questions</h2>
   <h3>What is a URS in pharma and chemical projects?</h3>
@@ -108,4 +108,9 @@ last_modified_at: 2026-11-04
     <a href="{{ '/design-tools/pid/' | relative_url }}">P&amp;ID builder</a>
   </div>
 </div>
+<script src="{{ '/assets/js/urs-eq-filtration.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/urs-eq-drying-agitated.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/urs-eq-drying-static.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/urs-eq-thermal-vessels.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/urs-eq-fluid-solids.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 <script src="{{ '/assets/js/urs-builder.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

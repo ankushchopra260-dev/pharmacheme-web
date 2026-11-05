@@ -1,4 +1,4 @@
-/* PharmaChemE URS builder: generates a User Requirement Specification for a pump, heat exchanger or distillation column.
+/* PharmaChemE URS builder core: generates a User Requirement Specification. Equipment is registered by assets/js/urs-eq-*.js and the four built-in types below.
    Everything runs in the browser. A draft is kept in localStorage on this device only. */
 (function () {
   'use strict';
@@ -28,7 +28,7 @@
   ];
   var EQ = {
     pump: {
-      label: 'Centrifugal pump', pfx: 'PMP', noun: 'centrifugal pump',
+      label: 'Centrifugal pump', cat: 'Fluid movement and vacuum', pfx: 'PMP', noun: 'centrifugal pump',
       varKey: 'ptype',
       fields: [
         { g: 'Duty', k: 'tag', l: 'Equipment tag and name', t: 'text', d: 'P-101 Solvent transfer pump' },
@@ -52,11 +52,11 @@
       ]
     },
     hx: {
-      label: 'Heat exchanger', pfx: 'HEX', noun: 'heat exchanger',
+      label: 'Heat exchanger', cat: 'Heat transfer', pfx: 'HEX', noun: 'heat exchanger',
       varKey: 'htype',
       fields: [
         { g: 'Duty', k: 'tag', l: 'Equipment tag and name', t: 'text', d: 'E-201 Reactor overhead condenser' },
-        { g: 'Duty', k: 'htype', l: 'Exchanger type', t: 'sel', o: ['Shell and tube', 'Plate (gasketed)'], d: 'Shell and tube', drv: 1 },
+        { g: 'Duty', k: 'htype', l: 'Exchanger type', t: 'sel', o: ['Shell and tube', 'Plate (gasketed)', 'Graphite (impervious graphite block or shell and tube)'], d: 'Shell and tube', drv: 1 },
         { g: 'Duty', k: 'hf', l: 'Hot fluid', t: 'text', d: 'Toluene vapour' },
         { g: 'Duty', k: 'cf', l: 'Cold fluid', t: 'text', d: 'Chilled water' },
         { g: 'Duty', k: 'duty', l: 'Heat duty', t: 'num', u: 'kW', d: '250' },
@@ -74,7 +74,7 @@
       ]
     },
     col: {
-      label: 'Distillation column', pfx: 'DST', noun: 'distillation column',
+      label: 'Distillation column', cat: 'Mass transfer', pfx: 'DST', noun: 'distillation column',
       varKey: 'ctype',
       fields: [
         { g: 'Duty', k: 'tag', l: 'Equipment tag and name', t: 'text', d: 'C-301 Solvent recovery column' },
@@ -102,11 +102,11 @@
   };
 
   EQ.rx = {
-    label: 'Batch reactor', pfx: 'RXR', noun: 'batch reactor',
+    label: 'Batch reactor', cat: 'Reaction and vessels', pfx: 'RXR', noun: 'batch reactor',
     varKey: 'rtype',
     fields: [
       { g: 'Duty', k: 'tag', l: 'Equipment tag and name', t: 'text', d: 'R-401 Reaction vessel' },
-      { g: 'Duty', k: 'rtype', l: 'Vessel construction', t: 'sel', o: ['Glass-lined steel', 'Stainless steel'], d: 'Glass-lined steel', drv: 1 },
+      { g: 'Duty', k: 'rtype', l: 'Vessel construction', t: 'sel', o: ['Glass-lined steel', 'Stainless steel', 'Hastelloy (C-22 or C-276)'], d: 'Glass-lined steel', drv: 1 },
       { g: 'Duty', k: 'proc', l: 'Process and reaction', t: 'text', d: 'Exothermic esterification in toluene' },
       { g: 'Duty', k: 'vol', l: 'Nominal working volume', t: 'num', u: 'L', d: '4000' },
       { g: 'Duty', k: 'fmin', l: 'Minimum fill (agitator and probes covered)', t: 'num', u: '% of working volume', d: '30' },
@@ -232,7 +232,13 @@
       { t: 'Materials and surface finish', c: [
         c('Wetted parts shall be made of {moc} and shall be compatible with the fluids, the temperatures and the cleaning agents in use.', M, 'Design review, Documentation'),
         c('Product-contact materials, including gaskets and seals, shall be non-reactive, non-additive and non-absorptive, with a compliance declaration for each polymer or elastomer.', M, DOC, true, prodOn),
-        c('Product-contact surfaces shall have a surface roughness not greater than {finish}, with the measurement record provided.', M, 'FAT, Documentation', true, gmpProd),
+        c('Product-contact surfaces shall have a surface roughness not greater than {finish}, with the measurement record provided.', M, 'FAT, Documentation', true, function (v) { return gmpProd(v) && !/^Graphite/.test(v.htype); }),
+        c('The exchanger shall use impervious graphite (graphite impregnated with a resin, such as phenolic or PTFE, as stated by the supplier) for the heat transfer surfaces. The supplier shall state the impregnant, its chemical and temperature limits, and the grade and thermal conductivity of the graphite.', M, 'Design review, Documentation', true, function (v) { return /^Graphite/.test(v.htype); }),
+        c('The supplier shall state the maximum design pressure and temperature for graphite and for the steel casing or shell, the allowed pressure difference between the two sides, and any vacuum rating. Graphite is brittle, so the design shall limit tensile and bending loads on the blocks or tubes.', M, DR, true, function (v) { return /^Graphite/.test(v.htype); }),
+        c('The supplier shall state the limits for thermal shock and for rate of heating and cooling, and the user shall be told the start-up and shutdown sequence (for example introducing the cold fluid before or after the hot fluid) needed to protect the graphite.', M, DR, true, function (v) { return /^Graphite/.test(v.htype); }),
+        c('Gaskets, seals and tie-rod or spring clamping arrangements shall be compatible with the fluids, and the supplier shall state the tightening procedure, the gasket type and the expected life.', M, DR, true, function (v) { return /^Graphite/.test(v.htype); }),
+        c('The supplier shall state how a leaking block or tube is found and repaired (for example plugging of tubes or replacement of a block), how many tubes may be plugged before performance falls, and the spares needed.', S_, DR, true, function (v) { return /^Graphite/.test(v.htype); }),
+        c('The exchanger shall be protected against mechanical shock, water hammer and pressure surges, and the supplier shall state the need for a rupture disc, a relief device or a surge control on each side.', S_, DR, true, function (v) { return /^Graphite/.test(v.htype); }),
         c('Product-contact tubes and welds shall be crevice-free, smooth and fully penetrated, and tube-to-tubesheet joints shall be designed to avoid crevices that cannot be cleaned.', S_, DR, true, function (v) { return gmpProd(v) && /^Shell/.test(v.htype); }),
         c('The exchanger shall be drainable with no pockets where product can remain after draining.', M, DR, true, gmpProd),
         c('The supplier shall provide material certificates (for example EN 10204 type 3.1 or equivalent) for pressure parts and wetted parts, and weld maps.', S_, DOC)
@@ -367,8 +373,13 @@
     { t: 'Materials and surface finish', c: [
       c('Wetted parts shall be made of {moc} and shall be compatible with the reaction mass, impurities, temperature and the cleaning agents in use.', M, 'Design review, Documentation'),
       c('The glass lining shall be free of defects when tested by high-voltage spark testing, and the supplier shall state the glass grade, thickness and the chemical and thermal shock limits.', M, 'FAT, Documentation', true, function (v) { return /^Glass/.test(v.rtype); }),
-      c('Product-contact stainless steel surfaces shall have a surface roughness not greater than {finish}, with the measurement record provided.', M, 'FAT, Documentation', true, function (v) { return gmpProd(v) && /^Stainless/.test(v.rtype); }),
-      c('Product-contact welds shall be smooth, fully penetrated and recorded on a weld map, and the vessel shall be free of crevices and dead legs.', M, DOC, true, function (v) { return gmpProd(v) && /^Stainless/.test(v.rtype); }),
+      c('The vessel and all wetted parts shall be made of Hastelloy (nickel-molybdenum-chromium alloy, grade C-22 or C-276 as stated by the supplier), either solid or as a clad or lined construction. The supplier shall state which, the thickness of the alloy layer and the corrosion allowance.', M, 'Design review, Documentation', true, function (v) { return /^Hastelloy/.test(v.rtype); }),
+      c('The supplier shall provide positive material identification (PMI) records for the alloy parts, material certificates (EN 10204 type 3.1 or equivalent) and the welding procedure and consumables used, which shall match the alloy and avoid loss of corrosion resistance in the weld and heat-affected zone.', M, DOC, true, function (v) { return /^Hastelloy/.test(v.rtype); }),
+      c('The supplier shall state the corrosion data or test basis for the alloy against the reaction mass, including chlorides, acids, hot and wet conditions and the cleaning agents, and shall say where the alloy is not suitable (for example under strongly oxidising conditions or at crevices).', M, DR, true, function (v) { return /^Hastelloy/.test(v.rtype); }),
+      c('Agitator, shaft, baffles, dip pipes, thermowell and nozzle internals that touch the reaction mass shall be made of the same alloy or a compatible one, and any dissimilar-metal contact shall be stated and justified.', S_, DR, true, function (v) { return /^Hastelloy/.test(v.rtype); }),
+      c('The supplier shall state the pickling and passivation (or equivalent finishing) of alloy surfaces after fabrication, and the repair method for any damage in service.', S_, DOC, true, function (v) { return /^Hastelloy/.test(v.rtype); }),
+      c('Product-contact metal surfaces shall have a surface roughness not greater than {finish}, with the measurement record provided.', M, 'FAT, Documentation', true, function (v) { return gmpProd(v) && /^(Stainless|Hastelloy)/.test(v.rtype); }),
+      c('Product-contact welds shall be smooth, fully penetrated and recorded on a weld map, and the vessel shall be free of crevices and dead legs.', M, DOC, true, function (v) { return gmpProd(v) && /^(Stainless|Hastelloy)/.test(v.rtype); }),
       c('Product-contact materials, including gaskets, seals and sight glass, shall be non-reactive, non-additive and non-absorptive, with a compliance declaration for each polymer or elastomer.', M, DOC, true, prodOn),
       c('The supplier shall provide material certificates (for example EN 10204 type 3.1 or equivalent) for the vessel, jacket and wetted parts.', S_, DOC)
     ] },
@@ -418,6 +429,12 @@
     ] }
   ];
 
+  /* equipment modules (assets/js/urs-eq-*.js) register here: PCE_URS.q.push(function (A) { A.add(key, def, sections); }) */
+  var CATS = ['Reaction and vessels', 'Heat transfer', 'Mass transfer', 'Filtration and separation', 'Drying', 'Fluid movement and vacuum', 'Solids handling and size reduction'];
+  var API = { c: c, M: M, S_: S_, C_: C_, DR: DR, FAT: FAT, SAT: SAT, DOC: DOC, YN: YN, gmpOn: gmpOn, prodOn: prodOn, gmpProd: gmpProd, zoneOn: zoneOn, cipOn: cipOn,
+    add: function (key, def, sections) { def.fields = def.fields.concat(COMMON); EQ[key] = def; LIB[key] = sections; if (CATS.indexOf(def.cat) < 0) CATS.push(def.cat); } };
+  ((window.PCE_URS && window.PCE_URS.q) || []).forEach(function (fn) { try { fn(API); } catch (err) { if (window.console) console.error('URS module failed', err); } });
+
   /* number clauses per equipment, stable by position */
   Object.keys(LIB).forEach(function (eq) {
     var n = 0;
@@ -432,15 +449,14 @@
     return { v: v, sel: {}, pri: {}, ver: {}, custom: [] };
   }
   var S = load();
-  if (!S || !S.d || !S.hdr) {
-    S = { eq: 'pump', hdr: { project: '', doc: '', rev: '0', by: '' }, d: { pump: freshEq('pump'), hx: freshEq('hx'), col: freshEq('col'), rx: freshEq('rx') } };
-  }
-  ['pump', 'hx', 'col', 'rx'].forEach(function (eq) {
+  if (!S || !S.d || !S.hdr) S = { eq: 'pump', hdr: { project: '', doc: '', rev: '0', by: '' }, d: {} };
+  function ensure(eq) {
     if (!S.d[eq]) S.d[eq] = freshEq(eq);
     EQ[eq].fields.forEach(function (f) { if (S.d[eq].v[f.k] === undefined) S.d[eq].v[f.k] = f.d; });
-  });
+  }
   if (!EQ[S.eq]) S.eq = 'pump';
-  function cur() { return S.d[S.eq]; }
+  ensure(S.eq);
+  function cur() { ensure(S.eq); return S.d[S.eq]; }
 
   /* ---------- clause logic ---------- */
   function fieldOf(eq, k) { for (var i = 0; i < EQ[eq].fields.length; i++) if (EQ[eq].fields[i].k === k) return EQ[eq].fields[i]; return null; }
@@ -566,8 +582,10 @@
   function build() {
     var eq = S.eq, E = EQ[eq], st = cur();
     var h = '<div class="urs-grid"><div class="urs-left">';
-    h += '<div class="urs-card"><h2>1. Choose the equipment</h2><div class="urs-tabs" role="tablist">';
-    Object.keys(EQ).forEach(function (k) { h += '<button type="button" role="tab" class="urs-tab" data-eq="' + k + '" aria-selected="' + (k === eq ? 'true' : 'false') + '">' + esc(EQ[k].label) + '</button>'; });
+    h += '<div class="urs-card"><h2>1. Choose the equipment</h2><p class="urs-small" style="margin:0 0 6px">Category</p><div class="urs-tabs urs-cats" role="tablist">';
+    CATS.forEach(function (ct) { if (!Object.keys(EQ).some(function (k) { return EQ[k].cat === ct; })) return; h += '<button type="button" role="tab" class="urs-tab urs-cat" data-cat="' + esc(ct) + '" aria-selected="' + (ct === E.cat ? 'true' : 'false') + '">' + esc(ct) + '</button>'; });
+    h += '</div><p class="urs-small" style="margin:12px 0 6px">Equipment</p><div class="urs-tabs" role="tablist">';
+    Object.keys(EQ).forEach(function (k) { if (EQ[k].cat !== E.cat) return; h += '<button type="button" role="tab" class="urs-tab" data-eq="' + k + '" aria-selected="' + (k === eq ? 'true' : 'false') + '">' + esc(EQ[k].label) + '</button>'; });
     h += '</div><p class="urs-small">' + total(eq) + ' standard requirements are available for this equipment. Some appear only when your inputs call for them.</p></div>';
     h += '<div class="urs-card"><h2>2. Document details</h2><div class="urs-row">';
     [['project', 'Project'], ['doc', 'Document number'], ['rev', 'Revision'], ['by', 'Prepared by']].forEach(function (x) { h += '<label>' + x[1] + '<input type="text" data-h="' + x[0] + '" value="' + esc(S.hdr[x[0]]) + '"></label>'; });
@@ -586,7 +604,7 @@
       if (f.sh && !f.sh(st.v)) return;
       if (f.g !== last) { out += (last ? '</div></details>' : '') + '<details class="urs-grp" open><summary>' + esc(f.g) + '</summary><div class="urs-row">'; last = f.g; }
       out += '<label>' + esc(f.l) + (f.u ? ' <span class="urs-u">(' + esc(f.u) + ')</span>' : '');
-      if (f.t === 'sel') { out += '<select data-k="' + f.k + '"' + (f.drv ? ' data-drv="1"' : '') + '>' + f.o.map(function (o) { return '<option' + (o === st.v[f.k] ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select>'; }
+      if (f.t === 'sel') { out += '<input type="text" class="urs-combo" list="dl-' + f.k + '" data-k="' + f.k + '"' + (f.drv ? ' data-drv="1"' : '') + ' value="' + esc(st.v[f.k]) + '" autocomplete="off" title="Pick from the list or type your own"><datalist id="dl-' + f.k + '">' + f.o.map(function (o) { return '<option value="' + esc(o) + '"></option>'; }).join('') + '</datalist>'; }
       else out += '<input type="' + (f.t === 'num' ? 'text' : 'text') + '"' + (f.t === 'num' ? ' inputmode="decimal"' : '') + ' data-k="' + f.k + '"' + (f.drv ? ' data-drv="1"' : '') + ' value="' + esc(st.v[f.k]) + '">';
       out += '</label>';
     });
@@ -602,13 +620,14 @@
         var p = priOf(eq, cl), m = verOf(eq, cl);
         h += '<div class="urs-cl"><label class="urs-chk"><input type="checkbox" data-id="' + cl.id + '"' + (isOn(eq, cl) ? ' checked' : '') + '><span><b>' + cl.id + '</b> ' + esc(sub(eq, cl.t, cur().v)) + '</span></label>' +
           '<div class="urs-mini"><select data-pri="' + cl.id + '" aria-label="Priority for ' + cl.id + '">' + ['Must', 'Should', 'Could'].map(function (o) { return '<option' + (o === p ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select>' +
-          '<select data-ver="' + cl.id + '" aria-label="Verification for ' + cl.id + '">' + verOptions(m) + '</select></div></div>';
+          '<input type="text" class="urs-combo" list="dl-ver" data-ver="' + cl.id + '" aria-label="Verification for ' + cl.id + '" value="' + esc(m) + '" autocomplete="off"></div></div>';
         n++;
       });
       h += '</details>';
     });
-    $('#urs-clauses').innerHTML = h; sig = clauseSig();
+    $('#urs-clauses').innerHTML = h + verList(); sig = clauseSig();
   }
+  function verList() { return '<datalist id="dl-ver">' + ['Design review', 'FAT', 'SAT', 'Documentation', 'FAT, SAT', 'Design review, FAT', 'Design review, SAT', 'FAT, Documentation', 'Design review, Documentation'].map(function (o) { return '<option value="' + esc(o) + '"></option>'; }).join('') + '</datalist>'; }
   function verOptions(m) {
     var base = [DR, FAT, SAT, DOC, 'FAT, SAT', 'Design review, FAT', 'Design review, SAT', 'FAT, Documentation', 'Design review, Documentation', 'Design review, SAT'];
     var seen = {}, out = '';
@@ -618,9 +637,10 @@
   function custom() {
     var st = cur(), h = '';
     st.custom.forEach(function (x, i) {
-      h += '<div class="urs-cl"><textarea data-ct="' + i + '" rows="2" placeholder="Write the requirement as a sentence using shall or should">' + esc(x.t) + '</textarea><div class="urs-mini"><select data-cp="' + i + '" aria-label="Priority">' + ['Must', 'Should', 'Could'].map(function (o) { return '<option' + (o === (x.p || 'Should') ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select><select data-cv="' + i + '" aria-label="Verification">' + verOptions(x.m || DR) + '</select><button type="button" class="urs-btn" data-del="' + i + '">Remove</button></div></div>';
+      h += '<div class="urs-cl"><textarea data-ct="' + i + '" rows="2" placeholder="Write the requirement as a sentence using shall or should">' + esc(x.t) + '</textarea><div class="urs-mini"><select data-cp="' + i + '" aria-label="Priority">' + ['Must', 'Should', 'Could'].map(function (o) { return '<option' + (o === (x.p || 'Should') ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select><input type="text" class="urs-combo" list="dl-ver" data-cv="' + i + '" aria-label="Verification" value="' + esc(x.m || DR) + '" autocomplete="off"><button type="button" class="urs-btn" data-del="' + i + '">Remove</button></div></div>';
     });
     $('#urs-custom').innerHTML = h || '<p class="urs-small">None yet.</p>';
+    if (!$('#dl-ver')) $('#urs-custom').insertAdjacentHTML('afterend', verList());
   }
   function preview() {
     $('#urs-doc').innerHTML = docHTML(false);
@@ -635,7 +655,8 @@
 
   HOST.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.eq) { S.eq = b.dataset.eq; save(); build(); return; }
+    if (b.dataset.eq) { S.eq = b.dataset.eq; ensure(S.eq); save(); build(); return; }
+    if (b.dataset.cat) { for (var kk in EQ) { if (EQ[kk].cat === b.dataset.cat) { S.eq = kk; ensure(kk); save(); build(); return; } } return; }
     var a = b.dataset.act, st = cur();
     if (a === 'all' || a === 'none') { applicable(S.eq).forEach(function (sec) { sec.c.forEach(function (cl) { st.sel[cl.id] = (a === 'all'); }); }); clauses(); changed(); return; }
     if (a === 'def') { st.sel = {}; st.pri = {}; st.ver = {}; clauses(); changed(); return; }
@@ -646,7 +667,7 @@
     else if (x === 'word') download(fileBase() + '.doc', 'application/msword', wordHTML());
     else if (x === 'csv') download(fileBase() + '.csv', 'text/csv;charset=utf-8', csvText());
     else if (x === 'copy') copyText(plainText(), b);
-    else if (x === 'reset') { if (window.confirm('Clear this draft and return to the defaults?')) { try { localStorage.removeItem(KEY); } catch (er) { /* ignore */ } S.d = { pump: freshEq('pump'), hx: freshEq('hx'), col: freshEq('col'), rx: freshEq('rx') }; S.hdr = { project: '', doc: '', rev: '0', by: '' }; build(); } }
+    else if (x === 'reset') { if (window.confirm('Clear this draft and return to the defaults?')) { try { localStorage.removeItem(KEY); } catch (er) { /* ignore */ } S.d = {}; ensure(S.eq); S.hdr = { project: '', doc: '', rev: '0', by: '' }; build(); } }
   });
   function onInput(e) {
     var t = e.target, st = cur();
@@ -659,6 +680,9 @@
     if (t.dataset.cp !== undefined) { st.custom[+t.dataset.cp].p = t.value; changed(); return; }
     if (t.dataset.cv !== undefined) { st.custom[+t.dataset.cv].m = t.value; changed(); return; }
   }
+  /* editable dropdowns: show the full list on focus, restore the value if nothing is chosen */
+  HOST.addEventListener('focusin', function (e) { var t = e.target; if (t.classList && t.classList.contains('urs-combo')) { t.dataset.prev = t.value; t.placeholder = t.value; t.value = ''; } });
+  HOST.addEventListener('focusout', function (e) { var t = e.target; if (t.classList && t.classList.contains('urs-combo') && t.value === '' && t.dataset.prev !== undefined) { t.value = t.dataset.prev; } });
   HOST.addEventListener('input', onInput);
   HOST.addEventListener('change', onInput);
 
