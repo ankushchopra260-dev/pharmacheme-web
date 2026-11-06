@@ -47,7 +47,7 @@ structured_data: |
             "name": "What is an alarm flood?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A common definition is a 10-minute period with more than 10 new alarms. EEMUA 191 treats the flood as continuing until a 10-minute period with fewer than five new alarms. During a flood, operators cannot respond to each alarm properly."
+              "text": "A common definition is a 10-minute period with more than 10 new alarms. ISA-18.2 (also quoted for EEMUA 191) treats the flood as continuing until a 10-minute period with fewer than five new alarms. During a flood, operators cannot respond to each alarm properly."
             }
           },
           {
@@ -116,7 +116,7 @@ last_modified_at: 2026-11-06
   <p>You cannot manage what you do not count, and a historian or alarm journal gives you the data. If you have not yet set up the logging side, <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian basics</a> covers it. The commonly used indicators are:</p>
   <ul>
     <li><strong>Average alarm rate.</strong> EEMUA 191 treats fewer than one new alarm per 10 minutes in steady running as very likely acceptable, and fewer than ten in 10 minutes after an upset as manageable but difficult. A long-term average of about 12 alarms per hour (roughly two per 10 minutes) is often quoted as an upper limit for one operator.</li>
-    <li><strong>Peak rate and floods.</strong> An alarm flood is commonly defined as a 10-minute period with more than 10 new alarms. EEMUA 191 treats the flood as continuing until a 10-minute period with fewer than five new alarms.</li>
+    <li><strong>Peak rate and floods.</strong> An alarm flood is commonly defined as a 10-minute period with more than 10 new alarms. ISA-18.2 (also quoted for EEMUA 191) treats the flood as continuing until a 10-minute period with fewer than five new alarms.</li>
     <li><strong>Top contributors.</strong> If the ten most frequent alarms produce more than about 20 percent of the total, a few nuisance alarms are doing most of the damage. The good news is that fixing them is quick.</li>
     <li><strong>Chattering alarms.</strong> A common test is three or more activations of the same alarm within one minute.</li>
     <li><strong>Stale or standing alarms.</strong> An alarm that stays active for an extended period, most often taken as 24 hours.</li>
@@ -137,7 +137,7 @@ last_modified_at: 2026-11-06
 <tr><td>Priority split high / medium / low</td><td>3.8 / 47.7 / 48.6 %</td><td>Target near 5 / 15 / 80 %</td></tr>
 <tr><td>Chattering tags</td><td>1 (tag T00, 440 alarms)</td><td>3 or more in 1 minute</td></tr>
 </tbody></table></div>
-  <p>Reading the table, the plant looks fine on average (12.5 per hour is only just over the commonly quoted ceiling) but the average hides three problems. First, the top ten tags produce 70 percent of the load, so the problem is concentrated. Second, one chattering tag alone produces 21 percent of all alarms (440 of 2,104). Third, the priority split is upside down: almost half the alarms are medium priority, which means priority is not guiding the operator.</p>
+  <p>Reading the table, the plant looks borderline on average (12.5 per hour is only just over the commonly quoted ceiling) but the average hides three problems. First, the top ten tags produce 70 percent of the load, so the problem is concentrated. Second, one chattering tag alone produces 21 percent of all alarms (440 of 2,104). Third, the priority split is upside down: almost half the alarms are medium priority, which means priority is not guiding the operator.</p>
   <p>The action plan writes itself. Fix the chattering tag first, then take the next nine tags to a rationalisation workshop, then re-assign priorities. If the top ten tags were halved, the week would drop by roughly a third of its alarms without touching the other 30 tags.</p>
 <div class="art-note"><b>Why the top tags matter</b><p>Alarm counts follow a very uneven pattern: a few tags do most of the shouting. That is why alarm improvement projects pay back so quickly. Always start with a bad-actor list, not with a plant-wide rewrite.</p></div>
   <h2 id="fixes">Deadband, delay and other fixes <span class="lvl l2">Working level</span></h2>
@@ -183,7 +183,7 @@ last_modified_at: 2026-11-06
   <h3>How many alarms per hour is acceptable for an operator?</h3>
   <p>EEMUA 191 treats fewer than one alarm per 10 minutes in steady running as very likely acceptable. A long-term average of about 12 alarms per hour, around two per 10 minutes, is a commonly quoted ceiling. Fewer is better, and the right figure depends on how much attention each alarm needs.</p>
   <h3>What is an alarm flood?</h3>
-  <p>A common definition is a 10-minute period with more than 10 new alarms. EEMUA 191 treats the flood as continuing until a 10-minute period with fewer than five new alarms. During a flood, operators cannot respond to each alarm properly.</p>
+  <p>A common definition is a 10-minute period with more than 10 new alarms. ISA-18.2 (also quoted for EEMUA 191) treats the flood as continuing until a 10-minute period with fewer than five new alarms. During a flood, operators cannot respond to each alarm properly.</p>
   <h3>What is a chattering alarm and how do I stop it?</h3>
   <p>A chattering alarm switches repeatedly between alarm and normal in a short time, often defined as three or more activations within one minute. The usual fixes are a deadband, an on-delay, better signal filtering, or fixing the instrument or process cause.</p>
   <h3>What is the difference between a standing alarm and a stale alarm?</h3>
@@ -195,6 +195,12 @@ last_modified_at: 2026-11-06
   <ul>
     <li><a href="https://www.chemengonline.com/alarm-management-numbers/">Chemical Engineering, Alarm management by the numbers</a></li>
     <li><a href="https://controlglobal.com/protect/safety-instrumented-systems/article/11382017/asm-alarm-management-guidelines-and-isa-182-how-do-they-stack-up">Control Global, ASM alarm management guidelines and ISA-18.2: how do they stack up?</a></li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul>
+    <li>Hollifield &amp; Habibi, <i>The Alarm Management Handbook</i>, 2nd ed., PAS, 2010</li>
+    <li>EEMUA Publication 191, <i>Alarm systems: a guide to design, management and procurement</i>, 3rd ed., 2013</li>
+    <li>Seborg, Edgar, Mellichamp &amp; Doyle, <i>Process Dynamics and Control</i>, 4th ed., Wiley, 2016</li>
   </ul>
   <div class="related-box">
     <h3>Related</h3>

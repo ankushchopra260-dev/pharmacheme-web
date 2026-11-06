@@ -138,7 +138,7 @@ last_modified_at: 2026-11-06
   </ul>
 
   <h3>5. Machine learning</h3>
-  <p>This covers neural networks, support vector machines, nearest neighbour methods, Gaussian mixtures, Bayesian networks and similar tools. Published reviews of data-driven fault detection in chemical processes group them with the multivariate statistical methods and note that choosing among them is not straightforward and depends on the type of fault.</p>
+  <p>This covers neural networks, support vector machines, nearest neighbour methods, Gaussian mixtures, Bayesian networks and similar tools. A review of data-driven fault detection in chemical processes treats machine learning as a second group alongside the multivariate statistical methods, and notes that choosing among them is not straightforward and depends on the type of fault.</p>
   <ul>
     <li><b>Strengths:</b> can capture non-linear behaviour and several operating modes, and can classify known fault types if labelled examples exist.</li>
     <li><b>Limits:</b> needs more data, often labelled data that most plants do not have. Results can be hard to explain to operators and auditors, and models can degrade quietly when the process changes.</li>
@@ -175,7 +175,7 @@ last_modified_at: 2026-11-06
   <h2 id="worked-example">Worked example: limit alarm versus CUSUM <span class="lvl l2">Working level</span></h2>
   <p>Take a reactor temperature that normally sits at 80.0 °C with a standard deviation of 0.5 °C from sample to sample, one reading per minute. The data below is synthetic and for illustration only. Two detectors watch for an upward shift:</p>
   <ul>
-    <li><b>Detector A, a fixed high limit.</b> Alarm when a single reading exceeds 81.4 °C. That is 2.74 standard deviations above normal.</li>
+    <li><b>Detector A, a fixed high limit.</b> Alarm when a single reading exceeds about 81.4 °C (80 + 2.74 × 0.5 = 81.37), which is 2.74 standard deviations above normal.</li>
     <li><b>Detector B, a one-sided CUSUM.</b> It accumulates the amount by which each standardised reading exceeds 0.5, resets at zero, and alarms when the sum passes 4.</li>
   </ul>
   <p>The limit for A was chosen so both detectors have the same false alarm behaviour, about one false alarm per 330 readings, which is roughly one every 5.5 hours. That makes the comparison fair. I then simulated each detector many thousands of times with a step increase in the mean of 0.5, 1, 2 and 3 standard deviations, and recorded the average number of minutes to alarm.</p>
@@ -244,6 +244,13 @@ last_modified_at: 2026-11-06
     <li>NIST/SEMATECH e-Handbook of Statistical Methods, <a href="https://itl.nist.gov/div898/handbook/pmc/section3/pmc3231.htm" rel="noopener">CUSUM and Shewhart run length comparison</a></li>
     <li><a href="https://knova.um.edu.my/research_publications_2016_2020/7167" rel="noopener">A review of data-driven fault detection and diagnosis methods: applications in chemical process systems</a> (abstract)</li>
     <li>Worked example: author's own simulation with synthetic data, 4000 runs per case, illustrative only.</li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul>
+    <li>Chiang, Russell &amp; Braatz, <i>Fault Detection and Diagnosis in Industrial Systems</i>, Springer, 2001</li>
+    <li>Isermann, <i>Fault-Diagnosis Systems: An Introduction from Fault Detection to Fault Tolerance</i>, Springer, 2006</li>
+    <li>Montgomery, <i>Introduction to Statistical Quality Control</i>, 8th ed., Wiley, 2019</li>
+    <li>Jackson, <i>A User&rsquo;s Guide to Principal Components</i>, Wiley, 1991</li>
   </ul>
 
   <div class="related-box">

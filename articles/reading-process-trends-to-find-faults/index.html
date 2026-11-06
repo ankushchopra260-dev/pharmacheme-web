@@ -118,7 +118,7 @@ last_modified_at: 2026-11-06
   <h3>2. Step: a sudden, lasting jump</h3>
   <p>The line moves to a new level in one or two samples and stays there. A step on a measurement often means something was changed: a new batch, a valve switched, a manual override, a recalibration, a strainer cleaned, or a transmitter replaced. A step with no matching event in the log deserves a question.</p>
   <h3>3. Oscillation: a regular cycle</h3>
-  <p>The PV moves up and down with a steady period. The usual suspects are an aggressively tuned controller, a sticky control valve, interaction with another loop, or a disturbance from upstream such as a cycling pump or batch discharge. A sticky valve typically gives a squared-off or saw-tooth wave with the OP ramping and reversing, while tuning problems tend to give smoother, sine-like waves that change with load. The <a href="https://controlstation.com/valve-stiction-pid-control-detection/">Control Station note on valve stiction</a> describes the stiction signature and the manual-mode test well.</p>
+  <p>The PV moves up and down with a steady period. The usual suspects are an aggressively tuned controller, a sticky control valve, interaction with another loop, or a disturbance from upstream such as a cycling pump or batch discharge. A sticky valve often gives a squared-off or saw-tooth wave with the OP ramping and reversing, while tuning problems tend to give smoother, sine-like waves that change with load. The <a href="https://controlstation.com/valve-stiction-pid-control-detection/">Control Station note on valve stiction</a> describes the stiction signature and the manual-mode test well.</p>
   <p>The simplest test is to put the loop in manual. If the cycle stops, the cause is inside the loop (tuning or valve). If it carries on, the cause is outside.</p>
   <h3>4. Flatline: a line with no noise at all</h3>
   <p>Real signals jitter. A line that sits at exactly the same value for a long run is almost never real. It points to a frozen transmitter, a failed input card or communication link, a value held by the system, or a forced signal. Check the instrument and the data path first.</p>
@@ -165,7 +165,7 @@ last_modified_at: 2026-11-06
     <p>Step size: mean after minus mean before, compared with noise sd / &radic;n</p>
     <p>Period: 1 / frequency of the largest peak in the Fourier spectrum</p>
   </div>
-  <p>Notice what the numbers say. The drift in A is too slow to trip any alarm at 80 &deg;C, but its slope is 15 times the early slope. The step in B changes the mean without changing the noise, which suggests a real flow change or a re-zeroed meter, not a failing one. The perfectly zero noise in D is a stronger sign of a frozen sensor than the value itself. The data for C is a pure sine wave plus noise, which is neat: real sticky valves give squared-off waves, so use the shape together with the period.</p>
+  <p>Notice what the numbers say. The drift in A may be too slow to trip a typical high alarm, but its slope is 15 times the early slope. The step in B changes the mean without changing the noise, which suggests a real flow change or a re-zeroed meter, not a failing one. The perfectly zero noise in D is a stronger sign of a frozen sensor than the value itself. The data for C is a pure sine wave plus noise, which is neat: real sticky valves give squared-off waves, so use the shape together with the period.</p>
   <div class="art-note"><b>Try it on your own plant</b><p>Export one week of one-minute data for three loops you know well. Plot PV, SP and OP together. Name the shape in each plot before you look at any alarm log. Then check whether the log agrees.</p></div>
 
   <h2 id="limits">What trend reading cannot do</h2>
@@ -215,7 +215,13 @@ last_modified_at: 2026-11-06
   <h2>Sources and further reading</h2>
   <ul class="art-sources">
     <li><a href="https://controlstation.com/valve-stiction-pid-control-detection/">Control Station: Valve stiction, why it undermines PID control and how to detect it</a></li>
-    <li>Worked example: synthetic data generated for this article (random seed fixed, 480 one-minute samples per signal); not plant data</li>
+    <li>Worked example: synthetic data generated for this article (480 one-minute samples per signal; figures are indicative and will vary with another random draw); not plant data</li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul class="art-sources">
+    <li>Seborg, Edgar, Mellichamp &amp; Doyle, <i>Process Dynamics and Control</i>, 4th ed., Wiley, 2016</li>
+    <li>Chiang, Russell &amp; Braatz, <i>Fault Detection and Diagnosis in Industrial Systems</i>, Springer, 2001</li>
+    <li>Green &amp; Southard (eds.), <i>Perry&rsquo;s Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019</li>
   </ul>
   <div class="related-box">
     <h3>Related</h3>

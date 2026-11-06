@@ -122,8 +122,8 @@ last_modified_at: 2026-11-06
     <li><strong>41 measurements.</strong> These include flows, temperatures, pressures, levels, compressor and cooling duties, and stream composition readings.</li>
     <li><strong>11 manipulated variables.</strong> These are valve positions and similar controller outputs, such as feed flows, purge, product flow, coolant flows and steam to the stripper.</li>
   </ul>
-  <p>Some papers describe the count differently, for example 12 manipulated variables, and one paper in the sources below even gives a text breakdown that does not add up to its own table. This is a warning in itself. Always check how a study counts variables, because adding or dropping channels changes results.</p>
-  <p>The training and test files in the widely used fault detection data sets are sampled every 3 minutes. A typical faulty test run has 960 samples (48 hours). The first 160 samples are normal, and the fault starts at sample 160. A normal training set of several hundred samples is supplied for building the model.</p>
+  <p>Some papers describe the count differently, for example 12 manipulated variables. This is a warning in itself. Always check how a study counts variables, because adding or dropping channels changes results.</p>
+  <p>The training and test files in the widely used fault detection data sets are sampled every 3 minutes. A typical faulty test run has 960 samples (48 hours). The first 160 samples are normal, and the fault starts right after them. A normal training set of several hundred samples is supplied for building the model.</p>
 
   <h2 id="faults">The fault scenarios <span class="lvl l2">Working level</span></h2>
   <p>The original paper defines 20 disturbances, written IDV(1) to IDV(20). They fall into several types:</p>
@@ -131,10 +131,10 @@ last_modified_at: 2026-11-06
     <li><strong>Step changes</strong> (IDV 1-7): for example a change in the A to C feed ratio, a change in the D feed temperature, or a change in cooling water inlet temperature.</li>
     <li><strong>Random variations</strong> (IDV 8-12, 16-18 and 20): feed composition or temperature moving randomly, or other unexplained random changes.</li>
     <li><strong>A slow drift</strong> (IDV 13): the reaction kinetics change slowly.</li>
-    <li><strong>Sticking valves</strong> (IDV 14, 15 and 19): a valve or valves that stick or show stiction.</li>
+    <li><strong>Sticking valves</strong> (IDV 14 and 15): a cooling water valve that sticks. IDV 19 is also often classed as a valve problem.</li>
   </ul>
-  <p>A later revision of the model by Bathelt, Ricker and Jelali (2015) adds eight further random-variation disturbances, numbered IDV(21) to IDV(28), covering feed temperatures and pressures and the circulation of cooling water. It also fixes a solver-dependence problem in the random number handling and adds extra measurements. Many fault detection papers refer to "21 faults", while the original definition has 20, and the set depends on which data files were used. When you compare published numbers, make sure they used the same fault list.</p>
-  <p>Faults differ in how hard they are to catch. Some, such as the large feed step changes, show up in a handful of samples. Others barely change the measured values at all. In published results, faults 3, 9 and 15 are well known as nearly invisible to simple methods, since their effect on the measurements is hidden in the noise. Several papers leave them out for that reason. In one set of results quoted in the sources, a PCA-based model reliably missed faults 5, 16 and 19, because the control loops compensate for those disturbances and push the measurements back toward normal.</p>
+  <p>A later revision of the model by Bathelt, Ricker and Jelali (2015) adds eight further random-variation disturbances, numbered IDV(21) to IDV(28), covering feed temperatures and pressures and the circulation of cooling water. It also fixes a solver-dependence problem in the random number handling and adds extra measurements. Many fault detection papers refer to "21 faults", while the original definition has 20. In the commonly circulated data sets the 21st fault is usually described as a stuck valve, which is not the same as IDV(21) in the 2015 revision, so the set depends on which data files were used. When you compare published numbers, make sure they used the same fault list.</p>
+  <p>Faults differ in how hard they are to catch. Some, such as the large feed step changes, show up in a handful of samples. Others barely change the measured values at all. In published results, faults 3, 9 and 15 are well known as nearly invisible to simple methods, since their effect on the measurements is hidden in the noise. Several papers leave them out for that reason. In one set of results quoted in the sources, a PCA-based model detected faults 5, 16 and 19 only weakly (roughly 0 to 25 % of fault samples). Closed-loop control hiding the disturbance is one plausible reason, but the paper does not prove it.</p>
   <p>That last point matters for real plants. A good controller can hide a developing fault. The measured variable returns to its set point, while the valve output (the manipulated variable) drifts. Always include the controller outputs in your monitoring.</p>
 
   <h2 id="metrics">How detection is scored <span class="lvl l2">Working level</span></h2>
@@ -147,7 +147,7 @@ last_modified_at: 2026-11-06
   <p>These three always trade against each other. A tighter limit cuts false alarms but raises delay and lowers FDR. A paper that quotes only FDR, without FAR and delay, tells you very little.</p>
 
   <h2 id="example">Worked example: detection rate versus fault size <span class="lvl l2">Working level</span></h2>
-  <p>This example uses made-up data, not Tennessee Eastman files, so you can see how the three scores behave. It has five correlated variables. A model is trained on 500 normal samples, and a Hotelling T&sup2; statistic with a 99 % limit is used (see the <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA article</a> for how T&sup2; works). Each test run has 960 samples with a step shift added to variable 1 from sample 161. The size of the shift is given in standard deviations of that variable. An alarm counts as confirmed after 3 alarms in a row. Each row is the average of 200 random runs, calculated in Python with a fixed seed.</p>
+  <p>This example uses made-up data, not Tennessee Eastman files, so you can see how the three scores behave. It has five correlated variables. A model is trained on 500 normal samples, and a Hotelling T&sup2; statistic with a 99 % limit is used (see the <a href="{{ '/articles/pca-fault-detection-explained/' | relative_url }}">PCA article</a> for how T&sup2; works). Each test run has 960 samples with a step shift added to variable 1 from sample 161. The size of the shift is given in standard deviations of that variable. An alarm counts as confirmed after 3 alarms in a row, and the delay is measured from the fault start to the first alarm of that confirming run. Each row is the average of 200 random runs, calculated in Python with a fixed seed.</p>
   <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Shift (std dev)</th><th>False alarm rate (%)</th><th>Detection rate (%)</th><th>Median delay (samples)</th><th>Runs never confirmed (of 200)</th></tr></thead><tbody>
     <tr><td>0 (no fault)</td><td>1.0</td><td>1.0</td><td>none</td><td>200</td></tr>
     <tr><td>1</td><td>1.1</td><td>3.4</td><td>too few runs</td><td>193</td></tr>
@@ -206,10 +206,16 @@ last_modified_at: 2026-11-06
   <h2>Sources and further reading</h2>
   <ul class="art-sources">
     <li>Downs, J. J. and Vogel, E. F., "A plant-wide industrial process control problem", <i>Computers &amp; Chemical Engineering</i>, 17(3), 1993 (original definition of the process)</li>
-    <li><a href="https://arxiv.org/pdf/1911.04386">Fault Detection and Identification using Bayesian Recurrent Neural Networks</a> (arXiv 1911.04386): 52 variables, 21 faults, 3-minute sampling, fault at sample 160</li>
+    <li><a href="https://arxiv.org/pdf/1911.04386">Fault Detection and Identification using Bayesian Recurrent Neural Networks</a> (arXiv 1911.04386): 52 variables, 21 faults, 3-minute sampling, fault introduced after 160 normal samples</li>
     <li><a href="https://arxiv.org/pdf/2103.12222">Explainability: Relevance based Dynamic Deep Learning Algorithm for Fault Detection and Diagnosis in Chemical Processes</a> (arXiv 2103.12222): units, fault types, excluded faults</li>
     <li><a href="https://folk.ntnu.no/skoge/prost/proceedings/adchem2015/media/papers/0010.pdf">Bathelt, Ricker and Jelali, Revision of the Tennessee Eastman Process Model</a> (2015): 20 original disturbances, eight added</li>
     <li><a href="https://folk.ntnu.no/skoge/prost/proceedings/aiche-2008/data/papers/P132590.pdf">Tennessee Eastman process description, AIChE 2008 conference paper</a>: reactions, units, operating modes</li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul class="art-sources">
+    <li>Chiang, Russell &amp; Braatz, <i>Fault Detection and Diagnosis in Industrial Systems</i>, Springer, 2001</li>
+    <li>Seborg, Edgar, Mellichamp &amp; Doyle, <i>Process Dynamics and Control</i>, 4th ed., Wiley, 2016</li>
+    <li>Isermann, <i>Fault-Diagnosis Systems: An Introduction from Fault Detection to Fault Tolerance</i>, Springer, 2006</li>
   </ul>
   <div class="related-box">
     <h3>Related</h3>

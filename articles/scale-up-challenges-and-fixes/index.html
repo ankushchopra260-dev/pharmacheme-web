@@ -111,7 +111,7 @@ last_modified_at: 2026-11-06
   <p>In a small flask, the wall, the oil bath and the air all help, so an exothermic step often looks harmless. In the plant, the same step can only be controlled by slowing the feed. Heat of reaction, heat of mixing, heat from the agitator and the heat of crystallisation all add to the load. Get the heat release from reaction calorimetry (see <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC and RC1 data</a>), then check the plant jacket with the method in <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load calculation</a>.</p>
   <p><strong>How to overcome it:</strong> make the feed time the control variable, so the heat release never exceeds what the jacket can remove. Where that makes the cycle too long, options include a lower concentration, a colder jacket, an external heat exchanger loop, or a different reactor type. Never rely on the jacket alone for a step that can run away.</p>
   <h2 id="mixing">Mixing and blend time <span class="lvl l2">Working level</span></h2>
-  <p>Agitators do not scale as neatly as geometry. Three common rules exist: constant tip speed, constant power per unit volume, and constant rotational speed. Each gives a different result, and none is right for every step. Constant power per volume is often a sound starting point, while constant tip speed gives a much weaker mix at large scale. One trade publication notes that holding a dimensional variable such as tip speed or power per volume constant has worked more often than holding a dimensionless group constant, and advises testing across a range of conditions.</p>
+  <p>Agitators do not scale as neatly as geometry. Three common rules exist: constant tip speed, constant power per unit volume, and constant rotational speed. Each gives a different result, and none is right for every step. Constant power per volume is commonly used as a starting point, while constant tip speed gives a much weaker mix at large scale. One trade publication notes that holding a dimensional variable such as tip speed or power per volume constant has worked more often than holding a dimensionless group constant, and advises testing across a range of conditions.</p>
   <p>Blend time is the key consequence. In a turbulent, geometrically similar vessel, the product of rotational speed and blend time is roughly constant, so the blend time rises as the speed falls. A large vessel almost always takes longer to blend than a small one, unless you accept far more power. Reactions that are faster than the blend time then happen in poorly mixed zones, which makes side products.</p>
   <p>The detailed rules, with a worked impeller example, are in <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a> and <a href="{{ '/articles/agitator-design/' | relative_url }}">agitator design</a>. Here we only need the main idea: choose the rule from what the step needs, such as suspension, dispersion, fast reaction or gentle handling.</p>
   <h2 id="example">Worked example: 1 L versus 5,000 L <span class="lvl l2">Working level</span></h2>
@@ -195,6 +195,13 @@ last_modified_at: 2026-11-06
     <li>Perry&rsquo;s Chemical Engineers&rsquo; Handbook, heat transfer and mixing sections (general reference)</li>
     <li>Stoessel, F., <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH (general reference on heat release and runaway)</li>
     <li>The worked example uses made-up inputs and a short Python calculation by the author.</li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul class="art-sources">
+    <li>Paul, Atiemo-Obeng &amp; Kresta (eds.), <i>Handbook of Industrial Mixing: Science and Practice</i>, Wiley, 2004</li>
+    <li>Levenspiel, <i>Chemical Reaction Engineering</i>, 3rd ed., Wiley, 1999</li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes: Risk Assessment and Process Design</i>, Wiley-VCH, 2008</li>
+    <li>Green &amp; Southard (eds.), <i>Perry&rsquo;s Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019</li>
   </ul>
   <div class="related-box">
     <h3>Related</h3>

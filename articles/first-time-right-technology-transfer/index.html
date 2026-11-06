@@ -141,7 +141,7 @@ last_modified_at: 2026-11-06
 <tr><td>8</td><td>Cleaning residue carried into next batch</td><td>8</td><td>2</td><td>4</td><td>64</td></tr>
 </tbody></table></div>
   <p>Look at what the ranking does and does not say. Cooling profile, mixing and hold time top the list, so they get the first experiments and the first controls. But the exotherm is only fifth by RPN, and it has the highest severity (9). Severity 9 deserves action whatever the product, so it is handled in the <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP</a> and the heat-removal check, not left to the ranking.</p>
-  <p>Suppose the team takes four actions: a validated cooling ramp with an interlock on rate, a mixing study with a defined addition point and time, a hold-time limit proved in the lab, and a dosing rate limit tied to jacket capacity. After they are implemented and verified, the residual RPNs are 48 (cooling), 84 (mixing), 42 (hold) and 36 (exotherm). Do not lower a score for a control that is planned but not yet in place, and keep the severity score as it was. A control reduces occurrence or improves detection. It rarely changes how bad the failure would be.</p>
+  <p>Suppose the team takes four actions: a validated cooling ramp with an interlock on rate, a mixing study with a defined addition point and time, a hold-time limit proved in the lab, and a dosing rate limit tied to jacket capacity. After they are implemented and verified, the residual RPNs are 48 (cooling, S 8, O 2, D 3), 84 (mixing, S 7, O 4, D 3), 42 (hold, S 7, O 2, D 3) and 36 (exotherm, S 9, O 2, D 2). Do not lower a score for a control that is planned but not yet in place, and keep the severity score as it was. A control reduces occurrence or improves detection. It rarely changes how bad the failure would be.</p>
   <h2 id="ranges">Ranges: NOR, PAR and design space <span class="lvl l2">Working level</span></h2>
   <p>The receiving plant needs ranges, not single numbers. Three terms are in common use:</p>
   <ul>
@@ -176,7 +176,7 @@ last_modified_at: 2026-11-06
 <tr><td>Engineering (batches 1-6)</td><td>6</td><td>1</td><td>17</td><td>78.7</td></tr>
 <tr><td>Validation (batches 7-9)</td><td>3</td><td>3</td><td>100</td><td>85.7</td></tr>
 <tr><td>Routine (batches 10-18)</td><td>9</td><td>8</td><td>89</td><td>86.0</td></tr>
-<tr><td>All batches</td><td>18</td><td>12</td><td>67</td><td>82.9</td></tr>
+<tr><td>All batches</td><td>18</td><td>12</td><td>67</td><td>83.5</td></tr>
 </tbody></table></div>
   <p>The all-batch figure of 67 % looks poor, but it is misleading, because it mixes learning batches with routine ones. Reported by stage, the story is clear: the engineering batches taught the team a lot (yield rose from 71.0 % to 84.9 %), the validation batches ran cleanly, and routine runs are at 89 %, with one deviation in nine. For routine batches from 7 to 18 the mean yield is 85.9 % with a standard deviation of 0.35 points. Yield was stable from batch 7, defined here as five consecutive batches within one point of that mean. Plot yield on a control chart as described in the <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">control charts article</a> to spot drift early.</p>
   <h2 id="limits">Limits and common mistakes <span class="lvl l3">Going deeper</span></h2>
@@ -212,6 +212,13 @@ last_modified_at: 2026-11-06
     <li><a href="https://pharmuni.com/2026/09/25/fmea-in-pharma-in-year-a-practical-guide-to-risk-assessment-and-control/">Pharmuni, FMEA in pharma: a practical guide to risk assessment and control</a></li>
     <li><a href="https://gmp-compliance.org/gmp-news/emas-questions-and-answers-relating-to-flexibility-in-manufacturing-conditions">GMP Compliance, EMA questions and answers on flexibility in manufacturing conditions (NOR, PAR, design space)</a></li>
     <li>ICH Q8, Q9 and Q10 guidelines on pharmaceutical development, quality risk management and the pharmaceutical quality system (general reference)</li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul class="art-sources">
+    <li>Anderson, <i>Practical Process Research and Development: A Guide for Organic Chemists</i>, 2nd ed., Academic Press, 2012</li>
+    <li>Repi&#269;, <i>Principles of Process Research and Chemical Development in the Pharmaceutical Industry</i>, Wiley, 1998</li>
+    <li>Montgomery, <i>Introduction to Statistical Quality Control</i>, 8th ed., Wiley, 2019</li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes: Risk Assessment and Process Design</i>, Wiley-VCH, 2008</li>
   </ul>
   <div class="related-box">
     <h3>Related</h3>

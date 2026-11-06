@@ -138,7 +138,7 @@ last_modified_at: 2026-11-06
   <p>The side reaction speeds up with temperature. A model that scales the impurity made per mole of reagent by an Arrhenius factor (activation energy taken as 70 kJ/mol, an assumption) gives about 0.45 percent impurity. The plant reported 0.45 percent. The limit was 0.30.</p>
   <p>The same batch also filtered badly. On the lab leaf filter the cake resistance was 3&times;10<sup>9</sup> m/kg, which would give about 24 minutes on the plant nutsche (1.5 m&sup2;, 1.5 bar). On this batch the measured value was 2.4&times;10<sup>10</sup> m/kg, eight times higher, so the same calculation gives 192 minutes. The cake held more liquor, so it dried slowly: from 28 percent wet it took about 14.4 hours to reach 0.5 percent loss on drying with a first-order drying constant of 0.28 per hour. Yield was 77.5 percent against 88 percent in the lab.</p>
   <h3>Engineering batch 2: the first fix</h3>
-  <p>The team stopped adding on a clock and added on a heat limit. The addition was extended to 165 minutes, so the heat release was 11.1 kW and the jacket could run with the coolant near +5 &deg;C instead of -5 &deg;C. The batch held at 20 &deg;C. The impurity returned to 0.20 percent. Yield improved to 83.8 percent. Filtration was still slow, so the cycle was no shorter.</p>
+  <p>The team stopped adding on a clock and added on a heat limit. The addition was extended to 165 minutes, so the heat release was 11.1 kW, about 59 percent of what the plant jacket can remove with the same -5 &deg;C coolant, which meets the 0.6 margin. The batch held at 20 &deg;C. The impurity returned to 0.20 percent. Yield improved to 83.8 percent. Filtration was still slow, so the cycle was no shorter.</p>
   <h3>Engineering batch 3: the second fix</h3>
   <p>A study of the crystallisation, with samples taken from the plant, found two causes of the fines. The antisolvent was added through a single nozzle at the top, creating a local zone of high supersaturation. And the agitator speed gave a tip speed much higher than the pilot, breaking crystals. The team added seed crystals, split the antisolvent addition into a slow first part and a faster second part with a subsurface dip pipe, slowed the agitator in the cooling stage and lengthened the cooling to 7 hours. Cake resistance came down to 4&times;10<sup>9</sup> m/kg. The filtration estimate fell from 192 to 32 minutes, the cake went in to the dryer at 18 percent wet, and drying time dropped to about 12.8 hours. Yield reached 86.6 percent. For more on this step see <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a> and <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>.</p>
   <h3>Validation batches</h3>
@@ -152,7 +152,7 @@ last_modified_at: 2026-11-06
   <tr><td>Validation 1 to 3</td><td>165 min</td><td>20 &deg;C</td><td>0.19 to 0.21 %</td><td>about 32 min</td><td>about 26 h</td><td>86.3 to 87.1 %</td></tr>
   </tbody></table></div>
   <p>*Filtration times are calculated for the plant nutsche from filter-leaf cake resistance, not measured on the plant. All numbers are illustrative.</p>
-  <p>The cycle time went <em>down</em> slightly even though the addition took nearly three hours longer. The faster filtration and drying paid for the slower addition. A longer step is not always a longer batch; see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time debottlenecking</a>.</p>
+  <p>The cycle time went <em>down</em> slightly even though the addition took almost two hours longer. The faster filtration and drying paid for the slower addition. A longer step is not always a longer batch; see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time debottlenecking</a>.</p>
 
   <h2 id="fixes">What changed, and why it worked <span class="lvl l2">Working level</span></h2>
   <ul>
@@ -226,7 +226,14 @@ last_modified_at: 2026-11-06
     <li><a href="https://www.who.int/publications/m/item/trs1044-annex4" rel="noopener">WHO TRS 1044 Annex 4: WHO guidelines on technology transfer in pharmaceutical manufacturing (2022)</a></li>
     <li><a href="https://www.hhs.gov/guidance/sites/default/files/hhs-guidance-documents/FDA/Process-Validation--General-Principles-and-Practices.pdf" rel="noopener">US FDA: Process Validation, General Principles and Practices (January 2011)</a></li>
     <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH (general reference for heat balance and calorimetry)</li>
-    <li>Coulson and Richardson, <i>Chemical Engineering, Vol. 2</i> (general reference for cake filtration)</li>
+    <li>Coulson and Richardson, <i>Chemical Engineering, Vol. 2: Particle Technology and Separation Processes</i>, Butterworth-Heinemann (general reference for cake filtration)</li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul class="art-sources">
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes: Risk Assessment and Process Design</i>, Wiley-VCH, 2008</li>
+    <li>Mullin, <i>Crystallization</i>, 4th ed., Butterworth-Heinemann, 2001</li>
+    <li>Anderson, <i>Practical Process Research and Development: A Guide for Organic Chemists</i>, 2nd ed., Academic Press, 2012</li>
+    <li>Levenspiel, <i>Chemical Reaction Engineering</i>, 3rd ed., Wiley, 1999</li>
   </ul>
 
   <div class="related-box">

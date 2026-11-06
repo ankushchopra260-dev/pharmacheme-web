@@ -63,7 +63,7 @@ structured_data: |
             "name": "When should QA and regulatory affairs get involved?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "At the start, not at validation. QA helps set acceptance criteria and review the gap analysis. Regulatory affairs checks whether the site, batch size, equipment or supplier changes need a filing or notification, because approval lead times are often the longest item in the plan."
+              "text": "At the start, not at validation. QA helps set acceptance criteria and review the gap analysis. Regulatory affairs checks whether the site, batch size, equipment or supplier changes need a filing or notification, because approval lead times are often among the longest in the plan."
             }
           },
           {
@@ -110,7 +110,7 @@ last_modified_at: 2026-11-06
     <li><strong>QA:</strong> the quality agreement, the protocol and acceptance criteria, deviation and change control, batch record approval and release. QA should join the gap analysis, not just review the final report. See <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and GMP: deviation and CAPA</a>.</li>
     <li><strong>Production:</strong> the people who will actually run the process. They review the process for practicality, write or confirm operating steps, get trained, and execute the batches. Operators often spot a problem, such as a transfer line that cannot drain, long before a document does.</li>
     <li><strong>Technology transfer or process engineering group:</strong> the glue. It leads the gap analysis, runs the plan, owns the transfer package and the open-issues list, and does the scale-up calculations. See <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>.</li>
-    <li><strong>Engineering and maintenance:</strong> equipment fit, modifications, utilities, instrumentation, qualification and spares. Their lead times are usually the longest in the plan.</li>
+    <li><strong>Engineering and maintenance:</strong> equipment fit, modifications, utilities, instrumentation, qualification and spares. Their lead times are often among the longest in the plan.</li>
     <li><strong>EHS:</strong> process safety review, calorimetry and hazard data, effluent and emission impact, permits, and the HAZOP. See <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>.</li>
     <li><strong>Regulatory affairs:</strong> decides whether the new site, scale, equipment or supplier needs a filing, a variation or a notification, and manages timelines. See <a href="{{ '/articles/regulatory-affairs-dmf-cep/' | relative_url }}">Regulatory affairs: DMF and CEP</a>.</li>
     <li><strong>Procurement and supply chain:</strong> raw material sources, vendor qualification, packaging and lead times, and cost. A new supplier for a key reagent can change the impurity profile.</li>
@@ -137,7 +137,7 @@ last_modified_at: 2026-11-06
   <h2 id="example">Worked example: critical path and readiness <span class="lvl l2">Working level</span></h2>
   <p>The numbers below are made up to show the method. They describe an invented API intermediate transfer, not any real project.</p>
   <h3>Which function sets the end date?</h3>
-  <p>Eleven activities, each owned by one or two functions, have durations and dependencies. Added up one after the other they take 62 weeks. Run in parallel where the dependencies allow, the plan finishes in 32 weeks. The critical path is: process package (6 weeks), gap analysis (2), equipment changes and qualification (14), engineering batch (3), validation batches (5) and transfer report (2).</p>
+  <p>Eleven activities, each owned by one or more functions, have durations and dependencies. Added up one after the other they take 62 weeks. Run in parallel where the dependencies allow, the plan finishes in 32 weeks. The critical path is: process package (6 weeks), gap analysis (2), equipment changes and qualification (14), engineering batch (3), validation batches (5) and transfer report (2).</p>
   <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Activity</th><th>Owner</th><th>Weeks</th><th>Start</th><th>Finish</th><th>On critical path</th></tr></thead><tbody>
   <tr><td>A Process package complete</td><td>R&amp;D</td><td>6</td><td>0</td><td>6</td><td>Yes</td></tr>
   <tr><td>B Gap analysis and site visit</td><td>Tech transfer, Eng., EHS, QA</td><td>2</td><td>6</td><td>8</td><td>Yes</td></tr>
@@ -220,12 +220,18 @@ last_modified_at: 2026-11-06
   <h3>Why do transfers fail even when the chemistry is sound?</h3>
   <p>Most failures are handover failures: undocumented tacit knowledge, equipment differences found late, analytical methods that behave differently in the receiving lab, or raw material sources that were never qualified. Chemistry rarely fails alone; the missing detail around it does.</p>
   <h3>When should QA and regulatory affairs get involved?</h3>
-  <p>At the start, not at validation. QA helps set acceptance criteria and review the gap analysis. Regulatory affairs checks whether the site, batch size, equipment or supplier changes need a filing or notification, because approval lead times are often the longest item in the plan.</p>
+  <p>At the start, not at validation. QA helps set acceptance criteria and review the gap analysis. Regulatory affairs checks whether the site, batch size, equipment or supplier changes need a filing or notification, because approval lead times are often among the longest in the plan.</p>
   <h3>What should be in the transfer package?</h3>
   <p>The process description with critical parameters and ranges, the impurity and yield history, safety data, analytical methods and validation, raw material specifications and approved sources, equipment information and cleaning information. The package needs one owner and a version history so that everyone works from the same revision.</p>
   <h2>Sources and further reading</h2>
   <ul class="art-sources">
     <li><a href="https://gmp-compliance.org/files/guidemgr/WHO%20TRS1044-annex4-technology-transfer-in-pharmaceutical-manufacturing.pdf">WHO Technical Report Series 1044, Annex 4: Guidelines on technology transfer in pharmaceutical manufacturing</a></li>
+  </ul>
+  <h3>Books to refer</h3>
+  <ul class="art-sources">
+    <li>Repi&#269;, <i>Principles of Process Research and Chemical Development in the Pharmaceutical Industry</i>, Wiley, 1998</li>
+    <li>am Ende (ed.), <i>Chemical Engineering in the Pharmaceutical Industry: Active Pharmaceutical Ingredients</i>, 2nd ed., Wiley</li>
+    <li>Anderson, <i>Practical Process Research and Development: A Guide for Organic Chemists</i>, 2nd ed., Academic Press, 2012</li>
   </ul>
   <div class="related-box">
     <h3>Related</h3>
