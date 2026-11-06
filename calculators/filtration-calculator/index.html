@@ -13,7 +13,7 @@ breadcrumbs:
     url: /calculators/
   - label: Filtration Calculator
     url: /calculators/filtration-calculator/
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 
 <div class="container calc-page-head">
@@ -26,7 +26,7 @@ last_modified_at: 2026-10-20
 
 <div class="container article-body" style="margin-top:24px;">
   <h2>How to Use</h2>
-  <p>Run a small Büchner or Nutsche trial at a known vacuum/pressure, record filtrate volume against time, and enter the trial data along with filter area and slurry concentration. The tool fits the standard cake-filtration relationship to estimate specific cake resistance and expected flux.</p>
+  <p>Run a small Büchner or Nutsche trial at a known vacuum/pressure, record filtrate volume against time, and enter the trial data along with the filter area, the wet cake weight and its solids fraction (the tool converts these to dry solids per volume of filtrate). The tool fits the standard cake-filtration relationship to estimate specific cake resistance and expected flux.</p>
 
   <h2>The Formulas</h2>
   <p>For cake filtration at constant pressure, Ruth&rsquo;s equation links time and filtrate volume:</p>
@@ -38,10 +38,10 @@ last_modified_at: 2026-10-20
   <p>Plot t/V against V from your trial readings; the straight line&rsquo;s slope gives the specific cake resistance &alpha; (m/kg). Here A is the filter area, &Delta;P the applied vacuum or pressure, &mu; the filtrate viscosity and c the mass of dry solids per volume of filtrate. The intercept gives the cloth resistance R<sub>m</sub>.</p>
 
   <h2>Worked Example</h2>
-  <p>A 5 cm B&uuml;chner (A = 0.00196 m&sup2;) at 500 mmHg vacuum (66,660 Pa) filters a slurry with c = 46 kg/m&sup3; and filtrate viscosity 0.3 cP. The t/V against V readings give a slope of 2.77 &times; 10<sup>10</sup> s/m<sup>6</sup>.</p>
+  <p>A 5 cm B&uuml;chner (A = 0.00196 m&sup2;) at 500 mmHg vacuum (66,660 Pa) deposits 46 g of dry solids while 650 mL of filtrate (0.3 cP) is collected, so c = 46 g / 650 mL = 70.8 kg per m&sup3; of filtrate. The t/V against V readings give a slope of 2.77 &times; 10<sup>10</sup> s/m<sup>6</sup>.</p>
   <div class="formula-box">
-    &alpha; = 2 &times; 0.00196&sup2; &times; 66,660 &times; 2.77 &times; 10<sup>10</sup> / (0.0003 &times; 46)<br>
-    &alpha; &asymp; 1.0 &times; 10<sup>12</sup> m/kg: just above 10<sup>12</sup>, a very slow-filtering cake
+    &alpha; = 2 &times; 0.00196&sup2; &times; 66,660 &times; 2.77 &times; 10<sup>10</sup> / (0.0003 &times; 70.8)<br>
+    &alpha; &asymp; 6.7 &times; 10<sup>11</sup> m/kg: a slow-filtering cake, in the band just below 10<sup>12</sup>
   </div>
   <p>650 mL collected in 20 minutes is a flux of 0.65 / (0.00196 &times; 20) &asymp; 16.6 L/m&sup2;&middot;min.</p>
 

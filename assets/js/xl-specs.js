@@ -94,7 +94,7 @@
         { title: 'Results', rows: [
           out('area', 'Filter area', 'm²', 'PI()/4*({buchnerDia}/100)^2'),
           out('flux', 'Filtration flux', 'L/m²·min', '({filtrateVol}/1000)/({area}*{filtrationTime})'),
-          out('conc', 'Solids concentration, c', 'kg/m³', '{wetCakeWt}*{solidsFraction}/{slurryVol}*1000'),
+          out('conc', 'Solids concentration, c', 'kg/m³', '{wetCakeWt}*{solidsFraction}/{filtrateVol}*1000'),
           out('dP', 'Pressure difference', 'Pa', '{vacuum}*133.322', true),
           out('mu', 'Viscosity', 'Pa·s', '{viscosity}*0.001', true),
           { k: 'alpha', label: 'Specific cake resistance, α', unit: 'm/kg', f: 'IF(ISNUMBER({slope}),2*{area}^2*{dP}*{slope}/({mu}*{conc}),"Enter at least 2 readings")', values: ms.map(m => isFinite(m.alpha) ? m.alpha : 'Enter at least 2 readings') },

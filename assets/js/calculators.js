@@ -100,7 +100,7 @@ const CHEM_COMPAT = {
   "Water, Distilled":                ["E","E","F","F","G","E","E","E","E","E","E","E","E","E","G","E","E","E","E","E"],
   "Sulfuric Acid (<10%)":             ["F","N","N","N","N","G","G","E","G","E","G","G","G","G","N","G","F","F","F","E"],
   "Sulfuric Acid (10-75%)":           ["F","N","N","N","N","G","F","E","N","E","F","F","F","F","N","F","N","N","N","E"],
-  "Sulfuric Acid (75-100%)":          ["F","N","G","G","N","G","N","E","N","F","N","N","N","N","N","N","N","N","N","E"],
+  "Sulfuric Acid (75-100%)":          ["F","N","F","F","N","G","N","E","N","F","N","N","N","N","N","N","N","N","N","E"],
   "Hydrochloric Acid (37%)":          ["N","N","N","N","N","F","N","E","F","E","G","G","G","G","N","G","N","N","N","E"],
   "Nitric Acid (5-10%)":              ["E","E","N","N","G","F","E","E","F","F","F","F","F","F","N","N","N","N","N","E"],
   "Nitric Acid (Concentrated)":       ["G","G","N","N","G","N","G","E","N","N","N","N","N","N","N","N","N","N","N","E"],
@@ -115,7 +115,7 @@ const CHEM_COMPAT = {
   "Xylene":                           ["E","E","E","E","E","E","E","E","E","G","F","N","N","F","G","G","N","F","F","E"],
   "Benzene":                          ["E","E","E","E","E","E","E","E","E","F","F","N","N","F","G","G","N","F","F","E"],
   "Cyclohexane":                      ["E","E","E","E","E","E","E","E","E","G","G","F","F","G","G","G","N","G","G","E"],
-  "Acetone":                          ["E","E","E","E","E","E","E","E","F","N","G","N","N","F","G","N","G","F","F","E"],
+  "Acetone":                          ["E","E","E","E","E","E","E","E","E","N","G","N","N","F","G","N","G","F","F","E"],
   "Methanol":                         ["E","E","G","G","G","E","E","E","G","G","G","F","F","G","G","F","G","G","G","E"],
   "Ethanol":                          ["E","E","G","G","G","E","E","E","G","G","G","F","F","G","G","F","G","G","G","E"],
   "Isopropyl Alcohol":                ["E","E","G","G","G","E","E","E","G","G","G","F","F","G","G","F","G","G","G","E"],
@@ -123,10 +123,10 @@ const CHEM_COMPAT = {
   "Chloroform":                       ["E","E","E","E","F","E","E","E","F","F","N","N","N","N","F","F","N","N","N","E"],
   "Ethyl Acetate":                    ["E","E","G","G","G","E","E","E","F","F","G","N","N","F","F","N","G","N","F","E"],
   "Hexane":                           ["E","E","E","E","E","E","E","E","E","G","G","F","F","G","G","G","N","G","G","E"],
-  "Methyl Ethyl Ketone (MEK)":        ["E","E","G","G","G","E","E","E","F","N","F","N","N","F","G","N","G","F","F","E"],
+  "Methyl Ethyl Ketone (MEK)":        ["E","E","G","G","G","E","E","E","G","N","F","N","N","F","G","N","G","F","F","E"],
   "N,N-Dimethylformamide (DMF)":      ["E","E","G","G","F","E","E","E","F","N","F","N","N","F","F","N","F","N","F","E"],
   "Dimethyl Sulfoxide (DMSO)":        ["E","E","G","G","F","E","E","E","G","N","G","N","N","F","F","N","G","F","F","E"],
-  "Tetrahydrofuran (THF)":            ["E","E","G","G","F","E","E","E","F","N","F","N","N","F","F","N","F","N","N","E"],
+  "Tetrahydrofuran (THF)":            ["E","E","G","G","F","E","E","E","G","N","F","N","N","F","F","N","F","N","N","E"],
   "Diethyl Ether":                    ["E","E","G","G","F","E","E","E","F","F","F","N","N","F","F","N","F","N","F","E"],
   "Ethylene Glycol":                  ["E","E","G","G","G","E","E","E","E","G","E","G","G","E","G","G","E","G","G","E"],
   "Glycerin":                         ["E","E","G","G","G","E","E","E","E","E","E","E","E","E","G","E","E","G","G","E"],
@@ -2658,7 +2658,8 @@ function computeFiltrationMetrics(cfg) {
   const inputsValid = !volumeWarn && !vacuumWarn;
 
   const flux = inputsValid ? (filtrateVol / 1000) / (area * num(cfg.filtrationTime)) : NaN;
-  const concentration = ((num(cfg.wetCakeWt) * num(cfg.solidsFraction)) / slurryVol) * 1000;
+  // c = mass of dry cake solids per unit volume of FILTRATE (the standard cake-filtration definition, e.g. Coulson and Richardson Vol. 2)
+  const concentration = ((num(cfg.wetCakeWt) * num(cfg.solidsFraction)) / filtrateVol) * 1000;
 
   const readings = cfg.readings.filter((r) => r.time !== "" && r.volume !== "" && !isNaN(num(r.time)) && !isNaN(num(r.volume)));
   const F = readings.map((r) => num(r.volume) / 1e6);

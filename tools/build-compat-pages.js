@@ -113,6 +113,8 @@ function page(name) {
 
   let note = '';
   if (D.BASIS[name]) note = `<p class="cc-note">Ratings for ${esc(name)} follow the published ratings of the closest chemical family (${esc(D.BASIS[name])}). Use them as a screening guide and confirm with the gasket, lining or equipment supplier&rsquo;s chart before ordering.</p>\n`;
+  const warns = (D.WARNINGS || []).filter(w => w.chems.indexOf(name) >= 0 && w.mats.some(x => MATS.indexOf(x) >= 0));
+  if (warns.length) note += `<p class="cc-note"><b>Material warnings:</b> ${warns.map(w => esc(w.text)).join(' ')}</p>\n`;
   const rsrc = (D.REAGENT_SRC[name] || []).map(k => D.SRC[k]).filter(Boolean);
   if (rsrc.length) note += `<p class="cc-note">Every rating for ${esc(name)} comes from: ${rsrc.map(s => `<a href="${esc(s.url)}" rel="noopener">${esc(s.name)}</a>`).join('; ')}. Where sources disagree, the lower rating is used.</p>\n`;
 

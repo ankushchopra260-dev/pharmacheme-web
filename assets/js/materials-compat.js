@@ -12,6 +12,9 @@
   const SRC = {
     parker: { name: "Parker O-Ring Handbook (ORD 5700), §2.2", url: "https://www.parker.com/content/dam/Parker-com/Literature/O-Ring-Division-Literature/ORD-5700.pdf" },
     harrington: { name: "Harrington Industrial Plastics — Basic Materials Guide", url: "https://www.hipco.com/resources/basic-materials-guide/" },
+    bluewhite: { name: "Blue-White — Chemical compatibility of PEEK", url: "https://www.blue-white.com/help/faq/what-is-the-chemical-resistance-of-peek/" },
+    timco: { name: "Timco Rubber — Chemical resistances for different rubber materials", url: "https://timcorubber.com/blog/archive/chemical-resistances-for-different-rubber-materials" },
+    imd: { name: "Industrial Monitor Direct — Sulphuric acid storage tank vent design for corrosion prevention", url: "https://industrialmonitordirect.com/blogs/knowledgebase/sulphuric-acid-storage-tank-vent-design-for-corrosion-prevention" },
     victrex: { name: "Victrex — A closer PEEK at PEEK", url: "https://www.victrex.com/en/blog/2017/a-closer-peek-at-peek" },
     dedietrich: { name: "De Dietrich — Questions and answers about glass-lined equipment", url: "https://www.dedietrich.com/en/resources/your-questions-and-our-answers-about-glass-lined-equipment" },
     ddps: { name: "De Dietrich Process Systems — Types of chemical attack in glass-lined equipment", url: "https://www.ddpsinc.com/en/knowledge/what-are-different-types-of-chemical-attack-that-can-occur-in-glass-lined-equipment" },
@@ -73,6 +76,12 @@
       text: "Phosphoric acid can damage glass lining, especially when concentrated and at elevated temperature." },
     { mats: ["SS316", "SS304"], chems: CHLORIDE_CHEMS, src: "ssina", minTemp: 60,
       text: "Chloride stress corrosion cracking risk: rare below 60 °C when fully immersed, but failures have been reported with as little as 10 ppm chlorides, and evaporation can concentrate them (SSINA)." },
+    { mats: ["Mild Steel (MS)", "Cast Iron"], chems: ["Sulfuric Acid (75-100%)"], src: "imd",
+      text: "Carbon steel is only suitable near 93 to 98% acid at ambient temperature with controlled velocity, where a protective iron sulfate layer forms. Below about 80 to 85% acid it corrodes actively, so rated Fair across this range." },
+    { mats: ["PEEK"], chems: ["Methyl Ethyl Ketone (MEK)", "Tetrahydrofuran (THF)"], src: "bluewhite",
+      text: "The PEEK chart rates MEK no interaction at 23 °C, slight at 100 °C and severe at 200 °C, and rates THF at 23 °C only. Check the temperature before specifying PEEK." },
+    { mats: ["EPDM", "Neoprene", "Nitrile (Buna-N)"], chems: ["Hydrochloric Acid (37%)"], src: "timco",
+      text: "Elastomer charts disagree on strong acids: general charts list EPDM as acid resistant, while neoprene and nitrile can degrade in concentrated or strong acids. Not recommended is kept as the cautious rating, so confirm with the seal supplier for your acid strength and temperature." },
   ];
 
   const RATING = {

@@ -1,17 +1,75 @@
 ---
 layout: default
 title: Privacy Policy
-description: "PharmaChemE privacy policy: what the site stores in your browser, the analytics we use, and how to contact us about your data."
+seo_title: "Privacy Policy | PharmaChemE"
+description: "What PharmaChemE collects, why, where it is stored and how to ask for access or deletion: analytics, Google sign-in for paid items, enquiry forms and tests."
 breadcrumbs:
   - label: Privacy Policy
     url: /privacy-policy/
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
-<div class="container article-body" style="padding:32px 20px 64px;">
+<div class="container article-body" style="padding:32px 20px 64px;max-width:860px;">
   <h1>Privacy Policy</h1>
-  <p>PharmaChemE is a static website. It does not require an account for the calculators, molecule tool, or games. Anything you enter into those runs locally in your browser and is never sent anywhere.</p>
-  <p>This site uses <strong>Google Analytics</strong> to see overall traffic: which pages are visited, roughly how many people visit, and general information like device type and country. This does not identify you personally. You can opt out using a browser extension like Google's Analytics Opt-out Add-on, or by using a browser with tracking protection enabled.</p>
-  <p>The Custom Solutions enquiry form sends what you type (name, email, company, and your message) to our email via a third-party form service (Formspree), solely to respond to your enquiry. It is not used for any other purpose.</p>
-  <p>If a Google Sign-In feature is added to this site, it will only be used to let you identify yourself to features that need it (such as saving a preference). It will not be used to track your activity elsewhere, and this policy will be updated with specifics before that feature goes live.</p>
+  <p class="art-lede">PharmaChemE (pharmacheme.in) is run by Ankush Chopra. This page explains what the site collects, why, where it is stored, and how you can ask us to show or delete it. Last updated 6 November 2026.</p>
+
+  <h2 id="summary">The short version</h2>
+  <div class="art-table-wrap"><table class="art-table">
+    <thead><tr><th>If you...</th><th>What we collect</th><th>Where it goes</th></tr></thead>
+    <tbody>
+      <tr><td>Browse the site</td><td>Page views, approximate location, device and browser type, through Google Analytics (cookies)</td><td>Google Analytics</td></tr>
+      <tr><td>Use the calculators, URS builder, molecule tools or games</td><td>Nothing is sent to us. Your inputs stay in your browser</td><td>Your own device only</td></tr>
+      <tr><td>Sign in with Google to get a paid or Exclusive item</td><td>Your Google account email and display name, your purchase request, the UPI transaction reference (UTR) you enter, your access record and your progress in items</td><td>Google Firebase (Authentication and Firestore), and a notification to us</td></tr>
+      <tr><td>Send an enquiry or training request</td><td>The details you type: name, company, email, phone, message, and any attachment you add</td><td>Formspree, then our email</td></tr>
+      <tr><td>Take an online test run for a college</td><td>Name, roll number, college, access code, your answers and time taken</td><td>Google Apps Script and Google Sheets</td></tr>
+      <tr><td>Watch an embedded video</td><td>A thumbnail loads from YouTube. The video player loads only when you press play</td><td>YouTube (Google)</td></tr>
+    </tbody>
+  </table></div>
+  <p>We do not sell your data and we do not run advertising on this site.</p>
+
+  <h2 id="analytics">Analytics</h2>
+  <p>We use <strong>Google Analytics 4</strong> to count visits and see which pages are useful. Google sets cookies and receives your page views, approximate location (country and city level), and device and browser details. We do not use it to identify you by name. The site does not show a cookie banner at present. You can opt out with <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google&rsquo;s Analytics Opt-out Add-on</a>, by blocking cookies in your browser, or by using a browser with tracking protection. Google&rsquo;s own policy is at <a href="https://policies.google.com/privacy" rel="noopener">policies.google.com/privacy</a>.</p>
+
+  <h2 id="local">Data kept only in your browser</h2>
+  <p>The calculators, the URS builder, the molecule and reaction tools and the games run in your browser. What you enter is not sent to us. Some tools save your work or settings in your browser&rsquo;s local storage so that it is there when you return (for example the URS builder, reaction and structure sketches, and install or guide prompts you have dismissed). The site also uses a service worker to keep copies of pages and files so that it can open offline. You can clear all of this at any time in your browser settings. Clearing it deletes that saved work.</p>
+
+  <h2 id="signin">Google sign-in, paid items and Exclusive content</h2>
+  <p>Paid and Exclusive items use <strong>Google sign-in through Firebase Authentication</strong>, so we can tell which Google account should have access. When you sign in and ask for an item, we store in Google Firestore:</p>
+  <ul>
+    <li>your Google account email address and display name;</li>
+    <li>your purchase request: the item, its title and price, and the date and time;</li>
+    <li>the UPI transaction reference (UTR) you type in after paying, and the time you confirmed it;</li>
+    <li>your access record, which we set after we have confirmed your payment;</li>
+    <li>your progress in items you have opened, so you can pick up where you stopped.</li>
+  </ul>
+  <p>We use this to give you access, to check payments, to answer questions about your purchase and to keep our records. Payment itself is made by UPI outside this site. We do not receive or store your bank, card or UPI credentials. When you make a request or confirm a payment, the site also sends the same details (email, name, item, price, UTR and the page you were on) to a Google Apps Script notification address that tells us a request has arrived. Free items do not need you to sign in.</p>
+  <p>Firebase and Google Sign-In are Google services. Their privacy information is at <a href="https://firebase.google.com/support/privacy" rel="noopener">firebase.google.com/support/privacy</a>.</p>
+
+  <h2 id="forms">Enquiry and training forms</h2>
+  <p>The home page enquiry form, the Custom Solutions form and the Training request form send what you type to us through <strong>Formspree</strong>. Depending on the form that can include your name, company, email, phone number, plant location and type, topic, group size, your message, and any file you attach. We use it only to reply to you and to scope the work you asked about. Formspree&rsquo;s policy is at <a href="https://formspree.io/legal/privacy-policy/" rel="noopener">formspree.io/legal/privacy-policy</a>.</p>
+
+  <h2 id="tests">Online tests run for colleges</h2>
+  <p>Some pages run timed tests for colleges that have asked us to host them. These pages are not linked from the main site. When you take such a test, your name, roll number, college, access code, your answers and the time taken are sent to a Google Apps Script that records them in a Google Sheet, so that results can be given to the college. Your progress inside a test is held in your browser&rsquo;s session storage until you submit.</p>
+
+  <h2 id="video">Embedded videos</h2>
+  <p>Where a page shows a video from the PharmaChemE YouTube channel, it first shows only a thumbnail loaded from YouTube. The YouTube player and its cookies load only after you press play. YouTube&rsquo;s privacy information is at <a href="https://policies.google.com/privacy" rel="noopener">policies.google.com/privacy</a>.</p>
+
+  <h2 id="other">Other services the pages load</h2>
+  <p>Pages load fonts from Google Fonts and some tools load code libraries from public content delivery networks (cdnjs, jsDelivr, unpkg and Google&rsquo;s own servers). Loading these files means those providers can see your IP address and browser details, as with any website.</p>
+
+  <h2 id="keep">How long we keep data</h2>
+  <p>We keep purchase, access and progress records for as long as we need them to give you access and for our own records. We keep enquiry and test submissions for as long as needed to respond to them. We have not set an automatic deletion period for these records yet. If you want something deleted sooner, ask us (see below) and we will delete it unless we need to keep it for a legal or accounting reason. Analytics data is kept by Google under its own settings.</p>
+
+  <h2 id="rights">Your choices and rights</h2>
+  <p>You can ask us to show you the personal data we hold about you, correct it, or delete it, and you can withdraw your sign-in access by asking us to remove your access record. Email <a href="mailto:pharmacheme.app@gmail.com">pharmacheme.app@gmail.com</a> from the address you used and tell us what you want. We will reply as soon as we reasonably can. You can also remove PharmaChemE&rsquo;s access to your Google account from your Google account settings. This page is a plain explanation of our practice and is not legal advice. If you are in India, the Digital Personal Data Protection Act, 2023 may give you further rights, and you can use the contact above to exercise them.</p>
+
+  <h2 id="children">Children</h2>
+  <p>The site is written for students and working engineers. It is not directed at children under 13, and we do not knowingly collect their personal data. If you think a child has sent us personal data, tell us and we will delete it.</p>
+
+  <h2 id="changes">Changes to this policy</h2>
+  <p>We will update this page when the site&rsquo;s data practices change, and change the date at the top. Please check it from time to time.</p>
+
+  <h2 id="contact">Contact</h2>
+  <p>PharmaChemE, run by Ankush Chopra. Email <a href="mailto:pharmacheme.app@gmail.com">pharmacheme.app@gmail.com</a>.</p>
 </div>
