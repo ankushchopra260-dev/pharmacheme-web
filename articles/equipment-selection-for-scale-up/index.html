@@ -1,0 +1,225 @@
+---
+layout: default
+title: "Equipment Selection for Scale-up and Technology Transfer"
+seo_title: "Equipment Selection for Scale-up: Fit-Gap Guide | PharmaChemE"
+description: "Check plant equipment against a transferred process: fit-gap for reactors, filters and dryers, materials, URS, FAT and SAT, with a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Equipment Selection for Scale-up
+    url: /articles/equipment-selection-for-scale-up/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Equipment Selection for Scale-up and Technology Transfer",
+        "description": "A practical fit-gap method for checking reactors, filters, dryers, materials and utilities against a process being transferred to a plant, with a worked example.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is an equipment fit-gap assessment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is a line-by-line comparison of what the process needs (volume, heat removal, materials, filtration area, drying load, utilities) against what the receiving plant's equipment can deliver. Each line is marked fit, fit with a change, or gap, and each gap gets an owner and a resolution before the first plant batch."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should we use existing plant equipment or buy new?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use existing equipment when the fit-gap shows the process can run within its limits without changing the validated chemistry. Buy or modify when a gap affects safety, quality or yield and cannot be closed by changing batch size, dosing time or the number of loads. Weigh the cost of a new unit against the cost of long cycle times."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does heat transfer area matter so much when scaling up a reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Volume grows with the cube of the vessel size but jacket area grows roughly with the square, so the area available per unit volume falls as the vessel gets bigger. An exotherm that was invisible in a flask can exceed the jacket capacity in a plant reactor, so dosing time or cooling must be re-planned."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is a glass-lined reactor always the safe choice for corrosive chemistry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Glass lining resists many acids but is attacked by hydrofluoric acid and is usually avoided with hot strongly alkaline solutions. It is also sensitive to thermal shock and heat transfer is slower than in steel. Check every step, including washes and cleaning agents, against the lining."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between FAT and SAT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The factory acceptance test (FAT) checks the new equipment against the URS at the vendor's works before shipment. The site acceptance test (SAT) repeats the key checks after installation at your plant, then qualification (IQ, OQ) follows. Both use acceptance criteria written in the URS."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Equipment Selection for Scale-up and Technology Transfer</h1>
+  <p class="article-meta">Scale-up and technology transfer &middot; Equipment &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A process that works in glassware does not automatically fit the vessels in your plant. This article shows how to check equipment against the process before the first batch: reactor, filter, dryer, vacuum, utilities and materials, with a worked fit-gap example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why equipment decides the transfer</a><span>Basics</span></li>
+    <li><a href="#fitgap">The fit-gap method</a><span>Basics</span></li>
+    <li><a href="#reactor">Reactors: volume, heat, mixing, materials</a><span>Working level</span></li>
+    <li><a href="#solids">Filters and dryers</a><span>Working level</span></li>
+    <li><a href="#support">Vacuum, utilities and cleaning</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: a fit-gap table</a><span>Working level</span></li>
+    <li><a href="#decide">Existing, modified or new equipment</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist, URS, FAT and SAT</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">Why equipment decides the transfer <span class="lvl l1">Basics</span></h2>
+  <p>In technology transfer, the sending site (usually R&amp;D) hands a process to a receiving site (the plant). The chemistry travels in the batch record. The equipment does not: the plant has a fixed volume, jacket, agitator, filter and dryer.</p>
+  <p>Most scale-up surprises are really equipment surprises. A slow exotherm that nobody saw in a flask. A filter that cannot hold the cake. A caustic wash that the glass lining does not like. A dryer that is full before the batch is. Each can be found on paper in a day, or in the plant with a batch at risk.</p>
+  <p>It builds on the <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant scale-up checklist</a> and the <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">technology transfer documents</a>.</p>
+  <h2 id="fitgap">The fit-gap method <span class="lvl l1">Basics</span></h2>
+  <p>A fit-gap assessment compares two lists. The first is what the process needs. The second is what the receiving equipment can do. Each line gets one of three marks:</p>
+  <ul>
+    <li><strong>Fit:</strong> the equipment can do it within its limits.</li>
+    <li><strong>Fit with a change:</strong> it works if you change something that does not alter the validated chemistry, such as dosing time, batch size or number of filter loads.</li>
+    <li><strong>Gap:</strong> it does not work. Needs a modification, a different unit or a process change with its own approval.</li>
+  </ul>
+  <p>ISPE guidance on technology transfer stresses assessing equipment constraints early, resolving gaps jointly between development and manufacturing, and expecting that both sites may need to adjust. Regulatory affairs should review any control strategy change, and EHS should check the process before the site is committed.</p>
+  <p>Build the first list from the lab data, not from memory: batch size, working volume, temperature range, heat of reaction and dosing rate, solids content, cake properties, solvent loads, pH and chloride exposure, vacuum level, cleaning agents. A missing number is itself the first gap.</p>
+  <h2 id="reactor">Reactors: volume, heat, mixing, materials <span class="lvl l2">Working level</span></h2>
+  <p><strong>Working volume.</strong> Check the batch volume against the vessel at the fill range the agitator and heat transfer surface need. A reactor that is only 30 % full may leave the jacket mostly dry and the agitator in the wrong place. One that is 90 % full has no room for foaming or reflux. State the minimum and maximum working volume the process allows, then check both ends.</p>
+  <p><strong>Heat removal.</strong> Volume grows with the cube of vessel size, jacket area with the square. A one-litre flask has several times more wetted wall per litre of liquid than a six cubic metre reactor. The practical result is simple: the exotherm that is easy to cool in the lab can exceed the plant jacket. The check is:</p>
+  <div class="formula-box">
+    Q<sub>avail</sub> = U &times; A<sub>wetted</sub> &times; &Delta;T<sub>jacket</sub><br>
+    Q<sub>needed</sub> = (total heat released / dosing time) &times; peak factor
+    <small>U in W/m&sup2;&middot;K, A in m&sup2;, &Delta;T between batch and jacket fluid in K. The peak factor covers the fact that heat release is rarely flat. Plan so that Q<sub>needed</sub> stays below 80 % of Q<sub>avail</sub>, a margin you set yourself.</small>
+  </div>
+  <p>If the check fails, the usual answers are a longer dosing time, a lower jacket temperature, a more dilute feed or a smaller batch. See <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load calculation</a> for the total heat.</p>
+  <p><strong>Mixing.</strong> Agitator type, diameter, speed, power and baffles decide blend time, solids suspension and gas dispersion. Use the rules in <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a> and the <a href="{{ '/articles/agitator-design/' | relative_url }}">agitator design</a> article, and ask what the lab observed: does the process need a suspension, an emulsion, a fast quench, a clear dissolution?</p>
+  <p><strong>Condenser.</strong> Check the condenser duty against the boil-up rate at the hottest cooling water temperature of the year. See <a href="{{ '/articles/urs-for-heat-exchangers/' | relative_url }}">URS for heat exchangers</a>.</p>
+  <p><strong>Materials of construction.</strong> Match every wetted material to every step, not only to the main reaction. Include washes, quench solutions, cleaning agents and any impurity that builds up. Two well-known traps:</p>
+  <ul>
+    <li><strong>Glass-lined steel</strong> resists many acids but is attacked by hydrofluoric acid, and hot strongly alkaline solutions (a pH above about 12 is the figure usually quoted) can dissolve the glass. Glass also tolerates thermal shock badly and transfers heat more slowly than steel.</li>
+    <li><strong>Austenitic stainless steel</strong> (304, 316, 316L) suffers pitting and chloride stress corrosion cracking. Cracking is much more common above about 60 &deg;C, and chlorides collect in crevices, weld defects and poorly drained areas. Hot chloride-bearing liquors in stainless steel need a specific check.</li>
+  </ul>
+  <p>See <a href="{{ '/articles/materials-of-construction/' | relative_url }}">materials of construction</a>.</p>
+  <h2 id="solids">Filters and dryers <span class="lvl l2">Working level</span></h2>
+  <p>Solid-liquid separation and drying are where lab and plant behave most differently. A Buchner funnel and a vacuum oven forgive almost anything. Plant equipment does not.</p>
+  <p><strong>Filters.</strong> The main choices are the Nutsche filter (ANF), the agitated Nutsche filter dryer (ANFD), the centrifuge and the pressure filter.</p>
+  <ul>
+    <li>An ANF holds the cake on a plate with no agitation. It is simple, but discharge is manual or semi-manual.</li>
+    <li>An ANFD filters, washes and dries the cake in one sealed vessel, so the wet cake does not need to be moved between units. It lowers handling and contamination risk. It has limits: agitating cake above its critical moisture level can make lumps, and agitator speed must balance agglomeration against crystal breakage. Test on the real cake.</li>
+    <li>A centrifuge gives dry cake fast, but needs good crystal strength, and the cake mass per cycle is limited. See <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}">centrifuge cake weight</a>.</li>
+  </ul>
+  <p>The key sizing number is cake loading: how much dry solid sits on each square metre of filter, and how tall the cake can be before washing or drying goes wrong. Take it from lab filtration tests (see <a href="{{ '/articles/filtration-calculation/' | relative_url }}">filtration calculation</a>), not from a catalogue. Crystal habit changes everything here: see <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">crystallisation scale-up</a>.</p>
+  <p><strong>Dryers.</strong> Rotary vacuum dryers (RVD), tray dryers, fluid bed dryers and paddle dryers differ in fill limits, agitation, heat transfer and product handling. Check wet cake volume against allowed fill, solvent load against available heat, and whether the product tolerates tumbling and temperature. Our <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">drying and dryer scale-up</a> article covers the drying kinetics. A heat balance gives only a lower bound on drying time: real drying slows as the cake dries.</p>
+  <h2 id="support">Vacuum, utilities and cleaning <span class="lvl l2">Working level</span></h2>
+  <p>Support systems are checked less often than the main vessels, and fail just as often.</p>
+  <ul>
+    <li><strong>Vacuum:</strong> compare the required pressure and the evacuation time with the pump capacity and the line losses at the plant. See <a href="{{ '/articles/vacuum-systems/' | relative_url }}">vacuum systems</a>.</li>
+    <li><strong>Utilities:</strong> chilled water or brine temperature, steam pressure, nitrogen, cooling water at its hottest, power. Check the peak case with other users on the same header.</li>
+    <li><strong>Cleaning and changeover:</strong> can the equipment be cleaned to the acceptance limit, with dead legs, agitator shafts and filter cloths reachable? In multi-product plants this is a go or no-go item.</li>
+    <li><strong>Safety:</strong> relief capacity for the new batch size, scrubber duty for off-gas, and hazards found in a <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP</a> of the transferred process.</li>
+  </ul>
+  <h2 id="example">Worked example: a fit-gap table <span class="lvl l2">Working level</span></h2>
+  <p>A made-up API intermediate is being moved from the lab to a plant. All the numbers below are illustrative, calculated for this article and not from any real product. Process needs: a 4,200 L reaction mass, a 300 MJ exotherm released while a reagent is dosed over 3 hours (with a peak 1.5 times the average), 380 kg of dry solid product, a wet cake at 25 % solvent, and a caustic wash at pH 13 and 55 &deg;C. The receiving equipment is a 6 m&sup3; glass-lined reactor (1.6 m diameter, 2:1 ellipsoidal heads), an agitated Nutsche filter dryer of 1.5 m&sup2; and a 1,000 L rotary vacuum dryer filled to no more than 60 %.</p>
+  <p>The wetted jacket area at 4,200 L is 11.9 m&sup2;, or 2.8 m&sup2; per m&sup3;. A 1 L flask with 0.0155 m&sup2; of wetted wall has 15.5 m&sup2; per m&sup3;, so the plant has about 5.5 times less area per litre.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Item</th><th>Process needs</th><th>Plant offers</th><th>Result</th></tr></thead><tbody>
+<tr><td>Working volume</td><td>4,200 L</td><td>6,000 L nominal (70 % fill)</td><td>Fit</td></tr>
+<tr><td>Heat removal at 3 h dosing</td><td>Peak 41.7 kW</td><td>44.8 kW (U 250, 11.9 m&sup2;, 15 K): peak is 93 %</td><td>Fit with a change: dose over 3.5 h or more</td></tr>
+<tr><td>Caustic wash, pH 13, 55 &deg;C</td><td>Alkaline wetted material</td><td>Glass-lined reactor</td><td>Gap: move the wash to another vessel or change the wash</td></tr>
+<tr><td>Cake on filter</td><td>0.69 m&sup3; cake, 2.76 m&sup2; needed at 0.25 m cake height</td><td>1.5 m&sup2; (0.46 m cake if one load)</td><td>Fit with a change: two filter loads of 0.23 m each</td></tr>
+<tr><td>Wet cake into dryer</td><td>507 kg, 0.56 m&sup3;</td><td>0.60 m&sup3; allowed fill: load is 94 %</td><td>Fit, tight: check bulk density with a real sample</td></tr>
+<tr><td>Drying heat</td><td>127 kg solvent, 50.7 MJ</td><td>16.2 kW jacket: ideal minimum 0.87 h</td><td>Fit: real time is longer, confirm in a trial</td></tr>
+</tbody></table></div>
+  <p>Basis: heat release is 300 MJ over 3 h, so 27.8 kW average and 41.7 kW at peak. Available duty is 250 &times; 11.9 &times; 15 = 44.8 kW. To stay under 80 % of that, dosing must take at least 3.5 h. Assumed values: 550 kg dry solid per m&sup3; of cake, a 0.25 m cake height limit from lab tests, a wet cake bulk density of 900 kg/m&sup3;, solvent latent heat of 400 kJ/kg, and a dryer U of 120 W/m&sup2;&middot;K on 4.5 m&sup2; at 30 K.</p>
+  <p>Three lines are not clean fits. The exotherm adds about half an hour to every batch. The caustic wash is a real gap, and the fix goes to change control. The filter works only in two loads, which doubles that step. This is the table you want in front of the team before the first plant batch.</p>
+  <h2 id="decide">Existing, modified or new equipment <span class="lvl l3">Going deeper</span></h2>
+  <p>Once the gaps are listed, choose how to close each one. Work from cheapest to most expensive:</p>
+  <ul>
+    <li><strong>Change the operation</strong> (dosing time, batch size, loads, cleaning method) if the validated process allows it. Cost: cycle time.</li>
+    <li><strong>Modify existing equipment</strong> (agitator, baffle, filter cloth, condenser) or <strong>use a different existing unit</strong> for the problem step. Cost: capital, qualification, extra cleaning.</li>
+    <li><strong>Buy new equipment</strong> when the gap hits safety, quality or yield and nothing cheaper closes it. Cost: capital, lead time, qualification.</li>
+  </ul>
+  <p>Every route changes cycle time, so quantify it. Two filter loads may be cheaper than a new filter, until the filter becomes the campaign bottleneck (see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">batch cycle time debottlenecking</a>). Any change to the approved process goes through <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a> and, where it touches the registered process or control strategy, through regulatory review.</p>
+  <h2 id="mistakes">Common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Checking only the main reaction.</strong> Washes, quenches and cleaning break equipment too.</li>
+    <li><strong>Using nominal capacity as real capacity.</strong> Wetted area depends on how full the vessel is.</li>
+    <li><strong>Sizing the filter from a brochure.</strong> Cake loading and cake height come from your lab filtration, with your crystals.</li>
+    <li><strong>Ignoring the cleaning case.</strong> A unit that cannot be cleaned to limit cannot run the product.</li>
+  </ul>
+  <div class="art-note"><b>Limits of a fit-gap table</b><p>It is a paper check built on lab data and assumed coefficients. It cannot see fouling, foaming, crystal breakage, poor mixing zones or an operator habit. It finds the obvious gaps cheaply. Engineering batches and trials still find the rest, and should be planned for.</p></div>
+  <h2 id="checklist">Checklist, URS, FAT and SAT <span class="lvl l3">Going deeper</span></h2>
+  <p>Before the first plant batch, tick each line:</p>
+  <ul>
+    <li>Working volume checked at minimum and maximum fill.</li>
+    <li>Heat removal checked at peak load with the hottest utility temperature.</li>
+    <li>Every wetted material checked against every step, wash and cleaning agent.</li>
+    <li>Filter area from lab cake loading, not from a catalogue.</li>
+    <li>Dryer fill and heat, vacuum, utilities, relief, scrubber and cleaning checked.</li>
+    <li>Every gap has an owner, an action and a date, and cycle time is recalculated.</li>
+  </ul>
+  <p>If new or modified equipment is needed, write a URS first. It states the duty, constraints and acceptance criteria, and lets the vendor do the detailed design. Use the <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a> for the equipment type, and read <a href="{{ '/articles/urs-for-batch-reactors/' | relative_url }}">URS for batch reactors</a> for the reactor case. The factory acceptance test (FAT) then checks the equipment against the URS at the vendor's works. The site acceptance test (SAT) repeats the key checks after installation, and qualification follows as in <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">DQ, IQ, OQ, PQ</a>. Write the acceptance criteria in the URS, so FAT and SAT are a pass or fail check and not an argument.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is an equipment fit-gap assessment?</h3>
+  <p>It is a line-by-line comparison of what the process needs (volume, heat removal, materials, filtration area, drying load, utilities) against what the receiving plant's equipment can deliver. Each line is marked fit, fit with a change, or gap, and each gap gets an owner and a resolution before the first plant batch.</p>
+  <h3>Should we use existing plant equipment or buy new?</h3>
+  <p>Use existing equipment when the fit-gap shows the process can run within its limits without changing the validated chemistry. Buy or modify when a gap affects safety, quality or yield and cannot be closed by changing batch size, dosing time or the number of loads. Weigh the cost of a new unit against the cost of long cycle times.</p>
+  <h3>Why does heat transfer area matter so much when scaling up a reactor?</h3>
+  <p>Volume grows with the cube of the vessel size but jacket area grows roughly with the square, so the area available per unit volume falls as the vessel gets bigger. An exotherm that was invisible in a flask can exceed the jacket capacity in a plant reactor, so dosing time or cooling must be re-planned.</p>
+  <h3>Is a glass-lined reactor always the safe choice for corrosive chemistry?</h3>
+  <p>No. Glass lining resists most acids but is attacked by hydrofluoric acid and is usually avoided with hot strongly alkaline solutions. It is also sensitive to thermal shock and heat transfer is slower than in steel. Check every step, including washes and cleaning agents, against the lining.</p>
+  <h3>What is the difference between FAT and SAT?</h3>
+  <p>The factory acceptance test (FAT) checks the new equipment against the URS at the vendor's works before shipment. The site acceptance test (SAT) repeats the key checks after installation at your plant, then qualification (IQ, OQ) follows. Both use acceptance criteria written in the URS.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://ispe.org/pharmaceutical-engineering/ispeak/technology-transfer-manufacturing-processes-best-practices">ISPE iSpeak: Technology transfer of manufacturing processes, best practices</a> (facility fit and gap assessment)</li>
+    <li><a href="https://kindle-tech.com/faqs/what-is-the-difference-between-glr-and-ssr-reactor">Difference between GLR and SSR reactors</a> (glass-lined limits: hydrofluoric acid, hot alkali, thermal shock, slower heat transfer)</li>
+    <li><a href="https://inspenet.com/en/articles/scc-prevention-in-316-stainless-steel/">SCC prevention in 316 stainless steel</a> (chloride stress corrosion cracking, about 60 &deg;C)</li>
+    <li><a href="https://cleanroomtechnology.com/optimising-process-steps-and-performance-with-agitated-nutsche">Optimising process steps with agitated Nutsche filter-dryers</a> (single-vessel filter, wash and dry; agglomeration limits; vendor-linked source)</li>
+    <li>ICH Q10 and EU GMP Annex 15 on qualification and validation (general reference)</li>
+    <li>Perry&rsquo;s Chemical Engineers&rsquo; Handbook, heat transfer and solid-liquid separation sections (general reference)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/design-tools/urs-builder/' | relative_url }}">URS builder</a>
+    <a href="{{ '/articles/urs-for-batch-reactors/' | relative_url }}">URS for batch reactors</a>
+    <a href="{{ '/articles/urs-for-heat-exchangers/' | relative_url }}">URS for heat exchangers</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/articles/materials-of-construction/' | relative_url }}">Materials of construction</a>
+    <a href="{{ '/articles/technology-transfer-end-to-end/' | relative_url }}">Technology transfer end to end</a>
+    <a href="{{ '/articles/scale-up-challenges-and-fixes/' | relative_url }}">Scale-up challenges and fixes</a>
+    <a href="{{ '/articles/first-time-right-technology-transfer/' | relative_url }}">First time right technology transfer</a>
+    <a href="{{ '/articles/scale-up-case-study-api-intermediate/' | relative_url }}">Scale-up case study: API intermediate</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

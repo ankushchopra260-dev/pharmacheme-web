@@ -1,0 +1,230 @@
+---
+layout: default
+title: "First-Time-Right Technology Transfer: A Practical Guide"
+seo_title: "First-Time-Right Technology Transfer Guide | PharmaChemE"
+description: "How to get a process right at the receiving plant: readiness gates, FMEA, proven ranges, engineering batch, go/no-go criteria and right-first-time KPIs."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: First-Time-Right Technology Transfer
+    url: /articles/first-time-right-technology-transfer/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "First-Time-Right Technology Transfer: A Practical Guide",
+        "description": "How to get a process right the first time at the receiving plant: readiness gates, FMEA, ranges, engineering batch, go/no-go and KPIs.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-06",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does first-time-right mean in technology transfer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It means the receiving plant makes in-specification product from the early validation batches, without avoidable deviations, rework or reprocessing. It does not mean the first batch ever run is perfect. Engineering batches exist to learn, and the aim is that what they teach is captured before the validation batches start."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many batches are needed before routine commercial supply?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The FDA process validation guidance does not set a number of qualification batches. It asks for enough data to give statistical confidence within and between batches, and lets that level be risk-based. Many companies run three, but that is a convention, not a rule. Decide the number from process variability and risk, and write the reasoning down."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between NOR, PAR and design space?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The normal operating range (NOR) is the band around the target that routine control achieves. A proven acceptable range (PAR) is the range of a single parameter shown to give acceptable quality while the others are held constant. A design space covers several parameters and their interactions together. Moving outside a registered PAR or design space is a regulatory change, so register ranges you have actually tested."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is a high RPN always a reason to stop the transfer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The RPN is a way to rank issues, not a pass mark. Different combinations of severity, occurrence and detection can give the same number, and a severe failure with a low RPN still needs attention. Use the RPN to decide where to spend effort first, and apply judgement to anything with high severity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should be ready before the first plant batch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A transfer package with the process description and rationale, the ranges and the data behind them, impurity and analytical methods, safety data, a risk assessment, the equipment fit and gap review, draft batch records and a training plan. The technology transfer documents article lists what each one should contain."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>First-Time-Right Technology Transfer: A Practical Guide</h1>
+  <p class="article-meta">Scale-up and technology transfer &middot; Plant readiness &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Every plant wants the new process to work from the first real batch. It rarely does by luck. This article shows the gates, the risk assessment, the range studies and the numbers that make first-time-right a plan instead of a hope, with a worked FMEA and a right-first-time calculation.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#meaning">What first-time-right means</a><span>Basics</span></li>
+    <li><a href="#gates">The gates from lab to routine supply</a><span>Basics</span></li>
+    <li><a href="#knowledge">Capture the process knowledge</a><span>Basics</span></li>
+    <li><a href="#fmea">Risk assessment with FMEA: a worked example</a><span>Working level</span></li>
+    <li><a href="#ranges">Ranges: NOR, PAR and design space</a><span>Working level</span></li>
+    <li><a href="#batches">Engineering batch, mock run and training</a><span>Working level</span></li>
+    <li><a href="#gonogo">Go/no-go criteria</a><span>Working level</span></li>
+    <li><a href="#kpi">Measuring it: right-first-time and stable yield</a><span>Working level</span></li>
+    <li><a href="#limits">Limits and common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Readiness checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="meaning">What first-time-right means <span class="lvl l1">Basics</span></h2>
+  <p>In technology transfer, a process moves from the sending site (usually R&amp;D or a pilot plant) to the receiving plant. First-time-right means the receiving plant makes in-specification product from the early validation batches, with no avoidable deviation, rework or reprocessing. It does not mean the first batch ever charged is perfect. The first engineering batch is allowed to teach you things. What is not acceptable is learning the same lesson again in every batch.</p>
+  <p>A rejected batch loses raw materials, solvent and reactor days, and a reworked one adds a deviation and an investigation. Most of these failures were visible on paper before the batch started. First-time-right is mostly the discipline of looking for them early.</p>
+  <h2 id="gates">The gates from lab to routine supply <span class="lvl l1">Basics</span></h2>
+  <p>It helps to run the transfer as a sequence of gates, each with a clear question and a person who signs. A typical sequence is:</p>
+  <ol>
+    <li><strong>Process understanding gate.</strong> Does the transfer package describe the process, its critical steps and the data behind the ranges?</li>
+    <li><strong>Plant fit gate.</strong> Does the receiving plant have the equipment, utilities, materials of construction and analytical capability the process needs? Gaps are listed with owners and dates.</li>
+    <li><strong>Risk gate.</strong> Has a cross-functional risk assessment been done, and are the high-priority actions closed or accepted?</li>
+    <li><strong>Readiness gate.</strong> Are people trained, batch records approved, materials released, equipment cleaned and qualified?</li>
+    <li><strong>Engineering batch review.</strong> What did the first plant runs show, and what changed in the documents as a result?</li>
+    <li><strong>Validation batches and routine supply.</strong> The process is run under normal conditions by routine staff, with extra sampling, and then monitored.</li>
+  </ol>
+  <p>This follows the lifecycle idea in the FDA process validation guidance: design the process using development and scale-up knowledge, qualify equipment and demonstrate the process at commercial scale, then keep verifying it in routine production. The words differ between companies, but the logic is the same. See the <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant scale-up checklist</a> for the engineering side of each step.</p>
+  <h2 id="knowledge">Capture the process knowledge <span class="lvl l1">Basics</span></h2>
+  <p>Most surprises come from knowledge that stayed in one person's head. Before the transfer, ask the sending site to write down:</p>
+  <ul>
+    <li><strong>What the chemist does that is not in the procedure:</strong> how fast reagent is really added, how long the mixture is held, what colour change they watch for.</li>
+    <li><strong>The impurity map:</strong> which impurities form where, which step removes them, and what level is acceptable going forward.</li>
+    <li><strong>Heat and gas behaviour:</strong> exotherms, gas evolution, foaming, and the calorimetry or thermal data behind the safety assessment.</li>
+    <li><strong>Sensitivities:</strong> which parameters changed the result in experiments and which did not.</li>
+    <li><strong>Hold times:</strong> how long each intermediate can wait without damage, because plants wait.</li>
+    <li><strong>Physical form:</strong> particle size, crystal form and filtration or drying behaviour, with the conditions that gave them.</li>
+  </ul>
+  <p>Then ask the operators to read it. A question such as "What do I do if the temperature is slow to come up?" that needs a chemist on the phone exposes a gap in the package.</p>
+  <h2 id="fmea">Risk assessment with FMEA: a worked example <span class="lvl l2">Working level</span></h2>
+  <p>Failure mode and effects analysis (FMEA) lists what can go wrong, scores it and ranks it. Each failure mode gets three ratings: severity (S), occurrence (O) and detection (D). Their product is the risk priority number:</p>
+  <div class="formula-box">
+    RPN = S &times; O &times; D
+    <small>Scales are set by each company, often 1 to 10. For severity and occurrence, higher is worse. For detection, a higher score means the problem is harder to detect with the controls in place.</small>
+  </div>
+  <p>Agree what each score means before the meeting, or the discussion becomes an argument about numbers. The example below is made up for one crystallisation and drying step of a generic intermediate. Ratings and results are illustrative, and a real team would score its own process.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Rank</th><th>Failure mode</th><th>S</th><th>O</th><th>D</th><th>RPN</th></tr></thead><tbody>
+<tr><td>1</td><td>Slower cooling shifts particle size or crystal form</td><td>8</td><td>4</td><td>6</td><td>192</td></tr>
+<tr><td>2</td><td>Slow mixing gives local excess of reagent, impurity rises</td><td>7</td><td>5</td><td>5</td><td>175</td></tr>
+<tr><td>3</td><td>Intermediate degrades during extended hold in reactor</td><td>7</td><td>4</td><td>6</td><td>168</td></tr>
+<tr><td>4</td><td>Wet cake lumps, residual solvent above limit after drying</td><td>6</td><td>5</td><td>4</td><td>120</td></tr>
+<tr><td>5</td><td>Exotherm on reagent addition exceeds jacket capacity</td><td>9</td><td>4</td><td>3</td><td>108</td></tr>
+<tr><td>6</td><td>Slow filtration, long contact with mother liquor</td><td>5</td><td>6</td><td>3</td><td>90</td></tr>
+<tr><td>7</td><td>Wrong charge quantity (operator or weighing error)</td><td>8</td><td>3</td><td>3</td><td>72</td></tr>
+<tr><td>8</td><td>Cleaning residue carried into next batch</td><td>8</td><td>2</td><td>4</td><td>64</td></tr>
+</tbody></table></div>
+  <p>Look at what the ranking does and does not say. Cooling profile, mixing and hold time top the list, so they get the first experiments and the first controls. But the exotherm is only fifth by RPN, and it has the highest severity (9). Severity 9 deserves action whatever the product, so it is handled in the <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP</a> and the heat-removal check, not left to the ranking.</p>
+  <p>Suppose the team takes four actions: a validated cooling ramp with an interlock on rate, a mixing study with a defined addition point and time, a hold-time limit proved in the lab, and a dosing rate limit tied to jacket capacity. After they are implemented and verified, the residual RPNs are 48 (cooling), 84 (mixing), 42 (hold) and 36 (exotherm). Do not lower a score for a control that is planned but not yet in place, and keep the severity score as it was. A control reduces occurrence or improves detection. It rarely changes how bad the failure would be.</p>
+  <h2 id="ranges">Ranges: NOR, PAR and design space <span class="lvl l2">Working level</span></h2>
+  <p>The receiving plant needs ranges, not single numbers. Three terms are in common use:</p>
+  <ul>
+    <li><strong>Normal operating range (NOR):</strong> the band around the target that routine control actually holds, for example the jacket temperature swing during a hold.</li>
+    <li><strong>Proven acceptable range (PAR):</strong> the range of one parameter within which the product still meets quality criteria, when the other parameters are held constant.</li>
+    <li><strong>Design space:</strong> the combination of several parameters and inputs, with their interactions, shown to give acceptable quality.</li>
+  </ul>
+  <p>A parameter whose acceptable range depends on another, such as addition time and temperature, belongs in a design space and not in two separate PARs. Operating inside a registered PAR or design space is not a change, but leaving it needs a regulatory change process, so register only what you have tested. Use <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a> for anything outside the tested range.</p>
+  <p>The lab studies that earn these ranges are designed experiments, not one-factor trials. Choose the factors the FMEA flagged, set the low and high levels beyond what the plant can realistically hold (for example, wider than the NOR), and measure the outputs that matter: assay, impurities, particle size, filtration time, residual solvent. A two-level factorial with centre points shows effects and interactions in few runs. Include the scale-dependent factors, such as agitator speed, addition time and cooling rate, using the scale-down methods from the <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">process modelling article</a>.</p>
+  <h2 id="batches">Engineering batch, mock run and training <span class="lvl l2">Working level</span></h2>
+  <p>The engineering batch is the first full-size run. Treat it as an experiment with a plan, not a rehearsal for the auditor. Decide beforehand what you will measure: heat-up and cooling times, addition profile, mixing and dissolution time, filtration and drying times, hold times, yield at each step, and impurity levels at each in-process check. Have the process authors, the operators and quality present for the run.</p>
+  <p>A mock run, or dry run with a solvent or water, comes before it and catches the cheap problems: a transfer line that does not drain, a charge point that is out of reach, a valve that is not on the batch record, a hold-up volume that was not in the yield calculation. Walk the batch record line by line at the equipment.</p>
+  <p>Operator training should be practical. Brief operators on why each critical step matters, what to do if it deviates, and who to call. Review the batch record with them. Instructions like "add slowly" need numbers, because shifts read them differently. For the quality side of what happens after a deviation, see the article on <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">deviations and CAPA</a>.</p>
+  <h2 id="gonogo">Go/no-go criteria <span class="lvl l2">Working level</span></h2>
+  <p>Agree the criteria before the date is fixed, not on the morning of the batch. A short, honest list works better than a long one that nobody reads:</p>
+  <ul>
+    <li>Approved process description, batch record and in-process control plan, with ranges and their basis.</li>
+    <li>Risk assessment done, with all high-severity items and top-ranked RPN items closed or formally accepted.</li>
+    <li>Equipment qualified or fit for purpose, calibrated, clean, and the gaps from the fit review closed or controlled.</li>
+    <li>Raw materials released and analytical methods transferred, with the two laboratories' results compared.</li>
+    <li>Operators trained and signed off on the actual procedure.</li>
+    <li>A named decision-maker for in-batch decisions, and a plan for what happens if a limit is missed.</li>
+  </ul>
+  <h2 id="kpi">Measuring it: right-first-time and stable yield <span class="lvl l2">Working level</span></h2>
+  <p>What you do not measure you cannot improve. Two simple numbers tell you whether the transfer is working. Define them clearly and keep the definitions fixed.</p>
+  <div class="formula-box">
+    Right-first-time (RFT) % = batches that met specification with no deviation, rework or reprocessing &divide; all batches &times; 100
+    <small>Count by stage as well as overall. Engineering batches will score low by design, so report them separately.</small>
+  </div>
+  <p>The second is batches to stable yield: how many batches before the yield settles within a narrow band of its long-run mean. Here is a made-up history of 18 batches of one product, calculated in Python from the batch list.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Stage</th><th>Batches</th><th>Right first time</th><th>RFT %</th><th>Mean yield, %</th></tr></thead><tbody>
+<tr><td>Engineering (batches 1-6)</td><td>6</td><td>1</td><td>17</td><td>78.7</td></tr>
+<tr><td>Validation (batches 7-9)</td><td>3</td><td>3</td><td>100</td><td>85.7</td></tr>
+<tr><td>Routine (batches 10-18)</td><td>9</td><td>8</td><td>89</td><td>86.0</td></tr>
+<tr><td>All batches</td><td>18</td><td>12</td><td>67</td><td>82.9</td></tr>
+</tbody></table></div>
+  <p>The all-batch figure of 67 % looks poor, but it is misleading, because it mixes learning batches with routine ones. Reported by stage, the story is clear: the engineering batches taught the team a lot (yield rose from 71.0 % to 84.9 %), the validation batches ran cleanly, and routine runs are at 89 %, with one deviation in nine. For routine batches from 7 to 18 the mean yield is 85.9 % with a standard deviation of 0.35 points. Yield was stable from batch 7, defined here as five consecutive batches within one point of that mean. Plot yield on a control chart as described in the <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">control charts article</a> to spot drift early.</p>
+  <h2 id="limits">Limits and common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <p>None of this guarantees success. An FMEA only lists the failures the team thought of, and RPN scoring is subjective, so the ranking is a prompt for discussion rather than a result. A design space built from lab data may not hold at scale if the scale-dependent factors were not included. A good RFT rate can also hide near-misses if deviations were not logged honestly.</p>
+  <ul>
+    <li><strong>Treating the transfer as a document hand-over.</strong> A package without a conversation between the two teams loses the unwritten knowledge.</li>
+    <li><strong>Skipping the plant fit review.</strong> The process was developed in glass and assumes mixing, heat removal and filtration that the plant does not have.</li>
+    <li><strong>Testing only the target.</strong> If the lab never ran the edges of the range, the plant will find them for you.</li>
+    <li><strong>Scoring risks to look good.</strong> Lowering occurrence for a control that is only planned makes the RPN meaningless.</li>
+  </ul>
+  <h2 id="checklist">Readiness checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Equipment fit and gap review done, owners and dates set.</li>
+    <li>FMEA done, severity 9 and 10 items and the top-ranked RPN items addressed.</li>
+    <li>Ranges backed by designed experiments that included scale-dependent factors.</li>
+    <li>Operators trained, with decisions and contacts written in the record.</li>
+    <li>Go/no-go criteria agreed in advance and signed.</li>
+  </ul>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What does first-time-right mean in technology transfer?</h3>
+  <p>It means the receiving plant makes in-specification product from the early validation batches, without avoidable deviations, rework or reprocessing. It does not mean the first batch ever run is perfect. Engineering batches exist to learn, and the aim is that what they teach is captured before the validation batches start.</p>
+  <h3>How many batches are needed before routine commercial supply?</h3>
+  <p>The FDA process validation guidance does not set a number of qualification batches. It asks for enough data to give statistical confidence within and between batches, and lets that level be risk-based. Many companies run three, but that is a convention, not a rule. Decide the number from process variability and risk, and write the reasoning down.</p>
+  <h3>What is the difference between NOR, PAR and design space?</h3>
+  <p>The normal operating range (NOR) is the band around the target that routine control achieves. A proven acceptable range (PAR) is the range of a single parameter shown to give acceptable quality while the others are held constant. A design space covers several parameters and their interactions together. Moving outside a registered PAR or design space is a regulatory change, so register ranges you have actually tested.</p>
+  <h3>Is a high RPN always a reason to stop the transfer?</h3>
+  <p>No. The RPN is a way to rank issues, not a pass mark. Different combinations of severity, occurrence and detection can give the same number, and a severe failure with a low RPN still needs attention. Use the RPN to decide where to spend effort first, and apply judgement to anything with high severity.</p>
+  <h3>What should be ready before the first plant batch?</h3>
+  <p>A transfer package with the process description and rationale, the ranges and the data behind them, impurity and analytical methods, safety data, a risk assessment, the equipment fit and gap review, draft batch records and a training plan. The <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">technology transfer documents article</a> lists what each one should contain.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://www.hhs.gov/guidance/sites/default/files/hhs-guidance-documents/FDA/Process-Validation--General-Principles-and-Practices.pdf">FDA, Process Validation: General Principles and Practices (guidance for industry)</a></li>
+    <li><a href="https://pharmuni.com/2026/09/25/fmea-in-pharma-in-year-a-practical-guide-to-risk-assessment-and-control/">Pharmuni, FMEA in pharma: a practical guide to risk assessment and control</a></li>
+    <li><a href="https://gmp-compliance.org/gmp-news/emas-questions-and-answers-relating-to-flexibility-in-manufacturing-conditions">GMP Compliance, EMA questions and answers on flexibility in manufacturing conditions (NOR, PAR, design space)</a></li>
+    <li>ICH Q8, Q9 and Q10 guidelines on pharmaceutical development, quality risk management and the pharmaceutical quality system (general reference)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">Process modelling for scale-up</a>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">Deviation and CAPA</a>
+    <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">Control charts for batch plants</a>
+    <a href="{{ '/articles/technology-transfer-end-to-end/' | relative_url }}">Technology transfer end to end</a>
+    <a href="{{ '/articles/scale-up-troubleshooting-playbook/' | relative_url }}">Scale-up troubleshooting playbook</a>
+    <a href="{{ '/articles/validation-and-regulatory-in-technology-transfer/' | relative_url }}">Validation and regulatory in technology transfer</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

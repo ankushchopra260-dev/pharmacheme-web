@@ -1,0 +1,216 @@
+---
+layout: default
+title: "Scale-up Challenges and How to Fix Them"
+seo_title: "Scale-up Challenges and Fixes in Plants | PharmaChemE"
+description: "The main lab-to-plant scale-up challenges, heat removal, mixing, addition, filtration, drying, impurities, and how to overcome each, with a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Scale-up Challenges and How to Fix Them
+    url: /articles/scale-up-challenges-and-fixes/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Scale-up Challenges and How to Fix Them",
+        "description": "The main challenges when a process moves from laboratory to plant, and practical ways to overcome each, with a worked lab versus plant comparison.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why do processes behave differently at plant scale?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Volume grows with the cube of vessel size but wall area only with the square. Heat removal per litre falls, mixing takes longer, additions and transfers take longer, and solids handling is different. The chemistry is unchanged, but the time and rate conditions around it are not."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which scale-up rule should I use for agitation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on what the step needs. Constant power per volume is a common starting point for blending and many reactions, constant tip speed is used where shear damages the product, and constant speed over-mixes badly. Test the choice at lab or pilot scale on the step that is most sensitive."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I know if heat removal will limit my plant batch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compare the heat release rate per litre, from calorimetry, with the jacket capacity per litre at the plant: U times area times the available temperature difference, divided by volume. If the required temperature difference is larger than the utility can give, slow the addition or change the process."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does the impurity profile change on scale-up?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Longer addition, heat-up, hold and transfer times give side reactions more time. Poorer mixing creates local high concentrations. Raw material lots also differ. Run impurity-sensitive steps at the expected plant time scale in the lab before transfer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can a pilot plant remove all scale-up risk?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. A pilot reduces the gap and shows problems early, but it is still smaller than the plant and has different equipment. Use it to test the risky steps, then confirm with the first plant batches under close monitoring."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Scale-up Challenges and How to Fix Them</h1>
+  <p class="article-meta">Scale-up and technology transfer &middot; Challenges &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A process that works in a 1 L flask can fail in a 5,000 L reactor without any change in chemistry. This article lists the usual scale-up challenges, explains why each one appears, and shows how to deal with them before the first plant batch.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why scale-up is not just multiplication</a><span>Basics</span></li>
+    <li><a href="#heat">Heat removal and the area to volume ratio</a><span>Basics</span></li>
+    <li><a href="#mixing">Mixing and blend time</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: 1 L versus 5,000 L</a><span>Working level</span></li>
+    <li><a href="#addition">Addition, accumulation and mass transfer</a><span>Working level</span></li>
+    <li><a href="#solids">Crystallisation, filtration and drying</a><span>Working level</span></li>
+    <li><a href="#losses">Hold-up, cycle time, impurities, raw materials and cleaning</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist before the first plant batch</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">Why scale-up is not just multiplication <span class="lvl l1">Basics</span></h2>
+  <p>Technology transfer moves a process from the sending site, usually R&amp;D, to the receiving site, the manufacturing plant. On paper the recipe is the same: the same reagents, the same ratios, the same temperatures. In practice almost everything around the chemistry changes.</p>
+  <p>The root cause is simple geometry. If you make a vessel twice as wide in every direction, its volume grows eight times but its wall area grows only four times. Heat, mixing, filtration and drying all depend on area, distance or time, not just on quantity. So a step that was instant in the lab takes minutes, and a step that was gentle becomes violent.</p>
+  <p>Chemistry rarely changes with size. What changes is the rate at which heat leaves, reagents meet and solids move. A good scale-up study asks, for each step: <em>which rate limits this step at plant scale, and is it the same one that limited it in the lab?</em></p>
+  <h2 id="heat">Heat removal and the area to volume ratio <span class="lvl l1">Basics</span></h2>
+  <p>This is the first and most important challenge. A jacketed reactor removes heat through its wall, so the capacity is set by the wall area. The heat release comes from the whole volume. As the vessel grows, area per litre falls.</p>
+  <div class="formula-box">
+    Q<sub>removal</sub> = U &times; A &times; (T<sub>process</sub> &minus; T<sub>jacket</sub>)<br>
+    Removal per litre = U &times; (A / V) &times; &Delta;T
+    <small>U overall heat transfer coefficient (W/m&sup2;&middot;K), A wetted jacket area (m&sup2;), V liquid volume. For geometrically similar vessels, A/V falls roughly in proportion to 1 / vessel diameter.</small>
+  </div>
+  <p>In a small flask, the wall, the oil bath and the air all help, so an exothermic step often looks harmless. In the plant, the same step can only be controlled by slowing the feed. Heat of reaction, heat of mixing, heat from the agitator and the heat of crystallisation all add to the load. Get the heat release from reaction calorimetry (see <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC and RC1 data</a>), then check the plant jacket with the method in <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load calculation</a>.</p>
+  <p><strong>How to overcome it:</strong> make the feed time the control variable, so the heat release never exceeds what the jacket can remove. Where that makes the cycle too long, options include a lower concentration, a colder jacket, an external heat exchanger loop, or a different reactor type. Never rely on the jacket alone for a step that can run away.</p>
+  <h2 id="mixing">Mixing and blend time <span class="lvl l2">Working level</span></h2>
+  <p>Agitators do not scale as neatly as geometry. Three common rules exist: constant tip speed, constant power per unit volume, and constant rotational speed. Each gives a different result, and none is right for every step. Constant power per volume is often a sound starting point, while constant tip speed gives a much weaker mix at large scale. One trade publication notes that holding a dimensional variable such as tip speed or power per volume constant has worked more often than holding a dimensionless group constant, and advises testing across a range of conditions.</p>
+  <p>Blend time is the key consequence. In a turbulent, geometrically similar vessel, the product of rotational speed and blend time is roughly constant, so the blend time rises as the speed falls. A large vessel almost always takes longer to blend than a small one, unless you accept far more power. Reactions that are faster than the blend time then happen in poorly mixed zones, which makes side products.</p>
+  <p>The detailed rules, with a worked impeller example, are in <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a> and <a href="{{ '/articles/agitator-design/' | relative_url }}">agitator design</a>. Here we only need the main idea: choose the rule from what the step needs, such as suspension, dispersion, fast reaction or gentle handling.</p>
+  <h2 id="example">Worked example: 1 L versus 5,000 L <span class="lvl l2">Working level</span></h2>
+  <p>This example compares two geometrically similar vessels. Every input is made up for illustration, and the numbers come from a short calculation, not from a real plant.</p>
+  <ul>
+    <li>Liquid height equals vessel diameter. Jacket area is the wetted wall plus the bottom.</li>
+    <li>U is 250 W/m&sup2;&middot;K in both vessels, and the jacket is 20 K colder than the batch.</li>
+    <li>The reaction releases an average of 40 W per litre during the addition.</li>
+    <li>Impeller diameter is one third of the vessel diameter, power number 1.5, water-like fluid. The lab impeller runs at 500 rpm.</li>
+  </ul>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Item</th><th>1 L lab</th><th>5,000 L plant</th></tr></thead><tbody>
+  <tr><td>Vessel diameter</td><td>0.108 m</td><td>1.85 m</td></tr>
+  <tr><td>Jacket area</td><td>0.046 m&sup2;</td><td>13.5 m&sup2;</td></tr>
+  <tr><td>Area per volume (A/V)</td><td>46.1 m&sup2;/m&sup3;</td><td>2.70 m&sup2;/m&sup3;</td></tr>
+  <tr><td>Removal capacity at 20 K</td><td>231 W/L</td><td>13.5 W/L</td></tr>
+  <tr><td>Jacket &Delta;T needed for 40 W/L</td><td>3.5 K</td><td>59.3 K</td></tr>
+  </tbody></table></div>
+  <p>The vessel diameter grows 17.1 times, so A/V falls 17.1 times. The lab flask can remove nearly six times the heat it makes, with only a 3.5 K difference. The plant would need a 59 K difference, which a normal chilled brine or cooling water supply cannot give. The plant feed must therefore be slowed, to about a third of the lab heat rate or less, or the process must change.</p>
+  <p>Now the agitator. Three rules applied to the plant vessel give very different results:</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Rule</th><th>Plant speed</th><th>Tip speed</th><th>Power per volume</th><th>Blend time vs lab</th></tr></thead><tbody>
+  <tr><td>Lab (reference)</td><td>500 rpm</td><td>0.95 m/s</td><td>53 W/m&sup3;</td><td>1</td></tr>
+  <tr><td>Constant speed</td><td>500 rpm</td><td>16.2 m/s</td><td>15,600 W/m&sup3;</td><td>1</td></tr>
+  <tr><td>Constant tip speed</td><td>29 rpm</td><td>0.95 m/s</td><td>3.1 W/m&sup3;</td><td>17.1 times longer</td></tr>
+  <tr><td>Constant power per volume</td><td>75 rpm</td><td>2.44 m/s</td><td>53 W/m&sup3;</td><td>6.6 times longer</td></tr>
+  </tbody></table></div>
+  <p>Constant speed keeps the blend time but needs about 300 times the power per volume and a 16 m/s tip speed, which is not practical. Constant tip speed is cheap but leaves the batch almost unmixed. Constant power per volume sits in between, and the blend time still rises 6.6 times. If the lab blend time was, say, 2 seconds, the plant needs roughly 13 seconds, which matters only if the reaction is faster than that.</p>
+  <div class="art-note"><b>Limits of this example</b><p>It assumes geometric similarity, turbulent flow, the same fluid and a constant mixing number. Real plant vessels have baffles, dished heads, internal coils and different impellers, and real lab flasks are not geometrically similar to anything. Use the numbers to see the trend, not to size equipment. Calorimetry and a vendor rating are still needed.</p></div>
+  <h2 id="addition">Addition, accumulation and mass transfer <span class="lvl l2">Working level</span></h2>
+  <p><strong>Addition time.</strong> A 10 minute addition in the lab may take two hours in the plant, because of pump size, line volume and the heat limit above. A slower addition changes the reaction: more time at temperature, a different local concentration and a different impurity profile. If the reaction is fast and the feed stops reacting immediately, there is little accumulation. If the reaction is slow, unreacted reagent builds up and can release suddenly when it starts. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a>. The fix is to test the real plant addition profile in the lab and measure how much reagent builds up.</p>
+  <p><strong>Gas-liquid and solid-liquid mass transfer.</strong> Hydrogenations, oxidations, chlorinations and slurry reactions depend on the interfacial area and the transfer rate. Gas flow per volume (vvm) is easy to match, but superficial gas velocity rises with vessel height, and gas hold-up changes with power. Solid dissolution depends on particle size and suspension. The gas-side rules are in <a href="{{ '/articles/gas-liquid-mass-transfer-kla/' | relative_url }}">gas-liquid mass transfer</a>. The practical advice is to keep the key rate controlling variable constant, such as k<sub>L</sub>a, and verify it by a small gas-uptake test.</p>
+  <h2 id="solids">Crystallisation, filtration and drying <span class="lvl l2">Working level</span></h2>
+  <p><strong>Crystallisation.</strong> Cooling rate, seeding point and local supersaturation at the feed point all change on scale. A product that gave clean crystals in the lab may give fines, agglomerates or the wrong polymorph in the plant. Control the cooling profile and seeding, and do not assume the lab linear cool-down is achievable. See <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">crystallisation scale-up</a>.</p>
+  <p><strong>Filtration and washing.</strong> Cake depth and filter area do not scale together. A thicker cake and a longer slurry hold increase the resistance, and washing efficiency can drop. Test with the right cake height and pressure, and check for channelling when the cake cracks. Slow filtration often traces back to crystal size, not the filter.</p>
+  <p><strong>Drying.</strong> Drying time depends on bed depth, agitation and heat transfer area. A lab oven tray gives little guidance for an agitated dryer where lumps, attrition and heat-sensitive product matter. See <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">drying and dryer scale-up</a>. Match the dryer type to the product early, and set the end point on loss on drying and residual solvent.</p>
+  <h2 id="losses">Hold-up, cycle time, impurities, raw materials and cleaning <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Hold-up and transfer losses.</strong> Lines, filters, centrifuge bowls and dryer walls retain material. At 1 L a few grams are noise. At 5,000 L, a one percent hold-up is real money and may be the whole yield gap. Measure transfer losses on engineering batches and include them in the yield forecast.</li>
+    <li><strong>Cycle time.</strong> Heating, cooling, charging, filtering, drying and cleaning all take longer. Hold times at intermediate stages can degrade product. Build a realistic time line and check where the process spends its time, see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">batch cycle time debottlenecking</a>.</li>
+    <li><strong>Impurity profile drift.</strong> Longer times at temperature, local high concentrations and extra hold time create new or larger impurities. Run the lab process with plant-like times, and set limits on the impurities that matter early. Compare the first plant batches with the lab batches impurity by impurity, not only by assay.</li>
+    <li><strong>Raw material variability.</strong> Lab batches use one lot of high-grade material. The plant uses many lots, maybe a different grade or supplier. Water content, trace metals and impurities can change the reaction. Test the specification limits, not only the typical lot.</li>
+    <li><strong>Cleaning and cross-contamination.</strong> Shared equipment, dead legs, gaskets and long lines hold residue. Cleaning time, solvent use and the cleaning validation limit all add to the cycle. Check that the cleaning method works for this product, especially with sticky solids or low solubility.</li>
+  </ul>
+  <h2 id="mistakes">Common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Scaling the recipe, not the rates.</strong> Copying volumes and times without checking heat, mixing and addition rates.</li>
+    <li><strong>One scale-up factor.</strong> Using a single number, such as a 5,000 times batch size, for all steps.</li>
+    <li><strong>No calorimetry.</strong> Assuming a step is mild because the flask did not warm up.</li>
+    <li><strong>Lab times for plant steps.</strong> Testing the impurity profile at lab speed, then running a long plant addition.</li>
+    <li><strong>Ignoring the weakest step.</strong> Many failures sit in filtration or drying, not in the reactor.</li>
+    <li><strong>Treating the pilot as proof.</strong> A pilot reduces risk but is still a different size with different equipment.</li>
+  </ul>
+  <div class="art-note"><b>Rule of thumb</b><p>For every step, write down the lab time, the expected plant time and the one rate that controls the step. If the plant time is much longer, run that step again at plant time in the lab.</p></div>
+  <h2 id="checklist">Checklist before the first plant batch <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Heat release from calorimetry, and plant jacket capacity per litre, compared.</li>
+    <li>Maximum safe feed rate set, with an interlock where a runaway is credible.</li>
+    <li>Agitator rule chosen for each sensitive step, with speed, power and tip speed calculated.</li>
+    <li>Plant addition and hold times tested in the lab for impurity effects.</li>
+    <li>Crystallisation, filtration and drying tested at representative scale or with a vendor trial.</li>
+    <li>Hold-up and transfer losses estimated and included in yield.</li>
+    <li>Raw material specification tested at its limits.</li>
+    <li>Cleaning method and cycle time agreed.</li>
+    <li>HAZOP or equivalent review done, see <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>.</li>
+  </ul>
+  <p>For the document side of the hand-over, see <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">technology transfer documents</a> and the <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant scale-up checklist</a>.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why do processes behave differently at plant scale?</h3>
+  <p>Volume grows with the cube of vessel size but wall area only with the square. Heat removal per litre falls, mixing takes longer, additions and transfers take longer, and solids handling is different. The chemistry is unchanged, but the time and rate conditions around it are not.</p>
+  <h3>Which scale-up rule should I use for agitation?</h3>
+  <p>It depends on what the step needs. Constant power per volume is a common starting point for blending and many reactions, constant tip speed is used where shear damages the product, and constant speed over-mixes badly. Test the choice at lab or pilot scale on the step that is most sensitive.</p>
+  <h3>How do I know if heat removal will limit my plant batch?</h3>
+  <p>Compare the heat release rate per litre, from calorimetry, with the jacket capacity per litre at the plant: U times area times the available temperature difference, divided by volume. If the required temperature difference is larger than the utility can give, slow the addition or change the process.</p>
+  <h3>Why does the impurity profile change on scale-up?</h3>
+  <p>Longer addition, heat-up, hold and transfer times give side reactions more time. Poorer mixing creates local high concentrations. Raw material lots also differ. Run impurity-sensitive steps at the expected plant time scale in the lab before transfer.</p>
+  <h3>Can a pilot plant remove all scale-up risk?</h3>
+  <p>No. A pilot reduces the gap and shows problems early, but it is still smaller than the plant and has different equipment. Use it to test the risky steps, then confirm with the first plant batches under close monitoring.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://www.chemicalprocessing.com/articles/2013/mixer-scale-up-demands-constant-attention" rel="noopener">Mixer Scale-Up Demands Constant Attention, Chemical Processing (2013)</a></li>
+    <li>Paul, E. L., Atiemo-Obeng, V. A. and Kresta, S. M. (eds), <i>Handbook of Industrial Mixing</i>, Wiley (general reference)</li>
+    <li>Perry&rsquo;s Chemical Engineers&rsquo; Handbook, heat transfer and mixing sections (general reference)</li>
+    <li>Stoessel, F., <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH (general reference on heat release and runaway)</li>
+    <li>The worked example uses made-up inputs and a short Python calculation by the author.</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load calculation</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+    <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">Process modelling for scale-up</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/common-mistakes-in-batch-reactions/' | relative_url }}">Common mistakes in batch reactions</a>
+    <a href="{{ '/articles/technology-transfer-end-to-end/' | relative_url }}">Technology transfer end to end</a>
+    <a href="{{ '/articles/equipment-selection-for-scale-up/' | relative_url }}">Equipment selection for scale-up</a>
+    <a href="{{ '/articles/scale-up-troubleshooting-playbook/' | relative_url }}">Scale-up troubleshooting playbook</a>
+    <a href="{{ '/articles/first-time-right-technology-transfer/' | relative_url }}">First time right in technology transfer</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

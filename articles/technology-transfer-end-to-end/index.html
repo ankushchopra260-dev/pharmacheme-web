@@ -1,0 +1,235 @@
+---
+layout: default
+title: "Technology Transfer and Scale-up: How It Is Done, Step by Step"
+seo_title: "Technology Transfer and Scale-up Step by Step | PharmaChemE"
+description: "How a process moves from lab to plant: stages, what gets transferred, gates, sending and receiving site roles, scale factors and a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Technology Transfer and Scale-up Step by Step
+    url: /articles/technology-transfer-end-to-end/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Technology Transfer and Scale-up: How It Is Done, Step by Step",
+        "description": "The stages of technology transfer from lab to commercial plant, what is handed over, the gates between stages and a worked scale factor example.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between scale-up and technology transfer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Scale-up is making the process work at a larger size. Technology transfer is moving the process, with all its knowledge and documents, from a sending site such as R&D to a receiving site such as a plant. Most transfers include both."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many validation batches are needed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "There is no fixed number in the FDA process validation guidance. The number depends on process variability, complexity and the knowledge already gained. Three consecutive batches is a common convention, but it should be justified in the protocol, not assumed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does a technology transfer take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It varies widely with process complexity, equipment availability and regulatory needs. For a typical multi-step API process, several months to a couple of years from first plant discussion to commercial supply is common. Equipment gaps and analytical method issues usually set the pace."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a critical process parameter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A process parameter whose variation affects a critical quality attribute, so it must be controlled within a set range. Examples are reaction temperature, addition time, final pH or drying temperature. Which parameters are critical is decided by experiments and risk assessment, not by habit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do processes that work in the lab fail in the plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The chemistry is the same but the physics changes. Heat removal per litre falls, mixing times rise, additions take longer and solids handling differs. Unrecorded lab details such as hold times and stirring style also matter."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Technology Transfer and Scale-up: How It Is Done, Step by Step</h1>
+  <p class="article-meta">Scale-up and technology transfer &middot; Basics &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A process that works in a 500 mL flask is not yet a process that works in a 4,000 L reactor. This article walks through the stages from lab to commercial plant, what must be handed over at each gate, and how the scale factors work out in a worked example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What technology transfer is, and what it is not</a><span>Basics</span></li>
+    <li><a href="#stages">The stages from lab to commercial</a><span>Basics</span></li>
+    <li><a href="#package">What gets transferred</a><span>Basics</span></li>
+    <li><a href="#example">Worked example: scale factors across the stages</a><span>Working level</span></li>
+    <li><a href="#gates">Gates, timeline and sending versus receiving site</a><span>Working level</span></li>
+    <li><a href="#limits">Limits of a stage plan</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist before each gate</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What technology transfer is, and what it is not <span class="lvl l1">Basics</span></h2>
+  <p>Technology transfer is moving a process, and the knowledge behind it, from a sending site to a receiving site. In most chemical and pharma companies the sending site is R&amp;D and the receiving site is a manufacturing plant. It can also be plant to plant, or company to contract manufacturer. A good industry guide describes it as moving manufacturing processes and analytical procedures between facilities or laboratories, from the team that developed them to the site that will run them.</p>
+  <p>Scale-up is related but different. Scale-up is making the process work at a larger size. Technology transfer is the wider job: the chemistry, the documents, the analytical methods, the safety data, the people and the decisions. Most real projects include both, and most failures come from treating transfer as "send the lab procedure to the plant".</p>
+  <p>The sections below follow the usual order. For the paperwork itself, see the article on <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">technology transfer documents</a>. For the physics that changes with size, see the <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant scale-up checklist</a>.</p>
+
+  <h2 id="stages">The stages from lab to commercial <span class="lvl l1">Basics</span></h2>
+  <p>Company names for the stages differ, but the logic is the same: each stage is bigger than the last and answers a different question.</p>
+  <ul>
+    <li><strong>Lab (grams to a few hundred grams).</strong> Prove the route and find the main variables. Glassware, magnetic or overhead stirring, heating mantles and oil baths. Question: does the chemistry work, and what are the impurities?</li>
+    <li><strong>Kilo lab (a few kilograms).</strong> Repeat the process in small jacketed reactors with controlled addition and real filtration and drying. Question: is the process reproducible with realistic equipment, and which steps are sensitive?</li>
+    <li><strong>Pilot plant (tens of kilograms).</strong> Run in equipment that is geometrically and operationally closer to the plant. Question: do heat removal, mixing, filtration time and drying behave as predicted, and can we make material for stability and early customer needs?</li>
+    <li><strong>Engineering or demonstration batch at the plant.</strong> A first run in the real equipment, with tight monitoring, to learn what the pilot could not show. Question: does the process fit the plant, and what must change before validation?</li>
+    <li><strong>Validation batches (process performance qualification).</strong> Commercial-scale batches run to an approved protocol with predefined acceptance criteria. Question: does the process, run as written, consistently give material that meets specification?</li>
+    <li><strong>Commercial manufacture and continued monitoring.</strong> Routine batches, with trending and change control. Question: does the process stay in control over time?</li>
+  </ul>
+  <p>Not every project uses every stage. A simple step with well-known chemistry may skip the pilot. A hazardous or sensitive process may add a second pilot. The point is to decide the path in advance and record why a stage was dropped, so the risk is visible.</p>
+  <p>This sits inside the lifecycle idea in the US FDA process validation guidance of January 2011, which describes three stages: process design, process qualification and continued process verification. The guidance says commercial process design should draw on knowledge from development and scale-up, and that the effects of scale should be considered when setting conditions for the qualification batches.</p>
+
+  <h2 id="package">What gets transferred <span class="lvl l1">Basics</span></h2>
+  <p>The sending site hands over a package. At minimum it should contain:</p>
+  <ul>
+    <li><strong>Process description:</strong> each step with quantities, order of addition, temperatures, times, hold points and work-up, written so a plant operator can follow it, not only a chemist.</li>
+    <li><strong>Critical quality attributes (CQAs):</strong> the properties of the product that must stay within limits. For an API these usually include identity, assay, impurities, residual solvents and physical form. ICH Q11 describes a CQA as a property that should be within an appropriate limit, range or distribution to ensure product quality.</li>
+    <li><strong>Critical process parameters (CPPs) and ranges:</strong> the parameters that affect those attributes, with the range tested and what happened at the edges. ICH Q11 speaks of process parameters and material attributes that affect CQAs and belong in the control strategy; the term CPP is widely used in industry for the important ones.</li>
+    <li><strong>Impurity profile:</strong> what is formed, where, how it is purged, and which steps control it.</li>
+    <li><strong>Analytical methods:</strong> in-process checks, release methods, and evidence that the receiving laboratory can run them with the same result.</li>
+    <li><strong>Safety data:</strong> reaction calorimetry, thermal stability, gas evolution, flammability and toxicity data. See <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC and RC1 data</a>.</li>
+    <li><strong>Raw material and starting material specifications</strong> and approved suppliers.</li>
+    <li><strong>Development history and batch records:</strong> what was tried, what failed and why. This is the part most often missing.</li>
+  </ul>
+  <p>When the product is a registered API, the regulatory file also matters. The article on <a href="{{ '/articles/regulatory-affairs-dmf-cep/' | relative_url }}">regulatory affairs, DMF and CEP</a> explains why a change in site, scale or equipment may need filing or notification.</p>
+
+  <h2 id="example">Worked example: scale factors across the stages <span class="lvl l2">Working level</span></h2>
+  <p>Consider an illustrative API intermediate made in a jacketed reactor. All numbers below are made up for teaching. Assume the batch makes 0.1 kg of product per litre of working volume at every scale. Assume a simple vessel with liquid height equal to its diameter and a jacket on the wall and bottom.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Stage</th><th>Working volume (L)</th><th>Output (kg)</th><th>Scale vs lab</th><th>Step factor</th><th>Jacket area per volume (m&sup2;/m&sup3;)</th></tr></thead><tbody>
+<tr><td>Lab flask</td><td>0.5</td><td>0.05</td><td>1</td><td>1</td><td>58.1</td></tr>
+<tr><td>Kilo lab</td><td>20</td><td>2</td><td>40</td><td>40</td><td>17.0</td></tr>
+<tr><td>Pilot plant</td><td>250</td><td>25</td><td>500</td><td>12.5</td><td>7.3</td></tr>
+<tr><td>Plant engineering batch</td><td>4,000</td><td>400</td><td>8,000</td><td>16</td><td>2.9</td></tr>
+<tr><td>Plant validation batch</td><td>4,000</td><td>400</td><td>8,000</td><td>1</td><td>2.9</td></tr>
+</tbody></table></div>
+  <p>Three things stand out.</p>
+  <ul>
+    <li>The total scale-up from flask to plant is 8,000 times in volume. Single jumps of 12 to 40 times are common, and each jump is a risk.</li>
+    <li>Heat transfer area per unit volume falls from 58 to 2.9 m&sup2;/m&sup3;, about 20 times lower. A reaction that was cooled easily in the flask may be limited by the jacket in the plant. This is why addition time and temperature control are the first things to re-check. See <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load calculation</a> and <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a>.</li>
+    <li>If three validation batches are run, the plant makes 1,200 kg of material for them. The material must be saleable or the cost must be planned. This is a real budget item.</li>
+  </ul>
+  <div class="formula-box">
+    Scale factor = V<sub>next</sub> / V<sub>previous</sub><br>
+    Jacket area per volume &prop; 1 / D (for similar shapes)
+    <small>For geometrically similar vessels, area per volume falls as the vessel diameter grows. Real vessels are not perfectly similar, so use this only for a first look.</small>
+  </div>
+  <p>The volume ratio is a guide for the size of each risk, not a rule. A step with a slow, well-understood reaction can take a bigger jump than a fast exothermic one. Mixing, filtration and drying each have their own scale rules: see <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a>, <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">crystallisation scale-up</a> and <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">drying and dryer scale-up</a>.</p>
+
+  <h2 id="gates">Gates, timeline and sending versus receiving site <span class="lvl l2">Working level</span></h2>
+  <p>A gate is a decision point between stages. A simple gate list that works well:</p>
+  <ul>
+    <li><strong>Gate 1, start of transfer:</strong> the project is approved, the receiving plant is chosen, the package contents are agreed.</li>
+    <li><strong>Gate 2, ready for pilot or plant trial:</strong> safety data reviewed, equipment mapped, gaps listed with owners, analytical methods transferred.</li>
+    <li><strong>Gate 3, ready for validation:</strong> trial batches meet specification, CPP ranges are fixed, the protocol is approved, operators are trained.</li>
+    <li><strong>Gate 4, closure:</strong> validation batches pass, documents are approved, ownership moves from the transfer team to the plant.</li>
+  </ul>
+  <p>Timelines vary too much for a fixed rule. Equipment availability, analytical method issues, regulatory timing and the number of unresolved gaps usually set the pace. Plan from the longest lead item, not from the chemistry. A new piece of equipment with a long delivery can control the whole schedule.</p>
+  <p>Roles at the two sites differ. The sending site owns the process knowledge and must be available for questions long after the paper is handed over. The receiving site owns the equipment, the people and the quality system the process must fit. A good transfer has a named lead at each site and a short list of who decides what. Any change to the process after approval goes through <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a>, and any problem during trials is handled through deviations, as in the <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">deviation and CAPA article</a>.</p>
+
+  <h2 id="limits">Limits of a stage plan <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Stages reduce risk but do not remove it.</strong> A pilot in a 250 L vessel does not copy a 4,000 L plant reactor. The agitator, baffles, jacket and addition point are all different.</li>
+    <li><strong>Small-scale data can mislead.</strong> A filtration that takes 30 minutes in a lab funnel can take many hours on a large filter. Rules of thumb should be checked with the filter vendor or a test.</li>
+    <li><strong>Paper can hide gaps.</strong> A package that looks complete can still miss hold times, stirring style or the true order of addition.</li>
+    <li><strong>Models help but do not replace trials.</strong> See <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">process modelling for scale-up</a> for what a model can and cannot tell you.</li>
+    <li><strong>A fixed batch count is not a guarantee.</strong> The FDA guidance does not set a number of qualification batches. It asks for enough data to give statistical confidence within and between batches, and ICH Q11 says the number depends on complexity, variability and prior knowledge.</li>
+  </ul>
+
+  <h2 id="mistakes">Common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Sending the lab procedure as the transfer.</strong> It lists what was done, not what matters.</li>
+    <li><strong>Choosing the plant after the process is fixed.</strong> Equipment limits should shape the last lab runs.</li>
+    <li><strong>Skipping the safety review for the new scale.</strong> Heat removal and gas venting change with size.</li>
+    <li><strong>Leaving analytical transfer to the end.</strong> If the plant laboratory cannot reproduce the method, batch release stops.</li>
+    <li><strong>No named owner on the receiving side.</strong> Actions float between teams.</li>
+    <li><strong>Treating the validation batches as the first real test.</strong> They should confirm a process that already works.</li>
+  </ul>
+
+  <div class="art-note"><b>Before the plant trial</b><p>Ask the person who ran the lab batches to watch the first plant batch. Many unrecorded details show up in the first hour.</p></div>
+
+  <h2 id="checklist">Checklist before each gate <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Process description written for operators, with ranges for key parameters.</li>
+    <li>CQAs and the parameters that affect them listed, with evidence.</li>
+    <li>Impurity profile and purge points known.</li>
+    <li>Safety data reviewed for the new scale, including worst credible cases.</li>
+    <li>Equipment map and gap list with owners and dates.</li>
+    <li>Analytical methods transferred and compared between sites.</li>
+    <li>Raw materials and suppliers confirmed at the plant.</li>
+    <li>Protocol and batch record approved before the run.</li>
+    <li>Training of operators and supervisors completed.</li>
+    <li>Regulatory and change control impact assessed.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between scale-up and technology transfer?</h3>
+  <p>Scale-up is making the process work at a larger size. Technology transfer is moving the process, with all its knowledge and documents, from a sending site such as R&amp;D to a receiving site such as a plant. Most transfers include both.</p>
+  <h3>How many validation batches are needed?</h3>
+  <p>There is no fixed number in the FDA process validation guidance. The number depends on process variability, complexity and the knowledge already gained. Three consecutive batches is a common convention, but it should be justified in the protocol, not assumed.</p>
+  <h3>How long does a technology transfer take?</h3>
+  <p>It varies widely with process complexity, equipment availability and regulatory needs. For a typical multi-step API process, several months to a couple of years from first plant discussion to commercial supply is common. Equipment gaps and analytical method issues usually set the pace.</p>
+  <h3>What is a critical process parameter?</h3>
+  <p>A process parameter whose variation affects a critical quality attribute, so it must be controlled within a set range. Examples are reaction temperature, addition time, final pH or drying temperature. Which parameters are critical is decided by experiments and risk assessment, not by habit.</p>
+  <h3>Why do processes that work in the lab fail in the plant?</h3>
+  <p>The chemistry is the same but the physics changes. Heat removal per litre falls, mixing times rise, additions take longer and solids handling differs. Unrecorded lab details such as hold times and stirring style also matter.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://www.hhs.gov/guidance/sites/default/files/hhs-guidance-documents/FDA/Process-Validation--General-Principles-and-Practices.pdf">FDA, Process Validation: General Principles and Practices (January 2011)</a></li>
+    <li><a href="https://www.nihs.go.jp/dbcb/TEXT/Q11.pdf">ICH Q11, Development and Manufacture of Drug Substances (Step 4 text)</a></li>
+    <li><a href="https://ispe.org/node/255723">ISPE Good Practice Guide: Technology Transfer, 3rd edition (catalogue page)</a></li>
+    <li>The scale factors and area-per-volume figures in the example are the author's own illustrative calculation with made-up inputs.</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">Process modelling for scale-up</a>
+    <a href="{{ '/articles/regulatory-affairs-dmf-cep/' | relative_url }}">Regulatory affairs, DMF and CEP</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/roles-in-technology-transfer/' | relative_url }}">Roles in technology transfer</a>
+    <a href="{{ '/articles/scale-up-challenges-and-fixes/' | relative_url }}">Scale-up challenges and fixes</a>
+    <a href="{{ '/articles/equipment-selection-for-scale-up/' | relative_url }}">Equipment selection for scale-up</a>
+    <a href="{{ '/articles/first-time-right-technology-transfer/' | relative_url }}">First time right technology transfer</a>
+    <a href="{{ '/articles/scale-up-troubleshooting-playbook/' | relative_url }}">Scale-up troubleshooting playbook</a>
+    <a href="{{ '/articles/scale-up-case-study-api-intermediate/' | relative_url }}">Scale-up case study: API intermediate</a>
+    <a href="{{ '/articles/validation-and-regulatory-in-technology-transfer/' | relative_url }}">Validation and regulatory in technology transfer</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

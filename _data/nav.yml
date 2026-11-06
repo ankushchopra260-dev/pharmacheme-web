@@ -206,6 +206,18 @@
         - { title: "Common reactions in plants", url: /articles/common-chemical-reactions-in-plants/ }
         - { title: "Common mistakes in batch reactions", url: /articles/common-mistakes-in-batch-reactions/ }
         - { title: "Improve conversion and yield", url: /articles/improve-reaction-conversion-and-yield/ }
+    - title: "Technology transfer and scale-up"
+      url: /articles/#technology-transfer-case-study
+      count: 8
+      children:
+        - { title: "Technology Transfer, Step by Step", url: /articles/technology-transfer-end-to-end/ }
+        - { title: "Roles in Technology Transfer", url: /articles/roles-in-technology-transfer/ }
+        - { title: "Scale-up Challenges and How to Fix Them", url: /articles/scale-up-challenges-and-fixes/ }
+        - { title: "Equipment Selection for Scale-up", url: /articles/equipment-selection-for-scale-up/ }
+        - { title: "First-Time-Right Technology Transfer", url: /articles/first-time-right-technology-transfer/ }
+        - { title: "Scale-up Troubleshooting Playbook", url: /articles/scale-up-troubleshooting-playbook/ }
+        - { title: "Validation and Regulatory Aspects", url: /articles/validation-and-regulatory-in-technology-transfer/ }
+        - { title: "Case Study: An API Intermediate, Batch by Batch", url: /articles/scale-up-case-study-api-intermediate/ }
     - title: "URS and equipment specification"
       url: /articles/#urs-equipment-specification
       count: 4

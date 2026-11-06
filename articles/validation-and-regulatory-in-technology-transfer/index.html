@@ -1,0 +1,205 @@
+---
+layout: default
+title: "Validation and Regulatory Aspects of Technology Transfer"
+seo_title: "Validation and Regulatory in Technology Transfer | PharmaChemE"
+description: "Process validation stages, CQAs and CPPs, PPQ batch numbers, method transfer, change control and DMF impact in API technology transfer, with a worked example."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Validation and Regulatory in Technology Transfer
+    url: /articles/validation-and-regulatory-in-technology-transfer/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Validation and Regulatory Aspects of Technology Transfer",
+        "description": "How process validation, CQAs and CPPs, control strategy, analytical method transfer and change control fit into an API technology transfer, with a worked PPQ summary.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-06",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do I always need three PPQ batches?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. ICH Q7 treats three consecutive successful batches as a guide and says more may be needed for complex processes. The FDA process validation guidance sets no minimum number. The number should be justified from process knowledge, risk and the statistical confidence you need."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between a CQA and a CPP?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A critical quality attribute is a property of the product, such as assay or a specific impurity, that must stay within limits for quality. A critical process parameter is a process input, such as temperature or addition time, whose variation affects a CQA and therefore needs control."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does moving a process to a new site need regulatory approval?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Internal change control always applies. Whether a regulatory filing or variation is needed depends on the region and on what is filed, for example a DMF, a CEP or a marketing authorisation. Ask your regulatory affairs team before the first transfer batch is planned."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is an analytical method transferred to a new lab?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Common approaches are comparative testing of the same samples in both labs, co-validation, revalidation at the receiving lab, and in rare cases a documented waiver. A written protocol with acceptance criteria and a statistical plan is agreed before testing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is continued process verification?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is stage 3 of process validation. Routine production data on materials, in-process results and final quality are trended statistically to show the process stays in a state of control, and the monitoring level is adjusted as variability becomes known."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Validation and Regulatory Aspects of Technology Transfer</h1>
+  <p class="article-meta">Scale-up and technology transfer &middot; Quality and regulatory &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A transferred process is only finished when it is validated, documented and, where needed, filed. This article explains the quality and regulatory side of an API technology transfer in plain terms, with a worked three-batch PPQ summary.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why validation sits inside the transfer</a><span>Basics</span></li>
+    <li><a href="#lifecycle">The validation lifecycle in three stages</a><span>Basics</span></li>
+    <li><a href="#cqa">CQAs, CPPs and the control strategy</a><span>Basics</span></li>
+    <li><a href="#methods">Analytical method transfer</a><span>Working level</span></li>
+    <li><a href="#batches">How many PPQ batches?</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: a three-batch PPQ summary</a><span>Working level</span></li>
+    <li><a href="#change">Change control, site change and DMF or CEP impact</a><span>Working level</span></li>
+    <li><a href="#records">Deviations, documents and data integrity</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes and a checklist</a><span>Going deeper</span></li>
+    <li><a href="#limits">Limits of this article</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">Why validation sits inside the transfer <span class="lvl l1">Basics</span></h2>
+  <p>Most teams think of technology transfer as getting the chemistry to work in the plant. Quality and regulatory colleagues think of it differently: the transfer succeeds only when the plant can show, with records, that the process makes the right product every time, and when the filed information still matches what the plant does.</p>
+  <p>So validation and regulatory planning should start with the transfer, not after the first plant batch. If the data, control strategy and methods are not ready, the validation batches become expensive experiments. The <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">technology transfer documents</a> article lists the package that makes this possible, and the <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant checklist</a> covers the engineering side. This article covers the quality side.</p>
+  <h2 id="lifecycle">The validation lifecycle in three stages <span class="lvl l1">Basics</span></h2>
+  <p>The US FDA guidance on process validation defines validation as collecting and evaluating data from process design through commercial production, to show that a process can consistently deliver quality product. It describes three stages:</p>
+  <ul>
+    <li><strong>Stage 1, process design.</strong> The commercial process is defined using knowledge from development and scale-up. The output is the planned master production and control records. In a transfer, this is the work done between the sending site and the receiving site before any validation batch.</li>
+    <li><strong>Stage 2, process qualification.</strong> The design is tested to confirm it can reproduce commercial manufacturing. It has two parts: qualifying the facility, utilities and equipment, and the process performance qualification (PPQ) batches. The <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">DQ, IQ, OQ, PQ</a> article covers the first part.</li>
+    <li><strong>Stage 3, continued process verification.</strong> Routine production is monitored to confirm the process stays in control, using ongoing collection and statistical trending of process and quality data.</li>
+  </ul>
+  <p>For APIs, ICH Q7 (GMP for active pharmaceutical ingredients) adds working rules: a documented validation policy, a protocol approved by the quality unit, qualified critical equipment, and a report that records deviations. It prefers prospective validation, completed before commercial distribution, and allows concurrent validation in limited cases such as infrequent batches or a modified validated process.</p>
+  <p>ICH Q11 covers drug substance development and manufacture and points to ICH Q10 for lifecycle management. ICH Q8 and Q9 cover pharmaceutical development and quality risk management. The transfer file should show design knowledge, risk assessment and a control strategy.</p>
+  <h2 id="cqa">CQAs, CPPs and the control strategy <span class="lvl l1">Basics</span></h2>
+  <p>Three terms carry most of the discussion.</p>
+  <ul>
+    <li><strong>Critical quality attribute (CQA).</strong> ICH Q11 describes a CQA as a property that should be within a suitable limit, range or distribution to ensure the desired quality. For an API these relate to identity, purity and stability. Impurities are a major group.</li>
+    <li><strong>Critical process parameter (CPP).</strong> Plants use this for a process input, such as temperature, addition time, pH, hold time or agitation, whose variation affects a CQA and so must be controlled. ICH Q11 does not give a formal definition; it speaks of process parameters and material attributes that affect CQAs and should be addressed by the control strategy.</li>
+    <li><strong>Control strategy.</strong> A planned set of controls, based on process and product understanding, that keeps the process performing and the API at the intended quality. It can include material controls, controls built into the process design, in-process controls and final testing.</li>
+  </ul>
+  <p>In a transfer, write down for each CQA which steps influence it, which parameters matter at plant scale, the allowed range and how it is checked. Build this from the sending site's data plus a risk assessment, then test it in the plant. Parameters irrelevant in a flask, such as heat removal rate or mixing time, can become critical in a large vessel. See <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a> and <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">crystallisation scale-up</a>.</p>
+  <p>If the transfer changes the supplier or grade of a starting material, treat it as a quality topic. ICH Q11 says custom-synthesised chemicals need justification where commercial reagents do not.</p>
+  <h2 id="methods">Analytical method transfer <span class="lvl l2">Working level</span></h2>
+  <p>A process cannot be validated with numbers that the receiving laboratory cannot reproduce. Analytical methods move together with the process, and each method needs a transfer plan. Common approaches are:</p>
+  <ul>
+    <li><strong>Comparative testing.</strong> Both labs test the same samples and the results are statistically compared. It suits an established validated method and labs with similar equipment.</li>
+    <li><strong>Co-validation.</strong> Both labs take part in the validation of a new method under a shared protocol.</li>
+    <li><strong>Revalidation.</strong> The receiving lab validates fully or partly, as if the method were new to it. This is used when equipment or conditions differ a lot, or when comparison data are not available.</li>
+    <li><strong>Transfer waiver.</strong> A documented decision that no transfer testing is needed because the receiving lab already has proven experience. It is rare and needs a strong justification and quality approval.</li>
+  </ul>
+  <p>A transfer protocol states acceptance criteria for each performance parameter, the method version, responsibilities, reference standards, equipment status, a statistical plan and a deviation route. ICH Q7 also expects methods not covered by a pharmacopoeia to be validated, and all methods to be verified under actual conditions of use.</p>
+  <p>Finish method transfer before the PPQ batches. A method that disagrees between labs looks like a process problem.</p>
+  <h2 id="batches">How many PPQ batches? <span class="lvl l2">Working level</span></h2>
+  <p>Many people repeat that three batches are needed. The real position is more careful. ICH Q7 says three consecutive successful production batches can serve as a guide for prospective and concurrent validation, and that more may be needed for complex processes. The FDA process validation guidance does not set a minimum number, and it asks for a sampling plan that gives enough statistical confidence of quality within and between batches, with the level based on risk for each attribute. An FDA answer reported by the European Compliance Academy says that a fixed three-batch approach is too simple and that the number should come from process knowledge.</p>
+  <p>So the number is something you justify. New equipment, a sensitive crystallisation or polymorph step, a big scale gap and thin data from the sending site push it up. A well-understood process, an unchanged equipment train and a long history of similar batches push it down. Write the rationale in the protocol and agree it with the quality unit before batch one. The FDA guidance bases the decision on commercial-scale batch data, with lab and pilot data as support. If your customer or regulator has its own expectation, that decides.</p>
+  <h2 id="example">Worked example: a three-batch PPQ summary <span class="lvl l2">Working level</span></h2>
+  <p>All numbers below are made up for illustration and were computed in Python. An API intermediate is transferred to a plant. Three PPQ batches are made. Five samples are taken from each final batch, giving 15 results per attribute. Limits are assumed.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Attribute</th><th>Limit</th><th>Batch 1 mean</th><th>Batch 2 mean</th><th>Batch 3 mean</th><th>Overall mean</th><th>SD (n = 15)</th><th>Cpk (approx. lower 95% bound)</th></tr></thead><tbody><tr><td>Assay, % w/w</td><td>98.0 to 102.0</td><td>99.77</td><td>99.46</td><td>99.86</td><td>99.70</td><td>0.231</td><td>2.45 (1.67)</td></tr><tr><td>Largest unspecified impurity, %</td><td>NMT 0.15</td><td>0.063</td><td>0.073</td><td>0.063</td><td>0.066</td><td>0.0069</td><td>4.04 (2.78)</td></tr><tr><td>Residual solvent, ppm</td><td>NMT 500</td><td>315</td><td>351</td><td>289</td><td>318</td><td>32.3</td><td>1.87 (1.27)</td></tr><tr><td>Yield, %</td><td>No limit</td><td>88.4</td><td>87.1</td><td>89.0</td><td>88.2</td><td>0.97 (batch values)</td><td>Not applicable</td></tr></tbody></table></div>
+  <p>Cpk is the distance from the mean to the nearer limit, divided by three standard deviations. For assay, the lower limit is nearer: (99.70 &minus; 98.0) / (3 &times; 0.231) = 2.45. For residual solvent, only the upper limit applies: (500 &minus; 318) / (3 &times; 32.3) = 1.87. The bracketed value is an approximate lower 95 % confidence bound on Cpk, using a common approximation that depends on the number of results.</p>
+  <div class="art-note"><b>How to read this</b><p>All 15 results of every attribute are inside the limits, and the point estimates look comfortable. But the lower confidence bound for residual solvent is 1.27, below a typical internal target of 1.33 (a company target, not a standard). A quality unit might accept the PPQ and keep tighter monitoring on drying in stage 3, or ask for a fourth batch. Either decision is a judgement that goes in the report.</p></div>
+  <p>The 15 results come from only three batches, and samples from one batch are not independent, so real batch-to-batch uncertainty is larger than the bound suggests. Batch 2 sits apart on assay and solvent, and a reviewer will ask why. Check batch records, drying time and raw material lots before calling it noise. For ongoing trending, the <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">control charts for batch plants</a> article shows how to carry this into stage 3.</p>
+  <h2 id="change">Change control, site change and DMF or CEP impact <span class="lvl l2">Working level</span></h2>
+  <p>ICH Q7 expects a formal change control system covering raw materials, specifications, methods, facilities, equipment and computer software. Changes are documented, reviewed and approved by the quality unit, may be classified as minor or major to set the testing needed, and the first batches made after a change are evaluated. The <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a> article describes the practical routine.</p>
+  <p>A transfer is a change with many parts: new site, new equipment, maybe a new batch size or raw material source. Assess each part and their combined effect. Ask whether the filed process description still matches the plant, whether the impurity profile or physical form changes, whether stability needs confirming on plant batches, and whether customers need notice (ICH Q7 asks that dosage form manufacturers be told of changes that could affect API quality).</p>
+  <p>ICH Q11 says that changes to filed information are reported under regional regulations, and that any change should be assessed for its effect on API and drug product quality, with testing matched to the change. ICH Q11 does not prescribe batch sizes, but expects the application to describe batch size and scale, and expects validation batches to represent the commercial process. ICH Q12 gives a framework for managing post-approval changes, aimed at making them more predictable.</p>
+  <p>What this means for your DMF or CEP depends on the region, the type of change and what has been filed. The <a href="{{ '/articles/regulatory-affairs-dmf-cep/' | relative_url }}">regulatory affairs article on DMF and CEP</a> gives the background. The safe habit is simple: involve regulatory affairs when the transfer is first proposed, and get their written view on the filing route before any validation batch is made, because a batch made at the new site before approval may not be usable for the market you need.</p>
+  <h2 id="records">Deviations, documents and data integrity <span class="lvl l3">Going deeper</span></h2>
+  <p>Transfer batches produce deviations, because the process meets a new plant. Record each one, investigate, and decide whether the batch still counts toward validation. A deviation that exposes a real weakness, such as an unstudied hold time, belongs in the transfer report with its corrective action. The <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA, GMP, deviation and CAPA</a> article covers the system.</p>
+  <p>The document set usually includes the approved protocol, executed batch records, qualification and method transfer reports, deviation and change records, and a final report against the acceptance criteria. For electronic records, see <a href="{{ '/articles/mes-electronic-batch-records/' | relative_url }}">MES and electronic batch records</a>.</p>
+  <p>Data integrity matters in transfer because numbers get copied between sites. The FDA data integrity question and answer guidance links records to ALCOA: attributable, legible, contemporaneous, original and accurate. In practice, every number in the report should trace back to a signed original record, and results should never be re-typed without a check. Process historian data, covered in <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian basics</a>, is often the proof that a critical parameter stayed in range.</p>
+  <h2 id="mistakes">Common mistakes and a checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Starting PPQ before the methods are transferred.</strong> Lab disagreement looks like process failure.</li>
+    <li><strong>Treating three batches as a rule.</strong> It is a guide in ICH Q7, and the number needs a written reason.</li>
+    <li><strong>Leaving regulatory affairs out until the end.</strong> The filing route can decide whether the validation batches are usable.</li>
+    <li><strong>Forgetting stage 3.</strong> Validation does not end at the PPQ report. Monitoring and trending continue.</li>
+  </ul>
+  <p><strong>Checklist before the first PPQ batch:</strong></p>
+  <ul>
+    <li>CQAs, critical parameters and the control strategy are written and approved.</li>
+    <li>Equipment is qualified, and the equipment train is compared with the sending site.</li>
+    <li>Methods are transferred, or the transfer plan has a closing date before batch one.</li>
+    <li>The PPQ protocol states batch number rationale, sampling plan and acceptance criteria.</li>
+    <li>Change control is open, and regulatory affairs has confirmed the filing route in writing.</li>
+    <li>Customers who need notice are identified.</li>
+  </ul>
+  <h2 id="limits">Limits of this article <span class="lvl l3">Going deeper</span></h2>
+  <p>This is a general overview for API work, not regulatory advice. Requirements differ by region, product and customer, and guidance changes. The example uses made-up numbers and treats samples as independent when they are not. Design a real PPQ analysis with a statistician and have the quality unit approve it.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Do I always need three PPQ batches?</h3>
+  <p>No. ICH Q7 treats three consecutive successful batches as a guide and says more may be needed for complex processes. The FDA process validation guidance sets no minimum number. The number should be justified from process knowledge, risk and the statistical confidence you need.</p>
+  <h3>What is the difference between a CQA and a CPP?</h3>
+  <p>A critical quality attribute is a property of the product, such as assay or a specific impurity, that must stay within limits for quality. A critical process parameter is a process input, such as temperature or addition time, whose variation affects a CQA and therefore needs control.</p>
+  <h3>Does moving a process to a new site need regulatory approval?</h3>
+  <p>Internal change control always applies. Whether a regulatory filing or variation is needed depends on the region and on what is filed, for example a DMF, a CEP or a marketing authorisation. Ask your regulatory affairs team before the first transfer batch is planned.</p>
+  <h3>How is an analytical method transferred to a new lab?</h3>
+  <p>Common approaches are comparative testing of the same samples in both labs, co-validation, revalidation at the receiving lab, and in rare cases a documented waiver. A written protocol with acceptance criteria and a statistical plan is agreed before testing.</p>
+  <h3>What is continued process verification?</h3>
+  <p>It is stage 3 of process validation. Routine production data on materials, in-process results and final quality are trended statistically to show the process stays in a state of control, and the monitoring level is adjusted as variability becomes known.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://www.hhs.gov/guidance/sites/default/files/hhs-guidance-documents/FDA/Process-Validation--General-Principles-and-Practices.pdf">FDA, Process Validation: General Principles and Practices</a> (three stages, sampling and statistical confidence, continued process verification)</li>
+    <li><a href="https://ema.europa.eu/system/files/documents/scientific-guideline/wc500127803_en.pdf">ICH Q11, Development and Manufacture of Drug Substances</a> (CQAs, control strategy, starting materials, changes)</li>
+    <li><a href="https://webarchive.library.unt.edu/web/20080916151859/http:/www.fda.gov/cber/gdlns/ichactive.pdf">ICH Q7, GMP for Active Pharmaceutical Ingredients, as reproduced in the FDA guidance</a> (validation, change control)</li>
+    <li><a href="https://www.gmp-compliance.org/gmp-news/recent-statement-by-fda-on-process-validation-3-batch-validation-obsolete">European Compliance Academy, Recent statement by FDA on process validation: 3-batch validation obsolete?</a></li>
+    <li><a href="https://www.labmanager.com/analytical-method-transfer-best-practices-and-guidelines-34130">Lab Manager, Analytical method transfer best practices and guidelines</a></li>
+    <li><a href="https://www.ema.europa.eu/en/ich-q12-technical-regulatory-considerations-pharmaceutical-product-lifecycle-management-scientific-guideline">EMA, ICH Q12 scientific guideline page</a></li>
+    <li><a href="https://www.beckman.com/resources/industry-standards/alcoa">Beckman Coulter, Maintaining data integrity: understanding ALCOA</a></li>
+    <li>ICH Q8, Q9 and Q10 (general reference, not retrieved for this article)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/regulatory-affairs-dmf-cep/' | relative_url }}">Regulatory affairs: DMF and CEP</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA, GMP, deviation and CAPA</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/equipment-qualification-dq-iq-oq-pq/' | relative_url }}">Equipment qualification: DQ, IQ, OQ, PQ</a>
+    <a href="{{ '/articles/control-charts-spc-batch-plants/' | relative_url }}">Control charts for batch plants</a>
+    <a href="{{ '/articles/technology-transfer-end-to-end/' | relative_url }}">Technology transfer end to end</a>
+    <a href="{{ '/articles/roles-in-technology-transfer/' | relative_url }}">Roles in technology transfer</a>
+    <a href="{{ '/articles/first-time-right-technology-transfer/' | relative_url }}">First time right</a>
+    <a href="{{ '/articles/scale-up-case-study-api-intermediate/' | relative_url }}">Scale-up case study</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

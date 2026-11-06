@@ -1,0 +1,244 @@
+---
+layout: default
+title: "Roles in Technology Transfer: Who Does What"
+seo_title: "Roles in Technology Transfer: Who Does What | PharmaChemE"
+description: "Who does what in a technology transfer: R&D, QC, QA, production, engineering, EHS and regulatory, with a RACI table, critical path example and checklist."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Roles in Technology Transfer
+    url: /articles/roles-in-technology-transfer/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Roles in Technology Transfer: Who Does What",
+        "description": "Who does what in a technology transfer: R&D, QC, QA, production, engineering, EHS and regulatory, with a RACI table and a critical path example.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who leads a technology transfer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "One named owner should lead it, usually a technology transfer or process engineering lead at the receiving site, working with a counterpart in R&D. Leading means running the plan, the meetings and the gap list. It does not mean doing every task. Without a single owner, items fall between functions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between the sending unit and the receiving unit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The sending unit is the site or team that holds the process knowledge, usually R&D or an existing plant. The receiving unit is the plant that will make the product routinely. WHO guidance uses these terms and expects both sides to share duties in writing before the transfer starts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do transfers fail even when the chemistry is sound?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most failures are handover failures: undocumented tacit knowledge, equipment differences found late, analytical methods that behave differently in the receiving lab, or raw material sources that were never qualified. Chemistry rarely fails alone; the missing detail around it does."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should QA and regulatory affairs get involved?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At the start, not at validation. QA helps set acceptance criteria and review the gap analysis. Regulatory affairs checks whether the site, batch size, equipment or supplier changes need a filing or notification, because approval lead times are often the longest item in the plan."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should be in the transfer package?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The process description with critical parameters and ranges, the impurity and yield history, safety data, analytical methods and validation, raw material specifications and approved sources, equipment information and cleaning information. The package needs one owner and a version history so that everyone works from the same revision."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Roles in Technology Transfer: Who Does What</h1>
+  <p class="article-meta">Scale-up &middot; Technology transfer &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A technology transfer is a team sport played across eight or more functions. This article sets out what each function owns, where the handover breaks, how to run the meetings and who owns the transfer package, with a RACI table and a critical path example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why roles decide the outcome</a><span class="lvl l1">Basics</span></li>
+    <li><a href="#functions">What each function owns</a><span class="lvl l1">Basics</span></li>
+    <li><a href="#raci">RACI by stage</a><span class="lvl l2">Working level</span></li>
+    <li><a href="#example">Worked example: critical path and readiness</a><span class="lvl l2">Working level</span></li>
+    <li><a href="#friction">Handover friction points and fixes</a><span class="lvl l2">Working level</span></li>
+    <li><a href="#cadence">Meeting cadence and package ownership</a><span class="lvl l2">Working level</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span class="lvl l3">Going deeper</span></li>
+    <li><a href="#limits">What this approach cannot do</a><span class="lvl l3">Going deeper</span></li>
+    <li><a href="#checklist">Checklist</a><span class="lvl l3">Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">Why roles decide the outcome <span class="lvl l1">Basics</span></h2>
+  <p>Technology transfer means moving a process from the team that developed it, the sending unit, to the plant that will run it routinely, the receiving unit. WHO guidance on technology transfer uses exactly these terms. It says the transfer should end with documented evidence that the receiving unit can reproduce the product or process against agreed specifications.</p>
+  <p>That evidence is not made by one department. R&amp;D knows why the process works. Production knows what the plant can do. QC and QA decide what counts as proof. Engineering knows which equipment can be changed and how long it takes. If any of these voices joins late, the plan changes late, and late changes cost weeks.</p>
+  <p>The same WHO text asks for responsibilities to be written down before work starts, for both sites and for any sponsor or marketing authorisation holder. Treat that as a rule of thumb even for an internal transfer between two buildings: if it is not written, it is assumed, and assumptions are where transfers go wrong.</p>
+
+  <h2 id="functions">What each function owns <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>R&amp;D (process chemistry):</strong> the process description, critical parameters and ranges, yield and impurity history, known hazards, and the reasons behind each step. R&amp;D also supports the first batches on site. The failure to avoid is handing over a recipe without the reasons.</li>
+    <li><strong>Analytical development and QC:</strong> methods, their validation, reference standards, specifications, and the method transfer to the receiving laboratory. QC then tests the engineering and validation batches. WHO guidance expects analytical procedures to be in place at the receiving laboratory before it tests validation samples.</li>
+    <li><strong>QA:</strong> the quality agreement, the protocol and acceptance criteria, deviation and change control, batch record approval and release. QA should join the gap analysis, not just review the final report. See <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and GMP: deviation and CAPA</a>.</li>
+    <li><strong>Production:</strong> the people who will actually run the process. They review the process for practicality, write or confirm operating steps, get trained, and execute the batches. Operators often spot a problem, such as a transfer line that cannot drain, long before a document does.</li>
+    <li><strong>Technology transfer or process engineering group:</strong> the glue. It leads the gap analysis, runs the plan, owns the transfer package and the open-issues list, and does the scale-up calculations. See <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>.</li>
+    <li><strong>Engineering and maintenance:</strong> equipment fit, modifications, utilities, instrumentation, qualification and spares. Their lead times are usually the longest in the plan.</li>
+    <li><strong>EHS:</strong> process safety review, calorimetry and hazard data, effluent and emission impact, permits, and the HAZOP. See <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>.</li>
+    <li><strong>Regulatory affairs:</strong> decides whether the new site, scale, equipment or supplier needs a filing, a variation or a notification, and manages timelines. See <a href="{{ '/articles/regulatory-affairs-dmf-cep/' | relative_url }}">Regulatory affairs: DMF and CEP</a>.</li>
+    <li><strong>Procurement and supply chain:</strong> raw material sources, vendor qualification, packaging and lead times, and cost. A new supplier for a key reagent can change the impurity profile.</li>
+    <li><strong>Project management:</strong> the schedule, budget and escalation path. In a small plant, the technology transfer lead often plays this role as well.</li>
+  </ul>
+
+  <h2 id="raci">RACI by stage <span class="lvl l2">Working level</span></h2>
+  <p>A RACI table says who is Responsible (does the work), Accountable (one person who answers for it), Consulted and Informed. Keep exactly one A per row. The table below is a starting point to adapt, not a standard. Stages follow the four phases used in WHO guidance: initiation, planning, execution and review.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Activity</th><th>R&amp;D</th><th>QC</th><th>QA</th><th>Prod.</th><th>Tech transfer</th><th>Eng.</th><th>EHS</th><th>Reg.</th><th>Proc.</th></tr></thead><tbody>
+  <tr><td>Initiation: agree scope and goals</td><td>C</td><td>I</td><td>C</td><td>C</td><td>A</td><td>C</td><td>I</td><td>C</td><td>I</td></tr>
+  <tr><td>Planning: process package</td><td>A</td><td>R</td><td>C</td><td>C</td><td>R</td><td>I</td><td>C</td><td>I</td><td>I</td></tr>
+  <tr><td>Planning: gap and risk analysis</td><td>C</td><td>C</td><td>R</td><td>R</td><td>A</td><td>R</td><td>R</td><td>C</td><td>C</td></tr>
+  <tr><td>Planning: equipment changes and qualification</td><td>C</td><td>I</td><td>R</td><td>C</td><td>C</td><td>A</td><td>C</td><td>I</td><td>R</td></tr>
+  <tr><td>Planning: regulatory strategy and filing</td><td>C</td><td>C</td><td>C</td><td>I</td><td>C</td><td>I</td><td>I</td><td>A</td><td>I</td></tr>
+  <tr><td>Planning: raw material sourcing</td><td>C</td><td>R</td><td>R</td><td>I</td><td>C</td><td>I</td><td>I</td><td>C</td><td>A</td></tr>
+  <tr><td>Execution: analytical method transfer</td><td>R</td><td>A</td><td>C</td><td>I</td><td>I</td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+  <tr><td>Execution: operator training and SOPs</td><td>R</td><td>I</td><td>R</td><td>A</td><td>R</td><td>I</td><td>C</td><td>I</td><td>I</td></tr>
+  <tr><td>Execution: engineering and validation batches</td><td>C</td><td>R</td><td>R</td><td>A</td><td>R</td><td>C</td><td>C</td><td>I</td><td>I</td></tr>
+  <tr><td>Review: deviations and batch approval</td><td>C</td><td>R</td><td>A</td><td>R</td><td>R</td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+  <tr><td>Review: transfer report and sign-off</td><td>C</td><td>C</td><td>R</td><td>C</td><td>A</td><td>I</td><td>I</td><td>C</td><td>I</td></tr>
+  </tbody></table></div>
+  <p>Illustrative table. Assignments differ with company structure, product type and filing status, so agree your own RACI at the kickoff meeting and record it in the transfer protocol.</p>
+
+  <h2 id="example">Worked example: critical path and readiness <span class="lvl l2">Working level</span></h2>
+  <p>The numbers below are made up to show the method. They describe an invented API intermediate transfer, not any real project.</p>
+  <h3>Which function sets the end date?</h3>
+  <p>Eleven activities, each owned by one or two functions, have durations and dependencies. Added up one after the other they take 62 weeks. Run in parallel where the dependencies allow, the plan finishes in 32 weeks. The critical path is: process package (6 weeks), gap analysis (2), equipment changes and qualification (14), engineering batch (3), validation batches (5) and transfer report (2).</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Activity</th><th>Owner</th><th>Weeks</th><th>Start</th><th>Finish</th><th>On critical path</th></tr></thead><tbody>
+  <tr><td>A Process package complete</td><td>R&amp;D</td><td>6</td><td>0</td><td>6</td><td>Yes</td></tr>
+  <tr><td>B Gap analysis and site visit</td><td>Tech transfer, Eng., EHS, QA</td><td>2</td><td>6</td><td>8</td><td>Yes</td></tr>
+  <tr><td>C Analytical method transfer</td><td>Analytical dev., QC</td><td>5</td><td>6</td><td>11</td><td>No</td></tr>
+  <tr><td>D Raw material vendor approval</td><td>Procurement, QA</td><td>10</td><td>6</td><td>16</td><td>No</td></tr>
+  <tr><td>E Equipment changes and qualification</td><td>Engineering, QA</td><td>14</td><td>8</td><td>22</td><td>Yes</td></tr>
+  <tr><td>F Safety study and HAZOP</td><td>EHS, R&amp;D</td><td>3</td><td>8</td><td>11</td><td>No</td></tr>
+  <tr><td>G Regulatory change filing</td><td>Regulatory</td><td>8</td><td>8</td><td>16</td><td>No</td></tr>
+  <tr><td>H Operator training and SOPs</td><td>Production, QA</td><td>4</td><td>8</td><td>12</td><td>No</td></tr>
+  <tr><td>I Engineering batch</td><td>Production, Tech transfer</td><td>3</td><td>22</td><td>25</td><td>Yes</td></tr>
+  <tr><td>J Validation batches (3)</td><td>Production, QA, QC</td><td>5</td><td>25</td><td>30</td><td>Yes</td></tr>
+  <tr><td>K Transfer report and sign-off</td><td>Tech transfer, QA</td><td>2</td><td>30</td><td>32</td><td>Yes</td></tr>
+  </tbody></table></div>
+  <p>Now test a slip. If equipment qualification takes 4 weeks longer, the plan ends at week 36. If analytical method transfer takes 4 weeks longer, nothing changes, because it has 11 weeks of float. If vendor approval takes 4 weeks longer, nothing changes either, because it has 6 weeks of float. The message for roles is simple: engineering and QA on equipment must be in the room from day one, while a delay in QC does not move the date until its float runs out.</p>
+  <p>Float is a planning aid, not permission to relax. Vendor approval has 6 weeks of float, but a 12-week slip would push the end date.</p>
+  <h3>Readiness score at the gate</h3>
+  <p>Before the engineering batch, ask each function to count its items due against its items ready. In this invented example, 45 of 67 items are ready (67%).</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Function</th><th>Items due</th><th>Items ready</th><th>Ready</th></tr></thead><tbody>
+  <tr><td>R&amp;D</td><td>12</td><td>11</td><td>92%</td></tr>
+  <tr><td>EHS</td><td>6</td><td>5</td><td>83%</td></tr>
+  <tr><td>QA</td><td>10</td><td>7</td><td>70%</td></tr>
+  <tr><td>Analytical development and QC</td><td>9</td><td>6</td><td>67%</td></tr>
+  <tr><td>Regulatory</td><td>5</td><td>3</td><td>60%</td></tr>
+  <tr><td>Procurement</td><td>7</td><td>4</td><td>57%</td></tr>
+  <tr><td>Production</td><td>8</td><td>4</td><td>50%</td></tr>
+  <tr><td>Engineering and maintenance</td><td>10</td><td>5</td><td>50%</td></tr>
+  </tbody></table></div>
+  <div class="art-note"><b>How to read this</b><p>A single overall percentage hides the problem. Production and engineering are at 50%, so the gate is a no-go for those two functions even though R&amp;D looks ready. Set a rule such as "no function below 90% on items that affect the batch" and list the open items by name.</p></div>
+
+  <h2 id="friction">Handover friction points and fixes <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Tacit knowledge stays with R&amp;D.</strong> Fix: have chemists write the "why" next to each step, and have a chemist and an operator walk through the process together at the plant before the first batch.</li>
+    <li><strong>Equipment differences found late.</strong> Fix: do the side-by-side comparison of sending and receiving equipment in planning, as WHO guidance suggests, and give engineering the first draft of the process description.</li>
+    <li><strong>Method behaves differently in the receiving laboratory.</strong> Fix: transfer methods before process batches, use a protocol with acceptance criteria and share known problem areas such as unstable samples.</li>
+    <li><strong>Specifications set by R&amp;D without plant data.</strong> Fix: QA and QC review the limits against capability data before they are frozen.</li>
+    <li><strong>Regulatory lead time discovered late.</strong> Fix: ask regulatory affairs in week one whether any change needs approval, and put that activity on the plan.</li>
+    <li><strong>Everyone assumes someone else owns a task.</strong> Fix: one accountable name per row, reviewed at every meeting.</li>
+  </ul>
+
+  <h2 id="cadence">Meeting cadence and package ownership <span class="lvl l2">Working level</span></h2>
+  <p>A common pattern is a kickoff meeting, a weekly core team meeting of 30 minutes, a monthly steering review with management, and a formal gate review before each major step such as the engineering batch and the validation batches. Adapt the rhythm to the size of the project; a small transfer may need only the weekly meeting and one gate.</p>
+  <ul>
+    <li><strong>Kickoff:</strong> scope, goals, RACI, schedule, acceptance criteria, escalation route.</li>
+    <li><strong>Weekly core team:</strong> open issues list, actions from last week, slipped dates. Keep it to named owners and dates.</li>
+    <li><strong>Gate review:</strong> readiness score by function, risks, go or no-go decision recorded in writing.</li>
+    <li><strong>Close-out:</strong> transfer report, lessons learned, handover to routine production.</li>
+  </ul>
+  <p>The transfer package should have one owner, usually the technology transfer lead, with R&amp;D responsible for content on the chemistry and QC on the analytical sections. Use revision control: every document carries a version, and changes after approval go through change control. See <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a> for the contents and <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a> for the change process.</p>
+
+  <h2 id="mistakes">Common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Starting with R&amp;D and technology transfer only, and bringing in QA, regulatory and engineering at validation.</li>
+    <li>Having no single accountable owner for the package, so each function keeps its own version.</li>
+    <li>Treating the plant team as recipients of instructions rather than as reviewers of the process.</li>
+    <li>Judging readiness by documents issued instead of items that are actually ready for use.</li>
+    <li>Letting RACI sit in a slide deck that nobody updates after the kickoff.</li>
+    <li>Ignoring float, so the team works hard on items that cannot move the end date and neglects those that can.</li>
+  </ul>
+
+  <h2 id="limits">What this approach cannot do <span class="lvl l3">Going deeper</span></h2>
+  <p>A RACI table clarifies who acts. It does not make the process robust, and it does not replace technical review. The critical path example uses fixed durations, but real activities vary, and equipment lead times in particular can slip by months. The readiness score treats all items as equal, while one missing safety document can matter more than ten small items. Use these tools to focus attention, then read the open items one by one.</p>
+
+  <h2 id="checklist">Checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Sending and receiving units named, with written responsibilities.</li>
+    <li>One accountable owner per activity, recorded in the protocol.</li>
+    <li>QA, QC, production, engineering, EHS and regulatory in the gap analysis.</li>
+    <li>Acceptance criteria agreed before the first batch.</li>
+    <li>Critical path identified and reviewed monthly.</li>
+    <li>Transfer package with version control and a single owner.</li>
+    <li>Gate reviews with readiness by function and recorded decisions.</li>
+    <li>Lessons learned captured at close-out.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Who leads a technology transfer?</h3>
+  <p>One named owner should lead it, usually a technology transfer or process engineering lead at the receiving site, working with a counterpart in R&D. Leading means running the plan, the meetings and the gap list. It does not mean doing every task. Without a single owner, items fall between functions.</p>
+  <h3>What is the difference between the sending unit and the receiving unit?</h3>
+  <p>The sending unit is the site or team that holds the process knowledge, usually R&D or an existing plant. The receiving unit is the plant that will make the product routinely. WHO guidance uses these terms and expects both sides to share duties in writing before the transfer starts.</p>
+  <h3>Why do transfers fail even when the chemistry is sound?</h3>
+  <p>Most failures are handover failures: undocumented tacit knowledge, equipment differences found late, analytical methods that behave differently in the receiving lab, or raw material sources that were never qualified. Chemistry rarely fails alone; the missing detail around it does.</p>
+  <h3>When should QA and regulatory affairs get involved?</h3>
+  <p>At the start, not at validation. QA helps set acceptance criteria and review the gap analysis. Regulatory affairs checks whether the site, batch size, equipment or supplier changes need a filing or notification, because approval lead times are often the longest item in the plan.</p>
+  <h3>What should be in the transfer package?</h3>
+  <p>The process description with critical parameters and ranges, the impurity and yield history, safety data, analytical methods and validation, raw material specifications and approved sources, equipment information and cleaning information. The package needs one owner and a version history so that everyone works from the same revision.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://gmp-compliance.org/files/guidemgr/WHO%20TRS1044-annex4-technology-transfer-in-pharmaceutical-manufacturing.pdf">WHO Technical Report Series 1044, Annex 4: Guidelines on technology transfer in pharmaceutical manufacturing</a></li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA and GMP: deviation and CAPA</a>
+    <a href="{{ '/articles/regulatory-affairs-dmf-cep/' | relative_url }}">Regulatory affairs: DMF and CEP</a>
+    <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/technology-transfer-end-to-end/' | relative_url }}">Technology transfer end to end</a>
+    <a href="{{ '/articles/first-time-right-technology-transfer/' | relative_url }}">First time right technology transfer</a>
+    <a href="{{ '/articles/equipment-selection-for-scale-up/' | relative_url }}">Equipment selection for scale-up</a>
+    <a href="{{ '/articles/validation-and-regulatory-in-technology-transfer/' | relative_url }}">Validation and regulatory in technology transfer</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

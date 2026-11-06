@@ -1,0 +1,216 @@
+---
+layout: default
+title: "Scale-up Troubleshooting Playbook: When Plant Batches Differ from Lab"
+seo_title: "Scale-up Troubleshooting Playbook for Plants | PharmaChemE"
+description: "Plant batch worse than lab? A step-by-step playbook for low yield, new impurities, polymorph, slow filtration and OOS, with a worked yield gap mass balance."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Scale-up Troubleshooting Playbook
+    url: /articles/scale-up-troubleshooting-playbook/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Scale-up Troubleshooting Playbook: When Plant Batches Differ from Lab",
+        "description": "A structured method for finding why a plant batch gives lower yield, new impurities or failed tests compared with the lab, with a symptom table and a worked mass balance.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-05",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is plant yield usually lower than lab yield?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Plants have longer addition, heating, cooling, transfer and hold times, less efficient mixing and heat removal, bigger hold-up in lines and filters, and a different end temperature. Each adds a small loss. Together they often account for several percentage points."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the first thing to do when a plant batch gives a new impurity?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compare the plant timeline with the lab procedure: addition time, temperature profile, hold times and the quality of raw materials. Then check whether the analytical method sees the impurity the same way at both sites before changing the process."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can we just retest a failing batch until it passes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Regulators regard repeated testing until a pass appears as unacceptable. A result is set aside only when an investigation documents a clear cause. Retest numbers are fixed in an SOP in advance, and all results are evaluated, not averaged away."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I know whether a loss is in the reaction or in the isolation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Take an in-process sample at the end of the reaction and measure product by assay, then compare with the isolated amount. The gap between assay yield at the end of reaction and isolated yield is the isolation loss: mother liquor, hold-up and drying."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should I stop troubleshooting at plant and go back to R&D?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When the plant data show the gap is in the chemistry or crystallisation itself, for example a rate, solubility or form effect that cannot be fixed with a plant-side adjustment. Take the plant timeline and samples back so R&D can reproduce the batch at small scale."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Scale-up Troubleshooting Playbook: When Plant Batches Differ from Lab</h1>
+  <p class="article-meta">Scale-up and technology transfer &middot; Troubleshooting &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">The first plant batches rarely match the lab. Yield is lower, an impurity appears, the crystals filter slowly or a test result fails. This playbook gives a fixed order for finding the cause, a symptom table, and a worked mass balance that explains a seven-point yield gap.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">Why plant and lab batches differ</a><span>Basics</span></li>
+    <li><a href="#data">Collect the facts before guessing</a><span>Basics</span></li>
+    <li><a href="#method">The six-step method</a><span>Working level</span></li>
+    <li><a href="#symptoms">Symptom to likely cause</a><span>Working level</span></li>
+    <li><a href="#example">Worked example: where did seven points of yield go?</a><span>Working level</span></li>
+    <li><a href="#oos">Exotherm surprises and failed tests</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Troubleshooting checklist</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="why">Why plant and lab batches differ <span class="lvl l1">Basics</span></h2>
+  <p>A plant batch is not a bigger lab batch. It runs on different equipment, with a different clock. Addition takes hours instead of minutes. Heating and cooling follow the jacket, not a hot plate and an ice bath. Mixing is slower and less uniform. Material moves through pipes, pumps, filters and dryers that hold up product. Raw materials come from drums, not from a single bottle.</p>
+  <p>Each difference is small. Together they move yield, impurity profile, crystal form and filtration. Published industry commentary on API scale-up lists the same families of cause again and again: heat and mass transfer limits, incomplete understanding of the chemistry, crystallisation and purification changes, polymorph inconsistency, raw material variability and equipment differences. Filtration and drying are named as common bottlenecks at commercial scale.</p>
+  <p>This article is for the day after a disappointing batch, in a technology transfer to a plant. It assumes you already know the planning side, covered in the <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant scale-up checklist</a> and the <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">technology transfer documents</a> article.</p>
+  <h2 id="data">Collect the facts before guessing <span class="lvl l1">Basics</span></h2>
+  <p>The most common troubleshooting error is to propose a cause in the first meeting. Collect these first, for the plant batch and the reference lab or kilo-lab batch, side by side:</p>
+  <ul>
+    <li><strong>Charges:</strong> actual weights and volumes, solvent amounts, purity and assay of every raw material, lot numbers.</li>
+    <li><strong>Timeline:</strong> start and end of each step. Addition times, heating and cooling times, hold times and the time between reaction end and filtration.</li>
+    <li><strong>Temperature profile:</strong> batch temperature and jacket temperature from the historian, not only the logbook entry. See <a href="{{ '/articles/process-historian-basics/' | relative_url }}">process historian basics</a>.</li>
+    <li><strong>In-process results:</strong> reaction monitoring, end-of-reaction assay, pH, water content, any sampling during crystallisation.</li>
+    <li><strong>Isolation data:</strong> mother liquor volume and assay, wash volumes, wet cake weight, loss on drying, dried weight, losses to filter cloths and dryer filters.</li>
+    <li><strong>Analytical data:</strong> method, instrument, standards and chromatograms for both sites.</li>
+  </ul>
+  <p>Put them in one table. Differences you did not plan for are your first list of suspects.</p>
+  <div class="art-note"><b>Rule of thumb</b><p>If you cannot say what the plant did at 2 a.m. between two steps, you do not yet have the data to troubleshoot. Get the batch record and the trend first.</p></div>
+  <h2 id="method">The six-step method <span class="lvl l2">Working level</span></h2>
+  <p>Work in this order. Each step removes a family of causes cheaply before you spend plant time on experiments.</p>
+  <ol>
+    <li><strong>Compare lab and plant data.</strong> Mark every difference in charge, timeline and temperature. Rank them by how likely they are to affect the quality attribute that failed.</li>
+    <li><strong>Close the mass balance.</strong> Track the product, in kg or in percent of theoretical, through each step: formed in reaction, in the mother liquor, in transfers and hold-up, in the dryer and filters, in the final product. Where the balance does not close, the loss is hidden, and that is where to look.</li>
+    <li><strong>Check mother liquor and other loss streams.</strong> Assay the mother liquor, the washes, the cloth washings and any drain or heel. Compare with the lab. A higher product concentration in the mother liquor points to a warmer end temperature, more solvent, or slower crystallisation. See <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">crystallisation scale-up</a>.</li>
+    <li><strong>Review the timeline and hold times.</strong> Look for steps that took longer than in the lab. A long hold of a reaction mass, a wet cake waiting for the dryer or a slurry waiting for the centrifuge can degrade product, form a new impurity or change crystal form.</li>
+    <li><strong>Check sampling and analytical method.</strong> Was the sample representative? Is the method validated for the new impurity or form? Do both sites get the same answer on the same retained sample? Do this before changing the process.</li>
+    <li><strong>Then experiment.</strong> Reproduce the plant timeline and temperature profile at small scale. Change one thing at a time. Where a plant-side adjustment is enough, trial it under change control. See <a href="{{ '/articles/management-of-change/' | relative_url }}">management of change</a>.</li>
+  </ol>
+  <p>Steps 1 to 5 use only existing data and a few assays. Step 6 is the expensive one, so it comes last.</p>
+  <h2 id="symptoms">Symptom to likely cause <span class="lvl l2">Working level</span></h2>
+  <p>The table lists common starting hypotheses. It is a prompt for checks, not a diagnosis.</p>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Symptom at plant</th><th>Likely causes to check first</th><th>Quick check</th></tr></thead><tbody>
+<tr><td>Low isolated yield</td><td>Reaction not complete, extra degradation during long holds, mother liquor loss, hold-up, drying losses</td><td>End-of-reaction assay yield vs isolated yield, mother liquor assay</td></tr>
+<tr><td>New or higher impurity</td><td>Longer addition or hold, local excess of a reagent, hot spots, raw material impurity, air or moisture ingress</td><td>Overlay plant and lab timelines, check raw material certificates, retain samples</td></tr>
+<tr><td>Wrong polymorph or form</td><td>Different cooling rate, seeding point or seed quality, supersaturation profile, solvent water content, long hold</td><td>Compare cooling curve and seeding record, test the form on retained samples</td></tr>
+<tr><td>Fine particles, slow filtration</td><td>Excess nucleation from fast cooling or high shear, crashing out on addition, aged slurry</td><td>Microscope on slurry, particle size, filtration rate on a sample</td></tr>
+<tr><td>High loss on drying or solvent residue</td><td>Wet cake too thick or lumpy, poor wash displacement, dryer loading, heating profile, vacuum level</td><td>Wet cake LOD, dryer log, sample from several positions</td></tr>
+<tr><td>Colour off-spec</td><td>Trace metal from equipment, oxidation, long hot hold, carry-over from previous product</td><td>Check material of construction, cleaning record, nitrogen blanket during holds</td></tr>
+<tr><td>Cycle time much longer than planned</td><td>Slow heating or cooling, vacuum or distillation rate, slow filtration, queue for shared equipment</td><td>Step-by-step time comparison, <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">cycle time debottlenecking</a></td></tr>
+<tr><td>Temperature higher than expected during addition</td><td>Cooling capacity at scale lower than assumed, addition too fast, accumulation then reaction</td><td>Check dosing profile and jacket delta T, see <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing</a></td></tr>
+<tr><td>Failed test result (OOS)</td><td>Laboratory error, sampling issue, true batch variation</td><td>Follow the OOS procedure, do not retest informally</td></tr>
+</tbody></table></div>
+  <p>Mixing is behind more of these than people expect. If the cause might be mixing or heat removal, check it with the guidance in <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up</a> before blaming the chemistry.</p>
+  <h2 id="example">Worked example: where did seven points of yield go? <span class="lvl l2">Working level</span></h2>
+  <p>An intermediate gave 88 percent of theoretical in the kilo lab. The first plant batch gave 81 percent. All data below are made up for illustration. The mass balance uses a basis of 100 kg of theoretical product, so every loss reads directly as percentage points of yield.</p>
+  <p>The solubility of the product in the crystallisation solvent is assumed to follow S = 0.8 &times; exp(0.045 &times; T), in g per 100 g solvent with T in &deg;C. That gives 1.00 at 5 &deg;C and 1.37 at 12 &deg;C. The mother liquor loss is solvent mass times solubility.</p>
+  <div class="formula-box">
+    Mother liquor loss = solvent mass &times; S(T<sub>end</sub>) / 100<br>
+    Isolated yield = 100 &minus; reaction loss &minus; mother liquor loss &minus; hold-up &minus; drying loss
+    <small>All terms in kg per 100 kg theoretical product, which equals percentage points.</small>
+  </div>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Loss bucket</th><th>Kilo lab</th><th>Plant</th><th>Gap</th><th>Cause found</th></tr></thead><tbody>
+<tr><td>Reaction (side products, unreacted)</td><td>6.0</td><td>8.0</td><td>2.0</td><td>Longer addition and hold at temperature, selectivity dropped</td></tr>
+<tr><td>Mother liquor</td><td>4.0</td><td>6.0</td><td>2.0</td><td>End temperature 12 &deg;C not 5 &deg;C, and 440 kg solvent not 400 kg</td></tr>
+<tr><td>Hold-up in filter and lines</td><td>1.0</td><td>2.5</td><td>1.5</td><td>Centrifuge heel and long transfer line not rinsed to the filter</td></tr>
+<tr><td>Drying and handling</td><td>1.0</td><td>2.5</td><td>1.5</td><td>Fines carried to the dryer filter bags</td></tr>
+<tr><td><strong>Isolated yield</strong></td><td><strong>88.0</strong></td><td><strong>81.0</strong></td><td><strong>7.0</strong></td><td></td></tr>
+</tbody></table></div>
+  <p>Steps in the method found the gap. The end-of-reaction assay gave 92 percent formed against 94 percent in the lab, so two points were lost before isolation. The mother liquor assay showed 6.0 points of product, two more than the lab. Hold-up and drying losses came from weighing the heel and the filter bag dust. Together they close the balance to seven points.</p>
+  <p>The mother liquor term is worth a second look. With 400 kg of solvent, raising the end temperature from 5 to 12 &deg;C alone adds 1.5 points (4.0 to 5.5). The extra 40 kg of solvent from line flushing adds about 0.6 more. Both are fixable on the plant: a lower end temperature if the chilled medium allows, and less flush solvent or a recycle of the flush into the next batch.</p>
+  <p>The example has limits. It assumes solubility is the only mother liquor effect, ignores the time dependence of crystallisation, and treats each loss as independent. Real balances only close within the accuracy of weighing and assay, so a small unexplained remainder is normal.</p>
+  <h2 id="oos">Exotherm surprises and failed tests <span class="lvl l3">Going deeper</span></h2>
+  <h3>Temperature higher than the lab suggested</h3>
+  <p>Heat is removed through the jacket area, which grows more slowly than the batch volume, so a reaction that ran cool in the lab can run warm at scale. If the plant temperature climbs during addition, stop the addition and check whether reagent has accumulated. A late reaction of accumulated reagent can give a sharp temperature rise and a different impurity profile. Do not restart until you know the heat release and cooling capacity. Thermal data from <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">DSC, ARC and reaction calorimetry</a> are the basis for deciding a safe dosing rate.</p>
+  <h3>Failed results and the OOS procedure</h3>
+  <p>When a result fails its specification, troubleshooting changes character, because the quality system takes over. The FDA guidance on out-of-specification results describes a first, laboratory phase, where the analyst and supervisor look for a clear error in the test, and a second, full-scale phase led by the quality unit if no laboratory cause is found. A result is set aside only when an investigation identifies a cause. Retests come from the same sample, and the number allowed is set in an SOP in advance. Repeating tests until a pass appears is not acceptable, and averaging a failing result with retests hides variation.</p>
+  <p>As an engineer, your role is to support the investigation with process data. Do not run side experiments on retained samples or discuss expected results with the analyst. Link the batch deviation to the <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">deviation and CAPA</a> record.</p>
+  <h2 id="mistakes">Common mistakes <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Guessing the cause first.</strong> The most visible difference is not always the most important. Complete the data table and the mass balance before choosing an experiment.</li>
+    <li><strong>Changing several things at once.</strong> The next batch improves and nobody knows why. Change one variable per batch where possible, and record all of them.</li>
+    <li><strong>Trusting the logbook over the trend.</strong> Operators record temperatures at set times. The historian shows the overshoot between entries.</li>
+    <li><strong>Ignoring hold times.</strong> Plants wait for shift change, equipment or QC results. Product that sat for 12 hours in a warm slurry is not the lab product.</li>
+    <li><strong>Blaming the analytical method too early.</strong> A method issue is possible, but it must be shown, not assumed. Compare both sites on the same retained sample.</li>
+    <li><strong>Making plant changes without change control.</strong> A quick fix that alters a validated or filed parameter can become a bigger problem than the original loss.</li>
+  </ul>
+  <h2 id="checklist">Troubleshooting checklist <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Side-by-side table of charges, timeline and temperature for lab and plant is complete.</li>
+    <li>Mass balance closed to within about half a percentage point, or the unexplained part is stated.</li>
+    <li>Mother liquor, washes, heel and filter or dryer losses assayed and weighed.</li>
+    <li>Every hold time compared with the lab procedure.</li>
+    <li>Sampling method and analytical method checked on the same retained sample at both sites.</li>
+    <li>Experiments ranked, one variable at a time, with a clear success criterion.</li>
+    <li>Any process change routed through change control, and any failing result through the OOS procedure.</li>
+  </ul>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is plant yield usually lower than lab yield?</h3>
+  <p>Plants have longer addition, heating, cooling, transfer and hold times, less efficient mixing and heat removal, bigger hold-up in lines and filters, and a different end temperature. Each adds a small loss. Together they often account for several percentage points.</p>
+  <h3>What is the first thing to do when a plant batch gives a new impurity?</h3>
+  <p>Compare the plant timeline with the lab procedure: addition time, temperature profile, hold times and the quality of raw materials. Then check whether the analytical method sees the impurity the same way at both sites before changing the process.</p>
+  <h3>Can we just retest a failing batch until it passes?</h3>
+  <p>No. Regulators regard repeated testing until a pass appears as unacceptable. A result is set aside only when an investigation documents a clear cause. Retest numbers are fixed in an SOP in advance, and all results are evaluated, not averaged away.</p>
+  <h3>How do I know whether a loss is in the reaction or in the isolation?</h3>
+  <p>Take an in-process sample at the end of the reaction and measure product by assay, then compare with the isolated amount. The gap between assay yield at the end of reaction and isolated yield is the isolation loss: mother liquor, hold-up and drying.</p>
+  <h3>When should I stop troubleshooting at plant and go back to R&amp;D?</h3>
+  <p>When the plant data show the gap is in the chemistry or crystallisation itself, for example a rate, solubility or form effect that cannot be fixed with a plant-side adjustment. Take the plant timeline and samples back so R&amp;D can reproduce the batch at small scale.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://www.fda.gov/media/158416/download">FDA guidance: Investigating Out-of-Specification (OOS) Test Results for Pharmaceutical Production</a></li>
+    <li><a href="https://www.aragen.com/whitepaper/root-causes-of-api-scale-up-failures-how-to-avoid-them/">Aragen: Root causes of API scale-up failures</a> (general list of cause families)</li>
+    <li>ICH Q7, Good Manufacturing Practice Guide for Active Pharmaceutical Ingredients (general reference)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/games/troubleshooter/' | relative_url }}">Troubleshooter game</a>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/common-mistakes-in-batch-reactions/' | relative_url }}">Common mistakes in batch reactions</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+    <a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">Improve conversion and yield</a>
+    <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">Deviation and CAPA</a>
+    <a href="{{ '/articles/technology-transfer-end-to-end/' | relative_url }}">Technology transfer end to end</a>
+    <a href="{{ '/articles/scale-up-challenges-and-fixes/' | relative_url }}">Scale-up challenges and fixes</a>
+    <a href="{{ '/articles/first-time-right-technology-transfer/' | relative_url }}">First time right technology transfer</a>
+    <a href="{{ '/articles/scale-up-case-study-api-intermediate/' | relative_url }}">Scale-up case study: API intermediate</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

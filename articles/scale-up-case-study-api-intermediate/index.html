@@ -1,0 +1,250 @@
+---
+layout: default
+title: "Scale-up Case Study: An API Intermediate, Batch by Batch"
+seo_title: "Scale-up Case Study: API Intermediate Transfer | PharmaChemE"
+description: "A hypothetical technology transfer case: an exothermic addition, slow filtration and a new impurity at plant scale, with causes, fixes and numbers."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: "Scale-up Case Study: API Intermediate"
+    url: /articles/scale-up-case-study-api-intermediate/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Scale-up Case Study: An API Intermediate, Batch by Batch",
+        "description": "A composite teaching case of a technology transfer from lab to plant, with the exotherm, filtration and impurity problems, the root causes, the fixes and the validation results.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-06",
+        "dateModified": "2026-11-06"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why did a process that worked at 1 litre and 100 litres fail at 1000 litres?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat removal per litre falls as vessels get bigger, because jacket area grows more slowly than volume. The pilot reactor could take the heat of a 60 minute addition. The plant reactor could not, so the batch warmed up and made more impurity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you find the minimum safe addition time on a plant reactor?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Divide the total reaction heat by the heat the reactor can remove, which is jacket area times heat transfer coefficient times the available temperature difference. Then apply a margin for fouling and control, for example 60 percent of the maximum. The result is the shortest addition time you should plan."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does filtration get slower on scale-up?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Crystal size and shape depend on local supersaturation, mixing and shear, all of which change with scale. More fines raise the specific cake resistance, and filtration time rises in direct proportion to it for a given filter area and pressure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many validation batches are needed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Regulators do not fix a number. The US FDA guidance on process validation asks for a number justified by process understanding and risk, using statistical metrics where feasible. Three consecutive batches is a common industry convention, not a rule."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is this case study based on a real product?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. It is a composite teaching case with invented numbers. The chemistry, equipment sizes and results are made up to show how problems appear and are solved. Do not use any figure in it as design data."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-06
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Scale-up Case Study: An API Intermediate, Batch by Batch</h1>
+  <p class="article-meta">Scale-up and technology transfer &middot; Case study &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Most scale-up advice is a list of rules. This article follows one hypothetical transfer from a 1 litre flask to a 1000 litre plant reactor: what the team planned, what went wrong on the first plant batch, why, and what finally made the process repeatable.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#why">What this case is, and is not</a><span>Basics</span></li>
+    <li><a href="#process">The process and the transfer plan</a><span>Basics</span></li>
+    <li><a href="#heat">The heat numbers nobody checked</a><span>Working level</span></li>
+    <li><a href="#batches">Batch by batch</a><span>Working level</span></li>
+    <li><a href="#fixes">What changed, and why it worked</a><span>Working level</span></li>
+    <li><a href="#roles">What each function contributed</a><span>Working level</span></li>
+    <li><a href="#lessons">Lessons learned</a><span>Going deeper</span></li>
+    <li><a href="#mistakes">Common mistakes shown by this case</a><span>Going deeper</span></li>
+    <li><a href="#checklist">Checklist before the first plant batch</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="why">What this case is, and is not <span class="lvl l1">Basics</span></h2>
+  <p>This is a <strong>composite teaching case</strong>. The molecule, the equipment sizes and every result are invented. The problems are real kinds of problems: an exotherm that the plant cannot remove, a crystal slurry that filters badly, and an impurity that creeps up with temperature. Do not use any number here as design data.</p>
+  <p>Technology transfer means moving a process from the sending site (usually R&amp;D) to the receiving site (the plant). The aim is a process that runs the same way every time. That is the idea behind &ldquo;first time right&rdquo;: find the problems on paper or in small trials, not on the plant floor. This case shows what happens when a few checks are skipped, and how the team recovered.</p>
+
+  <h2 id="process">The process and the transfer plan <span class="lvl l1">Basics</span></h2>
+  <p>The intermediate is made in two operations:</p>
+  <ul>
+    <li><strong>Reaction:</strong> a liquid reagent is added to a solution of the starting material in a solvent. The reaction is fast and exothermic. A known side reaction makes a related impurity, and its rate rises with temperature.</li>
+    <li><strong>Isolation:</strong> the product is crystallised by adding an antisolvent and cooling, filtered on a nutsche filter, washed and dried.</li>
+  </ul>
+  <p>The specification limits the impurity to not more than 0.30 percent. The scale steps were a 1 litre lab flask, a 100 litre pilot reactor and a 1000 litre glass-lined plant reactor, a 1000-fold scale-up overall. The plan used the usual stages:</p>
+  <ol>
+    <li>R&amp;D issues a transfer package: process description, material list, analytical methods, and the ranges seen in lab and pilot runs.</li>
+    <li>The plant team runs a gap check of its equipment against the process needs.</li>
+    <li>Engineering batches test the process in the plant. Quality is involved from the start.</li>
+    <li>Three validation (qualification) batches follow, and then routine production.</li>
+  </ol>
+  <p>The gap check looked at reactor volume, materials of construction and filter size. It did <strong>not</strong> compare heat removal. The package said &ldquo;add reagent over 60 to 90 minutes&rdquo;, which was the pilot range. That one line hid the problem. For the document set behind a transfer, see <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>.</p>
+
+  <h2 id="heat">The heat numbers nobody checked <span class="lvl l2">Working level</span></h2>
+  <p>The reaction releases 110 kJ per mole of reagent. The lab ran 1 mole, the pilot 100 moles and the plant 1000 moles. The most heat a reactor can remove is jacket area times the overall heat transfer coefficient (U) times the temperature difference to the coolant. A short calculation for each scale gives the fastest addition each reactor can handle.</p>
+  <div class="formula-box">
+    <p><b>Minimum addition time</b> = total heat &divide; (U &times; A &times; &Delta;T)</p>
+    <p>Practical minimum = the same, divided by a margin of 0.6, for fouling, control lag and ageing of the jacket.</p>
+  </div>
+  <p>The inputs below are illustrative: a 25 &deg;C difference between batch (20 &deg;C) and coolant (-5 &deg;C) for pilot and plant, and 20 &deg;C for the flask.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Scale</th><th>Heat released</th><th>Heat transfer area, U</th><th>Max removal</th><th>Fastest addition</th><th>Practical minimum</th></tr></thead><tbody>
+  <tr><td>Lab, 1 L</td><td>110 kJ</td><td>0.06 m&sup2;, 300 W/m&sup2;K</td><td>0.36 kW</td><td>5 min</td><td>8 min</td></tr>
+  <tr><td>Pilot, 100 L</td><td>11 MJ</td><td>1.2 m&sup2;, 220 W/m&sup2;K</td><td>6.6 kW</td><td>28 min</td><td>46 min</td></tr>
+  <tr><td>Plant, 1000 L</td><td>110 MJ</td><td>5 m&sup2;, 150 W/m&sup2;K</td><td>18.75 kW</td><td>98 min</td><td>163 min</td></tr>
+  </tbody></table></div>
+  <p>The lab ran a 30 minute addition. The pilot could take 60 minutes with room to spare, so nothing looked wrong. The plant needed about 163 minutes. A 60 minute addition would release heat at 30.6 kW, well above the 18.75 kW the plant jacket can take. Heat removal per litre drops at every step because area grows with the square of size and volume with the cube. The method is explained in <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load calculation</a>.</p>
+  <div class="art-note"><b>Limit of this check</b><p>The table assumes the reagent reacts as fast as it is added. If the reaction is slow at low temperature, reagent can build up and release heat later. That is a separate hazard, covered in <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>. Measure heat flow in a reaction calorimeter before you trust either calculation.</p></div>
+
+  <h2 id="batches">Batch by batch <span class="lvl l2">Working level</span></h2>
+  <h3>Engineering batch 1: the problem appears</h3>
+  <p>The operators set a 60 minute addition, as the package allowed. The jacket was at full cooling from the first minutes. A simple energy balance (reaction mass 900 kg, specific heat 1.8 kJ/kg K) shows the batch warming to about 33 &deg;C by the end of the addition. The control chart showed the same: the temperature controller saturated and the batch ran above its set point for most of the addition.</p>
+  <p>The side reaction speeds up with temperature. A model that scales the impurity made per mole of reagent by an Arrhenius factor (activation energy taken as 70 kJ/mol, an assumption) gives about 0.45 percent impurity. The plant reported 0.45 percent. The limit was 0.30.</p>
+  <p>The same batch also filtered badly. On the lab leaf filter the cake resistance was 3&times;10<sup>9</sup> m/kg, which would give about 24 minutes on the plant nutsche (1.5 m&sup2;, 1.5 bar). On this batch the measured value was 2.4&times;10<sup>10</sup> m/kg, eight times higher, so the same calculation gives 192 minutes. The cake held more liquor, so it dried slowly: from 28 percent wet it took about 14.4 hours to reach 0.5 percent loss on drying with a first-order drying constant of 0.28 per hour. Yield was 77.5 percent against 88 percent in the lab.</p>
+  <h3>Engineering batch 2: the first fix</h3>
+  <p>The team stopped adding on a clock and added on a heat limit. The addition was extended to 165 minutes, so the heat release was 11.1 kW and the jacket could run with the coolant near +5 &deg;C instead of -5 &deg;C. The batch held at 20 &deg;C. The impurity returned to 0.20 percent. Yield improved to 83.8 percent. Filtration was still slow, so the cycle was no shorter.</p>
+  <h3>Engineering batch 3: the second fix</h3>
+  <p>A study of the crystallisation, with samples taken from the plant, found two causes of the fines. The antisolvent was added through a single nozzle at the top, creating a local zone of high supersaturation. And the agitator speed gave a tip speed much higher than the pilot, breaking crystals. The team added seed crystals, split the antisolvent addition into a slow first part and a faster second part with a subsurface dip pipe, slowed the agitator in the cooling stage and lengthened the cooling to 7 hours. Cake resistance came down to 4&times;10<sup>9</sup> m/kg. The filtration estimate fell from 192 to 32 minutes, the cake went in to the dryer at 18 percent wet, and drying time dropped to about 12.8 hours. Yield reached 86.6 percent. For more on this step see <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a> and <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>.</p>
+  <h3>Validation batches</h3>
+  <p>With the changes written into the master batch record and the process described as ranges, three consecutive validation batches ran. They gave yields of 86.8, 86.3 and 87.1 percent (mean 86.7, standard deviation 0.4, relative standard deviation 0.5 percent) and impurity of 0.19, 0.21 and 0.20 percent, all inside specification.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Batch</th><th>Addition</th><th>Peak temp</th><th>Impurity</th><th>Filtration</th><th>Cycle time</th><th>Yield</th></tr></thead><tbody>
+  <tr><td>Lab, 1 L</td><td>30 min</td><td>20 &deg;C</td><td>0.20 %</td><td>24 min*</td><td>not recorded</td><td>88.0 %</td></tr>
+  <tr><td>Pilot, 100 L</td><td>60 min</td><td>20 &deg;C</td><td>0.20 %</td><td>not recorded</td><td>not recorded</td><td>86.7 %</td></tr>
+  <tr><td>Engineering 1</td><td>60 min</td><td>32.8 &deg;C</td><td>0.45 %</td><td>192 min</td><td>26.6 h</td><td>77.5 %</td></tr>
+  <tr><td>Engineering 2</td><td>165 min</td><td>20 &deg;C</td><td>0.20 %</td><td>192 min</td><td>28.4 h</td><td>83.8 %</td></tr>
+  <tr><td>Engineering 3</td><td>165 min</td><td>20 &deg;C</td><td>0.20 %</td><td>32 min</td><td>26.1 h</td><td>86.6 %</td></tr>
+  <tr><td>Validation 1 to 3</td><td>165 min</td><td>20 &deg;C</td><td>0.19 to 0.21 %</td><td>about 32 min</td><td>about 26 h</td><td>86.3 to 87.1 %</td></tr>
+  </tbody></table></div>
+  <p>*Filtration times are calculated for the plant nutsche from filter-leaf cake resistance, not measured on the plant. All numbers are illustrative.</p>
+  <p>The cycle time went <em>down</em> slightly even though the addition took nearly three hours longer. The faster filtration and drying paid for the slower addition. A longer step is not always a longer batch; see <a href="{{ '/articles/batch-cycle-time-debottlenecking/' | relative_url }}">Batch cycle time debottlenecking</a>.</p>
+
+  <h2 id="fixes">What changed, and why it worked <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Addition time set by heat removal</strong>, not copied from the pilot. The rate is now limited by the calculated reactor capacity, with an alarm if the batch temperature rises above the limit and an interlock that pauses the addition.</li>
+    <li><strong>Seeding and a controlled antisolvent addition</strong> to keep supersaturation low and crystal size steady.</li>
+    <li><strong>Agitator speed stated as a range</strong> for each stage, with a lower speed during cooling.</li>
+    <li><strong>Critical parameters written down</strong> in the batch record, so that operators know which values must not drift.</li>
+    <li><strong>Reporting of impurity at the end of the addition</strong>, to catch temperature problems before crystallisation.</li>
+  </ul>
+
+  <h2 id="roles">What each function contributed <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>R&amp;D:</strong> ran the lab and pilot work, explained the chemistry of the impurity, and later supplied the seeding recipe and the cake-resistance test.</li>
+    <li><strong>Technology transfer:</strong> owned the plan, ran the gap check, kept the list of open actions and made the call to stop and investigate after batch 1.</li>
+    <li><strong>Production:</strong> reported what the operators saw (the controller saturating) and ran the batches exactly as written.</li>
+    <li><strong>Process engineering:</strong> did the heat and filtration calculations and specified the interlock.</li>
+    <li><strong>QC:</strong> had the impurity method ready, with fast in-process results that gave early warning.</li>
+    <li><strong>QA:</strong> opened a deviation for batch 1, ran the root cause review, and approved the changes through change control (see <a href="{{ '/articles/qa-gmp-deviation-capa/' | relative_url }}">QA, GMP, deviation and CAPA</a> and <a href="{{ '/articles/management-of-change/' | relative_url }}">Management of change</a>).</li>
+    <li><strong>Regulatory affairs:</strong> checked whether a longer addition time and the added seed needed a filing update, and prepared the change in the right form for the market.</li>
+    <li><strong>Safety and maintenance:</strong> reviewed the thermal hazard and confirmed the jacket and brine system could deliver the cooling assumed.</li>
+  </ul>
+
+  <h2 id="lessons">Lessons learned <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li><strong>Ranges in the package are not guarantees.</strong> A range tested at one scale may be unsafe at another. State which scale each range was proven at.</li>
+    <li><strong>Add a heat and mixing check to the gap check.</strong> Volume and materials are the easy part.</li>
+    <li><strong>Measure early.</strong> A reaction calorimeter run and a filter-leaf test on lab material would have predicted both problems for the cost of a day.</li>
+    <li><strong>Stop on the first surprise.</strong> The deviation after batch 1 was opened at once. Running batch 2 unchanged would have repeated the loss.</li>
+    <li><strong>Fix one cause at a time</strong> where you can. Batch 2 isolated the heat problem, so the team could see the filtration problem was separate.</li>
+    <li><strong>Knowledge, not batches, is what validation proves.</strong> The three batches passed because the team understood why they were stable.</li>
+  </ul>
+  <p>The US FDA process validation guidance describes three stages: process design, process qualification and continued process verification. It does not fix a number of qualification batches, and expects the number to rest on sound science and, where possible, statistical metrics. Three consecutive batches is common practice, not a legal minimum. The WHO guidance on technology transfer sets out the responsibilities of the sending and receiving units. Both are listed below.</p>
+
+  <h2 id="mistakes">Common mistakes shown by this case <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li><strong>Copying a time from the pilot</strong> without checking heat removal at plant scale.</li>
+    <li><strong>Gap checks limited to size and materials.</strong> Heat transfer, mixing, filter area and dryer load were not compared.</li>
+    <li><strong>Judging crystallisation by yield alone.</strong> Particle size and cake resistance decide whether the plant can run the step.</li>
+    <li><strong>No in-process impurity check</strong> until after crystallisation, so a temperature problem was found late.</li>
+    <li><strong>Changing several things at once</strong> after a failure, so nobody knows which change worked.</li>
+    <li><strong>Treating the validation batches as the test.</strong> They confirm a process that is already understood; they are a poor place to find problems.</li>
+  </ol>
+  <div class="art-note"><b>Limits of this case</b><p>The impurity model is a simple teaching model. It scales impurity per mole of reagent with temperature and ignores concentration effects and accumulation. Real problems often have more than one cause. Use models to prioritise experiments, not to replace them.</p></div>
+
+  <h2 id="checklist">Checklist before the first plant batch <span class="lvl l3">Going deeper</span></h2>
+  <ul>
+    <li>Heat release measured (calorimetry) and plant cooling capacity calculated, with a margin.</li>
+    <li>Minimum addition time set from the heat limit, not from earlier runs.</li>
+    <li>Filter and dryer sized from measured cake resistance and drying data.</li>
+    <li>Critical parameters and their ranges named, with the scale at which each was proven.</li>
+    <li>In-process controls and fast analytical methods ready in QC.</li>
+    <li>Deviation, change control and regulatory impact routes agreed in advance.</li>
+    <li>Stop rules agreed: what result pauses the batch, and who decides.</li>
+  </ul>
+  <p>The wider checklist is in <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>.</p>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why did a process that worked at 1 litre and 100 litres fail at 1000 litres?</h3>
+  <p>Heat removal per litre falls as vessels get bigger, because jacket area grows more slowly than volume. The pilot reactor could take the heat of a 60 minute addition. The plant reactor could not, so the batch warmed up and made more impurity.</p>
+  <h3>How do you find the minimum safe addition time on a plant reactor?</h3>
+  <p>Divide the total reaction heat by the heat the reactor can remove, which is jacket area times heat transfer coefficient times the available temperature difference. Then apply a margin for fouling and control, for example 60 percent of the maximum. The result is the shortest addition time you should plan.</p>
+  <h3>Why does filtration get slower on scale-up?</h3>
+  <p>Crystal size and shape depend on local supersaturation, mixing and shear, all of which change with scale. More fines raise the specific cake resistance, and filtration time rises in direct proportion to it for a given filter area and pressure.</p>
+  <h3>How many validation batches are needed?</h3>
+  <p>Regulators do not fix a number. The US FDA guidance on process validation asks for a number justified by process understanding and risk, using statistical metrics where feasible. Three consecutive batches is a common industry convention, not a rule.</p>
+  <h3>Is this case study based on a real product?</h3>
+  <p>No. It is a composite teaching case with invented numbers. The chemistry, equipment sizes and results are made up to show how problems appear and are solved. Do not use any figure in it as design data.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li><a href="https://www.who.int/publications/m/item/trs1044-annex4" rel="noopener">WHO TRS 1044 Annex 4: WHO guidelines on technology transfer in pharmaceutical manufacturing (2022)</a></li>
+    <li><a href="https://www.hhs.gov/guidance/sites/default/files/hhs-guidance-documents/FDA/Process-Validation--General-Principles-and-Practices.pdf" rel="noopener">US FDA: Process Validation, General Principles and Practices (January 2011)</a></li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, Wiley-VCH (general reference for heat balance and calorimetry)</li>
+    <li>Coulson and Richardson, <i>Chemical Engineering, Vol. 2</i> (general reference for cake filtration)</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">Lab to plant scale-up checklist</a>
+    <a href="{{ '/articles/technology-transfer-documents/' | relative_url }}">Technology transfer documents</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load calculation</a>
+    <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">Mixing scale-up</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+    <a href="{{ '/articles/process-modelling-for-scale-up/' | relative_url }}">Process modelling for scale-up</a>
+    <a href="{{ '/articles/technology-transfer-end-to-end/' | relative_url }}">Technology transfer end to end</a>
+    <a href="{{ '/articles/roles-in-technology-transfer/' | relative_url }}">Roles in technology transfer</a>
+    <a href="{{ '/articles/scale-up-challenges-and-fixes/' | relative_url }}">Scale-up challenges and fixes</a>
+    <a href="{{ '/articles/first-time-right-technology-transfer/' | relative_url }}">First time right</a>
+    <a href="{{ '/articles/scale-up-troubleshooting-playbook/' | relative_url }}">Scale-up troubleshooting playbook</a>
+    <a href="{{ '/games/troubleshooter/' | relative_url }}">Troubleshooter game</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
