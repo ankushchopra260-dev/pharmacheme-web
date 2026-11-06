@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-11-02"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -55,14 +55,14 @@ structured_data: |
             "name": "How much nitrogen does a pressure purge use?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Each cycle uses vessel volume x (high pressure - low pressure) / 1.013 Nm3. Purging a 6 m3 headspace to 2 barg twice uses about 24 Nm3 and brings oxygen to about 2.3%."
+              "text": "Each cycle uses vessel volume x (high pressure - low pressure) / 1.013 Nm3. Purging a 6 m3 headspace to 2 barg twice uses about 24 Nm3 and brings oxygen to about 2.4%."
             }
           }
         ]
       }
     ]
   }
-last_modified_at: 2026-11-02
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -137,11 +137,11 @@ last_modified_at: 2026-11-02
   <h3>Worked example</h3>
   <p>A reactor with 6 m&sup3; of headspace:</p>
   <ul>
-    <li><strong>Pressure purge to 2 barg, vent to atmosphere:</strong> each cycle multiplies the oxygen by 1.013/3.013 &asymp; 0.34. After one cycle 7.1 % (too close to 8 %), after two 2.3 %. Two cycles use about 24 Nm&sup3;.</li>
+    <li><strong>Pressure purge to 2 barg, vent to atmosphere:</strong> each cycle multiplies the oxygen by 1.013/3.013 &asymp; 0.34. After one cycle 7.1 % (too close to 8 %), after two 2.4 %. Two cycles use about 24 Nm&sup3;.</li>
     <li><strong>Vacuum to 200 mbar abs, break with nitrogen:</strong> one cycle gives about 4.1 % and uses about 4.8 Nm&sup3;. Vacuum purging is the most nitrogen-efficient.</li>
     <li><strong>Sweep purge:</strong> ln(21/8) &times; 6 &asymp; 5.8 Nm&sup3; with perfect mixing; allow at least 1.5 times that in practice, and check the oxygen at the vent.</li>
   </ul>
-  <p>An open manhole, a nitrogen header that runs low during a big transfer, or compressed air used to push solvent undoes all of this. Nitrogen for blanketing must also replace the liquid pumped out of a tank: 20 m&sup3;/h of liquid at 50 mbarg needs about 19 Nm&sup3;/h of nitrogen.</p>
+  <p>An open manhole, a nitrogen header that runs low during a big transfer, or compressed air used to push solvent undoes all of this. Nitrogen for blanketing must also replace the liquid pumped out of a tank: 20 m&sup3;/h of liquid at 50 mbarg needs about 21 Nm&sup3;/h of nitrogen.</p>
 
   <figure class="art-fig" data-fig="purge">
     <figcaption>Try it: press <b>Run the purge</b> and watch the oxygen fall cycle by cycle as the vessel is pressurised with nitrogen and vented. Higher purge pressure means fewer cycles, but more nitrogen per cycle.</figcaption>

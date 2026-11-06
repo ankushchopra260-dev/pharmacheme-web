@@ -30,7 +30,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-21",
-        "dateModified": "2026-11-02"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -56,7 +56,7 @@ structured_data: |
             "name": "Can AI be used in GMP manufacturing?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes, with validation and human oversight. The EU draft GMP Annex 22 (July 2025) covers static, trained models in critical GMP use and keeps generative AI out of critical decisions in the draft. FDA's January 2025 draft guidance describes a risk-based credibility framework. Both were still drafts in September 2026."
+              "text": "Yes, with validation and human oversight. The EU draft GMP Annex 22 (July 2025) covers static, trained models in critical GMP use and keeps generative AI out of critical decisions in the draft. FDA's January 2025 draft guidance describes a risk-based credibility framework. Both were still drafts when checked in November 2026."
             }
           },
           {
@@ -71,7 +71,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-02
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <style>
@@ -280,14 +280,14 @@ last_modified_at: 2026-11-02
   </div>
   <p>In a real plant the check-and-recalibrate step is written into a procedure, with limits agreed in advance. Under GMP, that is exactly what draft Annex 22 asks for: defined performance metrics, monitoring in use, and change control when the model is updated.</p>
   <h2 id="gmp">AI under GMP: FDA, EU Annex 22, GAMP <span class="lvl l3">Going deeper</span></h2>
-  <p>Chemical plants outside GMP are governed by ordinary process safety and quality systems. Pharma plants have specific, fast-moving expectations. The status below is as of September 2026; check for updates before you rely on it.</p>
+  <p>Chemical plants outside GMP are governed by ordinary process safety and quality systems. Pharma plants have specific, fast-moving expectations. The status below was checked in November 2026; check for updates before you rely on it.</p>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Document</th><th>Status</th><th>What it says</th></tr>
     <tr><td>FDA discussion paper: <i>Artificial Intelligence in Drug Manufacturing</i></td><td>Discussion paper, March 2023</td><td>Gives examples: process design and scale-up, advanced process control, process monitoring and fault detection (including AI visual inspection of packaging and labels), and trend monitoring of complaints and deviations. Raises questions on cloud data, IoT data volumes, standards for developing and validating models, and continuously learning systems.</td></tr>
-    <tr><td>FDA draft guidance: <i>Considerations for the Use of AI to Support Regulatory Decision-Making for Drug and Biological Products</i></td><td>Draft, January 2025; still draft in September 2026</td><td>A risk-based credibility framework for a model&rsquo;s <b>context of use</b>: define the question, define the context of use, assess model risk (model influence &times; decision consequence), plan, execute, document, and decide whether credibility is adequate.</td></tr>
+    <tr><td>FDA draft guidance: <i>Considerations for the Use of AI to Support Regulatory Decision-Making for Drug and Biological Products</i></td><td>Draft, January 2025; still draft in November 2026</td><td>A risk-based credibility framework for a model&rsquo;s <b>context of use</b>: define the question, define the context of use, assess model risk (model influence &times; decision consequence), plan, execute, document, and decide whether credibility is adequate.</td></tr>
     <tr><td>EU GMP <b>Annex 22</b> (Artificial Intelligence), with revised Annex 11 and Chapter 4</td><td>Consultation draft 7 July 2025; consultation closed October 2025; final text targeted for late 2026</td><td>Covers static models (fixed after training) in critical GMP use. Requires a documented intended use approved by a process expert, test data kept separate from training data, acceptance criteria at least as good as the process replaced, explainability, confidence scores and change control. The draft keeps continuously learning models and generative AI out of critical GMP use; generative AI is allowed in non-critical tasks with a qualified person responsible for the output. EMA is reconsidering the generative AI position.</td></tr>
     <tr><td>ISPE <b>GAMP Guide: Artificial Intelligence</b></td><td>Published 1 October 2025</td><td>Industry guidance on key AI concepts and on implementing AI in GxP-regulated environments, building on GAMP 5.</td></tr>
-    <tr><td>EU <b>AI Act</b></td><td>In force since 1 August 2024; obligations phase in</td><td>Prohibited practices from February 2025, general-purpose AI rules from August 2025, and most high-risk obligations scheduled from August 2026. Relevant if you sell into the EU or use AI in regulated products; most plant analytics is not classed as high-risk, but check your case.</td></tr>
+    <tr><td>EU <b>AI Act</b></td><td>In force since 1 August 2024; obligations phase in, with some dates now deferred</td><td>Prohibited practices from February 2025, general-purpose AI rules from August 2025, and, after the 2026 AI Omnibus amendment (in force 27 July 2026), most high-risk obligations deferred to 2 December 2027 for stand-alone systems and 2 August 2028 for AI in regulated products. Relevant if you sell into the EU or use AI in regulated products; most plant analytics is not classed as high-risk, but check your case.</td></tr>
   </table></div>
   <div class="art-note"><b>On the plant</b><p>The practical reading for a GMP site today: keep a person in the decision for anything that touches product quality, write the intended use before you build, freeze and version the model you validate, keep the test data locked away from the developers, and put model updates through change control like any other computerised system.</p></div>
   <details class="ai-more" id="risks"><summary>What goes wrong, and what helps</summary>
@@ -354,7 +354,7 @@ last_modified_at: 2026-11-02
   <h3>Do we need a big digital project before using AI?</h3>
   <p>No, but you need clean, time-stamped data for the problem you pick. Most plants start with one unit or one product, connect the historian, lab and batch data for it, and prove value there before scaling.</p>
   <h3>Can AI be used in GMP manufacturing?</h3>
-  <p>Yes, with validation and human oversight. The EU draft GMP Annex 22 (July 2025) covers static, trained models in critical GMP use and keeps generative AI out of critical decisions in the draft. FDA's January 2025 draft guidance describes a risk-based credibility framework. Both were still drafts in September 2026.</p>
+  <p>Yes, with validation and human oversight. The EU draft GMP Annex 22 (July 2025) covers static, trained models in critical GMP use and keeps generative AI out of critical decisions in the draft. FDA's January 2025 draft guidance describes a risk-based credibility framework. Both were still drafts when checked in November 2026.</p>
   <h3>What is the easiest first AI project in a chemical plant?</h3>
   <p>Projects where the data already exists and a person still makes the decision: predictive maintenance on critical rotating equipment, a soft sensor for a slow lab result, or text search across SOPs and past deviations.</p>
   <h3>Will AI replace process engineers?</h3>
@@ -371,7 +371,7 @@ last_modified_at: 2026-11-02
     <li>European Commission, draft EU GMP Annex 22 (Artificial Intelligence), consultation 7 July to 7 October 2025: <a href="https://www.mondaq.com/new-technology/1650932/eu-consults-on-new-gmp-rules-for-ai-in-pharma-manufacturing" rel="noopener">Mondaq</a>, <a href="https://www.europeanpharmaceuticalreview.com/what-annex-22-spells-for-ai-in-gmp-manufacturing/2135686.article" rel="noopener">European Pharmaceutical Review</a>; status: <a href="https://www.pharmtech.com/view/europe-tried-to-ban-generative-ai-from-critical-gmp-the-ban-may-not-survive-it-does-not-matter-" rel="noopener">PharmTech, August 2026</a>.</li>
     <li>ISPE, <a href="https://ispe.org/news/ispe-releases-gampr-guide-artificial-intelligence" rel="noopener">ISPE releases GAMP Guide: Artificial Intelligence</a>, 1 October 2025.</li>
     <li>Mayer Brown, <a href="https://www.mayerbrown.com/zh-hans/insights/publications/2024/07/eu-ai-act-published-which-provisions-apply-when" rel="noopener">EU AI Act published: which provisions apply when</a>, July 2024.</li>
-    <li>NIST, <i>AI 600-1: Artificial Intelligence Risk Management Framework: Generative AI Profile</i>, July 2024 (<a href="https://airc.nist.gov/docs/NIST.AI.600-1.GenAI-Profile.ipd.pdf" rel="noopener">draft text</a>).</li>
+    <li>NIST, <i>AI 600-1: Artificial Intelligence Risk Management Framework: Generative AI Profile</i>, July 2024 (<a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" rel="noopener">final text</a>).</li>
     <li>Kadlec P., Gabrys B., Strandt S., <a href="https://literature.learnche.org/item/105/data-driven-soft-sensors-in-the-process-industry" rel="noopener">Data-driven soft sensors in the process industry</a>, Computers and Chemical Engineering 33 (2009) 795&ndash;814.</li>
     <li>Shell and C3 AI, <a href="https://www.businesswire.com/news/home/20220308005567/en/Shell-Achieves-Major-Milestone-Scales-Artificial-Intelligence-Predictive-Maintenance-to-10000-Pieces-of-Equipment-Using-C3-AI" rel="noopener">Shell scales AI predictive maintenance to 10,000 pieces of equipment</a>, March 2022.</li>
     <li>World Economic Forum Global Lighthouse Network: <a href="https://www.outlookbusiness.com/news/jubilant-ingrevia-from-india-joins-wefs-global-lighthouse-network" rel="noopener">Jubilant Ingrevia</a> (2024), <a href="https://manufacturingchemist.com/dr-reddy-s-hyderabad-factory-joins-global-lighthouse-network-204386" rel="noopener">Dr. Reddy&rsquo;s Bachupally</a> (2022), <a href="https://www.indianpharmapost.com/digitisation/lite/ciplas-indore-plant-joins-the-wefs-lighthouse-network-13148" rel="noopener">Cipla Indore</a> (2022), <a href="https://www.weforum.org/press/2026/01/global-lighthouse-network-recognizes-23-new-sites-launches-ai-platform-for-industrial-transformation/" rel="noopener">January 2026 cohort</a>.</li>

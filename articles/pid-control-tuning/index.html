@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -55,14 +55,14 @@ structured_data: |
             "name": "How do you tune a PI controller simply?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Do a step test to find the process gain K, time constant tau and dead time theta, then use the IMC rules: Kc = tau / (K x (lambda + theta)) and Ti = tau, with lambda about equal to the dead time or larger for gentler control."
+              "text": "Do a step test to find the process gain K, time constant tau and dead time theta, then use the IMC-based (lambda) tuning rules: Kc = tau / (K x (lambda + theta)) and Ti = tau, with lambda about equal to the dead time or larger for gentler control."
             }
           }
         ]
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -89,7 +89,7 @@ last_modified_at: 2026-10-20
   <ul>
     <li><strong>Proportional (K<sub>c</sub>):</strong> output proportional to the error now. More gain gives a faster response but, beyond a point, oscillation. Proportional action alone leaves a steady offset.</li>
     <li><strong>Integral (T<sub>i</sub>):</strong> keeps adding output while any error remains, so it removes the offset. A short integral time (strong integral action) causes overshoot and slow oscillation.</li>
-    <li><strong>Derivative (T<sub>d</sub>):</strong> reacts to how fast the error is changing, damping overshoot on slow processes. It amplifies noise, so it is often left at zero, except on slow temperature loops.</li>
+    <li><strong>Derivative (T<sub>d</sub>):</strong> reacts to how fast the error is changing, damping overshoot on slow processes. It amplifies noise, so it is often left at zero, except on slow temperature loops, and then with a filter.</li>
   </ul>
 
   <h2 id="proc">Know the process: gain, lag and dead time <span class="lvl l2">Working level</span></h2>
@@ -102,7 +102,7 @@ last_modified_at: 2026-10-20
   <p>Dead time is what limits control. The bigger &theta; is compared with &tau;, the gentler the tuning must be. Find these three numbers with a simple step test: put the controller in manual, change the output by 5&ndash;10 %, and record the PV.</p>
 
   <h2 id="tune">Tuning: a simple, safe method <span class="lvl l2">Working level</span></h2>
-  <p>The IMC (internal model control) rules give robust PI settings from the step test, with one choice: the desired closed-loop speed &lambda;. Choosing &lambda; equal to the dead time is a reasonable start; a larger &lambda; is gentler.</p>
+  <p>The IMC-based (lambda) tuning rules give robust PI settings from the step test, with one choice: the desired closed-loop speed &lambda;. Choosing &lambda; equal to the dead time is a reasonable start; a larger &lambda; is gentler.</p>
   <div class="formula-box">K<sub>c</sub> = &tau; / [K &times; (&lambda; + &theta;)] &nbsp;&nbsp; T<sub>i</sub> = &tau;</div>
   <p>For a process with K = 1, &tau; = 10 min and &theta; = 2 min, with &lambda; = 2 min: K<sub>c</sub> = 2.5 and T<sub>i</sub> = 10 min. Compare that with a loop left at K<sub>c</sub> = 1 and T<sub>i</sub> = 5 min: slower to start, but overshooting because the integral is too strong.</p>
   <figure class="art-fig" data-fig="pid">
@@ -134,7 +134,7 @@ last_modified_at: 2026-10-20
   <h3>What is cascade control on a reactor?</h3>
   <p>A batch controller setting a jacket controller, which moves the valves.</p>
   <h3>How do you tune a PI controller simply?</h3>
-  <p>Step test, then IMC: K<sub>c</sub> = &tau;/[K(&lambda;+&theta;)], T<sub>i</sub> = &tau;.</p>
+  <p>Step test, then lambda tuning: K<sub>c</sub> = &tau;/[K(&lambda;+&theta;)], T<sub>i</sub> = &tau;.</p>
 
   <h2>Sources and further reading</h2>
   <ul class="art-sources">

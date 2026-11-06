@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -121,8 +121,8 @@ last_modified_at: 2026-10-20
   <p>When the existing layers don't reach the target, the usual answer is a <strong>safety instrumented function (SIF)</strong>: its own sensor, logic solver and final element, separate from the control system. Its <strong>safety integrity level (SIL)</strong> is set by the risk reduction still needed:</p>
   <ul>
     <li>Gap up to 10&times;: no SIF needed if another IPL can do it; otherwise SIL 1 is ample.</li>
-    <li>Gap of 10&ndash;100&times;: SIL 1.</li>
-    <li>Gap of 100&ndash;1,000&times;: SIL 2.</li>
+    <li>Gap of more than 10&times; and up to 100&times;: SIL 1.</li>
+    <li>Gap of more than 100&times; and up to 1,000&times;: SIL 2.</li>
     <li>Gap above 1,000&times;: SIL 3 is possible but rare and expensive in chemical plants; usually it is better to change the process (smaller batch, slower dosing, a different solvent).</li>
   </ul>
   <p>SIL is a property of the whole function, not of a transmitter. A SIL 2 sensor connected to a single solenoid valve that is never tested doesn't make a SIL 2 function. Achieving the SIL depends on the architecture (one or two sensors and valves), the failure rates of each part, and how often it is proof tested, all calculated under IEC 61511.</p>

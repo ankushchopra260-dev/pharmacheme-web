@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -47,7 +47,7 @@ structured_data: |
             "name": "Is it safer to run an exothermic reaction colder?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Not always. A colder reaction is slower, so more reagent accumulates during dosing. In the example on this page, dosing over 4 hours at 60 C gives an MTSR of about 80 C, but the same dosing at 40 C gives about 126 C."
+              "text": "Not always. A colder reaction is slower, so more reagent accumulates during dosing. In the example on this page, dosing over 4 hours at 60 C gives an MTSR of about 80 C, but the same dosing at 40 C, if the reaction rate quarters, gives about 108 C."
             }
           },
           {
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -116,11 +116,11 @@ last_modified_at: 2026-10-20
     Cooling capacity = U &times; A &times; (T<sub>batch</sub> &minus; T<sub>jacket</sub>)
   </div>
   <p>In the example, the total heat is 3,000 &times; 62 = 1,86,000 kcal. Over 4 hours that is about 46,500 kcal/h; over 1 hour, about 1,86,000 kcal/h. If the jacket can remove about 60,000 kcal/h (U &times; A of 1,200 kcal/h&middot;&deg;C and 50 &deg;C between batch and cooling water), the 4-hour dosing is controllable and the 1-hour dosing is not: the temperature will rise even with the cooling working perfectly.</p>
-  <p>This check is why a dosing time that worked in the lab often fails at scale. The lab flask has ten times more cooling area per litre than a plant reactor, so it could absorb a fast addition that the plant cannot. The <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up article</a> explains why the area per volume falls.</p>
+  <p>This check is why a dosing time that worked in the lab often fails at scale. The lab flask has ten times or more cooling area per litre than a plant reactor, so it could absorb a fast addition that the plant cannot. The <a href="{{ '/articles/mixing-scale-up/' | relative_url }}">mixing scale-up article</a> explains why the area per volume falls.</p>
 
   <h2 id="colder">Why colder is not always safer <span class="lvl l3">Going deeper</span></h2>
   <p>A natural instinct with an exotherm is to run it colder. It feels safer: more margin to the boiling point. But a colder reaction is slower, and a slower reaction accumulates more reagent during dosing.</p>
-  <p>In the example, dosing over 4 hours at 60 &deg;C gives an MTSR of about 80 &deg;C. The same dosing at 40 &deg;C gives about 126 &deg;C, because the reaction rate roughly quarters and reagent piles up. The batch is cooler while it runs, but much more dangerous if cooling fails. Worse, a reaction that is too cold may stall almost completely; if someone then warms it up, everything accumulated reacts at once.</p>
+  <p>In the example, dosing over 4 hours at 60 &deg;C gives an MTSR of about 80 &deg;C. The same dosing at 40 &deg;C gives about 108 &deg;C if the reaction rate roughly quarters, because reagent piles up. The batch is cooler while it runs, but much more dangerous if cooling fails. Worse, a reaction that is too cold may stall almost completely; if someone then warms it up, everything accumulated reacts at once.</p>
   <p>That is why many dosing steps have a <em>minimum</em> temperature interlock as well as a maximum: no dosing below the temperature at which the reaction is known to keep up.</p>
 
   <h2 id="protect">Protecting a dosing step <span class="lvl l3">Going deeper</span></h2>

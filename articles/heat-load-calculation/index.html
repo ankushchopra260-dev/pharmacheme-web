@@ -27,7 +27,7 @@ structured_data: |
           "name": "PharmaChemE",
           "url": "https://www.pharmacheme.in/"
         },
-        "dateModified": "2026-11-03",
+        "dateModified": "2026-11-06",
         "datePublished": "2026-09-30"
       },
       {
@@ -61,7 +61,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-03
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -126,7 +126,7 @@ last_modified_at: 2026-11-03
     t = 42 &times; ln[(143.6 &minus; 30) / (143.6 &minus; 80)] = 42 &times; ln(1.79) &asymp; 25 min
   </div>
   <p>Now cool it back from 80 to 40 &deg;C with cooling water at 32 &deg;C:</p>
-  <div class="formula-box">t = 42 &times; ln[(80 &minus; 32) / (40 &minus; 32)] = 42 &times; ln(6) &asymp; 76 min</div>
+  <div class="formula-box">t = 42 &times; ln[(80 &minus; 32) / (40 &minus; 32)] = 42 &times; ln(6) &asymp; 75 min</div>
   <p>Three times longer for a smaller temperature change. When the batch is at 40 &deg;C, the cooling water has only 8 &deg;C of driving force left. This is why plants switch to chilled water or brine for the last part of a cool-down.</p>
   <figure class="art-fig" data-fig="heatup">
     <figcaption>Try it: the same 4,000 kg batch on steam, on hot water, or being cooled. Notice how hot water at 90 &deg;C takes three times as long as steam to reach 80 &deg;C, because the driving force near the end is only 10 &deg;C. Raising U (a clean jacket, better agitation) shortens every case.</figcaption>
@@ -154,7 +154,7 @@ last_modified_at: 2026-11-03
   <h2 id="u">What sets U, and how it decays <span class="lvl l3">Going deeper</span></h2>
   <p>U is not one property; it is several resistances in series, like resistors in a circuit:</p>
   <div class="formula-box">1/U = 1/h<sub>inside</sub> + wall thickness / k<sub>wall</sub> + 1/h<sub>jacket</sub> + fouling resistances</div>
-  <p>The biggest one wins. In a glass-lined reactor the glass layer (k &asymp; 0.86 kcal/h&middot;m&middot;&deg;C) is a large resistance, so U is typically 215&ndash;345 kcal/h&middot;m&sup2;&middot;&deg;C. In stainless steel with good agitation and steam, 430&ndash;690 is common. Viscous batches, poor agitation and scale in the jacket all pull it down.</p>
+  <p>The biggest one wins. In a glass-lined reactor the glass layer (k &asymp; 0.86 kcal/h&middot;m&middot;&deg;C) is a large resistance, so U is typically 170&ndash;345 kcal/h&middot;m&sup2;&middot;&deg;C. In stainless steel with good agitation and steam, 430&ndash;690 is common. Viscous batches, poor agitation and scale in the jacket all pull it down.</p>
   <p>The practical check: record the heat-up time of a standard batch when the reactor is clean. If the same batch takes 30 % longer a year later, U has dropped by about 30 %, and the jacket probably needs descaling. Hot water jackets scale faster than steam jackets because of the hard water circulating through them.</p>
 
   <h2>Mistakes I see most often</h2>

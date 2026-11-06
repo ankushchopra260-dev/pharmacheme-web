@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -99,7 +99,7 @@ last_modified_at: 2026-10-20
 
   <h2 id="level">Level <span class="lvl l2">Working level</span></h2>
   <ul>
-    <li><strong>Differential pressure:</strong> level = &Delta;P / (&rho; g). Accurate only if the density is right; a change from water to toluene (1,000 to 867 kg/m&sup3;) shifts the reading by 15 %.</li>
+    <li><strong>Differential pressure:</strong> level = &Delta;P / (&rho; g). Accurate only if the density is right; a change from water to toluene (1,000 to 867 kg/m&sup3;) makes a water-calibrated transmitter read about 13 % low.</li>
     <li><strong>Radar (non-contact) and guided-wave radar:</strong> unaffected by density; foam, vapour and agitators can confuse non-contact radar.</li>
     <li><strong>Load cells:</strong> weigh the whole vessel; excellent for batch charging and mass balances, but piping stresses, nitrogen pressure and agitator vibration affect them.</li>
     <li><strong>Sight glass and level gauges:</strong> local check; keep them clean and protected.</li>
@@ -110,7 +110,7 @@ last_modified_at: 2026-10-20
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Meter</th><th>How it works</th><th>Good for</th><th>Limitations</th></tr>
     <tr><td>Orifice plate (DP)</td><td>Flow &prop; &radic;&Delta;P across a restriction</td><td>Clean liquids, gases, steam; cheap</td><td>Narrow turndown (about 3&ndash;4:1); permanent pressure loss</td></tr>
-    <tr><td>Magnetic</td><td>Voltage induced in a conductive liquid moving through a magnetic field</td><td>Water, aqueous solutions, slurries</td><td>Does not work with solvents and other non-conductive liquids</td></tr>
+    <tr><td>Magnetic</td><td>Voltage induced in a conductive liquid moving through a magnetic field</td><td>Water, aqueous solutions, slurries</td><td>Does not work with most organic solvents and other non-conductive liquids</td></tr>
     <tr><td>Coriolis</td><td>Mass flow from the twisting of vibrating tubes</td><td>Mass flow and density of any liquid; batch dosing</td><td>Cost; pressure drop in small sizes</td></tr>
     <tr><td>Vortex</td><td>Frequency of vortices shed from a bluff body</td><td>Steam, gases, clean liquids</td><td>Needs a minimum velocity</td></tr>
     <tr><td>Rotameter</td><td>Float rises in a tapered tube</td><td>Local indication, nitrogen and small flows</td><td>Reading depends on density; no signal unless fitted</td></tr>

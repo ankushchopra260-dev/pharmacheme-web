@@ -30,7 +30,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-21",
-        "dateModified": "2026-11-02"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -63,7 +63,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-02
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <link rel="stylesheet" href="{{ '/assets/css/digital-articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
@@ -135,7 +135,7 @@ last_modified_at: 2026-11-02
   </table></div>
 
   <h2 id="compression">Compression: how much detail is kept <span class="lvl l2">Working level</span></h2>
-  <p>Storing every value every second for every tag is expensive, so historians discard points that add no information. <b>Deadband</b> (exception) compression discards small changes within a set band; it suits stepwise signals such as valve positions and levels. <b>Swinging door</b> compression keeps the points needed to represent the shape of a smooth signal, and is better for continuous data such as pressure and temperature. Set the band too wide and short spikes (the ones investigations need) disappear.</p>
+  <p>Storing every value every second for every tag is expensive, so historians discard points that add no information. <b>Deadband</b> (exception) compression discards small changes within a set band; it usually suits stepwise signals such as valve positions and levels. <b>Swinging door</b> compression keeps the points needed to represent the shape of a smooth signal, and is usually better for continuous data such as pressure and temperature. Set the band too wide and short spikes (the ones investigations need) disappear.</p>
   <div class="dx-box">
     <h3>Compression demo</h3>
     <p class="dx-sub">Simulated reactor temperature over one hour, sampled every 10 s, with a short spike at 38 minutes. Widen the deadband and watch what is lost.</p>

@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -55,14 +55,14 @@ structured_data: |
             "name": "What overall U can a reactor jacket achieve?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Roughly 170 to 520 kcal/h m2 C for stainless steel reactors with liquid utilities, depending on the jacket design and agitation, and about 170 to 345 kcal/h m2 C for glass-lined reactors."
+              "text": "Roughly 170 to 520 kcal/h m2 C for stainless steel reactors with liquid utilities, depending on the jacket design and agitation, and about 170 to 390 kcal/h m2 C for glass-lined reactors."
             }
           }
         ]
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -90,7 +90,7 @@ last_modified_at: 2026-10-20
   </ul>
 
   <h2 id="vel">Why jacket-side velocity matters <span class="lvl l1">Basics</span></h2>
-  <p>Take a 3 m&sup3; vessel, 1.6 m in diameter. A 50 mm conventional jacket has a flow area of about 0.27 m&sup2;. Twenty m&sup3;/h of cooling water flows through it at about 0.02 m/s: barely moving. The jacket-side film coefficient is then only a few hundred kcal/h&middot;m&sup2;&middot;&deg;C, set mostly by natural convection.</p>
+  <p>Take a 3 m&sup3; vessel, 1.6 m in diameter. A 50 mm conventional jacket has a flow area of about 0.26 m&sup2;. Twenty m&sup3;/h of cooling water flows through it at about 0.02 m/s: barely moving. The jacket-side film coefficient is then only a few hundred kcal/h&middot;m&sup2;&middot;&deg;C, set mostly by natural convection.</p>
   <p>The same 20 m&sup3;/h through an 80 NB half-pipe coil (flow area about 0.0024 m&sup2;) runs at over 2 m/s, and the film coefficient rises to around 6,500 kcal/h&middot;m&sup2;&middot;&deg;C. Agitation nozzles in a conventional jacket, which inject water tangentially to create swirl, give something in between.</p>
   <figure class="art-fig" data-fig="jacket">
     <figcaption>Try it: change the cooling water flow and compare the overall U for three jacket designs on the same stainless steel reactor.</figcaption>
@@ -99,7 +99,7 @@ last_modified_at: 2026-10-20
   <h2 id="u">Film coefficients and overall U <span class="lvl l2">Working level</span></h2>
   <div class="formula-box">1/U = 1/h<sub>process</sub> + t<sub>wall</sub>/k<sub>wall</sub> + R<sub>fouling</sub> + 1/h<sub>jacket</sub></div>
   <p>The overall coefficient is limited by the worst resistance. With a slow conventional jacket, the jacket side dominates and U is about 190 kcal/h&middot;m&sup2;&middot;&deg;C. With agitation nozzles, U roughly doubles. With a half-pipe coil, the jacket side almost disappears from the sum, and U is limited by the process side and the wall: about 470 kcal/h&middot;m&sup2;&middot;&deg;C in this example. Going faster on the jacket side beyond this gains little.</p>
-  <p>For glass-lined vessels, the glass layer (about 1&ndash;2 mm, with thermal conductivity around 0.86 kcal/h&middot;m&middot;&deg;C) adds a resistance of the same order as the process film, so U is usually 170&ndash;345 kcal/h&middot;m&sup2;&middot;&deg;C whatever the jacket. Improving the process side, with better agitation, often helps more there.</p>
+  <p>For glass-lined vessels, the glass layer (about 1&ndash;2 mm, with thermal conductivity around 0.86 kcal/h&middot;m&middot;&deg;C) adds a resistance of the same order as the process film, so U is usually about 170&ndash;390 kcal/h&middot;m&sup2;&middot;&deg;C whatever the jacket. Improving the process side, with better agitation, often helps more there.</p>
 
   <h2 id="util">Steam, water, brine and thermic fluid <span class="lvl l2">Working level</span></h2>
   <ul>
@@ -134,7 +134,7 @@ last_modified_at: 2026-10-20
   <h3>Why is cooling slow in a conventional jacket?</h3>
   <p>Water moves very slowly in the wide annulus, so the film coefficient is low.</p>
   <h3>What overall U can a reactor jacket achieve?</h3>
-  <p>About 170&ndash;520 kcal/h&middot;m&sup2;&middot;&deg;C for stainless, 170&ndash;345 for glass-lined.</p>
+  <p>About 170&ndash;520 kcal/h&middot;m&sup2;&middot;&deg;C for stainless, 170&ndash;390 for glass-lined.</p>
 
   <h2>Sources and further reading</h2>
   <ul class="art-sources">

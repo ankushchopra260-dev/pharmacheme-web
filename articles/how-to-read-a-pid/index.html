@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-11-02"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-02
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -102,7 +102,7 @@ last_modified_at: 2026-11-02
   <p>The legend sheet, usually the first sheet in the set, defines the codes and symbols for that project. Read it before anything else.</p>
 
   <h2 id="lines">Lines and line numbers <span class="lvl l1">Basics</span></h2>
-  <p>A thick solid line is a main process line; a thinner solid line is a secondary or utility line. Instrument signals are drawn differently: dashed lines for electrical signals, lines with short cross-hatches for pneumatic (air) signals, and a line of small circles or a dash-dot pattern for software or data links. Arrows show the direction of flow, and an off-page connector (an arrow-shaped box) shows where the line continues on another sheet.</p>
+  <p>A thick solid line is a main process line; a thinner solid line is a secondary or utility line. Instrument signals are drawn differently: dashed lines for electrical signals, lines with short cross-hatches for pneumatic (air) signals, and a line of small circles for software or data links. Arrows show the direction of flow, and an off-page connector (an arrow-shaped box) shows where the line continues on another sheet.</p>
   <p>Every pipe has a line number. A typical format:</p>
   <div class="formula-box">50 &ndash; PS &ndash; 101 &ndash; A1
     <small>50: nominal size in mm (or 2&Prime;). PS: service code, here process solvent. 101: sequence number. A1: piping class, which fixes material, pressure rating, gasket and valve types. Some formats add insulation or tracing codes at the end.</small></div>
@@ -176,7 +176,7 @@ last_modified_at: 2026-11-02
   <ul>
     <li>No line: mounted in the field, locally.</li>
     <li>Solid line: in the main control room panel.</li>
-    <li>Dashed line: behind the panel or in a local panel.</li>
+    <li>Dashed line: auxiliary location, for example a local panel. A dotted line means behind the panel.</li>
     <li>A circle inside a square: a function in the DCS or PLC, shown on the operator screen.</li>
   </ul>
   <p>Inside the bubble are letters and a loop number, following ISA-5.1. The <strong>first letter</strong> is what is measured; the <strong>following letters</strong> are what the instrument does.</p>
@@ -233,7 +233,7 @@ last_modified_at: 2026-11-02
 
   <h2>Sources and further reading</h2>
   <ul class="art-sources">
-    <li>ANSI/ISA-5.1: Instrumentation symbols and identification</li>
+    <li>ANSI/ISA-5.1: Instrumentation symbols and identification (2024 edition; older drawings follow the 2009 edition)</li>
   </ul>
 
   <div class="related-box">

@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -55,14 +55,14 @@ structured_data: |
             "name": "How much energy does a VFD save on a pump?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "With mostly friction head, power falls with the cube of speed: at 70% flow a VFD needs about 34% of full power, compared with 80 to 90% for a throttled pump. Static head reduces the saving."
+              "text": "With mostly friction head, power falls with the cube of speed: at 70% flow a VFD needs about 34% of full power, compared with roughly 85 to 90% for a throttled pump, depending on the pump curve. Static head reduces the saving."
             }
           }
         ]
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -97,7 +97,7 @@ last_modified_at: 2026-10-20
     Salt rejection (%) = (1 &minus; permeate TDS / feed TDS) &times; 100<br>
     Reject TDS = (feed &times; feed TDS &minus; permeate &times; permeate TDS) / reject flow
   </div>
-  <p>A 20 m&sup3;/h feed at 900 ppm making 15 m&sup3;/h of 25 ppm permeate: recovery 75 %, rejection 97.2 %, and the 5 m&sup3;/h reject carries about 3,500 ppm, almost four times the feed. That concentration factor is what limits recovery: calcium carbonate, calcium sulphate and silica come out of solution on the last membranes if it goes too high. Antiscalant dosing and the reject water chemistry (LSI) set the limit, typically 70&ndash;80 % for a two-stage brackish water RO.</p>
+  <p>A 20 m&sup3;/h feed at 900 ppm making 15 m&sup3;/h of 25 ppm permeate: recovery 75 %, rejection 97.2 %, and the 5 m&sup3;/h reject carries about 3,500 ppm, almost four times the feed. That concentration factor is what limits recovery: calcium carbonate, calcium sulphate and silica come out of solution on the last membranes if it goes too high. Antiscalant dosing and the reject water chemistry (LSI) set the limit, roughly 70&ndash;85 % for brackish water RO, set by scaling limits.</p>
   <p>Trend three things daily: normalised permeate flow (fouling), salt passage (membrane damage or O-ring leaks), and differential pressure across each stage (fouling or scaling in that stage). Temperature changes flow by about 3 % per &deg;C, so compare normalised values, not raw ones.</p>
 
   <h2 id="dg">DG set: cost per unit and loading <span class="lvl l2">Working level</span></h2>
@@ -106,7 +106,7 @@ last_modified_at: 2026-10-20
     Cost per kWh = diesel price / specific energy<br>
     Loading (%) = kW / (kVA rating &times; 0.8) &times; 100
   </div>
-  <p>A 1,010 kVA set carrying 560 kW is about 69 % loaded. At 3.4 kWh per litre and &#8377;90 per litre, each unit costs about &#8377;26.5, more than three times a typical grid unit. The same set carrying only 200 kW may give 2.6 kWh per litre, pushing the cost to about &#8377;35 per unit; long running below about 40 % load also causes wet-stacking (unburnt fuel in the exhaust). With several DG sets, run as few as the load needs, each at 60&ndash;80 %, and shed non-essential loads during grid failure.</p>
+  <p>A 1,010 kVA set carrying 560 kW is about 69 % loaded. At 3.4 kWh per litre and &#8377;90 per litre, each unit costs about &#8377;26.5, more than three times a typical grid unit. The same set carrying only 200 kW may give 2.6 kWh per litre, pushing the cost to about &#8377;35 per unit; long running below about 30&ndash;40 % load also causes wet-stacking (unburnt fuel in the exhaust). With several DG sets, run as few as the load needs, each at 60&ndash;80 %, and shed non-essential loads during grid failure.</p>
 
   <h2 id="pf">Power factor correction <span class="lvl l2">Working level</span></h2>
   <div class="formula-box">
@@ -120,13 +120,13 @@ last_modified_at: 2026-10-20
     Input power (kW) = &radic;3 &times; V &times; I &times; PF / 1,000<br>
     Loading (%) = input kW &times; efficiency / rated kW &times; 100
   </div>
-  <p>A 37 kW motor drawing 52 A at 415 V and 0.85 PF takes about 31.8 kW of input, so it is about 80 % loaded. Measure the PF with a power analyser; at light load it falls sharply and estimating it overstates the power. Motors below about 40&ndash;50 % load waste energy in both efficiency and PF. Replace a badly oversized motor at its next rewind with a correctly sized IE3 motor, or use a VFD where the load varies.</p>
+  <p>A 37 kW motor drawing 52 A at 415 V and 0.85 PF takes about 31.8 kW of input, so at about 93 % motor efficiency it is about 80 % loaded. Measure the PF with a power analyser; at light load it falls sharply and estimating it overstates the power. Motors below about 40&ndash;50 % load waste energy in both efficiency and PF. Replace a badly oversized motor at its next rewind with a correctly sized IE3 motor, or use a VFD where the load varies.</p>
 
   <h2 id="vfd">VFD savings: the affinity laws <span class="lvl l3">Going deeper</span></h2>
   <div class="formula-box">
     Flow &prop; N &nbsp;&nbsp; Head &prop; N&sup2; &nbsp;&nbsp; Power &prop; N&sup3; (for a system with only friction head)
   </div>
-  <p>A 45 kW pump throttled to 70 % flow with a discharge valve still draws about 85&ndash;90 % of its full-flow power, because the pump runs up its curve against the valve. Slowing it to 70 % speed needs only 0.7&sup3; &asymp; 34 % of the power, plus 2&ndash;3 % VFD losses: about 16 kW instead of about 40 kW, a saving of about &#8377;15 lakh a year at &#8377;8/kWh over 8,000 hours.</p>
+  <p>A 45 kW pump throttled to 70 % flow with a discharge valve still draws roughly 85&ndash;90 % of its full-flow power on a typical pump curve (flatter curves draw somewhat less), because the pump runs up its curve against the valve. Slowing it to 70 % speed needs only 0.7&sup3; &asymp; 34 % of the power, plus 2&ndash;3 % VFD losses: about 16 kW instead of about 40 kW, a saving of about &#8377;15 lakh a year at &#8377;8/kWh over 8,000 hours.</p>
   <p>Two cautions. With a large static head, such as lifting water to an overhead tank, the pump still has to produce that head at low speed, so the saving is much less than the cube law suggests. And below a certain speed the pump stops delivering at all; check the pump curve against the system curve before choosing a minimum speed. Fans and cooling water pumps with mostly friction head are the best candidates.</p>
 
   <figure class="art-fig" data-fig="affinity">
@@ -138,7 +138,7 @@ last_modified_at: 2026-10-20
   <h3>Does a higher power factor reduce the electricity bill?</h3>
   <p>It reduces the kVA demand charge, avoids PF penalties (or earns incentives) and lowers losses in your own distribution. The kWh consumed by the load stays the same.</p>
   <h3>What RO recovery is normal?</h3>
-  <p>About 70&ndash;80 % for a two-stage brackish water RO with antiscalant. Higher recovery needs better pretreatment and careful control of scaling.</p>
+  <p>Roughly 70&ndash;85 % for brackish water RO with antiscalant, set by scaling limits. Higher recovery needs better pretreatment and careful control of scaling.</p>
 
   <h2>Sources and further reading</h2>
   <ul class="art-sources">

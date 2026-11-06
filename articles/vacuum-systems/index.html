@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-11-02"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -55,14 +55,14 @@ structured_data: |
             "name": "How do you measure an air leak into a vacuum system?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Use a rate-of-rise test: evacuate, isolate the pump and record how fast the pressure rises. Leak (kg/h) is about V x (dP / 1013) x 1.19 per unit time, with V in m3 and dP in mbar. A 6 m3 system rising 20 mbar in 10 minutes leaks about 0.85 kg/h of air."
+              "text": "Use a rate-of-rise test: evacuate, isolate the pump and record how fast the pressure rises. Leak (kg/h) is about V x (dP / 1013) x 1.2 per unit time, with V in m3 and dP in mbar. A 6 m3 system rising 20 mbar in 10 minutes leaks about 0.85 kg/h of air."
             }
           }
         ]
       }
     ]
   }
-last_modified_at: 2026-11-02
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -91,8 +91,8 @@ last_modified_at: 2026-11-02
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Pump</th><th>Typical lowest pressure</th><th>Good for</th><th>Watch out for</th></tr>
     <tr><td>Liquid ring (water seal)</td><td>40&ndash;60 mbar</td><td>Wet, dirty, solvent-laden gas; simple and robust</td><td>Seal water boils at its vapour pressure; solvent ends up in the seal water</td></tr>
-    <tr><td>Dry screw</td><td>0.01&ndash;1 mbar</td><td>Solvent recovery at the discharge, no effluent</td><td>Deposits and polymerising vapours; needs a condenser before it</td></tr>
-    <tr><td>Steam ejector</td><td>Depends on stages; 1&ndash;50 mbar</td><td>No moving parts, large volumes, deep vacuum</td><td>Steam use; contaminated condensate</td></tr>
+    <tr><td>Dry screw</td><td>0.01&ndash;1 mbar (typical ultimate pressure, depends on model)</td><td>Solvent recovery at the discharge, no effluent</td><td>Deposits and polymerising vapours; needs a condenser before it</td></tr>
+    <tr><td>Steam ejector</td><td>Depends on stages; about 1&ndash;50 mbar (typical, varies with design)</td><td>No moving parts, large volumes, deep vacuum</td><td>Steam use; contaminated condensate</td></tr>
     <tr><td>Roots booster</td><td>Adds a stage in front of another pump</td><td>Speeding up pump-down below 100 mbar</td><td>Can't work against atmosphere alone</td></tr>
   </table></div>
   <p>A liquid ring pump's limit comes from its seal liquid: the ring of water inside boils at the suction pressure. Water at 30 &deg;C has a vapour pressure of 42 mbar, so with warm seal water the pump stalls near 50&ndash;60 mbar. In summer, when the cooling water is warmer, the vacuum gets worse; that seasonal pattern is often the first clue.</p>
@@ -114,9 +114,9 @@ last_modified_at: 2026-11-02
     <li>Close the valve to the pump and start a stopwatch.</li>
     <li>Record the pressure every minute for 10&ndash;15 minutes.</li>
   </ol>
-  <div class="formula-box">Air leak (kg/h) &asymp; V &times; (&Delta;P / 1,013) &times; 1.19 &times; (60 / &Delta;t)
-    <small>V in m&sup3;, &Delta;P in mbar, &Delta;t in minutes, 1.19 kg/m&sup3; is the density of air at 20 &deg;C and atmospheric pressure.</small></div>
-  <p>A 6 m&sup3; system that rises 20 mbar in 10 minutes leaks about 6 &times; 20/1,013 &times; 1.19 &times; 6 &asymp; 0.85 kg/h of air. If the pressure rises quickly at first and then levels off, it is probably something evaporating (water or solvent left in the system), not a leak; a true leak gives a steady straight-line rise. Record the result after each shutdown and you will have a trend that tells you when the gaskets need attention.</p>
+  <div class="formula-box">Air leak (kg/h) &asymp; V &times; (&Delta;P / 1,013) &times; 1.2 &times; (60 / &Delta;t)
+    <small>V in m&sup3;, &Delta;P in mbar, &Delta;t in minutes, 1.2 kg/m&sup3; is the approximate density of air at 20 &deg;C and atmospheric pressure.</small></div>
+  <p>A 6 m&sup3; system that rises 20 mbar in 10 minutes leaks about 6 &times; 20/1,013 &times; 1.2 &times; 6 &asymp; 0.85 kg/h of air. If the pressure rises quickly at first and then levels off, it is probably something evaporating (water or solvent left in the system), not a leak; a true leak gives a steady straight-line rise. Record the result after each shutdown and you will have a trend that tells you when the gaskets need attention.</p>
   <p>To find a leak, isolate sections one at a time and repeat the test, or use an ultrasonic leak detector on flanges and seals while the system is under vacuum.</p>
 
   <h2 id="cond">The condenser decides the solvent loss <span class="lvl l3">Going deeper</span></h2>

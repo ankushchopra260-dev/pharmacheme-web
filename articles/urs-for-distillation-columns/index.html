@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-11-04",
-        "dateModified": "2026-11-04"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -70,7 +70,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-04
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
@@ -120,9 +120,9 @@ last_modified_at: 2026-11-04
     Condenser duty Q<sub>c</sub> = V &times; &lambda; = (200 / 3600) &times; 360 = 20 kW<br>
     Reboiler duty Q<sub>r</sub> &asymp; Q<sub>c</sub> + losses &asymp; 22 kW
   </div>
-  <p>A second form of the same check starts from the product rate. At a distillate rate of 50 kg/h and a reflux ratio of 3, the condenser must handle four times the product flow, which is why reflux ratio dominates energy cost. Doubling the reflux ratio to 6 raises the vapour rate to 350 kg/h and the condenser duty to about 35 kW.</p>
+  <p>A second form of the same check starts from the product rate. At a distillate rate of 50 kg/h and a reflux ratio of 3, the condenser must handle four times the product flow, which is why reflux ratio dominates energy cost. Doubling the reflux ratio to 6 at the same distillate rate raises the vapour rate to 350 kg/h and the condenser duty to about 35 kW, so at a fixed 200 kg/h vapour limit the distillate rate would have to fall to about 29 kg/h.</p>
   <p>Cooling water for the 20 kW condenser, with an 8 K rise, is 20,000 / (4,180 &times; 8) &asymp; 0.6 kg/s, which is about 2.2 m&sup3;/h. Write this into the URS as a utility demand, so the utilities team can check the headers. If the condenser runs on chilled brine at low temperature for a volatile solvent, state the brine temperature and flow instead. The <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">steam and condenser selection</a> article gives more on picking the duty and medium, and the <a href="{{ '/calculators/lmtd-calculator/' | relative_url }}">LMTD calculator</a> helps with the area.</p>
-<div class="art-table-wrap"><table class="art-table"><thead><tr><th>URS item</th><th>Example entry (illustrative)</th></tr></thead><tbody><tr><td>Service</td><td>Batch recovery of a process solvent from mother liquor, three cuts</td></tr><tr><td>Feed</td><td>2,000 kg batch, solvent about 80 %, water about 15 %, solids none, heavy ends about 5 %</td></tr><tr><td>Product</td><td>Solvent distillate at least 99.5 % with water under 0.2 %</td></tr><tr><td>Operating pressure</td><td>Atmospheric normal, vacuum down to 100 mbar abs for heat-sensitive batches</td></tr><tr><td>Duty</td><td>Vapour rate up to 200 kg/h, reflux ratio 1 to 6, reboiler about 22 kW</td></tr><tr><td>Internals</td><td>Structured packing, with distributor, redistributor and drain for complete emptying</td></tr><tr><td>Utilities</td><td>Steam at stated pressure, cooling water at hottest-day supply temperature</td></tr><tr><td>Materials</td><td>Stainless steel or glass-lined, selected for chloride and acid content of the feed</td></tr><tr><td>Cleaning</td><td>Spray device or CIP, drainable, with a changeover procedure between products</td></tr></tbody></table></div>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>URS item</th><th>Example entry (illustrative)</th></tr></thead><tbody><tr><td>Service</td><td>Batch recovery of a process solvent from mother liquor, three cuts</td></tr><tr><td>Feed</td><td>2,000 kg batch, solvent about 80 %, water about 15 %, solids none, heavy ends about 5 %</td></tr><tr><td>Product</td><td>Solvent distillate at least 99.5 % with water under 0.2 %</td></tr><tr><td>Operating pressure</td><td>Atmospheric normal, vacuum down to 100 mbar abs for heat-sensitive batches</td></tr><tr><td>Duty</td><td>Vapour rate up to 200 kg/h, reflux ratio 1 to 6 (distillate rate set so vapour stays at or below 200 kg/h), reboiler about 22 kW</td></tr><tr><td>Internals</td><td>Structured packing, with distributor, redistributor and drain for complete emptying</td></tr><tr><td>Utilities</td><td>Steam at stated pressure, cooling water at hottest-day supply temperature</td></tr><tr><td>Materials</td><td>Stainless steel or glass-lined, selected for chloride and acid content of the feed</td></tr><tr><td>Cleaning</td><td>Spray device or CIP, drainable, with a changeover procedure between products</td></tr></tbody></table></div>
   <h2 id="safety">Safety, materials and cleaning <span class="lvl l2">Working level</span></h2>
   <ul>
     <li><strong>Flammable solvents:</strong> the hazardous area classification, inerting with nitrogen, earthing and bonding, and control of static in receivers. Overpressure protection must cover blocked vapour outlet, loss of cooling, loss of vacuum and reboiler overheating. The relief cases are part of the design, and the URS should require the vendor to provide the data.</li>

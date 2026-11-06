@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-11-04",
-        "dateModified": "2026-11-04"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -70,7 +70,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-04
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
@@ -114,7 +114,7 @@ last_modified_at: 2026-11-04
   </ul>
   <p>Two equations sit behind most of these entries. The first gives the power the liquid receives. The second gives the suction pressure the pump can count on.</p>
   <div class="formula-box">
-    Hydraulic power (kW) = (Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>rho; Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; g Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; Q Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; H) / (3.6 Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / 3.6 &times; 10<sup>6</sup>times; 10<sup>6</sup>)<br>
+    Hydraulic power (kW) = &rho; &times; g &times; Q &times; H / (3.6 &times; 10<sup>6</sup>)<br>
     NPSHa = (P<sub>s</sub> &minus; P<sub>v</sub>) / (&rho; g) + z<sub>s</sub> &minus; h<sub>f</sub>
     <small>&rho; in kg/m&sup3;, Q in m&sup3;/h, H in m. P<sub>s</sub>: absolute pressure on the liquid surface. P<sub>v</sub>: vapour pressure at pumping temperature. z<sub>s</sub>: liquid level above the pump centreline. h<sub>f</sub>: suction line friction loss, in metres of liquid.</small>
   </div>
@@ -122,7 +122,7 @@ last_modified_at: 2026-11-04
   <h2 id="mech">Seals, materials, drive and the rest of the specification <span class="lvl l2">Working level</span></h2>
   <p>The third block covers the physical build. This is where many sites carry their own standard, so the URS should refer to it by document number rather than repeat it.</p>
   <ul>
-    <li><strong>Standard:</strong> many process plants ask for pumps to a recognised process pump standard such as API 610 or ISO 5199 for solvent and chemical duty. Lighter-duty or hygienic services may reference a different standard. State which, and any exceptions.</li>
+    <li><strong>Standard:</strong> many process plants ask for pumps to a recognised process pump standard such as API 610 (refinery duty, ISO 13709) or ISO 5199 (chemical process duty) for solvent and chemical duty. Lighter-duty or hygienic services may reference a different standard. State which, and any exceptions.</li>
     <li><strong>Shaft seal:</strong> single mechanical seal, double (pressurised barrier) seal, or sealless (magnetic drive or canned). Say which the process allows. Toxic or flammable solvents often call for a double seal or a sealless design. If a seal flush or barrier fluid is used, the URS should name the supply and say what happens if it fails. Seal failure is the most common pump failure, as the article on <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">pump and seal troubleshooting</a> explains.</li>
     <li><strong>Materials of construction</strong> for casing, impeller, shaft and seal faces and elastomers, with the corrosion basis. Glass-lined or lined pumps need a clear statement of the maximum temperature step, because lining does not tolerate thermal shock.</li>
     <li><strong>Hygienic design</strong> where it applies: drainable casing, surface finish, no dead legs, and product-contact materials documented. The ASME BPE standard is the usual reference for bioprocess and high-purity services.</li>
@@ -179,7 +179,7 @@ last_modified_at: 2026-11-04
     <li>API 610 and ISO 5199, process centrifugal pump standards (general reference)</li>
     <li>ASME BPE, bioprocessing equipment standard (general reference)</li>
     <li>ISPE Baseline Guide: Commissioning and Qualification, and ISPE GAMP guidance (general reference)</li>
-    <li>Hydraulic Institute, <i>Centrifugal Pump Design and Application</i> (NPSH and operating range concepts)</li>
+    <li>ANSI/HI 9.6.1, <i>Rotodynamic Pumps Guideline for NPSH Margin</i> (NPSH and operating range concepts)</li>
   </ul>
   <div class="related-box">
     <h3>Related</h3>

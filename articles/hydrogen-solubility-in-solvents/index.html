@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-20",
-        "dateModified": "2026-11-02"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -39,7 +39,7 @@ structured_data: |
             "name": "How much hydrogen dissolves in a solvent?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Very little: at 25 C and 1 bar of hydrogen, about 8 mg/L in methanol, 6 mg/L in toluene or IPA, and 1.6 mg/L in water. It rises in proportion to the hydrogen pressure, so 4 bar g gives about 39 mg/L in methanol."
+              "text": "Very little: at 25 C and 1 bar of hydrogen, about 8 mg/L in methanol, 6 mg/L in toluene (IPA estimated at about the same), and 1.6 mg/L in water. It rises in proportion to the hydrogen pressure, so 4 bar g gives about 39 mg/L in methanol."
             }
           },
           {
@@ -47,7 +47,7 @@ structured_data: |
             "name": "Does hydrogen dissolve better at higher temperature?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "In organic solvents, yes: the mole fraction rises by roughly 15 to 25 % from 25 to 50 C. In water it falls slightly up to about 50 C. At a fixed total pressure the solvent's vapour pressure rises too and takes away part of the hydrogen partial pressure."
+              "text": "In organic solvents, yes: the mole fraction rises by roughly 10 to 30 % from 25 to 50 C. In water it falls slightly up to about 60 C. At a fixed total pressure the solvent's vapour pressure rises too and takes away part of the hydrogen partial pressure."
             }
           },
           {
@@ -70,7 +70,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-02
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -78,7 +78,7 @@ last_modified_at: 2026-11-02
   <h1>Hydrogen Solubility in Solvents</h1>
   <p class="article-meta">Reaction Engineering &middot; Hydrogenation</p>
 
-  <p class="art-lede">Hydrogen barely dissolves in anything. At 25 &deg;C and 1 bar of hydrogen, a litre of methanol holds about 8 mg, toluene or IPA about 6 mg and water only 1.6 mg. The amount rises in proportion to pressure and, in organic solvents, slightly with temperature. Because the liquid holds so little, plant hydrogenations are almost always limited by how fast the gas dissolves, not by the catalyst.</p>
+  <p class="art-lede">Hydrogen barely dissolves in anything. At 25 &deg;C and 1 bar of hydrogen, a litre of methanol holds about 8 mg, toluene about 6 mg (IPA estimated at about the same) and water only 1.6 mg. The amount rises in proportion to pressure and, in organic solvents, slightly with temperature. Because the liquid holds so little, plant hydrogenations are almost always limited by how fast the gas dissolves, not by the catalyst.</p>
 
   <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
     <li><a href="#henry">Henry's law for hydrogen</a></li>
@@ -128,7 +128,7 @@ last_modified_at: 2026-11-02
   <p>The gas&ndash;liquid transfer rate is k<sub>L</sub>a &times; (C* &minus; C), and C* is this solubility. So doubling the hydrogen pressure roughly doubles the maximum rate at which hydrogen can reach the catalyst. That is why a reaction that crawls at 2 bar g can run well at 8 bar g in the same reactor.</p>
 
   <h2 id="temp">Temperature: the opposite of most gases</h2>
-  <p>Most gases dissolve less as the liquid warms. Hydrogen in organic solvents does the opposite: dissolving is slightly endothermic, so solubility rises with temperature. Brunner's measurements at BASF show the mole fraction rising by about 15&ndash;25 % from 25 to 50 &deg;C in ten common solvents. In water hydrogen solubility falls slightly up to about 50 &deg;C and then rises slowly.</p>
+  <p>Most gases dissolve less as the liquid warms. Hydrogen in organic solvents does the opposite: dissolving is slightly endothermic, so solubility rises with temperature. Brunner's measurements at BASF show the mole fraction rising by roughly 10&ndash;30 % from 25 to 50 &deg;C in ten common solvents. In water hydrogen solubility falls slightly up to about 60 &deg;C and then rises slowly.</p>
   <p>At a fixed total pressure there is a catch: the solvent's vapour pressure also rises and takes a growing share of the headspace. In toluene at 4 bar g the dissolved hydrogen goes from 29 mg/L at 25 &deg;C to 36 mg/L at 60 &deg;C and 39 mg/L at 80 &deg;C. In methanol, whose vapour pressure climbs quickly, the gain stops at around 40&ndash;50 &deg;C (an estimate: the methanol data end at 25 &deg;C). In practice, temperature mostly speeds up the reaction itself; its effect on solubility is modest.</p>
 
   <h2 id="solvent">Which solvent holds the most</h2>
@@ -167,9 +167,9 @@ last_modified_at: 2026-11-02
 
   <h2 id="faq">Questions people ask</h2>
   <h3>How much hydrogen dissolves in a solvent?</h3>
-  <p>Very little: at 25 &deg;C and 1 bar of hydrogen, about 8 mg/L in methanol, 6 mg/L in toluene or IPA, and 1.6 mg/L in water. It rises in proportion to the hydrogen pressure.</p>
+  <p>Very little: at 25 &deg;C and 1 bar of hydrogen, about 8 mg/L in methanol, 6 mg/L in toluene (IPA estimated at about the same), and 1.6 mg/L in water. It rises in proportion to the hydrogen pressure.</p>
   <h3>Does hydrogen dissolve better at higher temperature?</h3>
-  <p>In organic solvents, yes, by roughly 15&ndash;25 % from 25 to 50 &deg;C. In water it falls slightly up to about 50 &deg;C. At a fixed total pressure, the solvent's rising vapour pressure takes back part of the gain.</p>
+  <p>In organic solvents, yes, by roughly 10&ndash;30 % from 25 to 50 &deg;C. In water it falls slightly up to about 60 &deg;C. At a fixed total pressure, the solvent's rising vapour pressure takes back part of the gain.</p>
   <h3>Why is my hydrogenation slow at plant scale?</h3>
   <p>Usually because hydrogen cannot dissolve fast enough. Higher pressure and better gas dispersion help more than extra catalyst.</p>
   <h3>Is dissolved hydrogen a hazard when the reactor is opened?</h3>
@@ -179,7 +179,7 @@ last_modified_at: 2026-11-02
   <ol>
     <li>Brunner E., <i>J. Chem. Eng. Data</i> 30 (1985) 269&ndash;273: hydrogen in 10 organic solvents at 298, 323 and 373 K.</li>
     <li>Katayama T., Nitta T., <i>J. Chem. Eng. Data</i> 21 (1976) 194&ndash;195: hydrogen in alcohols and n-hexane.</li>
-    <li>Jaatinen S. et al., <i>J. Chem. Thermodyn.</i> 112 (2017) 1&ndash;6: hydrogen in 2-propanol.</li>
+    <li>Jaatinen S. et al., <i>J. Chem. Thermodyn.</i> 112 (2017) 1&ndash;6: hydrogen in furfural and 2-propanol.</li>
     <li>Young C.L. (ed.), <i>IUPAC Solubility Data Series</i> vol. 5/6 (1981): hydrogen in water.</li>
   </ol>
 

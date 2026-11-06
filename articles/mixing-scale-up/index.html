@@ -27,7 +27,7 @@ structured_data: |
           "name": "PharmaChemE",
           "url": "https://www.pharmacheme.in/"
         },
-        "dateModified": "2026-10-20",
+        "dateModified": "2026-11-06",
         "datePublished": "2026-09-30"
       },
       {
@@ -61,7 +61,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -137,7 +137,7 @@ last_modified_at: 2026-10-20
 
   <h2 id="choose">Which rule for which process <span class="lvl l2">Working level</span></h2>
   <ul>
-    <li><strong>Crystallisation and fragile solids: constant tip speed.</strong> Crystal breakage happens at the blade tips. Keep the tip speed the same as the lab (or below about 3&ndash;5 m/s) and accept slower blending.</li>
+    <li><strong>Crystallisation and fragile solids: constant tip speed.</strong> Crystal breakage happens mostly near the blade tips. Keep the tip speed the same as the lab (or below about 3&ndash;5 m/s) and accept slower blending.</li>
     <li><strong>Blending, heat transfer, reactions with dosing, liquid&ndash;liquid or gas&ndash;liquid dispersion: constant P/V.</strong> These depend on how much energy goes into the whole batch.</li>
     <li><strong>Keeping solids suspended:</strong> the just-suspended speed (Zwietering) scales as roughly D<sup>&minus;0.85</sup>, between the two rules. Constant P/V usually keeps solids off the bottom; constant tip speed may not. Check it.</li>
     <li><strong>Viscous batches</strong> (laminar flow): scale-up is about keeping the whole batch moving, usually with close-clearance impellers (anchors, helical ribbons); P/V rules don't apply.</li>
@@ -145,7 +145,7 @@ last_modified_at: 2026-10-20
   <div class="art-note"><b>On the plant</b><p>Most plant reactors are not scaled copies of the lab flask: a round-bottom flask with a magnetic stirrer is nothing like a baffled reactor with an anchor. When the geometry is different, use the rules only as a starting point, and confirm with a pilot run or at least a check of blend time and suspension at the chosen plant speed.</p></div>
 
   <h2 id="change">What changes no matter which rule you pick <span class="lvl l3">Going deeper</span></h2>
-  <p><strong>Blend time gets longer.</strong> In turbulent flow, the time to blend to 95 % uniformity is inversely proportional to speed for the same geometry. In the example, the lab blends in about 5 s; the plant takes about 25 s at constant P/V and about 55 s at constant tip speed. If your chemistry is fast compared with that (a quick neutralisation, a fast addition of a reactive reagent), the plant will see local hot spots or over-concentrated zones the lab never did. Slow the addition, or add near the impeller where mixing is most intense.</p>
+  <p><strong>Blend time gets longer.</strong> In turbulent flow, the time to blend to 95 % uniformity is inversely proportional to speed for the same geometry. In the example, the lab blends in about 5 s; the plant takes about 23 s at constant P/V and about 50 s at constant tip speed. If your chemistry is fast compared with that (a quick neutralisation, a fast addition of a reactive reagent), the plant will see local hot spots or over-concentrated zones the lab never did. Slow the addition, or add near the impeller where mixing is most intense.</p>
   <p><strong>Heat transfer area per volume falls.</strong> The vessel's surface area grows with diameter squared, its volume with diameter cubed. Ten times the diameter means one tenth the jacket area per cubic metre of batch. A reaction that was easy to cool in the lab can run hot in the plant even at the same P/V. This is the single most important reason why exothermic reactions need a proper heat balance before scale-up, not just a mixing calculation. See the <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">heat load article</a> and the <a href="{{ '/process-safety/cooling-failure-and-runaway/' | relative_url }}">cooling failure and runaway guide</a>.</p>
   <p><strong>Shear distribution widens.</strong> At constant P/V the plant has higher tip speed (here 3.4 m/s against 1.6 m/s) but slower average circulation. Crystals see brief, more violent passes through the impeller zone.</p>
 

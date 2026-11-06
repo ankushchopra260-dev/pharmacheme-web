@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -47,7 +47,7 @@ structured_data: |
             "name": "What oxygen level should an inerted reactor be kept at?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "NFPA 69 requires at least 2 percentage points below the LOC with continuous oxygen monitoring, or no more than 60 % of the LOC without it. With an LOC of 10 %, that means 8 % monitored or 6 % unmonitored."
+              "text": "NFPA 69 requires at least 2 percentage points below the LOC with continuous oxygen monitoring, or no more than 60 % of the LOC without it (60 % of the LOC is also used where the LOC is below 5 %, even with monitoring). With an LOC of 10 %, that means 8 % monitored or 6 % unmonitored."
             }
           },
           {
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -96,7 +96,7 @@ last_modified_at: 2026-10-20
 
   <h2 id="target">How low is low enough? <span class="lvl l2">Working level</span></h2>
   <p>Operating right at the LOC leaves no room for error: a small leak, a slow analyser or a gust of air through a manhole would put you into the flammable region. NFPA 69 sets the margin:</p>
-  <div class="formula-box">With continuous O<sub>2</sub> monitoring: operate at least 2 percentage points below LOC<br>Without continuous monitoring: no more than 60 % of LOC
+  <div class="formula-box">With continuous O<sub>2</sub> monitoring: operate at least 2 percentage points below LOC<br>Without continuous monitoring: no more than 60 % of LOC (also 60 % of LOC where LOC is below 5 %, even with monitoring)
     <small>For LOC = 10 %: 8 % with an analyser and interlock, 6 % without.</small></div>
   <p>Many plants simply use 5 % as a standard target for all solvent work. That is easier to remember and gives margin for hydrogen-free systems, but check it against the LOC if hydrogen or another low-LOC gas can be present.</p>
 
@@ -124,7 +124,7 @@ last_modified_at: 2026-10-20
 
   <h2 id="measure">Measuring oxygen, and the hazard to people <span class="lvl l3">Going deeper</span></h2>
   <p>Without a measurement, &ldquo;inerted&rdquo; is a hope. Options range from a portable analyser used to check after each purge, to a fixed analyser on the vent line, interlocked to stop heating or charging if oxygen rises. Calibrate it regularly, check that the sample point represents the vessel (not just the nitrogen inlet), and remember that solvent vapour in the sample can affect some sensors.</p>
-  <p>The same nitrogen that protects the vessel kills people. Air with less than about 18 % oxygen impairs judgement, and a few breaths of near-pure nitrogen cause collapse without warning, because the body senses carbon dioxide, not low oxygen. Treat an inerted vessel as a confined space: positive isolation, ventilation and an oxygen check before entry, and never put your head into a manhole &ldquo;for a quick look&rdquo;. Rescuers without breathing apparatus often become the second victim.</p>
+  <p>The same nitrogen that protects the vessel kills people. Air below 19.5 % oxygen is classed as oxygen-deficient, below about 16 % it impairs judgement, and a few breaths of near-pure nitrogen cause collapse without warning, because the body senses carbon dioxide, not low oxygen. Treat an inerted vessel as a confined space: positive isolation, ventilation and an oxygen check before entry, and never put your head into a manhole &ldquo;for a quick look&rdquo;. Rescuers without breathing apparatus often become the second victim.</p>
   <div class="art-note"><b>On the plant</b><p>Look at where your nitrogen vents go. A vent pipe that ends inside a building or in a pit puts low-oxygen gas exactly where people work. Route vents outside, at height.</p></div>
 
   <h2>Mistakes I see most often</h2>

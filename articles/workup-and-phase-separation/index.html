@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -47,7 +47,7 @@ structured_data: |
             "name": "How do you break an emulsion?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Add brine to increase density difference, change pH or temperature, remove interface solids by filtration, add solvent to change density and viscosity, or use gentle agitation to help droplets coalesce."
+              "text": "Add brine when the solvent is lighter than water (with MDC it can narrow the density gap), change pH or temperature, remove interface solids by filtration, add solvent to change density and viscosity, or use gentle agitation to help droplets coalesce."
             }
           },
           {
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -82,7 +82,7 @@ last_modified_at: 2026-10-20
   </ol></nav>
 
   <h2 id="why">Why two liquids separate <span class="lvl l1">Basics</span></h2>
-  <p>Water and an immiscible solvent such as toluene, ethyl acetate or MDC form two phases because they don't dissolve in each other (much). Mixing breaks one phase into droplets dispersed in the other. When mixing stops, droplets fall or rise according to density, meet, merge (coalesce) and form a continuous layer. Separation needs both steps: settling to bring droplets together, and coalescence to merge them.</p>
+  <p>Water and an immiscible solvent such as toluene, ethyl acetate or MDC form two phases because they don't dissolve in each other (much). Ethyl acetate is only partly miscible with water (about 8 g per 100 mL at 20 &deg;C), so some product can be lost to the aqueous layer. Mixing breaks one phase into droplets dispersed in the other. When mixing stops, droplets fall or rise according to density, meet, merge (coalesce) and form a continuous layer. Separation needs both steps: settling to bring droplets together, and coalescence to merge them.</p>
 
   <h2 id="stokes">Settling: the Stokes law picture <span class="lvl l1">Basics</span></h2>
   <div class="formula-box">v = g &times; d&sup2; &times; &Delta;&rho; / (18 &mu;)
@@ -92,7 +92,7 @@ last_modified_at: 2026-10-20
     <li>100 &micro;m droplets settle at about 0.7 mm/s: 2&ndash;3 minutes across a 10 cm separating funnel, but about 35 minutes across a 1.5 m plant reactor.</li>
     <li>30 &micro;m droplets take about 26 minutes in the funnel and over 6 hours in the plant.</li>
   </ul>
-  <p>That is the scale-up problem: settling distance grows 15-fold, and plant agitators often make smaller droplets than a hand-shaken funnel.</p>
+  <p>That is the scale-up problem: settling distance grows 15-fold, and plant agitators often make smaller droplets than a hand-shaken funnel. Treat these Stokes figures as order-of-magnitude estimates, because real settling is slowed by crowding and coalescence in the dense band.</p>
   <figure class="art-fig" data-fig="settle">
     <figcaption>Try it: change the droplet size, density difference and viscosity and compare settling time in a lab flask and a plant reactor.</figcaption>
   </figure>
@@ -109,7 +109,7 @@ last_modified_at: 2026-10-20
 
   <h2 id="break">Breaking an emulsion <span class="lvl l2">Working level</span></h2>
   <ul>
-    <li><strong>Add salt (brine):</strong> increases the density difference and reduces the solubility of organics in water.</li>
+    <li><strong>Add salt (brine):</strong> reduces the solubility of organics in water, and widens the density gap when the solvent is lighter than water. With MDC (about 1.33 g/mL), brine (about 1.2 g/mL) narrows the gap, so try plain water or dilute with more solvent instead.</li>
     <li><strong>Change pH</strong> away from the problem range, or adjust temperature (viscosity falls and solubilities change).</li>
     <li><strong>Filter</strong> the mixture through a filter aid to remove interface solids, often the real cause.</li>
     <li><strong>Add more solvent</strong> or a different co-solvent to change density and viscosity.</li>

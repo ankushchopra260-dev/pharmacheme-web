@@ -28,7 +28,7 @@ structured_data: |
           "name": "PharmaChemE",
           "url": "https://www.pharmacheme.in/"
         },
-        "dateModified": "2026-11-02",
+        "dateModified": "2026-11-06",
         "datePublished": "2026-09-30"
       },
       {
@@ -86,7 +86,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-02
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -174,7 +174,7 @@ last_modified_at: 2026-11-02
     Shaft power = 4.09 / 0.65 &asymp; 6.29 kW<br>
     Motor input = 6.29 / 0.92 &asymp; 6.84 kW
   </div>
-  <p>You would not buy a 6.84 kW motor; you pick a standard size. The next size up is 7.5 kW, and many plants would fit exactly that. Apply the stricter margin rule in the motor section below (125 % of 6.29 kW &asymp; 7.9 kW) and it becomes the next size again, 9.3 kW (12.5 HP).</p>
+  <p>You would not buy a 6.84 kW motor; you pick a standard size. The next size up is 7.5 kW, and many plants would fit exactly that. Apply the stricter margin rule in the motor section below (125 % of 6.29 kW &asymp; 7.9 kW) and it becomes the next standard size again: 11 kW (15 HP), because 7.9 kW is above 7.5 kW.</p>
 
   <h2 id="ex2">Example 2: solvent into a pressurised reactor <span class="lvl l2">Working level</span></h2>
   <p>This is closer to daily life in a pharma or chemical plant. Toluene (870 kg/m&sup3;, SG 0.87) is transferred at 20 m&sup3;/h into a reactor held at 2 barg under nitrogen. The storage tank is atmospheric. Static lift is 12 m; friction in the line, including a strainer and a flow meter, is 5 m. Pump efficiency 60 %, motor efficiency 90 %.</p>
@@ -194,7 +194,7 @@ last_modified_at: 2026-11-02
 
   <h2 id="motor">Choosing the motor <span class="lvl l2">Working level</span></h2>
   <p>Two things push the motor size above the calculated number.</p>
-  <p><strong>Margin.</strong> Pumps rarely run exactly at their duty point, liquids change, impellers wear and strainers choke. A widely used rule, from the API 610 pump standard, sets the motor nameplate rating against the pump's rated shaft power:</p>
+  <p><strong>Margin.</strong> Pumps rarely run exactly at their duty point, liquids change, impellers wear and strainers choke. A widely used rule, from the API 610 pump standard (for pumps built to API 610; check the edition you use), sets the motor nameplate rating against the pump's rated shaft power:</p>
   <div class="art-table-wrap"><table class="art-table">
     <tr><th>Pump shaft power</th><th>Motor rating at least</th></tr>
     <tr><td>Up to 22 kW</td><td>125 % of shaft power</td></tr>

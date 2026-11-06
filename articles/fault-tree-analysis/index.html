@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -96,7 +96,7 @@ last_modified_at: 2026-10-20
   </figure>
 
   <h2 id="calc">Calculating the top event <span class="lvl l2">Working level</span></h2>
-  <p>In the example, the three causes of excess dosing (0.05, 0.1 and 0.1 per year) combine through the OR gate to about 0.23 per year. The high-temperature trip fails on 1 demand in 100, and the relief is undersized for this case with a probability of 0.1, so both protections fail together with a probability of 0.001 per demand. The top event frequency is 0.23 &times; 0.001 &asymp; 2.3 &times; 10<sup>&minus;4</sup> per year. Halving the operator error rate barely changes this; improving the trip to SIL 2 (0.001) cuts it tenfold.</p>
+  <p>In the example, the three causes of excess dosing (0.05, 0.1 and 0.1 per year) combine through the OR gate to about 0.23 per year. The high-temperature trip fails on 1 demand in 100, and the relief is undersized for this case with a probability of 0.1, so both protections fail together with a probability of 0.001 per demand. The top event frequency is 0.23 &times; 0.001 &asymp; 2.3 &times; 10<sup>&minus;4</sup> per year. Halving the operator error rate changes this only modestly (about 20 percent); improving the trip to a failure probability of 0.001 (the better end of SIL 2) cuts it tenfold.</p>
   <p>Mixing units is the common trap: initiating causes are <em>frequencies</em> (per year), while protections are <em>probabilities</em> of failure on demand (no units). Only one frequency may sit under an AND gate; the rest must be probabilities.</p>
 
   <h2 id="cut">Minimal cut sets <span class="lvl l2">Working level</span></h2>

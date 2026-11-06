@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -39,7 +39,7 @@ structured_data: |
             "name": "How do you calculate the cost of steam?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Fuel cost per tonne of steam = 1,000 x (steam enthalpy - feed water enthalpy) / (boiler efficiency x GCV x 4.1868) x fuel price. For 10 barg steam, 80 C feed water, 75% efficiency and coal at 4,000 kcal/kg costing 8 rupees/kg, the fuel cost is about 1,560 rupees per tonne of steam."
+              "text": "Fuel cost per tonne of steam = 1,000 x (steam enthalpy - feed water enthalpy) / (boiler efficiency x GCV) x fuel price, with enthalpies and GCV both in kcal/kg. For 10 barg steam, 80 C feed water, 75% efficiency and coal at 4,000 kcal/kg costing 8 rupees/kg, the fuel cost is about 1,560 rupees per tonne of steam."
             }
           },
           {
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -126,7 +126,7 @@ last_modified_at: 2026-10-20
   <h2 id="losses">Where the fuel goes <span class="lvl l2">Working level</span></h2>
   <p>A coal or biomass boiler at 75 % efficiency loses a quarter of the fuel's heat before the steam leaves the boiler house. The usual split:</p>
   <ul>
-    <li><strong>Dry flue gas:</strong> the biggest loss. It rises with stack temperature and with excess air. Check O&#8322; in the flue gas: about 3&ndash;4 % on oil and gas, 6&ndash;8 % on solid fuel.</li>
+    <li><strong>Dry flue gas:</strong> the biggest loss. It rises with stack temperature and with excess air. Check O&#8322; in the flue gas: about 2&ndash;3 % on gas, 3&ndash;4 % on oil, 4&ndash;8 % on coal and biomass, depending on the fuel and burner.</li>
     <li><strong>Moisture:</strong> water in the fuel and water formed from hydrogen leave as vapour up the stack. Wet husk or wet coal costs real money.</li>
     <li><strong>Unburnt carbon in ash:</strong> shows up as black ash. Grate speed, air distribution and fuel sizing matter.</li>
     <li><strong>Radiation and convection:</strong> small at full load, larger at low load.</li>
@@ -148,13 +148,13 @@ last_modified_at: 2026-10-20
   <div class="formula-box">
     Per trap: 0.412 &times; 4 &times; 8.0 &asymp; 13 kg/h<br>
     30 traps: &asymp; 400 kg/h, about 3,200 tonnes a year over 8,000 hours<br>
-    At &#8377;2,500 per tonne: up to &#8377;80 lakh a year
+    At an assumed full steam cost of &#8377;2,500 per tonne: up to &#8377;80 lakh a year
   </div>
   <p>The real figure is usually lower, because a failed trap rarely blows the full seat area all the time. Even half of it pays for a trap survey and spares many times over. Test traps with an ultrasonic tester or a surface thermometer, tag the failed ones and recheck after repair.</p>
 
   <h2 id="flash">Flash steam <span class="lvl l3">Going deeper</span></h2>
   <p>Condensate leaving a trap at 8 barg is at about 175 &deg;C. In a return line at 0.5 barg water can only exist up to about 111 &deg;C, so the extra heat boils part of it:</p>
-  <div class="formula-box">Flash fraction = (h<sub>f,high</sub> &minus; h<sub>f,low</sub>) / h<sub>fg,low</sub> = (743 &minus; 467) / 2,226 &asymp; 12 %</div>
+  <div class="formula-box">Flash fraction = (h<sub>f,high</sub> &minus; h<sub>f,low</sub>) / h<sub>fg,low</sub> = (743 &minus; 467) / 2,226 &asymp; 12 % (enthalpies in kJ/kg, from steam tables)</div>
   <p>That flash steam is ordinary low-pressure steam. If a flash vessel sends it to a low-pressure user such as a tank heater, an air heater or a deaerator, it replaces live steam. If not, it plumes from the feed tank vent, which also means the feed tank cannot be held at a high temperature.</p>
 
   <h2 id="condensate">Condensate recovery <span class="lvl l2">Working level</span></h2>
@@ -184,7 +184,7 @@ last_modified_at: 2026-10-20
 
   <h2 id="faq">Questions people ask</h2>
   <h3>How do you calculate the cost of steam?</h3>
-  <p>Fuel per tonne = 1,000 &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV &times; 4.1868), then multiply by the fuel price. For 10 barg steam from 80 &deg;C feed water, a 75 % efficient boiler on &#8377;8/kg coal of 4,000 kcal/kg gives about &#8377;1,560 per tonne for fuel alone.</p>
+  <p>Fuel per tonne = 1,000 &times; (h<sub>g</sub> &minus; h<sub>fw</sub>) / (&eta; &times; GCV), with enthalpies and GCV both in kcal/kg, then multiply by the fuel price. For 10 barg steam from 80 &deg;C feed water, a 75 % efficient boiler on &#8377;8/kg coal of 4,000 kcal/kg gives about &#8377;1,560 per tonne for fuel alone.</p>
   <h3>How do you calculate boiler blowdown?</h3>
   <p>Blowdown (% of steam) = feed TDS / (maximum boiler TDS &minus; feed TDS) &times; 100. With 150 ppm feed water and a 3,000 ppm limit it is about 5.3 %.</p>
   <h3>How much steam does a failed trap lose?</h3>

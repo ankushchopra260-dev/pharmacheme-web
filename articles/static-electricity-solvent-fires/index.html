@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-10-20"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-10-20
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -102,11 +102,11 @@ last_modified_at: 2026-10-20
     <tr><td>Methanol</td><td>0.14</td><td>11 &deg;C</td><td>No, conductive</td></tr>
     <tr><td>Toluene</td><td>0.24</td><td>4 &deg;C</td><td>Yes, low conductivity</td></tr>
     <tr><td>n-Hexane / n-heptane</td><td>0.24</td><td>&minus;22 / &minus;4 &deg;C</td><td>Yes, very low conductivity</td></tr>
-    <tr><td>Ethyl acetate</td><td>0.46</td><td>&minus;4 &deg;C</td><td>No, conductive</td></tr>
+    <tr><td>Ethyl acetate</td><td>0.46 (some tables give up to 1.4)</td><td>&minus;4 &deg;C</td><td>No, medium to high conductivity</td></tr>
     <tr><td>IPA</td><td>0.65</td><td>12 &deg;C</td><td>No, conductive</td></tr>
     <tr><td>Acetone</td><td>1.15</td><td>&minus;20 &deg;C</td><td>No, conductive</td></tr>
   </table></div>
-  <p>Typical literature values; check the SDS for your grade. Two facts stand out. A spark you can barely feel is 40 to 70 times what toluene or methanol needs. And all of these flash points are below normal room temperature in India, so the vapour space of an open drum or reactor is often already flammable.</p>
+  <p>Typical literature values; check the SDS for your grade. Two facts stand out. A 10 mJ spark from a charged person is 40 to 70 times what toluene or methanol needs, and even a barely felt 1 mJ spark is 4 to 7 times. And all of these flash points are below normal room temperature in India, so the vapour space of an open drum or reactor is often already flammable.</p>
   <figure class="art-fig" data-fig="spark">
     <figcaption>Try it: pick a charged object and a solvent, and change the voltage. The bar is the spark energy; the red line is what the solvent needs to ignite. Then earth the object.</figcaption>
   </figure>
@@ -114,8 +114,8 @@ last_modified_at: 2026-10-20
   <h2 id="liquids">Solvents that hold their charge <span class="lvl l2">Working level</span></h2>
   <p>A liquid's electrical conductivity decides how fast charge drains from it. The standard IEC TS 60079-32-1 groups liquids into three classes:</p>
   <ul>
-    <li><strong>Low conductivity, below 50 pS/m:</strong> toluene, xylene, hexane, heptane, many hydrocarbons. Charge can stay in the liquid for tens of seconds, even inside an earthed metal tank.</li>
-    <li><strong>Medium, 50 to 10,000 pS/m:</strong> some esters and ethers.</li>
+    <li><strong>Low conductivity, below about 50 to 100 pS/m (standards differ on the exact boundary):</strong> toluene, xylene, hexane, heptane, many hydrocarbons. Charge can stay in the liquid for tens of seconds, even inside an earthed metal tank.</li>
+    <li><strong>Medium, up to about 10,000 pS/m:</strong> some esters and ethers.</li>
     <li><strong>High, above 10,000 pS/m:</strong> alcohols, ketones, water. Charge drains in microseconds, but only if the container is earthed. In a plastic can, even methanol charges up.</li>
   </ul>
   <p>The time charge stays in a liquid is its relaxation time, &tau; = &epsilon;&epsilon;<sub>0</sub>/&kappa; (permittivity divided by conductivity). For toluene it is around 20 seconds; for very dry hexane it can be many minutes. That is why you wait before dipping or sampling a tank of low-conductivity solvent, and why a sample can on a nylon rope lowered into a freshly filled tank is a classic ignition source.</p>
@@ -146,7 +146,7 @@ last_modified_at: 2026-10-20
   <ul>
     <li>the naphtha was nonconductive and held its charge;</li>
     <li>stop&ndash;start filling introduced air and turbulence, adding charge;</li>
-    <li>the tank headspace was flammable and not inerted;</li>
+    <li>the tank headspace was flammable and not inerted (the CSB recommends inerting such tanks);</li>
     <li>a loose linkage on the level float, an isolated conductor inside the tank, likely sparked.</li>
   </ul>
   <p>The bonding and grounding of the transfer equipment was likely in place. The CSB's lesson for anyone handling toluene, hexane or heptane: earthing is necessary but not sufficient. Add inerting, slow filling, time to relax, and bonded internals.</p>

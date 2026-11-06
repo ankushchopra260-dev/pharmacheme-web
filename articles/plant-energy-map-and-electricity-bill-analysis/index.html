@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-11-04",
-        "dateModified": "2026-11-04"
+        "dateModified": "2026-11-06"
       },
       {
         "@type": "FAQPage",
@@ -70,7 +70,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-04
+last_modified_at: 2026-11-06
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
@@ -175,12 +175,12 @@ last_modified_at: 2026-11-04
   </table></div>
   <p>The total is 29.4 lakh kWh, the average demand is about 640 kVA, and load factor is calculated at a power factor of 0.96. Assume an energy rate of Rs 7 per kWh or kVAh and a demand charge of Rs 450 per kVA per month, as made-up round numbers. Three savings stand out.</p>
   <h3>1. Demand peaks</h3>
-  <p>Most months sit near 640 kVA, but June reaches 720 and May 690. If the peak is a simultaneous start of two big loads, for example a vacuum system and a chiller after a power dip, a simple start delay between them can take about 60 kVA off the peak. That is 60 &times; 450 = Rs 27,000 a month, or Rs 3.24 lakh a year, for a timer and a procedure. The cool months have lower peaks, so the saving comes from the few hot months that set the highest demand.</p>
+  <p>Most months sit near 640 kVA, but June reaches 720 and May 690. If the peak is a simultaneous start of two big loads, for example a vacuum system and a chiller after a power dip, a simple start delay between them can take the peak down to about 650 kVA. Only May and June are above that, so the saving is (690 &minus; 650) + (720 &minus; 650) = 110 kVA-months, and 110 &times; 450 = Rs 49,500 a year, for a timer and a procedure. The cool months have lower peaks, so the saving comes only from the few hot months that set the highest demand.</p>
   <h3>2. Power factor</h3>
   <p>Suppose the monthly average power factor is 0.92 and the plant is billed in kVAh. For 2,50,000 kWh the billed kVAh is 2,50,000 / 0.92 = 2,71,739. At 0.98 it would be 2,50,000 / 0.98 = 2,55,102. The difference of 16,637 kVAh at Rs 7 is about Rs 1.16 lakh a month. For a 600 kW running load the reactive power to remove is 600 &times; (tan(cos&#8315;&sup1; 0.92) &minus; tan(cos&#8315;&sup1; 0.98)) = about 134 kVAr, so a bank of that order, with detuned reactors if harmonics are present, pays back in months. Check first whether failed capacitors in the existing bank are the real cause.</p>
   <h3>3. Time-of-day shift</h3>
   <p>Suppose 150 kW of load can move from a peak slot to an off-peak slot without touching production: pre-cooling the chilled water tank, running the effluent aerators or filling an overhead water tank. Four hours a day for 30 days is 150 &times; 4 &times; 30 = 18,000 kWh. At an assumed differential of Rs 1.5 per kWh that is Rs 27,000 a month, or about Rs 3.2 lakh a year. Read your own tariff order for the real slots and differentials.</p>
-  <p>The three savings together are about Rs 20 lakh a year in this example (3.24 + 13.97 + 3.24). None of them reduces kWh much, which is the point: the bill has more in it than kWh.</p>
+  <p>The three savings together are about Rs 18 lakh a year in this example (0.50 + 13.97 + 3.24). None of them reduces kWh much, which is the point: the bill has more in it than kWh.</p>
 
   <h2 id="track">A tracking sheet that stays alive <span class="lvl l3">Going deeper</span></h2>
   <p>A one-time map goes stale in a year. Keep a simple monthly sheet, with one row per month and these columns:</p>
