@@ -3,7 +3,9 @@
    only while access/{their email} exists with a future "until" date. The owner grants access from /gate/test-series/admin/. */
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, getDocs, setDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, getDocs, setDoc, collection, serverTimestamp, Timestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+// Data retention: Firestore TTL deletes a document once expireAt passes. Unpaid requests 90 days; paid records 8 years.
+const keepUntil = days => Timestamp.fromMillis(Date.now() + days * 864e5);
 
 const app = initializeApp({
   apiKey: 'AIzaSyAoko-Lgtl23DrJQ5_Dk3bQpdCHX0NvMCc',
@@ -74,7 +76,7 @@ async function showNoAccess(expired) {
   bindWho();
   document.getElementById('ts-req').onclick = async e => {
     e.target.disabled = true;
-    try { await setDoc(doc(db, 'requests', key(user.email)), { email: user.email, name: user.displayName || '', at: serverTimestamp() }); } catch (er) { /* still show payment */ }
+    try { await setDoc(doc(db, 'requests', key(user.email)), { email: user.email, name: user.displayName || '', at: serverTimestamp(), expireAt: keepUntil(90) }); } catch (er) { /* still show payment */ }
     alertOwner('gate-test-series', 'GATE CH test series');
     showPay();
   };
@@ -82,7 +84,7 @@ async function showNoAccess(expired) {
     view(head + '<p class="ts-ok"><b>Pay ' + esc(PRICE) + ' for the GATE CH test series.</b></p><div id="ts-pay"></div>'); bindWho();
     try { await loadUPI(); } catch (e) { document.getElementById('ts-pay').innerHTML = '<p class="ts-note">The payment box did not load. Please refresh, or write to ' + esc(CONTACT) + '.</p>'; return; }
     document.getElementById('ts-pay').appendChild(window.PCME_UPI.box(Object.assign({}, UPI, { amount: parseInt(String(PRICE).replace(/\D/g, ''), 10) || 0, key: 'g', note: 'PharmaChemE GATE test series', onPaid: async utr => {
-      await setDoc(doc(db, 'requests', key(user.email)), { email: user.email, name: user.displayName || '', at: (req && req.at) || serverTimestamp(), utr, paidAt: serverTimestamp() }, { merge: true });
+      await setDoc(doc(db, 'requests', key(user.email)), { email: user.email, name: user.displayName || '', at: (req && req.at) || serverTimestamp(), utr, paidAt: serverTimestamp(), expireAt: keepUntil(8 * 365) }, { merge: true });
       alertOwner('gate-test-series|paid', 'PAID ' + PRICE + ', UTR ' + utr + ': GATE CH test series');
       showNoAccess(false);
     } })));

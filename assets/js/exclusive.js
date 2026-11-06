@@ -5,7 +5,7 @@
    Progress is in progress/{email}: { items: { id: { done: [page numbers], total, fin: true } }, at }. */
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, Timestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
 const app = initializeApp({ apiKey: 'AIzaSyAoko-Lgtl23DrJQ5_Dk3bQpdCHX0NvMCc', authDomain: 'pharmacheme-1f559.firebaseapp.com', projectId: 'pharmacheme-1f559', storageBucket: 'pharmacheme-1f559.firebasestorage.app', messagingSenderId: '324335799446', appId: '1:324335799446:web:a7bb53bbc3e4b67c9906b7' });
 const auth = getAuth(app), db = getFirestore(app);
@@ -39,10 +39,14 @@ async function loadMine() {
   try { const a = await getDoc(doc(db, 'access', key(user.email))); if (a.exists()) ACC = a.data().items || {}; } catch (e) { /* not readable */ }
   try { const p = await getDoc(doc(db, 'progress', key(user.email))); if (p.exists()) PROG = p.data().items || {}; } catch (e) { /* none yet */ }
 }
+// Data retention: Firestore TTL deletes a document once its expireAt passes (policy enabled in Firebase console).
+// Unpaid requests: 90 days. Paid records: 8 years (accounting). Progress: 2 years after last activity.
+const keepUntil = days => Timestamp.fromMillis(Date.now() + days * 864e5);
+const KEEP_UNPAID = 90, KEEP_PAID = 8 * 365, KEEP_PROGRESS = 2 * 365;
 async function saveProgress(id, patch) {
   if (!user) return;
   PROG[id] = Object.assign({}, PROG[id] || {}, patch);
-  try { await setDoc(doc(db, 'progress', key(user.email)), { items: { [id]: PROG[id] }, at: serverTimestamp() }, { merge: true }); } catch (e) { /* progress is a convenience */ }
+  try { await setDoc(doc(db, 'progress', key(user.email)), { items: { [id]: PROG[id] }, at: serverTimestamp(), expireAt: keepUntil(KEEP_PROGRESS) }, { merge: true }); } catch (e) { /* progress is a convenience */ }
   drawPaths();
 }
 function markFinished(id) { if (!finished(id)) { saveProgress(id, { fin: true }); toast('Marked as finished. Your learning path is updated.'); } }
@@ -89,12 +93,12 @@ async function requestPath(pid, btn) {
   btn.disabled = true;
   const rids = s.missing.map(it => key(user.email) + '__' + it.id);
   for (const it of s.missing) {
-    try { await setDoc(doc(db, 'requests', key(user.email) + '__' + it.id), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: it.id, title: it.title, price: '₹' + it.price }); } catch (e) { /* still show payment */ }
+    try { await setDoc(doc(db, 'requests', key(user.email) + '__' + it.id), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: it.id, title: it.title, price: '₹' + it.price, expireAt: keepUntil(KEEP_UNPAID) }); } catch (e) { /* still show payment */ }
   }
   notify(NOTIFY, { email: user.email, name: user.displayName || '', item: 'path-' + pid, title: 'Learning path: ' + p.title + ' (' + s.missing.length + ' items)', price: '₹' + s.total, url: location.href.split('#')[0] });
   const holder = document.createElement('div'); btn.replaceWith(holder);
   holder.appendChild(await upiBox({ amount: s.total, key: 'p' + pid, note: 'PharmaChemE path ' + pid, onPaid: async utr => {
-    for (const rid of rids) await setDoc(doc(db, 'requests', rid), { utr, paidAt: serverTimestamp() }, { merge: true });
+    for (const rid of rids) await setDoc(doc(db, 'requests', rid), { utr, paidAt: serverTimestamp(), expireAt: keepUntil(KEEP_PAID) }, { merge: true });
     notify(NOTIFY, { email: user.email, name: user.displayName || '', item: 'path-' + pid + '|paid', title: 'PAID ₹' + s.total + ', UTR ' + utr + ': learning path ' + p.title, price: '₹' + s.total, url: location.href.split('#')[0] });
     holder.innerHTML = '<div class="ts-paid"><b>Payment received for checking (UTR ' + esc(utr) + ').</b> We will switch on all ' + s.missing.length + ' items for ' + esc(user.email) + ' and email you, usually within a few hours.</div>';
   } }));
@@ -158,7 +162,7 @@ async function noAccess() {
   bindWho();
   document.getElementById('ex-req').onclick = async e => {
     e.target.disabled = true;
-    try { await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: ID, title: TITLE, price: PRICE }); } catch (er) { /* still show payment */ }
+    try { await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: ID, title: TITLE, price: PRICE, expireAt: keepUntil(KEEP_UNPAID) }); } catch (er) { /* still show payment */ }
     notify(NOTIFY, { email: user.email, name: user.displayName || '', item: ID, title: TITLE, price: PRICE, url: location.href.split('#')[0] });
     showPay();
   };
@@ -166,7 +170,7 @@ async function noAccess() {
     view(who() + '<p class="ts-ok"><b>Pay ' + esc(PRICE) + ' for this item.</b></p><div id="ex-pay"></div>');
     bindWho();
     document.getElementById('ex-pay').appendChild(await upiBox({ amount, key: 'i', note: 'PharmaChemE ' + ID, onPaid: async utr => {
-      await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: (req && req.at) || serverTimestamp(), item: ID, title: TITLE, price: PRICE, utr, paidAt: serverTimestamp() }, { merge: true });
+      await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: (req && req.at) || serverTimestamp(), item: ID, title: TITLE, price: PRICE, utr, paidAt: serverTimestamp(), expireAt: keepUntil(KEEP_PAID) }, { merge: true });
       notify(NOTIFY, { email: user.email, name: user.displayName || '', item: ID + '|paid', title: 'PAID ' + PRICE + ', UTR ' + utr + ': ' + TITLE, price: PRICE, url: location.href.split('#')[0] });
       noAccess();
     } }));
