@@ -149,12 +149,13 @@
     run: function (v) {
       var co = v.arr === 'co', d1 = co ? v.Thi - v.tci : v.Thi - v.tco, d2 = co ? v.Tho - v.tco : v.Tho - v.tci;
       if (!(d1 > 0 && d2 > 0)) return { rows: [], notes: [['A temperature cross: the hot fluid must stay hotter than the cold fluid at both ends for this arrangement.', 'bad']] };
+      if (v.tco < v.tci || v.Thi < v.Tho) return { rows: [], notes: [['Check the temperatures: the cold fluid must be heated (cold out not below cold in) and the hot fluid cooled (hot out not above hot in).', 'bad']] };
       var lm = Math.abs(d1 - d2) < 1e-9 ? d1 : (d1 - d2) / Math.log(d1 / d2), Fc = 1, notes = [];
       if (v.arr === 's1' || v.arr === 's2') {
         var R = (v.Thi - v.Tho) / (v.tco - v.tci), P = (v.tco - v.tci) / (v.Thi - v.tci), Ns = v.arr === 's1' ? 1 : 2;
         var Pp = Pone(P, R, Ns); Fc = F12(R, Pp);
         if (!isFinite(Fc) || Fc <= 0) { notes.push(['This duty is not possible with ' + Ns + ' shell pass' + (Ns > 1 ? 'es' : '') + ': use more shells in series or a counter-current exchanger.', 'bad']); Fc = NaN; }
-        else if (Fc < 0.75) notes.push(['F below 0.75: the exchanger is inefficient and sensitive to small changes. Use more shell passes or counter-current flow (TEMA practice keeps F above about 0.75 to 0.8).', 'warn']);
+        else if (Fc < 0.75) notes.push(['F below 0.75: the exchanger is inefficient and sensitive to small changes. Use more shell passes or counter-current flow (common design practice keeps F above about 0.75 to 0.8).', 'warn']);
         notes.unshift(['R = ' + F(R, 3) + ', P = ' + F(P, 3) + '. F from the Bowman, Mueller and Nagle equation' + (Ns > 1 ? ', applied per shell for shells in series.' : '.'), 'lead']);
       }
       var rows = [['Corrected mean temperature difference', F(lm * Fc, 2), '°C'], ['LMTD (counter-current basis)', F(lm, 2), '°C'], ['F correction factor', isFinite(Fc) ? F(Fc, 3) : '–', '']];

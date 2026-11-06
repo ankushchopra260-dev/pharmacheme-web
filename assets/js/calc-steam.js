@@ -108,6 +108,7 @@
       var a = K.toBarA(v.p, v.u), P = a / 10, ts = P <= 22.064 ? IF97.tsat(P) - 273.15 : NaN;
       var s1 = IF97.pt(v.t1 + 273.15, P), s2 = IF97.pt(v.t2 + 273.15, P), w = IF97.pt(v.tw + 273.15, Math.max(P, 0.101325) * 1.2);
       if (!s1 || !s2 || !w) return { rows: [], notes: [['Outside the range covered.', 'bad']] };
+      if (w.region !== 1) return { rows: [], notes: [['The spray water is hotter than its boiling point at the injection pressure (about 1.2 times the steam pressure). Use a lower spray water temperature.', 'bad']] };
       if (s1.region !== 2) return { rows: [], notes: [['The inlet is not superheated at this pressure (saturation ' + F(ts, 1) + ' °C).', 'bad']] };
       if (v.t2 <= ts) return { rows: [], notes: [['The target is at or below saturation (' + F(ts, 1) + ' °C): water would not evaporate. Aim at least a few degrees above saturation.', 'bad']] };
       var mw = v.m * (s1.h - s2.h) / (s2.h - w.h);

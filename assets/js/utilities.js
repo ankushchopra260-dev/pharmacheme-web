@@ -251,7 +251,7 @@
 
   /* ---------------- Reactor & vessel ---------------- */
   const HEADS = [['tori', 'Torispherical (Klöpper, DIN 28011)'], ['ell', '2:1 elliptical'], ['flat', 'Flat']];
-  const HF = { tori: [0.1935, 0.0999, 0.90], ell: [0.25, 0.1309, 1.084], flat: [0, 0, 0.785] }; // depth/D, volume/D³, inside area/D²
+  const HF = { tori: [0.1935, 0.0999, 0.99], ell: [0.25, 0.1309, 1.084], flat: [0, 0, 0.785] }; // depth/D, volume/D³, inside area/D²
   function vesselVol(D, H, head, L) { // m, m³
     const hd = HF[head][0] * D, Vd = HF[head][1] * D * D * D, A = Math.PI * D * D / 4, cap = (h) => hd > 0 ? Vd * Math.pow(h / hd, 2) * (3 - h / hd) / 2 : 0;
     if (L <= hd) return cap(Math.max(0, L));

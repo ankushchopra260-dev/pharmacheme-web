@@ -49,7 +49,7 @@
   }
   /* saturation at P (MPa): liquid and vapour */
   function sat(P) {
-    if (!(P >= 611.212677e-6 && P <= 16.529164)) return null;
+    if (!(P >= 611.212677e-6 && P <= 16.52917)) return null; /* 16.5291643 MPa is the saturation pressure at 623.15 K, the edge of region 1 and 2 */
     var T = tsat(P);
     return { T: T, P: P, L: region1(T, P), V: region2(T, P) };
   }

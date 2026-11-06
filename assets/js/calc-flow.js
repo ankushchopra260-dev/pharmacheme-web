@@ -6,11 +6,12 @@
   /* ASME B36.10M / B36.19M: NB (mm), OD (mm), wall Sch 10S, 40, 80 (mm) */
   var PIPE = [[15, 21.3, 2.11, 2.77, 3.73], [20, 26.7, 2.11, 2.87, 3.91], [25, 33.4, 2.77, 3.38, 4.55], [32, 42.2, 2.77, 3.56, 4.85], [40, 48.3, 2.77, 3.68, 5.08], [50, 60.3, 2.77, 3.91, 5.54],
     [65, 73.0, 3.05, 5.16, 7.01], [80, 88.9, 3.05, 5.49, 7.62], [100, 114.3, 3.05, 6.02, 8.56], [125, 141.3, 3.40, 6.55, 9.53], [150, 168.3, 3.40, 7.11, 10.97], [200, 219.1, 3.76, 8.18, 12.70],
-    [250, 273.0, 4.19, 9.27, 15.09], [300, 323.8, 4.57, 10.31, 17.48], [350, 355.6, 4.78, 11.13, 19.05], [400, 406.4, 4.78, 12.70, 21.44], [450, 457.0, 4.78, 14.27, 23.83], [500, 508.0, 5.54, 15.09, 26.19], [600, 610.0, 6.35, 17.48, 30.96]];
+    [250, 273.0, 4.19, 9.27, 15.09], [300, 323.8, 4.57, 10.31, 17.48], [350, 355.6, 4.78, 11.13, 19.05], [400, 406.4, 4.78, 12.70, 21.44], [450, 457.2, 4.78, 14.27, 23.83], [500, 508.0, 5.54, 15.09, 26.19], [600, 609.6, 6.35, 17.48, 30.96]];
   var INCH = { 15: '½"', 20: '¾"', 25: '1"', 32: '1¼"', 40: '1½"', 50: '2"', 65: '2½"', 80: '3"', 100: '4"', 125: '5"', 150: '6"', 200: '8"', 250: '10"', 300: '12"', 350: '14"', 400: '16"', 450: '18"', 500: '20"', 600: '24"' };
   var SCH = { s10: 2, s40: 3, s80: 4 };
+  var NOMIN = { 15: 0.5, 20: 0.75, 25: 1, 32: 1.25, 40: 1.5, 50: 2, 65: 2.5, 80: 3, 100: 4, 125: 5, 150: 6, 200: 8, 250: 10, 300: 12, 350: 14, 400: 16, 450: 18, 500: 20, 600: 24 };
   var ROUGH = [['cs', 'Carbon steel, new (0.045 mm)', 0.045], ['csold', 'Carbon steel, used (0.15 mm)', 0.15], ['ss', 'Stainless steel (0.015 mm)', 0.015], ['plastic', 'Plastic / PTFE-lined (0.0015 mm)', 0.0015], ['gi', 'Galvanised iron (0.15 mm)', 0.15]];
-  /* Darby 3-K coefficients: K = K1/Re + Kinf (1 + Kd / Dn^0.3), Dn = nominal diameter in inches */
+  /* Darby 3-K coefficients: K = K1/Re + Kinf (1 + Kd / Dn^0.3), Dn = nominal pipe diameter in inches */
   var K3 = [
     ['e90lr', '90° elbow, welded/flanged, long radius (R/D = 1.5 to 2)', 800, 0.056, 3.9], ['e90s', '90° elbow, welded/flanged, standard (R/D = 1)', 800, 0.091, 4.0],
     ['e90t', '90° elbow, threaded, standard', 800, 0.14, 4.0], ['e45', '45° elbow, threaded, standard', 500, 0.071, 4.2], ['b180', '180° return bend (R/D = 1.5)', 1000, 0.1, 4.0],
@@ -54,7 +55,7 @@
         var D = pipeID(v.nb, v.sch), A = Math.PI * D * D / 4, u = v.q / 3600 / A, rho = v.rho, mu = v.mu / 1000;
         if (!(D > 0 && u > 0 && rho > 0 && mu > 0)) return { rows: [], notes: [['Flow, density and viscosity must be above zero.', 'bad']] };
         var Re = rho * u * D / mu, eD = ROUGH.filter(function (r) { return r[0] === v.mat; })[0][2] / 1000 / D, f = churchill(Re, eD), dyn = rho * u * u / 2;
-        var dpPipe = f * v.L / D * dyn, Dn = D / 0.0254, Kfit = 0, rows = [];
+        var dpPipe = f * v.L / D * dyn, Dn = NOMIN[+v.nb] || D / 0.0254, Kfit = 0, rows = []; /* Darby Dn = nominal diameter in inches */
         K3.forEach(function (x) { var n = v['n_' + x[0]] || 0; if (n > 0) { var k1 = x[2] / Re + x[3] * (1 + x[4] / Math.pow(Dn, 0.3)); Kfit += n * k1; rows.push([x[1], String(n), G(k1, 3), G(n * k1, 3), F(n * k1 * dyn / 1e5, 4)]); } });
         var Ke = 0.5 * (v.ent || 0) + 1.0 * (v.ext || 0) + (v.kx || 0), Ktot = Kfit + Ke;
         if (Ke) rows.push(['Entrances, exits and other K', '', '', G(Ke, 3), F(Ke * dyn / 1e5, 4)]);

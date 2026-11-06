@@ -77,12 +77,32 @@ function page(name) {
   const dangerNames = mix.partners.slice(0, 3).map(id => D.MIX.BY[id][1].replace(/\s*\(.*?\)/g, ''));
 
   const best = exc.length ? exc : good;
-  let desc = `${lower} compatibility with ${rated} materials of construction`;
-  if (best.length) desc += `: ${best.slice(0, 4).join(', ')} rated ${exc.length ? 'excellent' : 'good'}`;
-  if (bad.length) desc += `; avoid ${bad.slice(0, 3).join(', ')}`;
-  desc += '.';
-  if (dangerNames.length) desc += ` Dangerous mixtures with ${list(dangerNames)}.`;
-  if (desc.length > 300) desc = desc.slice(0, 297) + '...';
+  // Meta description: 110 to 160 characters. Try richer variants first, then trim.
+  const mk = (nb, nbad, nd) => {
+    let d = `${lower} compatibility with ${rated} materials of construction`;
+    if (nb && best.length) d += `: ${best.slice(0, nb).join(', ')} rated ${exc.length ? 'excellent' : 'good'}`;
+    if (nbad && bad.length) d += `; avoid ${bad.slice(0, nbad).join(', ')}`;
+    d += '.';
+    if (nd && dangerNames.length) d += ` Dangerous mixtures with ${list(dangerNames.slice(0, nd))}.`;
+    return d;
+  };
+  let desc = '';
+  for (const [nb, nbad, nd] of [[4, 3, 3], [4, 3, 2], [3, 3, 1], [3, 2, 1], [3, 2, 0], [2, 2, 0], [2, 1, 0], [1, 1, 0], [0, 0, 0]]) {
+    const d = mk(nb, nbad, nd);
+    if (d.length <= 160) { desc = d; break; }
+  }
+  if (!desc) { const cut = mk(0, 0, 0).slice(0, 157); desc = cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:\s]+$/, '') + '.'; }
+  if (desc.length < 110) desc += ' Includes gasket ratings and mixing hazards.';
+  if (desc.length < 110) desc += ' Screening guide only.';
+
+  // SEO title: at most 62 characters including the site suffix.
+  const SUF = ' | PharmaChemE';
+  const plain = name.replace(/\s*\([^)]*\)/g, '').trim();
+  let seoTitle = '';
+  for (const n of [name, plain]) for (const mid of [' Compatibility Chart: MOC, Gaskets, Mixing', ' Compatibility Chart: MOC and Mixing', ' Compatibility Chart', ' Compatibility']) {
+    const s = n + mid + SUF; if (s.length <= 62) { seoTitle = s; break; }
+  }
+  if (!seoTitle) seoTitle = plain.slice(0, 62 - SUF.length - 14).trim() + ' Compatibility' + SUF;
 
   let lead = `<p class="cc-lead">`;
   if (exc.length) lead += `<b>Excellent:</b> ${esc(list(exc))}. `;
@@ -119,7 +139,7 @@ function page(name) {
   return `---
 layout: default
 title: ${JSON.stringify(`${name} Compatibility: Materials of Construction and Mixing Hazards`)}
-seo_title: ${JSON.stringify(`${name} Compatibility Chart: MOC, Gaskets, Mixing | PharmaChemE`)}
+seo_title: ${JSON.stringify(seoTitle)}
 description: ${JSON.stringify(desc)}
 breadcrumbs:
   - label: Calculators
