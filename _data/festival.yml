@@ -1,0 +1,4 @@
+# Festival link-preview image. Set active: true to show the festival card for every shared page link; false to go back to normal.
+active: true
+image: /assets/img/share/diwali.jpg
+version: diwali2026

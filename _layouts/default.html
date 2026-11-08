@@ -30,8 +30,10 @@
 {%- elsif u contains '/articles/' -%}{%- assign og_img = '/assets/img/share/articles.jpg' -%}
 {%- elsif u contains '/plant-tour/' -%}{%- assign og_img = '/assets/img/share/tour.jpg' -%}
 {%- else -%}{%- assign og_img = '/assets/img/share/default.jpg' -%}{%- endif %}
-<meta property="og:image" content="{{ og_img | absolute_url }}?v=2">
-<meta property="og:image:secure_url" content="{{ og_img | absolute_url }}?v=2">
+{%- assign og_ver = '2' -%}
+{%- if site.data.festival.active -%}{%- assign og_img = site.data.festival.image -%}{%- assign og_ver = site.data.festival.version -%}{%- endif %}
+<meta property="og:image" content="{{ og_img | absolute_url }}?v={{ og_ver }}">
+<meta property="og:image:secure_url" content="{{ og_img | absolute_url }}?v={{ og_ver }}">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -40,7 +42,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ page.seo_title | default: page.title | default: 'PharmaChemE' }}">
 <meta name="twitter:description" content="{{ page.description | default: site.description }}">
-<meta name="twitter:image" content="{{ og_img | absolute_url }}?v=2">
+<meta name="twitter:image" content="{{ og_img | absolute_url }}?v={{ og_ver }}">
 
 {% if page.structured_data %}
 <script type="application/ld+json">
