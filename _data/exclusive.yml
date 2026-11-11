@@ -324,7 +324,6 @@ items:
   - id: app-bfd-tool
     slug: bfd-tool
     group: apps
-    hidden: true
     updated: '2026-11-11'
     meta: 'Offline app that turns a lab procedure into a block flow diagram workbook for a batch process: step sheets, equipment tags, heat and utility duties and optional costing, all linked to one batch-size cell.'
     title: 'BFD tool (offline app)'
