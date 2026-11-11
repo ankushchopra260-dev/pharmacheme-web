@@ -4,7 +4,7 @@ page('calculators/tank-vent-sizing', 'Storage Tank Vent Sizing Calculator (API 2
   'Storage Tank Vent Sizing (API 2000) | PharmaChemE',
   'Size storage tank vents to API 2000: in-breathing and out-breathing from pumping and weather, emergency fire venting, and the vent nozzle size.',
   'Storage Tank Vent Sizing (API 2000)',
-  'How much a storage tank must breathe in and out when it is filled, emptied and heated or cooled by the weather, what it must vent in a fire, and the vent size that passes it.',
+  'How much a storage tank must breathe in and out when it is filled, emptied and heated or cooled by the weather, what it must vent in a fire, and the vent size that passes it. Pick the solvent and its properties are filled in.',
   ['tank-vent-normal', 'tank-vent-fire', 'tank-vent-size'], r'''
   <h2 id="how">How to size a tank vent</h2>
   <ol>
@@ -33,6 +33,6 @@ page('calculators/tank-vent-sizing', 'Storage Tank Vent Sizing Calculator (API 2
    ('What is the difference between a breather valve and an emergency vent?', 'A breather (pressure/vacuum) valve handles normal filling, emptying and weather. An emergency vent or lifting manhole cover opens at a higher pressure and passes the much larger vapour flow generated when a fire heats the tank.'),
    ('Does a tank with a weak roof-to-shell joint need an emergency vent?', 'No. A frangible roof-to-shell joint built to API 650 fails first and vents the tank, so no separate emergency vent is needed. Small tanks rarely meet the frangibility rules and need an emergency vent.')],
   [('/calculators/relief-valve-sizing/', 'Relief valve sizing (API 520 and 521)'), ('/calculators/tank-breathing-losses/', 'Tank filling and breathing losses'), ('/articles/storage-tank-breathing-losses/', 'Solvent storage tanks (article)'), ('/process-safety/emergency-relief-vent-sizing/', 'Relief and vent sizing (lesson)'), ('/articles/inerting-and-loc/', 'Inerting and LOC')],
-  ['calc-tankvent.js'],
+  [('calc-tankvent.js', {'data-sol': '/assets/data/solvent-lite.json'})],
   keywords='storage tank vent sizing, API 2000 calculator, tank breathing calculation, inbreathing outbreathing, emergency vent sizing, breather valve sizing, PVRV sizing')
 print('ok')

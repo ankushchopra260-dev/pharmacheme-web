@@ -78,7 +78,7 @@ last_modified_at: 2026-11-11
 
 <div class="container ut-head">
   <h1>Storage Tank Vent Sizing (API 2000)</h1>
-  <p>How much a storage tank must breathe in and out when it is filled, emptied and heated or cooled by the weather, what it must vent in a fire, and the vent size that passes it.</p>
+  <p>How much a storage tank must breathe in and out when it is filled, emptied and heated or cooled by the weather, what it must vent in a fire, and the vent size that passes it. Pick the solvent and its properties are filled in.</p>
 </div>
 
 <div class="container ut-grid">
@@ -132,4 +132,4 @@ last_modified_at: 2026-11-11
 </div>
 
 <script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
-<script src="{{ '/assets/js/calc-tankvent.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-tankvent.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-sol="{{ '/assets/data/solvent-lite.json' | relative_url }}"></script>

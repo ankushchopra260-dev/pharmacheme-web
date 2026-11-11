@@ -3,7 +3,12 @@
    estimate of the free vent area. Needs pce-kit.js. */
 (function () {
   'use strict';
-  var K = PCEKit, F = K.F, G = K.G;
+  var K = PCEKit, F = K.F, G = K.G, me = document.currentScript, SOL = [], URL_S = me && me.getAttribute('data-sol');
+  function pvap(s, T) { return Math.pow(10, s.a[0] - s.a[1] / (s.a[2] + T)) * 0.133322368; } // kPa, T in °C
+  function sol(id) { return SOL.filter(function (x) { return x.s === id; })[0]; }
+  var noSol = function (v) { return !v.sol; }, hasSol = function (v) { return !!v.sol; };
+  function register() {
+  var solOpts = [['', 'Not listed: I will enter the data']].concat(SOL.map(function (s) { return [s.s, s.n]; }));
   var REF = 'API Standard 2000, 7th edition, <i>Venting Atmospheric and Low-pressure Storage Tanks</i> (identical in method to ISO 28300): normal venting by the general method, emergency venting for fire exposure.';
   var REFB = 'Vent area: orifice equation for low-pressure gas flow, Q = C<sub>d</sub> A &radic;(2 &Delta;P / &rho;); see Crane Technical Paper 410. The certified flow curve of the chosen vent governs.';
   var LAT = { lo: ['Below 42° (all of India)', 0.32], mid: ['42° to 58°', 0.25], hi: ['Above 58°', 0.2] };
@@ -32,19 +37,25 @@
       { k: 'V', label: 'Tank capacity', unit: 'm³', v: 50 },
       { k: 'fill', label: 'Maximum filling rate', unit: 'm³/h', v: 20, help: 'Largest pump or tanker unloading rate into the tank' },
       { k: 'empty', label: 'Maximum emptying rate', unit: 'm³/h', v: 15, help: 'Largest pump-out or gravity drain rate' },
-      { k: 'vol', label: 'Liquid stored', type: 'sel', v: 'v', opts: [['v', 'Volatile: vapour pressure above 5 kPa at storage temperature'], ['n', 'Non-volatile: vapour pressure 5 kPa or below']], help: 'Methanol, acetone, toluene at 40 °C and most process solvents are volatile; water, glycols and heavy oils are not' },
+      { k: 'sol', label: 'Solvent stored', type: 'sel', v: SOL.length ? 'methanol' : '', opts: solOpts, help: 'Sets whether the liquid is volatile and which C factor applies, from its vapour pressure' },
+      { k: 'Ts', label: 'Average storage temperature', unit: '°C', v: 30, show: hasSol },
+      { k: 'vol', label: 'Liquid stored', type: 'sel', v: 'v', show: noSol, opts: [['v', 'Volatile: vapour pressure above 5 kPa at storage temperature'], ['n', 'Non-volatile: vapour pressure 5 kPa or below']], help: 'Methanol, acetone, toluene at 40 °C and most process solvents are volatile; water, glycols and heavy oils are not' },
       { k: 'lat', label: 'Latitude of the site', type: 'sel', v: 'lo', opts: [['lo', LAT.lo[0]], ['mid', LAT.mid[0]], ['hi', LAT.hi[0]]] },
-      { k: 'vp', label: 'Vapour pressure of the liquid', type: 'sel', v: 'u', opts: [['u', 'Higher than hexane, or not known'], ['h', 'Similar to hexane or lower']], help: 'Hexane is about 20 kPa at 25 °C. Low vapour pressure liquids condense less on cooling, so in-breathing is smaller' },
-      { k: 'ts', label: 'Average storage temperature', type: 'sel', v: 'h', opts: [['h', '25 °C or above'], ['l', 'Below 25 °C']], show: function (v) { return v.vp === 'h'; } }
+      { k: 'vp', label: 'Vapour pressure of the liquid', type: 'sel', v: 'u', show: noSol, opts: [['u', 'Higher than hexane, or not known'], ['h', 'Similar to hexane or lower']], help: 'Hexane is about 20 kPa at 25 °C. Low vapour pressure liquids condense less on cooling, so in-breathing is smaller' },
+      { k: 'ts', label: 'Average storage temperature', type: 'sel', v: 'h', opts: [['h', '25 °C or above'], ['l', 'Below 25 °C']], show: function (v) { return !v.sol && v.vp === 'h'; } }
     ].concat(INS),
-    example: { v: { V: 200, fill: 40, empty: 30, vol: 'v', lat: 'lo', vp: 'u', ts: 'h', ins: 'n', lin: 50, kin: 0.05, Ap: 60 } },
+    example: { v: { sol: SOL.length ? 'toluene' : '', Ts: 35, V: 200, fill: 40, empty: 30, vol: 'v', lat: 'lo', vp: 'u', ts: 'h', ins: 'n', lin: 50, kin: 0.05, Ap: 60 } },
     run: function (v) {
       if (!(v.V > 0) || v.fill < 0 || v.empty < 0) return { rows: [], notes: [['Enter the tank capacity and the pumping rates.', 'bad']] };
-      var Ri = insR(v), Y = LAT[v.lat][1], C = CF[v.lat][v.vp === 'u' ? 2 : (v.ts === 'h' ? 1 : 0)];
-      var Vop = (v.vol === 'v' ? 2 : 1) * v.fill, Vip = v.empty;
+      var s = v.sol && sol(v.sol), volat = v.vol === 'v', hexLike = v.vp === 'h', warm = v.ts === 'h', Pv = null;
+      if (s) { var hx = sol('n-hexane'); Pv = pvap(s, v.Ts); volat = Pv > 5; hexLike = hx ? Pv <= pvap(hx, v.Ts) * 1.05 : false; warm = v.Ts >= 25;
+        if (Pv >= 101.325) return { rows: [], notes: [[s.n + ' boils at ' + v.Ts + ' °C at atmospheric pressure: it cannot be kept in an atmospheric tank at this temperature.', 'bad']] }; }
+      var Ri = insR(v), Y = LAT[v.lat][1], C = CF[v.lat][!hexLike ? 2 : (warm ? 1 : 0)];
+      var Vop = (volat ? 2 : 1) * v.fill, Vip = v.empty;
       var Vot = Y * Math.pow(v.V, 0.9) * Ri, Vit = C * Math.pow(v.V, 0.7) * Ri;
       var out = Vop + Vot, inn = Vip + Vit;
-      var notes = [['Out-breathing = filling (' + (v.vol === 'v' ? '2 &times; ' : '') + 'fill rate) + thermal (Y V<sup>0.9</sup> R<sub>i</sub>). In-breathing = emptying rate + thermal (C V<sup>0.7</sup> R<sub>i</sub>).', 'lead']];
+      var notes = [['Out-breathing = filling (' + (volat ? '2 &times; ' : '') + 'fill rate) + thermal (Y V<sup>0.9</sup> R<sub>i</sub>). In-breathing = emptying rate + thermal (C V<sup>0.7</sup> R<sub>i</sub>).', 'lead']];
+      if (s) notes.push([s.n + ' at ' + v.Ts + ' °C has a vapour pressure of ' + F(Pv, 1) + ' kPa: ' + (volat ? 'volatile (above 5 kPa), so filling counts twice' : 'non-volatile (5 kPa or below)') + '; ' + (hexLike ? 'no higher than hexane' : 'higher than hexane') + ', so C = ' + G(C, 2) + '.']);
       if (v.V > 30000) notes.push(['The general method covers tanks up to 30,000 m³. For a larger tank use a detailed calculation.', 'warn']);
       notes.push(['Not included: flashing of hot or pressurised feed, nitrogen blanketing regulator failure, steam-out, and inert pad gas. Add any of these that apply to your tank.', 'warn']);
       notes.push(['In-breathing is often the larger number. A blocked or undersized vacuum vent collapses a tank at only a few mbar of vacuum.']);
@@ -52,7 +63,7 @@
         ['Out-breathing from filling', F(Vop, 1), 'Nm³/h'], ['Thermal out-breathing', F(Vot, 1), 'Nm³/h'], ['In-breathing from emptying', F(Vip, 1), 'Nm³/h'], ['Thermal in-breathing', F(Vit, 1), 'Nm³/h'],
         ['Y factor / C factor', G(Y, 2) + ' / ' + G(C, 2), ''], ['Insulation reduction factor Ri', G(Ri, 3), '']], notes: notes };
     },
-    refs: [REF]
+    refs: [REF, 'Vapour pressure (Antoine constants), latent heat and boiling point: the PharmaChemE solvent pages.']
   });
 
   /* ---------- emergency venting, fire ---------- */
@@ -68,17 +79,19 @@
       { k: 'pd', label: 'Tank design pressure', type: 'sel', v: 'lo', opts: [['lo', '7 kPa (70 mbar) gauge or below'], ['hi', 'Above 7 kPa, up to 103.4 kPa gauge']] },
       { k: 'env', label: 'Protection of the tank', type: 'sel', v: '1', opts: [['1', 'Bare metal tank (F = 1.0)'], ['0.3', 'Fire-proof insulation, 25 mm (F = 0.3)'], ['0.15', 'Fire-proof insulation, 50 mm (F = 0.15)'], ['0.075', 'Fire-proof insulation, 100 mm (F = 0.075)'], ['0.5', 'Impoundment away from the tank (F = 0.5)'], ['0.03', 'Earth-covered above grade (F = 0.03)'], ['c', 'Enter my own F']], help: 'Water spray and ordinary weather insulation get no credit (F = 1.0). Insulation counts only if it stays in place in a fire and under a fire hose' },
       { k: 'Fc', label: 'Environment factor F', v: 1, show: function (v) { return v.env === 'c'; } },
-      { k: 'lam', label: 'Latent heat of the liquid', unit: 'kcal/kg', v: 263, help: 'At relieving conditions, from the solvent pages: methanol about 263, toluene 86, hexane 80, acetone 124' },
-      { k: 'M', label: 'Molecular weight of the vapour', unit: 'kg/kmol', v: 32.04 },
-      { k: 't', label: 'Temperature of the relieving vapour', unit: '°C', v: 65, help: 'Normally the boiling point at the relieving pressure' }
+      { k: 'sol', label: 'Solvent stored', type: 'sel', v: SOL.length ? 'methanol' : '', opts: solOpts, help: 'Fills in the latent heat, molecular weight and boiling point from the solvent data' },
+      { k: 'lam', label: 'Latent heat of the liquid', unit: 'kcal/kg', v: 263, show: noSol, help: 'At relieving conditions, from the solvent pages: methanol about 263, toluene 86, hexane 80, acetone 124' },
+      { k: 'M', label: 'Molecular weight of the vapour', unit: 'kg/kmol', v: 32.04, show: noSol },
+      { k: 't', label: 'Temperature of the relieving vapour', unit: '°C', v: 65, show: noSol, help: 'Normally the boiling point at the relieving pressure' }
     ],
-    example: { v: { shape: 'v', D: 6, H: 7.5, L: 8, A: 60, pd: 'lo', env: '1', Fc: 1, lam: 86, M: 92.14, t: 111 } },
+    example: { v: { sol: SOL.length ? 'toluene' : '', shape: 'v', D: 6, H: 7.5, L: 8, A: 60, pd: 'lo', env: '1', Fc: 1, lam: 86, M: 92.14, t: 111 } },
     run: function (v) {
       var A, how;
       if (v.shape === 'v') { A = Math.PI * v.D * Math.min(v.H, 9.14); how = 'shell up to ' + F(Math.min(v.H, 9.14), 2) + ' m above grade; the bottom on the ground is not counted'; }
       else if (v.shape === 'h') { var tot = Math.PI * v.D * v.L + 2 * Math.PI * v.D * v.D / 4; A = 0.75 * tot; how = '75 % of the total surface (flat ends assumed)'; }
       else { A = v.A; how = 'as entered'; }
-      var Fe = v.env === 'c' ? v.Fc : +v.env;
+      var Fe = v.env === 'c' ? v.Fc : +v.env, s = v.sol && sol(v.sol);
+      if (s) { v.lam = s.lh; v.M = s.mw; v.t = s.bp; }
       if (!(A > 0) || !(v.lam > 0) || !(v.M > 0) || !(Fe >= 0)) return { rows: [], notes: [['Check the tank size, latent heat, molecular weight and F.', 'bad']] };
       var Q, band;
       if (A < 18.6) { Q = 63150 * A; band = 'Q = 63,150 A'; }
@@ -90,6 +103,7 @@
       var q = 906.6 * Q * Fe / Lj * Math.sqrt(T / v.M), W = Q * Fe / Lj * 3600;
       var notes = [['q = 906.6 Q F / L &radic;(T / M), in Nm³/h of air, with Q in W, L in J/kg and T in K. Heat input: ' + band + ' (A in m²).', 'lead']];
       notes.push(['Wetted area: ' + how + '.']);
+      if (s) notes.push([s.n + ': latent heat ' + G(s.lh, 3) + ' kcal/kg, molecular weight ' + s.mw + ', relieving at its boiling point of ' + s.bp + ' °C.']);
       notes.push(['The emergency vent must pass this full flow at a pressure the tank can stand. The capacity of the normal vents may be counted towards it.', 'warn']);
       notes.push(['A tank with a weak roof-to-shell joint built to API 650 needs no separate emergency vent. Small shop-built tanks usually do not qualify, so they need an emergency vent or manhole cover vent.']);
       return { rows: [['Emergency venting required', F(q, 0), 'Nm³/h air'], ['Vapour generated', F(W, 0), 'kg/h'], ['Heat input Q', F(Q / 1.163, 0), 'kcal/h (' + F(Q / 1000, 0) + ' kW)'], ['Wetted area', F(A, 1), 'm²'], ['Environment factor F', G(Fe, 3), '']], notes: notes };
@@ -121,4 +135,7 @@
     },
     refs: [REFB, REF]
   });
+  }
+  if (URL_S && typeof fetch === 'function') fetch(URL_S).then(function (r) { return r.json(); }).then(function (d) { SOL = d; register(); }).catch(register); else register();
+  if (typeof module !== 'undefined' && module.exports) module.exports = { setSol: function (d) { SOL = d; register(); } };
 })();
