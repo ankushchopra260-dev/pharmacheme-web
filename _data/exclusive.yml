@@ -320,7 +320,7 @@ items:
 
   # Being tested by the owner. hidden: true keeps it off the Exclusive page, search and sitemap, and the page shows
   # "not open yet" to everyone except accounts that already have access (the owner). To launch: remove the hidden line,
-  # set the real price, replace the company defaults inside the tool (see tools/launch-bfd-tool.md), rebuild pages.
+  # confirm the price (9999), replace the company defaults inside the tool (see tools/launch-bfd-tool.md), rebuild pages.
   - id: app-bfd-tool
     slug: bfd-tool
     group: apps
@@ -329,7 +329,7 @@ items:
     meta: 'Offline app that turns a lab procedure into a block flow diagram workbook for a batch process: step sheets, equipment tags, heat and utility duties and optional costing, all linked to one batch-size cell.'
     title: 'BFD tool (offline app)'
     short: 'Paste the lab procedure, set the batch size, and get a block flow diagram workbook for a multi-stage batch process, with every quantity linked to one batch-size cell so the whole workbook rescales when the batch changes.'
-    price: 0
+    price: 9999
     what:
       - 'Lab procedure to plant steps: paste the R&D procedure table and the tool reads materials, quantities, times and temperatures for each operation'
       - 'One step sheet per stage, with numbered instructions, notes and results, and equipment tags assigned automatically'

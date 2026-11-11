@@ -5,7 +5,7 @@ layout: default
 {%- assign grp = site.data.exclusive.groups | where: "key", it.group | first -%}
 <link rel="stylesheet" href="{{ '/assets/css/exclusive.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <meta name="ex-v" content="{{ site.time | date: '%s' }}">
-<script type="application/json" id="ex-cat">{"items": {{ site.data.exclusive.items | where_exp: "i", "i.hidden != true or i.id == page.item" | jsonify }}, "paths": {{ site.data.exclusive.paths | jsonify }}}</script>
+<script type="application/json" id="ex-cat">{"items": [{%- assign ex_sep = "" -%}{%- for i in site.data.exclusive.items -%}{%- if i.hidden != true or i.id == page.item -%}{{ ex_sep }}{{ i | jsonify }}{%- assign ex_sep = "," -%}{%- endif -%}{%- endfor -%}], "paths": {{ site.data.exclusive.paths | jsonify }}}</script>
 <div class="container ex-page" data-item="{{ it.id }}" data-type="{{ it.group }}">
   <header class="ex-head">
     <p class="ex-kind"><a href="{{ '/exclusive/' | relative_url }}#{{ grp.key }}">{{ grp.title }}</a></p>
