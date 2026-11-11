@@ -218,12 +218,11 @@ async function render(it) {
     try { const fn = (0, eval)(it.js); fn(box, makeApi(files)); }
     catch (e) { content.innerHTML = '<p class="ts-note">The calculator could not start (' + esc(e.message) + '). Please refresh; if it keeps happening, email ' + esc(CONTACT) + '.</p>'; }
   } else if (it.gz) {
-    content.innerHTML = '<div class="ex-webapp"><div class="ex-tools"><button type="button" class="ts-btn" id="ex-wa-full">Full screen</button> <button type="button" class="ts-btn prim" id="ex-wa-dl">Download as one HTML file (works offline)</button></div><iframe id="ex-wa" class="ex-wa-frame" title="' + esc(TITLE || 'Tool') + '"></iframe><p class="ts-mute">Your entries stay in this browser. Use the tool\'s own Save project button to keep a copy as a file.</p></div>' + stamp;
+    content.innerHTML = '<div class="ex-webapp"><div class="ex-tools"><button type="button" class="ts-btn" id="ex-wa-full">Full screen</button></div><iframe id="ex-wa" class="ex-wa-frame" title="' + esc(TITLE || 'Tool') + '"></iframe><p class="ts-mute">Your entries stay in this browser. Use the tool\'s own Save project button to keep a copy as a file.</p></div>' + stamp;
     try {
       const html = await gunzipText(it.gz), fr = document.getElementById('ex-wa');
       fr.srcdoc = html;
       document.getElementById('ex-wa-full').onclick = () => { try { (fr.requestFullscreen || fr.webkitRequestFullscreen).call(fr); } catch (e) { toast('Full screen is not available in this browser.'); } };
-      document.getElementById('ex-wa-dl').onclick = () => { const u = URL.createObjectURL(new Blob([html], { type: 'text/html' })), a = document.createElement('a'); a.href = u; a.download = 'PharmaChemE-' + (ITEM[ID] && ITEM[ID].slug || 'tool') + '.html'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(u); a.remove(); }, 1000); markFinished(ID); };
       if (!PROG[ID] || !PROG[ID].opened) saveProgress(ID, { opened: true });
     } catch (e) { content.innerHTML = '<p class="ts-note">The tool could not open (' + esc(e.message) + '). Please refresh; if it keeps happening, email ' + esc(CONTACT) + '.</p>'; }
   } else {
