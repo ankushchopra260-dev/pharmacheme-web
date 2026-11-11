@@ -19,7 +19,7 @@ faqs = [
   ('How do you calculate the fire case relief load?', 'Find the wetted area up to 7.6 m above grade, calculate heat input Q = 43,200 F A^0.82 W (with adequate drainage and firefighting, A in m²) and divide by the latent heat of the liquid at relieving conditions to get kg/h of vapour.'),
   ('What are the API 526 orifice sizes?', 'Effective areas from D (0.110 in², 71 mm²) through E, F, G, H, J, K, L, M, N, P, Q and R to T (26.0 in², 16,774 mm²).'),
 ]
-related = [('/process-safety/emergency-relief-vent-sizing/', 'Relief and vent sizing (lesson)'), ('/articles/relief-valve-sizing/', 'Relief valve sizing basics'), ('/calculators/steam-tables/', 'Steam tables'), ('/calculators/control-valve-sizing/', 'Control valve Cv and restriction orifice')]
+related = [('/process-safety/emergency-relief-vent-sizing/', 'Relief and vent sizing (lesson)'), ('/articles/relief-valve-sizing/', 'Relief valve sizing basics'), ('/calculators/tank-vent-sizing/', 'Storage tank vent sizing (API 2000)'), ('/calculators/steam-tables/', 'Steam tables'), ('/calculators/control-valve-sizing/', 'Control valve Cv and restriction orifice')]
 print(page('calculators/relief-valve-sizing', 'Relief Valve Sizing Calculator (API 520 / 521): Gas, Steam, Liquid, Fire Case',
   'PSV Sizing Calculator (API 520/521, Fire Case) | PharmaChemE',
   'Relief valve sizing to API 520: gas and vapour (critical and subcritical), steam, liquid with viscosity correction, API 521 fire case and thermal relief.',

@@ -1,0 +1,135 @@
+---
+layout: default
+title: "Storage Tank Vent Sizing Calculator (API 2000): Breathing and Fire Case"
+seo_title: "Storage Tank Vent Sizing (API 2000) | PharmaChemE"
+description: "Size storage tank vents to API 2000: in-breathing and out-breathing from pumping and weather, emergency fire venting, and the vent nozzle size."
+keywords: "storage tank vent sizing, API 2000 calculator, tank breathing calculation, inbreathing outbreathing, emergency vent sizing, breather valve sizing, PVRV sizing"
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Storage Tank Vent Sizing (API 2000)",
+        "url": "https://www.pharmacheme.in/calculators/tank-vent-sizing/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "description": "Size storage tank vents to API 2000: in-breathing and out-breathing from pumping and weather, emergency fire venting, and the vent nozzle size.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you calculate the venting capacity of a storage tank?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Under API 2000, out-breathing is the filling rate (doubled for volatile liquids) plus thermal out-breathing Y × V^0.9; in-breathing is the emptying rate plus thermal in-breathing C × V^0.7, with V the tank volume in m³ and flows in Nm³/h of air. The emergency vent is sized separately for fire."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is in-breathing often larger than out-breathing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Thermal in-breathing is based on a sudden cold rain cooling a sun-heated tank, which shrinks the gas and condenses vapour quickly. A tank can only stand a few mbar of vacuum, so the vacuum vent is as important as the pressure vent."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between a breather valve and an emergency vent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A breather (pressure/vacuum) valve handles normal filling, emptying and weather. An emergency vent or lifting manhole cover opens at a higher pressure and passes the much larger vapour flow generated when a fire heats the tank."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does a tank with a weak roof-to-shell joint need an emergency vent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. A frangible roof-to-shell joint built to API 650 fails first and vents the tank, so no separate emergency vent is needed. Small tanks rarely meet the frangibility rules and need an emergency vent."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Calculators"
+    url: /calculators/
+  - label: "Storage Tank Vent Sizing (API 2000)"
+    url: /calculators/tank-vent-sizing/
+last_modified_at: 2026-11-11
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pce-kit.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Storage Tank Vent Sizing (API 2000)</h1>
+  <p>How much a storage tank must breathe in and out when it is filled, emptied and heated or cooled by the weather, what it must vent in a fire, and the vent size that passes it.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="ut-calc pk-calc" id="tank-vent-normal" data-calc="tank-vent-normal"></div>
+  <div class="ut-calc pk-calc" id="tank-vent-fire" data-calc="tank-vent-fire"></div>
+  <div class="ut-calc pk-calc" id="tank-vent-size" data-calc="tank-vent-size"></div>
+</div>
+
+<div class="container article-body" id="guide" style="margin-top:28px;">
+<h2 id="how">How to size a tank vent</h2>
+  <ol>
+    <li><b>Normal venting.</b> Add the flow from liquid movement to the flow from thermal breathing. Do it twice: once for pressure (out-breathing) and once for vacuum (in-breathing).</li>
+    <li><b>Emergency venting.</b> Work out the vapour boiled off by a fire around the tank. This is usually many times the normal flow, so it gets its own emergency vent, a lifting manhole cover, or a weak roof-to-shell joint.</li>
+    <li><b>Choose the vents.</b> The breather valve must pass the normal flows, and the emergency vent the fire flow, before the tank reaches its design pressure or vacuum. Use the vent size calculator for a first check, then the maker&rsquo;s certified flow curve.</li>
+  </ol>
+  <div class="formula-box">Out-breathing = V<sub>fill</sub> (&times; 2 for volatile liquids) + Y V<sub>tank</sub><sup>0.9</sup> R<sub>i</sub><br>In-breathing = V<sub>empty</sub> + C V<sub>tank</sub><sup>0.7</sup> R<sub>i</sub><br>Fire: q = 906.6 Q F / L &radic;(T / M)
+    <small>Flows in Nm³/h of air, pumping rates in m³/h, tank volume in m³. Y = 0.32 and C = 4 to 6.5 below 42° latitude. Q is the fire heat input in W from the wetted area, F the environment factor, L the latent heat in J/kg, T in K, M the molecular weight.</small></div>
+  <p>The factor of 2 on filling covers the extra vapour that evaporates from a volatile liquid as fresh liquid enters. Thermal in-breathing is sized for a sudden cold rain on a sun-heated tank, which is why it is so much larger than thermal out-breathing.</p>
+  <h3>Fire heat input</h3>
+  <table>
+    <thead><tr><th>Wetted area, m²</th><th>Design pressure</th><th>Heat input Q, W</th></tr></thead>
+    <tbody>
+      <tr><td>Below 18.6</td><td>Up to 103.4 kPa g</td><td>63,150 A</td></tr>
+      <tr><td>18.6 to 93</td><td>Up to 103.4 kPa g</td><td>224,200 A<sup>0.566</sup></td></tr>
+      <tr><td>93 to 260</td><td>Up to 103.4 kPa g</td><td>630,400 A<sup>0.338</sup></td></tr>
+      <tr><td>260 and above</td><td>Above 7 kPa g</td><td>43,200 A<sup>0.82</sup></td></tr>
+      <tr><td>260 and above</td><td>7 kPa g or below</td><td>4,129,700</td></tr>
+    </tbody>
+  </table>
+  <div class="art-note"><b>Tank or pressure vessel?</b><p>API 2000 covers tanks designed for up to 103.4 kPa g (1.034 barg, 15 psig). A vessel with a higher design pressure is a pressure vessel: size its relief valve with the <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">relief valve sizing calculator</a> (API 520 and 521), which also has the fire case for vessels.</p></div>
+  <p>These calculators follow the general method of the standard. They do not replace it: check flashing feeds, blanketing failure, steam-out and any site rule, and have the final vent selection confirmed by a competent engineer against the vendor&rsquo;s certified capacity.</p>
+
+  <h2 id="faq">Frequently asked questions</h2>
+  <h3>How do you calculate the venting capacity of a storage tank?</h3>
+  <p>Under API 2000, out-breathing is the filling rate (doubled for volatile liquids) plus thermal out-breathing Y × V^0.9; in-breathing is the emptying rate plus thermal in-breathing C × V^0.7, with V the tank volume in m³ and flows in Nm³/h of air. The emergency vent is sized separately for fire.</p>
+  <h3>Why is in-breathing often larger than out-breathing?</h3>
+  <p>Thermal in-breathing is based on a sudden cold rain cooling a sun-heated tank, which shrinks the gas and condenses vapour quickly. A tank can only stand a few mbar of vacuum, so the vacuum vent is as important as the pressure vent.</p>
+  <h3>What is the difference between a breather valve and an emergency vent?</h3>
+  <p>A breather (pressure/vacuum) valve handles normal filling, emptying and weather. An emergency vent or lifting manhole cover opens at a higher pressure and passes the much larger vapour flow generated when a fire heats the tank.</p>
+  <h3>Does a tank with a weak roof-to-shell joint need an emergency vent?</h3>
+  <p>No. A frangible roof-to-shell joint built to API 650 fails first and vents the tank, so no separate emergency vent is needed. Small tanks rarely meet the frangibility rules and need an emergency vent.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">Relief valve sizing (API 520 and 521)</a>
+    <a href="{{ '/calculators/tank-breathing-losses/' | relative_url }}">Tank filling and breathing losses</a>
+    <a href="{{ '/articles/storage-tank-breathing-losses/' | relative_url }}">Solvent storage tanks (article)</a>
+    <a href="{{ '/process-safety/emergency-relief-vent-sizing/' | relative_url }}">Relief and vent sizing (lesson)</a>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/calc-tankvent.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -28,7 +28,7 @@ page('calculators/tank-breathing-losses', 'Solvent Tank Filling and Breathing Lo
   <p>This calculator gives a conservative physical estimate: the headspace is taken as saturated and no turnover credit is applied, so it gives the upper end. For permit reporting use the full US EPA AP-42 Chapter 7.1 method, which adds tank colour, solar insolation and saturation and turnover factors. Read <a href="{{ '/articles/storage-tank-breathing-losses/' | relative_url }}">solvent storage tanks: breathing losses and vents</a> for the controls that work.</p>''',
   [('How do you calculate tank filling losses?', 'Filling loss = volume pumped in × concentration of saturated vapour in the headspace. Concentration = vapour pressure × molecular weight / (R × T). For toluene at 30 °C that is about 0.18 kg per m³ pumped.'),
    ('Does nitrogen blanketing reduce tank emissions?', 'No. The gas pushed out during filling is still saturated with vapour; it is nitrogen instead of air. Vapour balancing to the tanker and vent condensers reduce the losses.')],
-  [('/articles/storage-tank-breathing-losses/', 'Solvent storage tanks (article)'), ('/solvents/', 'Solvent data'), ('/articles/inerting-and-loc/', 'Inerting and LOC')], SC,
+  [('/articles/storage-tank-breathing-losses/', 'Solvent storage tanks (article)'), ('/calculators/tank-vent-sizing/', 'Storage tank vent sizing (API 2000)'), ('/solvents/', 'Solvent data'), ('/articles/inerting-and-loc/', 'Inerting and LOC')], SC,
   keywords='tank breathing losses, tank filling losses, solvent storage tank emissions, working loss, standing loss, AP-42 tank')
 page('calculators/vessel-thickness-calculator', 'Pressure Vessel Thickness and MAWP Calculator (ASME VIII Div. 1)',
   'Vessel Thickness and MAWP (ASME VIII-1) | PharmaChemE',

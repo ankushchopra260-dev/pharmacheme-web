@@ -48,6 +48,7 @@
     - title: "Safety and equipment sizing"
       children:
         - { title: "Relief Valve Sizing (API 520/521)", url: /calculators/relief-valve-sizing/ }
+        - { title: "Tank Vent Sizing (API 2000)", url: /calculators/tank-vent-sizing/ }
         - { title: "Knock-out Pot Sizing", url: /calculators/knock-out-pot-sizing/ }
         - { title: "Tank Filling & Breathing Losses", url: /calculators/tank-breathing-losses/ }
         - { title: "Vessel Thickness & MAWP", url: /calculators/vessel-thickness-calculator/ }
@@ -139,7 +140,6 @@
   groups:
     - title: "Plant operations"
       children:
-        - { title: "Virtual Plant Tour", url: /plant-tour/ }
         - { title: "Plant Rally", url: /games/plant-rally/ }
         - { title: "Plant Operator", url: /games/plant-operator/ }
         - { title: "Troubleshooter", url: /games/troubleshooter/ }
