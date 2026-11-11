@@ -42,7 +42,7 @@ const SITE = 'https://www.pharmacheme.in';
 // everything that can be sold: the GATE test series plus the exclusive catalog (_data/exclusive.yml)
 const CAT = {{ site.data.exclusive.items | jsonify }};
 const PRODUCTS = [{ id: 'gate-test-series', title: 'GATE CH test series', price: '₹199', url: '/gate/test-series/', until: '2027-03-31', gate: true }]
-  .concat(CAT.map(c => ({ id: c.id, title: c.title, price: '₹' + c.price, url: '/exclusive/' + c.slug + '/', until: '2099-12-31' })));
+  .concat(CAT.map(c => ({ id: c.id, title: c.title, price: c.hidden ? 'not public yet' : '₹' + c.price, url: '/exclusive/' + c.slug + '/', until: '2099-12-31' })));
 const P = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = d => !d ? '' : d.getFullYear() >= 2099 ? 'Lifetime' : d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
