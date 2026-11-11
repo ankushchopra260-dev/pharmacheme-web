@@ -2,7 +2,7 @@
 layout: default
 guide: false
 title: Stop the Hazard
-description: "Fast, arcade-style process safety game. Spot the hazard, read live process trends and pick what needs attention first, before the risk climbs."
+description: "Fast process safety game. Spot the hazard, read live process trends and pick what needs attention first. Six rounds, different every game."
 breadcrumbs:
   - label: Games
     url: /games/
@@ -72,7 +72,7 @@ last_modified_at: 2026-10-20
 
 <div class="container calc-page-head">
   <p style="font-size:0.85rem; color:var(--muted, #6E8CA8); margin-bottom:4px;">
-    Spot the danger before it grows. Short rounds, live trends and no colour-coded answers. You have to read the situation yourself.
+    Spot the danger before it grows. Six short rounds, different every game, with live trends and no colour-coded answers. You have to read the situation yourself.
   </p>
 </div>
 
@@ -195,12 +195,14 @@ const state = {
   timeTotal: 0,
 };
 
-const ROUNDS = [
-  { type: 'hazard', scene: 'leak', time: 12 },
-  { type: 'priority', scenario: 'A', time: 14 },
-  { type: 'hazard', scene: 'valve', time: 10 },
-  { type: 'priority', scenario: 'B', time: 14 },
-];
+// Six rounds a game, drawn fresh each time from five hazard scenes and five trend sets.
+let ROUNDS = [];
+function shuffled(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function buildRounds() {
+  const hz = shuffled(Object.keys(SCENES)).slice(0, 3), pr = shuffled(Object.keys(PRIORITY_SCENARIOS)).slice(0, 3);
+  ROUNDS = [];
+  for (let i = 0; i < 3; i++) { ROUNDS.push({ type: 'hazard', scene: hz[i], time: 12 }); ROUNDS.push({ type: 'priority', scenario: pr[i], time: 14 }); }
+}
 
 // ---------------- Hazard scenes ----------------
 // Each element: {id, x, y, w, h, hazard, draw}
@@ -308,10 +310,83 @@ function sceneValve() {
   ];
 }
 
-const SCENES = { leak: sceneLeak, valve: sceneValve };
+// --- small drawing helpers for the newer scenes ---
+function lbl(ctx, t, x, y, col, font) { ctx.fillStyle = col || COL.outline; ctx.font = font || '11px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(t, x, y); }
+function valveSym(ctx, x, y, open) { // bow-tie valve; handle along the pipe = open, across = closed
+  ctx.fillStyle = COL.steelDark; ctx.beginPath(); ctx.moveTo(x - 12, y - 8); ctx.lineTo(x + 12, y + 8); ctx.lineTo(x + 12, y - 8); ctx.lineTo(x - 12, y + 8); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = COL.outline; ctx.lineWidth = 3; ctx.beginPath();
+  if (open) { ctx.moveTo(x, y - 14); ctx.lineTo(x, y); } else { ctx.moveTo(x - 12, y - 14); ctx.lineTo(x + 12, y - 14); ctx.moveTo(x, y - 14); ctx.lineTo(x, y); }
+  ctx.stroke();
+}
+
+// Relief valve with its inlet isolation valve left closed
+function scenePsv() {
+  return [
+    { id: 'vessel', x: 110, y: 170, w: 200, h: 120, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.steelMid; ctx.fillRect(this.x, this.y, this.w, this.h); lbl(ctx, 'Receiver V-204', this.x + this.w/2, this.y + this.h + 18, null, '12px sans-serif'); lbl(ctx, 'In service, 2.8 bar', this.x + this.w/2, this.y + 66); } },
+    { id: 'riser', x: 203, y: 60, w: 14, h: 110, hazard: false, draw(ctx) { ctx.fillStyle = COL.pipe; ctx.fillRect(this.x, this.y, this.w, this.h); } },
+    { id: 'psv', x: 180, y: 14, w: 60, h: 50, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.ok; ctx.fillRect(this.x + 18, this.y + 14, 24, 34); ctx.fillRect(this.x + 24, this.y, 12, 16); ctx.fillStyle = COL.pipe; ctx.fillRect(this.x + 42, this.y + 30, 40, 10);
+        lbl(ctx, 'Relief valve', this.x + 100, this.y + 16); lbl(ctx, 'Set 3.5 bar', this.x + 100, this.y + 60, '#5A6B7A', '10px sans-serif'); } },
+    { id: 'isovalve', x: 180, y: 96, w: 100, h: 44, hazard: true,
+      draw(ctx) { valveSym(ctx, this.x + 30, this.y + 22, false); lbl(ctx, 'Isolation valve', this.x + 96, this.y + 16, null, 'bold 10px sans-serif'); lbl(ctx, 'CLOSED', this.x + 96, this.y + 30, COL.outline, 'bold 10px sans-serif'); } },
+    { id: 'gauge', x: 330, y: 180, w: 50, h: 50, hazard: false,
+      draw(ctx) { ctx.fillStyle = '#fff'; ctx.strokeStyle = COL.good; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(this.x + 25, this.y + 25, 24, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); lbl(ctx, 'OK', this.x + 25, this.y + 29, COL.good, 'bold 10px sans-serif'); lbl(ctx, 'Pressure', this.x + 25, this.y + 66); } },
+    { id: 'drain', x: 40, y: 250, w: 60, h: 40, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.pipe; ctx.fillRect(this.x + 30, this.y + 14, 40, 10); valveSym(ctx, this.x + 26, this.y + 19, false); lbl(ctx, 'Drain: closed', this.x + 30, this.y + 46, '#5A6B7A', '10px sans-serif'); } },
+  ];
+}
+
+// Solvent drum being pumped out with the earthing clamp hanging loose
+function sceneEarth() {
+  return [
+    { id: 'drum', x: 70, y: 150, w: 90, h: 130, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.ok; ctx.fillRect(this.x, this.y, this.w, this.h); ctx.fillStyle = 'rgba(0,0,0,0.18)'; ctx.fillRect(this.x, this.y + 40, this.w, 5); ctx.fillRect(this.x, this.y + 85, this.w, 5);
+        lbl(ctx, 'TOLUENE', this.x + this.w/2, this.y + 70, '#fff', 'bold 11px sans-serif'); lbl(ctx, 'Drum on pallet', this.x + this.w/2, this.y + this.h + 16); } },
+    { id: 'hose', x: 110, y: 90, w: 150, h: 60, hazard: false,
+      draw(ctx) { ctx.strokeStyle = '#2b2b2b'; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(this.x + 5, this.y + 62); ctx.bezierCurveTo(this.x + 10, this.y - 10, this.x + 120, this.y - 10, this.x + 150, this.y + 40); ctx.stroke(); lbl(ctx, 'Transfer hose', this.x + 80, this.y + 2, '#5A6B7A', '10px sans-serif'); } },
+    { id: 'pump', x: 245, y: 120, w: 70, h: 50, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.steelDark; ctx.fillRect(this.x, this.y + 8, this.w, 34); ctx.fillStyle = COL.steel; ctx.beginPath(); ctx.arc(this.x + 16, this.y + 25, 16, 0, Math.PI * 2); ctx.fill(); lbl(ctx, 'Pump: RUNNING', this.x + 36, this.y + 60, COL.good, 'bold 10px sans-serif'); } },
+    { id: 'clamp', x: 170, y: 215, w: 80, h: 75, hazard: true,
+      draw(ctx) { // earth bar on the wall, cable drooping to a clamp lying on the floor
+        ctx.fillStyle = '#B8860B'; ctx.fillRect(this.x + 62, this.y, 8, 30);
+        ctx.strokeStyle = '#2E9E52'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(this.x + 64, this.y + 26); ctx.quadraticCurveTo(this.x + 50, this.y + 66, this.x + 26, this.y + 62); ctx.stroke();
+        ctx.fillStyle = '#8797A6'; ctx.beginPath(); ctx.moveTo(this.x + 6, this.y + 54); ctx.lineTo(this.x + 28, this.y + 60); ctx.lineTo(this.x + 6, this.y + 68); ctx.closePath(); ctx.fill();
+        lbl(ctx, 'Earth clamp', this.x + 34, this.y + 44, '#5A6B7A', '10px sans-serif'); } },
+    { id: 'ext', x: 345, y: 190, w: 40, h: 90, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.danger; ctx.fillRect(this.x + 8, this.y + 20, 24, 60); ctx.fillStyle = '#333'; ctx.fillRect(this.x + 14, this.y + 8, 12, 12); lbl(ctx, 'Extinguisher', this.x + 20, this.y + 96, '#5A6B7A', '10px sans-serif'); } },
+    { id: 'sign', x: 300, y: 30, w: 100, h: 44, hazard: false,
+      draw(ctx) { ctx.fillStyle = '#F2D13C'; ctx.fillRect(this.x, this.y, this.w, this.h); lbl(ctx, 'FLAMMABLE', this.x + 50, this.y + 20, COL.outline, 'bold 11px sans-serif'); lbl(ctx, 'No ignition sources', this.x + 50, this.y + 35, COL.outline, '9px sans-serif'); } },
+  ];
+}
+
+// Storage tank being pumped out with its vent wrapped up after painting
+function sceneVent() {
+  return [
+    { id: 'tank', x: 90, y: 110, w: 180, h: 180, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.steel; ctx.fillRect(this.x, this.y, this.w, this.h); ctx.fillStyle = COL.steelMid; ctx.beginPath(); ctx.moveTo(this.x, this.y); ctx.lineTo(this.x + this.w/2, this.y - 22); ctx.lineTo(this.x + this.w, this.y); ctx.closePath(); ctx.fill();
+        lbl(ctx, 'Storage tank T-12', this.x + this.w/2, this.y + this.h + 18, null, '12px sans-serif'); lbl(ctx, 'Freshly painted', this.x + this.w/2, this.y + 60, '#5A6B7A', '10px sans-serif'); } },
+    { id: 'vent', x: 196, y: 40, w: 60, h: 62, hazard: true,
+      draw(ctx) { ctx.fillStyle = COL.pipe; ctx.fillRect(this.x + 22, this.y + 30, 10, 30);
+        ctx.fillStyle = 'rgba(210,225,240,0.95)'; ctx.strokeStyle = '#7C8DA0'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(this.x + 27, this.y + 22, 20, 17, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle = '#B8860B'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(this.x + 14, this.y + 36); ctx.lineTo(this.x + 40, this.y + 36); ctx.stroke();
+        lbl(ctx, 'Vent', this.x + 70, this.y + 26, '#5A6B7A', '10px sans-serif'); } },
+    { id: 'level', x: 30, y: 150, w: 56, h: 120, hazard: false,
+      draw(ctx) { ctx.fillStyle = '#fff'; ctx.fillRect(this.x + 12, this.y, 14, 100); ctx.fillStyle = COL.ok; ctx.fillRect(this.x + 12, this.y + 55, 14, 45); ctx.strokeStyle = COL.outline; ctx.lineWidth = 1.5; ctx.strokeRect(this.x + 12, this.y, 14, 100); lbl(ctx, 'Level 45 % \u2193', this.x + 26, this.y + 116, null, '10px sans-serif'); } },
+    { id: 'outpump', x: 290, y: 230, w: 90, h: 60, hazard: false,
+      draw(ctx) { ctx.fillStyle = COL.pipe; ctx.fillRect(this.x - 20, this.y + 26, 40, 10); ctx.fillStyle = COL.steelDark; ctx.fillRect(this.x + 16, this.y + 14, 60, 34); ctx.fillStyle = COL.steel; ctx.beginPath(); ctx.arc(this.x + 30, this.y + 31, 15, 0, Math.PI * 2); ctx.fill(); lbl(ctx, 'Pump-out: RUNNING', this.x + 40, this.y + 64, COL.good, 'bold 10px sans-serif'); } },
+    { id: 'ladder', x: 276, y: 110, w: 26, h: 110, hazard: false,
+      draw(ctx) { ctx.strokeStyle = '#B8860B'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(this.x + 4, this.y); ctx.lineTo(this.x + 4, this.y + 110); ctx.moveTo(this.x + 22, this.y); ctx.lineTo(this.x + 22, this.y + 110); for (let k = 10; k < 110; k += 16) { ctx.moveTo(this.x + 4, this.y + k); ctx.lineTo(this.x + 22, this.y + k); } ctx.stroke(); } },
+  ];
+}
+
+const SCENES = { leak: sceneLeak, valve: sceneValve, psv: scenePsv, earth: sceneEarth, vent: sceneVent };
 const SCENE_CAPTIONS = {
   leak: 'A cracked pipe joint was leaking process fluid near R-101. Even a small leak should be reported and isolated at once. It can get worse quickly.',
   valve: 'Steam was correctly closed and Chilled Water was correctly open for this cooling step, but pressure was still reading high. A correct valve line-up doesn\u2019t mean everything downstream is fine. Always check the actual readings.',
+  psv: 'The isolation valve under the relief valve was closed while the vessel was in service. With it shut, the relief valve protects nothing. These valves are kept locked or car-sealed open, and the seal is checked before start-up.',
+  earth: 'The earthing clamp was lying on the floor while toluene was being pumped from the drum. Flowing solvent builds up static charge, and one spark can ignite the vapour. Connect the clamp to bare metal before the transfer starts.',
+  vent: 'The vent was still wrapped in plastic from the painting job while the tank was being pumped out. Air cannot get in, and a storage tank collapses at only a few mbar of vacuum. Check every vent is clear before filling or emptying.',
 };
 let currentSceneElements = [];
 
@@ -336,6 +411,36 @@ const PRIORITY_SCENARIOS = {
     ],
     thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
     explain: 'Temperature was rising fastest toward its limit. The other readings were barely moving.',
+  },
+  C: {
+    params: [
+      { id: 'level', label: 'Level', unit: '%', start: 82, rate: 1.3, dir: 1, x: 60, y: 210 },
+      { id: 'temp', label: 'Temperature', unit: '\u00b0C', start: 64, rate: 0.9, dir: 1, x: 60, y: 60 },
+      { id: 'pressure', label: 'Pressure', unit: ' bar', start: 4.1, rate: 0.12, dir: 1, x: 260, y: 60 },
+      { id: 'flow', label: 'Cooling Flow', unit: '%', start: 96, rate: -0.8, dir: -1, x: 260, y: 210 },
+    ],
+    thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
+    explain: 'Level had the least room left before its limit. A feed valve passing or left open overfills a vessel in minutes, so stop the feed first.',
+  },
+  D: {
+    params: [
+      { id: 'level', label: 'Level', unit: '%', start: 55, rate: 0.3, dir: 1, x: 60, y: 210 },
+      { id: 'temp', label: 'Temperature', unit: '\u00b0C', start: 72, rate: 1.6, dir: 1, x: 60, y: 60 },
+      { id: 'pressure', label: 'Pressure', unit: ' bar', start: 5.4, rate: 0.15, dir: 1, x: 260, y: 60 },
+      { id: 'flow', label: 'Cooling Flow', unit: '%', start: 92, rate: -4.2, dir: -1, x: 260, y: 210 },
+    ],
+    thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
+    explain: 'Cooling flow was collapsing. Temperature had started to rise because of it, so restoring cooling (or stopping the dosing) fixes the cause and not only the symptom.',
+  },
+  E: {
+    params: [
+      { id: 'level', label: 'Level', unit: '%', start: 70, rate: 0.9, dir: 1, x: 60, y: 210 },
+      { id: 'temp', label: 'Temperature', unit: '\u00b0C', start: 96, rate: 0.7, dir: 1, x: 60, y: 60 },
+      { id: 'pressure', label: 'Pressure', unit: ' bar', start: 7.9, rate: 0.14, dir: 1, x: 260, y: 60 },
+      { id: 'flow', label: 'Cooling Flow', unit: '%', start: 88, rate: -1.5, dir: -1, x: 260, y: 210 },
+    ],
+    thresholds: { level: 95, temp: 112, pressure: 9.6, flow: 40 },
+    explain: 'Pressure was moving slowly, but it started closest to its limit. Judge by the time left before the limit, not by which number is changing fastest.',
   },
 };
 
@@ -600,6 +705,7 @@ function pct(arr) {
 document.getElementById('start-btn').addEventListener('click', () => {
   document.getElementById('start-overlay').style.display = 'none';
   state.running = true;
+  buildRounds();
   ensureAudio();
   refreshHUD();
   startRound();
