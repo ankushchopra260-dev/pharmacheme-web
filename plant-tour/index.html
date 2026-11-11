@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PharmaChemE — Virtual Plant Tour</title>
-<meta name="description" content="Explore a virtual chemical plant in 3D: fly over it, walk inside, follow a full working day of operations and see what a chemical leak would do. Free.">
+<meta name="description" content="Explore a virtual chemical plant in 3D: fly over it, walk inside, follow a full working day of operations, see what a chemical leak would do, and test yourself with the plant quiz. Free.">
 <link rel="canonical" href="https://www.pharmacheme.in/plant-tour/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PharmaChemE">
@@ -455,6 +455,49 @@ body.leak-open #drag-hint { display:none; }
   white-space: nowrap;
   border: 0;
 }
+
+/* ---------- Daylight toggle, thumb stick, Plant Quiz ---------- */
+#mode-bar #dn-btn { padding:7px 9px; border-left:1px solid var(--line); border-radius:0; margin-left:2px; }
+#mode-bar #snd-btn { border-left:none; margin-left:0; }
+#walk-joy { display:none; position:fixed; left:20px; bottom:max(26px, env(safe-area-inset-bottom)); width:124px; height:124px; border-radius:50%; pointer-events:auto; touch-action:none;
+  background:rgba(19,26,29,0.55); border:1.5px solid rgba(255,255,255,0.35); backdrop-filter:blur(3px); }
+#walk-joy-knob { position:absolute; left:50%; top:50%; width:54px; height:54px; margin:-27px 0 0 -27px; border-radius:50%; background:rgba(79,184,196,0.85); border:2px solid rgba(255,255,255,0.8); box-shadow:0 2px 10px rgba(0,0,0,0.4); }
+@media (pointer:coarse) { #walk-dpad { display:none; } #walk-joy { display:block; } body #walk-hint-mobile { left:auto; right:12px; bottom:max(84px, env(safe-area-inset-bottom)); max-width:150px; } }
+#walk-joy { bottom:max(78px, env(safe-area-inset-bottom)); }
+body.pt-day .label { box-shadow:0 1px 6px rgba(0,0,0,0.35); }
+body.pt-day #drag-hint, body.pt-day #walk-hint-desktop, body.pt-day #walk-hint-mobile { background:rgba(10,14,16,0.78); color:#d5dde0; }
+#quiz-panel { position:fixed; z-index:28; right:18px; top:74px; width:390px; max-height:calc(100vh - 96px); overflow:auto; background:var(--panel); border:1px solid var(--line); border-radius:14px;
+  padding:14px 16px 16px; backdrop-filter:blur(8px); box-shadow:0 10px 34px rgba(0,0,0,0.45); font-family:'Space Grotesk',sans-serif; }
+.qz-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.qz-k { font-size:11px; font-weight:700; color:#0a0e10; background:var(--cyan); border-radius:20px; padding:3px 10px; }
+.qz-n { font-size:11.5px; color:var(--muted); flex:1; }
+.qz-x { background:none; border:1px solid var(--line); color:var(--text); border-radius:8px; width:32px; height:32px; cursor:pointer; font-size:13px; }
+.qz-q { font-size:15px; line-height:1.45; color:var(--text); margin-bottom:12px; }
+.qz-quote { display:block; margin-top:8px; padding:9px 12px; border-left:3px solid var(--cyan); background:rgba(79,184,196,0.09); border-radius:0 8px 8px 0; font-size:13.5px; }
+.qz-opts { display:flex; flex-direction:column; gap:8px; }
+.qz-opt, .qz-next { text-align:left; background:rgba(255,255,255,0.04); border:1px solid var(--line); color:var(--text); border-radius:10px; padding:11px 13px; font-size:13.5px; line-height:1.4; cursor:pointer; font-family:inherit; min-height:44px; }
+.qz-opt:hover:not(:disabled) { border-color:var(--cyan); }
+.qz-opt.ok { border-color:var(--green); background:rgba(63,182,121,0.16); }
+.qz-opt.bad { border-color:#e0553f; background:rgba(224,85,63,0.14); }
+.qz-opt:disabled { cursor:default; opacity:0.92; }
+.qz-res { margin-top:12px; font-size:13.5px; line-height:1.45; }
+.qz-res.ok { color:#6fdca4; } .qz-res.bad { color:#f08a76; } .qz-res b { color:var(--text); }
+.qz-why { margin-top:6px; font-size:13px; line-height:1.5; color:var(--text); }
+.qz-s { color:var(--muted); }
+.qz-see { margin-top:8px; font-size:11.5px; color:var(--muted); }
+.qz-next { margin-top:12px; width:100%; text-align:center; background:var(--cyan); color:#0a0e10; border-color:var(--cyan); font-weight:700; }
+.qz-score { font-size:54px; font-weight:700; color:var(--cyan); line-height:1; margin:6px 0 10px; } .qz-score small { font-size:16px; color:var(--muted); font-weight:500; }
+body.quiz-open #walk-controls, body.quiz-open #walk-prompt, body.quiz-open #reset-btn, body.quiz-open #drag-hint, body.quiz-open #walk-crosshair, body.quiz-open #eq-tag { display:none !important; }
+@media (min-width: 721px) { body.quiz-open #mode-bar { right:18px; } }
+@media (max-width: 720px) {
+  #mode-bar { right:8px; gap:2px; padding:3px; }
+  #mode-bar button { min-width:37px; padding:4px 3px; }
+  #mode-bar #dn-btn, #mode-bar #snd-btn { min-width:30px; padding:4px 4px; }
+  body #hud-loc { top:56px; right:0; padding-left:12px !important; }
+  body #hud-loc #hud-loc-inner { padding:5px 10px; }
+  #quiz-panel { left:8px; right:8px; top:auto; bottom:max(8px, env(safe-area-inset-bottom)); width:auto; max-height:58vh; }
+  body.quiz-open #hud-loc { display:none; }
+}
 </style>
 </head>
 <body>
@@ -492,6 +535,8 @@ body.leak-open #drag-hint { display:none; }
   <button class="mode-btn" data-mode="walk" data-tip="Walk: explore on foot (WASD / arrows, or the on-screen pad)">🚶<span>Walk</span><small>Walk</small></button>
   <button class="mode-btn" data-mode="ops" data-tip="Operations: a full working day in the plant, department by department">🏭<span>Operations</span><small>Ops</small></button>
   <button class="mode-btn" data-mode="leak" data-tip="What-If Leak: model a chemical leak and see the toxic cloud, flammable cloud and fire zones">⚠️<span>What-If Leak</span><small>Leak</small></button>
+  <button class="mode-btn" data-mode="quiz" data-tip="Plant Quiz: 8 questions on what each equipment does, then see it in the plant">🎯<span>Plant Quiz</span><small>Quiz</small></button>
+  <button id="dn-btn" title="Daylight: tap for night view">☀️</button>
   <button id="snd-btn" title="Sound on: click to mute">🔊</button>
 </div>
 <button id="walk-fab-btn">🚶 Walk Mode</button>
@@ -518,13 +563,15 @@ body.leak-open #drag-hint { display:none; }
     <button id="walk-btn-right" class="walk-dbtn walk-dbtn-right">▶</button>
     <button id="walk-btn-down" class="walk-dbtn walk-dbtn-down">▼</button>
   </div>
+  <div id="walk-joy" aria-label="Move"><div id="walk-joy-knob"></div></div>
   <div id="walk-hint-desktop">WASD/Arrows move · Shift run · Space/E interact · Drag to look · Click a department to fast-travel</div>
-  <div id="walk-hint-mobile">Drag screen to look · Use pad to move · Tap a department to fast-travel there</div>
+  <div id="walk-hint-mobile">Left stick to move · Drag the screen to look</div>
 </div>
 
 <div id="reset-btn"><button id="reset-view-btn">⤺ Back to Overview</button></div>
 
 <div id="leak-panel" aria-label="What-If Leak controls"></div>
+<div id="quiz-panel" aria-label="Plant Quiz" style="display:none;"></div>
 
 <div id="info-panel">
   <button class="close-btn" id="info-close">✕</button>
@@ -1611,6 +1658,8 @@ function init(){
   document.getElementById('eq-tag').addEventListener('click', tryInteract);
   document.querySelectorAll('#mode-bar .mode-btn').forEach(b => b.addEventListener('click', () => switchMode(b.dataset.mode)));
   document.getElementById('snd-btn').addEventListener('click', (e) => { e.stopPropagation(); setSoundOn(!SOUND.on); });
+  document.getElementById('dn-btn').addEventListener('click', (e) => { e.stopPropagation(); if (!ENV.sky) return; envSetDay(!ENV.day); try { localStorage.setItem('pt.night', ENV.day ? '0' : '1'); } catch(x){} });
+  if (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) document.getElementById('drag-hint').textContent = '👆 Drag to look around · Pinch to zoom · Tap a building';
   setSoundOn(SOUND.on);
   updateModeBar(true);
   if (!plant3DReady) document.querySelectorAll('#mode-bar button').forEach(b => b.disabled = true);
@@ -1641,7 +1690,8 @@ function init3D(){
 
   const ambient = new THREE.AmbientLight(0x8899aa, 0.45);
   scene.add(ambient);
-  scene.add(new THREE.HemisphereLight(0xe6eef3, 0x3a4248, 0.65));
+  const hemi = new THREE.HemisphereLight(0xe6eef3, 0x3a4248, 0.65);
+  scene.add(hemi);
   const fill = new THREE.DirectionalLight(0xcfdcf0, 0.35);
   fill.position.set(-25, 20, -30);
   scene.add(fill);
@@ -1678,6 +1728,7 @@ function init3D(){
   buildWorkshopAndProjectSite();
   buildPipelines();
   initLabPeople();
+  try { envInit({ ambient, hemi, fill, sun, ground, grid }); joyInit(); } catch (err) { console.error('Daylight setup failed:', err); }
 
   window.addEventListener('resize', onResize);
   const dom = renderer.domElement;
@@ -4303,21 +4354,28 @@ function updateCameraPosition(){
 function onPointerDown(e){ isDragging = true; lastX = e.clientX; lastY = e.clientY; dragStartX = e.clientX; dragStartY = e.clientY; hasDragged = false; stopTour(); }
 function onPointerMove(e){
   if (appMode === 'walk'){
-    if (pointerLocked || isDragging){
+    if (pointerLocked){
       walkYaw -= (e.movementX||0) * 0.0025;
       walkPitch -= (e.movementY||0) * 0.0025;
       walkPitch = Math.max(-1.3, Math.min(1.3, walkPitch));
+    } else if (isDragging && e.pointerId === TOUCH.look){
+      // one finger (or the mouse) looks around; the thumb stick is a separate touch and never turns the view
+      const k = e.pointerType === 'touch' ? 0.0045 : 0.0025;
+      walkYaw -= (e.clientX - TOUCH.lx) * k;
+      walkPitch = Math.max(-1.3, Math.min(1.3, walkPitch - (e.clientY - TOUCH.ly) * k));
+      TOUCH.lx = e.clientX; TOUCH.ly = e.clientY;
     }
     return;
   }
-  if (!isDragging) return;
+  if (!isDragging || touchPinching()) { lastX = e.clientX; lastY = e.clientY; return; }
+  if (TOUCH.look !== null && e.pointerId !== TOUCH.look) return;
   const dx = e.clientX - lastX, dy = e.clientY - lastY;
   lastX = e.clientX; lastY = e.clientY;
   if (Math.abs(e.clientX-dragStartX) > 4 || Math.abs(e.clientY-dragStartY) > 4) hasDragged = true;
   targetAzimuth -= dx * 0.006;
   targetPolar = Math.max(0.25, Math.min(Math.PI/2.1, targetPolar - dy * 0.006));
 }
-function onPointerUp(){ isDragging = false; }
+function onPointerUp(e){ if (e && e.pointerType === 'touch' && TOUCH.look !== null && e.pointerId !== TOUCH.look) return; isDragging = false; }
 function onWheel(e){
   e.preventDefault();
   targetRadius = Math.max(8, Math.min(70, targetRadius + e.deltaY * 0.03));
@@ -4685,9 +4743,11 @@ function updateWalkMovement(dt){
   // strafe: camera looks along (sin yaw, cos yaw), so its right-hand side is (-cos yaw, sin yaw)
   if (keys.a){ mx+=Math.cos(walkYaw); mz-=Math.sin(walkYaw); }
   if (keys.d){ mx-=Math.cos(walkYaw); mz+=Math.sin(walkYaw); }
+  const byKeys = keys.w || keys.s || keys.a || keys.d;
+  if (JOY.x || JOY.y){ mx += Math.sin(walkYaw)*JOY.y - Math.cos(walkYaw)*JOY.x; mz += Math.cos(walkYaw)*JOY.y + Math.sin(walkYaw)*JOY.x; }
   const len = Math.sqrt(mx*mx+mz*mz);
   if (len > 0.001){
-    const speed = keys.shift ? WALK_SPEED_FAST : WALK_SPEED;
+    const speed = (keys.shift || JOY.run ? WALK_SPEED_FAST : WALK_SPEED) * (byKeys ? 1 : Math.max(0.3, Math.min(1, Math.hypot(JOY.x, JOY.y))));
     const ux = mx/len, uz = mz/len;
     let remaining = speed*dt;
     const MAX_STEP = 0.15; // sub-step cap so fast movement/large dt can't tunnel through a thin wall
@@ -4868,7 +4928,7 @@ function enterWalkMode(){
   }
   appMode = 'walk';
   updateModeBar(true);
-  document.getElementById('hud-sub').textContent = 'Walk mode: WASD / arrows or the pad to move';
+  document.getElementById('hud-sub').textContent = (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) ? 'Walk mode: stick to move, drag to look' : 'Walk mode: WASD / arrows or the pad to move';
   document.getElementById('walk-crosshair').style.display = 'block';
   document.getElementById('walk-controls').style.display = 'block';
   document.getElementById('drag-hint').style.display = 'none';
@@ -4881,6 +4941,7 @@ function exitWalkMode(){
   resetView();
 }
 function toggleMode(){
+  if (QUIZ.active) quizExit(true);
   if (appMode === 'overview') enterWalkMode(); else exitWalkMode();
 }
 let dragLookNoticeShown = false;
@@ -5268,6 +5329,7 @@ function applyFlyState(st){
 let _keepPanelCollapsed = false;
 function startCinematic(mode){
   if (!plant3DReady) return;
+  if (QUIZ.active) quizExit(true);
   if (LEAK.active) leakExit(true);
   stopTour();
   if (cine.mode) stopCinematic(true, true);
@@ -7166,6 +7228,7 @@ function leakViewOffset(){
 }
 function leakEnter(){
   if (!plant3DReady) return;
+  if (QUIZ.active) quizExit(true);
   stopTour();
   if (cine.mode) stopCinematic(true, true);
   if (appMode === 'walk'){ _keepPanelCollapsed = true; exitWalkMode(); _keepPanelCollapsed = false; }
@@ -7477,9 +7540,11 @@ function updateER(dt){
 }
 
 // ===================== MODE BAR: Fly-Through · Walk · Operations =====================
-function currentMode(){ return LEAK.active ? 'leak' : cine.mode === 'fly' ? 'fly' : cine.mode === 'batch' ? 'ops' : appMode === 'walk' ? 'walk' : null; }
+function currentMode(){ return QUIZ.active ? 'quiz' : LEAK.active ? 'leak' : cine.mode === 'fly' ? 'fly' : cine.mode === 'batch' ? 'ops' : appMode === 'walk' ? 'walk' : null; }
 function switchMode(m){
   stopTour();
+  if (m === 'quiz'){ if (QUIZ.active) quizExit(); else quizEnter(); return; }
+  if (QUIZ.active) quizExit(true);
   if (currentMode() === m){ if (m === 'walk') exitWalkMode(); else if (m === 'leak') leakExit(); else stopCinematic(); updateModeBar(true); return; }
   if (m === 'leak'){ leakEnter(); return; }
   if (LEAK.active) leakExit(true);
@@ -7546,6 +7611,7 @@ function animate(){
   updateConveyor(dt);
   updateEmergency(dt);
   updateLeak(dt);
+  updateEnv(dt);
   updateSound(dt);
   updateModeBar();
 
@@ -7588,6 +7654,290 @@ function updateEquipmentHighlight(){
     highlightedItem.mesh.traverse(o => { if (o.isMesh && o.material && o.material.emissiveIntensity !== undefined) o.material.emissiveIntensity = pulse; });
   }
 }
+
+// ===================== DAYLIGHT, SHADOWS, SKY AND SURROUNDINGS =====================
+const ENV = { day:true, lite:false, lights:{}, shadowT:0, clouds:[], facade:[] };
+function envIsLite(){ try { return (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) || window.innerWidth < 720 || /[?&]embed=1/.test(location.search); } catch(e){ return false; } }
+function envSkyDome(){
+  const geo = new THREE.SphereGeometry(420, 32, 16);
+  const mat = new THREE.ShaderMaterial({ side:THREE.BackSide, depthWrite:false, fog:false,
+    uniforms:{ top:{ value:new THREE.Color(0x2f74c9) }, mid:{ value:new THREE.Color(0x8fc0ea) }, hor:{ value:new THREE.Color(0xdcebf5) }, sunDir:{ value:new THREE.Vector3(0.56, 0.74, 0.37).normalize() } },
+    vertexShader:'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+    fragmentShader:'uniform vec3 top; uniform vec3 mid; uniform vec3 hor; uniform vec3 sunDir; varying vec3 vP; void main(){ float h = clamp(vP.y, 0.0, 1.0); vec3 c = mix(hor, mid, smoothstep(0.0, 0.22, h)); c = mix(c, top, smoothstep(0.18, 0.85, h)); float s = max(dot(normalize(vP), sunDir), 0.0); c += vec3(1.0, 0.93, 0.78)*(pow(s, 350.0)*1.2 + pow(s, 12.0)*0.16); gl_FragColor = vec4(c, 1.0); }' });
+  const m = new THREE.Mesh(geo, mat); m.renderOrder = -10; m.frustumCulled = false; return m;
+}
+function envCloudTexture(){
+  const c = document.createElement('canvas'); c.width = 256; c.height = 128; const x = c.getContext('2d');
+  [[70,70,52],[120,56,62],[170,72,50],[98,84,44],[146,88,46]].forEach(b => { const g = x.createRadialGradient(b[0], b[1], 2, b[0], b[1], b[2]); g.addColorStop(0, 'rgba(255,255,255,0.95)'); g.addColorStop(0.6, 'rgba(255,255,255,0.45)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 256, 128); });
+  return new THREE.CanvasTexture(c);
+}
+function envFacadeTexture(){
+  // one 4 m bay of ribbed wall cladding: dark plinth, a window, and a cap flashing at the top
+  const c = document.createElement('canvas'); c.width = 128; c.height = 256; const x = c.getContext('2d');
+  x.fillStyle = '#f4f4f1'; x.fillRect(0, 0, 128, 256);
+  for (let i = 0; i < 128; i += 8){ x.fillStyle = 'rgba(0,0,0,0.07)'; x.fillRect(i, 0, 2, 256); x.fillStyle = 'rgba(255,255,255,0.5)'; x.fillRect(i+2, 0, 1, 256); }
+    x.fillStyle = '#8f9498'; x.fillRect(0, 232, 128, 24);            // plinth
+  x.fillStyle = 'rgba(0,0,0,0.18)'; x.fillRect(0, 230, 128, 2);
+  x.fillStyle = '#d9dcdc'; x.fillRect(0, 0, 128, 7);               // cap flashing
+  x.fillStyle = '#c9ccce'; x.fillRect(30, 96, 68, 54);             // window frame
+  const g = x.createLinearGradient(0, 100, 0, 146); g.addColorStop(0, '#5f87a8'); g.addColorStop(1, '#2f4c66');
+  x.fillStyle = g; x.fillRect(34, 100, 60, 46);
+  x.fillStyle = '#c9ccce'; x.fillRect(63, 100, 2, 46);
+  x.fillStyle = 'rgba(255,255,255,0.22)'; x.beginPath(); x.moveTo(38, 146); x.lineTo(58, 100); x.lineTo(65, 100); x.lineTo(45, 146); x.fill();
+  const t = new THREE.CanvasTexture(c); t.wrapS = THREE.RepeatWrapping; t.anisotropy = 4; return t;
+}
+function envDressBuildings(){
+  const base = envFacadeTexture();
+  DEPARTMENTS.forEach(dept => {
+    if (!dept.hall || !dept.glowMats || !dept.glowMats[0]) return;
+    const H = dept.hall, wallMat = dept.glowMats[0];
+    const group = buildingMeshes.find(g => g.userData.deptId === dept.id); if (!group) return;
+    const tint = new THREE.Color(dept.color).lerp(new THREE.Color(0xffffff), 0.3);
+    const walls = []; group.traverse(o => { if (o.isMesh && o.material === wallMat && o.geometry && o.geometry.parameters && o.geometry.parameters.height >= H.height - 0.01) walls.push(o); });
+    walls.forEach(w => {
+      const m = wallMat.clone(); m.color.copy(tint);
+      const t = base.clone(); t.needsUpdate = true; t.repeat.set(Math.max(1, Math.round(w.geometry.parameters.width/4)), 1); m.map = t;
+      w.material = m; dept.glowMats.push(m); ENV.facade.push(m);
+    });
+    // roof edge (parapet) and a few roof ventilators
+    const width = H.halfWidth*2, depth = H.frontZ - H.backZ, midZ = (H.frontZ + H.backZ)/2;
+    const capMat = new THREE.MeshStandardMaterial({ color:new THREE.Color(dept.color).multiplyScalar(0.55), roughness:0.7, metalness:0.2 });
+    const add = (m) => { m.userData.deptId = dept.id; m.userData.envShell = true; group.add(m); };
+    [[0, H.frontZ, width+0.3, 0.3],[0, H.backZ, width+0.3, 0.3],[-H.halfWidth, midZ, 0.3, depth+0.3],[H.halfWidth, midZ, 0.3, depth+0.3]].forEach(p => {
+      const b = new THREE.Mesh(new THREE.BoxGeometry(p[2], 0.55, p[3]), capMat); b.position.set(p[0], H.height + 0.2, p[1]); add(b); });
+    const roofMat = new THREE.MeshStandardMaterial({ color:0x8d979d, roughness:0.85 }); (ENV.roofs = ENV.roofs || []).push(roofMat);
+    const roof = new THREE.Mesh(new THREE.PlaneGeometry(width, depth), roofMat);
+    const ro = dept.roofOpening;
+    if (!ro){ roof.rotation.x = -Math.PI/2; roof.position.set(0, H.height + 0.03, midZ); roof.userData.envRoof = true; add(roof); }
+    const ventMat = new THREE.MeshStandardMaterial({ color:0xc9ced2, metalness:0.6, roughness:0.35 });
+    const n = Math.max(2, Math.min(4, Math.round(depth/6)));
+    for (let i = 0; i < n; i++){
+      const z = H.backZ + depth*(i + 0.5)/n, vx = (i % 2 ? 0.35 : -0.35)*H.halfWidth;
+      if (ro && Math.hypot(vx - ro.x, z - ro.z) < ro.half + 1.6) continue;
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.36, 0.5, 14), ventMat); neck.position.set(vx, H.height + 0.25, z); add(neck);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 10, 0, Math.PI*2, 0, Math.PI/2), ventMat); head.scale.y = 0.7; head.position.set(vx, H.height + 0.5, z); head.userData.spin = true; add(head);
+    }
+  });
+}
+function envTrees(){
+  const spots = []; let seed = 7; const rnd = () => { seed = (seed*16807) % 2147483647; return seed/2147483647; };
+  for (let i = 0; i < 260 && spots.length < 150; i++){
+    const a = rnd()*Math.PI*2, r = SITE_BOUNDARY_RADIUS + 5 + rnd()*34, x = Math.sin(a)*r, z = Math.cos(a)*r;
+    if (typeof onAnyRoad === 'function' && ROADS && onAnyRoad(x, z, 4)) continue;
+    spots.push([x, z, 0.8 + rnd()*0.7, rnd()]);
+  }
+  const trunk = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.22, 0.3, 2.4, 6), new THREE.MeshStandardMaterial({ color:0x6b4a2e, roughness:0.9 }), spots.length);
+  const crownA = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(2.1, 1), new THREE.MeshStandardMaterial({ color:0x2f6b34, roughness:0.95, flatShading:true }), spots.length);
+  const crownB = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1.5, 1), new THREE.MeshStandardMaterial({ color:0x437f3a, roughness:0.95, flatShading:true }), spots.length);
+  const M = new THREE.Matrix4(), Q = new THREE.Quaternion(), S = new THREE.Vector3(), P = new THREE.Vector3(), E = new THREE.Euler();
+  spots.forEach((s, i) => {
+    const k = s[2];
+    M.compose(P.set(s[0], 1.2*k, s[1]), Q.identity(), S.set(k, k, k)); trunk.setMatrixAt(i, M);
+    Q.setFromEuler(E.set(0, s[3]*6.28, 0));
+    M.compose(P.set(s[0], 3.6*k, s[1]), Q, S.set(k, k*0.9, k)); crownA.setMatrixAt(i, M);
+    M.compose(P.set(s[0] + 0.7*k, 4.9*k, s[1] - 0.4*k), Q, S.set(k, k, k)); crownB.setMatrixAt(i, M);
+  });
+  const g = new THREE.Group(); [trunk, crownA, crownB].forEach(m => { m.castShadow = true; m.userData.envKeep = true; g.add(m); });
+  return g;
+}
+function envInit(L){
+  ENV.lite = envIsLite(); ENV.lights = L;
+  if (ENV.lite) renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  ENV.night = { bg:scene.background.clone(), fog:{ c:scene.fog.color.clone(), n:scene.fog.near, f:scene.fog.far }, amb:L.ambient.intensity, hemi:L.hemi.intensity, hemiSky:L.hemi.color.clone(), hemiGnd:L.hemi.groundColor.clone(), fill:L.fill.intensity, sun:L.sun.intensity, sunC:L.sun.color.clone(), ground:L.ground.material.color.clone() };
+  ENV.sky = envSkyDome(); scene.add(ENV.sky);
+  ENV.land = new THREE.Mesh(new THREE.RingGeometry(SITE_BOUNDARY_RADIUS + 0.4, 440, 72, 1), new THREE.MeshStandardMaterial({ color:0x6f8f4e, roughness:1 }));
+  ENV.land.rotation.x = -Math.PI/2; ENV.land.position.y = 0.006; scene.add(ENV.land);
+  ENV.trees = envTrees(); scene.add(ENV.trees);
+  const ct = envCloudTexture(); ENV.cloudGroup = new THREE.Group();
+  [[-120,95,-160,150],[60,110,-210,190],[190,90,-60,140],[150,105,150,170],[-40,120,200,200],[-200,100,70,160],[10,135,-40,120]].forEach(c => {
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map:ct, transparent:true, opacity:0.9, depthWrite:false, fog:false }));
+    sp.position.set(c[0], c[1], c[2]); sp.scale.set(c[3], c[3]*0.45, 1); ENV.cloudGroup.add(sp); ENV.clouds.push(sp); });
+  scene.add(ENV.cloudGroup);
+  envDressBuildings();
+  // sun shadows: one map over the whole site, refreshed a few times a second (the plant is almost all static)
+  const sun = L.sun; sun.position.set(56, 74, 37); sun.target.position.set(0, 0, 0); scene.add(sun.target);
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.shadowMap.autoUpdate = false;
+  sun.castShadow = true; const sz = ENV.lite ? 2048 : 4096; sun.shadow.mapSize.set(sz, sz);
+  const sc = sun.shadow.camera; sc.left = -78; sc.right = 78; sc.top = 78; sc.bottom = -78; sc.near = 10; sc.far = 220; sc.updateProjectionMatrix();
+  sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.06;
+  envTagShadows();
+  let day = true; try { day = localStorage.getItem('pt.night') !== '1'; } catch(e){}
+  envSetDay(day);
+}
+function envTagShadows(){
+  const hallIds = {}; DEPARTMENTS.forEach(d => { if (d.hall) hallIds[d.id] = 1; });
+  scene.traverse(o => {
+    if (!o.isMesh || o.userData.envKeep) return;
+    const mats = Array.isArray(o.material) ? o.material : [o.material]; const m = mats[0] || {};
+    const flat = !!(m.userData && m.userData.groundRank) || m.transparent || m.isShaderMaterial || m.isMeshBasicMaterial;
+    let inHall = false, p = o; while (p){ if (p.userData && p.userData.deptId && hallIds[p.userData.deptId] && buildingMeshes.indexOf(p) !== -1){ inHall = true; break; } p = p.parent; }
+    if (o === ENV.sky){ o.castShadow = o.receiveShadow = false; return; }
+    if (o === ENV.land || o === ENV.lights.ground){ o.castShadow = false; o.receiveShadow = true; return; }
+    if (!inHall && !o.userData.envShell){ o.updateWorldMatrix(true, false); const wp = new THREE.Vector3().setFromMatrixPosition(o.matrixWorld);
+      if (DEPARTMENTS.some(d => d.hall && Math.abs(wp.x - d.pos[0]) < d.hall.halfWidth && wp.z - d.pos[2] > d.hall.backZ && wp.z - d.pos[2] < d.hall.frontZ && wp.y < d.hall.height)){ o.castShadow = false; o.receiveShadow = false; return; } }
+    if (inHall){ o.receiveShadow = !!o.userData.envRoof; o.castShadow = !flat && !o.userData.envRoof; return; }   // inside a building the light stays even, as under roof lighting
+    o.castShadow = !flat; o.receiveShadow = true;
+  });
+  try { peopleMeshes.forEach(g => g.traverse(o => { if (o.isMesh) o.receiveShadow = false; })); } catch(e){}
+}
+function envSetDay(day){
+  ENV.day = day; const L = ENV.lights, N = ENV.night;
+  ENV.sky.visible = day; ENV.cloudGroup.visible = day; if (L.grid) L.grid.visible = !day;
+  if (day){
+    scene.background = new THREE.Color(0xdcebf5); scene.fog.color.setHex(0xd3e4ef); scene.fog.near = 120; scene.fog.far = 430;
+    L.ambient.intensity = 0.2; L.hemi.intensity = 0.42; L.hemi.color.setHex(0xdbeaff); L.hemi.groundColor.setHex(0x7a8468);
+    L.fill.intensity = 0.1; L.sun.intensity = 0.8; L.sun.color.setHex(0xfff1dc);
+    L.ground.material.color.setHex(0x858d89); ENV.land.material.color.setHex(0x5f7d47);
+  } else {
+    scene.background = N.bg.clone(); scene.fog.color.copy(N.fog.c); scene.fog.near = N.fog.n; scene.fog.far = N.fog.f;
+    L.ambient.intensity = N.amb; L.hemi.intensity = N.hemi; L.hemi.color.copy(N.hemiSky); L.hemi.groundColor.copy(N.hemiGnd);
+    L.fill.intensity = N.fill; L.sun.intensity = N.sun; L.sun.color.copy(N.sunC);
+    L.ground.material.color.copy(N.ground); ENV.land.material.color.setHex(0x131a16);
+  }
+  (ENV.roofs || []).forEach(m => m.color.setHex(day ? 0x737c82 : 0x3a4348));
+  L.sun.castShadow = day; renderer.shadowMap.needsUpdate = true; ENV.shadowT = 0;
+  scene.traverse(o => { if (o.isMesh && o.material && !Array.isArray(o.material)) o.material.needsUpdate = true; });
+  document.body.classList.toggle('pt-day', day);
+  const b = document.getElementById('dn-btn'); if (b){ b.textContent = day ? '☀️' : '🌙'; b.title = day ? 'Daylight: tap for night view' : 'Night view: tap for daylight'; }
+}
+function updateEnv(dt){
+  if (!ENV.sky) return;
+  ENV.sky.position.copy(camera.position); ENV.sky.position.y = 0;
+  ENV.clouds.forEach(c => { c.position.x += dt*1.6; if (c.position.x > 260) c.position.x = -260; });
+  if (!ENV.day) return;
+  ENV.shadowT -= dt;
+  if (ENV.shadowT <= 0){ renderer.shadowMap.needsUpdate = true; ENV.shadowT = ENV.lite ? 1.2 : 0.12; }
+}
+
+// ===================== TOUCH: THUMB STICK, ONE-FINGER LOOK, PINCH ZOOM =====================
+const JOY = { x:0, y:0, id:null, run:false };
+const TOUCH = { look:null, lx:0, ly:0, pts:{}, pinch:0 };
+function joyInit(){
+  const pad = document.getElementById('walk-joy'), knob = document.getElementById('walk-joy-knob'); if (!pad) return;
+  const R = 46;
+  const set = (e) => { const r = pad.getBoundingClientRect(); let dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2); const d = Math.hypot(dx, dy); if (d > R){ dx *= R/d; dy *= R/d; }
+    knob.style.transform = 'translate(' + dx + 'px,' + dy + 'px)'; JOY.x = dx/R; JOY.y = -dy/R; JOY.run = d > R*1.5; };
+  const end = (e) => { if (JOY.id !== null && e.pointerId !== JOY.id) return; JOY.id = null; JOY.x = JOY.y = 0; JOY.run = false; knob.style.transform = ''; };
+  pad.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); JOY.id = e.pointerId; try { pad.setPointerCapture(e.pointerId); } catch(x){} set(e); });
+  pad.addEventListener('pointermove', e => { if (e.pointerId === JOY.id){ e.stopPropagation(); set(e); } });
+  ['pointerup','pointercancel','lostpointercapture'].forEach(n => pad.addEventListener(n, end));
+  const dom = renderer.domElement;
+  dom.addEventListener('pointerdown', e => { TOUCH.pts[e.pointerId] = { x:e.clientX, y:e.clientY }; if (TOUCH.look === null){ TOUCH.look = e.pointerId; TOUCH.lx = e.clientX; TOUCH.ly = e.clientY; } TOUCH.pinch = 0; });
+  window.addEventListener('pointermove', e => {
+    const p = TOUCH.pts[e.pointerId]; if (!p) return; p.x = e.clientX; p.y = e.clientY;
+    const ids = Object.keys(TOUCH.pts);
+    if (ids.length === 2 && appMode !== 'walk' && !cine.mode){
+      const a = TOUCH.pts[ids[0]], b = TOUCH.pts[ids[1]], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (TOUCH.pinch) targetRadius = Math.max(8, Math.min(70, targetRadius*(TOUCH.pinch/Math.max(1, d))));
+      TOUCH.pinch = d; hasDragged = true;
+    }
+  });
+  const up = e => { delete TOUCH.pts[e.pointerId]; if (TOUCH.look === e.pointerId) TOUCH.look = null; TOUCH.pinch = 0; };
+  window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
+}
+function touchPinching(){ return Object.keys(TOUCH.pts).length >= 2; }
+
+// ===================== PLANT QUIZ =====================
+const QUIZ = { active:false, list:[], i:0, score:0, answered:false, best:0 };
+function quizShuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function quizEsc(s){ return String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c])); }
+function quizFirst(s, n){ s = String(s || ''); const m = s.match(/^.*?[.!?](\s|$)/); let t = (m ? m[0] : s).trim(); if (t.length < 40 && s.length > t.length) t = s.slice(0, n || 150).trim(); if (t.length > (n || 150)) t = t.slice(0, (n || 150) - 1).replace(/\s+\S*$/, '') + '…'; return t; }
+function quizMask(text, eq){ let t = String(text || ''); const tag = eq.name.split('/')[0].trim(); [eq.name, tag].forEach(k => { if (k) t = t.split(k).join('this unit'); }); return t; }
+function quizPool(){
+  const pool = [];
+  DEPARTMENTS.forEach(d => (d.areas || []).forEach(a => (a.equipment || []).forEach(e => { if (e.function && e.type) pool.push({ d, a, e }); })));
+  return pool;
+}
+function quizLabel(x){ return x.e.name + ' · ' + x.e.type; }
+function quizDistract(pool, x, n, sameDept){
+  const seen = {}; seen[x.e.type] = 1; const out = [];
+  const pick = list => quizShuffle(list.slice()).forEach(y => { if (out.length < n && !seen[y.e.type]){ seen[y.e.type] = 1; out.push(y); } });
+  if (sameDept) pick(pool.filter(y => y.d === x.d && y !== x));
+  if (sameDept && out.length > n - 1) out.length = n - 1;        // always keep one option from another department
+  pick(pool.filter(y => y.d !== x.d));
+  return out;
+}
+function quizBuild(){
+  const pool = quizPool(), picks = quizShuffle(pool.slice()), used = {}, qs = [];
+  const take = (test) => { const x = picks.find(p => !used[p.e.id] && (!test || test(p))); if (x) used[x.e.id] = 1; return x; };
+  const plan = ['where', 'where', 'job', 'what', 'job', 'what', 'job', 'safe'];
+  plan.forEach(kind => {
+    const x = take(kind === 'safe' ? (p => p.e.safety && p.e.safety.length > 40) : null); if (!x) return;
+    let q;
+    if (kind === 'where'){
+      const others = quizShuffle(DEPARTMENTS.filter(d => d !== x.d)).slice(0, 3);
+      q = { kicker:'Where is it?', text:'In which part of the plant will you find <b>' + quizEsc(x.e.type) + '</b> (' + quizEsc(x.e.name) + ')?', opts:quizShuffle([x.d].concat(others)).map(d => ({ t:d.name, ok:d === x.d })) };
+    } else if (kind === 'what'){
+      const ds = quizDistract(pool, x, 3, true);
+      q = { kicker:'What does it do?', text:'What is the job of <b>' + quizEsc(x.e.name) + '</b>, the ' + quizEsc(x.e.type) + '?', opts:quizShuffle([x].concat(ds)).map(y => ({ t:quizFirst(quizMask(y.e.function, y.e), 130), ok:y === x })) };
+    } else if (kind === 'safe'){
+      const ds = quizDistract(pool.filter(p => p.e.safety), x, 3, true);
+      q = { kicker:'Safety', text:'Which equipment has this safeguard?<span class="qz-quote">' + quizEsc(quizFirst(quizMask(x.e.safety, x.e), 190)) + '</span>', opts:quizShuffle([x].concat(ds)).map(y => ({ t:quizLabel(y), ok:y === x })) };
+    } else {
+      const ds = quizDistract(pool, x, 3, true);
+      q = { kicker:'Find the equipment', text:'Which equipment does this job?<span class="qz-quote">' + quizEsc(quizFirst(quizMask(x.e.function, x.e), 190)) + '</span>', opts:quizShuffle([x].concat(ds)).map(y => ({ t:quizLabel(y), ok:y === x })) };
+    }
+    q.x = x; qs.push(q);
+  });
+  return qs;
+}
+function quizEl(){ return document.getElementById('quiz-panel'); }
+function quizEnter(){
+  if (!plant3DReady) return;
+  stopTour(); if (LEAK.active) leakExit(true); stopCinematic(true); if (appMode === 'walk') resetView();
+  closeSidebar(); closeInfo();
+  try { QUIZ.best = +localStorage.getItem('pt.quizBest') || 0; } catch(e){}
+  QUIZ.active = true; QUIZ.list = quizBuild(); QUIZ.i = 0; QUIZ.score = 0;
+  document.body.classList.add('quiz-open'); quizEl().style.display = 'block';
+  quizShow(); updateModeBar(true);
+  try { gtag('event', 'plant_quiz_start'); } catch(e){}
+}
+function quizExit(silent){
+  if (!QUIZ.active) return;
+  QUIZ.active = false; document.body.classList.remove('quiz-open'); quizEl().style.display = 'none';
+  if (!silent) resetView();
+  updateModeBar(true);
+}
+function quizShow(){
+  const q = QUIZ.list[QUIZ.i], el = quizEl(); QUIZ.answered = false;
+  if (appMode === 'walk') resetView();
+  el.innerHTML = '<div class="qz-top"><span class="qz-k">' + q.kicker + '</span><span class="qz-n">Question ' + (QUIZ.i + 1) + ' of ' + QUIZ.list.length + ' · Score ' + QUIZ.score + '</span><button class="qz-x" id="qz-exit" title="Leave the quiz">✕</button></div>'
+    + '<div class="qz-q">' + q.text + '</div><div class="qz-opts">' + q.opts.map((o, i) => '<button class="qz-opt" data-i="' + i + '">' + quizEsc(o.t) + '</button>').join('') + '</div><div class="qz-fb" id="qz-fb"></div>';
+  el.scrollTop = 0;
+  el.querySelectorAll('.qz-opt').forEach(b => b.addEventListener('click', () => quizAnswer(+b.dataset.i)));
+  document.getElementById('qz-exit').addEventListener('click', () => quizExit());
+}
+function quizAnswer(i){
+  if (QUIZ.answered) return; QUIZ.answered = true;
+  const q = QUIZ.list[QUIZ.i], ok = !!q.opts[i].ok, el = quizEl(), x = q.x;
+  if (ok) QUIZ.score++;
+  el.querySelectorAll('.qz-opt').forEach((b, k) => { b.disabled = true; if (q.opts[k].ok) b.classList.add('ok'); else if (k === i) b.classList.add('bad'); });
+  let went = false; try { went = teleportToEquipment(x.d, x.e.id); } catch(e){}
+  if (!went){ try { if (appMode === 'walk') resetView(); focusDepartment(x.d.id); closeInfo(); } catch(e){} }
+  const last = QUIZ.i === QUIZ.list.length - 1;
+  document.getElementById('qz-fb').innerHTML = '<div class="qz-res ' + (ok ? 'ok' : 'bad') + '">' + (ok ? 'Correct.' : 'Not this one.') + ' <b>' + quizEsc(x.e.name) + ' · ' + quizEsc(x.e.type) + '</b>, ' + quizEsc(x.d.name) + '</div>'
+    + '<div class="qz-why">' + quizEsc(quizFirst(x.e.function, 260)) + (x.e.safety ? '<br><span class="qz-s">Safety: ' + quizEsc(quizFirst(x.e.safety, 200)) + '</span>' : '') + '</div>'
+    + '<div class="qz-see">' + (went ? 'You are standing in front of it now. Drag to look around.' : 'The view has moved to its department.') + '</div>'
+    + '<button class="qz-next" id="qz-next">' + (last ? 'See my score' : 'Next question') + '</button>';
+  document.getElementById('qz-next').addEventListener('click', () => { if (last) quizDone(); else { QUIZ.i++; quizShow(); } });
+  const sc = el.querySelector('.qz-n'); if (sc) sc.textContent = 'Question ' + (QUIZ.i + 1) + ' of ' + QUIZ.list.length + ' · Score ' + QUIZ.score;
+  setTimeout(() => { const f = document.getElementById('qz-fb'); if (f && f.scrollIntoView) f.scrollIntoView({ block:'nearest', behavior:'smooth' }); }, 60);
+}
+function quizDone(){
+  const n = QUIZ.list.length, s = QUIZ.score, el = quizEl();
+  if (appMode === 'walk') resetView();
+  if (s > QUIZ.best){ QUIZ.best = s; try { localStorage.setItem('pt.quizBest', String(s)); } catch(e){} }
+  const rank = s >= n ? 'Plant in-charge level. You know this site.' : s >= n - 2 ? 'Shift engineer level. Very good.' : s >= n/2 ? 'Trainee engineer level. A good start.' : 'First day on site. Walk the plant once and try again.';
+  el.innerHTML = '<div class="qz-top"><span class="qz-k">Result</span><span class="qz-n">Best so far: ' + QUIZ.best + ' of ' + n + '</span><button class="qz-x" id="qz-exit" title="Close">✕</button></div>'
+    + '<div class="qz-score">' + s + ' <small>of ' + n + '</small></div><div class="qz-q">' + rank + '</div>'
+    + '<div class="qz-opts"><button class="qz-next" id="qz-again">New set of questions</button><button class="qz-opt" id="qz-walk">Walk the plant</button><button class="qz-opt" id="qz-ops">Watch a working day (Operations)</button></div>';
+  document.getElementById('qz-exit').addEventListener('click', () => quizExit());
+  document.getElementById('qz-again').addEventListener('click', () => { QUIZ.list = quizBuild(); QUIZ.i = 0; QUIZ.score = 0; quizShow(); });
+  document.getElementById('qz-walk').addEventListener('click', () => { quizExit(true); switchMode('walk'); });
+  document.getElementById('qz-ops').addEventListener('click', () => { quizExit(true); switchMode('ops'); });
+  try { gtag('event', 'plant_quiz_done', { score:s }); } catch(e){}
+}
+
 
 init();
 // Embedded on the home page (?embed=1): hide the side panel and start the fly-through so the plant is live straight away.
