@@ -163,14 +163,36 @@ last_modified_at: 2026-10-27
     <li>Vapour pressures (Antoine constants) and densities: the <a href="{{ '/solvents/' | relative_url }}">PharmaChemE solvent pages</a>.</li>
   </ul>
 
-  <div class="related-box">
-    <h3>More games</h3>
-    <a href="{{ '/games/stop-the-hazard/' | relative_url }}">Stop the Hazard</a>
-    <a href="{{ '/games/plant-operator/' | relative_url }}">Plant Operator</a>
-    <a href="{{ '/games/troubleshooter/' | relative_url }}">PharmaChemE Troubleshooter</a>
-  </div>
 </div>
 
 <script src="{{ '/assets/js/if97.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 <script src="{{ '/assets/js/plant-rally-missions.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 <script src="{{ '/assets/js/plant-rally.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-azeo="{{ '/assets/data/azeotropes.json' | relative_url }}" data-sol="{{ '/assets/data/solvent-lite.json' | relative_url }}"></script>
+
+<!-- games:after:start -->
+<section class="container game-after" id="game-after" data-game="rally">
+  <div class="game-after-cols">
+    <div>
+      <h2>What this game trains</h2>
+      <p>Site traffic rules, spill and gas alarm response, quick engineering calculations.</p>
+      <p class="game-after-best" data-best hidden></p>
+    </div>
+    <div>
+      <h2>Learn the theory behind it</h2>
+      <ul class="game-after-links">
+      <li><a href="/articles/permit-to-work-and-isolation/" data-kind="read">Permit to work and isolation</a></li>
+      <li><a href="/articles/line-sizing-and-pressure-drop/" data-kind="read">Line sizing and pressure drop</a></li>
+      <li><a href="/process-safety/toxic-and-flammable-releases/" data-kind="read">Toxic and flammable releases</a></li>
+      </ul>
+    </div>
+  </div>
+  <h2>Play next</h2>
+  <div class="grid-cards game-after-next">
+      <a class="category-card" href="/games/plant-operator/" data-kind="next" data-title="Plant Operator"><span class="icon">&#127981;</span><h3>Plant Operator</h3><p>About 15 min. Reading field readings, finding the cause of a deviation, deciding what to handle first.</p><span class="card-link">Play &rarr;</span></a>
+      <a class="category-card" href="/games/stop-the-hazard/" data-kind="next" data-title="Stop the Hazard"><span class="icon">&#9888;&#65039;</span><h3>Stop the Hazard</h3><p>About 5 min. Hazard spotting, reading a trend, deciding which alarm comes first.</p><span class="card-link">Play &rarr;</span></a>
+      <a class="category-card" href="/games/"><span class="icon">&#127922;</span><h3>All games</h3><p>See every game with its time, level and your best scores.</p><span class="card-link">Open &rarr;</span></a>
+  </div>
+</section>
+<link rel="stylesheet" href="/assets/css/games.css?v=2">
+<script src="/assets/js/game-kit.js?v=2"></script>
+<!-- games:after:end -->

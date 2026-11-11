@@ -139,6 +139,7 @@
   groups:
     - title: "Plant operations"
       children:
+        - { title: "Virtual Plant Tour", url: /plant-tour/ }
         - { title: "Plant Rally", url: /games/plant-rally/ }
         - { title: "Plant Operator", url: /games/plant-operator/ }
         - { title: "Troubleshooter", url: /games/troubleshooter/ }

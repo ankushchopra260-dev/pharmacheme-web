@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Engineering Games
-description: "Small games for chemical and pharma engineers: run a plant shift, size a reaction for safety, spot hazards, fix upsets."
+description: "Seven free games for chemical and pharma engineers: tour a 3D plant, run a shift, design a reaction for safety, spot hazards and fix upsets. Each shows what it teaches."
 breadcrumbs:
   - label: Games
     url: /games/
@@ -10,56 +10,111 @@ page_search:
   groups: ''
   heads: ''
   placeholder: "Search games"
-last_modified_at: 2026-11-03
+last_modified_at: 2026-11-11
 ---
 
+<link rel="stylesheet" href="{{ '/assets/css/games.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container calc-page-head">
   <h1>Engineering Games</h1>
-  <p>Small games for chemical and pharma engineers. Run a shift, size a reaction for safety, spot hazards, fix upsets.</p>
+  <p>Seven free games for chemical and pharma engineers. Each card shows how long it takes, the level, and what you practise. Your best scores are kept on this device.</p>
 </div>
 <div class="container section" style="padding-top:0;">
+  <div class="game-path">
+    <h2>New to plants? Play in this order</h2>
+    <p>Each step builds on the one before: see the plant, learn its words, spot hazards, fix one upset, then run a full shift.</p>
+    <ol>
+      <li><a href="{{ '/plant-tour/' | relative_url }}" data-step="tour">Virtual Plant Tour</a></li>
+      <li><a href="{{ '/games/word-search/' | relative_url }}" data-step="wordsearch">Word Search</a></li>
+      <li><a href="{{ '/games/stop-the-hazard/' | relative_url }}" data-step="hazard">Stop the Hazard</a></li>
+      <li><a href="{{ '/games/troubleshooter/' | relative_url }}" data-step="troubleshooter">Troubleshooter</a></li>
+      <li><a href="{{ '/games/plant-operator/' | relative_url }}" data-step="operator">Plant Operator</a></li>
+      <li><a href="{{ '/games/runaway/' | relative_url }}" data-step="runaway">Runaway!</a></li>
+    </ol>
+  </div>
+  <div class="game-chips" id="game-chips" role="group" aria-label="Filter games">
+    <button class="game-chip" data-tag="" aria-pressed="true">All games</button>
+    <button class="game-chip" data-tag="start" aria-pressed="false">Good first game</button>
+    <button class="game-chip" data-tag="quick" aria-pressed="false">About 5 minutes</button>
+    <button class="game-chip" data-tag="safety" aria-pressed="false">Process safety</button>
+    <button class="game-chip" data-tag="ops" aria-pressed="false">Plant operations</button>
+  </div>
+  <p class="game-progress" id="game-progress"></p>
   <div class="grid-cards">
-    <a class="category-card" href="{{ '/plant-tour/' | relative_url }}">
+<!-- games:cards:start -->
+    <a class="category-card game-card" href="/plant-tour/" data-game="tour" data-tags="start ops">
       <span class="icon">&#129517;</span>
       <h3>Virtual Plant Tour</h3>
-      <p>Walk through a 3D chemical plant. Fly over it, go inside, and follow one full working day from the main gate to dispatch.</p>
+      <p class="game-meta"><span>&#9201; About 10 min</span><span>Beginner</span></p>
+      <p>Walk through a 3D chemical plant. Fly over it, go inside, follow one full working day, then take the plant quiz.</p>
+      <p class="game-learn"><b>You practise:</b> Plant layout, what each equipment does, how a batch moves through the site</p>
+      <p class="game-best" data-best hidden></p>
       <span class="card-link">Start Tour &rarr;</span>
     </a>
-    <a class="category-card" href="{{ '/games/plant-rally/' | relative_url }}">
+    <a class="category-card game-card" href="/games/plant-rally/" data-game="rally" data-tags="ops">
       <span class="icon">&#127950;&#65039;</span>
       <h3>Plant Rally</h3>
-      <p>Race the emergency vehicle round a chemical plant. Keep to the zone speed limits, handle spills and gas alarms, and solve engineering missions against the clock.</p>
+      <p class="game-meta"><span>&#9201; About 10 min</span><span>Intermediate</span></p>
+      <p>Drive the emergency vehicle round a chemical plant. Keep to the zone speed limits, handle spills and gas alarms, and solve engineering missions with worked solutions.</p>
+      <p class="game-learn"><b>You practise:</b> Site traffic rules, spill and gas alarm response, quick engineering calculations</p>
+      <p class="game-best" data-best hidden></p>
       <span class="card-link">Play &rarr;</span>
     </a>
-    <a class="category-card" href="{{ '/games/plant-operator/' | relative_url }}">
+    <a class="category-card game-card" href="/games/plant-operator/" data-game="operator" data-tags="ops">
       <span class="icon">&#127981;</span>
       <h3>Plant Operator</h3>
+      <p class="game-meta"><span>&#9201; About 15 min</span><span>Intermediate</span></p>
       <p>Take a shift on a multi-floor pharma plant. Check equipment, find what is wrong, and take a batch from the reactor to final product.</p>
+      <p class="game-learn"><b>You practise:</b> Reading field readings, finding the cause of a deviation, deciding what to handle first</p>
+      <p class="game-best" data-best hidden></p>
       <span class="card-link">Play &rarr;</span>
     </a>
-    <a class="category-card" href="{{ '/games/runaway/' | relative_url }}">
+    <a class="category-card game-card" href="/games/runaway/" data-game="runaway" data-tags="safety">
       <span class="icon">&#127777;&#65039;</span>
       <h3>Runaway! Stoessel Challenge</h3>
+      <p class="game-meta"><span>&#9201; About 20 min</span><span>Advanced</span></p>
       <p>Learn MTSR, MTT and TD24, take the quiz, then design four exothermic reactions so a cooling failure cannot become a thermal runaway.</p>
+      <p class="game-learn"><b>You practise:</b> Adiabatic temperature rise, MTSR, the five criticality classes, safe dosing</p>
+      <p class="game-best" data-best hidden></p>
       <span class="card-link">Play &rarr;</span>
     </a>
-    <a class="category-card" href="{{ '/games/stop-the-hazard/' | relative_url }}">
+    <a class="category-card game-card" href="/games/stop-the-hazard/" data-game="hazard" data-tags="start quick safety">
       <span class="icon">&#9888;&#65039;</span>
       <h3>Stop the Hazard</h3>
-      <p>Fast, arcade-style process safety. Spot the hazards and pick which one to deal with first, before things get worse.</p>
+      <p class="game-meta"><span>&#9201; About 5 min</span><span>Beginner</span></p>
+      <p>Fast process safety rounds. Spot the hazard, read live trends and pick which one to deal with first, before the risk climbs.</p>
+      <p class="game-learn"><b>You practise:</b> Hazard spotting, reading a trend, deciding which alarm comes first</p>
+      <p class="game-best" data-best hidden></p>
       <span class="card-link">Play &rarr;</span>
     </a>
-    <a class="category-card" href="{{ '/games/word-search/' | relative_url }}">
+    <a class="category-card game-card" href="/games/word-search/" data-game="wordsearch" data-tags="start quick">
       <span class="icon">&#128269;</span>
       <h3>Word Search</h3>
+      <p class="game-meta"><span>&#9201; About 5 min</span><span>Beginner</span></p>
       <p>Seven puzzles: unit operations, heat transfer, fluid flow, process safety, equipment, utilities and dimensionless numbers. Every word you find explains itself.</p>
+      <p class="game-learn"><b>You practise:</b> The vocabulary of a chemical plant, with a one-line meaning for every term</p>
+      <p class="game-best" data-best hidden></p>
       <span class="card-link">Play &rarr;</span>
     </a>
-    <a class="category-card" href="{{ '/games/troubleshooter/' | relative_url }}">
+    <a class="category-card game-card" href="/games/troubleshooter/" data-game="troubleshooter" data-tags="quick ops">
       <span class="icon">&#127918;</span>
       <h3>PharmaChemE Troubleshooter</h3>
+      <p class="game-meta"><span>&#9201; About 5 min</span><span>Intermediate</span></p>
       <p>An upset hits a reactor, pump or filter. You get one gauge and two controls. Bring the reading back into range.</p>
+      <p class="game-learn"><b>You practise:</b> Linking a symptom to its cause, and fixing it without passing through an unsafe line-up</p>
+      <p class="game-best" data-best hidden></p>
       <span class="card-link">Play &rarr;</span>
     </a>
+<!-- games:cards:end -->
+  </div>
+
+  <div class="game-more">
+    <h2>After the games</h2>
+    <div class="grid-cards">
+      <a class="category-card" href="{{ '/process-safety/' | relative_url }}"><span class="icon">&#128737;&#65039;</span><h3>Process Safety lessons</h3><p>The theory behind Runaway! and Stop the Hazard: thermal runaway, relief, releases and five incident case studies.</p><span class="card-link">Open lessons &rarr;</span></a>
+      <a class="category-card" href="{{ '/training/' | relative_url }}"><span class="icon">&#127891;</span><h3>Free training modules</h3><p>Run-on-screen decks with live checks on HAZOP, runaway reactions, pumps and vacuum, utilities and static fires.</p><span class="card-link">Open training &rarr;</span></a>
+      <a class="category-card" href="{{ '/process-engineering-faq/' | relative_url }}"><span class="icon">&#128172;</span><h3>Interview Prep</h3><p>Process engineering questions with answers, for campus and plant interviews.</p><span class="card-link">Practise &rarr;</span></a>
+      <a class="category-card" href="{{ '/equipment-instruments/' | relative_url }}"><span class="icon">&#9881;&#65039;</span><h3>Equipment and Instruments</h3><p>How each equipment and instrument in the games works, with standard symbols.</p><span class="card-link">Explore &rarr;</span></a>
+    </div>
   </div>
 </div>
+<script src="{{ '/assets/js/game-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -589,6 +589,7 @@ function endGame() {
     : 'Risk reached critical and an incident occurred. See what you missed and try again.';
   if (state.risk < 100) sfxWin(); else sfxLose();
   document.getElementById('end-overlay').style.display = 'flex';
+  try { if (window.PCEGames) PCEGames.finish('hazard', state.score, state.score + ' points', document.querySelector('#sth-root #end-overlay .card') || document.querySelector('#end-overlay .card')); } catch (e) {}
 }
 function pct(arr) {
   if (!arr.length) return 0;
@@ -613,3 +614,32 @@ document.getElementById('retry-btn').addEventListener('click', () => { window.lo
 refreshHUD();
 
 </script>
+
+<!-- games:after:start -->
+<section class="container game-after" id="game-after" data-game="hazard">
+  <div class="game-after-cols">
+    <div>
+      <h2>What this game trains</h2>
+      <p>Hazard spotting, reading a trend, deciding which alarm comes first.</p>
+      <p class="game-after-best" data-best hidden></p>
+    </div>
+    <div>
+      <h2>Learn the theory behind it</h2>
+      <ul class="game-after-links">
+      <li><a href="/process-safety/what-is-process-safety/" data-kind="read">What is process safety?</a></li>
+      <li><a href="/articles/alarm-management-basics-plants/" data-kind="read">Alarm management basics</a></li>
+      <li><a href="/articles/hira-and-jsa-risk-assessment/" data-kind="read">HIRA and JSA risk assessment</a></li>
+      <li><a href="/process-safety/quiz/" data-kind="read">Process safety quiz</a></li>
+      </ul>
+    </div>
+  </div>
+  <h2>Play next</h2>
+  <div class="grid-cards game-after-next">
+      <a class="category-card" href="/games/troubleshooter/" data-kind="next" data-title="PharmaChemE Troubleshooter"><span class="icon">&#127918;</span><h3>PharmaChemE Troubleshooter</h3><p>About 5 min. Linking a symptom to its cause, and fixing it without passing through an unsafe line-up.</p><span class="card-link">Play &rarr;</span></a>
+      <a class="category-card" href="/games/runaway/" data-kind="next" data-title="Runaway! Stoessel Challenge"><span class="icon">&#127777;&#65039;</span><h3>Runaway! Stoessel Challenge</h3><p>About 20 min. Adiabatic temperature rise, MTSR, the five criticality classes, safe dosing.</p><span class="card-link">Play &rarr;</span></a>
+      <a class="category-card" href="/games/"><span class="icon">&#127922;</span><h3>All games</h3><p>See every game with its time, level and your best scores.</p><span class="card-link">Open &rarr;</span></a>
+  </div>
+</section>
+<link rel="stylesheet" href="/assets/css/games.css?v=2">
+<script src="/assets/js/game-kit.js?v=2"></script>
+<!-- games:after:end -->

@@ -3485,6 +3485,7 @@ function btShowSummary() {
     </div>
   `;
   qs("bt-restart-btn").addEventListener("click", btShowStart);
+  try { if (window.PCEGames) PCEGames.finish("troubleshooter", btState.score, btState.score + " points (" + badge + ")", root.firstElementChild); } catch (e) {}
 }
 
 function renderBatchTroubleshooter() {

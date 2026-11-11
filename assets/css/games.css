@@ -1,0 +1,32 @@
+/* Games hub and the "what next" block under each game */
+.game-chips { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+.game-chip { font:inherit; font-size:0.9rem; font-weight:600; padding:9px 16px; min-height:40px; border-radius:22px; cursor:pointer;
+  background:transparent; color:var(--paper, #ECE7D8); border:1px solid var(--line, #2C4C6C); }
+.game-chip[aria-pressed="true"] { background:var(--brass, #C9A227); border-color:var(--brass, #C9A227); color:#0B1622; }
+.game-card .game-meta { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 10px; }
+.game-card .game-meta span { font-size:0.76rem; font-weight:600; padding:3px 9px; border-radius:12px; border:1px solid var(--line, #2C4C6C); color:var(--paper, #ECE7D8); }
+.game-card .game-learn { font-size:0.84rem; margin-top:8px; }
+.game-card .game-learn b { color:var(--paper, #ECE7D8); font-weight:600; }
+.game-card .game-best, .game-after-best { font-size:0.84rem; font-weight:600; color:#6fdca4; margin-top:8px; }
+.game-card[hidden] { display:none; }
+.game-path { margin:0 0 22px; padding:16px 18px; border:1px solid var(--line, #2C4C6C); border-left:3px solid var(--brass, #C9A227); border-radius:8px; }
+.game-path h2 { font-size:1.05rem; margin:0 0 6px; }
+.game-path p { margin:0 0 10px; font-size:0.92rem; }
+.game-path ol { margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:8px; counter-reset:gp; }
+.game-path li { counter-increment:gp; }
+.game-path li a { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; min-height:40px; border-radius:8px; border:1px solid var(--line, #2C4C6C); text-decoration:none; color:var(--paper, #ECE7D8); font-size:0.9rem; font-weight:600; }
+.game-path li a::before { content:counter(gp); display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:var(--brass, #C9A227); color:#0B1622; font-size:0.78rem; }
+.game-path li a.done::before { content:"\2713"; background:#3fb679; }
+.game-progress { font-size:0.88rem; margin:0 0 14px; color:var(--muted, #9FB2C4); }
+.game-more { margin-top:34px; }
+.game-more h2 { font-size:1.15rem; }
+.game-after { margin-top:36px; padding-top:26px; border-top:1px solid var(--line, #2C4C6C); }
+.game-after h2 { font-size:1.15rem; margin:0 0 10px; color:var(--brass, #C9A227); }
+.game-after-cols { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-bottom:26px; }
+.game-after-links { margin:0; padding-left:18px; line-height:1.9; }
+.game-after-next { margin-top:6px; }
+@media (max-width:720px) { .game-after-cols { grid-template-columns:1fr; gap:14px; } }
+/* line added to a game's own end screen */
+.pce-end { margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.14); font-size:0.9rem; line-height:1.6; text-align:left; }
+.pce-end b.new { color:#6fdca4; }
+.pce-end a { color:#FDBE53; font-weight:600; }

@@ -298,12 +298,12 @@ last_modified_at: 2026-10-20
       <div class="panel" id="learning">
         <h3>Related Learning</h3>
         <div style="display:flex; flex-direction:column; gap:6px; font-size:0.78rem;">
-          <a href="https://pharmacheme.in/articles/mixing-scale-up/" target="_blank" rel="noopener" style="color:#C9A227;">Article: Mixing &amp; Scale-up Calculations</a>
-          <a href="https://pharmacheme.in/calculators/mixing-scale-up-calculator/" target="_blank" rel="noopener" style="color:#6E8CA8;">Calculator: Mixing / Scale-up</a>
-          <a href="https://pharmacheme.in/articles/heat-load-calculation/" target="_blank" rel="noopener" style="color:#C9A227; margin-top:6px;">Article: Heat Load &amp; Recovery Time</a>
-          <a href="https://pharmacheme.in/calculators/heat-load-calculator/" target="_blank" rel="noopener" style="color:#6E8CA8;">Calculator: Heat Load &amp; Recovery</a>
-          <a href="https://pharmacheme.in/articles/centrifuge-cake-weight/" target="_blank" rel="noopener" style="color:#C9A227; margin-top:6px;">Article: Centrifuge Cake Weight &amp; G-Force</a>
-          <a href="https://pharmacheme.in/calculators/centrifuge-cake-weight-calculator/" target="_blank" rel="noopener" style="color:#6E8CA8;">Calculator: Centrifuge Cake Weight</a>
+          <a href="/articles/mixing-scale-up/" target="_blank" rel="noopener" style="color:#C9A227;">Article: Mixing &amp; Scale-up Calculations</a>
+          <a href="/calculators/mixing-scale-up-calculator/" target="_blank" rel="noopener" style="color:#6E8CA8;">Calculator: Mixing / Scale-up</a>
+          <a href="/articles/heat-load-calculation/" target="_blank" rel="noopener" style="color:#C9A227; margin-top:6px;">Article: Heat Load &amp; Recovery Time</a>
+          <a href="/calculators/heat-load-calculator/" target="_blank" rel="noopener" style="color:#6E8CA8;">Calculator: Heat Load &amp; Recovery</a>
+          <a href="/articles/centrifuge-cake-weight/" target="_blank" rel="noopener" style="color:#C9A227; margin-top:6px;">Article: Centrifuge Cake Weight &amp; G-Force</a>
+          <a href="/calculators/centrifuge-cake-weight-calculator/" target="_blank" rel="noopener" style="color:#6E8CA8;">Calculator: Centrifuge Cake Weight</a>
         </div>
       </div>
     </div>
@@ -1369,6 +1369,7 @@ function showEndScreen() {
   document.getElementById('end-summary').textContent =
     'Mission 1 complete. You prepared R-103, found and cleared a cooling-water restriction, and juggled R-105 and R-201 while taking the batch through to final product.';
   document.getElementById('end-overlay').style.display = 'flex';
+  try { if (window.PCEGames) PCEGames.finish('operator', score.total, score.total + ' points', document.querySelector('#end-overlay .card')); } catch (e) {}
 }
 document.getElementById('start-btn').addEventListener('click', () => {
   document.getElementById('start-overlay').style.display = 'none';
@@ -1386,3 +1387,32 @@ document.getElementById('restart-btn').addEventListener('click', () => { window.
 refreshTaskPanel(); refreshHUD();
 
 </script>
+
+<!-- games:after:start -->
+<section class="container game-after" id="game-after" data-game="operator">
+  <div class="game-after-cols">
+    <div>
+      <h2>What this game trains</h2>
+      <p>Reading field readings, finding the cause of a deviation, deciding what to handle first.</p>
+      <p class="game-after-best" data-best hidden></p>
+    </div>
+    <div>
+      <h2>Learn the theory behind it</h2>
+      <ul class="game-after-links">
+      <li><a href="/articles/common-mistakes-in-batch-reactions/" data-kind="read">Common mistakes in batch reactions</a></li>
+      <li><a href="/articles/heat-load-calculation/" data-kind="read">Heat load calculation</a></li>
+      <li><a href="/articles/alarm-management-basics-plants/" data-kind="read">Alarm management basics</a></li>
+      <li><a href="/calculators/heat-load-calculator/" data-kind="read">Heat load calculator</a></li>
+      </ul>
+    </div>
+  </div>
+  <h2>Play next</h2>
+  <div class="grid-cards game-after-next">
+      <a class="category-card" href="/games/troubleshooter/" data-kind="next" data-title="PharmaChemE Troubleshooter"><span class="icon">&#127918;</span><h3>PharmaChemE Troubleshooter</h3><p>About 5 min. Linking a symptom to its cause, and fixing it without passing through an unsafe line-up.</p><span class="card-link">Play &rarr;</span></a>
+      <a class="category-card" href="/games/runaway/" data-kind="next" data-title="Runaway! Stoessel Challenge"><span class="icon">&#127777;&#65039;</span><h3>Runaway! Stoessel Challenge</h3><p>About 20 min. Adiabatic temperature rise, MTSR, the five criticality classes, safe dosing.</p><span class="card-link">Play &rarr;</span></a>
+      <a class="category-card" href="/games/"><span class="icon">&#127922;</span><h3>All games</h3><p>See every game with its time, level and your best scores.</p><span class="card-link">Open &rarr;</span></a>
+  </div>
+</section>
+<link rel="stylesheet" href="/assets/css/games.css?v=2">
+<script src="/assets/js/game-kit.js?v=2"></script>
+<!-- games:after:end -->
