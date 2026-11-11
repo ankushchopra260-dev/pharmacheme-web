@@ -318,6 +318,27 @@ items:
       - /articles/consumption-norms-and-cost-per-kg/
       - /articles/material-and-energy-balance/
 
+  # Being tested by the owner. hidden: true keeps it off the Exclusive page, search and sitemap, and the page shows
+  # "not open yet" to everyone except accounts that already have access (the owner). To launch: remove the hidden line,
+  # set the real price, replace the company defaults inside the tool (see tools/launch-bfd-tool.md), rebuild pages.
+  - id: app-bfd-tool
+    slug: bfd-tool
+    group: apps
+    hidden: true
+    updated: '2026-11-11'
+    meta: 'Offline app that turns a lab procedure into a block flow diagram workbook for a batch process: step sheets, equipment tags, heat and utility duties and optional costing, all linked to one batch-size cell.'
+    title: 'BFD tool (offline app)'
+    short: 'Paste the lab procedure, set the batch size, and get a block flow diagram workbook for a multi-stage batch process, with every quantity linked to one batch-size cell so the whole workbook rescales when the batch changes.'
+    price: 0
+    what:
+      - 'Lab procedure to plant steps: paste the R&D procedure table and the tool reads materials, quantities, times and temperatures for each operation'
+      - 'One step sheet per stage, with numbered instructions, notes and results, and equipment tags assigned automatically'
+      - 'Quantities written as formulas (lab quantity divided by key raw material lab quantity, times batch input), so changing the batch size rescales everything'
+      - 'Heat actions for cooling, heating, maintaining and exothermic steps, with utility choice by temperature limits you can edit'
+      - 'Filtration and drying sequences generated from the operation type, and reactor capacity calculated when you leave it blank'
+      - 'Optional costing: raw material norms, effluent, vacuum, equipment list, project cost, cost sheet and fixed cost, all linked'
+      - 'Save the project as a file, reopen it later, or work on another PC. Works offline in any modern browser and nothing is uploaded'
+
 paths:
   - id: fresher
     title: Industry-ready chemical engineer

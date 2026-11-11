@@ -149,6 +149,7 @@ const mailto = () => 'mailto:' + CONTACT + '?subject=' + encodeURIComponent(subj
 const gmail = () => 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(CONTACT) + '&su=' + encodeURIComponent(subject()) + '&body=' + encodeURIComponent(mailBody());
 
 async function noAccess() {
+  if (ITEM[ID] && ITEM[ID].hidden) { view(who() + '<p class="ts-note">This tool is not open yet.</p>'); bindWho(); return; }
   let req = null; const rid = key(user.email) + '__' + ID;
   try { const r = await getDoc(doc(db, 'requests', rid)); if (r.exists()) req = r.data(); } catch (e) { /* ignore */ }
   const amount = parseInt(String(PRICE).replace(/\D/g, ''), 10) || 0;
@@ -178,6 +179,7 @@ async function noAccess() {
 }
 
 function b64Blob(b64, mime) { const bin = atob(b64), a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new Blob([a], { type: mime }); }
+async function gunzipText(b64) { const bin = Uint8Array.from(atob(b64), c => c.charCodeAt(0)); return await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).text(); }
 function save(file) { const u = URL.createObjectURL(b64Blob(file.b64, file.mime)), a = document.createElement('a'); a.href = u; a.download = file.name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(u); a.remove(); }, 1000); }
 const finishBtn = () => '<div class="ex-finish"><button type="button" class="ts-btn' + (finished(ID) ? '' : ' prim') + '" id="ex-fin"' + (finished(ID) ? ' disabled' : '') + '>' + (finished(ID) ? 'Finished ✓' : 'Mark as finished') + '</button><span class="ts-mute">Counts towards your learning path.</span></div>';
 function bindFinish() { const b = document.getElementById('ex-fin'); if (b) b.onclick = () => { markFinished(ID); b.disabled = true; b.classList.remove('prim'); b.textContent = 'Finished ✓'; }; }
@@ -215,6 +217,15 @@ async function render(it) {
     let changes = 0; box.addEventListener('change', () => { if (++changes === 3) markFinished(ID); });
     try { const fn = (0, eval)(it.js); fn(box, makeApi(files)); }
     catch (e) { content.innerHTML = '<p class="ts-note">The calculator could not start (' + esc(e.message) + '). Please refresh; if it keeps happening, email ' + esc(CONTACT) + '.</p>'; }
+  } else if (it.gz) {
+    content.innerHTML = '<div class="ex-webapp"><div class="ex-tools"><button type="button" class="ts-btn" id="ex-wa-full">Full screen</button> <button type="button" class="ts-btn prim" id="ex-wa-dl">Download as one HTML file (works offline)</button></div><iframe id="ex-wa" class="ex-wa-frame" title="' + esc(TITLE || 'Tool') + '"></iframe><p class="ts-mute">Your entries stay in this browser. Use the tool\'s own Save project button to keep a copy as a file.</p></div>' + stamp;
+    try {
+      const html = await gunzipText(it.gz), fr = document.getElementById('ex-wa');
+      fr.srcdoc = html;
+      document.getElementById('ex-wa-full').onclick = () => { try { (fr.requestFullscreen || fr.webkitRequestFullscreen).call(fr); } catch (e) { toast('Full screen is not available in this browser.'); } };
+      document.getElementById('ex-wa-dl').onclick = () => { const u = URL.createObjectURL(new Blob([html], { type: 'text/html' })), a = document.createElement('a'); a.href = u; a.download = 'PharmaChemE-' + (ITEM[ID] && ITEM[ID].slug || 'tool') + '.html'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(u); a.remove(); }, 1000); markFinished(ID); };
+      if (!PROG[ID] || !PROG[ID].opened) saveProgress(ID, { opened: true });
+    } catch (e) { content.innerHTML = '<p class="ts-note">The tool could not open (' + esc(e.message) + '). Please refresh; if it keeps happening, email ' + esc(CONTACT) + '.</p>'; }
   } else {
     content.innerHTML = '<div class="ex-files">' + Object.entries(files).map(([k, f]) => '<p><button type="button" class="ts-btn prim ex-dl2" data-k="' + esc(k) + '">Download ' + esc(f.name.replace(/^PharmaChemE-/, '')) + '</button></p>').join('') + '<p class="ts-mute">Opens in Excel, LibreOffice Calc or Google Sheets. Type your values in the yellow cells.</p></div>' + stamp;
     content.querySelectorAll('.ex-dl2').forEach(btn => btn.onclick = () => { save(files[btn.dataset.k]); markFinished(ID); });

@@ -43,6 +43,7 @@ def main():
         fm = ['---', 'layout: exclusive', f'item: {it["id"]}', f'title: {json.dumps(it["title"], ensure_ascii=False)}', f'seo_title: {json.dumps(seo, ensure_ascii=False)}',
               f'description: {json.dumps(desc, ensure_ascii=False)}', 'structured_data: |', '  ' + json.dumps(sd, ensure_ascii=False),
               *crumbs,
+              *(['noindex: true', 'sitemap: false'] if it.get('hidden') else []),
               'last_modified_at: ' + str(it.get('updated', '2026-10-29')), '---', '']
         open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write('\n'.join(fm))
         made.append(it['slug'])
