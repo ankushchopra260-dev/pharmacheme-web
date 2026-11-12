@@ -2,7 +2,7 @@
 <title>HAZOP made practical | PharmaChemE training deck</title><meta name="robots" content="noindex"><link rel="canonical" href="https://www.pharmacheme.in/training/modules/hazop-made-practical/"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <style>
 html,body{margin:0;height:100%;background:#0B141C;overflow:hidden}
-#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+#stage{position:fixed;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
 section{position:absolute;inset:0;width:1920px;height:1080px;box-sizing:border-box;display:none;overflow:hidden}
 #stage > section:not(.on){display:none !important}
 section *{box-sizing:border-box}
@@ -20,6 +20,26 @@ th{font-weight:700}
 #np{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:#F7F8F8;color:#12202C;font:16px/1.5 system-ui,sans-serif;padding:12px 18px;display:none;z-index:5;border-top:4px solid #F2A900}
 #hud{position:fixed;right:12px;bottom:10px;color:#9FB0BE;font:13px system-ui,sans-serif;z-index:4;background:rgba(11,20,28,.6);padding:4px 10px;border-radius:6px}
 @media (prefers-reduced-motion: reduce){[data-build-in]{transition:none}}
+
+/* phone and tablet layout (mobile patch v1) */
+#mb{display:none}
+body.touch #hud{display:none}
+body.port{background:#0B141C}
+body.port #np{display:block!important;top:var(--npt);bottom:0;max-height:none;border-top:0;background:#F7F8F8;font:17px/1.6 system-ui,sans-serif;padding:14px 18px 90px}
+body.port #np:before{content:'Notes';display:block;font:700 13px system-ui,sans-serif;color:#6F8496;letter-spacing:.04em;margin-bottom:6px}
+body.touch #mb{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:6;gap:8px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(11,20,28,.92);align-items:center;font:600 15px system-ui,sans-serif;color:#EEF1F3}
+#mb button{flex:1;min-height:44px;border:1px solid #2A3E50;border-radius:8px;background:#1B2E3E;color:#EEF1F3;font:600 16px system-ui,sans-serif}
+#mb button:active{background:#2A3E50}
+#mb #mbn{background:#F2A900;color:#12202C;border-color:#F2A900}
+#mb span{flex:none;min-width:64px;text-align:center;color:#B8C7D3}
+body.touch:not(.port) #mb{background:transparent;left:auto;right:8px;bottom:8px;width:auto;padding:0;gap:6px}
+body.touch:not(.port) #mb button{flex:none;width:52px;min-height:40px;background:rgba(27,46,62,.85)}
+body.touch:not(.port) #mb span{display:none}
+body.touch:not(.port) #mb button{font-size:0}
+body.touch:not(.port) #mbp:before{content:'\25C0';font-size:18px}
+body.touch:not(.port) #mbn:before{content:'\25B6';font-size:18px}
+#mbh{display:none}
+body.port #mbh{display:block;position:fixed;left:0;right:0;top:calc(var(--npt) - 30px);text-align:center;font:13px system-ui,sans-serif;color:#9FB0BE}
 </style></head><body>
 <div id="stage">
 <section id="cover" data-transition="fade" style="background:#12202C;color:#EEF1F3;font-family:'Public Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
@@ -118,7 +138,7 @@ th{font-weight:700}
 <div id="np"></div><div id="hud"></div>
 <script>
 const S=[...document.querySelectorAll('#stage > section')];let i=0,step=0,groups=[];
-function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080),st=document.getElementById('stage');st.style.transform=`scale(${k}) translate(-50%,-50%)`;st.style.transformOrigin='0 0';st.style.left='50%';st.style.top='50%';st.style.transform=`translate(-50%,-50%) scale(${k})`;st.style.transformOrigin='center center';}
+function fit(){const W=innerWidth,H=innerHeight,st=document.getElementById('stage'),port=W<H&&W<900,touch=matchMedia('(pointer:coarse)').matches||'ontouchstart' in window;document.body.classList.toggle('port',port);document.body.classList.toggle('touch',touch);const k=port?W/1920:Math.min(W/1920,H/1080),top=port?8:(H-1080*k)/2;st.style.transformOrigin='0 0';st.style.left=((W-1920*k)/2)+'px';st.style.top=top+'px';st.style.transform='scale('+k+')';document.body.style.setProperty('--npt',(top+1080*k+40)+'px');}
 function parse(el){const p=el.getAttribute('data-build-in').split(/\s+/);return {order:+(p[1]||1),auto:p.includes('auto')};}
 function setup(){const els=[...S[i].querySelectorAll('[data-build-in]')];const m={};els.forEach(e=>{const o=parse(e).order;(m[o]=m[o]||[]).push(e);});groups=Object.keys(m).map(Number).sort((a,b)=>a-b).map(k=>m[k]);}
 function show(n,first){S.forEach((s,k)=>s.classList.toggle('on',k===n));i=n;setup();step=0;groups.flat().forEach(e=>e.classList.add('hid'));
@@ -148,4 +168,16 @@ addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes
 document.getElementById('stage').addEventListener('click',next);
 addEventListener('resize',fit);fit();
 const h=parseInt(location.hash.slice(1));show(h>0&&h<=S.length?h-1:0,true);
-</script></body></html>
+</script>
+<div id="mbh">Turn the phone sideways for a bigger slide</div><div id="mb"><button id="mbp" type="button" aria-label="Previous">&#9664; Back</button><span id="mbc"></span><button id="mbn" type="button" aria-label="Next">Next &#9654;</button></div>
+<script>(function(){
+const c=()=>{const e=document.getElementById('mbc');if(e)e.textContent=(i+1)+' / '+S.length;};
+const oh=hud;hud=function(){oh();c();};c();
+document.getElementById('mbp').addEventListener('click',e=>{e.stopPropagation();prev();});
+document.getElementById('mbn').addEventListener('click',e=>{e.stopPropagation();next();});
+let x0=null,y0=null;const st=document.getElementById('stage');
+st.addEventListener('touchstart',e=>{if(e.target.closest('input,button,select,textarea,.ch-o,[role=button]')){x0=null;return;}x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+st.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){e.preventDefault();dx<0?next():prev();}});
+addEventListener('orientationchange',()=>setTimeout(fit,250));
+})();</script>
+</body></html>
