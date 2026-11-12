@@ -126,13 +126,13 @@ S.append(bullets('steps', 'Scale up in steps, and scale down to test',
  ['Move through lab, kilo lab, pilot, then plant', 'Rule of thumb: keep each step to tens of times in volume, not thousands', 'Use a small vessel to copy the plant, such as the same dosing time and mixing', 'Compare each step with the one before and explain every difference'],
  "Nobody goes from a flask to a ten cubic metre reactor in one jump if they can avoid it. (Click.) A common rule of thumb keeps each step to a factor of tens in volume. It is a guide, not a law. (Click.) Scale-down is the other half. Use the small vessel to copy what the plant will do, for example the planned dosing time and a similar mixing level. If the product is the same under plant-like conditions, you gain confidence. (Click.) And at every step, write down what is different from the last one and why."))
 
-S.append(live('tryit', 'Now you call it: five live checks',
- [('Surface per litre.', 'Give the vessel size and see how much cooling area each litre has.'),
+S.append(live('tryit', 'Now you call it: the live page',
+ [('Agitators and mixing.', 'Pick an agitator, watch the flow pattern and a dye blend, see power and blend time.'),
+  ('Heat transfer.', 'See which resistance controls, and what a faster agitator really buys.'),
   ('Dosing time.', 'Set the heat release and see the shortest time the jacket can follow.'),
   ('Mixing rule.', 'Pick the rule and see what happens to speed, tip speed and blend time.'),
-  ('Heat-up time.', 'Choose the size and see how long it takes to heat.'),
   ('If cooling stops.', 'See how high the temperature goes if feed has accumulated.')],
- "Open the live page on the second screen. These five checks follow the slides. Ask the room to guess before you click Reveal on each. Station one repeats the surface per litre. Station two shows the dosing time, and you can change the heat release and the jacket. Station three is the mixing rule. Station four shows heating time. Station five links to safety: how hot does it get if the feed accumulated and cooling stopped? All inputs can be changed. Use your own product's numbers if you have them."))
+ "Open the live page on the second screen. It has an agitator guide, a mixing simulator with a moving flow pattern, a heat-transfer simulator, five quick checks, a dosing simulator and a quiz. Start with the mixing and heat-transfer simulators if the room works with agitators every day. Ask the room to guess before you click Reveal on each. Station one repeats the surface per litre. Station two shows the dosing time, and you can change the heat release and the jacket. Station three is the mixing rule. Station four shows heating time. Station five links to safety: how hot does it get if the feed accumulated and cooling stopped? All inputs can be changed. Use your own product's numbers if you have them."))
 
 S.append(cards('before', 'Before the first plant batch',
  [('Agree the limits', 'Dosing time, temperature, hold times and stop points, written down.'),
@@ -256,6 +256,25 @@ def after(sid, slide):
         if x.startswith(f'<section id="{sid}"'):
             S.insert(k + 1, slide); return
     raise SystemExit('missing ' + sid)
+agit = dl.table('agitators', 'Agitators: pick by the job',
+ ['Agitator', 'Flow', 'Power no.', 'Best for'],
+ [['Hydrofoil', 'Axial', '0.3', 'Thin liquids, solids, gentle crystals'],
+  ['Pitched blade turbine', 'Axial and radial', '1.3', 'General reactions, solids, blending'],
+  ['Rushton disc turbine', 'Radial', '5', 'Gas dispersion, liquid-liquid, fast feeds'],
+  ['Retreat curve (glass-lined)', 'Radial with swirl', '0.35', 'Corrosive duties, general blending'],
+  ['Anchor', 'Swirl at the wall', 'laminar', 'Thick masses, heat transfer at the wall'],
+  ['Helical ribbon', 'Up the wall, laminar', 'laminar', 'Very thick masses, pastes, polymers']],
+ "Six agitators cover most batch plants. Read across each row: the flow it makes, its power number and its job. The power number tells you how much power the agitator draws at a given speed and size: a Rushton turbine draws about fifteen times more than a hydrofoil of the same size at the same speed. Axial impellers pump top to bottom and are good for blending and lifting solids. Radial impellers throw liquid at the wall and make shear, which is what gas and liquid-liquid dispersions need. Glass-lined reactors use a retreat curve impeller because the shape can be coated, and it usually has one baffle, so top-to-bottom mixing is weaker. In thick liquids, a turbine only stirs a small zone around itself; an anchor sweeps the wall for heat transfer, and a helical ribbon turns the whole batch over. On the live page, the agitator guide shows each one, and the mixing simulator lets you watch the flow pattern and a dye blending.",
+ note='Typical turbulent power numbers for baffled vessels. Variants differ: confirm with the supplier curve.')
+
+resist = dl.stats('resist', 'Where the heat gets stuck',
+ [('49 %', 'of the resistance sits in the wall of a glass-lined reactor (illustrative solvent batch)'),
+  ('+12 %', 'more U when the agitator speed is doubled in a stainless steel vessel'),
+  ('8x', 'more agitator power for that doubling: power goes with speed cubed')],
+ 'Find the largest resistance before you buy more rpm.',
+ "Heat leaves the batch through four resistances in series: the liquid film inside, the wall, any fouling, and the jacket film. Only the first one depends on the agitator. These numbers come from the heat-transfer simulator on the live page, for methanol, a pitched blade turbine at 90 rpm in a 10 cubic metre vessel and plain cooling-water jacket. In a glass-lined reactor about half of the resistance is the glass and the steel. (Click.) In stainless steel, doubling the speed raises the overall coefficient by about twelve percent, because the inside film coefficient rises only with speed to the power two thirds, and it is only one of four resistances. (Click.) And the power goes up eight times, which also puts heat into the batch. (Click.) So before asking for a faster agitator, find out which resistance is largest. For thick masses it is the inside film, and there the agitator matters a lot: about 88 percent of the resistance in the anchor example on the live page.")
+
+after('mixsens', agit); after('dose', resist)
 after('geo', drag_slide()); after('dose', call1); after('accum', call2); after('mixsens', call3); after('steps', formulas); after('signs', case)
 
 n = build('scale-up-lab-to-plant', 'Scale-up: lab to plant', S)
