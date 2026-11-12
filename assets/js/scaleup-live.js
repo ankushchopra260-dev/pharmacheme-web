@@ -99,6 +99,83 @@
       });
   };
 
+  /* Extra: dose-and-cool simulator. Semi-batch, first-order in accumulated feed, jacket control up to its capacity. */
+  function runSim(p) {
+    var Q = 25, U = 150, C = 0.4, Tj = 10, T0 = 40, Ea = 8420, uj = U * geom(p.VL / 1000).av / 1000;
+    var dt = 0.0002, tmax = Math.max(p.td * 1.6 + 1, 2), N = Math.ceil(tmax / dt), T = T0, A = 0, t = 0, stopped = false;
+    var o = { t: [], T: [], A: [], peak: T0, maxA: 0, tbp: null, tmax: tmax }, every = Math.max(1, Math.round(tmax / 400 / dt));
+    for (var i = 0; i < N; i++) {
+      var failed = p.failAt != null && t >= p.failAt; if (failed && p.stopFeed) stopped = true;
+      var f = (t < p.td && !stopped) ? 1 / p.td : 0, k = p.k * Math.exp(Ea * (1 / 313.15 - 1 / (T + 273.15)));
+      var An = (A + f * dt) / (1 + k * dt), re = A + f * dt - An;
+      var cap = failed ? 0 : Math.max(0, uj * (T - Tj) * dt), dem = Math.max(0, Q * re + C * (T - T0) * dt / 0.05);
+      T += (Q * re - Math.min(dem, cap)) / C; A = An; t += dt;
+      if (T > p.bp && o.tbp == null) o.tbp = t; if (T > o.peak) o.peak = T; if (A > o.maxA) o.maxA = A;
+      if (i % every === 0) { o.t.push(t); o.T.push(Math.min(T, 140)); o.A.push(A); }
+      if (T > 140) break;
+    }
+    return o;
+  }
+  F.sim = function (host) {
+    host.innerHTML = '<div class="tk-fx"><p><b>Dose a feed into a batch at 40 &deg;C. The reaction releases 25 kcal per litre. Can the jacket keep up?</b></p><div class="tk-row">' +
+      '<div><label for="sm-v">Vessel</label><select id="sm-v"><option value="1">1 L flask</option><option value="100">100 L pilot</option><option value="1000">1 m&sup3;</option><option value="10000" selected>10 m&sup3; plant</option></select></div>' +
+      num('sm-t', 'Dosing time, h', 0.17, 0.05, 0.02) +
+      '<div><label for="sm-k">Reaction</label><select id="sm-k"><option value="60">Fast: reacts as it is dosed</option><option value="1">Slow: feed builds up</option></select></div>' +
+      '<div><label for="sm-f">Cooling</label><select id="sm-f"><option value="0">Works all the time</option><option value="1">Fails halfway, feed stopped</option><option value="2">Fails halfway, feed continues</option></select></div></div>' +
+      '<div class="tk-actions" style="margin:8px 0"><button type="button" class="tk-btn" data-p="lab">Lab recipe: 10 min in the flask</button><button type="button" class="tk-btn" data-p="same">Same recipe in the plant</button><button type="button" class="tk-btn" data-p="fix">Plant with 3.5 h dosing</button><button type="button" class="tk-btn" data-p="slow">Slow reaction, cooling fails</button></div>' +
+      '<canvas id="sm-c" width="900" height="380" style="width:100%;max-width:900px;background:#0F1C28;border:1px solid var(--grid-line);border-radius:6px" role="img" aria-label="Batch temperature and unreacted feed against time"></canvas>' +
+      '<p class="tk-cite" style="margin:4px 0 0"><span style="color:#F2A900">&#9632;</span> batch temperature &nbsp; <span style="color:#6FB3E8">&#9632;</span> unreacted feed in the vessel &nbsp; <span style="color:#E8706B">- -</span> boiling point 65 &deg;C</p>' +
+      '<div class="tk-verdict" id="sm-o"></div>' +
+      '<p class="tk-cite" style="margin:6px 0 0">Teaching model: one first-order reaction, jacket coolant at 10 &deg;C, U = 150 kcal/h&middot;m&sup2;&middot;&deg;C, height equal to diameter, heat capacity 0.4 kcal/L&middot;&deg;C, no boiling or decomposition modelled. It shows trends, not design values.</p></div>';
+    var cv = $(host, '#sm-c'), cx = cv.getContext('2d');
+    function draw(o) {
+      var W = cv.width, H = cv.height, L = 60, R = 60, Tp = 20, B = 40, pw = W - L - R, ph = H - Tp - B, x = function (t) { return L + t / o.tmax * pw; }, yT = function (T) { return Tp + ph - (T - 20) / 120 * ph; }, yA = function (a) { return Tp + ph - a * ph; };
+      cx.clearRect(0, 0, W, H); cx.font = '13px sans-serif'; cx.lineWidth = 1; cx.strokeStyle = '#2A3E50'; cx.fillStyle = '#9FB0BE';
+      for (var T = 20; T <= 140; T += 20) { cx.beginPath(); cx.moveTo(L, yT(T)); cx.lineTo(W - R, yT(T)); cx.stroke(); cx.textAlign = 'right'; cx.fillText(T + ' °C', L - 6, yT(T) + 4); cx.textAlign = 'left'; cx.fillText(Math.round((T - 20) / 1.2) + ' %', W - R + 6, yT(T) + 4); }
+      cx.textAlign = 'center'; for (var i = 0; i <= 4; i++) { var tt = o.tmax * i / 4; cx.fillText(tt < 1.5 ? Math.round(tt * 60) + ' min' : tt.toFixed(1) + ' h', x(tt), H - 14); }
+      cx.setLineDash([6, 5]); cx.strokeStyle = '#E8706B'; cx.beginPath(); cx.moveTo(L, yT(65)); cx.lineTo(W - R, yT(65)); cx.stroke(); cx.setLineDash([]);
+      function line(arr, y, col) { cx.strokeStyle = col; cx.lineWidth = 2.5; cx.beginPath(); arr.forEach(function (v, i) { i ? cx.lineTo(x(o.t[i]), y(v)) : cx.moveTo(x(o.t[i]), y(v)); }); cx.stroke(); }
+      line(o.A, yA, '#6FB3E8'); line(o.T, yT, '#F2A900');
+    }
+    function upd() {
+      var td = Math.max(0.02, n(host, '#sm-t') || 0.02), fm = $(host, '#sm-f').value, VL = parseFloat($(host, '#sm-v').value);
+      var o = runSim({ VL: VL, td: td, k: parseFloat($(host, '#sm-k').value), failAt: fm === '0' ? null : td / 2, stopFeed: fm === '1', bp: 65 }); draw(o);
+      var v = $(host, '#sm-o'), lim = 25 / (150 * geom(VL / 1000).av * 30 / 1000), s = 'Peak temperature <b>' + (o.peak >= 140 ? 'above 140' : fmt(o.peak, 0)) + ' &deg;C</b>. Most unreacted feed held at one time: <b>' + fmt(o.maxA * 100, 0) + ' %</b>. Jacket limit for this vessel: about ' + (lim < 1 ? fmt(lim * 60, 0) + ' min' : fmt(lim, 1) + ' h') + ' of dosing. ';
+      if (o.tbp != null) { v.className = 'tk-verdict bad'; s += 'The batch passes its boiling point after ' + (o.tbp < 1 ? fmt(o.tbp * 60, 0) + ' min' : fmt(o.tbp, 1) + ' h') + '. In a real vessel this means boiling, pressure and possible loss of containment.'; }
+      else if (o.peak > 50 || o.maxA > 0.15) { v.className = 'tk-verdict warn'; s += (o.maxA > 0.15 ? 'A large stock of unreacted feed sits in the vessel. If cooling stops, it keeps reacting even after the feed is stopped.' : 'The temperature leaves the set point. The margin is small.'); }
+      else { v.className = 'tk-verdict ok'; s += 'The jacket holds the set point and little feed is waiting to react. Stopping the feed stops the heat.'; }
+      v.innerHTML = s;
+    }
+    var P = { lab: ["1", 0.17, "60", "0"], same: ["10000", 0.17, "60", "0"], fix: ["10000", 3.5, "60", "0"], slow: ['10000', 3.5, '1', '1'] };
+    host.querySelectorAll('[data-p]').forEach(function (b) { b.onclick = function () { var p = P[b.getAttribute('data-p')]; $(host, '#sm-v').value = p[0]; $(host, '#sm-t').value = p[1]; $(host, '#sm-k').value = p[2]; $(host, '#sm-f').value = p[3]; upd(); }; });
+    host.addEventListener('input', upd); host.addEventListener('change', upd); upd();
+  };
+
+  /* Extra: six-question check */
+  F.quiz = function (host) {
+    var QS = [
+      ['A vessel is made 10 times wider with the same shape. Its cooling wall per litre becomes:', ['10 times more', 'The same', '10 times less', '100 times less'], 2, 'Wall per volume is 4 / diameter for this shape, so it falls in step with the diameter.'],
+      ['A step is heat-limited. The dosing time in the plant should be set by:', ['The lab dosing time', 'What the jacket can remove, with a margin', 'The shift timing', 'The agitator speed'], 1, 'Heat per litre divided by cooling per litre gives the shortest time. Add a margin.'],
+      ['Feed is going in but there is no temperature rise. The first action is to:', ['Dose faster', 'Heat the batch', 'Stop the feed and find out why', 'Wait and watch'], 2, 'No heat means feed is accumulating. Stop adding to the stock, then find the cause.'],
+      ['Keeping the same power per litre from 1 L to 10 m³ makes the blend time about:', ['The same', '8 times longer', '8 times shorter', '460 times longer'], 1, 'Speed falls to about one eighth, and blend time goes with 1 / speed.'],
+      ['Which of these does NOT change with scale?', ['Heat of reaction per kilogram', 'Heating time', 'Wall per litre', 'Blend time'], 0, 'The chemistry is the same. The equipment around it changes.'],
+      ['60 % of the feed has accumulated, the adiabatic rise is 80 °C and the batch is at 40 °C. If cooling stops it can reach about:', ['48 °C', '65 °C', '88 °C', '120 °C'], 2, '40 + 0.6 × 80 = 88 °C.']];
+    var ans = QS.map(function () { return -1; });
+    function render() {
+      var done = ans.filter(function (a) { return a >= 0; }).length, sc = ans.filter(function (a, i) { return a === QS[i][2]; }).length;
+      host.innerHTML = '<div class="tk-fx">' + QS.map(function (q, i) {
+        return '<div style="margin:0 0 18px"><p style="margin:0 0 8px"><b>' + (i + 1) + '. ' + q[0] + '</b></p><div class="tk-actions" style="margin:0">' + q[1].map(function (o, j) {
+          var st = ans[i] < 0 ? '' : j === q[2] ? 'border-color:#5FD09A;color:#5FD09A' : j === ans[i] ? 'border-color:#E8706B;color:#E8706B' : 'opacity:.55';
+          return '<button type="button" class="tk-btn" data-q="' + i + '" data-o="' + j + '" style="' + st + '"' + (ans[i] >= 0 ? ' disabled' : '') + '>' + o + '</button>';
+        }).join('') + '</div>' + (ans[i] >= 0 ? '<p class="tk-cite" style="margin:6px 0 0">' + (ans[i] === q[2] ? 'Correct. ' : 'Not quite. ') + q[3] + '</p>' : '') + '</div>';
+      }).join('') + '<div class="tk-verdict ' + (done < QS.length ? '' : sc >= 5 ? 'ok' : sc >= 3 ? 'warn' : 'bad') + '">' + (done < QS.length ? 'Answered ' + done + ' of ' + QS.length + '.' : 'Score: <b>' + sc + ' of ' + QS.length + '</b>. ' + (sc >= 5 ? 'Ready to ask the five questions on a real product.' : 'Go back to the slides for the ones you missed, then try again.')) + '</div>' +
+        '<div class="tk-actions" style="margin:10px 0 0"><button type="button" class="tk-btn" data-reset>Start again</button></div></div>';
+      host.querySelectorAll('[data-q]').forEach(function (b) { b.onclick = function () { ans[+b.getAttribute('data-q')] = +b.getAttribute('data-o'); render(); }; });
+      $(host, '[data-reset]').onclick = function () { ans = QS.map(function () { return -1; }); render(); };
+    }
+    render();
+  };
+
   var sw = document.getElementById('live-instant');
   if (sw) sw.addEventListener('change', function () { instant = sw.checked; listeners.forEach(function (f) { f(); }); });
   document.querySelectorAll('[data-fx]').forEach(function (el) { var f = F[el.getAttribute('data-fx')]; if (f) f(el); });

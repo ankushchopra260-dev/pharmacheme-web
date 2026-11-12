@@ -149,5 +149,114 @@ S.append(rules('close', 'Five questions to ask in every scale-up',
  ['Can the jacket remove the heat at the planned dosing time?', 'Is the mixing enough for the step that is mixing sensitive?', 'Which steps take longer, and does the product tolerate it?', 'What is the worst case if cooling or the agitator stops?', 'What did we measure, and what did we only assume?'],
  "Read the five questions aloud and ask the room to repeat the first one. Then take questions. If time allows, ask each table to pick a product they know and answer the five questions for it, naming the missing data. The best result from today is a short list of gaps on the board with an owner and a date. The related articles, the mixing scale-up calculator and the process modelling tools on this site help with the numbers."))
 
+
+# ---------------------------------------------------------------- interactive and extra slides
+import deck_lib as dl
+import json as _json
+
+def drag_slide():
+    t = dl.DARK
+    inner = dl._h2('Drag the vessel size', t) + """
+<div onclick="event.stopPropagation()" style="position:absolute;left:128px;top:250px;width:900px">
+ <p style="font-size:30px;color:#B8C7D3;margin:0 0 6px">Same shape, same chemistry. Move the slider.</p>
+ <p id="dr-v" style="font-family:'Oswald',Arial,sans-serif;font-size:130px;font-weight:600;color:#F2A900;line-height:1.05;margin:0 0 10px">10 m3</p>
+ <input id="dr-s" type="range" min="0" max="4.5" step="0.01" value="4" aria-label="Vessel size" style="width:900px;height:48px;accent-color:#F2A900">
+ <div style="display:flex;gap:16px;margin:26px 0 34px">
+  <button class="dr-p" data-x="0">1 L flask</button><button class="dr-p" data-x="2">100 L</button><button class="dr-p" data-x="3">1 m3</button><button class="dr-p" data-x="4">10 m3</button><button class="dr-p" data-x="4.5">30 m3</button>
+ </div>
+ <p style="font-size:28px;color:#B8C7D3;margin:0 0 10px">Cooling wall per litre, compared with the flask</p>
+ <div style="width:900px;height:54px;background:#1B2E3E;border-radius:8px;overflow:hidden"><div id="dr-b" style="height:54px;width:5%;background:#F2A900;transition:width .25s"></div></div>
+ <p id="dr-bt" style="font-size:34px;color:#EEF1F3;margin:12px 0 0;font-weight:600"></p>
+</div>
+<div onclick="event.stopPropagation()" style="position:absolute;left:1120px;top:250px;width:672px;display:grid;grid-template-columns:1fr;gap:0">
+ <div class="dr-r"><span>Diameter</span><b id="dr-d"></b></div>
+ <div class="dr-r"><span>Wall per litre</span><b id="dr-w"></b></div>
+ <div class="dr-r"><span>Cooling per litre</span><b id="dr-c"></b></div>
+ <div class="dr-r hot"><span>Shortest dosing time for 25 kcal per litre</span><b id="dr-t"></b></div>
+ <div class="dr-r"><span>Heat 25 to 65 °C with steam at 120 °C</span><b id="dr-h"></b></div>
+ <div class="dr-r"><span>Blend time vs flask, same power per litre</span><b id="dr-m"></b></div>
+</div>
+<style>.dr-p{font:600 28px 'Public Sans',Arial,sans-serif;color:#EEF1F3;background:#1B2E3E;border:2px solid #2A3E50;border-radius:10px;padding:12px 20px;cursor:pointer}.dr-p:hover{border-color:#F2A900}
+.dr-r{display:flex;justify-content:space-between;align-items:baseline;gap:20px;border-bottom:2px solid #2A3E50;padding:18px 0}.dr-r span{font-size:28px;color:#B8C7D3;line-height:1.25;width:320px}.dr-r b{white-space:nowrap;font-family:'Oswald',Arial,sans-serif;font-size:52px;font-weight:600;color:#EEF1F3}.dr-r.hot b{color:#F2A900}</style>
+<script>(function(){var s=document.getElementById('dr-s');if(!s)return;var q=function(i){return document.getElementById(i)};
+function f(x,d){return x>=100?Math.round(x).toLocaleString('en-IN'):x>=10?x.toFixed(1):x.toFixed(d==null?2:d)}
+function upd(){var V=Math.pow(10,parseFloat(s.value)),Vm=V/1000,D=Math.pow(4*Vm/Math.PI,1/3),av=4/D,A=Math.PI*D*D,av0=4/Math.pow(4*0.001/Math.PI,1/3);
+ q('dr-v').textContent=V>=1000?f(Vm,V>=10000?0:1)+' m3':Math.round(V)+' L';
+ q('dr-d').textContent=D>=1?f(D,2)+' m':Math.round(D*100)+' cm';
+ q('dr-w').textContent=f(av/1000,4)+' m2/L';
+ var cap=150*av*30/1000;q('dr-c').textContent=f(cap,1)+' kcal/h';
+ var td=25/cap;q('dr-t').textContent=td<1?Math.round(td*60)+' min':f(td,1)+' h';
+ var th=0.8*V*0.5/(150*A)*Math.log(95/55)*60;q('dr-h').textContent=th<1?'under 1 min':Math.round(th)+' min';
+ q('dr-m').textContent='x '+f(Math.pow(V,2/9),1);
+ var r=av/av0;q('dr-b').style.width=Math.max(2,r*100)+'%';q('dr-bt').textContent=r>=0.995?'1x: the flask':'1 / '+f(1/r,r>0.5?1:0)+' of the flask';}
+s.addEventListener('input',upd);s.addEventListener('keydown',function(e){e.stopPropagation()});
+document.querySelectorAll('.dr-p').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();s.value=b.getAttribute('data-x');upd()});b.addEventListener('keydown',function(e){e.stopPropagation()})});upd();})();</script>
+"""
+    notes = ("Now make it physical. Open this slide and let someone in the room drag the slider. Start at the one litre flask, then move up. Watch three numbers: the wall per litre bar shrinks, the shortest dosing time grows, and the heating time grows. Ask: at what size does the dosing time first go beyond an hour? Beyond a shift? Use the buttons to jump to a size. "
+             "Same assumptions as before: height equal to diameter, jacket on the side wall, U of 150 kilocalories per hour per square metre per degree, a 30 degree driving force and 25 kilocalories released per litre. All illustrative. Click outside the slider to move to the next slide.")
+    return dl._sec('drag', 'dark', inner, notes)[0]
+
+def choice(sid, title, scenario, opts, notes, theme='light'):
+    t = dl.DARK if theme == 'dark' else dl.LIGHT
+    rows = ''
+    for k, (txt, ok, why) in enumerate(opts):
+        rows += (f'<div class="ch-o" tabindex="0" role="button" data-ok="{1 if ok else 0}" data-why="{E(why)}" '
+                 f'style="position:absolute;left:128px;top:{380 + k*146}px;width:1664px;height:130px;display:flex;align-items:center;gap:28px;padding:0 36px;'
+                 f'background:{t["card"]};border:3px solid {t["line"]};border-radius:14px;cursor:pointer">'
+                 f'<span style="font-family:\'Oswald\',Arial,sans-serif;font-size:60px;font-weight:600;color:#F2A900;width:60px">{"ABC"[k]}</span>'
+                 f'<span style="font-size:36px;line-height:1.3;color:{t["fg"]}">{E(txt)}</span></div>')
+    inner = (dl._h2(title, t) + f'<p style="position:absolute;left:128px;top:236px;width:1664px;font-size:38px;line-height:1.35;color:{t["fg"]}">{E(scenario)}</p>' + rows +
+             f'<div class="ch-f" style="position:absolute;left:128px;top:836px;width:1664px;min-height:120px;font-size:32px;line-height:1.4;color:{t["fg"]}"><span style="color:{t["mut"]}">Click an answer. You can try again.</span></div>'
+             f'<style>.ch-o:hover,.ch-o:focus{{border-color:#F2A900!important;outline:none}}.ch-o.ok{{border-color:#2C8A5B!important;background:#DFF1E7!important}}.ch-o.no{{border-color:#A23B1E!important;background:#F6E1DA!important}}</style>'
+             f'<script>(function(){{var sec=document.getElementById("{sid}");sec.querySelectorAll(".ch-o").forEach(function(o){{function go(e){{e.stopPropagation();var ok=o.getAttribute("data-ok")==="1";'
+             f'sec.querySelectorAll(".ch-o").forEach(function(x){{x.classList.remove("ok","no")}});o.classList.add(ok?"ok":"no");'
+             f'sec.querySelector(".ch-f").innerHTML="<b style=\\"color:"+(ok?"#2C8A5B":"#A23B1E")+"\\">"+(ok?"Correct. ":"Not quite. ")+"</b>"+o.getAttribute("data-why");}}'
+             f'o.addEventListener("click",go);o.addEventListener("keydown",function(e){{e.stopPropagation();if(e.key==="Enter"||e.key===" "){{e.preventDefault();go(e)}}}});}});}})();</script>')
+    return dl._sec(sid, theme, inner, notes)[0]
+
+call1 = choice('call1', 'Your call: the 10-minute dosing',
+ 'The flask dosed a step in 10 minutes. The plant vessel has about 22 times less cooling wall per litre. What do you set for the plant?',
+ [('Keep 10 minutes and run the agitator faster', False, 'Faster stirring helps the film on the wall a little. It cannot make up a 22-fold gap in cooling surface per litre.'),
+  ('Set the dosing time from the jacket limit: about 3 hours or more', True, 'The jacket sets the pace. Dosing time is the shortest time that the heat can leave, plus a margin.'),
+  ('Dose half the feed fast, then slow down', False, 'That front-loads the heat when the batch is least able to take it. Spread the heat evenly, or ease the feed rate so the jacket keeps up.')],
+ "Give the room a minute. Ask for a show of hands for each option before anyone clicks. The agitator speed has a small effect on the wall film, not a twenty-fold one. The right call is to set the dosing time from what the jacket can remove, with a margin, so about three hours or more for these numbers. Starting fast and slowing down puts the worst heat load at the start. If someone suggests colder coolant, say yes, it helps in proportion to the driving force, but it will not close a 22-fold gap, and it can slow the reaction and cause accumulation.")
+
+call2 = choice('call2', 'Your call: nothing is happening',
+ 'A fifth of the feed is in. The temperature has not moved and there is no sign of heat. The lab batch started within a minute. What do you do?',
+ [('Keep dosing. It will start soon', False, 'Feed keeps piling up unreacted. When the reaction finally starts, all of it can react at once.'),
+  ('Stop the feed and find out why', True, 'No heat means the reaction is not consuming the feed. Stop, hold, and find the cause before adding more.'),
+  ('Raise the temperature to get it going', False, 'A hotter batch may start suddenly with a large stock of unreacted feed. That is how runaways begin.')],
+ "This is the classic accumulation trap. Ask the room which is the natural reaction for most of us: to keep going, or to warm it up. Both are tempting and both are dangerous. If feed goes in and nothing reacts, it is building up. Stop the feed, hold the batch, check the agitator, the temperature, the catalyst or the quality of the material, and the sample. Only restart after you understand why. Later in the session, the live simulator shows how much the stock grows when a reaction is slow.")
+
+call3 = choice('call3', 'Your call: a fast, mixing-sensitive step',
+ 'A fast reaction makes a by-product where the feed meets the batch. In the plant vessel you can only protect one of three things. Which?',
+ [('The same rpm as the lab', False, 'The same rpm raises tip speed and power per litre by large factors, and is not a goal in itself.'),
+  ('A blend time close to the lab, as far as the agitator and the feed point allow', True, 'For fast reactions, how quickly the feed spreads decides the by-product. Match that, and use a better feed point or a dilute feed to help.'),
+  ('The same tip speed as the lab', False, 'Tip speed controls shear. It is not what decides how fast a feed is spread through the batch.')],
+ "For a fast, mixing-sensitive step, the number that matters is how quickly the feed is spread through the batch: the blend time. With equal power per litre it grows by about eight times at this scale, so we cannot match it by speed alone. Practical answers: feed at the impeller or below the surface, dilute the feed, split the feed across two points, or slow the feed. Same rpm and same tip speed are choices of convenience, not of purpose.")
+
+case = dl.bullets('case', 'A real case: when cooling was lost',
+ ['A plant making a fuel additive, on its 175th batch, December 2007', 'The first step of the reaction was exothermic and ran away after the cooling failed', 'The reactor burst about ten minutes after the first report of a cooling problem', 'Four people were killed and 32 injured, most of them outside the plant', 'Investigators found a cooling system with single points of failure, a relief system too small for a runaway, and no recognition of the hazard'],
+ "This is a real case, from the investigation by the US Chemical Safety Board of T2 Laboratories in Jacksonville, Florida, on 19 December 2007. It was a small plant, making a fuel additive in a batch reactor. On the 175th batch, in the first step, cooling was lost and the reaction ran away. About ten minutes after the first report of a cooling problem, the reactor burst. Four people died and 32 were injured, most of them in neighbouring businesses. The board found the cooling system had single points of failure, the relief system could not handle a runaway, and the people involved were not aware of the runaway hazard. Three of the first ten batches had also shown unexpected exotherms, which were warnings. Ask the room: which of our five questions would have caught this? Question one, can the jacket remove the heat, and question four, what is the worst case if cooling stops. Source: US Chemical Safety and Hazard Investigation Board, T2 Laboratories investigation report.",
+ callout=('~10 min', 'from the first report of a cooling problem to the reactor bursting'))
+
+formulas = dl.table('formulas', 'Six formulas worth keeping',
+ ['What', 'Formula', 'Use it to'],
+ [['Wall per volume (height = diameter)', '4 / D', 'See why bigger vessels cool worse per litre'],
+  ['Cooling per litre', 'U × (wall / volume) × (T − Tjacket)', 'Find what the jacket can remove'],
+  ['Shortest dosing time', 'Heat per litre ÷ cooling per litre', 'Set the dosing time for a heat-limited step'],
+  ['Heat-up time', '(m·cp / UA) × ln[(Ts − T1) / (Ts − T2)]', 'Estimate heating and cooling times'],
+  ['Power per litre', 'proportional to N³ × D²', 'Compare agitator scale-up rules'],
+  ['Temperature if cooling stops', 'T + accumulated fraction × ΔT adiabatic', 'Judge the worst case']],
+ "A formula sheet for the room to keep. All six are simple on purpose. Read each row: what it tells you, then when to use it. None replaces calorimetry or a proper study, but each one gives a quick check that a plan is not obviously wrong. Ask everyone to circle the one they would use first on their own product.",
+ note='Illustrative first-pass checks. Use measured data and a proper thermal study for design.')
+
+def after(sid, slide):
+    for k, x in enumerate(S):
+        if x.startswith(f'<section id="{sid}"'):
+            S.insert(k + 1, slide); return
+    raise SystemExit('missing ' + sid)
+after('geo', drag_slide()); after('dose', call1); after('accum', call2); after('mixsens', call3); after('steps', formulas); after('signs', case)
+
 n = build('scale-up-lab-to-plant', 'Scale-up: lab to plant', S)
 print(n, 'slides')
