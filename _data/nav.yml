@@ -179,6 +179,7 @@
         - { title: "HAZOP made practical", url: /training/modules/hazop-made-practical/ }
         - { title: "Pumps, seals and vacuum", url: /training/modules/pumps-seals-vacuum/ }
         - { title: "Utilities and energy saving", url: /training/modules/utilities-energy-saving/ }
+        - { title: "Scale-up: lab to plant", url: /training/modules/scale-up-lab-to-plant/ }
     - title: "Process safety"
       url: /articles/#process-safety
       count: 13

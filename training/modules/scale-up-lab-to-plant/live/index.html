@@ -1,0 +1,30 @@
+---
+layout: default
+title: "Scale-up: lab to plant: Live Checks"
+seo_title: "Scale-up Lab to Plant Live Checks | PharmaChemE"
+description: "Five live checks for a scale-up session: cooling surface per litre, shortest dosing time, mixing rules, heat-up time and what happens if cooling stops."
+breadcrumbs:
+  - label: Training
+    url: /training/
+  - label: "Training modules"
+    url: /training/modules/
+  - label: "Scale-up: lab to plant"
+    url: /training/modules/scale-up-lab-to-plant/
+  - label: "Live checks"
+    url: /training/modules/scale-up-lab-to-plant/live/
+last_modified_at: 2026-11-12
+---
+<link rel="stylesheet" href="{{ '/assets/css/training.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container calc-page-head">
+  <h1>Scale-up Live</h1>
+  <p>Set the sizes, let the room estimate, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. All defaults are illustrative: enter your own plant data.</p>
+  <p><label style="display:inline-flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="live-instant"> Show answers immediately</label> &nbsp; <a href="{{ '/training/modules/scale-up-lab-to-plant/' | relative_url }}">Back to the module</a></p>
+</div>
+<section class="section" style="padding-top:0;"><div class="container" style="display:grid;gap:26px">
+  <div><h2>1. Surface per litre</h2><div data-fx="s1"></div></div>
+  <div><h2>2. Shortest dosing time</h2><div data-fx="s2"></div></div>
+  <div><h2>3. Mixing rule</h2><div data-fx="s3"></div></div>
+  <div><h2>4. Heat-up time</h2><div data-fx="s4"></div></div>
+  <div><h2>5. If cooling stops</h2><div data-fx="s5"></div></div>
+</div></section>
+<script src="{{ '/assets/js/scaleup-live.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
