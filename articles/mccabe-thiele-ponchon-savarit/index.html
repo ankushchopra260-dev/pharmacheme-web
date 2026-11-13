@@ -1,0 +1,331 @@
+---
+layout: default
+title: "McCabe-Thiele and Ponchon-Savarit Methods: Distillation Stages, Minimum Reflux and Duties"
+seo_title: "McCabe-Thiele vs Ponchon-Savarit Method | PharmaChemE"
+description: "McCabe-Thiele and Ponchon-Savarit methods explained with real solvent examples: q-line, minimum reflux, tangent pinch, difference points and reboiler duty."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: McCabe-Thiele and Ponchon-Savarit
+    url: /articles/mccabe-thiele-ponchon-savarit/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "McCabe-Thiele and Ponchon-Savarit Methods: Distillation Stages, Minimum Reflux and Duties",
+        "description": "McCabe-Thiele and Ponchon-Savarit methods explained with real solvent examples: q-line, minimum reflux, tangent pinch, difference points and reboiler duty.",
+        "image": "https://www.pharmacheme.in/assets/img/articles/mccabe-ponchon/mccabe-methanol-water.svg",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-13",
+        "dateModified": "2026-11-13"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between McCabe-Thiele and Ponchon-Savarit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "McCabe-Thiele uses only material balances and assumes constant molar flows, so its operating lines are straight. Ponchon-Savarit adds energy balances on an enthalpy-composition diagram, so the flows can change from stage to stage and the duties come out directly. They give the same answer when the molar latent heats are equal and there is no heat of mixing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is constant molar overflow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The assumption that, within each section of the column, the molar vapour and liquid flows are the same on every stage. It holds when both components have similar molar latent heats and mixing produces little heat."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you find the minimum reflux ratio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lower the reflux until an operating line touches the equilibrium curve. For ideal mixtures the touch is where the q-line meets the curve, and Rmin = (xD − y*)/(y* − x*). For non-ideal mixtures, such as ethanol–water, it can be a tangent higher up the curve, so check the whole curve."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are difference points in the Ponchon-Savarit method?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Two fixed points on the enthalpy diagram at the product compositions. ΔD sits at the distillate enthalpy plus the condenser duty per mole of distillate; ΔB at the bottoms enthalpy minus the reboiler duty per mole of bottoms. Every operating line in a section passes through its difference point."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the reboiler count as a theoretical stage?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. A partial reboiler brings vapour and liquid to equilibrium, so it is the last theoretical stage. A partial condenser also counts as a stage; a total condenser does not."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does McCabe-Thiele overestimate the reboiler duty for methanol–water?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It carries the top vapour flow unchanged to the bottom. Water has a 16 % higher molar latent heat than methanol, so less vapour is actually needed in the water-rich stripping section. For a typical recovery column the constant-flow estimate is about 11 % high."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-13
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>McCabe-Thiele and Ponchon-Savarit Methods</h1>
+  <p class="article-meta">Process Design &middot; Distillation &middot; <span class="art-updated">November 2026</span></p>
+
+  <p class="art-lede">Both methods answer the same question: how many theoretical stages does a binary distillation column need, and where should the feed go? McCabe-Thiele does it on an x-y diagram with straight lines, by assuming the molar flows inside the column stay constant. Ponchon-Savarit does it on an enthalpy diagram, follows the real energy balance, and gives the condenser and reboiler duties directly. For most solvent recovery columns the two agree within a stage, but the reboiler duty can differ by 10 % or more. This article works through both methods with real solvent pairs, so you can see what each one shows and when the extra work of Ponchon-Savarit pays off.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#short">The short answer</a><span>Basics</span></li>
+    <li><a href="#assume">What both methods assume</a><span>Basics</span></li>
+    <li><a href="#mt">How to draw a McCabe-Thiele diagram</a><span>Working level</span></li>
+    <li><a href="#rmin">Minimum reflux: feed pinch and tangent pinch</a><span>Working level</span></li>
+    <li><a href="#nmin">Total reflux, Fenske and Gilliland</a><span>Working level</span></li>
+    <li><a href="#real">From theoretical stages to real trays</a><span>Working level</span></li>
+    <li><a href="#cmo">When constant molar overflow fails</a><span>Going deeper</span></li>
+    <li><a href="#ps">How the Ponchon-Savarit method works</a><span>Going deeper</span></li>
+    <li><a href="#example">Worked example: methanol–water by both methods</a><span>Going deeper</span></li>
+    <li><a href="#compare">Four solvent pairs compared</a><span>Going deeper</span></li>
+    <li><a href="#azeo">Azeotropes and two liquid layers</a><span>Going deeper</span></li>
+    <li><a href="#choose">Which method should you use?</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="short">The short answer <span class="lvl l1">Basics</span></h2>
+  <p><b>McCabe-Thiele</b> is a graphical method for binary distillation that steps between the equilibrium curve and two straight operating lines on an x-y diagram to count theoretical stages. It assumes <b>constant molar overflow</b>: in each section of the column, the same number of moles of vapour rise through every stage.</p>
+  <p><b>Ponchon-Savarit</b> is the enthalpy-composition method. It draws the saturated liquid and vapour enthalpies against composition, and uses two fixed <b>difference points</b> that carry the condenser and reboiler duties. It needs no constant-flow assumption, so the flows change from stage to stage and the duties come straight out of the construction.</p>
+  <table class="art-table"><thead><tr><th></th><th>McCabe-Thiele</th><th>Ponchon-Savarit</th></tr></thead><tbody>
+    <tr><td>Diagram</td><td>y against x</td><td>Enthalpy against x and y</td></tr>
+    <tr><td>Balances used</td><td>Material only</td><td>Material and energy</td></tr>
+    <tr><td>Key assumption</td><td>Constant molar flows in each section</td><td>Adiabatic column, saturated phases</td></tr>
+    <tr><td>Operating lines on x-y</td><td>Straight</td><td>Curved</td></tr>
+    <tr><td>Data needed</td><td>Vapour-liquid equilibrium only</td><td>Equilibrium plus liquid and vapour enthalpies</td></tr>
+    <tr><td>Condenser and reboiler duty</td><td>Estimated from vapour flow × latent heat</td><td>Read directly from the difference points</td></tr>
+    <tr><td>Best for</td><td>Quick design, understanding, most solvent pairs</td><td>Unequal latent heats, heat of mixing, accurate duties</td></tr>
+  </tbody></table>
+  <p>You can run both on your own case with the <a href="{{ '/calculators/mccabe-thiele/' | relative_url }}">McCabe-Thiele calculator</a> and the <a href="{{ '/calculators/ponchon-savarit/' | relative_url }}">Ponchon-Savarit calculator</a>. Every number and diagram in this article comes from those two tools.</p>
+
+  <h2 id="assume">What both methods assume <span class="lvl l1">Basics</span></h2>
+  <ul>
+    <li><strong>Two components.</strong> One light (more volatile) and one heavy. Compositions are mole fractions of the light component: x in the liquid, y in the vapour.</li>
+    <li><strong>Equilibrium stages.</strong> Each stage brings vapour and liquid to equilibrium and separates them cleanly. Real trays fall short; that is handled later with a tray efficiency.</li>
+    <li><strong>Steady, adiabatic column.</strong> Heat enters only in the reboiler and leaves only in the condenser.</li>
+    <li><strong>One liquid phase on each stage.</strong> Mixtures that split into two liquid layers need special handling (see <a href="#azeo">azeotropes and two liquid layers</a>).</li>
+  </ul>
+  <p>Plant specifications are usually in weight percent, but both methods work in mole fractions, so convert first. Methanol–water is a good example of how much this matters: 50 wt % methanol is only 36 mol %, while 99 wt % is 98.2 mol %.</p>
+  <div class="formula-box">x = (w/M<sub>A</sub>) / (w/M<sub>A</sub> + (1 − w)/M<sub>B</sub>)
+    <small>w = mass fraction of the light component, M<sub>A</sub> and M<sub>B</sub> = molar masses (methanol 32.04, water 18.02 kg/kmol)</small></div>
+
+  <h2 id="mt">How to draw a McCabe-Thiele diagram <span class="lvl l2">Working level</span></h2>
+  <p>The method needs the equilibrium curve, the feed condition (q), the product purities and a reflux ratio. Then it is seven steps:</p>
+  <ol>
+    <li><strong>Plot the equilibrium curve and the diagonal.</strong> For an ideal mixture y = &alpha;x / (1 + (&alpha; &minus; 1)x). For mixtures with water, use measured data or an activity-coefficient model, because &alpha; changes along the column.</li>
+    <li><strong>Close the material balance.</strong> D = F(z<sub>F</sub> &minus; x<sub>B</sub>)/(x<sub>D</sub> &minus; x<sub>B</sub>) and B = F &minus; D.</li>
+    <li><strong>Draw the rectifying line.</strong> It starts at (x<sub>D</sub>, x<sub>D</sub>) on the diagonal with slope L/V = R/(R + 1).</li>
+    <li><strong>Draw the q-line.</strong> It starts at (z<sub>F</sub>, z<sub>F</sub>) with slope q/(q &minus; 1) and shows the feed condition.</li>
+    <li><strong>Draw the stripping line</strong> from (x<sub>B</sub>, x<sub>B</sub>) to the point where the rectifying line meets the q-line.</li>
+    <li><strong>Step off stages</strong> from the top: horizontally to the equilibrium curve (one equilibrium stage), then vertically to the operating line (the material balance to the stage below).</li>
+    <li><strong>Switch lines at the feed.</strong> Change from the rectifying to the stripping line on the first step that crosses the q-line intersection. That stage is the optimum feed stage. Stop when a step passes x<sub>B</sub>; the last step is the reboiler.</li>
+  </ol>
+  <div class="formula-box">Rectifying line: y = [R/(R + 1)]·x + x<sub>D</sub>/(R + 1)<br>q-line: y = [q/(q − 1)]·x − z<sub>F</sub>/(q − 1)<br>Stripping section: L′ = L + qF, V′ = V − (1 − q)F
+    <small>R = L/D, the reflux ratio. q = heat needed to turn one mole of feed into saturated vapour ÷ molar latent heat.</small></div>
+
+  <h3>The q-line and the feed condition</h3>
+  <p>The q-line tilts according to how much of the feed is liquid. A cold feed condenses some vapour on the feed stage and adds to the liquid below it; a superheated vapour feed does the opposite.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/mccabe-ponchon/q-line-feed-conditions.svg' | relative_url }}" alt="q-lines for five feed conditions on an x-y diagram with relative volatility 2.5 and feed composition 0.5" width="620" height="644" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Five feed conditions for the same 50 mol % feed. The q-line is vertical for a saturated liquid, horizontal for a saturated vapour, and leans right for a cold liquid.</figcaption></figure>
+  <table class="art-table"><thead><tr><th>Feed</th><th>q</th><th>q-line slope</th></tr></thead><tbody>
+    <tr><td>Cold liquid below its bubble point</td><td>above 1, q = 1 + c<sub>p</sub>(T<sub>bubble</sub> − T<sub>F</sub>)/λ</td><td>positive, leaning right</td></tr>
+    <tr><td>Saturated liquid</td><td>1</td><td>vertical</td></tr>
+    <tr><td>Part vapour</td><td>0 to 1 (fraction that is liquid)</td><td>negative</td></tr>
+    <tr><td>Saturated vapour</td><td>0</td><td>horizontal</td></tr>
+    <tr><td>Superheated vapour</td><td>below 0</td><td>positive, to the left</td></tr>
+  </tbody></table>
+
+  <h3>Example: methanol from water</h3>
+  <p>Take 1000 kg/h of 50 wt % methanol in water at its bubble point, recovered to 99 wt % methanol at the top with 0.5 wt % in the bottoms, at atmospheric pressure. Equilibrium comes from the modified UNIFAC model, which captures the strong non-ideality of methanol with water. The minimum reflux is 0.77. At R = 1.13 the column needs <b>14 theoretical stages including the reboiler, with the feed on stage 9</b>. The top runs at 64.8 °C and the bottom at 99.9 °C.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/mccabe-ponchon/mccabe-methanol-water.svg' | relative_url }}" alt="McCabe-Thiele diagram for methanol and water: 14 theoretical stages, feed on stage 9, reflux ratio 1.13" width="598" height="620" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Methanol–water, 50 wt % feed to 99 wt % top and 0.5 wt % bottom, R = 1.13. The steps get small near the top, where the curve comes close to the diagonal, and near the bottom. The dashed line is the operating line at minimum reflux.</figcaption></figure>
+
+  <h2 id="rmin">Minimum reflux: feed pinch and tangent pinch <span class="lvl l2">Working level</span></h2>
+  <p>Lower the reflux and the operating lines move towards the equilibrium curve. The steps shrink, and at the <b>minimum reflux</b> a line touches the curve: the stages there would have to be infinitely small, so the number of stages becomes infinite. Every real design sits above this value, usually at 1.1 to 1.5 times R<sub>min</sub>.</p>
+  <p>For well-behaved mixtures the touch happens where the q-line meets the equilibrium curve, at (x*, y*). This is a <b>feed pinch</b>, and the minimum reflux has a simple formula:</p>
+  <div class="formula-box">R<sub>min</sub> = (x<sub>D</sub> − y*) / (y* − x*)
+    <small>For &alpha; = 2.5 and a 50 mol % saturated liquid feed to 95 mol % top: y* = 0.714 at x* = 0.5, so R<sub>min</sub> = (0.95 − 0.714)/(0.714 − 0.5) = 1.10.</small></div>
+  <p>Non-ideal mixtures can touch somewhere else. Ethanol–water is the classic case. Its equilibrium curve bends towards the diagonal well above the feed, so the rectifying line touches it as a <b>tangent pinch</b>. The feed-point formula then underestimates the minimum reflux badly. Take a 10 wt % ethanol feed. As the distillate spec rises, the minimum reflux climbs smoothly up to 94 wt % (R<sub>min</sub> = 2.14). At 95 wt % it jumps to 3.10, because the tangent now controls:</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/mccabe-ponchon/mccabe-ethanol-water-tangent-pinch.svg' | relative_url }}" alt="McCabe-Thiele diagram for ethanol and water showing a tangent pinch near 0.6 mole fraction ethanol" width="598" height="620" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Ethanol–water, 10 wt % feed to 95 wt % top. The dashed minimum-reflux line touches the curve near x = 0.6, far above the feed. The column needs 47 theoretical stages at 1.3 × R<sub>min</sub>, most of them packed into the region near the touch point.</figcaption></figure>
+  <p>The safe way to find R<sub>min</sub> is to check that both operating lines stay below the whole equilibrium curve, not just at the feed point. That is what the calculator does.</p>
+
+  <h2 id="nmin">Total reflux, Fenske and Gilliland <span class="lvl l2">Working level</span></h2>
+  <p>At <b>total reflux</b> nothing is withdrawn, both operating lines become the diagonal, and the steps are as large as they can be. This gives the <b>minimum number of stages</b>. For a constant relative volatility the Fenske equation gives the same answer without drawing:</p>
+  <div class="formula-box">N<sub>min</sub> = ln[(x<sub>D</sub>/(1 − x<sub>D</sub>)) · ((1 − x<sub>B</sub>)/x<sub>B</sub>)] / ln &alpha;<sub>avg</sub>
+    <small>&alpha;<sub>avg</sub> = √(&alpha;<sub>top</sub> · &alpha;<sub>bottom</sub>). For &alpha; = 2.5 and 95/5 mol %: N<sub>min</sub> = ln(19 × 19)/ln 2.5 = 6.43.</small></div>
+  <p>The <b>Gilliland correlation</b> links R<sub>min</sub>, N<sub>min</sub> and the actual R to the stage count. It is useful as a check and for quick screening.</p>
+  <div class="formula-box">X = (R − R<sub>min</sub>)/(R + 1), Y = (N − N<sub>min</sub>)/(N + 1)<br>Y = 1 − exp[(1 + 54.4X)/(11 + 117.2X) · (X − 1)/√X]   (Molokanov form)</div>
+  <p>Shortcuts work well for ideal mixtures. For methanol–water above, Gilliland gives 13.8 stages against 14 stepped. In the ethanol–water tangent-pinch case they fail badly. Fenske with an average &alpha; gives 7.6 minimum stages against 17 stepped at total reflux. Gilliland predicts 15 stages against 47 stepped. When the equilibrium curve is not smooth, step it.</p>
+
+  <h2 id="real">From theoretical stages to real trays <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>The reboiler is a stage.</strong> A partial reboiler brings vapour and liquid to equilibrium, so it counts as the last theoretical stage.</li>
+    <li><strong>A partial condenser is a stage too.</strong> It sends vapour as product and condensate as reflux, in equilibrium with each other. A total condenser is not a stage.</li>
+    <li><strong>Tray efficiency.</strong> The simplest route divides the theoretical trays in the column by an overall efficiency, typically 50 to 80 %. A better route steps with a <b>Murphree vapour efficiency</b> E<sub>MV</sub> against a pseudo-equilibrium curve y = y<sub>in</sub> + E<sub>MV</sub>(y* − y<sub>in</sub>), which gives the real trays directly. For the methanol–water column, 14 theoretical stages become 21 real trays plus the reboiler at 70 %.</li>
+    <li><strong>Packing.</strong> Multiply the theoretical stages in the column by the HETP (height equivalent to a theoretical plate) from the packing supplier, often 0.3 to 0.8 m for random and structured packing in solvent service.</li>
+  </ul>
+
+  <h2 id="cmo">When constant molar overflow fails <span class="lvl l3">Going deeper</span></h2>
+  <p>Constant molar overflow says that when one mole of vapour condenses on a stage, it boils off exactly one mole of liquid. That is true only if both components have the same molar latent heat, the heat of mixing is negligible and sensible heat changes are small. Molar latent heats of common solvents at their normal boiling points show how far apart they can be:</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Solvent</th><th>Boiling point, °C</th><th>Latent heat, kcal/kmol</th><th>vs water</th></tr></thead><tbody>
+    <tr><td>Water</td><td>100.0</td><td>9,713</td><td>1.00</td></tr>
+    <tr><td>DMF</td><td>153.0</td><td>9,429</td><td>0.97</td></tr>
+    <tr><td>Isopropanol</td><td>82.5</td><td>9,496</td><td>0.98</td></tr>
+    <tr><td>Ethanol</td><td>78.4</td><td>9,214</td><td>0.95</td></tr>
+    <tr><td>Methanol</td><td>64.7</td><td>8,394</td><td>0.86</td></tr>
+    <tr><td>Toluene</td><td>110.6</td><td>7,924</td><td>0.82</td></tr>
+    <tr><td>Ethyl acetate</td><td>77.1</td><td>7,666</td><td>0.79</td></tr>
+    <tr><td>Benzene</td><td>80.1</td><td>7,342</td><td>0.76</td></tr>
+    <tr><td>THF</td><td>66.0</td><td>7,139</td><td>0.73</td></tr>
+    <tr><td>Acetonitrile</td><td>81.6</td><td>7,102</td><td>0.73</td></tr>
+    <tr><td>Acetone</td><td>56.1</td><td>6,970</td><td>0.72</td></tr>
+    <tr><td>n-Hexane</td><td>68.7</td><td>6,894</td><td>0.71</td></tr>
+  </tbody></table></div>
+  <p>Ethanol and isopropanol with water are close, so constant molar overflow works well. Acetone, THF or acetonitrile with water are 25 to 30 % apart, so the vapour flow changes noticeably down the column. Heat of mixing adds a second effect. Methanol and water release heat when they mix: the model used here gives about −480 J/mol at 60 °C, and measured values at 25 °C are around −700 to −800 J/mol. Ethanol and water release heat when cold and absorb it when hot. Ponchon-Savarit handles both effects.</p>
+
+  <h2 id="ps">How the Ponchon-Savarit method works <span class="lvl l3">Going deeper</span></h2>
+  <h3>The enthalpy-composition diagram</h3>
+  <p>Plot two curves against the light-component mole fraction: the <b>saturated liquid enthalpy</b> h<sub>L</sub>(x) at the bubble point, and the <b>saturated vapour enthalpy</b> H<sub>V</sub>(y) at the dew point. With pure liquids at 0 °C as the reference:</p>
+  <div class="formula-box">h<sub>L</sub>(x) = x·c<sub>p,A</sub>·T<sub>b</sub> + (1 − x)·c<sub>p,B</sub>·T<sub>b</sub> + h<sup>E</sup>(x, T<sub>b</sub>)<br>H<sub>V</sub>(y) = y·[c<sub>p,A</sub>·T<sub>d</sub> + λ<sub>A</sub>(T<sub>d</sub>)] + (1 − y)·[c<sub>p,B</sub>·T<sub>d</sub> + λ<sub>B</sub>(T<sub>d</sub>)]
+    <small>c<sub>p</sub> = molar liquid heat capacity, T<sub>b</sub> and T<sub>d</sub> = bubble and dew temperatures in °C, λ = molar latent heat at that temperature, h<sup>E</sup> = heat of mixing (negative when mixing releases heat).</small></div>
+  <p>A straight <b>tie line</b> joins a liquid at x to the vapour at y in equilibrium with it. Each tie line is one equilibrium stage, the same thing as a horizontal step on the McCabe-Thiele diagram.</p>
+
+  <h3>The difference points</h3>
+  <p>Take a balance around the top of the column, down to the space between stage n and stage n + 1. Material in minus material out gives V<sub>n+1</sub> − L<sub>n</sub> = D, and the same for the light component. The energy balance gives V<sub>n+1</sub>H<sub>n+1</sub> − L<sub>n</sub>h<sub>n</sub> = D·h<sub>D</sub> + Q<sub>C</sub>. Divide by D, and every pair of passing streams in the rectifying section behaves like a single fixed stream: the <b>difference point Δ<sub>D</sub></b>. The same argument at the bottom gives Δ<sub>B</sub>.</p>
+  <div class="formula-box">Δ<sub>D</sub> at (x<sub>D</sub>, Q′<sub>D</sub>), Q′<sub>D</sub> = h<sub>D</sub> + Q<sub>C</sub>/D<br>Δ<sub>B</sub> at (x<sub>B</sub>, Q′<sub>B</sub>), Q′<sub>B</sub> = h<sub>B</sub> − Q<sub>R</sub>/B<br>Overall: F·h<sub>F</sub> = D·Q′<sub>D</sub> + B·Q′<sub>B</sub>, so Δ<sub>D</sub>, the feed point F and Δ<sub>B</sub> lie on one straight line<br>Internal flows: L<sub>n</sub>/V<sub>n+1</sub> = (Q′<sub>D</sub> − H<sub>n+1</sub>)/(Q′<sub>D</sub> − h<sub>n</sub>)
+    <small>Total condenser with saturated reflux: Q<sub>C</sub> = D·(R + 1)·[H<sub>V</sub>(x<sub>D</sub>) − h<sub>D</sub>].</small></div>
+  <p>Every operating line in the rectifying section is a straight line through Δ<sub>D</sub>. Every operating line in the stripping section passes through Δ<sub>B</sub>. A higher reflux ratio lifts Δ<sub>D</sub>, which means a bigger condenser duty.</p>
+
+  <h3>Stepping off stages</h3>
+  <ol>
+    <li>Fix Δ<sub>D</sub> from the reflux ratio, then find Δ<sub>B</sub> on the line from Δ<sub>D</sub> through F.</li>
+    <li>Start with the vapour leaving the top stage, y<sub>1</sub> = x<sub>D</sub> for a total condenser.</li>
+    <li>Follow the tie line from y<sub>1</sub> on the vapour curve to x<sub>1</sub> on the liquid curve (one stage).</li>
+    <li>Draw a line from Δ<sub>D</sub> through x<sub>1</sub> on the liquid curve; where it meets the vapour curve is y<sub>2</sub>.</li>
+    <li>Repeat. Switch to Δ<sub>B</sub> once a stage's liquid crosses the line Δ<sub>D</sub>–F–Δ<sub>B</sub>; that is the feed stage. Stop when x passes x<sub>B</sub>.</li>
+  </ol>
+  <p>At <b>minimum reflux</b>, a line through Δ<sub>D</sub> or Δ<sub>B</sub> coincides with a tie line, so the steps stop advancing. With constant molar latent heats and no heat of mixing, both enthalpy curves become parallel straight lines, and Ponchon-Savarit gives exactly the McCabe-Thiele answer.</p>
+
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/mccabe-ponchon/ponchon-methanol-water-hxy.svg' | relative_url }}" alt="Ponchon-Savarit enthalpy-composition diagram for methanol and water with difference points, tie lines and operating lines" width="620" height="568" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Methanol–water at R = 1.13. Solid lines between the curves are the 15 equilibrium stages. The dashed operating lines fan out from Δ<sub>D</sub> (19,215 kcal/kmol at the top) and Δ<sub>B</sub> (−8,916 kcal/kmol at the bottom). Their heights carry the condenser and reboiler duties.</figcaption></figure>
+
+  <h2 id="example">Worked example: methanol–water by both methods <span class="lvl l3">Going deeper</span></h2>
+  <p>Same column as before: 1000 kg/h of 50 wt % methanol, saturated liquid feed, 99 wt % top, 0.5 wt % bottom, total condenser, atmospheric pressure. Both methods use the same equilibrium curve and the same reflux ratio, R = 1.13.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Result</th><th>McCabe-Thiele</th><th>Ponchon-Savarit</th></tr></thead><tbody>
+    <tr><td>Minimum reflux ratio</td><td>0.766</td><td>0.871</td></tr>
+    <tr><td>Theoretical stages (incl. reboiler)</td><td>14</td><td>15</td></tr>
+    <tr><td>Feed stage</td><td>9</td><td>10</td></tr>
+    <tr><td>Vapour from the top stage</td><td>33.70 kmol/h</td><td>33.70 kmol/h</td></tr>
+    <tr><td>Vapour from the reboiler</td><td>33.70 kmol/h (assumed equal)</td><td>30.32 kmol/h</td></tr>
+    <tr><td>Condenser duty</td><td>283,678 kcal/h</td><td>284,176 kcal/h</td></tr>
+    <tr><td>Reboiler duty</td><td>327,195 kcal/h</td><td>294,979 kcal/h</td></tr>
+  </tbody></table></div>
+  <p>The stage counts differ by one and the condenser duties agree. The difference is at the bottom. Water has a 16 % higher molar latent heat than methanol, so less vapour is needed in the water-rich stripping section: 30.3 kmol/h instead of the 33.7 McCabe-Thiele carries down from the top. Constant molar overflow therefore overstates the reboiler duty by about 11 %. The minimum reflux is higher, because the vapour that reaches the upper stages is a little less than the constant-flow picture assumes.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/mccabe-ponchon/ponchon-methanol-water-flows.svg' | relative_url }}" alt="Vapour and liquid flows by stage in the methanol-water column from the Ponchon-Savarit method" width="640" height="280" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Flows by stage. The vapour falls steadily from 33.7 kmol/h at the top to 30.3 kmol/h at the bottom. The liquid jumps at the feed stage, where the feed joins it.</figcaption></figure>
+
+  <h2 id="compare">Four solvent pairs compared <span class="lvl l3">Going deeper</span></h2>
+  <p>Each case uses a 1000 kg/h saturated liquid feed at atmospheric pressure, a total condenser and R = 1.3 × R<sub>min</sub> from Ponchon-Savarit. Both methods use the same R and the same modified UNIFAC equilibrium.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Pair, feed → top / bottom (wt %)</th><th>R<sub>min</sub> MT / PS</th><th>Stages MT / PS</th><th>Condenser, kcal/h MT / PS</th><th>Reboiler, kcal/h MT / PS</th></tr></thead><tbody>
+    <tr><td>Benzene–toluene, 50 → 99 / 1</td><td>1.18 / 1.26</td><td>19 / 20</td><td>124,115 / 124,246</td><td>133,743 / 125,799</td></tr>
+    <tr><td>Methanol–water, 50 → 99 / 0.5</td><td>0.77 / 0.87</td><td>14 / 15</td><td>283,678 / 284,176</td><td>327,195 / 294,979</td></tr>
+    <tr><td>Ethanol–water, 30 → 88 / 0.1</td><td>0.71 / 0.75</td><td>13 / 13</td><td>161,447 / 161,064</td><td>167,834 / 170,614</td></tr>
+    <tr><td>Acetone–water, 30 → 95 / 0.5</td><td>0.17 / 0.25</td><td>6 / 7</td><td>58,124 / 57,843</td><td>76,594 / 78,299</td></tr>
+  </tbody></table></div>
+  <p>Three things stand out:</p>
+  <ul>
+    <li><strong>Stage counts agree within one stage</strong> in all four cases. For sizing the number of trays, McCabe-Thiele is usually good enough.</li>
+    <li><strong>Condenser duties agree</strong>, because both methods use the real latent heat of the top vapour.</li>
+    <li><strong>Minimum reflux and reboiler duty move the most.</strong> R<sub>min</sub> is up to 46 % higher for acetone–water, where the latent heats differ by 28 %. The reboiler duty differs by up to 11 %, in either direction. If the reboiler or the steam supply is the constraint, use Ponchon-Savarit.</li>
+  </ul>
+
+  <h2 id="azeo">Azeotropes and two liquid layers <span class="lvl l3">Going deeper</span></h2>
+  <p>Where the equilibrium curve crosses the diagonal, vapour and liquid have the same composition: an <b>azeotrope</b>. Neither method can step past it, whatever the reflux or the number of stages. Ethanol–water does this at about 89 mol % (95.6 wt %) ethanol and 78.2 °C at one atmosphere. Asking for a purer distillate has no solution, and the calculators say so.</p>
+  <p>Some pairs do not mix at all compositions. Toluene and water, n-butanol and water, and ethyl acetate and water split into two liquid layers. Across the two-liquid range the mixture boils at one temperature with one vapour composition, a <b>heterogeneous azeotrope</b>: 84 °C and about 80 wt % toluene for toluene–water. On the x-y diagram the curve goes flat across that range.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/mccabe-ponchon/mccabe-toluene-water-two-liquids.svg' | relative_url }}" alt="McCabe-Thiele diagram for toluene and water with a flat equilibrium curve across the two-liquid range" width="598" height="620" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Toluene–water: the equilibrium curve is flat across the shaded two-liquid range, where the vapour stays at the heterogeneous azeotrope.</figcaption></figure>
+  <p>Plants handle these pairs with a <b>decanter</b>. The top vapour is condensed and left to settle into two layers; one layer goes back as reflux and the other is drawn off. McCabe-Thiele can follow the overall composition through the two-liquid range as an approximation. Ponchon-Savarit with one liquid enthalpy curve does not apply there. Use a full process simulation for the final design of decanter columns.</p>
+
+  <h2 id="choose">Which method should you use?</h2>
+  <ul>
+    <li><strong>McCabe-Thiele</strong> for a first design, for teaching, and whenever the molar latent heats are within about 10 % and heat of mixing is small. Examples: benzene–toluene, ethanol–water, IPA–water.</li>
+    <li><strong>Ponchon-Savarit</strong> when the latent heats differ by more than about 15 % (acetone, THF, acetonitrile or hexane with water), when heat of mixing is significant, or when you need the reboiler duty accurately for steam or utility sizing.</li>
+    <li><strong>Both</strong> when you are not sure. If the stage counts and duties agree, the simple answer stands. If they differ, size the column and reboiler on the Ponchon-Savarit flows, and size the column diameter on the stage with the most vapour.</li>
+    <li><strong>Neither alone</strong> for more than two components, for two-liquid columns with a decanter, or for reactive distillation. Use a rigorous stage-by-stage simulation, and use these methods to check it.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Plotting weight percent on a McCabe-Thiele diagram. The method needs mole fractions.</li>
+    <li>Using one relative volatility for a solvent with water, and missing a tangent pinch.</li>
+    <li>Taking minimum reflux from the feed-point formula for a non-ideal mixture.</li>
+    <li>Forgetting that the reboiler is a stage, and counting it again as a tray.</li>
+    <li>Sizing the reboiler from the top vapour flow when the latent heats are very different.</li>
+    <li>Treating a cold feed as saturated liquid. A feed 40 °C below its bubble point can change the stripping vapour by 10 % or more.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between McCabe-Thiele and Ponchon-Savarit?</h3>
+  <p>McCabe-Thiele uses only material balances and assumes constant molar flows, so its operating lines are straight. Ponchon-Savarit adds energy balances on an enthalpy-composition diagram, so the flows can change from stage to stage and the duties come out directly. They give the same answer when the molar latent heats are equal and there is no heat of mixing.</p>
+  <h3>What is constant molar overflow?</h3>
+  <p>The assumption that, within each section of the column, the molar vapour and liquid flows are the same on every stage. It holds when both components have similar molar latent heats and mixing produces little heat.</p>
+  <h3>How do you find the minimum reflux ratio?</h3>
+  <p>Lower the reflux until an operating line touches the equilibrium curve. For ideal mixtures the touch is where the q-line meets the curve, and R<sub>min</sub> = (x<sub>D</sub> − y*)/(y* − x*). For non-ideal mixtures, such as ethanol–water, it can be a tangent higher up the curve, so check the whole curve.</p>
+  <h3>What are difference points in the Ponchon-Savarit method?</h3>
+  <p>Two fixed points on the enthalpy diagram at the product compositions. Δ<sub>D</sub> sits at the distillate enthalpy plus the condenser duty per mole of distillate; Δ<sub>B</sub> at the bottoms enthalpy minus the reboiler duty per mole of bottoms. Every operating line in a section passes through its difference point.</p>
+  <h3>Does the reboiler count as a theoretical stage?</h3>
+  <p>Yes. A partial reboiler brings vapour and liquid to equilibrium, so it is the last theoretical stage. A partial condenser also counts as a stage; a total condenser does not.</p>
+  <h3>Why does McCabe-Thiele overestimate the reboiler duty for methanol–water?</h3>
+  <p>It carries the top vapour flow unchanged to the bottom. Water has a 16 % higher molar latent heat than methanol, so less vapour is actually needed in the water-rich stripping section. For a typical recovery column the constant-flow estimate is about 11 % high.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>McCabe W.L., Thiele E.W., Graphical design of fractionating columns, <i>Ind. Eng. Chem.</i> 17 (1925) 605–611</li>
+    <li>Ponchon M., <i>Tech. Moderne</i> 13 (1921) 20; Savarit R., <i>Arts et Métiers</i> (1922)</li>
+    <li>Treybal R.E., <i>Mass-Transfer Operations</i>, 3rd ed., McGraw-Hill, 1980, chapter 9</li>
+    <li>McCabe W.L., Smith J.C., Harriott P., <i>Unit Operations of Chemical Engineering</i>, 7th ed., McGraw-Hill, 2005</li>
+    <li>Seader J.D., Henley E.J., Roper D.K., <i>Separation Process Principles</i>, 3rd ed., Wiley, 2011</li>
+    <li>Kister H.Z., <i>Distillation Design</i>, McGraw-Hill, 1992</li>
+    <li>Gmehling J., Li J., Schiller M., A modified UNIFAC model, <i>Ind. Eng. Chem. Res.</i> 32 (1993) 178–193</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/mccabe-thiele/' | relative_url }}">McCabe-Thiele calculator</a>
+    <a href="{{ '/calculators/ponchon-savarit/' | relative_url }}">Ponchon-Savarit calculator</a>
+    <a href="{{ '/articles/distillation-basics/' | relative_url }}">Distillation basics</a>
+    <a href="{{ '/calculators/batch-distillation-simulator/' | relative_url }}">Batch distillation simulator</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery and the Antoine equation</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
