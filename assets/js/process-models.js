@@ -506,7 +506,8 @@
   }
   const fromS = (S, unit, mwS, mwV, rhoV) => unit === 'g100' ? S : unit === 'gL' ? S * rhoV * 10 : unit === 'wt' ? 100 * S / (100 + S) : (S / mwS) / (S / mwS + 100 / mwV);
   const unitLab = { g100: 'g per 100 g solvent', gL: 'g per L of solvent', wt: 'wt % in solution', x: 'mole fraction' };
-  const parse = txt => { const p = []; String(txt).split(/\r?\n/).forEach(l => { const q = l.trim().split(/[\s,;\t]+/).map(Number); if (q.length >= 2 && isFinite(q[0]) && isFinite(q[1])) p.push([q[0], q[1]]); }); return p; };
+  const parse = txt => { const p = []; let bad = 0, comma = false; String(txt).split(/\r?\n/).forEach(l => { if (!l.trim()) return; if (/[\t;]/.test(l) && /\d,\d/.test(l)) comma = true; const q = l.trim().split(/[\s,;\t]+/).map(Number); if (q.length >= 2 && isFinite(q[0]) && isFinite(q[1])) p.push([q[0], q[1]]); else bad++; }); p.bad = bad; p.comma = comma; return p; };
+  const dropNote = (raw, kept) => { const n = raw.length - kept + (raw.bad || 0), o = []; if (n > 0) o.push([n + ' line' + (n > 1 ? 's' : '') + ' of data ignored: not two numbers, or a value out of range (solubility must be above zero' + ', wt % below 100, mole fraction below 1, antisolvent below 100 %).', 'warn']); if (raw.comma) o.push(['Some lines look like they use a comma as the decimal mark. Use a point (4.1, not 4,1).', 'bad']); return o; };
   function invert(f, target, lo, hi) { /* f increasing in x */ if (f(lo) > target || f(hi) < target) return NaN; for (let i = 0; i < 70; i++) { const m = (lo + hi) / 2; f(m) < target ? lo = m : hi = m; } return (lo + hi) / 2; }
   const SOL_SAMPLE = '10, 4.1\n20, 6.0\n30, 8.7\n40, 12.4\n50, 17.6\n60, 24.5';
   const ANTI_SAMPLE = '0, 22.0\n20, 10.5\n40, 4.2\n60, 1.5\n80, 0.45';
@@ -553,9 +554,10 @@
   function coolRun(v, mwS, mwV, rho, solvName) {
     let Sfn, pts = [], fitRows = [], notes = [], fitLabel = '', tlo = -20, thi = 150, info = [];
     if (v.mode === 'fit') {
-      pts = parse(v.data).map(p => [p[0], toS(p[1], v.u, mwS, mwV, rho), p[1]]).filter(p => isFinite(p[1]) && p[1] > 0).sort((a, b) => a[0] - b[0]);
-      if (pts.length < 3) return { rows: [], notes: [['Enter at least three points, as temperature, solubility. Solubility must be above zero' + (v.u === 'wt' ? ' and below 100 wt %' : v.u === 'x' ? ' and below 1' : '') + '.', 'bad']] };
-      if (v.mdl === 'apel' && pts.length < 4) return { rows: [], notes: [['The Apelblat curve needs at least four points. Use van\'t Hoff for three.', 'bad']] };
+      const raw = parse(v.data); pts = raw.map(p => [p[0], toS(p[1], v.u, mwS, mwV, rho), p[1]]).filter(p => isFinite(p[1]) && p[1] > 0).sort((a, b) => a[0] - b[0]); dropNote(raw, pts.length).forEach(n => notes.push(n));
+      if (raw.comma) return { rows: [], notes: dropNote(raw, pts.length) };
+      if (pts.length < 3) return { rows: [], notes: notes.concat([['Enter at least three valid points, as temperature, solubility. Solubility must be above zero' + (v.u === 'wt' ? ' and below 100 wt %' : v.u === 'x' ? ' and below 1' : '') + '.', 'bad']]) };
+      if (v.mdl === 'apel' && pts.length < 4) return { rows: [], notes: notes.concat([['The Apelblat curve needs at least four valid points. Use van\'t Hoff for three.', 'bad']]) };
       const Tk = t => t + 273.15;
       let c;
       if (v.mdl === 'poly') { c = lsq(pts.map(p => [1, p[0], p[0] * p[0]]), pts.map(p => p[1])); if (!c) return { rows: [], notes: [['The data cannot be fitted. Use different temperatures.', 'bad']] }; Sfn = t => c[0] + c[1] * t + c[2] * t * t; fitLabel = 'S = ' + G(c[0]) + sg(c[1]) + '·T' + sg(c[2]) + '·T²  (T in °C)'; }
@@ -577,15 +579,17 @@
       fitLabel = 'ln x = −(ΔH_fus/R)(1/T − 1/T_m) − ln γ, ΔH_fus = ' + F(dH, 2) + ' kcal/mol' + (v.hfm === 'walden' ? " (Walden's rule, 13.5 cal/mol·K × T_m)" : '');
       info.push(['Heat of fusion used', F(dH, 2), 'kcal/mol' + (v.hfm === 'walden' ? " (Walden's rule estimate)" : '')], ['Ideal mole fraction at 25 °C', G(xs(25) * v.gam), 'divided by γ = ' + G(v.gam)]);
       notes.push(['This is an estimate. Ideal solubility is often right within a factor of 2 to 3 in solvents similar to the solute, and too high in poor solvents (γ well above 1, often 10 to 1000 in water for organic solids). Measure at least two points before scaling up.', 'warn']);
+      if (v.t0 >= v.tm - 5) return { rows: [], notes: [['The dissolution temperature (' + F(v.t0, 0) + ' °C) is at or near the melting point (' + F(v.tm, 0) + ' °C). Near and above its melting point the solute melts or oils out as a liquid instead of dissolving, and the ideal-solubility estimate does not apply. Use a lower dissolution temperature.', 'bad']] };
       tlo = Math.min(v.tf, 0); thi = Math.min(v.tm - 5, Math.max(v.t0, 60));
     }
     /* cooling batch */
     const m = v.m, ms = v.ms; if (!(m > 0 && ms > 0)) return { rows: [], notes: [['Enter the solute and solvent charges above zero.', 'bad']] };
     if (!(v.t0 > v.tf)) return { rows: [], notes: [['The dissolution temperature must be above the final temperature.', 'bad']] };
     if (!(v.mz > 0) || !(v.sd >= 0) || !(v.tc > 0)) return { rows: [], notes: [['Enter a metastable zone width and cooling time above zero, and a seeding offset of zero or more.', 'bad']] };
-    const sLo = Math.min(v.tf, tlo) - 30, sHi = v.mode === 'pred' ? Math.min(v.tm - 1, Math.max(v.t0, thi) + 100) : Math.max(v.t0, thi) + 60;
+    { const a = Math.min(v.tf, v.tw), b = Math.max(v.t0, thi); let prev = Sfn(a); for (let i = 1; i <= 200; i++) { const t = a + (b - a) * i / 200, sv2 = Sfn(t); if (!(sv2 > prev - 1e-9)) { return { rows: [], notes: notes.filter(n => n[1] === 'warn').concat([['The fitted curve stops rising with temperature near ' + F(t, 0) + ' °C, inside the range this batch uses (' + F(a, 0) + ' to ' + F(b, 0) + ' °C).' + (v.mode === 'fit' && v.mdl === 'poly' ? ' A polynomial often turns back up outside the data: use the Apelblat or van\'t Hoff curve, or measure solubility down to the final and wash temperatures.' : ' Check the data.'), 'bad']]) }; } prev = sv2; } }
+    const sLo = Math.min(v.tf, v.tw, tlo) - 30, sHi = v.mode === 'pred' ? Math.min(v.tm - 1, Math.max(v.t0, thi) + 100) : Math.max(v.t0, thi) + 60;
     const conc = 100 * m / ms, Tsat = invert(Sfn, conc, sLo, sHi);
-    const Sf = Sfn(v.tf), dissF = Sf * ms / 100, solid = Math.max(0, m - dissF), washLoss = Math.min(solid, Math.max(0, (v.mw2 || 0) * Sfn(v.tw) / 100)), isol = Math.max(0, solid - washLoss);
+    const Sf = Sfn(v.tf), dissF = Math.min(m, Sf * ms / 100), solid = Math.max(0, m - dissF), washLoss = Math.min(solid, Math.max(0, (v.mw2 || 0) * Sfn(v.tw) / 100)), isol = Math.max(0, solid - washLoss);
     const rows = [];
     if (!isFinite(Tsat)) return { rows: [], notes: [['The charge does not saturate between ' + F(sLo, 0) + ' and ' + F(sHi, 0) + ' °C on this curve: ' + (Sfn(sHi) < conc ? 'it would not dissolve fully. Add solvent.' : 'it stays dissolved even at ' + F(sLo, 0) + ' °C. Remove solvent or use an antisolvent.'), 'bad']] };
     const Tseed = Tsat - v.sd, minSolv = 100 * m / Sfn(v.t0);
@@ -602,13 +606,13 @@
     if (v.sd >= v.mz) notes.push(['The seeding point is at or beyond the metastable zone width: the solution may nucleate on its own before you seed. Seed about a quarter to a third of the way into the zone.', 'bad']);
     else if (v.sd > v.mz / 2) notes.push(['Seeding more than halfway into the metastable zone risks a burst of fine crystals. About a quarter to a third of the way in is the usual target.', 'warn']);
     if (solid / (m + ms) > 0.35) notes.push(['The slurry is above about 35 wt % solids at the end: it may be hard to stir and transfer. Consider more solvent.', 'warn']);
-    if (v.mode === 'fit' && (v.tf < tlo - 5 || v.t0 > thi + 5 || Tsat > thi + 5)) notes.push(['Part of the batch lies more than 5 °C outside your data (' + F(tlo, 0) + ' to ' + F(thi, 0) + ' °C), so the curve is extrapolated there. Measure solubility at the final temperature at least.', 'warn']);
+    if (v.mode === 'fit' && (v.tf < tlo - 5 || v.tw < tlo - 5 || v.t0 > thi + 5 || Tsat > thi + 5)) notes.push(['Part of the batch lies more than 5 °C outside your data (' + F(tlo, 0) + ' to ' + F(thi, 0) + ' °C), so the curve is extrapolated there (final ' + F(v.tf, 0) + ' °C, wash ' + F(v.tw, 0) + ' °C). Measure solubility at the final and wash temperatures at least.', 'warn']);
     if (Tseed <= v.tf) notes.push(['The seeding temperature is at or below the final temperature: the solution is not supersaturated over the cooling range. Increase the charge or reduce the solvent.', 'bad']);
     /* profiles from the seed point */
     const N = 120, prof = kind => Array.from({ length: N + 1 }, (_, i) => { const f = i / N, t = v.tc * f, T = kind === 'lin' ? Tseed - (Tseed - v.tf) * f : Tseed - (Tseed - v.tf) * f * f * f; return [t, T, Math.max(0, m - Sfn(T) * ms / 100)]; });
     const lin = prof('lin'), cub = prof('cub'), rate = P => P.slice(1).map((p, i) => [p[0], (p[2] - P[i][2]) / (p[0] - P[i][0])]), rl = rate(lin), rc = rate(cub);
     const pkL = Math.max(...rl.map(p => p[1])), pkC = Math.max(...rc.map(p => p[1])), solidAtHalfL = lin[N / 2][2], solidAtHalfC = cub[N / 2][2];
-    notes.push(['With linear cooling, ' + F(solidAtHalfL / Math.max(solid, 1e-9) * 100, 0) + ' % of the solid forms in the first half of the cooling time, at a peak of ' + F(pkL, 1) + ' kg/h. A cubic (slow-start) profile spreads it out: ' + F(solidAtHalfC / Math.max(solid, 1e-9) * 100, 0) + ' % in the first half, peak ' + F(pkC, 1) + ' kg/h. Slow early cooling, while the seed surface is small, gives larger, more even crystals.']);
+    if (solid > 1e-6) notes.push(['With linear cooling, ' + F(solidAtHalfL / Math.max(solid, 1e-9) * 100, 0) + ' % of the solid forms in the first half of the cooling time, at a peak of ' + F(pkL, 1) + ' kg/h. A cubic (slow-start) profile spreads it out: ' + F(solidAtHalfC / Math.max(solid, 1e-9) * 100, 0) + ' % in the first half, peak ' + F(pkC, 1) + ' kg/h. Slow early cooling, while the seed surface is small, gives larger, more even crystals.']);
     notes.push(['Equilibrium model: the liquid follows the solubility curve after seeding, so the yield is the most you can get at the final temperature. Real batches keep some supersaturation; hold 1 to 2 h at the final temperature before filtering. Wash loss assumes the wash leaves saturated (worst case).']);
     /* charts */
     const tA = Math.min(v.tf, tlo) - 5, tB = Math.max(v.t0, Tsat, thi) + 5, grid = Array.from({ length: 101 }, (_, i) => tA + (tB - tA) * i / 100);
@@ -629,8 +633,10 @@
   }
   function antiRun(v, mwS) {
     const A = slv(v.av), notes = [];
-    const pts = parse(v.adata).map(p => [p[0] / 100, v.au === 'wt' ? (p[1] < 100 ? 100 * p[1] / (100 - p[1]) : NaN) : p[1], p[1]]).filter(p => isFinite(p[1]) && p[1] > 0 && p[0] >= 0 && p[0] < 1).sort((a, b) => a[0] - b[0]);
-    if (pts.length < 2 || (v.amdl === 'q' && pts.length < 3)) return { rows: [], notes: [['Enter at least ' + (v.amdl === 'q' ? 'three' : 'two') + ' points: antisolvent wt % (0 to 99), solubility above zero.', 'bad']] };
+    if (v.av === v.sv) return { rows: [], notes: [['The antisolvent is the same liquid as the solvent. Choose a different antisolvent.', 'bad']] };
+    const raw = parse(v.adata), pts = raw.map(p => [p[0] / 100, v.au === 'wt' ? (p[1] < 100 ? 100 * p[1] / (100 - p[1]) : NaN) : p[1], p[1]]).filter(p => isFinite(p[1]) && p[1] > 0 && p[0] >= 0 && p[0] < 1).sort((a, b) => a[0] - b[0]);
+    dropNote(raw, pts.length).forEach(n => notes.push(n)); if (raw.comma) return { rows: [], notes };
+    if (pts.length < 2 || (v.amdl === 'q' && pts.length < 3)) return { rows: [], notes: notes.concat([['Enter at least ' + (v.amdl === 'q' ? 'three' : 'two') + ' valid points: antisolvent wt % (0 to 99), solubility above zero.', 'bad']]) };
     const c = lsq(pts.map(p => v.amdl === 'q' ? [1, p[0], p[0] * p[0]] : [1, p[0]]), pts.map(p => Math.log(p[1]))); if (!c) return { rows: [], notes: [['The data cannot be fitted. Use different antisolvent levels.', 'bad']] };
     const Sf = f => Math.exp(c[0] + c[1] * f + (c[2] || 0) * f * f);
     const mean = pts.reduce((s, p) => s + p[1], 0) / pts.length, r2 = 1 - pts.reduce((s, p) => s + (p[1] - Sf(p[0])) ** 2, 0) / pts.reduce((s, p) => s + (p[1] - mean) ** 2, 0);
@@ -638,9 +644,14 @@
     if (!(v.amz >= 0) || !(v.awf >= 0 && v.awf < 100)) return { rows: [], notes: [['Enter a seeding margin of zero or more and wash antisolvent below 100 %.', 'bad']] };
     const conc = a => 100 * m / (ms + a), fr = a => a / (ms + a);
     if (conc(0) > Sf(0)) notes.push(['The charge is already above its solubility before any antisolvent (' + G(conc(0)) + ' against ' + G(Sf(0)) + ' g per 100 g). Add solvent or warm to dissolve first.', 'bad']);
-    const aSat = conc(0) >= Sf(0) ? 0 : invert(a => conc(a) - Sf(fr(a)), 0, 0, ma * 20), aSeed = aSat + v.amz / 100 * ms;
+    if (Sf(pts[pts.length - 1][0]) >= Sf(pts[0][0])) return { rows: [], notes: notes.concat([['In your data the solubility does not fall as this liquid is added, so it is not acting as an antisolvent for this product. Check the data or choose another antisolvent.', 'bad']]) };
+    let aSat = conc(0) >= Sf(0) ? 0 : NaN;
+    if (!isFinite(aSat)) { const top = ma * 5; let prevA = 0; for (let i = 1; i <= 4000; i++) { const a = top * i / 4000; if (conc(a) >= Sf(fr(a))) { aSat = invert(x => conc(x) - Sf(fr(x)), 0, prevA, a); if (!isFinite(aSat)) aSat = a; break; } prevA = a; } }
+    const aSeed = aSat + v.amz / 100 * ms;
     const dissolved = a => Math.min(m, Sf(fr(a)) * (ms + a) / 100), solid = a => m - dissolved(a);
     const fF = fr(ma), dissF = dissolved(ma), sol = solid(ma), wl = Math.min(sol, (v.aw || 0) * Sf(v.awf / 100) / 100), isol = Math.max(0, sol - wl);
+    if (!isFinite(aSat)) return { rows: [], notes: notes.concat([['The solution never becomes saturated, even with ' + F(ma * 5, 0) + ' kg of antisolvent: the charge is too dilute for this antisolvent to crystallise it. Start more concentrated (less solvent or more solute) or distil some solvent first.', 'bad']]) };
+    let aBest = 0, yBest = -1; for (let i = 1; i <= 4000; i++) { const a = ma * 5 * i / 4000, y = solid(a); if (y > yBest + 1e-9) { yBest = y; aBest = a; } }
     let a90 = NaN; for (let i = 1; i <= 2000; i++) { const a = ma * 5 * i / 2000; if (solid(a) >= 0.9 * m) { a90 = a; break; } }
     const rows = [['Isolated yield', F(isol / m * 100, 1) + ' %', F(isol, 1) + ' kg of ' + F(m, 1) + ' kg'],
       ['Solution saturates after', isFinite(aSat) ? F(aSat, 1) + ' kg antisolvent' : '–', isFinite(aSat) ? F(fr(aSat) * 100, 1) + ' wt % antisolvent in the solvent' : ''],
@@ -653,6 +664,9 @@
       ['Fit R²', F(r2, 4), 'ln S = ' + G(c[0]) + sg(c[1]) + '·f' + (c[2] != null ? sg(c[2]) + '·f²' : '')]];
     if (r2 < 0.98) notes.push(['The curve fits the data poorly (R² ' + F(r2, 3) + '). Try the other curve or check the data.', 'warn']);
     if (fF > pts[pts.length - 1][0] + 0.05) notes.push(['The final antisolvent level (' + F(fF * 100, 0) + ' wt %) is beyond your data (up to ' + F(pts[pts.length - 1][0] * 100, 0) + ' wt %), so the solubility there is extrapolated. Measure it.', 'warn']);
+    if (ma > aBest * 1.05) notes.push(['This is more antisolvent than helps: the solid peaks at about ' + F(yBest / m * 100, 1) + ' % with ' + F(aBest, 0) + ' kg, and beyond that the extra liquid redissolves product. Use about ' + F(aBest, 0) + ' kg, or less if the volume is limited.', 'warn']);
+    else if (aBest < ma * 5 * 0.999) rows.push(['Most solid possible', F(yBest / m * 100, 1) + ' %', 'at about ' + F(aBest, 0) + ' kg antisolvent; more only dilutes']);
+    if (aSeed > ma) notes.push(['The seeding point (' + F(aSeed, 0) + ' kg) is beyond the planned addition (' + F(ma, 0) + ' kg). Reduce the seeding margin or add more antisolvent.', 'bad']);
     if (isFinite(aSat) && aSat > ma) notes.push(['The solution does not even saturate with this much antisolvent: add at least ' + F(aSat, 0) + ' kg, or start more concentrated.', 'bad']);
     if (sol / (m + ms + ma) > 0.3) notes.push(['The slurry is above about 30 wt % solids at the end.', 'warn']);
     const ag = Array.from({ length: 121 }, (_, i) => ma * 1.2 * i / 120), d1 = ag.slice(1).map((a, i) => [a, (solid(a) - solid(ag[i])) / (a - ag[i])]), pk = d1.reduce((b, p) => p[1] > b[1] ? p : b, [0, 0]);
