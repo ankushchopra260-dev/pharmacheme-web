@@ -31,7 +31,7 @@ n(id='f', sym='f', name='Friction factor (Darcy and Fanning)', s='flow', f='ΔP 
 n(id='fr', sym='Fr', name='Froude number', s='flow', f='Fr = v / √(g·L)   (sometimes defined as v²/(g·L))',
   ratio='Inertial forces ÷ gravity forces',
   mean='Governs flows with a free surface, where gravity shapes the liquid: open channels, partly full pipes, waves, and vortices in stirred tanks. Check which definition a correlation uses: one is the square of the other.',
-  reg=[('below 0.31 (v/√gD)', 'Gravity drain line runs self-venting: gas escapes back up the line, no gulping or surging'), ('0.31 to 1', 'Drain line may surge and carry gas down; size the line larger'), ('above 1', 'Supercritical flow in channels; jets and hydraulic jumps')],
+  reg=[('below 0.31 (v/√gD)', 'Gravity drain line runs self-venting: gas escapes back up the line, no gulping or surging'), ('0.31 to 1', 'Drain line may surge and carry gas down; size the line larger'), ('above 1 (open channel, hydraulic depth basis)', 'Supercritical flow in channels; jets and hydraulic jumps')],
   uses=['Sizing gravity drain and overflow lines from vessels and columns', 'Vortex formation in unbaffled agitated tanks', 'Hydraulic models of channels and spillways'],
   link=None,
   inp=[('v', 'Liquid velocity (full-pipe basis)', 'm/s', 0.3), ('D', 'Pipe inside diameter', 'm', 0.08)],
@@ -60,14 +60,14 @@ n(id='ca', sym='Ca', name='Capillary number', s='flow', f='Ca = μ·v / σ',
   link=('/calculators/filtration-calculator/', 'Filtration calculator'),
   inp=[('mu', 'Viscosity', 'cP', 1), ('v', 'Velocity', 'm/s', 0.001), ('sig', 'Surface tension', 'mN/m', 72)],
   js='(v.mu/1000)*v.v/(v.sig/1000)', rd="x<1e-5?['Capillary forces dominate','ok']:x<1e-3?['Mixed capillary and viscous control','ok']:['Viscous forces dominate','ok']")
-n(id='bo', sym='Bo', name='Bond number (Eötvös number)', s='flow', f='Bo = Δρ·g·L² / σ',
+n(id='bo', sym='Bo', name='Bond number (Eötvös number)', s='flow', f='Bo = Δρ·g·r² / σ   (r = drop or tube radius)',
   ratio='Gravity forces ÷ surface tension forces',
-  mean='Decides the shape of drops and bubbles and whether gravity or surface tension wins. Below Bo ≈ 1 surface tension holds drops round and liquid clings in small tubes; above it, gravity flattens drops and drains liquid.',
-  reg=[('below 1', 'Surface tension wins: round drops, liquid held in small tubes'), ('above 1', 'Gravity wins: flattened drops, liquid drains')],
+  mean='Decides the shape of drops and bubbles and whether gravity or surface tension wins. With the radius as the length, a vertical tube holds a liquid plug when Bo is below about 0.84; larger drops and bigger tubes let gravity win.',
+  reg=[('below about 0.84', 'Surface tension wins: round drops, a liquid plug stays in a vertical tube'), ('above about 0.84', 'Gravity wins: drops flatten, liquid drains from the tube')],
   uses=['Drop and bubble size in settlers and sparged reactors', 'Why small-bore lines hold liquid slugs', 'Liquid hold-up in packing'],
   link=None,
-  inp=[('drho', 'Density difference', 'kg/m³', 997), ('L', 'Size (drop or tube)', 'mm', 3), ('sig', 'Surface tension', 'mN/m', 72)],
-  js='v.drho*9.81*Math.pow(v.L/1000,2)/(v.sig/1000)', rd="x<1?['Surface tension dominates','ok']:['Gravity dominates','ok']")
+  inp=[('drho', 'Density difference', 'kg/m³', 997), ('L', 'Radius of drop or tube', 'mm', 1.5), ('sig', 'Surface tension', 'mN/m', 72)],
+  js='v.drho*9.81*Math.pow(v.L/1000,2)/(v.sig/1000)', rd="x<0.84?['Surface tension dominates: liquid is held in a tube this size','ok']:['Gravity dominates: liquid drains from a tube this size','ok']")
 n(id='ma', sym='Ma', name='Mach number', s='flow', f='Ma = v / c, with c = √(γ·R·T / M)',
   ratio='Flow velocity ÷ speed of sound',
   mean='Tells you whether gas compressibility matters. Below about 0.3 a gas can be treated as incompressible. Near Ma = 1 the flow chokes: no more mass can pass however low the downstream pressure.',
@@ -81,20 +81,20 @@ n(id='ma', sym='Ma', name='Mach number', s='flow', f='Ma = v / c, with c = √(�
 n(id='rep', sym='Re<sub>p</sub>', name='Particle Reynolds number', s='part', f='Re<sub>p</sub> = ρ<sub>f</sub>·v·d / μ',
   ratio='Inertial ÷ viscous forces around a particle',
   mean='The Reynolds number based on particle size and the velocity of the particle relative to the fluid. It sets the drag law, and so how fast particles settle or how easily they are carried.',
-  reg=[('below 0.3', 'Stokes regime: drag coefficient C<sub>D</sub> = 24/Re<sub>p</sub>, settling velocity ∝ d²'), ('0.3 to 1,000', 'Intermediate regime'), ('1,000 to 2×10<sup>5</sup>', 'Newton regime: C<sub>D</sub> ≈ 0.44, settling velocity ∝ √d')],
+  reg=[('below 0.3', 'Stokes regime: drag coefficient C<sub>D</sub> = 24/Re<sub>p</sub>, settling velocity ∝ d²'), ('0.3 to 500', 'Intermediate regime'), ('500 to 2×10<sup>5</sup>', 'Newton regime: C<sub>D</sub> ≈ 0.44, settling velocity ∝ √d')],
   uses=['Settling in decanters, thickeners and knock-out pots', 'Fluidised beds and pneumatic conveying', 'Crystal suspension in agitated vessels'],
   link=('/calculators/knock-out-pot-sizing/', 'Knock-out pot sizing'),
   inp=[('rho', 'Fluid density', 'kg/m³', 998), ('v', 'Relative velocity', 'm/s', 0.002), ('d', 'Particle diameter', 'µm', 100), ('mu', 'Fluid viscosity', 'cP', 1)],
-  js='v.rho*v.v*(v.d*1e-6)/(v.mu/1000)', rd="x<0.3?['Stokes regime: C_D = 24/Re = '+G(24/x),'ok']:x<1000?['Intermediate regime','ok']:['Newton regime: C_D about 0.44','ok']")
+  js='v.rho*v.v*(v.d*1e-6)/(v.mu/1000)', rd="x<0.3?['Stokes regime: C_D = 24/Re = '+G(24/x),'ok']:x<500?['Intermediate regime','ok']:['Newton regime: C_D about 0.44','ok']")
 n(id='ar', sym='Ar', name='Archimedes number', s='part', f='Ar = g·d³·ρ<sub>f</sub>·(ρ<sub>p</sub> − ρ<sub>f</sub>) / μ²',
   ratio='Gravity (buoyancy-corrected) ÷ viscous forces',
   mean='Uses only fluid and particle properties, not the velocity, so it gives the settling velocity directly without trial and error. Also used for the minimum fluidisation velocity and bubble rise.',
-  reg=[('below 3.6', 'Stokes regime: Re<sub>p</sub> = Ar/18'), ('3.6 to 10<sup>5</sup>', 'Intermediate: Re<sub>p</sub> ≈ 0.153·Ar<sup>0.714</sup>'), ('above 10<sup>5</sup>', 'Newton regime: Re<sub>p</sub> ≈ 1.74·Ar<sup>0.5</sup>')],
+  reg=[('below about 35', 'Stokes regime: Re<sub>p</sub> = Ar/18'), ('35 to 9×10<sup>4</sup>', 'Intermediate: Re<sub>p</sub> ≈ 0.153·Ar<sup>0.714</sup>'), ('above 9×10<sup>4</sup>', 'Newton regime: Re<sub>p</sub> ≈ 1.74·Ar<sup>0.5</sup> (Re<sub>p</sub> above about 500)')],
   uses=['Terminal settling velocity of crystals, catalyst and droplets', 'Minimum fluidisation velocity', 'Checking whether a decanter or thickener can separate a solid'],
   link=('/calculators/knock-out-pot-sizing/', 'Knock-out pot sizing'),
   inp=[('d', 'Particle diameter', 'µm', 100), ('rp', 'Particle density', 'kg/m³', 1500), ('rf', 'Fluid density', 'kg/m³', 998), ('mu', 'Fluid viscosity', 'cP', 1)],
   js='9.81*Math.pow(v.d*1e-6,3)*v.rf*(v.rp-v.rf)/Math.pow(v.mu/1000,2)',
-  rd="(function(){if(!(x>0))return['The particle must be denser than the fluid to settle','warn'];var re=x<3.6?x/18:x<1e5?0.153*Math.pow(x,0.714):1.74*Math.sqrt(x),vt=re*(v.mu/1000)/(v.rf*v.d*1e-6);return['Settling velocity about '+G(vt*1000)+' mm/s ('+G(vt*3600)+' m/h), Re_p = '+G(re),'ok'];})()")
+  rd="(function(){if(!(x>0))return['The particle must be denser than the fluid to settle','warn'];var re=x<35?x/18:x<9e4?0.153*Math.pow(x,0.714):1.74*Math.sqrt(x),vt=re*(v.mu/1000)/(v.rf*v.d*1e-6);return['Settling velocity about '+G(vt*1000)+' mm/s ('+G(vt*3600)+' m/h), Re_p = '+G(re),'ok'];})()")
 n(id='stk', sym='Stk', name='Stokes number', s='part', f='Stk = ρ<sub>p</sub>·d²·v / (18·μ·L)',
   ratio='Particle stopping distance ÷ obstacle size',
   mean='Tells you whether a particle or droplet follows the gas around an obstacle or crashes into it. That is how demisters, cyclones and impactors catch droplets and dust.',
@@ -112,7 +112,7 @@ n(id='nu', sym='Nu', name='Nusselt number', s='heat', f='Nu = h·L / k',
   uses=['Film coefficients in exchangers, jackets and coils', 'Comparing heat transfer at lab and plant scale', 'Checking a vendor U value'],
   link=('/calculators/jacketed-vessel-heat-transfer/', 'Jacketed vessel heat transfer'),
   inp=[('Re', 'Reynolds number', '', 50000), ('Pr', 'Prandtl number', '', 7), ('k', 'Fluid conductivity', 'kcal/h·m·°C', 0.52), ('D', 'Tube inside diameter', 'm', 0.025)],
-  js='0.023*Math.pow(v.Re,0.8)*Math.pow(v.Pr,0.4)', rd="['Film coefficient h = Nu·k/D = '+F(x*v.k/v.D,0)+' kcal/h·m²·°C (Dittus–Boelter, heating)'+(v.Re<10000?'. Re is below 10,000: the correlation is not valid here.':''),v.Re<10000?'warn':'ok']")
+  js='0.023*Math.pow(v.Re,0.8)*Math.pow(v.Pr,0.4)', rd="['Film coefficient h = Nu·k/D = '+G(x*v.k/v.D)+' kcal/h·m²·°C (Dittus–Boelter, heating)'+(v.Re<10000?'. Re is below 10,000: the correlation is not valid here.':''),v.Re<10000?'warn':'ok']")
 n(id='pr', sym='Pr', name='Prandtl number', s='heat', f='Pr = c<sub>p</sub>·μ / k',
   ratio='Momentum diffusivity ÷ thermal diffusivity',
   mean='A property of the fluid alone. It compares how fast momentum and heat spread. High Pr fluids (oils, thick organics) have a thin thermal boundary layer buried in the velocity layer, so their heat transfer is poor and depends strongly on viscosity.',
@@ -120,22 +120,22 @@ n(id='pr', sym='Pr', name='Prandtl number', s='heat', f='Pr = c<sub>p</sub>·μ 
   uses=['Every forced and natural convection correlation', 'Explaining why a viscous batch heats so slowly', 'Thermal fluid (hot oil) system design'],
   link=('/calculators/overall-heat-transfer-coefficient-calculator/', 'Overall heat transfer coefficient'),
   inp=[('cp', 'Specific heat', 'kcal/kg·°C', 1.0), ('mu', 'Viscosity', 'cP', 1.0), ('k', 'Thermal conductivity', 'kcal/h·m·°C', 0.515)],
-  js='v.cp*4186.8*(v.mu/1000)/(v.k*1.163)', rd="x<1?['Gas-like: heat spreads faster than momentum','ok']:x<20?['Water-like liquid','ok']:['Viscous liquid: thin thermal layer, poor heat transfer','warn']")
+  js='v.cp*4186.8*(v.mu/1000)/(v.k*1.163)', rd="x<0.1?['Liquid-metal range','ok']:x<1?['Gas-like: heat spreads faster than momentum','ok']:x<20?['Water-like liquid','ok']:['Viscous liquid: thin thermal layer, poor heat transfer','warn']")
 n(id='gr', sym='Gr', name='Grashof number', s='heat', f='Gr = g·β·ΔT·L³ / ν²',
   ratio='Buoyancy forces ÷ viscous forces',
   mean='The natural-convection counterpart of Reynolds. Warm fluid rises because it is lighter; Gr measures how strongly that drives flow. Comparing Gr with Re² tells you whether natural or forced convection controls.',
   reg=[('Gr/Re² well below 1', 'Forced convection controls'), ('Gr/Re² about 1', 'Mixed convection'), ('Gr/Re² well above 1', 'Natural convection controls')],
   uses=['Heat loss from tanks, pipes and vessels without stirring', 'Cooling of a batch with the agitator stopped', 'Storage tank stratification'],
   link=('/calculators/insulation-heat-loss/', 'Insulation heat loss'),
-  inp=[('beta', 'Expansion coefficient β', '1/K', 0.00021), ('dT', 'Temperature difference', '°C', 20), ('L', 'Height of the surface', 'm', 1), ('nu', 'Kinematic viscosity', 'mm²/s', 1.0)],
-  js='9.81*v.beta*v.dT*Math.pow(v.L,3)/Math.pow(v.nu*1e-6,2)', rd="['Gr = '+x.toExponential(2)+'. Multiply by Pr for the Rayleigh number.','ok']")
+  inp=[('beta', 'Expansion coefficient β', '1/°C', 0.00021), ('dT', 'Temperature difference', '°C', 20), ('L', 'Height of the surface', 'm', 1), ('nu', 'Kinematic viscosity', 'mm²/s (cSt)', 1.0)],
+  js='9.81*v.beta*v.dT*Math.pow(v.L,3)/Math.pow(v.nu*1e-6,2)', rd="['Gr = '+G(x)+'. Multiply by Pr for the Rayleigh number.','ok']")
 n(id='ra', sym='Ra', name='Rayleigh number', s='heat', f='Ra = Gr·Pr = g·β·ΔT·L³ / (ν·α)',
   ratio='Buoyancy ÷ (viscous × thermal diffusion)',
   mean='Sets the natural convection regime and the Nusselt number for free convection. For a vertical surface the boundary layer turns turbulent near Ra = 10<sup>9</sup>.',
   reg=[('below 10<sup>9</sup> (vertical plate)', 'Laminar natural convection: Nu ≈ 0.59·Ra<sup>1/4</sup>'), ('above 10<sup>9</sup>', 'Turbulent natural convection: Nu ≈ 0.10·Ra<sup>1/3</sup>')],
   uses=['Heat loss from vessel walls and hot pipes', 'Cooling of an unstirred batch or a drum', 'Air-side heat transfer on insulated surfaces'],
   link=('/calculators/insulation-heat-loss/', 'Insulation heat loss'),
-  inp=[('beta', 'Expansion coefficient β', '1/K', 0.0034), ('dT', 'Surface minus fluid temperature', '°C', 30), ('L', 'Height of the surface', 'm', 2), ('nu', 'Kinematic viscosity', 'mm²/s', 16), ('Pr', 'Prandtl number', '', 0.71)],
+  inp=[('beta', 'Expansion coefficient β', '1/°C', 0.0034), ('dT', 'Surface minus fluid temperature', '°C', 30), ('L', 'Height of the surface', 'm', 2), ('nu', 'Kinematic viscosity', 'mm²/s (cSt)', 16), ('Pr', 'Prandtl number', '', 0.71)],
   js='9.81*v.beta*v.dT*Math.pow(v.L,3)/Math.pow(v.nu*1e-6,2)*v.Pr', rd="[(x<1e9?'Laminar natural convection, Nu ≈ '+F(0.59*Math.pow(x,0.25),0):'Turbulent natural convection, Nu ≈ '+F(0.1*Math.pow(x,1/3),0))+' (vertical surface)','ok']")
 n(id='bi', sym='Bi', name='Biot number', s='heat', f='Bi = h·L / k<sub>solid</sub>, L = volume ÷ surface area',
   ratio='Resistance inside the solid ÷ resistance at its surface',
@@ -156,7 +156,7 @@ n(id='fo', sym='Fo', name='Fourier number', s='heat', f='Fo = α·t / L², α = 
 n(id='pe', sym='Pe', name='Péclet number (heat)', s='heat', f='Pe = v·L / α = Re·Pr',
   ratio='Heat carried by flow ÷ heat conducted',
   mean='When Pe is large, heat moves with the fluid and conduction along the flow can be ignored. In laminar flow in tubes this sets the length of the thermal entrance region.',
-  reg=[('below 1', 'Conduction controls'), ('well above 100', 'Heat is carried by the flow; axial conduction negligible')],
+  reg=[('below 1', 'Conduction controls'), ('1 to 100', 'Both matter'), ('above 100', 'Heat is carried by the flow; axial conduction negligible')],
   uses=['Laminar heat exchangers and long thin channels', 'Micro-reactors and flow chemistry', 'Packed and porous beds'],
   link=None,
   inp=[('Re', 'Reynolds number', '', 1000), ('Pr', 'Prandtl number', '', 50)],
@@ -202,7 +202,7 @@ n(id='pem', sym='Pe<sub>m</sub>', name='Péclet number (mass)', s='mass', f='Pe 
   uses=['Micro-mixers and flow chemistry', 'Chromatography and packed beds', 'Membrane processes'],
   link=('/articles/continuous-flow-chemistry/', 'Continuous flow chemistry'),
   inp=[('v', 'Velocity', 'm/s', 0.01), ('L', 'Length (channel width)', 'mm', 1), ('D', 'Diffusivity', '×10⁻⁹ m²/s', 1)],
-  js='v.v*(v.L/1000)/(v.D*1e-9)', rd="['Diffusion across '+F(v.L,1)+' mm takes about '+G(Math.pow(v.L/1000,2)/(v.D*1e-9))+' s; '+(x>1?'flow is faster, so diffusion alone will not mix this channel.':'diffusion keeps up with the flow.'),x>1?'warn':'ok']")
+  js='v.v*(v.L/1000)/(v.D*1e-9)', rd="['Diffusion across '+F(v.L,1)+' mm takes about '+G(Math.pow(v.L/1000,2)/(v.D*1e-9))+' s. In that time the flow travels about '+G(x*v.L/1000)+' m, so the channel must be roughly that long to mix by diffusion alone.','ok']")
 n(id='le', sym='Le', name='Lewis number', s='mass', f='Le = α / D = Sc / Pr',
   ratio='Thermal diffusivity ÷ mass diffusivity',
   mean='Matters when heat and mass transfer happen together, as in drying, humidification and cooling towers. For air and water vapour Le is about 0.85, close enough to 1 that the wet-bulb temperature is nearly the adiabatic saturation temperature, which makes psychrometric charts simple.',
@@ -275,14 +275,14 @@ n(id='th', sym='φ', name='Thiele modulus', s='rxn', f='φ = L·√(k / D<sub>ef
   ratio='Reaction rate inside a catalyst pellet ÷ diffusion into it',
   mean='Tells you whether the inside of a catalyst particle is being used. At large φ the reactant is consumed near the outer surface and the centre does nothing; smaller particles or more open pores help.',
   reg=[('below 0.4', 'No diffusion limitation: η above about 0.95'), ('0.4 to 3', 'Partial limitation'), ('above 3', 'Strong limitation: η ≈ 1/φ, only the outer shell works')],
-  uses=['Choosing catalyst particle size', 'Hydrogenation catalyst (Pd/C, Raney nickel) loading', 'Explaining why a finer catalyst grade runs faster'],
+  uses=['Choosing catalyst particle size', 'Hydrogenation catalyst (Pd/C, sponge nickel) loading', 'Explaining why a finer catalyst grade runs faster'],
   link=('/articles/hydrogenation-and-reduction/', 'Hydrogenation and reduction'),
   inp=[('L', 'Particle volume ÷ surface (d/6 for a sphere)', 'µm', 5), ('k', 'First-order rate constant (per particle volume)', '1/s', 50), ('D', 'Effective diffusivity', '×10⁻⁹ m²/s', 0.5)],
   js='(v.L*1e-6)*Math.sqrt(v.k/(v.D*1e-9))', rd="['Effectiveness factor η = '+F(Math.tanh(x)/x*100,1)+' %. '+(x<0.4?'The whole particle is used.':x<3?'Some internal limitation.':'Only the outer shell works; use smaller particles.'),x<3?'ok':'warn']")
 n(id='bod', sym='Bo<sub>d</sub>', name='Bodenstein number (axial Péclet)', s='rxn', f='Bo = v·L / D<sub>ax</sub>',
   ratio='Transport by flow ÷ back-mixing (axial dispersion)',
   mean='Measures how close a flow reactor is to plug flow. It comes from a tracer test. Large values mean little back-mixing, close to plug flow; small values mean the reactor behaves like a stirred tank. A rough equivalent number of tanks in series is Bo/2.',
-  reg=[('below 1', 'Close to a single stirred tank'), ('10 to 100', 'Intermediate'), ('above 100', 'Close to plug flow')],
+  reg=[('below 1', 'Close to a single stirred tank'), ('1 to 10', 'Strong back-mixing'), ('10 to 100', 'Intermediate'), ('above 100', 'Close to plug flow')],
   uses=['Tubular and flow reactors', 'Packed beds and columns', 'Residence time distribution tests'],
   link=('/articles/continuous-flow-chemistry/', 'Continuous flow chemistry'),
   inp=[('v', 'Velocity', 'm/s', 0.05), ('L', 'Reactor length', 'm', 10), ('D', 'Axial dispersion coefficient', 'm²/s', 0.001)],
@@ -309,7 +309,7 @@ QUIZ = [
   ('Water flows at 1.5 m/s in a 50 mm pipe. The flow is:', ['Laminar', 'Transitional', 'Turbulent'], 2, 'Re = 998 × 1.5 × 0.05 / 0.001 ≈ 75,000, far above 4,000.'),
   ('The Darcy friction factor is how many times the Fanning factor?', ['2', '4', '8'], 1, 'f_Darcy = 4 f_Fanning. Mixing them up gives a pressure drop four times too high or too low.'),
   ('Which number decides whether a solid heats evenly inside?', ['Biot', 'Nusselt', 'Prandtl'], 0, 'Biot compares internal and surface resistance; below 0.1 the solid is nearly uniform.'),
-  ('A liquid has Sc ≈ 1000. This means:', ['Molecules diffuse much more slowly than momentum spreads', 'Mass transfer is very fast', 'The liquid is a gas'], 0, 'High Schmidt number: diffusion is slow, so liquid-side mass transfer is often the bottleneck.'),
+  ('A liquid has Sc ≈ 1000. This means:', ['Molecules diffuse much more slowly than momentum spreads', 'Mass transfer is very fast', 'Viscosity has no effect on the flow'], 0, 'High Schmidt number: diffusion is slow, so liquid-side mass transfer is often the bottleneck.'),
   ('A gas–liquid reaction has Ha = 10. Where does it happen?', ['In the bulk liquid', 'In the liquid film at the interface', 'In the gas'], 1, 'Ha above 3: fast reaction in the film, so interfacial area matters.'),
   ('Doubling the agitator speed in turbulent flow raises the power by:', ['2 times', '4 times', '8 times'], 2, 'P = Np ρ N³ D⁵, so power goes with speed cubed.'),
   ('For a first-order reaction with Da = 2, a plug flow reactor gives about:', ['67 % conversion', '86 % conversion', '99 % conversion'], 1, 'X = 1 − e^(−2) = 0.86. A single CSTR would give 2/3 = 67 %.'),
@@ -323,6 +323,11 @@ FAQ = [
   ('Which dimensionless numbers matter for agitated vessels?', 'The impeller Reynolds number sets the regime, the power number gives the shaft power, the flow number the pumping rate, the Froude number the vortex, and the blend time number the mixing time. In gas–liquid and liquid–liquid systems the Weber number also matters.'),
   ('Can you keep all dimensionless numbers the same on scale-up?', 'No. Geometric similarity fixes the shape, but you cannot keep Reynolds, Froude, power per volume and blend time all constant at a different size. You choose the number that controls the step that matters most and accept changes in the others.')]
 
+import re as _re
+EXTRA = {'sh': 'kla', 'sc': 'kla', 'ha': 'kla absorption', 'fri': 'vortex', 'fr': 'vortex', 'rei': 'impeller agitator', 'np': 'agitator motor', 'f': 'darcy fanning', 'ar': 'settling'}
+def kw(x):
+    t = ' '.join([_re.sub('<[^>]+>', '', x['sym']), x['name'], x['ratio'], _re.sub('<[^>]+>', '', x['mean']), ' '.join(x['uses']), EXTRA.get(x['id'], '')])
+    return t.lower()
 def esc(t): return t  # content is trusted, already HTML
 
 def build():
@@ -337,7 +342,7 @@ def build():
             regs = ''.join(f'<tr><td>{a}</td><td>{b}</td></tr>' for a, b in x['reg'])
             uses = ''.join(f'<li>{u}</li>' for u in x['uses'])
             lk = f'<p class="dn-link">Try it on a real case: <a href="{{{{ \'{x["link"][0]}\' | relative_url }}}}">{x["link"][1]}</a></p>' if x['link'] else ''
-            cards += f'''<section class="dn-card" id="{x['id']}" data-s="{s}" data-k="{html.escape(x['name'].lower() + ' ' + x['ratio'].lower() + ' ' + ' '.join(x['uses']).lower())}">
+            cards += f'''<section class="dn-card" id="{x['id']}" data-s="{s}" data-k="{html.escape(kw(x))}" data-sym="{_re.sub('<[^>]+>', '', x['sym']).lower()}">
   <h3><span class="dn-sym">{x['sym']}</span> {x['name']}</h3>
   <div class="formula-box">{x['f']}</div>
   <p class="dn-ratio"><b>Ratio of:</b> {x['ratio']}</p>
@@ -349,7 +354,7 @@ def build():
 </section>
 '''
     qs = ''.join(f'<li><a href="#{q[1]}">{q[0]}</a> <span>→ {next(x["sym"] for x in N if x["id"] == q[1])}</span></li>' for q in QUESTIONS)
-    chips = '<button type="button" class="dn-chip on" data-f="all">All</button>' + ''.join(f'<button type="button" class="dn-chip" data-f="{s}">{t}</button>' for s, t in SUBJ)
+    chips = '<button type="button" class="dn-chip on" data-f="all" aria-pressed="true">All</button>' + ''.join(f'<button type="button" class="dn-chip" data-f="{s}" aria-pressed="false">{t}</button>' for s, t in SUBJ)
     faqh = ''.join(f'<h3>{q}</h3><p>{a}</p>' for q, a in FAQ)
     title = 'Dimensionless Numbers in Chemical Engineering: Meaning, Formula and Where to Use Them'
     seo = 'Dimensionless Numbers in Chemical Engineering | PharmaChemE'
@@ -384,7 +389,7 @@ last_modified_at: 2026-11-13
   <h1>Dimensionless Numbers in Chemical Engineering</h1>
   <p class="article-meta">Fundamentals &middot; Flow, heat, mass, mixing and reaction &middot; <span class="art-updated">November 2026</span></p>
 
-  <p class="art-lede">A dimensionless number is a ratio of two competing effects with all the units cancelled out: inertia against viscosity, convection against conduction, reaction against diffusion. Because it has no units, the same value means the same behaviour in a lab flask and a plant reactor. That is why correlations, regime maps and scale-up rules are all written in dimensionless numbers. This guide covers {len(N)} numbers used every day in chemical and pharmaceutical plants, grouped by subject. For each one you get what it means, the values that matter, where it is used, and a calculator that works it out and tells you what your number means.</p>
+  <p class="art-lede">A dimensionless number is a ratio of two competing effects with all the units cancelled out: inertia against viscosity, convection against conduction, reaction against diffusion. Because it has no units, the same value means the same behaviour in a lab flask and a plant reactor. That is why correlations, regime maps and scale-up rules are all written in dimensionless numbers. This guide covers {len(N)} numbers used every day in chemical and pharmaceutical plants, grouped by subject. For each one you get what it means, the values that matter, where it is used, and a calculator that works it out and explains your result.</p>
 
   <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
     <li><a href="#idea">How to read a dimensionless number</a><span>Basics</span></li>
@@ -408,7 +413,7 @@ last_modified_at: 2026-11-13
 
   <h2 id="table">All numbers at a glance</h2>
   <div class="dn-tools"><div class="dn-chips" role="group" aria-label="Filter by subject">{chips}</div><input type="search" class="dn-search" placeholder="Search: e.g. settling, vortex, catalyst" aria-label="Search the dimensionless numbers"></div>
-  <div class="art-table-wrap"><table class="art-table dn-all"><thead><tr><th>Number</th><th>Formula</th><th>Ratio of</th><th>Subject</th></tr></thead><tbody>{tbl}</tbody></table></div>
+  <p class="dn-none" hidden>No number matches that search. Try a word such as heat, settling or agitator.</p><div class="art-table-wrap"><table class="art-table dn-all"><thead><tr><th>Number</th><th>Formula</th><th>Ratio of</th><th>Subject</th></tr></thead><tbody>{tbl}</tbody></table></div>
 
   <h2 id="which">Which number do I need?</h2>
   <ul class="dn-q">{qs}</ul>
@@ -418,7 +423,7 @@ last_modified_at: 2026-11-13
   <h2 id="scale">Dimensionless numbers and scale-up <span class="lvl l3">Going deeper</span></h2>
   <p>Two systems behave the same if they are <b>geometrically similar</b> (same shape) and their important dimensionless numbers are equal. This is the principle of similarity, and it is the basis of every scale-up rule. The difficulty is that you rarely can keep them all equal at once:</p>
   <ul>
-    <li>In a stirred vessel scaled up by a factor of 10 in diameter, keeping the impeller Reynolds number constant would cut the speed 100 times. Keeping the Froude number constant would raise the power per volume about 30 times. You cannot keep both.</li>
+    <li>In a stirred vessel scaled up by a factor of 10 in diameter, keeping the impeller Reynolds number constant would cut the speed 100 times. Keeping the Froude number constant would raise the power per volume about 3 times (√10). You cannot keep both.</li>
     <li>Keeping power per volume constant, the usual choice, raises the Reynolds number, leaves the power number unchanged in turbulent flow, and makes the blend time longer.</li>
     <li>Keeping heat transfer similar is harder still, because the wall area per volume falls as the vessel grows, whatever the agitation.</li>
   </ul>
@@ -456,10 +461,10 @@ last_modified_at: 2026-11-13
     # calculator config
     js = ['/* Dimensionless numbers article: one calculator per number, plus filter, search and quiz. Generated by tools/pages/dimensionless.py */', '(function () {', "'use strict';",
           "var F = function (x, d) { return isFinite(x) ? Number(x).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }) : '–'; };",
-          "var G = function (x) { if (!isFinite(x)) return '–'; var a = Math.abs(x); return a === 0 ? '0' : a >= 1e6 || a < 1e-3 ? x.toExponential(2) : a >= 1000 ? F(x, 0) : a >= 100 ? F(x, 1) : a >= 1 ? F(x, 2) : F(x, 3); };",
+          "var G = function (x) { if (!isFinite(x)) return '–'; var a = Math.abs(x); if (a === 0) return '0'; if (a >= 1e6 || a < 1e-3) { var e = Math.floor(Math.log10(a)), m = x / Math.pow(10, e); if (Math.abs(m) >= 9.995) { m /= 10; e++; } return m.toFixed(2) + '×10<sup>' + e + '</sup>'; } if (a >= 999.5) return F(Math.round(x), 0); if (a >= 100) return F(x, 1); if (a >= 1) return F(x, 2); return String(Number(x.toPrecision(3))); };",
           'var C = {};']
     for x in N:
-        js.append(f"C[{json.dumps(x['id'])}] = {{ sym: {json.dumps(html.unescape(x['sym']).replace('<sub>','').replace('</sub>',''))}, inp: {json.dumps(x['inp'], ensure_ascii=False)}, f: function (v) {{ return {x['js']}; }}, r: function (x, v) {{ return {x['rd']}; }} }};")
+        js.append(f"C[{json.dumps(x['id'])}] = {{ sym: {json.dumps(x['sym'])}, inp: {json.dumps(x['inp'], ensure_ascii=False)}, f: function (v) {{ return {x['js']}; }}, r: function (x, v) {{ return {x['rd']}; }} }};")
     js.append(open(os.path.join(ROOT, 'tools/pages/dimensionless_ui.js'), encoding='utf-8').read())
     js.append('})();')
     open(os.path.join(ROOT, 'assets/js/dimensionless-calc.js'), 'w', encoding='utf-8').write('\n'.join(js))
