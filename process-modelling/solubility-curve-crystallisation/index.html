@@ -1,0 +1,144 @@
+---
+layout: default
+title: "Solubility Curve and Crystallisation Calculator"
+seo_title: "Solubility Curve Fitting and Crystallisation Yield | PharmaChemE"
+description: "Free solubility curve tool: fit van't Hoff or Apelblat to lab data, or estimate from melting point, then plan cooling or antisolvent crystallisation and yield."
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Solubility Curve and Crystallisation Calculator",
+        "description": "Free solubility curve tool: fit van't Hoff or Apelblat to lab data, or estimate from melting point, then plan cooling or antisolvent crystallisation and yield.",
+        "url": "https://www.pharmacheme.in/process-modelling/solubility-curve-crystallisation/",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do you draw a solubility curve from lab data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Measure the solubility at four to six temperatures across the range you will use, convert each value to g per 100 g solvent, and fit ln S against 1/T (van't Hoff) or the Apelblat equation ln S = A + B/T + C ln T. The fitted curve gives the solubility at any temperature in between."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate the yield of a cooling crystallisation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yield = (solute charged − solute still dissolved at the final temperature − wash loss) ÷ solute charged. The dissolved amount is the solubility at the final temperature times the solvent mass. For 100 kg in 500 kg solvent with a solubility of 3 g per 100 g at 5 °C, about 15 kg stays in the mother liquor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the metastable zone width?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The temperature (or concentration) range below saturation in which a clean solution stays clear without seeding. Beyond it, crystals nucleate on their own. It depends on the cooling rate, mixing and impurities, and is measured in the lab, often 5 to 20 °C. Seed about a quarter to a third of the way into it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you estimate solubility without data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For a solid in an ideal solution, ln x = −(ΔH_fus/R)(1/T − 1/T_m), from the melting point and heat of fusion. Walden's rule estimates ΔH_fus as about 13.5 cal/mol·K times the melting point in kelvin. Real solubility is lower in poor solvents; measure at least two points before scale-up."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should I use an antisolvent instead of cooling?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When the solubility changes little with temperature, the solute is heat-sensitive, or the cooling yield is too low. Adding a solvent in which the product is poorly soluble lowers the solubility; dose it slowly near the saturation point and seed, to avoid oiling out and fines."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between linear and cubic cooling?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Linear cooling lowers the temperature at a constant rate, which usually forms most of the solid early, when the seed surface is small. A cubic profile cools slowly at first and faster later, keeping the supersaturation more even, which gives larger, more uniform crystals."
+            }
+          }
+        ]
+      }
+    ]
+  }
+breadcrumbs:
+  - label: "Process Modelling"
+    url: /process-modelling/
+  - label: "Solubility Curve and Crystallisation"
+    url: /process-modelling/solubility-curve-crystallisation/
+last_modified_at: 2026-11-13
+---
+<link rel="stylesheet" href="{{ '/assets/css/utilities.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/process-models.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container ut-head">
+  <h1>Solubility curve and crystallisation</h1>
+  <p>Fit a solubility curve to your lab measurements, or estimate one from the melting point when you have no data. Then plan the crystallisation: the saturation temperature of your charge, where to seed inside the metastable zone, the yield, the losses to mother liquor and wash, and how linear and slow-start cooling profiles differ. A third mode handles antisolvent crystallisation: the saturation point, seeding, and yield as the antisolvent goes in.</p>
+</div>
+
+<div class="container ut-grid">
+  <div class="pm-tool" data-tool="solubility"></div>
+</div>
+
+<div class="container article-body" style="margin-top:28px;">
+  <h2>How it works</h2>
+  <p>Every value is converted to <b>g of solute per 100 g of solvent</b>, so data in g/L, wt % or mole fraction can be mixed with plant charges in kg. Three curves are offered for cooling data, with T in kelvin:</p>
+  <ul>
+    <li><b>van't Hoff:</b> ln S = A + B/T. Two constants; good for narrow ranges. The slope gives an apparent heat of dissolution, ΔH ≈ −B·R.</li>
+    <li><b>Apelblat:</b> ln S = A + B/T + C·ln T. Three constants; the usual choice for pharmaceutical solubility data over a wide range.</li>
+    <li><b>Polynomial:</b> S = a + bT + cT². A plain curve fit, for interpolation only.</li>
+  </ul>
+  <p>With no data, the <b>ideal solubility</b> comes from the melting point and heat of fusion: ln x = −(ΔH<sub>fus</sub>/R)(1/T − 1/T<sub>m</sub>), divided by an activity coefficient γ if you know one. Walden's rule, ΔH<sub>fus</sub> ≈ 13.5 cal/mol·K × T<sub>m</sub>, estimates the heat of fusion when no DSC value is available.</p>
+  <p>For antisolvent data, measured at the crystallisation temperature, the tool fits ln S against the antisolvent mass fraction f in the solvent mixture, as a straight line or a quadratic.</p>
+  <h2>The cooling batch</h2>
+  <ul>
+    <li><b>Saturation temperature:</b> where the solubility equals the charge concentration, 100 × solute / solvent.</li>
+    <li><b>Seeding:</b> a few degrees below saturation, inside the metastable zone. The zone width comes from your lab (turbidity or FBRM cloud points at the plant cooling rate). The dashed metastable limit on the chart is the solubility curve shifted by that width.</li>
+    <li><b>Yield:</b> charge minus what stays dissolved at the final temperature, minus the wash loss. The wash is taken as leaving saturated, the worst case.</li>
+    <li><b>Cooling profile:</b> after seeding, the liquid is taken to follow the solubility curve. The tool compares linear cooling with a cubic profile, T = T<sub>seed</sub> − (T<sub>seed</sub> − T<sub>final</sub>)(t/τ)³, which cools slowly while the seed surface is small.</li>
+  </ul>
+  <h2>Getting good solubility data</h2>
+  <ul>
+    <li>Measure at four to six temperatures spanning the dissolution and isolation temperatures; extrapolation below the coldest point is the most common source of yield surprises.</li>
+    <li>Use the same solid form as the plant product. A different polymorph or solvate has a different solubility.</li>
+    <li>Equilibrate long enough (often 12 to 24 h with excess solid), filter at temperature, and assay the liquid by HPLC or gravimetry.</li>
+    <li>Use process-grade solvent with the real water content: a little water can change the solubility of a polar solid many times over.</li>
+  </ul>
+  <p>The sample data loaded in the tool is made up for illustration. Replace it with your own.</p>
+  <h2>Frequently asked questions</h2>
+  <h3>How do you draw a solubility curve from lab data?</h3><p>Measure the solubility at four to six temperatures across the range you will use, convert each value to g per 100 g solvent, and fit ln S against 1/T (van&#x27;t Hoff) or the Apelblat equation ln S = A + B/T + C ln T. The fitted curve gives the solubility at any temperature in between.</p><h3>How do you calculate the yield of a cooling crystallisation?</h3><p>Yield = (solute charged − solute still dissolved at the final temperature − wash loss) ÷ solute charged. The dissolved amount is the solubility at the final temperature times the solvent mass. For 100 kg in 500 kg solvent with a solubility of 3 g per 100 g at 5 °C, about 15 kg stays in the mother liquor.</p><h3>What is the metastable zone width?</h3><p>The temperature (or concentration) range below saturation in which a clean solution stays clear without seeding. Beyond it, crystals nucleate on their own. It depends on the cooling rate, mixing and impurities, and is measured in the lab, often 5 to 20 °C. Seed about a quarter to a third of the way into it.</p><h3>How do you estimate solubility without data?</h3><p>For a solid in an ideal solution, ln x = −(ΔH_fus/R)(1/T − 1/T_m), from the melting point and heat of fusion. Walden&#x27;s rule estimates ΔH_fus as about 13.5 cal/mol·K times the melting point in kelvin. Real solubility is lower in poor solvents; measure at least two points before scale-up.</p><h3>When should I use an antisolvent instead of cooling?</h3><p>When the solubility changes little with temperature, the solute is heat-sensitive, or the cooling yield is too low. Adding a solvent in which the product is poorly soluble lowers the solubility; dose it slowly near the saturation point and seed, to avoid oiling out and fines.</p><h3>What is the difference between linear and cubic cooling?</h3><p>Linear cooling lowers the temperature at a constant rate, which usually forms most of the solid early, when the seed surface is small. A cubic profile cools slowly at first and faster later, keeping the supersaturation more even, which gives larger, more uniform crystals.</p>
+  <p class="pm-small">A free screening tool for engineers and students. Results depend on the inputs and the model assumptions shown; confirm critical decisions with lab data and the product's specifications.</p>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a><a href="{{ '/process-modelling/heating-cooling-time-simulator/' | relative_url }}">Heating and cooling time simulator</a><a href="{{ '/process-modelling/solvent-swap-simulator/' | relative_url }}">Solvent swap simulator</a><a href="{{ '/process-modelling/mixing-mass-transfer-scale-up/' | relative_url }}">Mixing and mass transfer scale-up</a><a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent swap and selection</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/process-models.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

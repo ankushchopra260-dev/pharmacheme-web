@@ -61,6 +61,7 @@
         - { title: "Kinetics Fitting", url: /process-modelling/reaction-kinetics-fitting/ }
         - { title: "Mixing & Mass Transfer", url: /process-modelling/mixing-mass-transfer-scale-up/ }
         - { title: "Solvent Swap Simulator", url: /process-modelling/solvent-swap-simulator/ }
+        - { title: "Solubility & Crystallisation", url: /process-modelling/solubility-curve-crystallisation/ }
         - { title: "All modelling tools", url: /process-modelling/ }
 - title: Solvents
   url: /solvents/
