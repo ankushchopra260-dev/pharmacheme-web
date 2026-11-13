@@ -126,7 +126,7 @@
     - sim
   seo_name: Utilities and Energy Saving
 - slug: scale-up-lab-to-plant
-  title: 'Scale-up: lab to plant'
+  title: Scale-up from lab to plant
   short: 'Why a process that works in a flask can fail in a large vessel: heat removal, mixing and time, with simple arithmetic you can check yourself, and the questions to ask before the first batch.'
   minutes: 75 to 90
   level: All levels, no prior scale-up knowledge needed
@@ -134,7 +134,7 @@
   related: <a href="{{ '/articles/lab-to-plant-scale-up-checklist/' | relative_url }}">lab to plant checklist</a>, <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">mixing scale-up calculator</a>, <a href="{{ '/process-modelling/mixing-mass-transfer-scale-up/' | relative_url }}">mixing and mass transfer scale-up</a>, <a href="{{ '/calculators/jacketed-vessel-heat-transfer/' | relative_url }}">jacketed vessel heat transfer</a>, <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">crystallisation scale-up</a>, <a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">semi-batch dosing simulator</a>
   live_js: scaleup-live.js
   live_h1: Scale-up Live
-  live_desc: 'Five live checks for a scale-up session: cooling surface per litre, shortest dosing time, mixing rules, an agitator guide, mixing, heat-transfer and dosing simulators, and a quiz.'
+  live_desc: 'Scale-up simulators for training: agitator guide, mixing and heat-transfer simulators, dosing time, heat-up time, loss of cooling and a quiz.'
   live_intro: 'Set the sizes, let the room estimate, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. All defaults are illustrative: enter your own plant data.'
   live_blocks:
   - - 1. Surface per litre

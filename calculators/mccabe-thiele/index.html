@@ -95,7 +95,7 @@ last_modified_at: 2026-11-13
 <div class="container ut-head">
   <h1>McCabe-Thiele Calculator</h1>
   <p>Draws the full McCabe-Thiele diagram for a binary distillation column and counts the stages. Pick two solvents and the equilibrium curve comes from real mixture data, azeotropes included, or use a constant relative volatility or your own x-y points. You get minimum reflux, minimum stages, the optimum feed stage, real trays at your tray efficiency, every stage composition and temperature, flows and condenser and reboiler duties in kcal/h.</p>
-  <ul class="ut-jump"><li><a href="#how">How it works</a></li><li><a href="#faq">FAQ</a></li></ul>
+  <ul class="ut-jump"><li><a href="#how">How it works</a></li><li><a href="#examples">Worked examples</a></li><li><a href="#faq">FAQ</a></li></ul>
 </div>
 
 <div class="container ut-grid">
@@ -122,6 +122,19 @@ last_modified_at: 2026-11-13
     <li><b>Your own data:</b> paste measured or published x-y points; the curve is drawn through them without overshoot.</li>
   </ul>
   <p>Compositions can be entered in wt % (for solvents) and the calculator converts them to mole fractions, which the method needs. Results also show the stage compositions back in wt %.</p>
+  <h2 id="examples">Worked examples</h2>
+  <p><b>Textbook case.</b> Constant relative volatility α = 2.5, saturated liquid feed with 50 mol % light component, distillate 95 mol %, bottoms 5 mol %. The q-line meets the curve at x = 0.5, y = 0.714, so R<sub>min</sub> = (0.95 − 0.714)/(0.714 − 0.5) = 1.10. Fenske gives N<sub>min</sub> = ln(19 × 19)/ln 2.5 = 6.43. At R = 1.5 × R<sub>min</sub> = 1.65 the column needs 12 theoretical stages including the reboiler, with the feed on stage 6.</p>
+  <p><b>Methanol–water at 1 atm.</b> 1000 kg/h of 50 wt % methanol as saturated liquid, distillate 99 wt %, bottoms 0.5 wt %, total condenser, R = 1.3 × R<sub>min</sub>:</p>
+  <div class="ut-table-wrap"><table class="ut-table"><thead><tr><th>Result</th><th>Value</th></tr></thead><tbody>
+    <tr><td>Minimum reflux ratio</td><td>0.77 (pinch at the feed)</td></tr>
+    <tr><td>Reflux ratio used</td><td>1.00</td></tr>
+    <tr><td>Theoretical stages, incl. reboiler</td><td>16, feed on stage 11</td></tr>
+    <tr><td>Real trays at 70 % Murphree efficiency</td><td>21, plus the reboiler</td></tr>
+    <tr><td>Distillate</td><td>15.8 kmol/h (about 504 kg/h)</td></tr>
+    <tr><td>Top / bottom temperature</td><td>64.8 °C / 99.9 °C</td></tr>
+    <tr><td>Condenser / reboiler duty</td><td>about 265,500 / 306,300 kcal/h</td></tr>
+  </tbody></table></div>
+  <p>Open the calculator above with the same inputs to see the diagram and the stage-by-stage table. Values come from modified UNIFAC and constant molar overflow; use them as a design screen.</p>
   <h3>When the liquid splits into two layers</h3>
   <p>Some pairs, such as toluene–water, n-butanol–water or ethyl acetate–water, do not mix in all proportions. Across a range of composition the liquid separates into two layers, and the mixture then boils at one temperature with one vapour composition: a <b>heterogeneous azeotrope</b>. The calculator checks every solvent pair for this, against measured behaviour where it is known. It flattens the equilibrium curve across the two-liquid range, shades that range on the diagram and marks those stages in the table. If you ask for a distillate beyond the heterogeneous azeotrope, it explains the decanter: condense the top vapour, let it settle into two layers, draw off one and return the other.</p>
   <div class="art-note"><b>Where the method stops</b><p>McCabe-Thiele assumes constant molar overflow: equal moles of vapour and liquid move up and down each section. It is good when the two latent heats per mole are close, and it is a design screen, not a rating. With two liquid layers it works on the overall liquid composition, so stage counts in that range are approximate. For two-liquid columns with a decanter, large heat effects or more than two components, check the design with a full process simulation.</p></div>
