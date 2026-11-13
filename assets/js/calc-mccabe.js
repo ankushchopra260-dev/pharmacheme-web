@@ -21,7 +21,49 @@
         T = t; pts.push([x, x * ps(A, t) / P, t]);
       } else { var r = MOD.bubble(S, [x, 1 - x], P, T); T = r.T; pts.push([x, r.y[0], r.T]); }
     }
-    return (CACHE[key] = MC.curve(pts));
+    /* extra points at both dilute ends (1 ppm upwards), where plant specifications sit */
+    var bub = function (x, T0) {
+      if (!ideal) { var r = MOD.bubble(S, [x, 1 - x], P, T0); return [x, r.y[0], r.T]; }
+      var t = T0; for (var k = 0; k < 80; k++) { var f = x * ps(A, t) + (1 - x) * ps(B, t), d = (Math.log(P) - Math.log(f)) * 30; t += Math.max(-20, Math.min(20, d)); if (Math.abs(d) < 1e-8) break; }
+      return [x, x * ps(A, t) / P, t];
+    };
+    [1e-6, 3e-6, 1e-5, 3e-5, 1e-4, 3e-4, 1e-3, 1.7e-3].forEach(function (e) { pts.push(bub(e, pts[0][2]), bub(1 - e, pts[400][2])); });
+    pts.sort(function (p1, p2) { return p1[0] - p2[0]; });
+    var lle = ideal ? null : liquidSplit(S, a, b, P, pts);
+    if (lle && lle.xa != null && !lle.outside) { pts = pts.filter(function (q) { return q[0] < lle.xa || q[0] > lle.xb; }); pts.push([lle.xa, lle.y, lle.T], [lle.xb, lle.y, lle.T]); for (var k = 1; k < 20; k++) { var xm = lle.xa + (lle.xb - lle.xa) * k / 20; pts.push([xm, lle.y, lle.T]); } pts.sort(function (p1, p2) { return p1[0] - p2[0]; }); }
+    var cv = MC.curve(pts); cv.lle = lle;
+    return (CACHE[key] = cv);
+  }
+  /* Two liquid layers. Model: lower convex hull of the Gibbs energy of mixing at the boiling temperature (modified UNIFAC),
+     iterated to the three-phase (heterogeneous azeotrope) temperature. Model splits are checked against measured behaviour. */
+  var ONE = { 'thf|water': 1, 'tert-butanol|water': 1, 'methanol|n-hexane': 1, 'methanol|n-heptane': 1 };
+  var TWO = 'toluene benzene n-hexane n-heptane cyclohexane methylcyclohexane chloroform dichloromethane 1-2-dichloroethane chlorobenzene o-dichlorobenzene ethylbenzene xylene o-xylene m-xylene p-xylene ethyl-acetate isopropyl-acetate n-propyl-acetate n-butyl-acetate isobutyl-acetate tert-butyl-acetate mibk methyl-ethyl-ketone mtbe diisopropyl-ether diethyl-ether dibutyl-ether n-butanol isobutanol sec-butanol nitrobenzene tetrachloroethylene trichloroethylene benzyl-alcohol n-pentane'.split(' ');
+  function pairKey(a, b) { return [a, b].sort().join('|'); }
+  function hull(S, TK) {
+    var p = [], k, h = [], best = null;
+    for (k = 0; k <= 900; k++) { var t = -16 + 32 * k / 900, x = 1 / (1 + Math.exp(-t)), g = MOD.lngam(S, [x, 1 - x], TK); p.push([x, x * (Math.log(x) + g[0]) + (1 - x) * (Math.log(1 - x) + g[1])]); }
+    p.forEach(function (q) { while (h.length >= 2) { var a = h[h.length - 2], b = h[h.length - 1]; if ((b[0] - a[0]) * (q[1] - a[1]) - (b[1] - a[1]) * (q[0] - a[0]) <= 0) h.pop(); else break; } h.push(q); });
+    for (k = 1; k < h.length; k++) {
+      var A = h[k - 1], B = h[k], mid = p.filter(function (q) { return q[0] > A[0] && q[0] < B[0]; });
+      if (mid.length < 3) continue;
+      var gap = Math.max.apply(null, mid.map(function (q) { return q[1] - (A[1] + (B[1] - A[1]) * (q[0] - A[0]) / (B[0] - A[0])); }));
+      if (gap > 1e-6 && (!best || B[0] - A[0] > best[1] - best[0])) best = [A[0], B[0]];
+    }
+    return best;
+  }
+  function liquidSplit(S, a, b, P, pts) {
+    var key = pairKey(a, b), water = a === 'water' || b === 'water', other = a === 'water' ? b : a;
+    var known = water && TWO.indexOf(other) >= 0;
+    var mid = pts.filter(function (q) { return q[0] >= 0.5; })[0], T = mid[2], sp = null, y = null, it;
+    for (it = 0; it < 10; it++) {
+      sp = hull(S, T + 273.15); if (!sp) break;
+      var r = MOD.bubble(S, [sp[0], 1 - sp[0]], P, T); y = r.y[0];
+      if (Math.abs(r.T - T) < 0.01) { T = r.T; break; } T = r.T;
+    }
+    if (!sp) return null;
+    if (ONE[key]) return { overridden: true };
+    if (!(y > sp[0] && y < sp[1])) return { xa: sp[0], xb: sp[1], y: y, T: T, known: known, outside: true };
+    return { xa: sp[0], xb: sp[1], y: y, T: T, known: known };
   }
   /* own data: "x y" pairs, commas, semicolons or new lines; values above 1 read as percent. Monotone cubic resampling. */
   function dataCurve(txt) {
@@ -60,6 +102,7 @@
     }
     sv += '<text x="' + (L + pw / 2) + '" y="' + (T + pw + 38) + '" text-anchor="middle" class="pk-ax">x, liquid mole fraction of ' + K.esc(name) + '</text><text transform="translate(14 ' + (T + pw / 2) + ') rotate(-90)" text-anchor="middle" class="pk-ax">y, vapour mole fraction</text>';
     sv += '<g clip-path="url(#mtc)">';
+    if (c.lle && c.lle.xa != null && !c.lle.outside) sv += '<rect x="' + X(cl(c.lle.xa)) + '" y="' + T + '" width="' + Math.max(0, X(cl(c.lle.xb)) - X(cl(c.lle.xa))) + '" height="' + pw + '" style="fill:#E07A6A;fill-opacity:.10"/><text x="' + (X(cl((c.lle.xa + c.lle.xb) / 2))) + '" y="' + (T + pw - 8) + '" text-anchor="middle" class="pk-ax" style="fill:#E07A6A">two liquid layers</text>';
     var path = function (f, a, b, cls, sty) { var d = '', k, n = 160; for (k = 0; k <= n; k++) { var x = a + (b - a) * k / n; d += (k ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(f(x)).toFixed(1); } return '<path d="' + d + '" class="pk-l ' + cls + '"' + (sty ? ' style="' + sty + '"' : '') + '/>'; };
     sv += '<line x1="' + X(lo) + '" y1="' + Y(lo) + '" x2="' + X(hi) + '" y2="' + Y(hi) + '" style="stroke:var(--muted);stroke-width:1"/>';
     sv += path(c.y, lo, hi, 'pk-l0', 'stroke-width:2.5');
@@ -150,6 +193,8 @@
         var wt = isSol(v) && v.bs === 'w', toX = function (p) { var w = p / 100; return wt ? (w / mwA) / (w / mwA + (1 - w) / mwB) : w; }, toW = function (x) { return 100 * x * mwA / (x * mwA + (1 - x) * mwB); };
         var zF = toX(v.zF), xD = toX(v.xD), xB = toX(v.xB);
         if (!(xB > 0 && xD < 1 && xB < zF && zF < xD)) return { rows: [], notes: [['Compositions must satisfy 0 < bottoms < feed < distillate < 100 %.', 'bad']] };
+        var LL = c.lle && c.lle.xa != null ? c.lle : null, wtx = function (x) { return isSol(v) ? F(toW(x), x < 0.01 || x > 0.99 ? 2 : 1) + ' wt %' : F(100 * x, 1) + ' mol %'; };
+        if (LL && !LL.outside && c.az && xD > c.az - 1e-6) return { rows: [], notes: [['Two liquids: the top vapour cannot pass the heterogeneous azeotrope at ' + F(LL.T, 1) + ' °C (' + wtx(LL.y) + ' ' + name + ') in one column.', 'bad'], ['Plants use a decanter instead. Condense the top vapour and let it settle: it splits into a ' + name + '-rich layer (about ' + wtx(LL.xb) + ' ' + name + ') and a ' + nameH + '-rich layer (about ' + wtx(LL.xa) + ' ' + name + '). Draw off the layer you want and return the other as reflux. Set the distillate at or below ' + wtx(LL.y) + ' here to size the column below the decanter.']] };
         if (c.az && xD > c.az - 1e-6) return { rows: [], notes: [['The distillate is beyond the azeotrope at ' + F(100 * c.az, 1) + ' mol % ' + name + (c.T ? ' (' + F(c.T(c.az), 1) + ' °C)' : '') + '. No number of stages or reflux can pass it at this pressure. Lower the distillate purity, change the pressure, or use another separation method.', 'bad']] };
         /* feed rate and q */
         var mwF = isSol(v) ? zF * mwA + (1 - zF) * mwB : null, Fk = isSol(v) && v.fu === 'kg' ? v.F / mwF : v.F, q;
@@ -163,8 +208,10 @@
         var o = { zF: zF, xD: xD, xB: xB, q: q, E: Math.min(1, Math.max(0.05, v.E / 100)), partial: v.cd === 'p' };
         var rm = MC.rmin(c, o);
         if (!isFinite(rm.R)) return { rows: [], notes: [['No reflux ratio can reach this separation with these equilibrium data. Check for an azeotrope or a distillate purity above the equilibrium curve.', 'bad']] };
-        var R = v.rm === 'mult' ? v.rf * rm.R : v.R;
-        if (!(R > rm.R * 1.0005)) return { rows: [['Minimum reflux ratio Rmin', F(rm.R, 3), '']], notes: [['The reflux ratio is at or below the minimum (' + F(rm.R, 3) + '). The column would need an infinite number of stages. Increase R.', 'bad']] };
+        var R = v.rm === 'mult' ? v.rf * rm.R : v.R, r0 = rm.R < 1e-4;
+        if (r0) { if (v.rm === 'mult') R = 0.1; notes.push(['Minimum reflux is zero: the vapour from the feed is already richer than the distillate you asked for, so the top section needs almost no reflux. A stripping column with the feed at the top may be enough. Results use R = ' + F(R, 2) + '.', 'warn']); }
+        if (!(R > 0.01)) return { rows: [['Minimum reflux ratio Rmin', F(rm.R, 3), '']], notes: [['Enter a reflux ratio above zero.', 'bad']] };
+        if (!r0 && !(R > rm.R * 1.0005)) return { rows: [['Minimum reflux ratio Rmin', F(rm.R, 3), '']], notes: [['The reflux ratio is at or below the minimum (' + F(rm.R, 3) + '). The column would need an infinite number of stages. Increase R.', 'bad']] };
         var o1 = Object.assign({}, o, { E: 1 }), s1 = MC.step(c, o1, R), s = o.E < 0.9999 ? MC.step(c, o, R) : s1;
         if (!s.ok || !s1.ok) return { rows: [['Minimum reflux ratio Rmin', F(rm.R, 3), '']], notes: [['Stepping pinched: the reflux is too close to the minimum for the stages to finish, or the equilibrium data are not smooth. Increase R.', 'bad']] };
         var nm = MC.nmin(c, o), fe = MC.fenske(c, o), gil = MC.gilliland(R, rm.R, fe.N);
@@ -175,7 +222,7 @@
         var kgh = function (k, x) { return isSol(v) ? ' (' + F(k * (x * mwA + (1 - x) * mwB), 0) + ' kg/h)' : ''; };
         var rows = [
           ['Minimum reflux ratio Rmin', F(rm.R, 3), rm.type === 'tangent' ? 'tangent pinch (curve shape controls)' : 'pinch at the feed'],
-          ['Reflux ratio used R', F(R, 3), F(R / rm.R, 2) + ' × Rmin'],
+          ['Reflux ratio used R', F(R, 3), r0 ? 'Rmin is zero' : F(R / rm.R, 2) + ' × Rmin'],
           ['Theoretical stages', String(s1.N), 'incl. reboiler' + (cond ? ' and partial condenser' : '') + '; fractional ' + F(s1.Nfrac, 2)],
           ['Feed stage (optimum)', String(s1.feed), 'theoretical, counted from the top' + (cond ? ', condenser = 1' : '')],
           [eff ? 'Real trays in the column' : 'Theoretical trays in the column', String(trays), eff ? 'at ' + F(v.E, 0) + ' % Murphree efficiency, plus the reboiler' : 'stages minus reboiler' + (cond ? ' and condenser' : '')]].concat(eff ? [['Feed tray (real)', String(s.feed - cond), 'counted from the top tray']] : []).concat([
@@ -191,27 +238,34 @@
         ]);
         if (c.T) rows.push(['Top / bottom temperature', F(c.T(o.partial ? s.st[0].x : xD), 1) + ' / ' + F(c.T(s.st[s.st.length - 1].x), 1), '°C (bubble points)']);
         notes.unshift(['Needs ' + s1.N + ' theoretical stages with the feed on stage ' + s1.feed + ' at R = ' + F(R, 2) + (eff ? ': ' + trays + ' real trays at ' + F(v.E, 0) + ' % efficiency plus the reboiler.' : '.'), 'lead']);
-        if (c.az) notes.push(['Azeotrope at ' + F(100 * c.az, 1) + ' mol % ' + name + (c.T ? ' and ' + F(c.T(c.az), 1) + ' °C' : '') + '. The distillate cannot pass it.', 'warn']);
+        if (LL) {
+          var conf = LL.known ? 'Measured data confirm that ' + name + ' and ' + nameH + ' separate into two layers.' : 'Only the model predicts this split; confirm it in the lab by shaking the two liquids at their boiling temperature.';
+          notes.push(['Two liquid layers between ' + wtx(LL.xa) + ' and ' + wtx(LL.xb) + ' ' + name + (LL.outside ? ', close to the azeotrope' : ': across that range the mixture boils at ' + F(LL.T, 1) + ' °C and the vapour stays at ' + wtx(LL.y) + ' (heterogeneous azeotrope), so the curve is flat there') + '. ' + conf, 'warn']);
+          if (zF > LL.xa && zF < LL.xb) notes.push(['The feed itself separates into two layers. Settle it in a decanter first: each layer is then a much easier feed.', 'warn']);
+          notes.push(['With two liquids on a tray, McCabe-Thiele uses the overall liquid composition. Stage counts in the two-liquid range are approximate; a full process simulator that checks every tray for a second liquid gives the reliable answer.']);
+        } else if (c.lle && c.lle.overridden) notes.push(['The model predicts two liquid layers for this pair, but measured data show one liquid at the boiling point, so the single-liquid curve is used.']);
+        if (c.az && !(LL && !LL.outside)) notes.push(['Azeotrope at ' + F(100 * c.az, 1) + ' mol % ' + name + (c.T ? ' and ' + F(c.T(c.az), 1) + ' °C' : '') + '. The distillate cannot pass it.', 'warn']);
         if (rm.type === 'tangent') notes.push(['Minimum reflux is set by a tangent pinch: the operating line touches the equilibrium curve away from the feed. A simple feed-point formula would underestimate Rmin.', 'warn']);
-        if (R / rm.R > 2) notes.push(['R is more than twice Rmin: fewer stages, but higher energy. Most designs sit between 1.1 and 1.5 × Rmin.']);
+        if (!r0 && R / rm.R > 2) notes.push(['R is more than twice Rmin: fewer stages, but higher energy. Most designs sit between 1.1 and 1.5 × Rmin.']);
         if (Math.abs(s1.Nfrac - gil) / s1.Nfrac > 0.25) notes.push(['The Gilliland correlation differs from the stepped count by more than 25 %. That is common for non-ideal mixtures; trust the stepped count.']);
         notes.push(['Method: constant molar overflow, equilibrium stages, partial reboiler as the last stage. Check large differences in latent heat, heat losses and sub-cooled reflux before final design.']);
         /* tables */
         var st = s.st.map(function (p) {
-          var r = [p.kind === 'condenser' ? 'Condenser' : p.kind === 'reboiler' ? 'Reboiler' : String(p.n) + (p.n === s.feed ? ' (feed)' : ''), F(100 * p.x, 2), F(100 * p.y, 2)];
-          if (isSol(v)) r.push(F(toW(p.x), 2));
+          var r = [p.kind === 'condenser' ? 'Condenser' : p.kind === 'reboiler' ? 'Reboiler' : String(p.n) + (p.n === s.feed ? ' (feed)' : ''), G(100 * p.x, 4), G(100 * p.y, 4)];
+          if (LL && !LL.outside && p.x > LL.xa && p.x < LL.xb) r[0] += ' · two liquids';
+          if (isSol(v)) r.push(G(toW(p.x), 4));
           if (c.T) r.push(F(c.T(p.x), 1));
           return r;
         });
         var head = ['Stage', 'x, liquid mol %', 'y, vapour mol %'].concat(isSol(v) ? ['x, liquid wt %'] : []).concat(c.T ? ['T, °C'] : []);
-        var rn = [1.05, 1.1, 1.2, 1.3, 1.5, 1.75, 2, 2.5, 3].map(function (f) { var ss = MC.step(c, o1, f * rm.R); return [f, f * rm.R, ss.ok ? ss.N : NaN, ss.ok ? ss.feed : NaN, (f * rm.R * D + D) * lamAt(xB)]; });
+        var rn = [1.05, 1.1, 1.2, 1.3, 1.5, 1.75, 2, 2.5, 3].map(function (f) { var ss = MC.step(c, o1, r0 ? f * 0.1 : f * rm.R); return [r0 ? NaN : f, r0 ? f * 0.1 : f * rm.R, ss.ok ? ss.N : NaN, ss.ok ? ss.feed : NaN, (f * rm.R * D + D) * lamAt(xB)]; });
         var svg = diagram(c, o, s, rm, v.zm, name);
         svg += K.chart([{ name: 'Theoretical stages', pts: rn.filter(function (r) { return isFinite(r[2]); }).map(function (r) { return [r[1], r[2]]; }) }], { xl: 'reflux ratio R', yl: 'stages', title: 'Stages against reflux', marks: [[R, s1.N, 'your design']] });
         if (c.T) svg += K.chart([{ name: 'Temperature', pts: s.st.map(function (p) { return [p.n, c.T(p.x)]; }) }], { xl: 'stage from the top', yl: '°C', title: 'Temperature profile' });
         return {
           rows: rows,
           tables: [{ title: eff ? 'Tray by tray at ' + F(v.E, 0) + ' % efficiency (from the top)' : 'Stage by stage (from the top)', head: head, rows: st },
-            { title: 'Reflux against stages (energy trade-off)', head: ['R ÷ Rmin', 'R', 'Theoretical stages', 'Feed stage (theoretical)', 'Vapour × latent heat, kcal/h (approx.)'], rows: rn.map(function (r) { return [F(r[0], 2), F(r[1], 2), isFinite(r[2]) ? String(r[2]) : 'pinched', isFinite(r[3]) ? String(r[3]) : '–', F(r[4], 0)]; }) }],
+            { title: 'Reflux against stages (energy trade-off)', head: ['R ÷ Rmin', 'R', 'Theoretical stages', 'Feed stage (theoretical)', 'Vapour × latent heat, kcal/h (approx.)'], rows: rn.map(function (r) { return [isFinite(r[0]) ? F(r[0], 2) : '–', F(r[1], 2), isFinite(r[2]) ? String(r[2]) : 'pinched', isFinite(r[3]) ? String(r[3]) : '–', F(r[4], 0)]; }) }],
           svg: svg, notes: notes
         };
       },

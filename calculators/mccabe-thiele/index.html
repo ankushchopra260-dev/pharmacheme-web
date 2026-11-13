@@ -64,6 +64,14 @@ structured_data: |
           },
           {
             "@type": "Question",
+            "name": "What is a heterogeneous azeotrope?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A boiling mixture of two liquids that do not fully mix, such as toluene and water. While both layers are present, the mixture boils at one temperature (84 °C for toluene–water at 1 atm) and gives one vapour composition. Condensing that vapour and letting it settle in a decanter separates the two layers, which is how such mixtures are split in plants."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "Why can I not get pure ethanol from ethanol-water distillation?",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -114,7 +122,9 @@ last_modified_at: 2026-11-13
     <li><b>Your own data:</b> paste measured or published x-y points; the curve is drawn through them without overshoot.</li>
   </ul>
   <p>Compositions can be entered in wt % (for solvents) and the calculator converts them to mole fractions, which the method needs. Results also show the stage compositions back in wt %.</p>
-  <div class="art-note"><b>Where the method stops</b><p>McCabe-Thiele assumes constant molar overflow: equal moles of vapour and liquid move up and down each section. It is good when the two latent heats per mole are close, and it is a design screen, not a rating. For mixtures with two liquid phases (such as toluene–water), large heat effects, or more than two components, use a rigorous simulation. Two-liquid regions are not split here.</p></div>
+  <h3>When the liquid splits into two layers</h3>
+  <p>Some pairs, such as toluene–water, n-butanol–water or ethyl acetate–water, do not mix in all proportions. Across a range of composition the liquid separates into two layers, and the mixture then boils at one temperature with one vapour composition: a <b>heterogeneous azeotrope</b>. The calculator checks every solvent pair for this, against measured behaviour where it is known. It flattens the equilibrium curve across the two-liquid range, shades that range on the diagram and marks those stages in the table. If you ask for a distillate beyond the heterogeneous azeotrope, it explains the decanter: condense the top vapour, let it settle into two layers, draw off one and return the other.</p>
+  <div class="art-note"><b>Where the method stops</b><p>McCabe-Thiele assumes constant molar overflow: equal moles of vapour and liquid move up and down each section. It is good when the two latent heats per mole are close, and it is a design screen, not a rating. With two liquid layers it works on the overall liquid composition, so stage counts in that range are approximate. For two-liquid columns with a decanter, large heat effects or more than two components, check the design with a full process simulation.</p></div>
 
   <h2 id="faq">Frequently asked questions</h2>
   <h3>What is the McCabe-Thiele method used for?</h3>
@@ -125,6 +135,8 @@ last_modified_at: 2026-11-13
   <p>The q-line shows the feed condition. It starts at the feed composition on the diagonal with slope q/(q − 1): vertical for saturated liquid, horizontal for saturated vapour, and leaning right for a cold liquid feed.</p>
   <h3>How many real trays do I need?</h3>
   <p>Divide the theoretical stages in the column by the overall tray efficiency, or step with a Murphree efficiency as this calculator does. Typical tray efficiencies are 50 to 80 %. Take the reboiler as one theoretical stage.</p>
+  <h3>What is a heterogeneous azeotrope?</h3>
+  <p>A boiling mixture of two liquids that do not fully mix, such as toluene and water. While both layers are present, the mixture boils at one temperature (84 °C for toluene–water at 1 atm) and gives one vapour composition. Condensing that vapour and letting it settle in a decanter separates the two layers, which is how such mixtures are split in plants.</p>
   <h3>Why can I not get pure ethanol from ethanol-water distillation?</h3>
   <p>Ethanol and water form an azeotrope near 89 mol % ethanol at atmospheric pressure, where vapour and liquid have the same composition. The steps cannot cross it, so ordinary distillation stops there.</p>
 
