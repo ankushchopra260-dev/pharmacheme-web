@@ -72,7 +72,7 @@
       else if (E >= 0.9999) x = xi;
       else {                                                   /* Murphree: y = yin + E (y* - yin), yin from the operating line */
         var lo = xi, up = xprev, k;
-        for (k = 0; k < 60; k++) { var m = (lo + up) / 2, yin = op(m), yv = yin + E * (c.y(m) - yin); if (yv > y) up = m; else lo = m; }
+        for (k = 0; k < 60; k++) { var m = (lo + up) / 2, yin = m <= L.xi ? L.strip(m) : L.rect(m), yv = yin + E * (c.y(m) - yin); if (yv > y) up = m; else lo = m; }
         x = (lo + up) / 2;
         if (x <= o.xB) { x = xi; kind = 'reboiler'; last = true; }
       }
@@ -83,7 +83,7 @@
       if (xprev - x < 1e-7) return { ok: false, why: 'pinch', st: st, L: L };
       xprev = x; y = ny;
     }
-    if (n >= 400) return { ok: false, why: 'pinch', st: st, L: L };
+    if (n >= 400) return { ok: false, why: 'limit', st: st, L: L };
     var lastSt = st[st.length - 1], prevX = st.length > 1 ? st[st.length - 2].x : o.xD;
     var frac = (prevX - o.xB) / (prevX - lastSt.x);
     return { ok: true, st: st, L: L, N: st.length, Nfrac: st.length - 1 + Math.min(1, frac), feed: fs || st.length };
