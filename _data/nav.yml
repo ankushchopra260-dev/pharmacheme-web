@@ -39,6 +39,7 @@
         - { title: "Unit Converter", url: /calculators/unit-converter/ }
     - title: "Separation and drying"
       children:
+        - { title: "McCabe-Thiele Calculator", url: /calculators/mccabe-thiele/ }
         - { title: "Batch Distillation Simulator", url: /calculators/batch-distillation-simulator/ }
         - { title: "Solvent Recovery (BP under vacuum)", url: /calculators/solvent-recovery-calculator/ }
         - { title: "Filtration", url: /calculators/filtration-calculator/ }
