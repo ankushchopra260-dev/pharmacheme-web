@@ -137,7 +137,7 @@ last_modified_at: 2026-11-13
   <p>Open the calculator above with the same inputs to see the diagram and the stage-by-stage table. Values come from modified UNIFAC and constant molar overflow; use them as a design screen.</p>
   <h3>When the liquid splits into two layers</h3>
   <p>Some pairs, such as toluene–water, n-butanol–water or ethyl acetate–water, do not mix in all proportions. Across a range of composition the liquid separates into two layers, and the mixture then boils at one temperature with one vapour composition: a <b>heterogeneous azeotrope</b>. The calculator checks every solvent pair for this, against measured behaviour where it is known. It flattens the equilibrium curve across the two-liquid range, shades that range on the diagram and marks those stages in the table. If you ask for a distillate beyond the heterogeneous azeotrope, it explains the decanter: condense the top vapour, let it settle into two layers, draw off one and return the other.</p>
-  <div class="art-note"><b>Where the method stops</b><p>McCabe-Thiele assumes constant molar overflow: equal moles of vapour and liquid move up and down each section. It is good when the two latent heats per mole are close, and it is a design screen, not a rating. With two liquid layers it works on the overall liquid composition, so stage counts in that range are approximate. For two-liquid columns with a decanter, large heat effects or more than two components, check the design with a full process simulation.</p></div>
+  <div class="art-note"><b>Where the method stops</b><p>McCabe-Thiele assumes constant molar overflow: equal moles of vapour and liquid move up and down each section. It is good when the two latent heats per mole are close, and it is a design screen, not a rating. When the latent heats differ or heat of mixing matters, use the <a href="{{ '/calculators/ponchon-savarit/' | relative_url }}">Ponchon-Savarit calculator</a>, which follows the changing flows. With two liquid layers it works on the overall liquid composition, so stage counts in that range are approximate. For two-liquid columns with a decanter, large heat effects or more than two components, check the design with a full process simulation.</p></div>
 
   <h2 id="faq">Frequently asked questions</h2>
   <h3>What is the McCabe-Thiele method used for?</h3>
@@ -155,6 +155,7 @@ last_modified_at: 2026-11-13
 
   <div class="related-box">
     <h3>Related</h3>
+    <a href="{{ '/calculators/ponchon-savarit/' | relative_url }}">Ponchon-Savarit calculator</a>
     <a href="{{ '/articles/distillation-basics/' | relative_url }}">Distillation basics: VLE, relative volatility and stages</a>
     <a href="{{ '/calculators/batch-distillation-simulator/' | relative_url }}">Batch distillation simulator</a>
     <a href="{{ '/process-modelling/solvent-swap-simulator/' | relative_url }}">Solvent swap simulator</a>
@@ -166,4 +167,5 @@ last_modified_at: 2026-11-13
 <script src="{{ '/assets/js/pce-kit.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 <script src="{{ '/assets/js/batch-distill-engine.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 <script src="{{ '/assets/js/mccabe-engine.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/vle-binary.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 <script src="{{ '/assets/js/calc-mccabe.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-unifac="{{ '/assets/data/unifac-do.json' | relative_url }}" data-sol="{{ '/assets/data/solvent-lite.json' | relative_url }}"></script>
