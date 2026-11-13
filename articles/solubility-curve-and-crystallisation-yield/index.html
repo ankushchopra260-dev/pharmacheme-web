@@ -1,0 +1,268 @@
+---
+layout: default
+title: "Solubility Curves and Crystallisation Yield: Measure, Fit, Seed and Calculate"
+seo_title: "Solubility Curve and Crystallisation Yield Guide | PharmaChemE"
+description: "How to measure and fit a solubility curve (van't Hoff, Apelblat), estimate it from melting point, seed in the metastable zone and calculate yield."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Solubility Curves and Crystallisation Yield
+    url: /articles/solubility-curve-and-crystallisation-yield/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Solubility Curves and Crystallisation Yield: Measure, Fit, Seed and Calculate",
+        "description": "How to measure and fit a solubility curve (van't Hoff, Apelblat), estimate it from melting point, seed in the metastable zone and calculate yield.",
+        "image": "https://www.pharmacheme.in/assets/img/articles/solubility/solubility-curve-metastable-zone.svg",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-13",
+        "dateModified": "2026-11-13"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a solubility curve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A plot of the maximum amount of a solid that stays dissolved in a solvent at each temperature. Above the curve the solution is supersaturated and can crystallise; below it, solid dissolves."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you calculate crystallisation yield from a solubility curve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yield = (solute charged − solubility at the final temperature × solvent mass − wash loss) ÷ solute charged. For 100 kg in 500 kg solvent with 3.37 g per 100 g at 5 °C, 16.8 kg stays in the mother liquor; with a 2.8 kg wash loss the yield is 80.4 %."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the Apelblat equation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An empirical solubility equation, ln S = A + B/T + C·ln T with T in kelvin. Its third term lets it follow the curvature of real data over a wide temperature range, which is why it is widely used for pharmaceutical solubility data."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you estimate solubility from the melting point?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the ideal solubility equation, ln x = −(ΔHfus/R)(1/T − 1/Tm). If the heat of fusion is unknown, Walden's rule estimates it as about 13.5 cal/mol·K times the melting point in kelvin. The result is an estimate; real solubility is lower in poor solvents."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where should I seed a cooling crystallisation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Inside the metastable zone, about a quarter to a third of the way from the saturation temperature to the metastable limit, with 0.5 to 2 % seed of the correct form. Hold 30 to 60 minutes before cooling further."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can adding more antisolvent lower the yield?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Each addition lowers the solubility but adds liquid that holds dissolved product. Past a certain amount the extra liquid wins, and the yield falls again. Check where the yield peaks before fixing the antisolvent volume."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-13
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Solubility Curves and Crystallisation Yield</h1>
+  <p class="article-meta">Process Design &middot; Crystallisation &middot; <span class="art-updated">November 2026</span></p>
+
+  <p class="art-lede">The solubility curve decides almost everything about a crystallisation: how much solvent you charge, how hot you must go to dissolve, where to seed, how much product stays in the mother liquor, and how much a cold wash washes away. Get it wrong and the yield drops, the batch oils out, or the product never dissolves in the plant vessel. This article covers how to measure a solubility curve, fit it, estimate one when you have no data, and turn it into a cooling or antisolvent crystallisation with numbers you can check.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What a solubility curve tells you</a><span>Basics</span></li>
+    <li><a href="#units">Units and conversions</a><span>Basics</span></li>
+    <li><a href="#measure">How to measure solubility</a><span>Working level</span></li>
+    <li><a href="#fit">Fitting the curve: van't Hoff and Apelblat</a><span>Working level</span></li>
+    <li><a href="#ideal">Estimating solubility without data</a><span>Working level</span></li>
+    <li><a href="#mszw">The metastable zone and seeding</a><span>Working level</span></li>
+    <li><a href="#yield">Cooling crystallisation yield, step by step</a><span>Working level</span></li>
+    <li><a href="#profile">Linear or slow-start cooling?</a><span>Going deeper</span></li>
+    <li><a href="#anti">Antisolvent crystallisation</a><span>Going deeper</span></li>
+    <li><a href="#choose">Cooling, antisolvent or evaporation?</a></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+
+  <h2 id="what">What a solubility curve tells you <span class="lvl l1">Basics</span></h2>
+  <p>A <b>solubility curve</b> is the maximum amount of a solid that stays dissolved in a solvent at each temperature, at equilibrium. Above the curve the solution is <b>supersaturated</b> and the excess can crystallise; below it the solution is undersaturated and solid dissolves. For most organic solids in organic solvents the curve rises steeply with temperature, which is why cooling crystallisation works.</p>
+  <p>From one curve you can read four plant numbers:</p>
+  <ul>
+    <li><strong>Saturation temperature of the charge:</strong> where the curve reaches your charge concentration. The batch must be heated above it to dissolve.</li>
+    <li><strong>Minimum solvent:</strong> the solvent needed to dissolve the charge at the highest temperature you can reach.</li>
+    <li><strong>Mother-liquor loss:</strong> the solubility at the isolation temperature times the solvent mass.</li>
+    <li><strong>Wash loss:</strong> the solubility at the wash temperature times the wash mass, in the worst case.</li>
+  </ul>
+  <p>You can do all of this for your own product with the <a href="{{ '/process-modelling/solubility-curve-crystallisation/' | relative_url }}">solubility curve and crystallisation tool</a>. The figures and numbers in this article come from that tool, using the illustrative data loaded in it.</p>
+
+  <h2 id="units">Units and conversions <span class="lvl l1">Basics</span></h2>
+  <p>Solubility is reported in many units, and mixing them is the most common source of error. The most useful unit for plant work is <b>g of solute per 100 g of solvent</b> (S), because the solvent mass in a batch is fixed while the solution mass changes as solid crystallises.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Reported as</th><th>Convert to S, g per 100 g solvent</th></tr></thead><tbody>
+    <tr><td>g per L of solvent</td><td>S = (g/L) ÷ (10 × solvent density in kg/L)</td></tr>
+    <tr><td>wt % in the solution, w</td><td>S = 100·w ÷ (100 − w)</td></tr>
+    <tr><td>Mole fraction of solute, x</td><td>S = 100·x·M<sub>solute</sub> ÷ ((1 − x)·M<sub>solvent</sub>)</td></tr>
+    <tr><td>mg/mL of solution</td><td>Needs the solution density; avoid it for design, or convert through wt %</td></tr>
+  </tbody></table></div>
+  <p>As a check: 20 g per 100 g ethanol is 16.7 wt % in solution, about 158 g per L of ethanol (density 0.789 kg/L), and a mole fraction of 0.036 for a solute of molar mass 250 g/mol.</p>
+
+  <h2 id="measure">How to measure solubility <span class="lvl l2">Working level</span></h2>
+  <ul>
+    <li><strong>Equilibrium (slurry) method.</strong> Stir excess solid in the solvent at a fixed temperature for long enough to reach equilibrium, often 12 to 24 hours. Filter at temperature through a warmed filter and assay the clear liquid by HPLC, or weigh the residue after evaporation. This is the reference method.</li>
+    <li><strong>Polythermal (clear point) method.</strong> Heat slurries of known composition slowly and record the temperature at which the last crystal dissolves, by eye, turbidity probe or FBRM. Fast, and the same runs give the cloud point on cooling, and so the metastable zone width.</li>
+    <li><strong>Cover the plant range.</strong> Measure at four to six temperatures from the isolation and wash temperatures up to the dissolution temperature. Extrapolating below the coldest point is the usual reason the plant yield disappoints.</li>
+    <li><strong>Use the right solid.</strong> A different polymorph, hydrate or solvate has a different solubility. Check the residual solid by XRPD after the equilibrium run.</li>
+    <li><strong>Use process-grade solvent.</strong> A few percent of water can change the solubility of a polar compound several times over. Measure with the water content and impurity level of the plant mother liquor if you can.</li>
+  </ul>
+
+  <h2 id="fit">Fitting the curve: van't Hoff and Apelblat <span class="lvl l2">Working level</span></h2>
+  <p>Solubility rises roughly exponentially with temperature, so curves are fitted to ln S against 1/T, with T in kelvin.</p>
+  <div class="formula-box">van't Hoff: ln S = A + B/T<br>Apelblat: ln S = A + B/T + C·ln T<br>Apparent heat of dissolution: ΔH<sub>sol</sub> ≈ −B·R (R = 1.987 cal/mol·K)
+    <small>T in kelvin. The van't Hoff form needs two points or more and is good over a narrow range; the Apelblat form needs four or more and follows curvature over a wide range.</small></div>
+  <p>For the illustrative data in the tool (4.1, 6.0, 8.7, 12.4, 17.6 and 24.5 g per 100 g ethanol at 10 to 60 °C), the Apelblat fit is ln S = −58.72 − 91.08/T + 10.71·ln T. It reproduces every point within 0.3 %. The van't Hoff fit gives an apparent heat of dissolution of 6.7 kcal/mol.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/solubility/solubility-curve-metastable-zone.svg' | relative_url }}" alt="Solubility curve fitted to lab data with the metastable limit and the batch path of a cooling crystallisation" width="640" height="330" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Fitted solubility curve (gold) through the data points, the metastable limit 10 °C to the left (dashed), and the batch path (green): held at 20 g per 100 g while cooling to the seed point, then down the curve to 5 °C.</figcaption></figure>
+  <p>A plain polynomial, S = a + bT + cT², can fit the same points just as closely and still be dangerous. Outside the data a quadratic can turn and rise again. Then a "cold" solubility is too high, and a saturation search can find nonsense. Use the polynomial only to interpolate, and check that the curve keeps rising across every temperature the batch uses.</p>
+
+  <h2 id="ideal">Estimating solubility without data <span class="lvl l2">Working level</span></h2>
+  <p>Before any measurement, the <b>ideal solubility</b> gives a first estimate from two properties of the solid: its melting point T<sub>m</sub> and heat of fusion ΔH<sub>fus</sub>.</p>
+  <div class="formula-box">ln x = −(ΔH<sub>fus</sub>/R)·(1/T − 1/T<sub>m</sub>) − ln γ<br>Walden's rule, when no DSC value is available: ΔH<sub>fus</sub> ≈ 13.5 cal/mol·K × T<sub>m</sub>
+    <small>x = mole fraction of solute at saturation, γ = activity coefficient of the solute in the solvent (1 for an ideal solution).</small></div>
+  <p>Example: a solute melting at 165 °C (438.15 K) with molar mass 250 g/mol. Walden's rule gives ΔH<sub>fus</sub> ≈ 13.5 × 438.15 = 5.92 kcal/mol. At 25 °C, ln x = −(5920/1.987) × (1/298.15 − 1/438.15) = −3.19, so x = 0.041. In ethanol that is 100 × 0.041 × 250 / (0.959 × 46.07) = 23 g per 100 g.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/solubility/ideal-solubility-estimate.svg' | relative_url }}" alt="Ideal solubility curve estimated from the melting point and Walden's rule" width="640" height="330" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Ideal solubility for a solid melting at 165 °C, in ethanol. The curve is flatter than real data for this kind of solid, so the same 100 kg in 500 kg charge gives only 35 % yield on cooling to 5 °C.</figcaption></figure>
+  <p>Treat this as a screen. High-melting solids are less soluble than low-melting ones, and that trend is reliable. The value itself is often within a factor of two or three in solvents chemically similar to the solute, and much too high in poor solvents, where γ can be 10 to 1000 (water for most organic solids). Measure two points as soon as you have material.</p>
+
+  <h2 id="mszw">The metastable zone and seeding <span class="lvl l2">Working level</span></h2>
+  <p>A clean solution cooled below its saturation temperature does not crystallise at once. It stays clear until it reaches the <b>metastable limit</b>, where crystals nucleate on their own, often in a sudden burst of fines. The temperature gap between saturation and that limit is the <b>metastable zone width</b> (MSZW). It is typically 5 to 20 °C, and it gets wider with faster cooling and narrower with impurities, dust and vigorous mixing.</p>
+  <ul>
+    <li>Measure the MSZW at the plant cooling rate, from the cloud point on cooling minus the clear point on heating.</li>
+    <li><strong>Seed inside the zone</strong>, about a quarter to a third of the way into it, with 0.5 to 2 % of milled seed of the right form. Seeding there gives growth on the seed instead of fresh nucleation.</li>
+    <li>Seeding deeper than halfway risks secondary nucleation and fines. Seeding at or beyond the limit means the batch may nucleate before the seed goes in.</li>
+    <li>Hold 30 to 60 minutes after seeding before cooling further, so the seed bed can take up the supersaturation.</li>
+  </ul>
+
+  <h2 id="yield">Cooling crystallisation yield, step by step <span class="lvl l2">Working level</span></h2>
+  <p>Take 100 kg of the illustrative product in 500 kg ethanol, dissolved at 65 °C, cooled to 5 °C, and washed with 100 kg ethanol at 0 °C. The metastable zone is 10 °C wide.</p>
+  <ol>
+    <li><strong>Charge concentration:</strong> 100 × 100 / 500 = 20 g per 100 g solvent.</li>
+    <li><strong>Saturation temperature:</strong> the curve reaches 20 g per 100 g at <b>53.9 °C</b>, so 65 °C dissolves the charge with an 11 °C margin. The minimum solvent at 65 °C would be 346 kg.</li>
+    <li><strong>Seed point:</strong> 3 °C below saturation, at <b>50.9 °C</b>, which is 30 % of the way into the zone.</li>
+    <li><strong>Mother-liquor loss:</strong> the solubility at 5 °C is 3.37 g per 100 g, so 3.37 × 500 / 100 = <b>16.8 kg</b> stays dissolved.</li>
+    <li><strong>Wash loss:</strong> a wash that leaves saturated at 0 °C carries 2.76 × 100 / 100 = <b>2.8 kg</b>. This is the worst case; a well-drained plug wash carries less.</li>
+    <li><strong>Isolated yield:</strong> (100 − 16.8 − 2.8) / 100 = <b>80.4 %</b>, with 13.9 wt % solids in the final slurry.</li>
+  </ol>
+  <p>The final temperature and the solvent ratio are the two levers. From the same curve:</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Change</th><th>Saturation temperature</th><th>Yield</th></tr></thead><tbody>
+    <tr><td>Base case: 500 kg solvent, final 5 °C</td><td>53.9 °C</td><td>80.4 %</td></tr>
+    <tr><td>Final temperature 0 °C</td><td>53.9 °C</td><td>83.5 %</td></tr>
+    <tr><td>Final temperature 10 °C</td><td>53.9 °C</td><td>76.8 %</td></tr>
+    <tr><td>Final temperature 20 °C</td><td>53.9 °C</td><td>67.2 %</td></tr>
+    <tr><td>400 kg solvent, final 5 °C</td><td>60.6 °C</td><td>83.8 %</td></tr>
+    <tr><td>600 kg solvent, final 5 °C</td><td>48.5 °C</td><td>77.0 %</td></tr>
+  </tbody></table></div>
+  <p>Less solvent raises the yield but also the saturation temperature, which eats the dissolution margin. It also thickens the slurry. Above about 30 to 35 wt % solids, stirring and transfer become difficult.</p>
+  <div class="art-note"><b>On the plant</b><p>The equilibrium yield is the most you can get. Real batches keep some supersaturation at the end, so hold 1 to 2 hours at the final temperature before filtering. If the plant yield is well below the calculation, check the mother liquor assay first: a high value usually means not enough hold time, a warmer filter than you think, or a solvent with more water than the lab used.</p></div>
+
+  <h2 id="profile">Linear or slow-start cooling? <span class="lvl l3">Going deeper</span></h2>
+  <p>Right after seeding, the crystal surface is small, so it can take up supersaturation only slowly. A steep solubility curve makes this worse. With <b>linear cooling</b>, most of the solid has to form early, when the surface is smallest. A <b>cubic</b> or slow-start profile, T = T<sub>seed</sub> − (T<sub>seed</sub> − T<sub>final</sub>)·(t/τ)³, cools gently at first and faster later, as the crystals grow.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/solubility/cooling-linear-vs-cubic-solid.svg' | relative_url }}" alt="Solid formed against time for linear and cubic cooling profiles" width="640" height="330" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Over 8 hours from seeding, linear cooling forms 72 % of the solid in the first half; the cubic profile forms 31 %. Both end at the same 83 kg.</figcaption></figure>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/solubility/cooling-temperature-profiles.svg' | relative_url }}" alt="Temperature against time for linear and cubic cooling from 50.9 to 5 degrees Celsius" width="640" height="330" loading="lazy" style="width:100%;height:auto">
+    <figcaption>The two temperature profiles. The cubic profile stays within about 1 °C of the seed temperature for the first 2 hours.</figcaption></figure>
+  <p>The same yield comes out either way. What changes is the crystal size distribution: a slow start gives fewer fines, faster filtration and better washing. The calculation assumes the liquid follows the solubility curve; in reality it lags, most of all early on, which is one more reason to start slowly.</p>
+
+  <h2 id="anti">Antisolvent crystallisation <span class="lvl l3">Going deeper</span></h2>
+  <p>When the solubility hardly changes with temperature, or the product cannot be heated, add a liquid in which it is poorly soluble: the <b>antisolvent</b>. Solubility usually falls roughly exponentially with the antisolvent fraction f in the solvent mixture, so measure at the crystallisation temperature and fit ln S against f.</p>
+  <div class="formula-box">ln S = A + B·f (+ C·f²), with f = antisolvent mass ÷ (solvent + antisolvent)<br>Dissolved solute = S(f) × (solvent + antisolvent) / 100</div>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/solubility/antisolvent-solubility.svg' | relative_url }}" alt="Solubility against antisolvent fraction on a log scale with fitted curve and batch path" width="640" height="330" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Illustrative data: solubility falls from 22 to 0.45 g per 100 g as water rises from 0 to 80 wt % of the solvent mixture. On a log scale the fit is nearly a straight line.</figcaption></figure>
+  <p>For 100 kg of product in 500 kg ethanol with this data:</p>
+  <ul>
+    <li>The solution <b>saturates after 20.9 kg</b> of water (4 wt %). Seed shortly after: here at 30.9 kg.</li>
+    <li>With 1,000 kg of water (67 wt %) the solubility is 1.02 g per 100 g. That leaves 15.3 kg in 1,500 kg of mother liquor, for an <b>84.3 % yield</b>.</li>
+    <li>Most of the solid forms soon after saturation, so that is where to add slowly. A fast addition, or one into a poorly mixed spot, creates local zones of very high supersaturation. That is the usual cause of oiling out, gums and fines.</li>
+  </ul>
+  <p>More antisolvent is not always better. Each extra kilogram lowers the solubility a little, but it also adds liquid that holds dissolved product. In this example the solid peaks at <b>89.1 % with about 2,760 kg</b> of water. Beyond that, the extra liquid redissolves more than the lower solubility gains: at 3,500 kg the yield is back to 88.5 %. The vessel volume usually sets the limit before that.</p>
+  <figure class="art-fig"><img src="{{ '/assets/img/articles/solubility/antisolvent-yield-overdosing.svg' | relative_url }}" alt="Yield against antisolvent added, rising quickly and then levelling off" width="640" height="330" loading="lazy" style="width:100%;height:auto">
+    <figcaption>Yield against water added. Most of the gain comes in the first 500 kg; the curve is almost flat beyond 2,000 kg.</figcaption></figure>
+  <p>A cold wash with a high antisolvent fraction keeps the wash loss small: 0.45 kg here, with 80 wt % water in the wash.</p>
+
+  <h2 id="choose">Cooling, antisolvent or evaporation?</h2>
+  <ul>
+    <li><strong>Cooling</strong> when the solubility at least triples between the dissolution and isolation temperatures. It is the simplest to control and adds no second solvent to recover.</li>
+    <li><strong>Antisolvent</strong> when the curve is flat, the product is heat-sensitive, or the cooling yield is too low. It adds a solvent to separate and recover, and the addition rate and mixing need care.</li>
+    <li><strong>Combined</strong> antisolvent addition followed by cooling often gives the best yield with a manageable volume.</li>
+    <li><strong>Evaporative</strong> crystallisation, concentrating by distilling solvent, suits products with flat or falling solubility curves, such as many inorganic salts.</li>
+  </ul>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Plotting solubility in mg/mL of solution and charging the plant by solvent mass.</li>
+    <li>Extrapolating a curve measured from 20 to 60 °C down to a 0 °C isolation.</li>
+    <li>Measuring solubility on the wrong polymorph, or on dry solvent when the plant solvent is wet.</li>
+    <li>Fitting a polynomial and trusting it outside the data.</li>
+    <li>Dissolving only 1 to 2 °C above saturation, so a slightly high assay leaves undissolved seed.</li>
+    <li>Seeding deep in the metastable zone, or not at all, and blaming the equipment for fines.</li>
+    <li>Washing with warm or pure solvent and losing several percent of yield in the wash.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is a solubility curve?</h3>
+  <p>A plot of the maximum amount of a solid that stays dissolved in a solvent at each temperature. Above the curve the solution is supersaturated and can crystallise; below it, solid dissolves.</p>
+  <h3>How do you calculate crystallisation yield from a solubility curve?</h3>
+  <p>Yield = (solute charged − solubility at the final temperature × solvent mass − wash loss) ÷ solute charged. For 100 kg in 500 kg solvent with 3.37 g per 100 g at 5 °C, 16.8 kg stays in the mother liquor; with a 2.8 kg wash loss the yield is 80.4 %.</p>
+  <h3>What is the Apelblat equation?</h3>
+  <p>An empirical solubility equation, ln S = A + B/T + C·ln T with T in kelvin. Its third term lets it follow the curvature of real data over a wide temperature range, which is why it is widely used for pharmaceutical solubility data.</p>
+  <h3>How do you estimate solubility from the melting point?</h3>
+  <p>Use the ideal solubility equation, ln x = −(ΔH<sub>fus</sub>/R)(1/T − 1/T<sub>m</sub>). If the heat of fusion is unknown, Walden's rule estimates it as about 13.5 cal/mol·K times the melting point in kelvin. The result is an estimate; real solubility is lower in poor solvents.</p>
+  <h3>Where should I seed a cooling crystallisation?</h3>
+  <p>Inside the metastable zone, about a quarter to a third of the way from the saturation temperature to the metastable limit, with 0.5 to 2 % seed of the correct form. Hold 30 to 60 minutes before cooling further.</p>
+  <h3>Can adding more antisolvent lower the yield?</h3>
+  <p>Yes. Each addition lowers the solubility but adds liquid that holds dissolved product. Past a certain amount the extra liquid wins, and the yield falls again. Check where the yield peaks before fixing the antisolvent volume.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Mullin J.W., <i>Crystallization</i>, 4th ed., Butterworth-Heinemann, 2001</li>
+    <li>Myerson A.S., Erdemir D., Lee A.Y. (eds.), <i>Handbook of Industrial Crystallization</i>, 3rd ed., Cambridge University Press, 2019</li>
+    <li>Apelblat A., Manzurola E., Solubilities of o-acetylsalicylic, 4-aminosalicylic, 3,5-dinitrosalicylic and p-toluic acid, and magnesium-DL-aspartate in water from T = (278 to 348) K, <i>J. Chem. Thermodyn.</i> 31 (1999) 85–91</li>
+    <li>Prausnitz J.M., Lichtenthaler R.N., de Azevedo E.G., <i>Molecular Thermodynamics of Fluid-Phase Equilibria</i>, 3rd ed., Prentice Hall, 1999 (solid–liquid equilibrium)</li>
+    <li>Yalkowsky S.H., <i>Solubility and Solubilization in Aqueous Media</i>, Oxford University Press, 1999 (cosolvent log-linear model)</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/process-modelling/solubility-curve-crystallisation/' | relative_url }}">Solubility curve and crystallisation tool</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration calculation</a>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+    <a href="{{ '/articles/solvent-swap-and-selection/' | relative_url }}">Solvent swap and selection</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
