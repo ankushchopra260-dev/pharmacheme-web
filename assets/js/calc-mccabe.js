@@ -102,6 +102,7 @@
           var a = v.a, b = v.b;
           c = solCurve(a, b, Pmm, v.vle === 'ideal');
           if (!c) return { rows: [], notes: [['Published modified UNIFAC parameters are missing for this pair. Choose "ideal mixture" or enter your own data.', 'bad']] };
+          if (v.vle === 'ideal') { var crl = solCurve(a, b, Pmm, false); if (crl && crl.lle && crl.lle.xa != null && !crl.lle.outside) notes.push(['These two liquids separate into two layers at their boiling point, which an ideal mixture cannot show, so this result is not physical. Choose "real mixture" to see the two-liquid range and the heterogeneous azeotrope.', 'bad']); }
           if (c.y(0.5) < 0.5 && !c.az) { swapped = true; var t = a; a = b; b = t; c = solCurve(a, b, Pmm, v.vle === 'ideal'); }
           name = BY[a].n.replace(/\s*\(.*\)$/, ''); nameH = BY[b].n.replace(/\s*\(.*\)$/, ''); mwA = BY[a].mw; mwB = BY[b].mw;
           var la = LITE[a] && LITE[a].lh ? LITE[a].lh * mwA : 21 * (c.T(1) + 273.15), lb = LITE[b] && LITE[b].lh ? LITE[b].lh * mwB : 21 * (c.T(0) + 273.15);

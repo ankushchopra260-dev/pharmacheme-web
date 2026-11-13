@@ -40,6 +40,8 @@
     if (n.length < 16 || n.length % 4 || n.some(function (v) { return !isFinite(v); })) return { err: 'Enter at least four rows of four numbers: x y hL HV (mole fractions, kcal/kmol).' };
     var rows = []; for (var i = 0; i < n.length; i += 4) rows.push(n.slice(i, i + 4));
     if (rows.some(function (r) { return r[0] < 0 || r[0] > 1 || r[1] < 0 || r[1] > 1; })) return { err: 'x and y must be mole fractions between 0 and 1.' };
+    var sorted = rows.slice().sort(function (u, w) { return u[0] - w[0]; });
+    if (sorted.some(function (r, i) { return i && r[1] < sorted[i - 1][1]; })) return { err: 'y must rise as x rises. Check the order of the numbers in each row: x y hL HV.' };
     if (rows.some(function (r) { return r[3] <= r[2]; })) return { err: 'Each saturated vapour enthalpy HV must be above the liquid enthalpy hL on the same row.' };
     var dc = PCEVLE.dataCurve(rows.filter(function (r) { return r[0] > 0 && r[0] < 1; }).map(function (r) { return r[0] + ' ' + r[1]; }).join(', '), false);
     if (dc.err) return dc;
@@ -57,7 +59,7 @@
     var X = function (x) { return L + pw * x; }, Y = function (h) { return T + ph * (1 - (h - lo) / (hi - lo)); }, P = function (x, h) { return X(x).toFixed(1) + ' ' + Y(h).toFixed(1); };
     var sv = '<svg viewBox="0 0 ' + W + ' ' + (T + ph + B) + '" width="100%" role="img" aria-label="Enthalpy-composition diagram"><defs><clipPath id="psc"><rect x="' + L + '" y="' + T + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs><rect x="' + L + '" y="' + T + '" width="' + pw + '" height="' + ph + '" class="pk-frame"/>';
     var step = Math.pow(10, Math.floor(Math.log10((hi - lo) / 5))), m = (hi - lo) / step > 12 ? 5 : (hi - lo) / step > 6 ? 2 : 1; step *= m;
-    for (var g = Math.ceil(lo / step) * step; g <= hi; g += step) sv += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + Y(g) + '" y2="' + Y(g) + '" class="pk-grid"/><text x="' + (L - 6) + '" y="' + (Y(g) + 4) + '" text-anchor="end" class="pk-ax">' + F(g, 0) + '</text>';
+    for (var g = Math.ceil(lo / step) * step; g <= hi; g += step) sv += '<line x1="' + L + '" x2="' + (L + pw) + '" y1="' + Y(g) + '" y2="' + Y(g) + '" class="pk-grid"/><text x="' + (L - 6) + '" y="' + (Y(g) + 4) + '" text-anchor="end" class="pk-ax">' + F(Math.abs(g) < step * 1e-6 ? 0 : g, 0) + '</text>';
     for (k = 0; k <= 10; k++) sv += '<line x1="' + X(k / 10) + '" x2="' + X(k / 10) + '" y1="' + T + '" y2="' + (T + ph) + '" class="pk-grid"/><text x="' + X(k / 10) + '" y="' + (T + ph + 16) + '" text-anchor="middle" class="pk-ax">' + k / 10 + '</text>';
     sv += '<text x="' + (L + pw / 2) + '" y="' + (T + ph + 38) + '" text-anchor="middle" class="pk-ax">x or y, mole fraction of ' + K.esc(name) + '</text><text transform="translate(14 ' + (T + ph / 2) + ') rotate(-90)" text-anchor="middle" class="pk-ax">enthalpy, kcal/kmol</text><g clip-path="url(#psc)">';
     var line = function (arr, cls) { return '<path d="' + arr.map(function (h, i) { return (i ? 'L' : 'M') + P(xs[i], h); }).join('') + '" class="pk-l ' + cls + '" style="stroke-width:2.5"/>'; };
@@ -130,7 +132,7 @@
         { k: 'fc', label: 'Feed condition', type: 'sel', v: 'sl', opts: [['sl', 'Saturated liquid'], ['sub', 'Cold liquid below its boiling point'], ['pv', 'Partly vaporised'], ['sv', 'Saturated vapour'], ['h', 'Enter the feed enthalpy']] },
         { k: 'tf', label: 'Feed temperature', unit: '°C', v: 30, show: function (v) { return v.fc === 'sub' && isSol(v); } },
         { k: 'fv', label: 'Vapour in the feed', unit: 'mol %', v: 30, show: function (v) { return v.fc === 'pv'; } },
-        { k: 'hf', label: 'Feed enthalpy', unit: 'kcal/kmol (same reference as the data)', v: 1000, show: function (v) { return v.fc === 'h' || (v.fc === 'sub' && !isSol(v)); } },
+        { k: 'hf', label: 'Feed enthalpy', unit: 'kcal/kmol (same reference as the data)', v: -1000, show: function (v) { return v.fc === 'h' || (v.fc === 'sub' && !isSol(v)); } },
         { k: 'h3', type: 'head', label: 'Column' },
         { k: 'rm', label: 'Reflux set as', type: 'sel', v: 'mult', opts: [['mult', 'Multiple of minimum reflux'], ['R', 'Reflux ratio R = L/D']] },
         { k: 'rf', label: 'R ÷ Rmin', v: 1.3, show: function (v) { return v.rm === 'mult'; } },
@@ -147,8 +149,9 @@
           Pmm = K.toBarA(v.p, v.u) / 1.33322e-3; if (!(Pmm > 1)) return { rows: [], notes: [['Enter a column pressure above vacuum zero.', 'bad']] };
           var a = v.a, b = v.b; c = PCEVLE.solCurve(a, b, Pmm, v.vle === 'ideal');
           if (!c) return { rows: [], notes: [['Published modified UNIFAC parameters are missing for this pair. Choose "ideal mixture" or enter your own table.', 'bad']] };
-          if (c.y(0.5) < 0.5 && !c.az) { var t = a; a = b; b = t; c = PCEVLE.solCurve(a, b, Pmm, v.vle === 'ideal'); notes.push([BY[a].n + ' is the more volatile component, so it is treated as the light component.', 'warn']); }
-          if (c.lle && c.lle.xa != null && !c.lle.outside) return { rows: [], notes: [['These two liquids separate into two layers at their boiling point. Enthalpy of a two-liquid mixture is not modelled here: use the McCabe-Thiele calculator, which handles the two-liquid range, or a full process simulator.', 'bad']] };
+          if (c.y(0.5) < 0.5 && !c.az) { var t = a; a = b; b = t; c = PCEVLE.solCurve(a, b, Pmm, v.vle === 'ideal'); notes.push([BY[a].n + ' is the more volatile component, so it is treated as the light component. The compositions you entered are read as ' + BY[a].n + '.', 'warn']); }
+          var cr = v.vle === 'ideal' ? PCEVLE.solCurve(a, b, Pmm, false) : c;
+          if ((c.lle && c.lle.xa != null && !c.lle.outside) || (cr && cr.lle && cr.lle.xa != null && !cr.lle.outside)) return { rows: [], notes: [['These two liquids separate into two layers at their boiling point. Enthalpy of a two-liquid mixture is not modelled here: use the McCabe-Thiele calculator, which handles the two-liquid range, or a full process simulator.', 'bad']] };
           H = solEnthalpy(c, a, b, v.vle === 'sol'); name = BY[a].n.replace(/\s*\(.*\)$/, ''); nameH = BY[b].n.replace(/\s*\(.*\)$/, ''); mwA = BY[a].mw; mwB = BY[b].mw;
           if (!(LITE[a] && LITE[a].lh && LITE[b] && LITE[b].lh)) notes.push(['Latent heat estimated from the boiling point (Trouton rule) for a component without data.', 'warn']);
         } else if (v.vle === 'alpha') {
@@ -175,7 +178,10 @@
           if (!isSol(v)) hF = v.hf;
           else { if (!(v.tf > -100 && v.tf < c.T(zF))) return { rows: [], notes: [['The feed temperature must be between −100 °C and the feed bubble point (' + F(c.T(zF), 1) + ' °C).', 'bad']] }; hF = H.hLiq(zF, v.tf); }
         }
+        if ((v.fc === 'sub' || v.fc === 'h') && !isFinite(hF)) return { rows: [], notes: [['Enter a feed enthalpy.', 'bad']] };
+        if (v.fc === 'sub' && !isSol(v) && !(hF < hLz)) return { rows: [], notes: [['A cold liquid feed must have an enthalpy below the saturated liquid at the feed composition (' + F(hLz, 0) + ' kcal/kmol). Use "Partly vaporised" or "Enter the feed enthalpy" for a warmer feed.', 'bad']] };
         var q = (HVz - hF) / (HVz - hLz);
+        if (v.fc === 'h' && (q > 2 || q < -1)) return { rows: [], notes: [['This feed enthalpy gives q = ' + F(q, 2) + ', far outside normal plant feeds (a liquid more than about one latent heat below its boiling point, or a vapour superheated by more than a latent heat). Check the value and its reference state: pure liquids at 0 °C.', 'bad']] };
         var o = { zF: zF, xD: xD, xB: xB, F: Fk, hF: hF, partial: v.cd === 'p' };
         var rm = PS.rmin(c, H, o); if (!isFinite(rm.R)) return { rows: [], notes: [['No reflux ratio reaches this separation with these data. Check for an azeotrope, a feed that is too hot or too cold, or enthalpy data that are not smooth.', 'bad']] };
         var r0 = rm.R < 1e-4, R = v.rm === 'mult' ? (r0 ? 0.1 : v.rf * rm.R) : v.R;
@@ -201,7 +207,7 @@
           ['Difference point ΔB (bottom)', F(s.QB, 0), 'kcal/kmol at x = ' + G(xB, 4)],
           ['Feed enthalpy and q', F(hF, 0) + ' kcal/kmol', 'q = ' + F(q, 3)],
           ['Distillate D / bottoms B', F(s.D, 2) + ' / ' + F(s.B, 2), 'kmol/h' + (isSol(v) ? ' (' + F(s.D * (xD * mwA + (1 - xD) * mwB), 0) + ' / ' + F(s.B * (xB * mwA + (1 - xB) * mwB), 0) + ' kg/h)' : '')],
-          ['Vapour leaving the top stage', F((R + 1) * s.D, 2), 'kmol/h'],
+          [o.partial ? 'Vapour into the condenser' : 'Vapour leaving the top stage', F((R + 1) * s.D, 2), 'kmol/h'],
           ['Vapour into the top stage from stage 2', top.V != null ? F(top.V, 2) : '–', 'kmol/h; changes down the column'],
           ['Vapour from the reboiler', bot.V != null ? F(bot.V, 2) : '–', 'kmol/h']
         ];
