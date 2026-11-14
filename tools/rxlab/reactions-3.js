@@ -98,8 +98,8 @@ module.exports = [
       { cap: 'Product: the enone (benzalacetone here), with hydroxide regenerated.', sp: [{ s: 'CC(=O)C=Cc1ccccc1' }, { s: '[OH-]' }], ar: [] }
     ],
     lab: [
-      { cap: 'Charge the aldehyde and the ketone (in excess) in ethanol.', level: 0.45, color: '#f2f2ec', T: 22, stir: true },
-      { cap: 'Dose dilute sodium hydroxide slowly. The mixture warms and turns yellow as the enone forms.', dose: { color: '#f3f8fb', name: 'NaOH (aq)' }, glow: true, T: 30, color: '#f3e7a0', level: 0.6 },
+      { cap: 'Charge the ketone (in excess), ethanol and dilute sodium hydroxide.', level: 0.45, color: '#f2f2ec', T: 22, stir: true },
+      { cap: 'Dose the aldehyde slowly. The mixture warms and turns yellow as the enone forms.', dose: { color: '#f7f7f2', name: 'Aldehyde' }, glow: true, T: 30, color: '#f3e7a0', level: 0.6 },
       { cap: 'Hold at 25–35 °C. The product often crystallises from the mixture.', T: 30, solid: '#f6e6a0', color: '#f0e090' },
       { cap: 'Neutralise the base with dilute acid, then filter and wash the product.', dose: { color: '#e6f3fb', name: 'dil. HCl' }, T: 22, level: 0.7, solid: '#f6e6a0' }
     ],
@@ -177,10 +177,10 @@ module.exports = [
     seo: 'Alkene Epoxidation with Peracid: Mechanism, Safety',
     desc: 'Epoxidation of an alkene with a peroxy acid (mCPBA or peracetic acid): concerted animated mechanism, peroxide hazards, exotherm and quench.',
     intro: 'A peroxy acid hands its outer oxygen to an alkene in one concerted step, forming an epoxide and the parent carboxylic acid. The mechanism is often called the butterfly: four electron movements happen together. In the plant, the concern is the peroxide: accumulation, thermal stability and how excess is destroyed.',
-    eq: { r: [['CC=CC', 'Alkene (2-butene shown)'], ['CC(=O)OO', 'Peroxy acid (peracetic acid shown)']], p: [['CC1OC1C', 'Epoxide'], ['CC(=O)O', 'Carboxylic acid']], cond: 'DCM or EtOAc, 0–25 °C' },
+    eq: { r: [['C/C=C\\C', 'Alkene (cis-2-butene shown)'], ['CC(=O)OO', 'Peroxy acid (peracetic acid shown)']], p: [['CC1OC1C', 'Epoxide'], ['CC(=O)O', 'Carboxylic acid']], cond: 'DCM or EtOAc, 0–25 °C' },
     mech: [
       { cap: 'All at once: the alkene π bond attacks the outer peroxide oxygen, the O–O bond breaks, the carbonyl takes the O–H proton, and the O–H bond electrons close the second C–O bond.',
-        sp: [{ s: 'CC=CC' }, { s: 'CC(=O)OO[2H]' }], ar: [{ f: ['b', 0, 1, 2], t: ['n', 0, 1, 1, 4] }, { f: ['b', 1, 3, 4], t: ['b', 1, 1, 3] }, { f: ['b', 1, 1, 2], t: ['n', 1, 2, 1, 5] }, { f: ['b', 1, 4, 5], t: ['n', 1, 4, 0, 2] }] },
+        together: true, sp: [{ s: 'C/C=C\\C', xy: [[-0.7, 0.6], [0, 0], [1, 0], [1.7, 0.6]] }, { s: 'CC(=O)OO[2H]', xy: [[1.5, -4.1], [0.8, -3.3], [-0.2, -3.3], [1.3, -2.4], [0.6, -1.6], [-0.3, -2.2]] }], ar: [{ f: ['b', 0, 1, 2], t: ['n', 0, 1, 1, 4] }, { f: ['b', 1, 3, 4], t: ['b', 1, 1, 3] }, { f: ['b', 1, 1, 2], t: ['n', 1, 2, 1, 5] }, { f: ['b', 1, 4, 5], t: ['n', 1, 4, 0, 2] }] },
       { cap: 'Products: the epoxide and the carboxylic acid. The geometry of the alkene is kept: a cis-alkene gives the cis-epoxide.', sp: [{ s: 'CC1OC1C' }, { s: 'CC(=O)O' }], ar: [] }
     ],
     lab: [
@@ -212,15 +212,15 @@ module.exports = [
     seo: 'Curtius Rearrangement: Mechanism, N₂ Gas and Azides',
     desc: 'Curtius rearrangement of an acyl azide to an isocyanate and Boc carbamate: animated mechanism, nitrogen gas per kg, azide hazards and urea by-products.',
     intro: 'On warming, an acyl azide loses nitrogen gas while the group on the carbonyl moves to nitrogen, giving an isocyanate. Trapping the isocyanate with tert-butanol gives a Boc-protected amine, a carbon shorter than the starting acid. The reaction is clean, but azides are energetic and the nitrogen release must be planned.',
-    eq: { r: [['CC(=O)N=[N+]=[N-]', 'Acyl azide (acetyl azide shown)'], ['CC(C)(C)O', 'tert-Butanol']], p: [['CNC(=O)OC(C)(C)C', 'Boc carbamate'], ['N#N', 'Nitrogen']], cond: 'toluene, 70–90 °C' },
+    eq: { r: [['O=C(N=[N+]=[N-])c1ccccc1', 'Acyl azide (benzoyl azide shown)'], ['CC(C)(C)O', 'tert-Butanol']], p: [['O=C(Nc1ccccc1)OC(C)(C)C', 'Boc carbamate'], ['N#N', 'Nitrogen']], cond: 'toluene, 70–90 °C' },
     mech: [
       { cap: 'In one concerted step, the R group moves from carbon to nitrogen while nitrogen gas leaves; the nitrogen lone pair forms C=N.',
-        sp: [{ s: 'CC(=O)N=[N+]=[N-]', lp: [3] }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 0, 3] }, { f: ['b', 0, 3, 4], t: ['b', 0, 4, 5] }, { f: ['l', 0, 3], t: ['b', 0, 1, 3] }] },
+        sp: [{ s: 'c1ccccc1C(=O)[N-][N+]#N', lp: [8] }], ar: [{ f: ['b', 0, 5, 6], t: ['n', 0, 5, 0, 8] }, { f: ['b', 0, 8, 9], t: ['a', 0, 9] }, { f: ['l', 0, 8], t: ['b', 0, 6, 8] }] },
       { cap: 'tert-Butanol attacks the isocyanate carbon; the C=N π bond moves onto nitrogen.',
-        sp: [{ s: 'CC(C)(C)O', lp: [4] }, { s: 'CN=C=O' }], ar: [{ f: ['l', 0, 4], t: ['n', 0, 4, 1, 2] }, { f: ['b', 1, 1, 2], t: ['a', 1, 1] }] },
+        sp: [{ s: 'CC(C)(C)O', lp: [4] }, { s: 'O=C=Nc1ccccc1' }], ar: [{ f: ['l', 0, 4], t: ['n', 0, 4, 1, 1] }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
       { cap: 'The proton moves from oxygen to nitrogen, giving the carbamate.',
-        sp: [{ s: 'C[N-]C(=O)[O+]([2H])C(C)(C)C', lp: [1] }], ar: [{ f: ['l', 0, 1], t: ['n', 0, 1, 0, 5] }, { f: ['b', 0, 4, 5], t: ['a', 0, 4] }] },
-      { cap: 'Products: the Boc carbamate and nitrogen gas.', sp: [{ s: 'CNC(=O)OC(C)(C)C' }, { s: 'N#N' }], ar: [] }
+        sp: [{ s: '[N-](c1ccccc1)C(=O)[O+]([2H])C(C)(C)C', lp: [0] }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 0, 10] }, { f: ['b', 0, 9, 10], t: ['a', 0, 9] }] },
+      { cap: 'Products: the Boc carbamate and nitrogen gas. The aryl group has moved from carbon to nitrogen: the acid has become a protected amine.', sp: [{ s: 'O=C(Nc1ccccc1)OC(C)(C)C' }, { s: 'N#N' }], ar: [] }
     ],
     lab: [
       { cap: 'Charge toluene and tert-butanol and heat to 80 °C under nitrogen.', level: 0.4, color: '#eef1f3', T: 80, heat: true, n2: true, stir: true },
@@ -302,8 +302,8 @@ module.exports = [
         sp: [{ s: 'C[N+](C)=CCl' }, { s: 'CN(C)C1=CC=CC=C1', lp: [1] }], ar: [{ f: ['l', 1, 1], t: ['b', 1, 1, 3] }, { f: ['b', 1, 3, 4], t: ['b', 1, 4, 5] }, { f: ['b', 1, 5, 6], t: ['n', 1, 6, 0, 3] }, { f: ['b', 0, 1, 3], t: ['a', 0, 1] }] },
       { cap: 'After the ring loses its proton and chloride leaves, an iminium salt remains. In the aqueous work-up, water attacks its carbon.',
         sp: [{ s: 'C[N+](C)=Cc1ccc(N(C)C)cc1' }, { s: 'O', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3] }, { f: ['b', 0, 1, 3], t: ['a', 0, 1] }] },
-      { cap: 'After proton transfer, the OH lone pair re-forms C=O and dimethylamine leaves (as its salt).',
-        sp: [{ s: 'CN(C)C(O[2H])c1ccc(N(C)C)cc1', lp: [4] }], ar: [{ f: ['l', 0, 4], t: ['b', 0, 3, 4] }, { f: ['b', 0, 1, 3], t: ['a', 0, 1] }] },
+      { cap: 'After proton transfer from O to N, the O⁻ lone pair re-forms C=O and neutral dimethylamine leaves (it ends up as its hydrochloride).',
+        sp: [{ s: 'C[NH+](C)C([O-])c1ccc(N(C)C)cc1', lp: [4] }], ar: [{ f: ['l', 0, 4], t: ['b', 0, 3, 4] }, { f: ['b', 0, 1, 3], t: ['a', 0, 1] }] },
       { cap: 'Product: the aryl aldehyde.', sp: [{ s: 'O=Cc1ccc(N(C)C)cc1' }, { s: 'CNC' }], ar: [] }
     ],
     lab: [
@@ -313,7 +313,7 @@ module.exports = [
       { cap: 'Cool. This flask is now the quench vessel with ice water and sodium acetate; the reaction mass is run in slowly. Very exothermic and HCl is released; watch for delayed heat.', dose: { color: '#e8b65a', name: 'Reaction mass' }, cool: true, glow: true, gas: { name: 'HCl' }, T: 30, level: 0.85, color: '#e9d7a8' },
       { cap: 'Stir until hydrolysis is complete; the aldehyde crystallises or is extracted.', T: 25, solid: '#f6e9b8' }
     ],
-    gas: [{ n: 'Hydrogen chloride', s: 'Cl', mol: 1.5, per: 'when 0.5 eq of excess POCl₃ is hydrolysed in the quench (3 HCl per POCl₃)', note: 'Mostly dissolves in the aqueous quench; fumes when the quench is too concentrated or hot.' }],
+    gas: [{ n: 'Hydrogen chloride (acid)', s: 'Cl', mol: 4, per: 'total acid released in the quench with 1.5 eq POCl₃ (excess POCl₃, phosphate residues and the iminium chloride)', note: 'Mostly dissolves in the quench water; fumes when the quench is too concentrated or hot.' }],
     care: [
       'Forming the Vilsmeier reagent is exothermic, and the reagent itself is thermally unstable. Keep it cold and do not hold it longer than needed.',
       'POCl₃ hydrolysis can be delayed (metastable intermediates), then release heat and HCl suddenly. Quench into water slowly, keep agitation, and confirm the heat has finished before the next addition.',
@@ -343,7 +343,7 @@ module.exports = [
     ],
     lab: [
       { cap: 'Charge aqueous sodium cyanide (kept alkaline, pH above 10) and the phase-transfer catalyst. Closed reactor, HCN detectors on.', level: 0.4, color: '#e9f3f8', T: 25, stir: true, n2: true },
-      { cap: 'Heat to 70 °C and dose benzyl chloride. The SN2 reaction is exothermic.', dose: { color: '#f6f6f2', name: 'Benzyl chloride' }, heat: true, glow: true, T: 78, layers: ['#eef0e6', '#e9f3f8'], level: 0.6 },
+      { cap: 'Heat to 70–80 °C and dose benzyl chloride. The SN2 reaction is exothermic.', dose: { color: '#f6f6f2', name: 'Benzyl chloride' }, heat: true, glow: true, T: 78, layers: ['#eef0e6', '#e9f3f8'], level: 0.6 },
       { cap: 'Hold until the halide is consumed, then cool.', T: 30, layers: ['#eef0e6', '#e9f3f8'] },
       { cap: 'Separate. The aqueous layer still contains cyanide: treat it with bleach under alkaline conditions before disposal.', layers: ['#eef0e6', '#e9f3f8'], T: 25 }
     ],
@@ -365,7 +365,7 @@ module.exports = [
     links: [['/articles/common-chemical-reactions-in-plants/', 'Common chemical reactions in plants'], ['/molecules/reaction-lab/williamson-ether-synthesis/', 'Williamson ether (another SN2)'], ['/process-safety/', 'Process safety']]
   },
   {
-    slug: 'aza-michael-addition', name: 'Aza-Michael addition of an amine to an acrylate', short: 'Aza-Michael addition', cat: 'Carbon–carbon bond formation',
+    slug: 'aza-michael-addition', name: 'Aza-Michael addition of an amine to an acrylate', short: 'Aza-Michael addition', cat: 'Nitrogen chemistry',
     seo: 'Aza-Michael Addition to Acrylates: Mechanism',
     desc: 'Amine adding to an acrylate ester (aza-Michael): animated conjugate addition mechanism, exotherm, acrylate polymerisation risk and bis-addition control.',
     intro: 'An amine adds to the end carbon of an acrylate, an α,β-unsaturated ester, in a conjugate (Michael) addition. A proton then moves to the α-carbon, giving a β-amino ester. It needs no catalyst, but acrylates polymerise easily and the addition is exothermic, so dosing and inhibitor control matter.',
@@ -378,7 +378,7 @@ module.exports = [
       { cap: 'Product: the β-amino ester. Being a secondary amine, it can add to a second acrylate.', sp: [{ s: 'CNCCC(=O)OC' }], ar: [] }
     ],
     lab: [
-      { cap: 'Charge the amine (in excess) in methanol, with air in the head space if the acrylate inhibitor needs oxygen.', level: 0.45, color: '#eef1f3', T: 20, stir: true },
+      { cap: 'Charge the amine (in excess; methylamine as its solution in methanol, since it is a gas) with air in the head space if the acrylate inhibitor needs oxygen.', level: 0.45, color: '#eef1f3', T: 20, stir: true },
       { cap: 'Dose the acrylate slowly. The addition is exothermic; keep below 40 °C.', dose: { color: '#f7f7f7', name: 'Methyl acrylate' }, glow: true, cool: true, T: 32, level: 0.6 },
       { cap: 'Hold until the acrylate is gone (check by GC or HPLC).', T: 30 },
       { cap: 'Distil off methanol and excess amine.', distil: true, heat: true, T: 60, level: 0.4 }

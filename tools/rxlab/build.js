@@ -17,6 +17,8 @@ function mol(smi) {
     atoms.push([iso ? 'H' : m.getAtomLabel(i), +m.getAtomX(i).toFixed(3), +(-m.getAtomY(i)).toFixed(3), m.getAtomCharge(i), m.getImplicitHydrogens(i)]);
   }
   for (let i = 0; i < m.getAllBonds(); i++) bonds.push([m.getBondAtom(0, i), m.getBondAtom(1, i), m.getBondOrder(i)]);
+  // flag sp carbons (O=C=O, N=C=O, nitriles) so the renderer writes their C
+  atoms.forEach((a, i) => { if (a[0] !== 'C') return; const bo = bonds.filter((b) => b[0] === i || b[1] === i).map((b) => b[2]); if (bo.filter((o) => o === 2).length >= 2 || (bo.includes(3) && bo.length >= 2)) a.push(1); });
   return { a: atoms, b: bonds };
 }
 function mw(smi) { const m = OCL.Molecule.fromSmiles(smi.replace(/\[2H\]/g, '[H]')); return m.getMolecularFormula().relativeWeight; }
@@ -44,7 +46,7 @@ RX.forEach((r) => {
   const data = { slug: r.slug, name: r.name, cat: r.cat };
   data.eq = { r: r.eq.r.map(([s, l]) => ({ m: mol(s), l })), p: r.eq.p.map(([s, l]) => ({ m: mol(s), l })), cond: r.eq.cond };
   data.mech = r.mech.map((st) => {
-    const s2 = { cap: st.cap, sp: st.sp.map((x) => { const m = mol(x.s); if (x.flip) m.a.forEach((at) => { at[1] = -at[1]; }); const o = Object.assign({}, x, { m }); delete o.flip; return o; }), ar: st.ar || [] };
+    const s2 = { cap: st.cap, together: st.together || undefined, sp: st.sp.map((x) => { const m = mol(x.s); if (x.flip) m.a.forEach((at) => { at[1] = -at[1]; }); if (x.xy) { m.a.forEach((at, i) => { at[1] = x.xy[i][0]; at[2] = x.xy[i][1]; }); } const o = Object.assign({}, x, { m }); delete o.flip; delete o.xy; return o; }), ar: st.ar || [] };
     s2.ar.forEach((a, k) => { checkArrow(r, s2, k, a.f); checkArrow(r, s2, k, a.t); });
     s2.sp.forEach((x) => { delete x.s; });
     return s2;

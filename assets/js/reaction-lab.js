@@ -22,7 +22,7 @@
 
   /* ---------- structure drawing ---------- */
   function el(tag, at, parent) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); if (parent) parent.appendChild(e); return e; }
-  function shown(a, deg) { return a[0] !== 'C' || a[3] !== 0 || deg === 0; }
+  function shown(a, deg) { return a[0] !== 'C' || a[3] !== 0 || deg === 0 || a[5] === 1; }
   function layout(m, ox, oy, minW) {
     // returns atom positions (px) translated so the species bbox centre sits at (ox + w/2, oy)
     var xs = m.a.map(function (a) { return a[1] * S; }), ys = m.a.map(function (a) { return a[2] * S; });
@@ -70,6 +70,12 @@
       if (a[4] > 0) { var h = el('text', { x: P[i][0] + (left ? -1 : 1) * (a[0].length > 1 ? 9 : 6), y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': left ? 'end' : 'start' }, g); h.textContent = 'H' + (a[4] > 1 ? SUB[a[4]] || a[4] : ''); }
       if (a[3]) {
         var cx = P[i][0] + (a[4] > 0 && !left ? 22 : 10), cy = P[i][1] - 9;
+        if (lps && lps.indexOf(i) >= 0) {   // keep the charge clear of this atom's lone pair
+          var LP = lpPos(m, P, i), cands = [[cx, cy], [P[i][0] + 11, P[i][1] + 12], [P[i][0] - 11, P[i][1] - 9], [P[i][0] - 11, P[i][1] + 12]];
+          var bestC = cands[0], bd = -1;
+          cands.forEach(function (c) { var dd = Math.hypot(c[0] - LP[0], c[1] - LP[1]); neighbours(m, i).forEach(function (j) { dd = Math.min(dd, segDist(c, P[i], P[j]) * 1.5); }); if (dd > bd) { bd = dd; bestC = c; } });
+          cx = bestC[0]; cy = bestC[1];
+        }
         el('circle', { cx: cx, cy: cy, r: 5.5, class: 'rl-chg' }, g);
         var c = el('text', { x: cx, y: cy + 3.5, class: 'rl-chgt', 'text-anchor': 'middle' }, g); c.textContent = a[3] > 0 ? '+' : '−';
       }
@@ -79,9 +85,18 @@
   function scene(svg, list, opts) {
     // list: [{m, lp, l (label)}], returns positions per species
     var g = el('g', {}, svg), x = 10, H = 0, pos = [], gap = 34;
+    if (opts && opts.together) {   // species drawn in one shared frame (hand-placed coordinates)
+      list.forEach(function (sp) { pos.push({ w: 0, h: 0, p: sp.m.a.map(function (a) { return [60 + a[1] * S, a[2] * S]; }) }); });
+      list.forEach(function (sp, k) { drawMol(g, sp.m, pos[k].p, sp.lp); });
+      return { g: g, pos: pos };
+    }
     list.forEach(function (sp, k) {
+      if (sp.above && k > 0) {   // stack this species above the previous one
+        var pv = pos[k - 1], cx0 = pv.p.reduce(function (s2, p) { return s2 + p[0]; }, 0) / pv.p.length;
+        var L0 = layout(sp.m, 0, 0); var La = layout(sp.m, cx0 - L0.w / 2, -(pv.h / 2 + L0.h / 2 + 18)); pos.push(La); H = Math.max(H, pv.h + La.h * 2 + 36); return;
+      }
       var L = layout(sp.m, x, 0, opts && opts.labels && sp.l ? sp.l.length * 6.3 + 8 : 0); pos.push(L); H = Math.max(H, L.h); x += L.w;
-      if (k < list.length - 1) {
+      if (k < list.length - 1 && !list[k + 1].above) {
         if (opts && opts.arrowAt === k) { pos.arrowX = x; pos.arrowW = Math.max(120, (opts.cond || '').length * 6.4 + 24); x += pos.arrowW; }
         else { var t = el('text', { x: x + gap / 2, y: 6, class: 'rl-plus', 'text-anchor': 'middle' }, g); t.textContent = '+'; x += gap; }
       }
@@ -104,7 +119,9 @@
     var P = function (s, i) { return pos[s].p[i]; };
     if (e[0] === 'l') { var L = lpPos(sp[e[1]].m, pos[e[1]].p, e[2]); return [L[0], L[1]]; }
     if (e[0] === 'b') { var a = P(e[1], e[2]), b = P(e[1], e[3]); return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }
-    if (e[0] === 'n') { var c = P(e[1], e[2]), d = P(e[3], e[4]), vx = c[0] - d[0], vy = c[1] - d[1], l = Math.hypot(vx, vy) || 1, ta = sp[e[3]].m.a[e[4]], bare = ta[0] === 'C' && !ta[3]; var k = Math.min(bare ? 6 : 14, l / 2); return [d[0] + vx / l * k, d[1] + vy / l * k]; }
+    if (e[0] === 'n') { var c = P(e[1], e[2]), d = P(e[3], e[4]), vx = c[0] - d[0], vy = c[1] - d[1], l = Math.hypot(vx, vy) || 1, ta = sp[e[3]].m.a[e[4]], bare = ta[0] === 'C' && !ta[3]; var k = Math.min(bare ? 6 : 14, l / 2);
+      if (ta[0] === 'H') { var hn = neighbours(sp[e[3]].m, e[4]); if (hn.length) { var q2 = pos[e[3]].p[hn[0]], ox2 = d[0] - q2[0], oy2 = d[1] - q2[1], ol = Math.hypot(ox2, oy2) || 1; return [d[0] + ox2 / ol * 10, d[1] + oy2 / ol * 10]; } }
+      return [d[0] + vx / l * k, d[1] + vy / l * k]; }
     var q = P(e[1], e[2]); if (!other) return q;
     var vx = other[0] - q[0], vy = other[1] - q[1], l = Math.hypot(vx, vy) || 1; return [q[0] + vx / l * 11, q[1] + vy / l * 11];
   }
@@ -117,15 +134,15 @@
       var p0 = cd[0], p3 = cd[1], dx = p3[0] - p0[0], dy = p3[1] - p0[1], d = Math.hypot(dx, dy) || 1, nx = dy / d, ny = -dx / d;
       [1, -1].forEach(function (sd) {
         if (cd[2] && cd[2] !== sd) return;
-        [0.3, 0.5, 0.75, 1.0, 1.3].forEach(function (hf) {
-          var h = Math.min(140, Math.max(cd[3] || 11, hf * d)) * sd;
+        [0.3, 0.5, 0.75, 1.0, 1.3, 1.7].forEach(function (hf) {
+          var h = Math.min(170, Math.max(cd[3] || 11, hf * d)) * sd;
           var c1 = [p0[0] + dx * 0.15 + nx * h, p0[1] + dy * 0.15 + ny * h], c2 = [p0[0] + dx * 0.85 + nx * h, p0[1] + dy * 0.85 + ny * h];
-          var pen = Math.abs(h) * 0.02 + (hint && hint !== sd ? 6 : 0), pts = [];
+          var pen = Math.abs(h) * 0.015 + (hint && hint !== sd ? 6 : 0), pts = [];
           for (var k = 1; k < 24; k++) {
             var q = bez(p0, c1, c2, p3, k / 24); pts.push(q);
             if (Math.hypot(q[0] - p0[0], q[1] - p0[1]) < 9 || Math.hypot(q[0] - p3[0], q[1] - p3[1]) < 9) continue;
             ob.atoms.forEach(function (a) { var dd = Math.hypot(q[0] - a[0], q[1] - a[1]); if (dd < a[2]) pen += (a[2] - dd) * 0.6; });
-            ob.bonds.forEach(function (b) { if (segDist(q, b[0], b[1]) < 5) pen += 3; });
+            ob.bonds.forEach(function (b) { var sd2 = segDist(q, b[0], b[1]); if (sd2 < 6) pen += 5 - sd2 * 0.5; });
             prev.forEach(function (pp) { pp.forEach(function (r) { var dd = Math.hypot(q[0] - r[0], q[1] - r[1]); if (dd < 10) pen += (10 - dd) * 0.5; }); });
           }
           if (!best || pen < best.pen) best = { pen: pen, p0: p0, p3: p3, c1: c1, c2: c2, pts: pts };
@@ -162,7 +179,7 @@
     var showM = function () {
       var st = D.mech[mi]; stage.innerHTML = '';
       var svg2 = el('svg', { class: 'rl-svg', role: 'img', 'aria-label': 'Mechanism step ' + (mi + 1) }, stage);
-      var sc2 = scene(svg2, st.sp, {});
+      var sc2 = scene(svg2, st.sp, { together: st.together });
       // obstacles: atoms (labelled atoms are bigger) and bonds of every species in this step
       var ob = { atoms: [], bonds: [] }, prev = [], ends = [];
       st.sp.forEach(function (sp, si) {
