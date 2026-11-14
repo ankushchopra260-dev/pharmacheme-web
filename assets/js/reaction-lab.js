@@ -34,6 +34,7 @@
   function lpPos(m, P, i) {
     var nb = neighbours(m, i), dx = 0, dy = 0;
     nb.forEach(function (j) { var vx = P[j][0] - P[i][0], vy = P[j][1] - P[i][1], l = Math.hypot(vx, vy) || 1; dx -= vx / l; dy -= vy / l; });
+    if (!nb.length) return [P[i][0] + 6, P[i][1] + 15, 0, 1];
     var l = Math.hypot(dx, dy); if (l < 0.2) { dx = -0.8; dy = -0.6; l = 1; }
     var a = m.a[i], hasH = a[4] > 0 && shown(a, nb.length);
     if (hasH && dx > 0.3) { dx = 0; dy = -1; l = 1; }       // keep clear of the H written to the right
@@ -57,16 +58,17 @@
     });
     m.a.forEach(function (a, i) {
       if (!shown(a, deg[i])) return;
-      if (deg[i] === 0 && a[4] > 0 && a[0] !== 'C' && a[0] !== 'N') {   // small molecules: H₂O, HCl, HBr
+      if (deg[i] === 0 && a[4] > 0 && /^(O|S|F|Cl|Br|I)$/.test(a[0])) {   // small molecules: H₂O, HO⁻, HCl, HBr
         var w = el('text', { x: P[i][0], y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': 'middle' }, g); w.textContent = 'H' + (a[4] > 1 ? SUB[a[4]] : '') + a[0];
         if (a[3]) { el('circle', { cx: P[i][0] + 16, cy: P[i][1] - 9, r: 5.5, class: 'rl-chg' }, g); var c2 = el('text', { x: P[i][0] + 16, y: P[i][1] - 5.5, class: 'rl-chgt', 'text-anchor': 'middle' }, g); c2.textContent = a[3] > 0 ? '+' : '−'; }
         return;
       }
       var t = el('text', { x: P[i][0], y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': 'middle' }, g);
       t.textContent = a[0];
-      if (a[4] > 0) { var h = el('text', { x: P[i][0] + (a[0].length > 1 ? 10 : 6), y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': 'start' }, g); h.textContent = 'H' + (a[4] > 1 ? SUB[a[4]] || a[4] : ''); }
+      var nbs = neighbours(m, i), avx = nbs.reduce(function (s2, j) { return s2 + (P[j][0] - P[i][0]); }, 0) / (nbs.length || 1), left = nbs.length > 0 && avx > 8;
+      if (a[4] > 0) { var h = el('text', { x: P[i][0] + (left ? -1 : 1) * (a[0].length > 1 ? 10 : 6), y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': left ? 'end' : 'start' }, g); h.textContent = 'H' + (a[4] > 1 ? SUB[a[4]] || a[4] : ''); }
       if (a[3]) {
-        var cx = P[i][0] + (a[4] > 0 ? 22 : 10), cy = P[i][1] - 9;
+        var cx = P[i][0] + (a[4] > 0 && !left ? 22 : 10), cy = P[i][1] - 9;
         el('circle', { cx: cx, cy: cy, r: 5.5, class: 'rl-chg' }, g);
         var c = el('text', { x: cx, y: cy + 3.5, class: 'rl-chgt', 'text-anchor': 'middle' }, g); c.textContent = a[3] > 0 ? '+' : '−';
       }
@@ -101,7 +103,7 @@
     var P = function (s, i) { return pos[s].p[i]; };
     if (e[0] === 'l') { var L = lpPos(sp[e[1]].m, pos[e[1]].p, e[2]); return [L[0], L[1]]; }
     if (e[0] === 'b') { var a = P(e[1], e[2]), b = P(e[1], e[3]); return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }
-    if (e[0] === 'n') { var c = P(e[1], e[2]), d = P(e[3], e[4]), vx = c[0] - d[0], vy = c[1] - d[1], l = Math.hypot(vx, vy) || 1, k = Math.min(16, l / 2); return [d[0] + vx / l * k, d[1] + vy / l * k]; }
+    if (e[0] === 'n') { var c = P(e[1], e[2]), d = P(e[3], e[4]), vx = c[0] - d[0], vy = c[1] - d[1], l = Math.hypot(vx, vy) || 1, ta = sp[e[3]].m.a[e[4]], bare = ta[0] === 'C' && !ta[3]; var k = Math.min(bare ? 6 : 14, l / 2); return [d[0] + vx / l * k, d[1] + vy / l * k]; }
     var q = P(e[1], e[2]); if (!other) return q;
     var vx = other[0] - q[0], vy = other[1] - q[1], l = Math.hypot(vx, vy) || 1; return [q[0] + vx / l * 11, q[1] + vy / l * 11];
   }
@@ -152,7 +154,7 @@
           var nx = -uy, ny = ux, mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
           if ((mx + nx * 10 - cen[0]) * nx + (my + ny * 10 - cen[1]) * ny < 0) { nx = -nx; ny = -ny; }
           var ox = T === A ? -ux : ux, oy = T === A ? -uy : uy;
-          pf = [mx + nx * 6, my + ny * 6]; pt = [T[0] + nx * 9 + ox * 6, T[1] + ny * 9 + oy * 6]; cen = [mx - nx * 40, my - ny * 40];
+          pf = [mx + nx * 6, my + ny * 6]; pt = [T[0] + nx * 10 - ox * 2, T[1] + ny * 10 - oy * 2]; cen = [mx - nx * 40, my - ny * 40];
         }
         curly(sc2.g, pf, pt, cen, 250 + k * 1000);
       });

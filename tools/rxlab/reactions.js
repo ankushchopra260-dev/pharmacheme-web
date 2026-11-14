@@ -55,7 +55,7 @@ module.exports = [
     plant: [
       'Scrubber: two stages of caustic, with a water trap before the vacuum pump during distillation.',
       'Check off-gas flow during dosing; if it stops while you are still dosing, the reaction may have stalled and reagent is building up.',
-      'Glass-lined or Hastelloy equipment; HCl and SO₂ with moisture attack stainless steel.'
+      'Glass-lined or nickel-alloy equipment; HCl and SO₂ with moisture attack stainless steel.'
     ],
     links: [['/molecules/reaction/', 'Reaction Builder: balance and charges'], ['/articles/common-chemical-reactions-in-plants/', 'Common reactions in plants'], ['/process-modelling/batch-mass-balance-flowsheet/', 'Batch mass balance tool']]
   },
@@ -67,12 +67,12 @@ module.exports = [
     seo: 'Grignard Reaction with a Ketone: Mechanism',
     desc: 'Grignard reagent adding to a ketone: animated mechanism, lab sequence, why water and air must be kept out, exotherm, quench gas and by-product control.',
     intro: 'A Grignard reagent (R–Mg–X) carries a carbon with a lot of negative character. It adds to the carbon of a ketone to make a new C–C bond, and after an acidic quench gives a tertiary alcohol. It is one of the most useful bond-forming reactions in API plants, and one of the most moisture-sensitive.',
-    eq: { r: [['CC(C)=O', 'Ketone (acetone shown)'], ['C[Mg]Br', 'Methylmagnesium bromide']], p: [['CC(C)(C)O', 'Tertiary alcohol']], cond: '1) THF, 0–10 °C  2) aq. NH₄Cl' },
+    eq: { r: [['CC(C)=O', 'Ketone (acetone shown)'], ['C[Mg]Br', 'Methylmagnesium bromide']], p: [['CC(C)(C)O', 'Tertiary alcohol']], cond: '1) THF, 0–10 °C  2) aq. NH₄Cl', note: 'magnesium salts from the quench not shown' },
     mech: [
       { cap: 'The carbon–magnesium bond is strongly polarised; its electrons attack the carbonyl carbon. The C=O π bond moves onto oxygen.',
         sp: [{ s: 'C[Mg]Br' }, { s: 'CC(C)=O' }],
         ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 1, 3], t: ['a', 1, 3] }] },
-      { cap: 'A magnesium alkoxide forms. Nothing more happens until the quench: this is why the reagent must be added before water.',
+      { cap: 'A magnesium alkoxide forms and simply waits in solution until the quench supplies a proton.',
         sp: [{ s: 'CC(C)(C)O[Mg]Br' }], ar: [] },
       { cap: 'In the quench, the alkoxide oxygen takes a proton from the acid. Magnesium salts go into the water layer.',
         sp: [{ s: 'CC(C)(C)[O-]', lp: [4] }, { s: '[2H][O+]([2H])[2H]' }],
@@ -86,7 +86,7 @@ module.exports = [
       { cap: 'Cool to 0 °C in the jacket.', T: 0, cool: true },
       { cap: 'Dose the ketone slowly. Each drop reacts at once: the temperature rises, so dosing is set by the cooling.', dose: { color: '#f5f5f5', name: 'Ketone in THF' }, T: 8, level: 0.6, glow: true, cool: true },
       { cap: 'Stir at 5–10 °C until a quenched sample shows no ketone left.', T: 6, cool: true, color: '#9a8d79' },
-      { cap: 'Transfer into cold aqueous ammonium chloride (reverse quench). Excess Grignard gives methane; magnesium salts form a white solid that dissolves in the acid.', dose: { color: '#d9eef7', name: 'aq. NH₄Cl' }, gas: { name: 'Methane (from excess reagent)', slow: true }, T: 15, level: 0.85, solid: '#ffffff', glow: true },
+      { cap: 'This flask is now the quench vessel with cold aqueous ammonium chloride; the reaction mass is transferred into it slowly (reverse quench). Excess Grignard gives methane; magnesium salts form a white solid.', dose: { color: '#9a8d79', name: 'Reaction mass' }, gas: { name: 'CH₄ (excess)', slow: true }, T: 15, level: 0.85, solid: '#ffffff', glow: true },
       { cap: 'Two layers: the product in the organic layer, magnesium salts in the water.', layers: ['#efe8d4', '#cfe6f2'], solid: null, T: 20, gas: null, cool: false }
     ],
     gas: [{ n: 'Methane', s: 'C', mol: 0.1, per: 'per 0.1 eq of excess Grignard destroyed in the quench', note: 'Flammable. Vent to a safe place; keep the quench area free of ignition sources.' }],

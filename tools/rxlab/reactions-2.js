@@ -1,31 +1,32 @@
 /* Reaction lab, second set. Same format as reactions.js. */
 const H3O = '[2H][O+]([2H])[2H]';
+const S1 = 1, S2 = 1, S3 = 1, S4 = -1;
 module.exports = [
   {
     slug: 'fischer-esterification', name: 'Fischer esterification', short: 'Fischer esterification', cat: 'Acylation and activation',
     seo: 'Fischer Esterification: Mechanism and Plant Tips',
     desc: 'Acid-catalysed esterification of a carboxylic acid with an alcohol: animated mechanism, why water must be removed, by-products and plant handling.',
     intro: 'An acid and an alcohol give an ester and water when a strong acid catalyst is present. Every step is reversible, so the reaction stops at an equilibrium. The plant work is about pushing that equilibrium: excess alcohol, removing the water, or both.',
-    eq: { r: [['CC(=O)O', 'Acetic acid'], ['CCO', 'Ethanol']], p: [['CCOC(C)=O', 'Ethyl acetate'], ['O', 'Water']], cond: 'H₂SO₄ (cat.), reflux' },
+    eq: { r: [['CC(=O)O', 'Acetic acid'], ['CCCCO', 'n-Butanol']], p: [['CCCCOC(C)=O', 'Butyl acetate'], ['O', 'Water']], cond: 'H₂SO₄ (cat.), reflux' },
     mech: [
       { cap: 'The acid catalyst protonates the carbonyl oxygen. This makes the carbonyl carbon much more open to attack by a weak nucleophile like an alcohol.',
-        sp: [{ s: 'CC(=O)O', lp: [2] }, { s: H3O }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
+        sp: [{ s: 'CC(=O)O', lp: [2] }, { s: H3O }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 0], side: S4 }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
       { cap: 'The alcohol oxygen attacks the carbonyl carbon, and the C=O π electrons move onto the protonated oxygen.',
-        sp: [{ s: 'CC(O)=[O+][2H]' }, { s: 'CCO', lp: [2] }], ar: [{ f: ['l', 1, 2], t: ['n', 1, 2, 0, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
+        sp: [{ s: 'CC(O)=[O+][2H]' }, { s: 'CCCCO', lp: [4] }], ar: [{ f: ['l', 1, 4], t: ['n', 1, 4, 0, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
       { cap: 'A proton moves from the oxygen that came from the alcohol to one of the OH groups (through the solvent). That OH becomes a good leaving group: water.',
-        sp: [{ s: 'CC(O)(O[2H])[O+]([2H])CC', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 0, 6] }, { f: ['b', 0, 5, 6], t: ['a', 0, 5] }] },
+        sp: [{ s: 'CC(O)(O[2H])[O+]([2H])CCCC', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 0, 6] }, { f: ['b', 0, 5, 6], t: ['a', 0, 5] }] },
       { cap: 'An OH lone pair pushes back down to re-form C=O, and water leaves.',
-        sp: [{ s: 'CC(O[2H])(OCC)[O+]([2H])[2H]', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['b', 0, 1, 2] }, { f: ['b', 0, 1, 7], t: ['a', 0, 7] }] },
+        sp: [{ s: 'CC(O[2H])(OCCCC)[O+]([2H])[2H]', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['b', 0, 1, 2] }, { f: ['b', 0, 1, 9], t: ['a', 0, 9] }] },
       { cap: 'Water takes the proton back: the ester forms and the acid catalyst is regenerated.',
-        sp: [{ s: 'CC(=[O+][2H])OCC' }, { s: 'O', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3] }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
-      { cap: 'Products: ester and water. Removing the water (or using a large excess of alcohol) is what drives the conversion past the equilibrium.', sp: [{ s: 'CCOC(C)=O' }, { s: 'O' }], ar: [] }
+        sp: [{ s: 'CC(=[O+][2H])OCCCC' }, { s: 'O', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3] }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
+      { cap: 'Products: ester and water. Removing the water (or using a large excess of alcohol) is what drives the conversion past the equilibrium.', sp: [{ s: 'CCCCOC(C)=O' }, { s: 'O' }], ar: [] }
     ],
     lab: [
-      { cap: 'Charge the acid, excess alcohol and toluene (for azeotropic water removal).', level: 0.5, color: '#eef0e6', T: 25, stir: true },
+      { cap: 'Charge acetic acid and excess n-butanol.', level: 0.5, color: '#eef0e6', T: 25, stir: true },
       { cap: 'Add concentrated sulfuric acid slowly. It warms the mixture.', dose: { color: '#f4f4f4', name: 'H₂SO₄' }, glow: true, T: 35 },
-      { cap: 'Heat to reflux. Water distils over with toluene and separates in the Dean–Stark trap.', T: 92, heat: true, distil: true },
-      { cap: 'Hold until no more water collects and the acid content stops falling.', T: 95, heat: true, distil: true, color: '#efe9d6' },
-      { cap: 'Cool and wash with sodium bicarbonate solution to remove the catalyst and leftover acid. Carbon dioxide foams up: add slowly.', T: 25, dose: { color: '#e4f2fb', name: 'aq. NaHCO₃' }, gas: { name: 'CO₂ (from the wash)' }, level: 0.75 },
+      { cap: 'Heat to reflux. Water distils over as its azeotrope with butanol and separates as a lower layer in the Dean–Stark trap; the butanol runs back.', T: 105, heat: true, distil: true },
+      { cap: 'Hold until no more water collects and the acid content stops falling; the pot temperature climbs as water leaves.', T: 118, heat: true, distil: true, color: '#efe9d6' },
+      { cap: 'Cool and wash with sodium bicarbonate solution to remove the catalyst and leftover acid. Carbon dioxide foams up: add slowly.', T: 25, dose: { color: '#e4f2fb', name: 'aq. NaHCO₃' }, gas: { name: 'CO₂' }, level: 0.75 },
       { cap: 'Separate the layers: ester in the organic layer.', layers: ['#efe9d6', '#d8ecf6'], T: 25 }
     ],
     gas: [], gasNote: 'None in the reaction; CO₂ in the bicarbonate wash',
@@ -36,10 +37,10 @@ module.exports = [
       'Strong acid at reflux can dehydrate the alcohol, especially secondary and tertiary alcohols.'
     ],
     byp: [
-      ['Dialkyl ether', 'From the alcohol and acid at high temperature. Keep the catalyst low and avoid overheating.'],
+      ['Dibutyl ether', 'From the alcohol and acid at high temperature. Keep the catalyst low and avoid overheating.'],
       ['Alkene', 'Dehydration of secondary or tertiary alcohols. Use a milder catalyst such as p-toluenesulfonic acid or a different route.'],
       ['Unreacted acid', 'Equilibrium not pushed far enough. Remove water or increase the alcohol excess.'],
-      ['Alkyl sulfates', 'Methanol or ethanol with sulfuric acid can form alkyl hydrogen sulfates and traces of dialkyl sulfates (genotoxic). Use the least catalyst needed.']
+      ['Alkyl sulfates', 'Alcohols with sulfuric acid can form alkyl hydrogen sulfates and traces of dialkyl sulfates (genotoxic). Use the least catalyst needed.']
     ],
     moist: { lvl: 'Low', txt: 'Water does not destroy anything, but it is a product: any water in the feed pushes the equilibrium back and lowers conversion. Use dry alcohol where conversion matters.' },
     exo: { short: 'Close to thermoneutral', txt: 'The esterification itself releases very little heat. The heat comes from adding sulfuric acid and from the bicarbonate neutralisation.' },
@@ -58,7 +59,7 @@ module.exports = [
       { cap: 'The tetrahedral intermediate collapses: C=O re-forms and chloride leaves.',
         sp: [{ s: 'CC([O-])(Cl)[NH2+]C', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['b', 0, 1, 2] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
       { cap: 'Triethylamine takes the proton from nitrogen, giving the neutral amide and triethylamine hydrochloride.',
-        sp: [{ s: 'CC(=O)[N+]([2H])C' }, { s: 'CCN(CC)CC', lp: [2] }], ar: [{ f: ['l', 1, 2], t: ['n', 1, 2, 0, 4] }, { f: ['b', 0, 3, 4], t: ['a', 0, 3] }] },
+        sp: [{ s: 'CC(=O)[NH+]([2H])C' }, { s: 'CCN(CC)CC', lp: [2] }], ar: [{ f: ['l', 1, 2], t: ['n', 1, 2, 0, 4] }, { f: ['b', 0, 3, 4], t: ['a', 0, 3] }] },
       { cap: 'Products: the amide and the hydrochloride salt, which usually comes out as a white solid in non-polar solvents.', sp: [{ s: 'CC(=O)NC' }, { s: 'CC[NH+](CC)CC' }, { s: '[Cl-]' }], ar: [] }
     ],
     lab: [
@@ -97,7 +98,7 @@ module.exports = [
       { cap: 'A chlorine lone pair of the acid chloride bonds to aluminium, and the C–Cl bond breaks.',
         sp: [{ s: 'CC(=O)Cl', lp: [3] }, { s: 'Cl[Al](Cl)Cl' }], ar: [{ f: ['l', 0, 3], t: ['n', 0, 3, 1, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
       { cap: 'This gives the acylium ion, a strong electrophile. A π bond of the ring attacks its carbon.',
-        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'CC#[O+]' }, { s: 'Cl[Al-](Cl)(Cl)Cl' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
+        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'CC#[O+]' }, { s: 'Cl[Al-](Cl)(Cl)Cl' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1], side: S1 }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
       { cap: 'The ring has lost its aromaticity (σ-complex). AlCl₄⁻ removes the proton, the ring becomes aromatic again, and HCl and AlCl₃ are released.',
         sp: [{ s: 'CC(=O)C1([2H])C=CC=C[CH+]1' }, { s: 'Cl[Al-](Cl)(Cl)Cl', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 4] }, { f: ['b', 0, 3, 4], t: ['b', 0, 3, 9] }] },
       { cap: 'Products: the aryl ketone (held as a complex with AlCl₃ until the quench) and HCl gas.', sp: [{ s: 'CC(=O)c1ccccc1' }, { s: 'Cl' }, { s: 'Cl[Al](Cl)Cl' }], ar: [] }
@@ -107,7 +108,7 @@ module.exports = [
       { cap: 'Cool to 0–5 °C and dose the acid chloride. The complex forms; the slurry turns yellow.', cool: true, T: 5, dose: { color: '#f0e9c8', name: 'Acetyl chloride' }, color: '#f1dc8a', level: 0.48 },
       { cap: 'Dose the arene slowly. HCl gas comes off at once and goes to the scrubber; the mixture turns orange.', cool: true, T: 8, dose: { color: '#f7f7f7', name: 'Arene' }, gas: { name: 'HCl' }, color: '#e7a84e', solid: null, glow: true, level: 0.58 },
       { cap: 'Warm to 20–25 °C and hold until the HCl stops and the arene is used up.', T: 22, gas: { name: 'HCl', slow: true }, color: '#d98f3a' },
-      { cap: 'Quench by transferring slowly into ice-cold dilute hydrochloric acid. Very exothermic, more HCl fumes.', dose: { color: '#dceef8', name: 'Ice / dil. HCl' }, glow: true, gas: { name: 'HCl fumes' }, T: 30, level: 0.85, color: '#c9b08a' },
+      { cap: 'This flask is now the quench vessel with ice-cold dilute hydrochloric acid; the reaction mass is transferred into it slowly. Very exothermic, more HCl fumes.', dose: { color: '#d98f3a', name: 'Reaction mass' }, glow: true, gas: { name: 'HCl fumes' }, T: 30, level: 0.85, color: '#c9b08a' },
       { cap: 'Separate the layers: the ketone in the organic layer, aluminium salts in the acidic water.', layers: ['#efe2bd', '#dceef8'], T: 25 }
     ],
     gas: [{ n: 'Hydrogen chloride', s: 'Cl', mol: 1, note: 'Corrosive. Scrub in water then caustic. More HCl fumes during the quench.' }],
@@ -140,7 +141,7 @@ module.exports = [
       { cap: 'Water leaves, giving the nitronium ion NO₂⁺.',
         sp: [{ s: '[2H][O+]([2H])[N+](=O)[O-]', lp: [5] }], ar: [{ f: ['l', 0, 5], t: ['b', 0, 3, 5] }, { f: ['b', 0, 1, 3], t: ['a', 0, 1] }] },
       { cap: 'A π bond of the ring attacks the nitrogen of NO₂⁺; one N=O π bond moves onto oxygen.',
-        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'O=[N+]=O' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
+        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'O=[N+]=O' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1], side: S2 }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
       { cap: 'Hydrogen sulfate removes the proton from the σ-complex and the ring becomes aromatic again.',
         sp: [{ s: '[O-][N+](=O)C1([2H])C=CC=C[CH+]1' }, { s: 'OS(=O)(=O)[O-]', lp: [4] }], ar: [{ f: ['l', 1, 4], t: ['n', 1, 4, 0, 4] }, { f: ['b', 0, 3, 4], t: ['b', 0, 3, 9] }] },
       { cap: 'Products: the nitroarene and water. The water dilutes the acid, which is why spent acid is weaker and slower than fresh mixed acid.', sp: [{ s: '[O-][N+](=O)c1ccccc1' }, { s: 'O' }], ar: [] }
@@ -150,8 +151,8 @@ module.exports = [
       { cap: 'Dose nitric acid to make the mixed acid. This mixing is itself exothermic.', dose: { color: '#f5f0dc', name: 'Nitric acid' }, glow: true, cool: true, T: 15, level: 0.45 },
       { cap: 'Dose the arene slowly at 30–40 °C. It reacts as it goes in; the dosing rate is set by the cooling capacity.', dose: { color: '#f7f7f7', name: 'Arene' }, glow: true, cool: true, T: 35, level: 0.6, color: '#f4e7a8' },
       { cap: 'Hold at 40–50 °C until the arene is consumed. Brown NOx fumes mean oxidation side reactions: check temperature and acid strength.', T: 45, heat: true, gas: { name: 'NOx (traces)', slow: true }, color: '#f0dc86' },
-      { cap: 'Quench onto ice water. The nitroarene is denser than the spent acid layer and settles to the bottom.', dose: { color: '#e6f3fb', name: 'Ice water' }, glow: true, T: 25, level: 0.85 },
-      { cap: 'Separate: spent acid on top, crude nitroarene below. Wash the product to remove acid before any distillation.', layers: ['#e8f1f5', '#ecd36b'], T: 25 }
+      { cap: 'This flask is now the quench vessel with ice water; the reaction mass is run into it slowly. Once the acid is diluted, the nitroarene is denser than the water layer and settles to the bottom.', dose: { color: '#f0dc86', name: 'Reaction mass' }, glow: true, T: 25, level: 0.85 },
+      { cap: 'Separate: diluted acid on top, crude nitroarene below. Wash the product to remove acid before any distillation.', layers: ['#e8f1f5', '#ecd36b'], T: 25 }
     ],
     gas: [], gasNote: 'None normally; brown NOx if overheated',
     care: [
@@ -169,7 +170,7 @@ module.exports = [
     ],
     moist: { lvl: 'Medium', txt: 'Water does not destroy the reagents, but it dilutes the mixed acid and lowers the nitronium concentration. A weaker acid reacts slowly, which lets unreacted arene build up: a hidden accumulation hazard. Check the acid strength of every batch.' },
     exo: { dH: -28, txt: 'About 28 kcal per mole of nitro groups introduced, plus heat from mixing the acids and diluting them in the quench. The adiabatic temperature rise of a typical batch is well above 100 °C, so cooling and dosing control are essential.' },
-    plant: ['Calorimetry (RC1 or similar) and DSC data are a must before scale-up.', 'Use a dosing interlock on high temperature and on agitator failure.', 'Have a dump or drown-out tank sized for the batch.'],
+    plant: ['Reaction calorimetry and DSC data are a must before scale-up.', 'Use a dosing interlock on high temperature and on agitator failure.', 'Have a dump or drown-out tank sized for the batch.'],
     links: [['/articles/nitration-sulfonation-halogenation/', 'Nitration, sulfonation and halogenation'], ['/training/modules/runaway-reactions-safe-dosing/', 'Runaway reactions and safe dosing'], ['/process-modelling/semi-batch-dosing-simulator/', 'Semi-batch dosing simulator']]
   },
   {
@@ -177,7 +178,7 @@ module.exports = [
     seo: 'Sodium Borohydride Reduction: Mechanism, H₂ Gas',
     desc: 'Ketone to alcohol with sodium borohydride: animated hydride transfer, hydrogen gas from the quench per kg, moisture and pH, by-products and plant care.',
     intro: 'Sodium borohydride delivers a hydride (H⁻) to the carbon of an aldehyde or ketone, giving an alcohol after work-up. It is mild, selective and works in alcohols or even water, which makes it a plant favourite. The catch is hydrogen gas: borohydride slowly reacts with protic solvents, and fast with acid.',
-    eq: { r: [['CC(C)=O', 'Ketone (acetone shown)'], ['[Na+].[BH4-]', 'Sodium borohydride']], p: [['CC(C)O', 'Secondary alcohol']], cond: 'MeOH, 0–20 °C; then acid quench' },
+    eq: { r: [['CC(C)=O', 'Ketone (acetone shown)'], ['[Na+].[BH4-]', 'Sodium borohydride']], p: [['CC(C)O', 'Secondary alcohol']], cond: 'MeOH, 0–20 °C; then acid quench', note: 'one BH₄⁻ can reduce up to four ketones; borate salts not shown' },
     mech: [
       { cap: 'A B–H bond delivers its electrons, with the hydrogen, to the carbonyl carbon. The C=O π bond moves onto oxygen.',
         sp: [{ s: '[2H][B-]([2H])([2H])[2H]' }, { s: 'CC(C)=O' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 1, 3], t: ['a', 1, 3] }] },
@@ -197,7 +198,8 @@ module.exports = [
       'Hydrogen comes from borohydride meeting acid, water or alcohol. The quench gives the most gas: add acid slowly with nitrogen sweep.',
       'Borohydride solutions are stabilised with caustic; do not let them become acidic in storage.',
       'Portion-wise addition of solid can give delayed reaction and foaming. A dosed solution is easier to control.',
-      'Boron residues must be removed in the work-up (acidic or oxidative), or they carry into the product.'
+      'Boron residues must be removed in the work-up (acidic or oxidative), or they carry into the product.',
+      'A fast acid quench of excess borohydride can also release diborane, a toxic gas. Quench slowly, keep the vent swept with nitrogen, or destroy excess hydride with acetone first.'
     ],
     byp: [
       ['Borate esters', 'Bound alcohol product. Hydrolyse fully in the work-up (acid, or heating with methanol to remove trimethyl borate).'],
@@ -211,10 +213,10 @@ module.exports = [
   },
   {
     slug: 'lithium-aluminium-hydride-ester-reduction', name: 'Lithium aluminium hydride reduction of an ester', short: 'LiAlH₄ ester reduction', cat: 'Reduction',
-    seo: 'LiAlH₄ Reduction of Esters: Mechanism and Safe Quench',
+    seo: 'LiAlH₄ Ester Reduction: Mechanism, Safe Quench',
     desc: 'Ester to alcohol with lithium aluminium hydride: animated two-hydride mechanism, hydrogen in the quench, very high moisture sensitivity and safe work-up.',
     intro: 'Lithium aluminium hydride is a far stronger hydride donor than sodium borohydride. It reduces esters all the way to primary alcohols, using two hydrides per ester. It reacts violently with water and alcohols, so both the reaction and the quench need care.',
-    eq: { r: [['CC(=O)OCC', 'Ester (ethyl acetate shown)'], ['[Li+].[AlH4-]', 'Lithium aluminium hydride']], p: [['CCO', 'Primary alcohol'], ['CCO', 'Alcohol from the ester part']], cond: 'dry THF, 0 °C to reflux; then careful quench' },
+    eq: { r: [['CC(=O)OCC', 'Ester (ethyl acetate shown)'], ['[Li+].[AlH4-]', 'Lithium aluminium hydride']], p: [['CCO', 'Primary alcohol'], ['CCO', 'Alcohol from the ester part']], cond: 'dry THF, 0 °C to reflux; then careful quench', note: 'aluminium and lithium salts from the quench not shown' },
     mech: [
       { cap: 'A hydride from AlH₄⁻ attacks the ester carbonyl carbon; the C=O π bond moves onto oxygen.',
         sp: [{ s: '[2H][Al-]([2H])([2H])[2H]' }, { s: 'CC(=O)OCC' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
@@ -251,22 +253,22 @@ module.exports = [
   },
   {
     slug: 'williamson-ether-synthesis', name: 'Williamson ether synthesis (with sodium hydride)', short: 'Williamson ether', cat: 'Substitution and alkylation',
-    seo: 'Williamson Ether Synthesis: SN2 Mechanism, NaH, H₂',
+    seo: 'Williamson Ether Synthesis: SN2 Mechanism, NaH',
     desc: 'Alcohol deprotonated with sodium hydride, then SN2 alkylation to an ether: animated mechanism, hydrogen gas per kg, NaH hazards and elimination side reactions.',
     intro: 'An alkoxide attacks an alkyl halide from the back side and pushes out the halide in one step (SN2), making an ether. The alkoxide is often made with sodium hydride, which gives hydrogen gas. Primary alkyl halides work best; secondary and tertiary ones tend to eliminate instead.',
-    eq: { r: [['CCO', 'Alcohol (ethanol shown)'], ['CBr', 'Alkyl halide (methyl bromide shown)'], ['[Na+].[H-]', 'Sodium hydride']], p: [['CCOC', 'Ether'], ['[H][H]', 'Hydrogen'], ['[Na+].[Br-]', 'Sodium bromide']], cond: 'THF or DMF, 0–25 °C' },
+    eq: { r: [['CCO', 'Alcohol (ethanol shown)'], ['BrCc1ccccc1', 'Benzyl bromide'], ['[Na+].[H-]', 'Sodium hydride']], p: [['CCOCc1ccccc1', 'Benzyl ether'], ['[H][H]', 'Hydrogen'], ['[Na+].[Br-]', 'Sodium bromide']], cond: 'THF, 0–25 °C' },
     mech: [
       { cap: 'Hydride from sodium hydride takes the proton of the alcohol, releasing hydrogen gas and giving the alkoxide.',
         sp: [{ s: 'CCO[2H]' }, { s: '[2H-]', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3] }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
       { cap: 'The alkoxide attacks the carbon of the alkyl halide from the side opposite the bromine, and bromide leaves in the same step (SN2).',
-        sp: [{ s: 'CC[O-]', lp: [2] }, { s: 'CBr' }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
-      { cap: 'Products: the ether and bromide (as sodium bromide).', sp: [{ s: 'CCOC' }, { s: '[Br-]' }], ar: [] }
+        sp: [{ s: 'CC[O-]', lp: [2] }, { s: 'C(Br)c1ccccc1' }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
+      { cap: 'Products: the benzyl ether and bromide (as sodium bromide).', sp: [{ s: 'CCOCc1ccccc1' }, { s: '[Br-]' }], ar: [] }
     ],
     lab: [
       { cap: 'Under nitrogen, charge dry THF and the alcohol; cool to 0–5 °C.', level: 0.45, color: '#eef1f3', T: 3, n2: true, cool: true, stir: true },
       { cap: 'Add sodium hydride (60 % in mineral oil) in portions. Hydrogen bubbles off with each portion.', dose: { color: '#d8d8d0', name: 'NaH (in oil)' }, gas: { name: 'Hydrogen' }, glow: true, cool: true, T: 10, solid: '#d0d0c8' },
       { cap: 'Stir until gas stops: the alkoxide is ready.', T: 15, gas: { name: 'Hydrogen', slow: true } },
-      { cap: 'Dose the alkyl halide. The SN2 reaction warms the mixture; sodium bromide comes out as a fine solid.', dose: { color: '#f5f5f5', name: 'Alkyl halide' }, glow: true, T: 25, solid: '#ffffff', level: 0.55 },
+      { cap: 'Dose benzyl bromide. The SN2 reaction warms the mixture; sodium bromide comes out as a fine solid.', dose: { color: '#f5f5f5', name: 'Benzyl bromide' }, glow: true, T: 25, solid: '#ffffff', level: 0.55 },
       { cap: 'Quench carefully with water (excess hydride gives more hydrogen), then separate the layers.', dose: { color: '#dceef8', name: 'Water' }, gas: { name: 'Hydrogen', slow: true }, T: 20, level: 0.8, solid: null },
       { cap: 'Ether in the organic layer; the mineral oil from the hydride goes with it and is removed later.', layers: ['#eef1f3', '#d8ecf6'], T: 20 }
     ],
@@ -275,7 +277,7 @@ module.exports = [
       'Sodium hydride reacts with water and moist air to give hydrogen and caustic. Keep it dry; charge under nitrogen.',
       'Sodium hydride in DMF or DMAc can undergo a runaway decomposition on warming. Avoid that combination at scale or keep it cold with proven safety data.',
       'Hydrogen comes off with each portion of NaH; add in portions and wait for the gas to slow.',
-      'Methyl and other small alkyl halides are toxic and volatile alkylating agents; handle in closed systems.'
+      'Benzyl bromide and other alkyl halides are toxic alkylating agents, and benzyl bromide is a strong lachrymator; handle in closed systems.'
     ],
     byp: [
       ['Alkene (elimination)', 'The alkoxide acts as a base on secondary or tertiary halides. Use a primary halide, or a less basic route.'],
@@ -289,7 +291,7 @@ module.exports = [
   },
   {
     slug: 'boc-protection-of-amine', name: 'Boc protection of an amine', short: 'Boc protection', cat: 'Protecting groups',
-    seo: 'Boc Protection with Boc Anhydride: Mechanism, CO₂',
+    seo: 'Boc Protection with Boc₂O: Mechanism and CO₂',
     desc: 'Amine protection with di-tert-butyl dicarbonate (Boc₂O): animated mechanism, carbon dioxide gas per kg, foaming, by-products and plant handling.',
     intro: 'Di-tert-butyl dicarbonate (Boc anhydride) puts a tert-butoxycarbonyl group on an amine, making a carbamate that is stable to bases and nucleophiles. The leaving group falls apart into carbon dioxide and tert-butanol, so gas is released throughout the reaction.',
     eq: { r: [['CN', 'Amine (methylamine shown)'], ['CC(C)(C)OC(=O)OC(=O)OC(C)(C)C', 'Boc anhydride']], p: [['CC(C)(C)OC(=O)NC', 'Boc-protected amine'], ['O=C=O', 'Carbon dioxide'], ['CC(C)(C)O', 'tert-Butanol']], cond: 'THF or water/base, 20–40 °C' },
@@ -301,7 +303,7 @@ module.exports = [
       { cap: 'The tert-butyl carbonate falls apart into carbon dioxide gas and tert-butoxide.',
         sp: [{ s: 'CC(C)(C)OC(=O)[NH2+]C' }, { s: 'CC(C)(C)OC(=O)[O-]', lp: [7] }], ar: [{ f: ['l', 1, 7], t: ['b', 1, 5, 7] }, { f: ['b', 1, 4, 5], t: ['a', 1, 4] }] },
       { cap: 'tert-Butoxide takes the proton from nitrogen, giving the neutral carbamate and tert-butanol.',
-        sp: [{ s: 'CC(C)(C)OC(=O)[N+]([2H])C' }, { s: 'CC(C)(C)[O-]', lp: [4] }, { s: 'O=C=O' }], ar: [{ f: ['l', 1, 4], t: ['n', 1, 4, 0, 8] }, { f: ['b', 0, 7, 8], t: ['a', 0, 7] }] },
+        sp: [{ s: 'CC(C)(C)OC(=O)[NH+]([2H])C' }, { s: 'CC(C)(C)[O-]', lp: [4] }, { s: 'O=C=O' }], ar: [{ f: ['l', 1, 4], t: ['n', 1, 4, 0, 8] }, { f: ['b', 0, 7, 8], t: ['a', 0, 7] }] },
       { cap: 'Products: the Boc carbamate, carbon dioxide and tert-butanol.', sp: [{ s: 'CC(C)(C)OC(=O)NC' }, { s: 'O=C=O' }, { s: 'CC(C)(C)O' }], ar: [] }
     ],
     lab: [
@@ -340,8 +342,10 @@ module.exports = [
         sp: [{ s: 'CC(C)(C)OC(=[O+][2H])NC' }], ar: [{ f: ['b', 0, 1, 4], t: ['b', 0, 4, 5] }, { f: ['b', 0, 5, 6], t: ['a', 0, 6] }] },
       { cap: 'Chloride removes a proton from the tert-butyl cation, giving isobutylene gas. (Chloride can also add to it, giving tert-butyl chloride.)',
         sp: [{ s: 'O=C(O[2H])NC' }, { s: '[2H]C[C+](C)C' }, { s: '[Cl-]', lp: [0] }], ar: [{ f: ['l', 2, 0], t: ['n', 2, 0, 1, 0] }, { f: ['b', 1, 0, 1], t: ['b', 1, 1, 2] }] },
-      { cap: 'The carbamic acid loses carbon dioxide; the C–N bond electrons take the proton onto nitrogen, freeing the amine.',
-        sp: [{ s: 'O=C(O[2H])NC' }], ar: [{ f: ['b', 0, 1, 4], t: ['n', 0, 4, 0, 3] }, { f: ['b', 0, 2, 3], t: ['b', 0, 1, 2] }] },
+      { cap: 'A proton moves from the OH to the nitrogen of the carbamic acid (through the solvent).',
+        sp: [{ s: 'O=C(O[2H])NC', lp: [4] }], ar: [{ f: ['l', 0, 4], t: ['n', 0, 4, 0, 3] }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
+      { cap: 'The oxygen lone pair forms a second C=O bond and the C–N bond breaks: carbon dioxide leaves and the amine is freed.',
+        sp: [{ s: 'O=C([O-])[NH2+]C', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['b', 0, 1, 2] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
       { cap: 'Products: the amine (as its hydrochloride salt), carbon dioxide and isobutylene.', sp: [{ s: 'C[NH3+]' }, { s: '[Cl-]' }, { s: 'O=C=O' }, { s: 'C=C(C)C' }], ar: [] }
     ],
     lab: [
@@ -372,7 +376,7 @@ module.exports = [
     seo: 'Diazotisation: Mechanism, Temperature and Safety',
     desc: 'Aromatic amine to diazonium salt with sodium nitrite and acid: animated mechanism, why it must stay cold, nitrogen gas on decomposition, NOx and excess nitrite.',
     intro: 'Nitrous acid, made from sodium nitrite and acid, turns an aromatic amine into a diazonium salt. Diazonium salts are the gateway to Sandmeyer reactions, azo dyes and many substitutions, but they are unstable: they lose nitrogen gas as they warm, and dry diazonium salts can explode.',
-    eq: { r: [['Nc1ccccc1', 'Aromatic amine (aniline shown)'], ['N(=O)[O-].[Na+]', 'Sodium nitrite'], ['Cl', 'HCl (2–3 eq)']], p: [['N#[N+]c1ccccc1.[Cl-]', 'Diazonium chloride'], ['O', 'Water']], cond: 'water, 0–5 °C' },
+    eq: { r: [['Nc1ccccc1', 'Aromatic amine (aniline shown)'], ['N(=O)[O-].[Na+]', 'Sodium nitrite'], ['Cl', 'HCl (2–3 eq)']], p: [['N#[N+]c1ccccc1.[Cl-]', 'Diazonium chloride'], ['O', 'Water']], cond: 'water, 0–5 °C', note: 'overall: ArNH₂ + NaNO₂ + 2 HCl → ArN₂⁺Cl⁻ + NaCl + 2 H₂O' },
     mech: [
       { cap: 'In acid, nitrous acid is protonated and loses water, giving the nitrosonium ion NO⁺.',
         sp: [{ s: 'O=N[O+]([2H])[2H]', lp: [0] }], ar: [{ f: ['l', 0, 0], t: ['b', 0, 0, 1] }, { f: ['b', 0, 1, 2], t: ['a', 0, 2] }] },
@@ -389,7 +393,7 @@ module.exports = [
       { cap: 'Cool to 0–5 °C with brine in the jacket.', cool: true, T: 2 },
       { cap: 'Dose sodium nitrite solution below the surface, keeping below 5 °C. The solid dissolves as the diazonium forms.', dose: { color: '#f0f6fa', name: 'NaNO₂ (aq)' }, glow: true, cool: true, T: 4, level: 0.6, solid: null, color: '#f3efcf' },
       { cap: 'Check for a slight excess of nitrite with starch–iodide paper (it turns blue-black).', cool: true, T: 3 },
-      { cap: 'Destroy the excess nitrite with sulfamic acid. This gives nitrogen gas bubbles.', dose: { color: '#ffffff', name: 'Sulfamic acid' }, gas: { name: 'N₂ (from excess nitrite)', slow: true }, cool: true, T: 3 },
+      { cap: 'Destroy the excess nitrite with sulfamic acid. This gives nitrogen gas bubbles.', dose: { color: '#ffffff', name: 'Sulfamic acid' }, gas: { name: 'N₂', slow: true }, cool: true, T: 3 },
       { cap: 'Use the cold diazonium solution at once in the next step. Never isolate or dry it.', cool: true, T: 3, color: '#f2ebc4' }
     ],
     gas: [{ n: 'Nitrogen', s: 'N#N', mol: 1, per: 'released when the diazonium decomposes, or in the next step (Sandmeyer, hydrolysis)', note: 'Not toxic, but its volume is large: plan the vent for the next step and for any decomposition.' }],
@@ -416,7 +420,7 @@ module.exports = [
     seo: 'Reductive Amination: Mechanism, Imine and Hydride',
     desc: 'Ketone and amine to a new amine through an iminium ion reduced by sodium triacetoxyborohydride: animated mechanism, moisture, by-products and plant handling.',
     intro: 'A ketone or aldehyde and an amine form an iminium ion, which a mild hydride reagent reduces to a new amine. Sodium triacetoxyborohydride is selective: it reduces the iminium much faster than the ketone, so everything can be mixed in one pot.',
-    eq: { r: [['CC(C)=O', 'Ketone (acetone shown)'], ['CN', 'Amine (methylamine shown)'], ['[Na+].[2H][B-](OC(C)=O)(OC(C)=O)OC(C)=O', 'NaBH(OAc)₃']], p: [['CC(C)NC', 'Secondary amine']], cond: 'DCE, THF or EtOAc, AcOH, 20–25 °C' },
+    eq: { r: [['CC(C)=O', 'Ketone (acetone shown)'], ['CN', 'Amine (methylamine shown)'], ['[Na+].[2H][B-](OC(C)=O)(OC(C)=O)OC(C)=O', 'NaBH(OAc)₃']], p: [['CC(C)NC', 'Secondary amine']], cond: 'THF or EtOAc, AcOH, 20–25 °C', note: 'boron and acetate salts not shown' },
     mech: [
       { cap: 'The amine attacks the carbonyl carbon; the C=O π bond moves onto oxygen.',
         sp: [{ s: 'CN', lp: [1] }, { s: 'CC(C)=O' }], ar: [{ f: ['l', 0, 1], t: ['n', 0, 1, 1, 1] }, { f: ['b', 1, 1, 3], t: ['a', 1, 3] }] },
@@ -445,7 +449,7 @@ module.exports = [
       ['Over-alkylation (tertiary amine)', 'The product amine reacts again with the carbonyl. Use excess of the starting amine.'],
       ['Acetylated amine', 'Acetate transfer from the reagent at long holds. Avoid large excess and long holds.']
     ],
-    moist: { lvl: 'Medium', txt: 'Water slowly destroys the hydride and pushes the imine back to ketone and amine. Use dry solvent; a drying agent or molecular sieves help slow imine formations.' },
+    moist: { lvl: 'Medium', txt: 'Water slowly destroys the hydride and pushes the imine back to ketone and amine. Use dry solvent; a drying agent or molecular sieves help when imine formation is slow.' },
     exo: { short: 'Mildly exothermic', txt: 'Modest heat release on reagent addition and in the bicarbonate quench.' },
     plant: ['Check the imine formation by HPLC before adding the reagent.', 'Triacetoxyborohydride is a moisture-sensitive solid: weigh quickly and keep containers closed.', 'Catalytic hydrogenation is the usual large-scale alternative when the molecule allows.'],
     links: [['/molecules/reaction-lab/sodium-borohydride-reduction/', 'Sodium borohydride reduction'], ['/articles/hydrogenation-and-reduction/', 'Hydrogenation and reduction'], ['/molecules/reaction/', 'Reaction Builder']]
@@ -458,7 +462,7 @@ module.exports = [
     eq: { r: [['C1=CC=CC=C1', 'Arene (benzene shown)'], ['BrBr', 'Bromine']], p: [['Brc1ccccc1', 'Aryl bromide'], ['Br', 'Hydrogen bromide']], cond: 'FeBr₃ (cat.), 20–50 °C' },
     mech: [
       { cap: 'Bromine coordinates to iron(III) bromide. A π bond of the ring attacks the outer bromine, and the Br–Br bond breaks towards iron.',
-        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'BrBr' }, { s: 'Br[Fe](Br)Br' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 0] }, { f: ['b', 1, 0, 1], t: ['n', 1, 1, 2, 1] }] },
+        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'BrBr' }, { s: 'Br[Fe](Br)Br' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 0], side: S3 }, { f: ['b', 1, 0, 1], t: ['n', 1, 1, 2, 1] }] },
       { cap: 'The σ-complex loses its proton to FeBr₄⁻, the ring becomes aromatic again, and HBr and FeBr₃ are released.',
         sp: [{ s: 'BrC1([2H])C=CC=C[CH+]1' }, { s: 'Br[Fe-](Br)(Br)Br', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 2] }, { f: ['b', 0, 1, 2], t: ['b', 0, 1, 7] }] },
       { cap: 'Products: aryl bromide and HBr gas; the catalyst is regenerated.', sp: [{ s: 'Brc1ccccc1' }, { s: 'Br' }, { s: 'Br[Fe](Br)Br' }], ar: [] }
@@ -489,7 +493,7 @@ module.exports = [
   },
   {
     slug: 'ester-hydrolysis-saponification', name: 'Ester hydrolysis with sodium hydroxide (saponification)', short: 'Saponification', cat: 'Acylation and activation',
-    seo: 'Saponification: Ester Hydrolysis Mechanism, Work-up',
+    seo: 'Saponification: Ester Hydrolysis Mechanism',
     desc: 'Base hydrolysis of an ester with sodium hydroxide: animated mechanism, why it goes to completion, acidification heat, by-products and plant tips.',
     intro: 'Hydroxide attacks the ester carbonyl and pushes out the alkoxide. Unlike acid hydrolysis, the last step is a proton transfer that makes the carboxylate salt, which cannot react back, so the reaction goes to completion. The free acid is recovered by acidifying.',
     eq: { r: [['CC(=O)OCC', 'Ester (ethyl acetate shown)'], ['[Na+].[OH-]', 'Sodium hydroxide']], p: [['CC(=O)[O-].[Na+]', 'Sodium carboxylate'], ['CCO', 'Alcohol']], cond: 'water/MeOH, 25–60 °C; then acidify' },
@@ -507,7 +511,7 @@ module.exports = [
       { cap: 'Dose sodium hydroxide solution. The mixture warms; two phases become one as the salt forms.', dose: { color: '#f2f7fa', name: 'NaOH (aq)' }, glow: true, T: 40, level: 0.6 },
       { cap: 'Heat to 50–60 °C and hold until no ester is left.', heat: true, T: 58 },
       { cap: 'Distil off methanol and the released alcohol.', distil: true, heat: true, T: 70, level: 0.5 },
-      { cap: 'Cool and acidify with hydrochloric acid to pH 2–3. The carboxylic acid crystallises; this neutralisation is exothermic.', cool: true, dose: { color: '#e6f3fb', name: 'HCl (aq)' }, glow: true, T: 20, solid: '#ffffff', level: 0.62 },
+      { cap: 'Cool and acidify with hydrochloric acid to pH 2–3. A solid carboxylic acid crystallises here (acetic acid itself would stay dissolved); this neutralisation is exothermic.', cool: true, dose: { color: '#e6f3fb', name: 'HCl (aq)' }, glow: true, T: 20, solid: '#ffffff', level: 0.62 },
       { cap: 'Filter and wash the acid.', T: 15, solid: '#ffffff' }
     ],
     gas: [], gasNote: 'None',
@@ -529,22 +533,22 @@ module.exports = [
   },
   {
     slug: 'epoxide-ring-opening-with-amine', name: 'Epoxide ring opening with an amine', short: 'Epoxide opening', cat: 'Substitution and alkylation',
-    seo: 'Epoxide Ring Opening with Amines: Mechanism, Exotherm',
+    seo: 'Epoxide Opening with Amines: Mechanism, Exotherm',
     desc: 'Amine opening an epoxide (SN2 at the less hindered carbon) to a β-amino alcohol: animated mechanism, strong exotherm, accumulation risk and bis-alkylation.',
     intro: 'Epoxides are strained three-membered rings, so even a neutral amine can open them. The amine attacks the less hindered carbon from the back side, giving a β-amino alcohol, a structure found in many drugs such as beta-blockers. The ring strain makes the reaction strongly exothermic.',
-    eq: { r: [['CC1CO1', 'Epoxide (propylene oxide shown)'], ['CC(C)N', 'Amine (isopropylamine)']], p: [['CC(C)NCC(C)O', 'β-Amino alcohol']], cond: 'IPA or neat, 30–60 °C' },
+    eq: { r: [['CC1CO1', 'Epoxide (propylene oxide shown)'], ['CC(C)N', 'Amine (isopropylamine)']], p: [['CC(C)NCC(C)O', 'β-Amino alcohol']], cond: 'IPA, 30–40 °C, closed reactor' },
     mech: [
       { cap: 'The amine nitrogen attacks the less hindered CH₂ carbon of the epoxide from the back side; the C–O bond breaks and the ring opens.',
         sp: [{ s: 'CC(C)N', lp: [3] }, { s: 'CC1CO1' }], ar: [{ f: ['l', 0, 3], t: ['n', 0, 3, 1, 2] }, { f: ['b', 1, 2, 3], t: ['a', 1, 3] }] },
       { cap: 'A proton moves from nitrogen to oxygen (through the solvent), giving the neutral amino alcohol.',
-        sp: [{ s: 'CC(C)[N+]([2H])CC(C)[O-]', lp: [8] }], ar: [{ f: ['l', 0, 8], t: ['n', 0, 8, 0, 4] }, { f: ['b', 0, 3, 4], t: ['a', 0, 3] }] },
+        sp: [{ s: 'CC(C)[NH+]([2H])CC(C)[O-]', lp: [8] }], ar: [{ f: ['l', 0, 8], t: ['n', 0, 8, 0, 4] }, { f: ['b', 0, 3, 4], t: ['a', 0, 3] }] },
       { cap: 'Product: the β-amino alcohol. It is still an amine and can react with a second epoxide, which is why excess amine is used.', sp: [{ s: 'CC(C)NCC(C)O' }], ar: [] }
     ],
     lab: [
-      { cap: 'Charge the amine (in excess) and the solvent; warm to 35–40 °C.', level: 0.45, color: '#eef1f3', T: 38, heat: true, stir: true, n2: true },
-      { cap: 'Dose the epoxide slowly. The heat of ring opening shows at once; set the rate by the cooling.', dose: { color: '#f8f8f8', name: 'Epoxide' }, glow: true, T: 45, level: 0.58 },
-      { cap: 'Hold until the epoxide is gone. Check it is really consumed before heating further.', T: 50 },
-      { cap: 'Distil off the excess amine and solvent for recovery.', distil: true, heat: true, T: 70, level: 0.4 }
+      { cap: 'Charge the amine (in excess) and the solvent into a closed, pressure-rated reactor with a cold reflux condenser; both isopropylamine and propylene oxide boil near 33 °C.', level: 0.45, color: '#eef1f3', T: 25, stir: true, n2: true },
+      { cap: 'Dose the epoxide slowly at 30–40 °C under slight pressure. The heat of ring opening shows at once; set the rate by the cooling.', dose: { color: '#f8f8f8', name: 'Epoxide' }, glow: true, T: 38, level: 0.58 },
+      { cap: 'Hold until the epoxide is gone. Check it is really consumed before heating further.', T: 40 },
+      { cap: 'Vent to atmospheric pressure and distil off the excess amine and solvent for recovery.', distil: true, heat: true, T: 70, level: 0.4 }
     ],
     gas: [], gasNote: 'None (volatile epoxide vapour)',
     care: [
