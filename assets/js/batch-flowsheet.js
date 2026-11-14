@@ -58,7 +58,7 @@
       } else return 0;
       return base * unitF * s;
     }
-    var cur = stream(), keyCharged = 0, pCharged = 0, theo = null, rxIn = 0, rxOut = 0;
+    var consumed = {}, cur = stream(), keyCharged = 0, pCharged = 0, theo = null, rxIn = 0, rxOut = 0;
     function side(step, name, liq, sol, dest) {
       var x = { step: step.i, stepName: step.name, name: name, liq: liq || {}, sol: sol || {}, dest: dest };
       x.kg = sTot(x); if (x.kg <= 1e-9) return;
@@ -73,23 +73,25 @@
       var step = { i: i + 1, name: (sp.name || TYPES[T].label), type: T, sides: [], notes: [], charges: [] };
       var where = 'Step ' + step.i + ' (' + step.name + ')';
       var ch = stream();
-      (sp.add || []).forEach(function (a) {
+      (sp.add || []).forEach(function (a, ai) {
         var kg = kgOf(a, where); if (!(kg > 0)) return;
-        var c = { step: step.i, stepName: step.name, m: a.m, kg: kg }; R.charges.push(c); step.charges.push(c);
+        var c = { step: step.i, stepName: step.name, m: a.m, kg: kg, j: ai }; R.charges.push(c); step.charges.push(c);
         if (a.m === b.key) keyCharged += kg; if (a.m === b.product) pCharged += kg;
         if (layerOf(a.m) === 'solid') addTo(ch.sol, a.m, kg); else addTo(ch.liq, a.m, kg);
       });
       step.chargeKg = sTot(ch);
-      if (T !== 'filt') { cur = stream(merge(cur.liq, ch.liq), merge(cur.sol, ch.sol)); }
+      if (T === 'filt') { var gw = {}; for (var gk in ch.liq) if (layerOf(gk) === 'gas') { gw[gk] = ch.liq[gk]; delete ch.liq[gk]; } if (tot(gw)) side(step, 'Off-gas', gw, {}, 'Scrubber / vent'); }
+      else cur = stream(merge(cur.liq, ch.liq), merge(cur.sol, ch.sol));
       step.vessel = sTot(cur) + (T === 'filt' ? sTot(ch) : 0);
-      if (T === 'add') ventGas(step);
+      if (T !== 'react' && T !== 'sep') ventGas(step);
+      if (T === 'add') { /* charges only */ }
       else if (T === 'react') {
         var rx = p.rx || { r: [], pr: [] }, rs = (rx.r || []).filter(function (x) { return M[x.m]; }), ps = (rx.pr || []).filter(function (x) { return M[x.m]; });
         var conv = num(p.conv), dH = num(p.dH);
         if (!rs.length || !ps.length) step.notes.push(['No reaction defined: this step only mixes its charges.', 'warn']);
         else {
           var bad = rs.concat(ps).filter(function (x) { return !(num(M[x.m].mw) > 0) || !(num(x.nu) > 0); });
-          if (bad.length) step.notes.push(['Every reactant and product needs a molar mass and a stoichiometric coefficient greater than zero.', 'err']);
+          if (bad.length) step.notes.push(['Enter a molar mass and a coefficient greater than zero for: ' + bad.map(function (x) { return M[x.m].n; }).join(', ') + '.', 'err']);
           else if (!(conv >= 0 && conv <= 100)) step.notes.push(['Conversion must be between 0 and 100 %.', 'err']);
           else {
             var k0 = rs[0], avail = function (id) { return (cur.liq[id] || 0) + (cur.sol[id] || 0); };
@@ -98,14 +100,15 @@
             rs.forEach(function (x) { var nmax = avail(x.m) / num(M[x.m].mw) / num(x.nu); if (nmax < n - 1e-12) { n = nmax; lim = x; } });
             if (lim) step.notes.push(['Not enough ' + M[lim.m].n + ' for the conversion asked: it runs out first and limits the reaction.', 'warn']);
             var mr = 0, mp = 0;
-            rs.forEach(function (x) { var need = n * num(x.nu) * num(M[x.m].mw); mr += need; var t = take(cur.liq, x.m, need); take(cur.sol, x.m, need - t); });
+            rs.forEach(function (x) { var need = n * num(x.nu) * num(M[x.m].mw); mr += need; addTo(consumed, x.m, need); var t = take(cur.liq, x.m, need); take(cur.sol, x.m, need - t); });
             ps.forEach(function (x) { var made = n * num(x.nu) * num(M[x.m].mw); mp += made; if (layerOf(x.m) === 'solid') addTo(cur.sol, x.m, made); else addTo(cur.liq, x.m, made); });
             rxIn += mr; rxOut += mp;
             var sr = rs.reduce(function (a, x) { return a + num(x.nu) * num(M[x.m].mw); }, 0), sp2 = ps.reduce(function (a, x) { return a + num(x.nu) * num(M[x.m].mw); }, 0);
             if (Math.abs(sr - sp2) > 0.005 * sr) step.notes.push(['The reaction does not balance by mass: reactants ' + f1(sr) + ', products ' + f1(sp2) + ' g/mol of reaction. Check the molar masses and coefficients.', 'err']);
             step.n = n; step.conv = n * num(k0.nu) * num(M[k0.m].mw) / Math.max(1e-12, (avail(k0.m) + n * num(k0.nu) * num(M[k0.m].mw))) * 100;
-            if (theo === null && k0.m === b.key) { var pp = ps.filter(function (x) { return x.m === b.product; })[0]; if (pp) theo = { kmolPerKg: num(pp.nu) / num(k0.nu) / num(key.mw), mw: num(P.mw) }; }
-            if (isFinite(dH) && dH !== 0) {
+            var kr = rs.filter(function (x) { return x.m === b.key; })[0];
+            if (theo === null && kr && P && num(P.mw) > 0) { var pp = ps.filter(function (x) { return x.m === b.product; })[0]; if (pp) theo = { kmolPerKg: num(pp.nu) / num(kr.nu) / num(key.mw), mw: num(P.mw) }; }
+            if (isFinite(dH) && dH !== 0 && n > 0) {
               step.Q = -dH * n * 1000; step.dTad = step.Q / (step.vessel * cp);
               if (step.Q > 0) {
                 var lvl = step.dTad < 20 ? ['ok', 'low'] : step.dTad < 50 ? ['warn', 'moderate: plan the dosing and cooling'] : ['err', 'high: a loss of cooling could run away. Do a hazard study before scale-up'];
@@ -135,20 +138,22 @@
         if (tot(g)) side(step, 'Off-gas', g, {}, 'Scrubber / vent');
       } else if (T === 'dist') {
         var pct = num(p.pct), eff = num(p.eff), tgt = p.tgt || 'all';
-        if (!(pct >= 0 && pct <= 100)) { step.notes.push(['Percentage distilled must be 0 to 100 %.', 'err']); pct = 0; }
+        var pctBad = false; if (!(pct >= 0 && pct <= 100)) { step.notes.push(['Percentage distilled must be 0 to 100 %.', 'err']); pct = 0; pctBad = true; }
+        if (tgt !== 'all' && M[tgt] && !M[tgt].vol) { step.notes.push([M[tgt].n + ' is not marked volatile, so it is not distilled. Tick Volatile in the materials table if it should be.', 'warn']); tgt = '__none'; }
         if (!(eff >= 0 && eff <= 100)) { step.notes.push(['Condenser recovery must be 0 to 100 %.', 'err']); eff = 100; }
         var dist = {}, lossV = {};
         for (k in cur.liq) {
           if (!(tgt === 'all' ? isVol(k) : k === tgt)) continue;
           var d = cur.liq[k] * pct / 100; take(cur.liq, k, d); addTo(dist, k, d * eff / 100); addTo(lossV, k, d * (1 - eff / 100));
         }
-        if (!tot(dist) && !tot(lossV)) step.notes.push(['Nothing to distil: ' + (tgt === 'all' ? 'no volatile material is present.' : (M[tgt] ? M[tgt].n : 'the chosen material') + ' is not present.'), 'warn']);
+        if (!pctBad && pct > 0 && !tot(dist) && !tot(lossV)) step.notes.push(['Nothing to distil: ' + (tgt === 'all' ? 'no volatile material is present.' : (M[tgt] ? M[tgt].n : 'the chosen material') + ' is not present.'), 'warn']);
         var resid = sTot(cur);
         if (resid > 0 && tot(cur.liq) / resid < 0.15 && tot(cur.sol) + tot(cur.liq) > 0) step.notes.push(['Less than 15 % liquid is left: the residue may be too thick to stir or discharge.', 'warn']);
         side(step, 'Distillate', dist, {}, p.dest || 'Solvent recovery'); side(step, 'Uncondensed vapour', lossV, {}, 'Scrubber / vent');
       } else if (T === 'cryst') {
         var S = num(p.sol);
         if (!(S >= 0)) step.notes.push(['Enter the solubility of the product at the final temperature (zero or more).', 'err']);
+        else if (P && layerOf(b.product) === 'solid') step.notes.push(['The product is set to "Solid (undissolved)", so it never dissolves. Set its "Goes to" to Organic or Aqueous to model a crystallisation.', 'err']);
         else if (!P || !(cur.liq[b.product] > 0)) step.notes.push(['No dissolved product to crystallise.', 'warn']);
         else {
           var solv = 0; for (k in cur.liq) if (k !== b.product && isVol(k)) solv += cur.liq[k];
@@ -179,6 +184,7 @@
         if (!(lod2 >= 0 && lod2 < 100)) { step.notes.push(['Final LOD must be from 0 to below 100 %.', 'err']); lod2 = 0; }
         if (!(hl >= 0 && hl < 100)) { step.notes.push(['Handling loss must be from 0 to below 100 %.', 'err']); hl = 0; }
         if (!tot(cur.sol)) step.notes.push(['There are no solids to dry. Filter first.', 'warn']);
+        if (P && cur.liq[b.product] > 0 && tot(cur.sol) > 0) { addTo(cur.sol, b.product, cur.liq[b.product]); delete cur.liq[b.product]; }
         var nv = 0, vv = 0; for (k in cur.liq) { if (isVol(k)) vv += cur.liq[k]; else nv += cur.liq[k]; }
         var sol0 = tot(cur.sol), target = lod2 > 0 ? (sol0 + nv) * lod2 / (100 - lod2) : 0; // volatile liquid allowed
         var cond = {};
@@ -204,17 +210,20 @@
     R.keyCharged = keyCharged;
     if (Math.abs(keyCharged - bq * unitF * s) > 0.005 * bq * unitF * s) R.warn.push('The key material charged (' + f1(keyCharged) + ' kg) is not the plant batch size (' + f1(pl) + ' kg). Check the charges or the batch basis.');
     if (R.yield > 100.5) R.warn.push('The yield is above 100 %. Check the molar masses, the charges and the drying LOD.');
-    R.pmi = R.outKg > 0 ? R.charged / R.outKg : NaN;
+    R.pmi = R.pAll > 0 ? R.charged / R.pAll : NaN;
     R.byDest = {}; DESTS.forEach(function (d) { R.byDest[d] = 0; }); R.sides.forEach(function (x) { R.byDest[x.dest] = (R.byDest[x.dest] || 0) + x.kg; });
-    R.efactor = R.outKg > 0 ? (R.charged - R.outKg) / R.outKg : NaN;
-    R.efactorRec = R.outKg > 0 ? (R.charged - R.outKg - R.byDest['Solvent recovery']) / R.outKg : NaN;
+    R.efactor = R.pAll > 0 ? (R.charged - R.pAll) / R.pAll : NaN;
+    R.efactorRec = R.pAll > 0 ? (R.charged - R.pAll - R.byDest['Solvent recovery']) / R.pAll : NaN;
+    if (R.pAll > 0 && R.assay < 90) R.warn.push('The final stream is only ' + f1(R.assay) + ' % product. PMI and E-factor are per kg of product, not per kg of this stream; add the work-up steps to get a realistic product.');
+    R.consumed = consumed;
+    R.balTol = Math.max(1e-6 * Math.max(1, R.charged), 0.005 * rxIn);
     // solvent recovery per volatile material
-    R.solv = st.mats.filter(function (m) { return m.vol && m.layer !== 'gas'; }).map(function (m) {
+    R.solv = st.mats.filter(function (m) { return m.vol && m.layer !== 'gas' && !(consumed[m.id] > 0); }).map(function (m) {
       var c = R.charges.filter(function (x) { return x.m === m.id; }).reduce(function (a, x) { return a + x.kg; }, 0);
       var r = R.sides.filter(function (x) { return x.dest === 'Solvent recovery'; }).reduce(function (a, x) { return a + (x.liq[m.id] || 0); }, 0);
       return { id: m.id, n: m.n, charged: c, toRec: r };
     }).filter(function (x) { return x.charged > 0; });
-    if (Math.abs(R.balErr) > 1e-6 * Math.max(1, R.charged) && Math.abs(rxIn - rxOut) < 1e-9) R.warn.push('Internal check: the balance does not close. Please report this case.');
+    if (Math.abs(R.balErr) > 1e-6 * Math.max(1, R.charged) && Math.abs(rxIn - rxOut) < 1e-9 * Math.max(1, rxIn)) R.warn.push('Internal check: the balance does not close. Please report this case.');
     return R;
   }
   function f0(x) { return isFinite(x) ? Math.round(x).toLocaleString('en-US') : '–'; }
@@ -227,7 +236,7 @@
       basis: { key: 'ksm', product: 'p', qty: 100, unit: 'g', plant: 500, name: 'Example: coupling, work-up and crystallisation' }, cp: 0.45,
       mats: [
         { id: 'ksm', n: 'Key starting material (KSM)', mw: 250, rho: 1.2, layer: 'org', vol: false },
-        { id: 'rg', n: 'Acid chloride (excess hydrolyses in the quench)', mw: 160, rho: 1.15, layer: 'aq', vol: false },
+        { id: 'rg', n: 'Acid chloride (excess goes to the water layer)', mw: 160, rho: 1.15, layer: 'aq', vol: false },
         { id: 'tea', n: 'Triethylamine', mw: 101.19, rho: 0.726, layer: 'org', vol: true },
         { id: 'sal', n: 'Triethylamine hydrochloride', mw: 137.65, rho: 1.1, layer: 'aq', vol: false },
         { id: 'p', n: 'Product', mw: 373.54, rho: 1.25, layer: 'org', vol: false },
@@ -258,11 +267,13 @@
   var root = document.getElementById('bfd-app'); if (!root) return;
   var st;
   try { st = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { st = null; }
+  try { if (/^#s=/.test(location.hash)) { var hs = JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3))))); if (hs && hs.mats && hs.steps) st = hs; } } catch (e) { /* bad link: keep the saved flowsheet */ }
   if (!st || !st.mats || !st.steps) st = example();
   var lastR = null;
   function save() { try { localStorage.setItem(STORE, JSON.stringify(st)); } catch (e) { /* storage off: work in memory */ } }
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function matOpts(sel, extra) { return (extra || '') + st.mats.map(function (m) { return '<option value="' + m.id + '"' + (m.id === sel ? ' selected' : '') + '>' + esc(m.n) + '</option>'; }).join(''); }
+  function volOpts(sel, extra) { return (extra || '') + st.mats.filter(function (m) { return m.vol && m.layer !== 'gas'; }).map(function (m) { return '<option value="' + m.id + '"' + (m.id === sel ? ' selected' : '') + '>' + esc(m.n) + '</option>'; }).join(''); }
   function opts(o, sel) { return Object.keys(o).map(function (k) { return '<option value="' + k + '"' + (k === sel ? ' selected' : '') + '>' + esc(o[k]) + '</option>'; }).join(''); }
   function destOpts(sel) { return DESTS.map(function (d) { return '<option' + (d === sel ? ' selected' : '') + '>' + d + '</option>'; }).join(''); }
   function inp(path, val, attrs) { return '<input data-p="' + path + '" value="' + esc(val) + '" ' + (attrs || 'type="number" step="any" inputmode="decimal"') + '>'; }
@@ -272,8 +283,8 @@
     var b = st.basis, bu = b.unit === 'g' ? 'g' : 'kg', vu = b.unit === 'g' ? 'mL' : 'L';
     var h = '<section class="bf-card"><h2>1. Batch basis</h2><div class="bf-row">'
       + lbl('Process name', inp('basis.name', b.name, 'type="text" placeholder="Step 3: amide coupling"'))
-      + lbl('Key raw material', '<select data-p="basis.key">' + matOpts(b.key) + '</select>')
-      + lbl('Product', '<select data-p="basis.product">' + matOpts(b.product) + '</select>')
+      + lbl('Key raw material', '<select data-p="basis.key">' + matOpts(b.key, b.key ? '' : '<option value="" selected>Choose</option>') + '</select>')
+      + lbl('Product', '<select data-p="basis.product">' + matOpts(b.product, b.product ? '' : '<option value="" selected>Choose</option>') + '</select>')
       + lbl('Key material in the procedure', '<div class="bf-pair">' + inp('basis.qty', b.qty) + '<select data-p="basis.unit"><option value="g"' + (b.unit === 'g' ? ' selected' : '') + '>g</option><option value="kg"' + (b.unit === 'kg' ? ' selected' : '') + '>kg</option></select></div>')
       + lbl('Plant batch: key material', inp('basis.plant', b.plant), 'kg')
       + lbl('Heat capacity of the mass', inp('cp', st.cp), 'kcal/kg·°C')
@@ -285,7 +296,7 @@
     h += '<section class="bf-card"><h2>3. Steps</h2>' + st.steps.map(function (sp, i) { return stepHtml(sp, i, bu, vu); }).join('')
       + '<div class="bf-addstep"><select id="bf-newtype" aria-label="Step type">' + Object.keys(TYPES).map(function (k) { return '<option value="' + k + '">' + TYPES[k].label + '</option>'; }).join('') + '</select><button type="button" class="bf-btn" data-act="addStep">+ Add step</button></div></section>';
     h += '<section class="bf-card bf-res" id="bf-res" aria-live="polite"></section>';
-    h += '<div class="bf-bar"><button type="button" class="btn btn-outline btn-sm" data-act="pdf">Download PDF</button><button type="button" class="btn btn-outline btn-sm" data-act="xlsx">Download Excel</button><button type="button" class="bf-btn" data-act="example">Load example</button><button type="button" class="bf-btn" data-act="clear">Start blank</button></div>';
+    h += '<div class="bf-bar"><button type="button" class="btn btn-outline btn-sm" data-act="pdf">Download PDF</button><button type="button" class="btn btn-outline btn-sm" data-act="xlsx">Download spreadsheet (.xlsx)</button><button type="button" class="bf-btn" data-act="example">Load example</button><button type="button" class="bf-btn" data-act="clear">Start blank</button></div>';
     root.innerHTML = h; results();
   }
   function stepHtml(sp, i, bu, vu) {
@@ -310,7 +321,7 @@
     } else if (sp.type === 'sep') {
       f += '<div class="bf-row">' + lbl('Layer kept', '<select data-p="' + P + 'keep"><option value="org"' + (p.keep !== 'aq' ? ' selected' : '') + '>Organic</option><option value="aq"' + (p.keep === 'aq' ? ' selected' : '') + '>Aqueous</option></select>') + lbl('Product lost to the other layer', inp(P + 'loss', p.loss), '%') + lbl('Discarded layer goes to', '<select data-p="' + P + 'dest">' + destOpts(p.dest || 'ETP') + '</select>') + '</div>';
     } else if (sp.type === 'dist') {
-      f += '<div class="bf-row">' + lbl('Distil', '<select data-p="' + P + 'tgt">' + matOpts(p.tgt, '<option value="all"' + (!p.tgt || p.tgt === 'all' ? ' selected' : '') + '>All volatile materials</option>') + '</select>') + lbl('Share of it distilled off', inp(P + 'pct', p.pct), '%') + lbl('Condensed and collected', inp(P + 'eff', p.eff), '%') + lbl('Distillate goes to', '<select data-p="' + P + 'dest">' + destOpts(p.dest || 'Solvent recovery') + '</select>') + '</div>';
+      f += '<div class="bf-row">' + lbl('Distil', '<select data-p="' + P + 'tgt">' + volOpts(p.tgt, '<option value="all"' + (!p.tgt || p.tgt === 'all' ? ' selected' : '') + '>All volatile materials</option>') + '</select>') + lbl('Share of it distilled off', inp(P + 'pct', p.pct), '%') + lbl('Condensed and collected', inp(P + 'eff', p.eff), '%') + lbl('Distillate goes to', '<select data-p="' + P + 'dest">' + destOpts(p.dest || 'Solvent recovery') + '</select>') + '</div>';
     } else if (sp.type === 'cryst') {
       f += '<div class="bf-row">' + lbl('Product solubility at the final temperature', inp(P + 'sol', p.sol), 'g per 100 g solvent') + '</div><p class="bf-hint">Solvent here means all volatile liquids together. To get this value from lab data, use the <a href="/process-modelling/solubility-curve-crystallisation/">solubility curve tool</a>.</p>';
     } else if (sp.type === 'filt') {
@@ -328,9 +339,9 @@
     if (R.errs.length) { el.innerHTML = '<h2>4. Results</h2>' + R.errs.map(function (e) { return '<p class="bf-msg err">' + esc(e) + '</p>'; }).join(''); return; }
     R.steps.forEach(function (s, i) { var n = root.querySelector('[data-snote="' + i + '"]'); if (n) n.innerHTML = s.notes.map(function (x) { return '<p class="bf-msg ' + x[1] + '">' + esc(x[0]) + '</p>'; }).join(''); });
     var h = '<h2>4. Results <span class="bf-scale">Scale factor ' + f1(R.scale) + '×</span></h2>';
-    h += '<div class="bf-kpi">' + kpi('Product out', f1(R.outKg) + ' kg', R.pAll > 0 ? 'assay ' + f1(R.assay) + ' % by mass' : 'no product in the final stream yet') + kpi('Yield', isFinite(R.yield) ? f1(R.yield) + ' %' : '–', R.yieldBasis ? 'vs ' + R.yieldBasis : 'define a reaction or charge the product') + kpi('Process mass intensity', f1(R.pmi), 'kg charged per kg product') + kpi('Effluent to ETP', f1(R.byDest.ETP) + ' kg', f1(R.outKg > 0 ? R.byDest.ETP / R.outKg : NaN) + ' kg per kg product') + '</div>';
-    var bal = Math.abs(R.balErr) <= 1e-6 * Math.max(1, R.charged);
-    h += '<p class="bf-msg ' + (bal ? 'ok' : 'err') + '">' + (bal ? 'Mass balance closes: charged ' + f0(R.charged) + ' kg = product ' + f1(R.outKg) + ' kg + other streams ' + f0(R.sideKg) + ' kg.' : 'Mass balance is off by ' + f1(R.balErr) + ' kg: charged ' + f0(R.charged) + ' kg, out ' + f0(R.outKg + R.sideKg) + ' kg. The reaction does not balance by mass.') + '</p>';
+    h += '<div class="bf-kpi">' + kpi('Product out', R.pAll > 0 ? f1(R.outKg) + ' kg' : '–', R.pAll > 0 ? 'assay ' + f1(R.assay) + ' % by mass' : 'no product in the final stream yet') + kpi('Yield', isFinite(R.yield) ? f1(R.yield) + ' %' : '–', R.yieldBasis ? 'vs ' + R.yieldBasis : 'define a reaction or charge the product') + kpi('Process mass intensity', f1(R.pmi), 'kg charged per kg product') + kpi('Effluent to ETP', f1(R.byDest.ETP) + ' kg', R.pAll > 0 ? f1(R.byDest.ETP / R.pAll) + ' kg per kg product' : 'per batch') + '</div>';
+    var exact = Math.abs(R.balErr) <= 1e-6 * Math.max(1, R.charged), bal = Math.abs(R.balErr) <= R.balTol;
+    h += '<p class="bf-msg ' + (bal ? 'ok' : 'err') + '">' + (exact ? 'Mass balance closes: charged ' + f0(R.charged) + ' kg = final stream ' + f1(R.outKg) + ' kg + other streams ' + f0(R.sideKg) + ' kg.' : bal ? 'Mass balance closes to within ' + f1(Math.abs(R.balErr)) + ' kg, from rounding in the molar masses of the reaction.' : 'Mass balance is off by ' + f1(R.balErr) + ' kg: charged ' + f0(R.charged) + ' kg, out ' + f0(R.outKg + R.sideKg) + ' kg. The reaction does not balance by mass.') + '</p>';
     if (R.warn.length) h += '<details class="bf-warn" open><summary>' + R.warn.length + ' point' + (R.warn.length > 1 ? 's' : '') + ' to check</summary><ul>' + R.warn.map(function (w) { return '<li>' + esc(w) + '</li>'; }).join('') + '</ul></details>';
     // flowsheet
     h += '<h3>Block flow diagram</h3><div class="bf-flow">';
@@ -350,7 +361,7 @@
         return row('liq', '') + row('sol', ' (solid)');
       }).join('') + '<tr class="bf-tot"><td>Total</td>' + cols.map(function (c) { return '<td>' + f1(sTot(c.s)) + '</td>'; }).join('') + '</tr></tbody></table></div>';
     // destinations and solvents
-    h += '<div class="bf-two"><div><h3>Where the waste goes</h3><table class="bf-sm-t"><tbody>' + DESTS.filter(function (d) { return R.byDest[d] > 0; }).map(function (d) { return '<tr><td>' + d + '</td><td>' + f0(R.byDest[d]) + ' kg</td><td>' + f1(R.byDest[d] / R.outKg) + ' kg/kg</td></tr>'; }).join('')
+    h += '<div class="bf-two"><div><h3>Where the waste goes</h3><table class="bf-sm-t"><tbody>' + DESTS.filter(function (d) { return R.byDest[d] > 0; }).map(function (d) { return '<tr><td>' + (d === 'Loss' ? 'Handling loss' : d) + '</td><td>' + f0(R.byDest[d]) + ' kg</td><td>' + f1(R.byDest[d] / R.outKg) + ' kg/kg</td></tr>'; }).join('')
       + '</tbody></table><p class="bf-hint">E-factor ' + f1(R.efactor) + ' kg waste per kg product; ' + f1(R.efactorRec) + ' if everything sent to solvent recovery is reused.</p></div>';
     h += '<div><h3>Solvents</h3><table class="bf-sm-t"><thead><tr><th>Solvent</th><th>Charged</th><th>To recovery</th></tr></thead><tbody>' + R.solv.map(function (x) { return '<tr><td>' + esc(x.n) + '</td><td>' + f0(x.charged) + ' kg</td><td>' + f0(x.toRec) + ' kg (' + f0(x.toRec / x.charged * 100) + ' %)</td></tr>'; }).join('') + '</tbody></table><p class="bf-hint">Share sent to recovery, before the losses of the recovery unit itself.</p></div></div>';
     h += '<div class="bf-up"><b>Need equipment tags, utilities and costing?</b> The <a href="/exclusive/bfd-tool/">BFD tool (offline app)</a> turns a pasted lab procedure into a full step-sheet workbook, linked to one batch-size cell.</div>';
@@ -368,11 +379,12 @@
   root.addEventListener('input', function (e) {
     var p = e.target.getAttribute('data-p'); if (!p || e.target.getAttribute('data-re')) return;
     setPath(p, e.target.type === 'checkbox' ? e.target.checked : e.target.value);
+    if (p === 'basis.unit') { render(); return; }
     if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') { results(); return; }
     clearTimeout(tmr); tmr = setTimeout(function () { results(); if (/^mats\.\d+\.n$/.test(p)) refreshNames(); }, 250);
   });
   function refreshNames() { root.querySelectorAll('select option').forEach(function (o) { var m = st.mats.filter(function (x) { return x.id === o.value; })[0]; if (m) o.textContent = m.n; }); }
-  root.addEventListener('change', function (e) { if (e.target.getAttribute('data-re')) { var i = +e.target.closest('[data-step]').getAttribute('data-step'), t = e.target.value, old = st.steps[i]; if (old.name === TYPES[old.type].label) old.name = TYPES[t].label; old.type = t; old.p = defaults(t); render(); } });
+  root.addEventListener('change', function (e) { if (e.target.getAttribute('data-re')) { var i = +e.target.closest('[data-step]').getAttribute('data-step'), t = e.target.value, old = st.steps[i]; if (old.name === TYPES[old.type].label) old.name = TYPES[t].label; old.type = t; old.p = defaults(t); if (!TYPES[t].addLabel) old.add = []; render(); } });
   function defaults(t) { return { react: { conv: 95, dH: '', rx: { r: [{ m: st.basis.key, nu: 1 }], pr: [{ m: st.basis.product, nu: 1 }] } }, sep: { keep: 'org', loss: 1, dest: 'ETP' }, dist: { tgt: 'all', pct: 70, eff: 98, dest: 'Solvent recovery' }, cryst: { sol: 2 }, filt: { lod: 20, wl: 1, dest: 'Solvent recovery' }, dry: { lod: 0.5, hl: 0.5, dest: 'Solvent recovery' }, add: {} }[t] || {}; }
   root.addEventListener('click', function (e) {
     var b = e.target.closest('[data-act]'); if (!b) return;
@@ -402,16 +414,18 @@
   });
 
   /* ---------- exports ---------- */
+  function shareLink() { try { return location.href.split('#')[0] + '#s=' + btoa(unescape(encodeURIComponent(JSON.stringify(st)))); } catch (e) { return null; } }
   function title() { return st.basis.name ? st.basis.name : 'Batch flowsheet and mass balance'; }
   function tables(R) {
     var cols = R.steps.map(function (s) { return { id: s.id, t: s.name, s: s.out }; }).concat(R.sides.map(function (x) { return { id: x.id, t: x.name + ' (to ' + x.dest + ')', s: { liq: x.liq, sol: x.sol } }; }));
     var comps = []; st.mats.forEach(function (m) { ['liq', 'sol'].forEach(function (k) { if (cols.some(function (c) { return c.s[k][m.id] > 1e-9; })) comps.push([m, k]); }); });
     return { cols: cols, comps: comps };
   }
+  function fin(v, d) { return isFinite(v) ? +v.toFixed(d) : '–'; }
   function summaryRows(R) {
-    return [['Plant batch (key material)', +st.basis.plant, 'kg'], ['Scale factor from the procedure', +R.scale.toFixed(4), '×'], ['Total charged', +R.charged.toFixed(2), 'kg'], ['Product out', +R.outKg.toFixed(2), 'kg'], ['Product assay (by mass)', +R.assay.toFixed(2), '%'],
-      ['Yield' + (R.yieldBasis ? ' (vs ' + R.yieldBasis + ')' : ''), isFinite(R.yield) ? +R.yield.toFixed(2) : '–', '%'], ['Process mass intensity', +R.pmi.toFixed(2), 'kg/kg'], ['E-factor', +R.efactor.toFixed(2), 'kg/kg'], ['E-factor with solvents recovered', +R.efactorRec.toFixed(2), 'kg/kg']]
-      .concat(DESTS.filter(function (d) { return R.byDest[d] > 0; }).map(function (d) { return ['To ' + d, +R.byDest[d].toFixed(2), 'kg'] }));
+    return [['Plant batch (key material)', fin(num(st.basis.plant), 3), 'kg'], ['Scale factor from the procedure', fin(R.scale, 4), '×'], ['Total charged', fin(R.charged, 2), 'kg'], ['Final stream (product)', fin(R.outKg, 2), 'kg'], ['Product content', fin(R.pAll, 2), 'kg'], ['Product assay (by mass)', R.pAll > 0 ? fin(R.assay, 2) : '–', '%'],
+      ['Yield' + (R.yieldBasis ? ' (vs ' + R.yieldBasis + ')' : ''), fin(R.yield, 2), '%'], ['Process mass intensity', fin(R.pmi, 2), 'kg/kg'], ['E-factor', fin(R.efactor, 2), 'kg/kg'], ['E-factor with solvents recovered', fin(R.efactorRec, 2), 'kg/kg']]
+      .concat(DESTS.filter(function (d) { return R.byDest[d] > 0; }).map(function (d) { return [d === 'Loss' ? 'Handling loss' : 'Sent to ' + d, fin(R.byDest[d], 2), 'kg']; }));
   }
   function pdf(btn) {
     var R = lastR; if (!R || R.errs.length) { alert('Fix the inputs first: ' + (R ? R.errs[0] : '')); return; }
@@ -422,7 +436,7 @@
     secs.push({ title: 'Steps', head: ['Step', 'In vessel, kg', 'Out, kg', 'Other streams'], rows: R.steps.map(function (s) { return [s.i + '. ' + s.name + ' (' + TYPES[s.type].label + ')', Math.round(s.vessel), +s.outKg.toFixed(1), s.sides.map(function (x) { return x.id + ' ' + x.name + ' ' + f1(x.kg) + ' kg to ' + x.dest; }).join('; ') || '–']; }), widths: [0.3, 0.14, 0.12, 0.44] });
     T.cols.forEach(function (c) { secs.push({ title: 'Stream ' + c.id + ': ' + c.t, head: ['Material', 'kg', '% by mass'], rows: T.comps.filter(function (x) { return c.s[x[1]][x[0].id] > 1e-9; }).map(function (x) { var v = c.s[x[1]][x[0].id]; return [x[0].n + (x[1] === 'sol' ? ' (solid)' : ''), +v.toFixed(2), +(v / sTot(c.s) * 100).toFixed(2)]; }).concat([['Total', +sTot(c.s).toFixed(2), 100]]), widths: [0.6, 0.2, 0.2] }); });
     var notes = R.warn.slice(0, 12).concat(['Free screening tool. Quantities follow the step model shown on the page; confirm with plant data before use.']);
-    window.PCME_XL.report({ title: title(), sub: 'Batch flowsheet and mass balance', sections: secs, notes: notes, link: location.href.split('#')[0] })
+    window.PCME_XL.report({ title: title(), sub: 'Batch flowsheet and mass balance', sections: secs, notes: notes, link: shareLink() })
       .then(function () { btn.disabled = false; btn.textContent = 'Download PDF'; }, function (e) { window.PCME_XL.fail(btn, e); });
   }
   function xlsx(btn) {
@@ -434,15 +448,15 @@
         var add = function (name, aoa, w) { var ws = X.utils.aoa_to_sheet(aoa); ws['!cols'] = w.map(function (x) { return { wch: x }; }); X.utils.book_append_sheet(wb, ws, name); };
         add('Summary', [[title()], ['PharmaChemE batch flowsheet and mass balance. Values only.'], [], ['Result', 'Value', 'Unit']].concat(summaryRows(R)).concat([[], ['Points to check']]).concat(R.warn.map(function (w) { return [w]; })), [44, 14, 10]);
         add('Materials', [['Material', 'Molar mass, g/mol', 'Density, g/mL', 'Goes to', 'Volatile']].concat(st.mats.map(function (m) { return [m.n, num(m.mw) || '', num(m.rho) || '', LAYERS[m.layer], m.vol ? 'yes' : 'no']; })), [32, 16, 14, 18, 10]);
-        add('Charges', [['Step', 'Step name', 'Material', 'Procedure quantity', 'Unit', 'Plant kg']].concat([].concat.apply([], st.steps.map(function (s, i) { return (s.add || []).map(function (a) { var c = R.charges.filter(function (c) { return c.step === i + 1 && c.m === a.m; })[0]; return [i + 1, s.name, nm(a.m), num(a.q), a.u === 'mass' ? st.basis.unit : a.u === 'vol' ? (st.basis.unit === 'g' ? 'mL' : 'L') : a.u === 'V' ? 'V' : 'eq', c ? +c.kg.toFixed(3) : 0]; }); }))), [6, 28, 30, 18, 8, 12]);
+        add('Charges', [['Step', 'Step name', 'Material', 'Procedure quantity', 'Unit', 'Plant kg']].concat([].concat.apply([], st.steps.map(function (s, i) { return (s.add || []).map(function (a, ai) { var c = R.charges.filter(function (c) { return c.step === i + 1 && c.j === ai; })[0]; return [i + 1, s.name, nm(a.m), isFinite(num(a.q)) ? num(a.q) : '', a.u === 'mass' ? st.basis.unit : a.u === 'vol' ? (st.basis.unit === 'g' ? 'mL' : 'L') : a.u === 'V' ? 'V' : 'eq', c ? +c.kg.toFixed(3) : 0]; }); }))), [6, 28, 30, 18, 8, 12]);
         add('Streams', [['Material'].concat(T.cols.map(function (c) { return c.id + ' ' + c.t; }))].concat(T.comps.map(function (x) { return [x[0].n + (x[1] === 'sol' ? ' (solid)' : '')].concat(T.cols.map(function (c) { var v = c.s[x[1]][x[0].id]; return v > 1e-9 ? +v.toFixed(3) : ''; })); })).concat([['Total'].concat(T.cols.map(function (c) { return +sTot(c.s).toFixed(3); }))]), [30].concat(T.cols.map(function () { return 16; })));
         add('Solvents', [['Solvent', 'Charged, kg', 'To recovery, kg', 'Share to recovery, %']].concat(R.solv.map(function (x) { return [x.n, +x.charged.toFixed(2), +x.toRec.toFixed(2), +(x.toRec / x.charged * 100).toFixed(1)]; })), [28, 14, 16, 20]);
         X.writeFile(wb, (title().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'batch-flowsheet') + '.xlsx');
-      } catch (e) { alert('Could not make the Excel file.'); }
-      btn.disabled = false; btn.textContent = 'Download Excel';
+      } catch (e) { alert('Could not make the spreadsheet.'); }
+      btn.disabled = false; btn.textContent = 'Download spreadsheet (.xlsx)';
     };
     if (window.XLSX) return go();
-    var s = document.createElement('script'); s.src = XSRC; s.onload = go; s.onerror = function () { alert('Could not prepare the Excel file. Check your connection and try again.'); btn.disabled = false; btn.textContent = 'Download Excel'; }; document.head.appendChild(s);
+    var s = document.createElement('script'); s.src = XSRC; s.onload = go; s.onerror = function () { alert('Could not prepare the spreadsheet. Check your connection and try again.'); btn.disabled = false; btn.textContent = 'Download spreadsheet (.xlsx)'; }; document.head.appendChild(s);
   }
   var XSRC = (function () { var me = document.querySelector('script[src*="batch-flowsheet.js"]'); return me ? me.src.replace(/js\/batch-flowsheet\.js.*$/, 'vendor/xlsx.mini.min.js') : '/assets/vendor/xlsx.mini.min.js'; })();
   render();

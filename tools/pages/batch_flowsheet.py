@@ -38,14 +38,14 @@ body = '''<link rel="stylesheet" href="{{ '/assets/css/batch-flowsheet.css' | re
     <li><b>Distil / concentrate:</b> removes a share of all volatile materials, or of one chosen solvent. Most of the distillate is collected and a small part escapes as vapour. Real distillation takes off the lighter solvent first, so distilling one solvent at a time is closer to the plant.</li>
     <li><b>Crystallise:</b> product above its solubility in the final liquid comes out as solid. The solubility is per 100 g of all volatile liquids together.</li>
     <li><b>Filter and wash:</b> the cake keeps liquid up to the wet cake LOD you set, taken from the wash first, so a good wash leaves the mother liquor impurities in the filtrate. A share of the product dissolves in the wash.</li>
-    <li><b>Dry:</b> volatile liquid is removed down to the final LOD. Non-volatile liquid stays in the product and lowers its assay. A small handling loss can be set.</li>
+    <li><b>Dry:</b> volatile liquid is removed down to the final LOD; product dissolved in the cake liquor deposits on the solid. Other non-volatile liquid stays in the product and lowers its assay. A small handling loss can be set.</li>
   </ul>
   <h2>Reading the results</h2>
   <ul>
-    <li><b>Mass balance:</b> everything charged must equal the product plus the other streams. If it does not close, a reaction does not balance by mass.</li>
+    <li><b>Mass balance:</b> everything charged must equal the final stream plus the other streams. If it does not close, a reaction does not balance by mass.</li>
     <li><b>Yield:</b> product out against the theoretical amount from the key material (when the reaction starts from it), or against the product charged for a purification or crystallisation step.</li>
-    <li><b>Process mass intensity (PMI)</b> and <b>E-factor</b> show how much material the batch uses per kg of product. Solvents usually make up most of it, so the solvent table shows how much of each goes to recovery.</li>
-    <li><b>Stream table:</b> S-1, S-2 and so on are the batch after each step; W-1, W-2 and so on are the streams that leave. Download it as Excel or PDF for a report or a tech transfer file.</li>
+    <li><b>Process mass intensity (PMI)</b> and <b>E-factor</b> show how much material the batch uses per kg of product. Both are per kg of product in the final stream. Solvents usually make up most of it, so the solvent table shows how much of each goes to recovery (reagents that react are left out).</li>
+    <li><b>Stream table:</b> S-1, S-2 and so on are the batch after each step; W-1, W-2 and so on are the streams that leave. Download it as a spreadsheet (.xlsx) or PDF for a report or a tech transfer file. The PDF carries a link that reopens the same flowsheet.</li>
   </ul>
   <p>The example loaded at first is made up for illustration: an amide coupling of a starting material with an acid chloride and triethylamine in toluene, a water quench and wash, concentration, heptane crystallisation, centrifuging and drying. Replace it with your own process, or press Start blank.</p>
   <h2>Frequently asked questions</h2>
