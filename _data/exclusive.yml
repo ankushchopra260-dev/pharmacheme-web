@@ -337,6 +337,7 @@ items:
       - 'Filtration and drying sequences generated from the operation type, and reactor capacity calculated when you leave it blank'
       - 'Optional costing: raw material norms, effluent, vacuum, equipment list, project cost, cost sheet and fixed cost, all linked'
       - 'Save the project as a file, reopen it later, or work on another PC. Works offline in any modern browser and nothing is uploaded'
+    related: [/process-modelling/batch-mass-balance-flowsheet/]
 
 paths:
   - id: fresher
