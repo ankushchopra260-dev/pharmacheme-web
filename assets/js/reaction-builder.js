@@ -384,6 +384,9 @@
       <div class="readout rb-cell-r"><span class="lbl">Out: products + unreacted excess</span><span class="val">${f(s.outProd + s.outExcess, 2)} kg</span><span class="rb-sub">${f(s.outProd, 2)} kg products + ${f(s.outExcess, 2)} kg excess reactants</span></div>
     </div>
     <div class="rb-small">The mass balance assumes the limiting reagent is fully converted (before yield losses). In and Out match only when the equation is balanced${eb.ok ? "; difference here: " + f(Math.abs(s.inPure - s.outProd - s.outExcess) < 0.0005 ? 0 : s.inPure - s.outProd - s.outExcess, 3) + " kg" : ""}.</div>`;
+    html += eb.ok
+      ? `<div class="rb-send"><button type="button" class="pill" id="rb-send-bfd">Send to batch mass balance</button><span class="rb-small">Opens the batch mass balance tool with this reaction as step 1. Add the solvent and the work-up steps there to get the full flowsheet, yield and PMI.</span></div>`
+      : `<div class="rb-send rb-small">Balance the equation to send it to the <a href="/process-modelling/batch-mass-balance-flowsheet/">batch mass balance tool</a>.</div>`;
     out.innerHTML = html;
   }
   function diffCells(r) {
@@ -519,6 +522,38 @@
     setTimeout(() => { el.hidden = true; }, 2500);
   }
 
+  // Hand the balanced reaction to the batch mass balance tool as its first step
+  const GASES = { H2: 1, HCl: 1, HBr: 1, HF: 1, CO2: 1, CO: 1, SO2: 1, N2: 1, NH3: 1, CH4: 1, O2: 1, Cl2: 1, H2S: 1, C2H4: 1 };
+  function bfdLayer(a) {
+    if (!a) return ["org", false];
+    if (GASES[a.formula]) return ["gas", true];
+    if (a.formula === "H2O") return ["aq", true];
+    if (a.charge || /(Li|Na|K|Mg|Ca|Zn|Al|Cs|Ba)(?![a-z])/.test(a.formula)) return ["aq", false];
+    return ["org", false];
+  }
+  function sendToBfd() {
+    const ready = comps.filter((c) => c.smiles && safeAnalyze(c.smiles) && c.coeff > 0);
+    const s = stoich(ready, basisId, basisAmt, basisUnit, yieldPct);
+    if (!s || !elementBalance(ready).ok) { pageMsg("Balance the equation first.", "err"); return; }
+    if (s.rows.some((r) => !isFinite(r.eq))) { pageMsg("Fix the equivalents and purity of the reactants first.", "err"); return; }
+    const id = (c) => "c" + c.id;
+    const mats = ready.map((c) => { const a = safeAnalyze(c.smiles), lv = bfdLayer(a); return { id: id(c), n: nameOf(c), mw: +a.mw.toFixed(3), rho: num(c.density, 1), layer: lv[0], vol: lv[1] }; });
+    const b = s.basis, bRow = s.rows.find((r) => r.c.id === b.id);
+    const lim = s.rows.find((r) => r.c.id === s.limId) || bRow;
+    const main = s.main || ready.find((c) => c.role === "P");
+    const R = ready.filter((c) => c.role === "R"), P = ready.filter((c) => c.role === "P");
+    const order = [lim.c].concat(R.filter((c) => c.id !== lim.c.id));
+    const st = {
+      basis: { key: id(b), product: id(main), qty: +bRow.pureKg.toFixed(4), unit: "kg", plant: +bRow.pureKg.toFixed(4), name: ready.filter((c) => c.role === "R").map(nameOf).join(" + ") + " → " + nameOf(main) },
+      cp: 0.45, mats: mats,
+      steps: [{ type: "react", name: "Reaction", add: s.rows.map((r) => r.c.id === b.id ? { m: id(r.c), q: +r.pureKg.toFixed(4), u: "mass" } : { m: id(r.c), q: +r.eq.toFixed(4), u: "eq" }),
+        p: { conv: Math.min(100, Math.max(0, num(yieldPct, 100))), dH: "", rx: { r: order.map((c) => ({ m: id(c), nu: c.coeff })), pr: P.map((c) => ({ m: id(c), nu: c.coeff })) } } }],
+      _from: "rb"
+    };
+    save();
+    location.href = "/process-modelling/batch-mass-balance-flowsheet/#s=" + btoa(unescape(encodeURIComponent(JSON.stringify(st))));
+  }
+
   function shareURL() {
     return location.origin + location.pathname + "#r=" + encodeURIComponent(JSON.stringify(stateObj()));
   }
@@ -641,6 +676,7 @@
         case "rb-draw-cancel": closeDraw(false); break;
         case "rb-print": window.print(); break;
         case "rb-dl-png": downloadPNG(); break;
+        case "rb-send-bfd": sendToBfd(); break;
         case "rb-share": {
           const msg = $("rb-share-msg");
           navigator.clipboard.writeText(shareURL()).then(() => { msg.textContent = "Link copied"; }, () => { msg.textContent = "Couldn't copy"; });

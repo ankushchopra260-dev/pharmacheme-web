@@ -267,7 +267,19 @@
   var root = document.getElementById('bfd-app'); if (!root) return;
   var st;
   try { st = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { st = null; }
-  try { if (/^#s=/.test(location.hash)) { var hs = JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3))))); if (hs && hs.mats && hs.steps) st = hs; } } catch (e) { /* bad link: keep the saved flowsheet */ }
+  var notice = null;
+  try {
+    if (/^#s=/.test(location.hash)) {
+      var hs = JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3)))));
+      if (hs && hs.mats && hs.steps) {
+        var from = hs._from; delete hs._from;
+        if (st && st.mats && JSON.stringify(st) !== JSON.stringify(hs)) { try { localStorage.setItem(STORE + '-prev', JSON.stringify(st)); } catch (e) { /* ignore */ } notice = { from: from, prev: true }; }
+        else notice = { from: from, prev: false };
+        st = hs;
+      }
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
+    }
+  } catch (e) { /* bad link: keep the saved flowsheet */ }
   if (!st || !st.mats || !st.steps) st = example();
   var lastR = null;
   function save() { try { localStorage.setItem(STORE, JSON.stringify(st)); } catch (e) { /* storage off: work in memory */ } }
@@ -281,7 +293,9 @@
 
   function render() {
     var b = st.basis, bu = b.unit === 'g' ? 'g' : 'kg', vu = b.unit === 'g' ? 'mL' : 'L';
-    var h = '<section class="bf-card"><h2>1. Batch basis</h2><div class="bf-row">'
+    var h = '';
+    if (notice) h += '<div class="bf-note" role="status">' + (notice.from === 'rb' ? 'Reaction loaded from the Reaction Builder as step 1. Add the solvent and the work-up steps, and set where each material goes.' : 'Flowsheet loaded from a link.') + (notice.prev ? ' Your previous flowsheet is kept: <button type="button" class="bf-btn bf-sm" data-act="restorePrev">Restore it</button>' : '') + ' <button type="button" class="bf-x" data-act="hideNote" aria-label="Close message">×</button></div>';
+    h += '<section class="bf-card"><h2>1. Batch basis</h2><div class="bf-row">'
       + lbl('Process name', inp('basis.name', b.name, 'type="text" placeholder="Step 3: amide coupling"'))
       + lbl('Key raw material', '<select data-p="basis.key">' + matOpts(b.key, b.key ? '' : '<option value="" selected>Choose</option>') + '</select>')
       + lbl('Product', '<select data-p="basis.product">' + matOpts(b.product, b.product ? '' : '<option value="" selected>Choose</option>') + '</select>')
@@ -316,8 +330,8 @@
       var row = function (side, list) {
         return list.map(function (x, j) { return '<div class="bf-ch"><input data-p="' + P + 'rx.' + side + '.' + j + '.nu" value="' + esc(x.nu) + '" type="number" step="any" inputmode="decimal" class="bf-nu" aria-label="Coefficient"><select data-p="' + P + 'rx.' + side + '.' + j + '.m" aria-label="Material">' + matOpts(x.m, x.m ? '' : '<option value="">Choose</option>') + '</select><button type="button" class="bf-x" data-act="delRx" data-i="' + i + '" data-s="' + side + '" data-j="' + j + '" aria-label="Remove">×</button></div>'; }).join('') + '<button type="button" class="bf-btn bf-sm" data-act="addRx" data-i="' + i + '" data-s="' + side + '">+ Add ' + (side === 'r' ? 'reactant' : 'product') + '</button>';
       };
-      f += '<div class="bf-rx"><div><p class="bf-sub">Reactants (conversion is of the first one)</p>' + row('r', rx.r || []) + '</div><div><p class="bf-sub">Products</p>' + row('pr', rx.pr || []) + '</div></div><div class="bf-row">'
-        + lbl('Conversion of the first reactant', inp(P + 'conv', p.conv), '%') + lbl('Heat of reaction (negative = exothermic)', inp(P + 'dH', p.dH), 'kcal/mol') + '</div>';
+      f += '<div class="bf-rx"><div><p class="bf-sub">Reactants (conversion is of the first one)</p>' + row('r', rx.r || []) + '</div><div><p class="bf-sub">Products</p>' + row('pr', rx.pr || []) + '</div></div>'
+        + '<p class="bf-hint">To balance a reaction from structures and get the charges, use the <a href="/molecules/reaction/">Reaction Builder</a> and send it here.</p><div class="bf-row">' + lbl('Conversion of the first reactant', inp(P + 'conv', p.conv), '%') + lbl('Heat of reaction (negative = exothermic)', inp(P + 'dH', p.dH), 'kcal/mol') + '</div>';
     } else if (sp.type === 'sep') {
       f += '<div class="bf-row">' + lbl('Layer kept', '<select data-p="' + P + 'keep"><option value="org"' + (p.keep !== 'aq' ? ' selected' : '') + '>Organic</option><option value="aq"' + (p.keep === 'aq' ? ' selected' : '') + '>Aqueous</option></select>') + lbl('Product lost to the other layer', inp(P + 'loss', p.loss), '%') + lbl('Discarded layer goes to', '<select data-p="' + P + 'dest">' + destOpts(p.dest || 'ETP') + '</select>') + '</div>';
     } else if (sp.type === 'dist') {
@@ -407,6 +421,8 @@
     else if (a === 'delRx') { st.steps[i].p.rx[b.getAttribute('data-s')].splice(j, 1); }
     else if (a === 'example') { if (!confirm('Replace your flowsheet with the example?')) return; st = example(); }
     else if (a === 'clear') { if (!confirm('Clear the flowsheet and start blank?')) return; st = blank(); }
+    else if (a === 'restorePrev') { try { var pv = JSON.parse(localStorage.getItem(STORE + '-prev') || 'null'); if (pv && pv.mats) st = pv; } catch (e2) { /* ignore */ } notice = null; }
+    else if (a === 'hideNote') { notice = null; }
     else if (a === 'pdf') { pdf(b); return; }
     else if (a === 'xlsx') { xlsx(b); return; }
     else return;
