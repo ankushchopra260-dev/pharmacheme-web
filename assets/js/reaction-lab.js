@@ -37,7 +37,8 @@
     if (!nb.length) return [P[i][0] + 6, P[i][1] + 15, 0, 1];
     var l = Math.hypot(dx, dy); if (l < 0.2) { dx = -0.8; dy = -0.6; l = 1; }
     var a = m.a[i], hasH = a[4] > 0 && shown(a, nb.length);
-    if (hasH && dx > 0.3) { dx = 0; dy = -1; l = 1; }       // keep clear of the H written to the right
+    var avx = nb.reduce(function (s, j) { return s + (P[j][0] - P[i][0]); }, 0) / (nb.length || 1), avy = nb.reduce(function (s, j) { return s + (P[j][1] - P[i][1]); }, 0) / (nb.length || 1), hLeft = nb.length > 0 && avx > 8;
+    if (hasH && ((hLeft && dx / l < -0.3) || (!hLeft && dx / l > 0.3))) { dx = 0; dy = avy < 0 ? 1 : -1; l = 1; }   // keep clear of the H label
     return [P[i][0] + dx / l * 14, P[i][1] + dy / l * 14, dx / l, dy / l];
   }
   function drawMol(g, m, P, lps, cls) {
@@ -66,7 +67,7 @@
       var t = el('text', { x: P[i][0], y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': 'middle' }, g);
       t.textContent = a[0];
       var nbs = neighbours(m, i), avx = nbs.reduce(function (s2, j) { return s2 + (P[j][0] - P[i][0]); }, 0) / (nbs.length || 1), left = nbs.length > 0 && avx > 8;
-      if (a[4] > 0) { var h = el('text', { x: P[i][0] + (left ? -1 : 1) * (a[0].length > 1 ? 10 : 6), y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': left ? 'end' : 'start' }, g); h.textContent = 'H' + (a[4] > 1 ? SUB[a[4]] || a[4] : ''); }
+      if (a[4] > 0) { var h = el('text', { x: P[i][0] + (left ? -1 : 1) * (a[0].length > 1 ? 9 : 6), y: P[i][1] + 5, class: 'rl-atom rl-' + a[0], 'text-anchor': left ? 'end' : 'start' }, g); h.textContent = 'H' + (a[4] > 1 ? SUB[a[4]] || a[4] : ''); }
       if (a[3]) {
         var cx = P[i][0] + (a[4] > 0 && !left ? 22 : 10), cy = P[i][1] - 9;
         el('circle', { cx: cx, cy: cy, r: 5.5, class: 'rl-chg' }, g);

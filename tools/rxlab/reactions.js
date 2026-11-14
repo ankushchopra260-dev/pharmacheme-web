@@ -86,7 +86,7 @@ module.exports = [
       { cap: 'Cool to 0 °C in the jacket.', T: 0, cool: true },
       { cap: 'Dose the ketone slowly. Each drop reacts at once: the temperature rises, so dosing is set by the cooling.', dose: { color: '#f5f5f5', name: 'Ketone in THF' }, T: 8, level: 0.6, glow: true, cool: true },
       { cap: 'Stir at 5–10 °C until a quenched sample shows no ketone left.', T: 6, cool: true, color: '#9a8d79' },
-      { cap: 'This flask is now the quench vessel with cold aqueous ammonium chloride; the reaction mass is transferred into it slowly (reverse quench). Excess Grignard gives methane; magnesium salts form a white solid.', dose: { color: '#9a8d79', name: 'Reaction mass' }, gas: { name: 'CH₄ (excess)', slow: true }, T: 15, level: 0.85, solid: '#ffffff', glow: true },
+      { cap: 'This flask is now the quench vessel with cold aqueous ammonium chloride; the reaction mass is transferred into it slowly (reverse quench). Excess Grignard gives methane; magnesium salts form a white solid.', cool: true, dose: { color: '#9a8d79', name: 'Reaction mass' }, gas: { name: 'CH₄ (excess)', slow: true }, T: 15, level: 0.85, solid: '#ffffff', glow: true },
       { cap: 'Two layers: the product in the organic layer, magnesium salts in the water.', layers: ['#efe8d4', '#cfe6f2'], solid: null, T: 20, gas: null, cool: false }
     ],
     gas: [{ n: 'Methane', s: 'C', mol: 0.1, per: 'per 0.1 eq of excess Grignard destroyed in the quench', note: 'Flammable. Vent to a safe place; keep the quench area free of ignition sources.' }],

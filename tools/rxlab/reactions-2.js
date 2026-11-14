@@ -1,6 +1,6 @@
 /* Reaction lab, second set. Same format as reactions.js. */
 const H3O = '[2H][O+]([2H])[2H]';
-const S1 = 1, S2 = 1, S3 = 1, S4 = -1;
+const S1 = 1, S2 = 1, S3 = 1, S4 = 1, S5 = -1;
 module.exports = [
   {
     slug: 'fischer-esterification', name: 'Fischer esterification', short: 'Fischer esterification', cat: 'Acylation and activation',
@@ -10,7 +10,7 @@ module.exports = [
     eq: { r: [['CC(=O)O', 'Acetic acid'], ['CCCCO', 'n-Butanol']], p: [['CCCCOC(C)=O', 'Butyl acetate'], ['O', 'Water']], cond: 'H₂SO₄ (cat.), reflux' },
     mech: [
       { cap: 'The acid catalyst protonates the carbonyl oxygen. This makes the carbonyl carbon much more open to attack by a weak nucleophile like an alcohol.',
-        sp: [{ s: 'CC(=O)O', lp: [2] }, { s: H3O }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 0], side: S4 }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
+        sp: [{ s: 'CC(=O)O', lp: [2] }, { s: H3O }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 2], side: -1 }, { f: ['b', 1, 2, 1], t: ['a', 1, 1] }] },
       { cap: 'The alcohol oxygen attacks the carbonyl carbon, and the C=O π electrons move onto the protonated oxygen.',
         sp: [{ s: 'CC(O)=[O+][2H]' }, { s: 'CCCCO', lp: [4] }], ar: [{ f: ['l', 1, 4], t: ['n', 1, 4, 0, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
       { cap: 'A proton moves from the oxygen that came from the alcohol to one of the OH groups (through the solvent). That OH becomes a good leaving group: water.',
@@ -108,7 +108,7 @@ module.exports = [
       { cap: 'Cool to 0–5 °C and dose the acid chloride. The complex forms; the slurry turns yellow.', cool: true, T: 5, dose: { color: '#f0e9c8', name: 'Acetyl chloride' }, color: '#f1dc8a', level: 0.48 },
       { cap: 'Dose the arene slowly. HCl gas comes off at once and goes to the scrubber; the mixture turns orange.', cool: true, T: 8, dose: { color: '#f7f7f7', name: 'Arene' }, gas: { name: 'HCl' }, color: '#e7a84e', solid: null, glow: true, level: 0.58 },
       { cap: 'Warm to 20–25 °C and hold until the HCl stops and the arene is used up.', T: 22, gas: { name: 'HCl', slow: true }, color: '#d98f3a' },
-      { cap: 'This flask is now the quench vessel with ice-cold dilute hydrochloric acid; the reaction mass is transferred into it slowly. Very exothermic, more HCl fumes.', dose: { color: '#d98f3a', name: 'Reaction mass' }, glow: true, gas: { name: 'HCl fumes' }, T: 30, level: 0.85, color: '#c9b08a' },
+      { cap: 'This flask is now the quench vessel with ice-cold dilute hydrochloric acid; the reaction mass is transferred into it slowly. Very exothermic, more HCl fumes.', dose: { color: '#d98f3a', name: 'Reaction mass' }, glow: true, cool: true, gas: { name: 'HCl fumes' }, T: 30, level: 0.85, color: '#c9b08a' },
       { cap: 'Separate the layers: the ketone in the organic layer, aluminium salts in the acidic water.', layers: ['#efe2bd', '#dceef8'], T: 25 }
     ],
     gas: [{ n: 'Hydrogen chloride', s: 'Cl', mol: 1, note: 'Corrosive. Scrub in water then caustic. More HCl fumes during the quench.' }],
@@ -151,7 +151,7 @@ module.exports = [
       { cap: 'Dose nitric acid to make the mixed acid. This mixing is itself exothermic.', dose: { color: '#f5f0dc', name: 'Nitric acid' }, glow: true, cool: true, T: 15, level: 0.45 },
       { cap: 'Dose the arene slowly at 30–40 °C. It reacts as it goes in; the dosing rate is set by the cooling capacity.', dose: { color: '#f7f7f7', name: 'Arene' }, glow: true, cool: true, T: 35, level: 0.6, color: '#f4e7a8' },
       { cap: 'Hold at 40–50 °C until the arene is consumed. Brown NOx fumes mean oxidation side reactions: check temperature and acid strength.', T: 45, heat: true, gas: { name: 'NOx (traces)', slow: true }, color: '#f0dc86' },
-      { cap: 'This flask is now the quench vessel with ice water; the reaction mass is run into it slowly. Once the acid is diluted, the nitroarene is denser than the water layer and settles to the bottom.', dose: { color: '#f0dc86', name: 'Reaction mass' }, glow: true, T: 25, level: 0.85 },
+      { cap: 'This flask is now the quench vessel with ice water; the reaction mass is run into it slowly. Once the acid is diluted, the nitroarene is denser than the water layer and settles to the bottom.', dose: { color: '#f0dc86', name: 'Reaction mass' }, glow: true, cool: true, T: 25, level: 0.85 },
       { cap: 'Separate: diluted acid on top, crude nitroarene below. Wash the product to remove acid before any distillation.', layers: ['#e8f1f5', '#ecd36b'], T: 25 }
     ],
     gas: [], gasNote: 'None normally; brown NOx if overheated',
@@ -259,7 +259,7 @@ module.exports = [
     eq: { r: [['CCO', 'Alcohol (ethanol shown)'], ['BrCc1ccccc1', 'Benzyl bromide'], ['[Na+].[H-]', 'Sodium hydride']], p: [['CCOCc1ccccc1', 'Benzyl ether'], ['[H][H]', 'Hydrogen'], ['[Na+].[Br-]', 'Sodium bromide']], cond: 'THF, 0–25 °C' },
     mech: [
       { cap: 'Hydride from sodium hydride takes the proton of the alcohol, releasing hydrogen gas and giving the alkoxide.',
-        sp: [{ s: 'CCO[2H]' }, { s: '[2H-]', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3] }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
+        sp: [{ s: 'CCO[2H]' }, { s: '[2H-]', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3], side: -1 }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
       { cap: 'The alkoxide attacks the carbon of the alkyl halide from the side opposite the bromine, and bromide leaves in the same step (SN2).',
         sp: [{ s: 'CC[O-]', lp: [2] }, { s: 'C(Br)c1ccccc1' }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
       { cap: 'Products: the benzyl ether and bromide (as sodium bromide).', sp: [{ s: 'CCOCc1ccccc1' }, { s: '[Br-]' }], ar: [] }
@@ -282,7 +282,7 @@ module.exports = [
     byp: [
       ['Alkene (elimination)', 'The alkoxide acts as a base on secondary or tertiary halides. Use a primary halide, or a less basic route.'],
       ['C-alkylation', 'With phenoxides or enolates, alkylation can occur on carbon. Solvent and counter-ion control the ratio.'],
-      ['Residual alkyl halide', 'Genotoxic impurity. Use a small excess and destroy it in the work-up (e.g., with an amine).']
+      ['Residual benzyl or alkyl halide', 'Genotoxic impurity. Use a small excess and destroy it in the work-up (e.g., with an amine).']
     ],
     moist: { lvl: 'High', txt: 'Water uses up sodium hydride (giving hydrogen) and turns the alkoxide back into alcohol and hydroxide, which then makes alcohol by-products. Use dry solvent and alcohol.' },
     exo: { short: 'Moderately exothermic', txt: 'Deprotonation with NaH and the SN2 step both release heat; the hydrogen release is the main hazard.' },
@@ -464,7 +464,7 @@ module.exports = [
       { cap: 'Bromine coordinates to iron(III) bromide. A π bond of the ring attacks the outer bromine, and the Br–Br bond breaks towards iron.',
         sp: [{ s: 'C1=CC=CC=C1' }, { s: 'BrBr' }, { s: 'Br[Fe](Br)Br' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 0], side: S3 }, { f: ['b', 1, 0, 1], t: ['n', 1, 1, 2, 1] }] },
       { cap: 'The σ-complex loses its proton to FeBr₄⁻, the ring becomes aromatic again, and HBr and FeBr₃ are released.',
-        sp: [{ s: 'BrC1([2H])C=CC=C[CH+]1' }, { s: 'Br[Fe-](Br)(Br)Br', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 2] }, { f: ['b', 0, 1, 2], t: ['b', 0, 1, 7] }] },
+        sp: [{ s: 'BrC1([2H])C=CC=C[CH+]1' }, { s: 'Br[Fe-](Br)(Br)Br', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 2], side: S5 }, { f: ['b', 0, 1, 2], t: ['b', 0, 1, 7] }] },
       { cap: 'Products: aryl bromide and HBr gas; the catalyst is regenerated.', sp: [{ s: 'Brc1ccccc1' }, { s: 'Br' }, { s: 'Br[Fe](Br)Br' }], ar: [] }
     ],
     lab: [
@@ -546,7 +546,7 @@ module.exports = [
     ],
     lab: [
       { cap: 'Charge the amine (in excess) and the solvent into a closed, pressure-rated reactor with a cold reflux condenser; both isopropylamine and propylene oxide boil near 33 °C.', level: 0.45, color: '#eef1f3', T: 25, stir: true, n2: true },
-      { cap: 'Dose the epoxide slowly at 30–40 °C under slight pressure. The heat of ring opening shows at once; set the rate by the cooling.', dose: { color: '#f8f8f8', name: 'Epoxide' }, glow: true, T: 38, level: 0.58 },
+      { cap: 'Dose the epoxide slowly at 30–40 °C under slight pressure. The heat of ring opening shows at once; set the rate by the cooling.', dose: { color: '#f8f8f8', name: 'Epoxide' }, glow: true, cool: true, T: 38, level: 0.58 },
       { cap: 'Hold until the epoxide is gone. Check it is really consumed before heating further.', T: 40 },
       { cap: 'Vent to atmospheric pressure and distil off the excess amine and solvent for recovery.', distil: true, heat: true, T: 70, level: 0.4 }
     ],
