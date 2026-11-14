@@ -108,14 +108,36 @@
     var q = P(e[1], e[2]); if (!other) return q;
     var vx = other[0] - q[0], vy = other[1] - q[1], l = Math.hypot(vx, vy) || 1; return [q[0] + vx / l * 11, q[1] + vy / l * 11];
   }
-  function curly(g, p0, p3, cen, delay) {
-    var dx = p3[0] - p0[0], dy = p3[1] - p0[1], d = Math.hypot(dx, dy) || 1, nx = dy / d, ny = -dx / d, h = Math.min(60, Math.max(11, 0.45 * d));
-    var mx = (p0[0] + p3[0]) / 2, my = (p0[1] + p3[1]) / 2;
-    if (Math.hypot(mx + nx * h - cen[0], my + ny * h - cen[1]) < Math.hypot(mx - nx * h - cen[0], my - ny * h - cen[1])) h = -h;   // bow away from the molecules
-    var c1 = [p0[0] + dx * 0.15 + nx * h, p0[1] + dy * 0.15 + ny * h], c2 = [p0[0] + dx * 0.85 + nx * h, p0[1] + dy * 0.85 + ny * h];
-    var tx = p3[0] - c2[0], ty = p3[1] - c2[1], tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+  function bez(p0, c1, c2, p3, t) { var u = 1 - t; return [u * u * u * p0[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * p3[0], u * u * u * p0[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * p3[1]]; }
+  function segDist(p, a, b) { var vx = b[0] - a[0], vy = b[1] - a[1], l2 = vx * vx + vy * vy || 1, t = Math.max(0, Math.min(1, ((p[0] - a[0]) * vx + (p[1] - a[1]) * vy) / l2)); return Math.hypot(p[0] - a[0] - t * vx, p[1] - a[1] - t * vy); }
+  // Try both sides and several bow heights; keep the curve that stays clear of atoms, bonds and earlier arrows.
+  function route(cands, ob, prev, hint) {
+    var best = null;
+    cands.forEach(function (cd) {
+      var p0 = cd[0], p3 = cd[1], dx = p3[0] - p0[0], dy = p3[1] - p0[1], d = Math.hypot(dx, dy) || 1, nx = dy / d, ny = -dx / d;
+      [1, -1].forEach(function (sd) {
+        if (cd[2] && cd[2] !== sd) return;
+        [0.3, 0.5, 0.75, 1.0, 1.3].forEach(function (hf) {
+          var h = Math.min(140, Math.max(cd[3] || 11, hf * d)) * sd;
+          var c1 = [p0[0] + dx * 0.15 + nx * h, p0[1] + dy * 0.15 + ny * h], c2 = [p0[0] + dx * 0.85 + nx * h, p0[1] + dy * 0.85 + ny * h];
+          var pen = Math.abs(h) * 0.02 + (hint && hint !== sd ? 6 : 0), pts = [];
+          for (var k = 1; k < 24; k++) {
+            var q = bez(p0, c1, c2, p3, k / 24); pts.push(q);
+            if (Math.hypot(q[0] - p0[0], q[1] - p0[1]) < 9 || Math.hypot(q[0] - p3[0], q[1] - p3[1]) < 9) continue;
+            ob.atoms.forEach(function (a) { var dd = Math.hypot(q[0] - a[0], q[1] - a[1]); if (dd < a[2]) pen += (a[2] - dd) * 0.6; });
+            ob.bonds.forEach(function (b) { if (segDist(q, b[0], b[1]) < 5) pen += 3; });
+            prev.forEach(function (pp) { pp.forEach(function (r) { var dd = Math.hypot(q[0] - r[0], q[1] - r[1]); if (dd < 10) pen += (10 - dd) * 0.5; }); });
+          }
+          if (!best || pen < best.pen) best = { pen: pen, p0: p0, p3: p3, c1: c1, c2: c2, pts: pts };
+        });
+      });
+    });
+    return best;
+  }
+  function curly(g, r, delay) {
+    var p3 = r.p3, c2 = r.c2, tx = p3[0] - c2[0], ty = p3[1] - c2[1], tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
     var e = [p3[0] - tx * 6, p3[1] - ty * 6];
-    var path = el('path', { d: 'M' + p0 + ' C' + c1 + ' ' + c2 + ' ' + e, class: 'rl-arrow' }, g);
+    var path = el('path', { d: 'M' + r.p0 + ' C' + r.c1 + ' ' + c2 + ' ' + e, class: 'rl-arrow' }, g);
     var head = el('polygon', { points: [p3, [p3[0] - tx * 10 + ty * 4.5, p3[1] - ty * 10 - tx * 4.5], [p3[0] - tx * 10 - ty * 4.5, p3[1] - ty * 10 + tx * 4.5]].join(' '), class: 'rl-head' }, g);
     if (REDUCED) return;
     var len = path.getTotalLength(); path.style.strokeDasharray = len; path.style.strokeDashoffset = len; head.style.opacity = 0;
@@ -141,23 +163,28 @@
       var st = D.mech[mi]; stage.innerHTML = '';
       var svg2 = el('svg', { class: 'rl-svg', role: 'img', 'aria-label': 'Mechanism step ' + (mi + 1) }, stage);
       var sc2 = scene(svg2, st.sp, {});
+      // obstacles: atoms (labelled atoms are bigger) and bonds of every species in this step
+      var ob = { atoms: [], bonds: [] }, prev = [], ends = [];
+      st.sp.forEach(function (sp, si) {
+        var P = sc2.pos[si].p, m = sp.m;
+        m.a.forEach(function (a, i) { var dg = neighbours(m, i).length; ob.atoms.push([P[i][0], P[i][1], shown(a, dg) ? 13 : 6]); });
+        m.b.forEach(function (b) { ob.bonds.push([P[b[0]], P[b[1]]]); });
+      });
       st.ar.forEach(function (a, k) {
         var pf = endPt(a.f, st.sp, sc2.pos), pt = endPt(a.t, st.sp, sc2.pos, pf);
         if (a.f[0] === 'a') pf = endPt(a.f, st.sp, sc2.pos, pt);
-        // centre of the atoms near this arrow: the species it starts and ends in
-        var ids = [a.f[1], a.t[0] === 'n' ? a.t[3] : a.t[1]], pts = [];
-        ids.forEach(function (s) { pts = pts.concat(sc2.pos[s].p); });
-        var cen = [pts.reduce(function (t, p) { return t + p[0]; }, 0) / pts.length, pts.reduce(function (t, p) { return t + p[1]; }, 0) / pts.length];
-        if (a.side) { cen = [(pf[0] + pt[0]) / 2, (pf[1] + pt[1]) / 2 + 100 * a.side]; }
-        // a bond breaking onto one of its own atoms: start beside the bond, land beside the atom
+        var cands = [[pf, pt, 0, 14]];
+        // a bond breaking onto one of its own atoms: start beside the bond and land beside the atom, on either side
         if (a.f[0] === 'b' && a.t[0] === 'a' && a.t[1] === a.f[1] && (a.t[2] === a.f[2] || a.t[2] === a.f[3])) {
           var P0 = sc2.pos[a.f[1]].p, A = P0[a.f[2]], B = P0[a.f[3]], T = P0[a.t[2]], ux = B[0] - A[0], uy = B[1] - A[1], ul = Math.hypot(ux, uy); ux /= ul; uy /= ul;
-          var nx = -uy, ny = ux, mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
-          if ((mx + nx * 10 - cen[0]) * nx + (my + ny * 10 - cen[1]) * ny < 0) { nx = -nx; ny = -ny; }
-          var ox = T === A ? -ux : ux, oy = T === A ? -uy : uy;
-          pf = [mx + nx * 6, my + ny * 6]; pt = [T[0] + nx * 10 - ox * 2, T[1] + ny * 10 - oy * 2]; cen = [mx - nx * 40, my - ny * 40];
+          var mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2, ox = T === A ? -ux : ux, oy = T === A ? -uy : uy;
+          cands = [1, -1].map(function (sg) { var nx = -uy * sg, ny = ux * sg, q0 = [mx + nx * 6, my + ny * 6], q3 = [T[0] + nx * 10 - ox * 2, T[1] + ny * 10 - oy * 2]; var ddx = q3[0] - q0[0], ddy = q3[1] - q0[1]; var side = (ddy * nx - ddx * ny) > 0 ? 1 : -1; return [q0, q3, side, 10]; });
         }
-        curly(sc2.g, pf, pt, cen, 250 + k * 1000);
+        // two arrowheads on the same spot: nudge this one aside
+        cands.forEach(function (cd) { ends.forEach(function (e2) { if (Math.hypot(cd[1][0] - e2[0], cd[1][1] - e2[1]) < 9) { var vx = cd[1][0] - cd[0][0], vy = cd[1][1] - cd[0][1], vl = Math.hypot(vx, vy) || 1; cd[1] = [cd[1][0] - vy / vl * 7, cd[1][1] + vx / vl * 7]; } }); });
+        var r = route(cands, ob, prev, a.side || 0);
+        prev.push(r.pts); ends.push(r.p3);
+        curly(sc2.g, r, 250 + k * 1000);
       });
       fit(svg2);
       mh.querySelector('.rl-cap').textContent = st.cap;

@@ -10,11 +10,11 @@ module.exports = [
     eq: { r: [['CC(=O)O', 'Acetic acid'], ['CCCCO', 'n-Butanol']], p: [['CCCCOC(C)=O', 'Butyl acetate'], ['O', 'Water']], cond: 'H₂SO₄ (cat.), reflux' },
     mech: [
       { cap: 'The acid catalyst protonates the carbonyl oxygen. This makes the carbonyl carbon much more open to attack by a weak nucleophile like an alcohol.',
-        sp: [{ s: 'CC(=O)O', lp: [2] }, { s: H3O }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 2], side: -1 }, { f: ['b', 1, 2, 1], t: ['a', 1, 1] }] },
+        sp: [{ s: 'CC(=O)O', lp: [2] }, { s: H3O }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 2] }, { f: ['b', 1, 2, 1], t: ['a', 1, 1] }] },
       { cap: 'The alcohol oxygen attacks the carbonyl carbon, and the C=O π electrons move onto the protonated oxygen.',
         sp: [{ s: 'CC(O)=[O+][2H]' }, { s: 'CCCCO', lp: [4] }], ar: [{ f: ['l', 1, 4], t: ['n', 1, 4, 0, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
       { cap: 'A proton moves from the oxygen that came from the alcohol to one of the OH groups (through the solvent). That OH becomes a good leaving group: water.',
-        sp: [{ s: 'CC(O)(O[2H])[O+]([2H])CCCC', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 0, 6] }, { f: ['b', 0, 5, 6], t: ['a', 0, 5] }] },
+        sp: [{ s: 'CC(O)(O[2H])[O+]([2H])CCCC', lp: [3] }], ar: [{ f: ['l', 0, 3], t: ['n', 0, 3, 0, 6] }, { f: ['b', 0, 5, 6], t: ['a', 0, 5] }] },
       { cap: 'An OH lone pair pushes back down to re-form C=O, and water leaves.',
         sp: [{ s: 'CC(O[2H])(OCCCC)[O+]([2H])[2H]', lp: [2] }], ar: [{ f: ['l', 0, 2], t: ['b', 0, 1, 2] }, { f: ['b', 0, 1, 9], t: ['a', 0, 9] }] },
       { cap: 'Water takes the proton back: the ester forms and the acid catalyst is regenerated.',
@@ -98,7 +98,7 @@ module.exports = [
       { cap: 'A chlorine lone pair of the acid chloride bonds to aluminium, and the C–Cl bond breaks.',
         sp: [{ s: 'CC(=O)Cl', lp: [3] }, { s: 'Cl[Al](Cl)Cl' }], ar: [{ f: ['l', 0, 3], t: ['n', 0, 3, 1, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
       { cap: 'This gives the acylium ion, a strong electrophile. A π bond of the ring attacks its carbon.',
-        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'CC#[O+]' }, { s: 'Cl[Al-](Cl)(Cl)Cl' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1], side: S1 }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
+        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'CC#[O+]' }, { s: 'Cl[Al-](Cl)(Cl)Cl' }], ar: [{ f: ['b', 0, 2, 3], t: ['n', 0, 3, 1, 1] }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
       { cap: 'The ring has lost its aromaticity (σ-complex). AlCl₄⁻ removes the proton, the ring becomes aromatic again, and HCl and AlCl₃ are released.',
         sp: [{ s: 'CC(=O)C1([2H])C=CC=C[CH+]1' }, { s: 'Cl[Al-](Cl)(Cl)Cl', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 4] }, { f: ['b', 0, 3, 4], t: ['b', 0, 3, 9] }] },
       { cap: 'Products: the aryl ketone (held as a complex with AlCl₃ until the quench) and HCl gas.', sp: [{ s: 'CC(=O)c1ccccc1' }, { s: 'Cl' }, { s: 'Cl[Al](Cl)Cl' }], ar: [] }
@@ -141,7 +141,7 @@ module.exports = [
       { cap: 'Water leaves, giving the nitronium ion NO₂⁺.',
         sp: [{ s: '[2H][O+]([2H])[N+](=O)[O-]', lp: [5] }], ar: [{ f: ['l', 0, 5], t: ['b', 0, 3, 5] }, { f: ['b', 0, 1, 3], t: ['a', 0, 1] }] },
       { cap: 'A π bond of the ring attacks the nitrogen of NO₂⁺; one N=O π bond moves onto oxygen.',
-        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'O=[N+]=O' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 1], side: S2 }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
+        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'O=[N+]=O' }], ar: [{ f: ['b', 0, 2, 3], t: ['n', 0, 3, 1, 1] }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
       { cap: 'Hydrogen sulfate removes the proton from the σ-complex and the ring becomes aromatic again.',
         sp: [{ s: '[O-][N+](=O)C1([2H])C=CC=C[CH+]1' }, { s: 'OS(=O)(=O)[O-]', lp: [4] }], ar: [{ f: ['l', 1, 4], t: ['n', 1, 4, 0, 4] }, { f: ['b', 0, 3, 4], t: ['b', 0, 3, 9] }] },
       { cap: 'Products: the nitroarene and water. The water dilutes the acid, which is why spent acid is weaker and slower than fresh mixed acid.', sp: [{ s: '[O-][N+](=O)c1ccccc1' }, { s: 'O' }], ar: [] }
@@ -259,7 +259,7 @@ module.exports = [
     eq: { r: [['CCO', 'Alcohol (ethanol shown)'], ['BrCc1ccccc1', 'Benzyl bromide'], ['[Na+].[H-]', 'Sodium hydride']], p: [['CCOCc1ccccc1', 'Benzyl ether'], ['[H][H]', 'Hydrogen'], ['[Na+].[Br-]', 'Sodium bromide']], cond: 'THF, 0–25 °C' },
     mech: [
       { cap: 'Hydride from sodium hydride takes the proton of the alcohol, releasing hydrogen gas and giving the alkoxide.',
-        sp: [{ s: 'CCO[2H]' }, { s: '[2H-]', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3], side: -1 }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
+        sp: [{ s: 'CCO[2H]' }, { s: '[2H-]', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 3] }, { f: ['b', 0, 2, 3], t: ['a', 0, 2] }] },
       { cap: 'The alkoxide attacks the carbon of the alkyl halide from the side opposite the bromine, and bromide leaves in the same step (SN2).',
         sp: [{ s: 'CC[O-]', lp: [2] }, { s: 'C(Br)c1ccccc1' }], ar: [{ f: ['l', 0, 2], t: ['n', 0, 2, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
       { cap: 'Products: the benzyl ether and bromide (as sodium bromide).', sp: [{ s: 'CCOCc1ccccc1' }, { s: '[Br-]' }], ar: [] }
@@ -462,9 +462,9 @@ module.exports = [
     eq: { r: [['C1=CC=CC=C1', 'Arene (benzene shown)'], ['BrBr', 'Bromine']], p: [['Brc1ccccc1', 'Aryl bromide'], ['Br', 'Hydrogen bromide']], cond: 'FeBr₃ (cat.), 20–50 °C' },
     mech: [
       { cap: 'Bromine coordinates to iron(III) bromide. A π bond of the ring attacks the outer bromine, and the Br–Br bond breaks towards iron.',
-        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'BrBr' }, { s: 'Br[Fe](Br)Br' }], ar: [{ f: ['b', 0, 0, 1], t: ['n', 0, 0, 1, 0], side: S3 }, { f: ['b', 1, 0, 1], t: ['n', 1, 1, 2, 1] }] },
+        sp: [{ s: 'C1=CC=CC=C1' }, { s: 'BrBr' }, { s: 'Br[Fe](Br)Br' }], ar: [{ f: ['b', 0, 2, 3], t: ['n', 0, 3, 1, 0] }, { f: ['b', 1, 0, 1], t: ['n', 1, 1, 2, 1] }] },
       { cap: 'The σ-complex loses its proton to FeBr₄⁻, the ring becomes aromatic again, and HBr and FeBr₃ are released.',
-        sp: [{ s: 'BrC1([2H])C=CC=C[CH+]1' }, { s: 'Br[Fe-](Br)(Br)Br', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 2], side: S5 }, { f: ['b', 0, 1, 2], t: ['b', 0, 1, 7] }] },
+        sp: [{ s: 'BrC1([2H])C=CC=C[CH+]1' }, { s: 'Br[Fe-](Br)(Br)Br', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 2] }, { f: ['b', 0, 1, 2], t: ['b', 0, 1, 7] }] },
       { cap: 'Products: aryl bromide and HBr gas; the catalyst is regenerated.', sp: [{ s: 'Brc1ccccc1' }, { s: 'Br' }, { s: 'Br[Fe](Br)Br' }], ar: [] }
     ],
     lab: [
