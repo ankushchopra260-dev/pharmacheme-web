@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Claisen condensation of an ester"
+seo_title: "Claisen Condensation: Mechanism and Base Control | PharmaChemE"
+description: "Claisen condensation of an ester with sodium ethoxide to a β-keto ester: animated enolate mechanism, why a full equivalent of base is needed, and work-up."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Claisen condensation"
+    url: /molecules/reaction-lab/claisen-condensation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Claisen condensation of an ester",
+        "description": "Claisen condensation of an ester with sodium ethoxide to a β-keto ester: animated enolate mechanism, why a full equivalent of base is needed, and work-up.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of claisen condensation of an ester?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Ethoxide removes a proton from the carbon next to the ester carbonyl, giving an enolate. Step 2: The enolate carbon attacks the carbonyl carbon of a second ester molecule. Step 3: The intermediate collapses and ethoxide leaves, giving the β-keto ester. Step 4: Ethoxide removes the very acidic proton between the two carbonyls. This irreversible step pulls the whole equilibrium to the product."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is claisen condensation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "High. Water converts the alkoxide to hydroxide, which saponifies the ester instead of forming the enolate. Use dry solvent, dry ester and fresh alkoxide."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Carbon–carbon bond formation</p>
+  <h1>Claisen condensation of an ester</h1>
+  <p class="rl-intro">An alkoxide base forms the enolate of an ester, which attacks a second ester molecule. The intermediate pushes out alkoxide, giving a β-keto ester. The product is more acidic than the alcohol, so the base removes its proton at once: this last step drives the reaction, and it is why a full equivalent of base is needed.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-3">High</b></div>
+    <div><span>Heat</span><b>Moderately exothermic</b></div>
+    <div><span>Type</span><b>Carbon–carbon bond formation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ester (ethyl acetate, 2 molecules) + Sodium ethoxide (1 eq) → β-Keto ester (ethyl acetoacetate) + Ethanol <span>(ethanol or toluene, 60–80 °C; then acid)</span><br><span>Not fully balanced as drawn: 2 esters give 1 β-keto ester + 1 ethanol.</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Under nitrogen, charge dry ethanol (or toluene) and sodium ethoxide.</li><li>Dose the ester and heat to 70–80 °C. The sodium enolate of the product forms, often as a thick slurry.</li><li>Distil off ethanol to push the equilibrium.</li><li>Cool and acidify with dilute acid or acetic acid to free the β-keto ester.</li><li>Separate and wash: the product in the organic layer.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>Ethoxide removes a proton from the carbon next to the ester carbonyl, giving an enolate.</li><li>The enolate carbon attacks the carbonyl carbon of a second ester molecule.</li><li>The intermediate collapses and ethoxide leaves, giving the β-keto ester.</li><li>Ethoxide removes the very acidic proton between the two carbonyls. This irreversible step pulls the whole equilibrium to the product.</li><li>After acidic work-up: the β-keto ester and ethanol.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Use a full equivalent of base: only the deprotonated product drives the reaction to completion.</li><li>Match the alkoxide to the ester (ethoxide with ethyl esters), or transesterification gives mixed esters.</li><li>Sodium ethoxide is corrosive and moisture-sensitive; solid alkoxides can self-heat in moist air.</li><li>β-Keto esters decarboxylate when hydrolysed and heated; keep the work-up mild.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Carboxylic acid (saponification)</td><td>Water turns ethoxide into hydroxide, which hydrolyses the ester. Keep everything dry.</td></tr><tr><td>Mixed esters</td><td>Wrong alkoxide or alcohol solvent. Use the alkoxide that matches the ester.</td></tr><tr><td>Self- and crossed-condensation mixtures</td><td>In crossed Claisen reactions, use one ester without α-H, or pre-form the enolate.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-3">High</span></h2><p>Water converts the alkoxide to hydroxide, which saponifies the ester instead of forming the enolate. Use dry solvent, dry ester and fresh alkoxide.</p></section>
+    <section><h2>Heat of reaction</h2><p>Deprotonation and condensation release moderate heat; the acid work-up of the sodium salt releases more.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Assay the alkoxide before use; it degrades with moisture.</li><li>Plan agitation for the thick enolate slurry.</li><li>Recover ethanol from the distillate.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/aldol-condensation/' | relative_url }}">Aldol condensation</a><a href="{{ '/molecules/reaction-lab/ester-hydrolysis-saponification/' | relative_url }}">Saponification (the side reaction)</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/ketal-protection-ethylene-glycol/' | relative_url }}">← Ketal protection</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/chlorination-with-phosphorus-oxychloride/' | relative_url }}">POCl₃ chlorination →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"claisen-condensation","name":"Claisen condensation of an ester","cat":"Carbon–carbon bond formation","eq":{"r":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1]]},"l":"Ester (ethyl acetate, 2 molecules)"},{"m":{"a":[["C",3.132,0,0,3],["C",2.266,0.5,0,2],["O",1.4,0,-1,0],["Na",0,0,1,0]],"b":[[0,1,1],[1,2,1]]},"l":"Sodium ethoxide (1 eq)"}],"p":[{"m":{"a":[["C",5.196,-0.5,0,3],["C",4.33,0,0,0],["O",4.33,1,0,0],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,2],[4,6,1],[6,7,1],[7,8,1]]},"l":"β-Keto ester (ethyl acetoacetate)"},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]},"l":"Ethanol"}],"cond":"ethanol or toluene, 60–80 °C; then acid"},"mech":[{"cap":"Ethoxide removes a proton from the carbon next to the ester carbonyl, giving an enolate.","sp":[{"lp":[2],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,1]]}},{"m":{"a":[["H",4.33,0,0,0],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[5,6,1]]}}],"ar":[{"f":["l",0,2],"t":["n",0,2,1,0]},{"f":["b",1,0,1],"t":["b",1,1,2]},{"f":["b",1,2,3],"t":["a",1,3]}]},{"cap":"The enolate carbon attacks the carbonyl carbon of a second ester molecule.","sp":[{"lp":[2],"m":{"a":[["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,-1,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[1,3,1],[3,4,1],[4,5,1]]}},{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,0,1],"t":["n",0,0,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"The intermediate collapses and ethoxide leaves, giving the β-keto ester.","sp":[{"lp":[2],"m":{"a":[["C",4.83,0.866,0,3],["C",4.33,0,0,0],["O",3.83,0.866,-1,0],["O",5.196,-0.5,0,0],["C",6.062,0,0,2],["C",6.928,-0.5,0,3],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,1],[1,6,1],[6,7,1],[7,8,2],[7,9,1],[9,10,1],[10,11,1]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,1,3],"t":["a",0,3]}]},{"cap":"Ethoxide removes the very acidic proton between the two carbonyls. This irreversible step pulls the whole equilibrium to the product.","sp":[{"m":{"a":[["C",5.196,-0.5,0,3],["C",4.33,0,0,0],["O",4.33,1,0,0],["C",3.464,-0.5,0,1],["H",3.464,-1.5,0,0],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[3,5,1],[5,6,2],[5,7,1],[7,8,1],[8,9,1]]}},{"lp":[2],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,1]]}}],"ar":[{"f":["l",1,2],"t":["n",1,2,0,4]},{"f":["b",0,3,4],"t":["b",0,1,3]},{"f":["b",0,1,2],"t":["a",0,2]}]},{"cap":"After acidic work-up: the β-keto ester and ethanol.","sp":[{"m":{"a":[["C",5.196,-0.5,0,3],["C",4.33,0,0,0],["O",4.33,1,0,0],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,2],[4,6,1],[6,7,1],[7,8,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]}}],"ar":[]}],"lab":[{"cap":"Under nitrogen, charge dry ethanol (or toluene) and sodium ethoxide.","level":0.4,"color":"#f0eee6","T":25,"n2":true,"stir":true},{"cap":"Dose the ester and heat to 70–80 °C. The sodium enolate of the product forms, often as a thick slurry.","dose":{"color":"#f7f7f2","name":"Ester"},"heat":true,"T":78,"solid":"#f6efd6","level":0.55,"color":"#f1e3b8"},{"cap":"Distil off ethanol to push the equilibrium.","distil":true,"heat":true,"T":85,"solid":"#f6efd6"},{"cap":"Cool and acidify with dilute acid or acetic acid to free the β-keto ester.","cool":true,"dose":{"color":"#e6f3fb","name":"dil. acid"},"glow":true,"T":15,"solid":null,"level":0.7},{"cap":"Separate and wash: the product in the organic layer.","layers":["#f1e8c8","#dceef8"],"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

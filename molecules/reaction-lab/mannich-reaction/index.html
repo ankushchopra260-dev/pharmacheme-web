@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Mannich reaction"
+seo_title: "Mannich Reaction: Iminium and Enol Mechanism | PharmaChemE"
+description: "Mannich reaction of a ketone, formaldehyde and a secondary amine: animated iminium and enol mechanism, formaldehyde handling, by-products and plant tips."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Mannich reaction"
+    url: /molecules/reaction-lab/mannich-reaction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Mannich reaction",
+        "description": "Mannich reaction of a ketone, formaldehyde and a secondary amine: animated iminium and enol mechanism, formaldehyde handling, by-products and plant tips.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of mannich reaction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The amine attacks formaldehyde. Step 2: After proton transfers, the OH is protonated; the nitrogen lone pair pushes out water and forms the iminium ion. Step 3: The enol of the ketone attacks the iminium carbon; the iminium C=N⁺ π electrons move onto nitrogen. Step 4: Water removes the proton from the carbonyl oxygen, giving the neutral β-amino ketone."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is mannich reaction moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Low. Water is formed and often present (formalin); it does not stop the reaction."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Carbon–carbon bond formation</p>
+  <h1>Mannich reaction</h1>
+  <p class="rl-intro">Formaldehyde and a secondary amine form an iminium ion. The enol of a ketone attacks it, giving a β-amino ketone (a Mannich base). It builds a carbon–carbon bond and puts an amine in place in one pot, and Mannich bases are common drug intermediates.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None; formaldehyde vapour</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-1">Low</b></div>
+    <div><span>Heat</span><b>Mildly exothermic</b></div>
+    <div><span>Type</span><b>Carbon–carbon bond formation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ketone (acetone shown) + Formaldehyde + Dimethylamine → Mannich base + Water <span>(HCl (amine salt), ethanol, reflux)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the ketone, paraformaldehyde, dimethylamine hydrochloride and ethanol with a little HCl.</li><li>Heat to reflux. The solids dissolve as the iminium forms and reacts.</li><li>Hold until the ketone is consumed.</li><li>Cool; the Mannich base hydrochloride crystallises (add acetone to complete).</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The amine attacks formaldehyde.</li><li>After proton transfers, the OH is protonated; the nitrogen lone pair pushes out water and forms the iminium ion.</li><li>The enol of the ketone attacks the iminium carbon; the iminium C=N⁺ π electrons move onto nitrogen.</li><li>Water removes the proton from the carbonyl oxygen, giving the neutral β-amino ketone.</li><li>Product: the Mannich base (isolated as its hydrochloride).</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Formaldehyde is toxic and a carcinogen; paraformaldehyde releases it on heating. Use closed handling and extraction.</li><li>Mannich bases can undergo retro-Mannich or eliminate the amine (giving vinyl ketones, strong irritants) on heating or in base.</li><li>Dimethylamine is a gas; its hydrochloride salt is easier to handle.</li><li>Formaldehyde and HCl can form bis(chloromethyl) ether, a potent carcinogen; avoid concentrated HCl with formaldehyde.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none; formaldehyde vapour).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Bis-Mannich product</td><td>Both α-positions react. Use excess ketone.</td></tr><tr><td>Vinyl ketone</td><td>Elimination of the amine on heating or basification. Keep the product as its salt and avoid heat in base.</td></tr><tr><td>Formaldehyde condensation products</td><td>Excess formaldehyde. Use close to 1 eq.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-1">Low</span></h2><p>Water is formed and often present (formalin); it does not stop the reaction.</p></section>
+    <section><h2>Heat of reaction</h2><p>Heat release is modest; the reaction is usually run at reflux.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Keep formaldehyde exposure monitored.</li><li>Isolate and store the product as its salt.</li><li>Do not mix formaldehyde streams with hydrochloric acid in waste tanks.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/aldol-condensation/' | relative_url }}">Aldol condensation (enolate chemistry)</a><a href="{{ '/molecules/reaction-lab/reductive-amination/' | relative_url }}">Reductive amination (iminium ions)</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/urea-from-isocyanate/' | relative_url }}">← Urea from isocyanate</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/alpha-bromination-of-ketone/' | relative_url }}">α-Bromination →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"mannich-reaction","name":"Mannich reaction","cat":"Carbon–carbon bond formation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]},"l":"Ketone (acetone shown)"},{"m":{"a":[["C",0.866,0,0,2],["O",0,-0.5,0,0]],"b":[[0,1,2]]},"l":"Formaldehyde"},{"m":{"a":[["C",1.732,-0.5,0,3],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1]]},"l":"Dimethylamine"}],"p":[{"m":{"a":[["C",4.33,0,0,3],["C",3.464,-0.5,0,0],["O",3.464,-1.5,0,0],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["N",0.866,0,0,0],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[5,6,1],[5,7,1]]},"l":"Mannich base"},{"m":{"a":[["O",0,0,0,2]],"b":[]},"l":"Water"}],"cond":"HCl (amine salt), ethanol, reflux"},"mech":[{"cap":"The amine attacks formaldehyde.","sp":[{"lp":[1],"m":{"a":[["C",1.732,-0.5,0,3],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1]]}},{"m":{"a":[["C",0.866,0,0,2],["O",0,-0.5,0,0]],"b":[[0,1,2]]}}],"ar":[{"f":["l",0,1],"t":["n",0,1,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"After proton transfers, the OH is protonated; the nitrogen lone pair pushes out water and forms the iminium ion.","sp":[{"lp":[1],"m":{"a":[["C",3.464,-0.5,0,3],["N",2.598,0,0,0],["C",2.598,1,0,3],["C",1.732,-0.5,0,2],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,1],[4,6,1]]}}],"ar":[{"f":["l",0,1],"t":["b",0,1,3]},{"f":["b",0,3,4],"t":["a",0,4]}]},{"cap":"The enol of the ketone attacks the iminium carbon; the iminium C=N⁺ π electrons move onto nitrogen.","sp":[{"m":{"a":[["C",1.732,-0.5,0,2],["N",0.866,0,1,0],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[1,3,1]]}},{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,2],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,1]],"b":[[0,1,2],[1,2,1],[1,3,1]]}}],"ar":[{"f":["l",1,3],"t":["b",1,1,3]},{"f":["b",1,0,1],"t":["n",1,0,0,0]},{"f":["b",0,0,1],"t":["a",0,1]}]},{"cap":"Water removes the proton from the carbonyl oxygen, giving the neutral β-amino ketone.","sp":[{"m":{"a":[["H",5.196,-0.5,0,0],["O",4.33,0,1,0],["C",3.464,-0.5,0,0],["C",3.464,-1.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["N",0.866,0,0,0],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[2,3,1],[2,4,1],[4,5,1],[5,6,1],[6,7,1],[6,8,1]]}},{"lp":[0],"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[{"f":["l",1,0],"t":["n",1,0,0,0]},{"f":["b",0,0,1],"t":["a",0,1]}]},{"cap":"Product: the Mannich base (isolated as its hydrochloride).","sp":[{"m":{"a":[["C",4.33,0,0,3],["C",3.464,-0.5,0,0],["O",3.464,-1.5,0,0],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["N",0.866,0,0,0],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[5,6,1],[5,7,1]]}},{"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Charge the ketone, paraformaldehyde, dimethylamine hydrochloride and ethanol with a little HCl.","level":0.45,"color":"#f0f0ea","solid":"#ffffff","T":25,"stir":true},{"cap":"Heat to reflux. The solids dissolve as the iminium forms and reacts.","heat":true,"T":78,"solid":null},{"cap":"Hold until the ketone is consumed.","heat":true,"T":80,"color":"#efe6c8"},{"cap":"Cool; the Mannich base hydrochloride crystallises (add acetone to complete).","cool":true,"T":5,"solid":"#ffffff","dose":{"color":"#f5f5f5","name":"Acetone"},"level":0.6}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

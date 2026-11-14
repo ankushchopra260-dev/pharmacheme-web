@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Nucleophilic aromatic substitution (SNAr)"
+seo_title: "SNAr Reaction: Meisenheimer Mechanism and Control | PharmaChemE"
+description: "Amine replacing fluoride on an activated nitroarene (SNAr): animated Meisenheimer-complex mechanism, base, exotherm, nitro thermal hazards and by-products."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "SNAr"
+    url: /molecules/reaction-lab/nucleophilic-aromatic-substitution/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Nucleophilic aromatic substitution (SNAr)",
+        "description": "Amine replacing fluoride on an activated nitroarene (SNAr): animated Meisenheimer-complex mechanism, base, exotherm, nitro thermal hazards and by-products.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of nucleophilic aromatic substitution (SNAr)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The amine nitrogen attacks the carbon bearing fluorine. The ring π electrons move round onto the nitro group, which holds the negative charge. Step 2: The Meisenheimer complex collapses: electrons flow back into the ring and fluoride leaves."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is SNAr moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Low. Small amounts of water are tolerated, but with carbonate at temperature water gives hydroxide, which forms phenol by-products."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Aromatic substitution</p>
+  <h1>Nucleophilic aromatic substitution (SNAr)</h1>
+  <p class="rl-intro">An electron-poor aromatic ring, activated by a nitro group (or ring nitrogens), can be attacked by a nucleophile. The attack gives a negatively charged Meisenheimer complex; the leaving group (fluoride or chloride) is then expelled and the ring is aromatic again. SNAr reactions with amines are among the most common bond-forming steps in drug synthesis.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None; a little CO₂ from the carbonate base</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-1">Low</b></div>
+    <div><span>Heat</span><b>Exothermic</b></div>
+    <div><span>Type</span><b>Aromatic substitution</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">4-Fluoronitrobenzene + Morpholine → 4-Morpholinonitrobenzene + HF (as salt with the base) <span>(K₂CO₃, DMSO or acetonitrile, 60–100 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the solvent, the fluoronitroarene and powdered potassium carbonate.</li><li>Dose the amine and heat to 70–80 °C. The solution turns deep yellow as the product forms.</li><li>Hold until the fluoroarene is consumed.</li><li>Cool and add water: the product precipitates as a yellow solid while the salts dissolve.</li><li>Filter, wash and dry the product.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The amine nitrogen attacks the carbon bearing fluorine. The ring π electrons move round onto the nitro group, which holds the negative charge.</li><li>The Meisenheimer complex collapses: electrons flow back into the ring and fluoride leaves.</li><li>After the base removes the N–H proton: the substituted nitroarene and fluoride (as potassium fluoride).</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Nitroarenes and their reaction mixtures can decompose violently at high temperature, especially in DMSO with base. Check thermal stability (DSC) and keep a margin to the onset temperature.</li><li>Fluoride by-product with acid gives HF; keep the work-up basic or neutral and choose compatible materials.</li><li>Dose the amine (or the arene) so the exotherm is controlled; SNAr can be fast at temperature.</li><li>Many fluoronitroarenes are toxic and skin-absorbed; use closed handling.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none; a little CO₂ from the carbonate base).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Double substitution</td><td>Substrates with two leaving groups react twice. Control stoichiometry and temperature.</td></tr><tr><td>Hydrolysis (phenol)</td><td>Hydroxide from wet carbonate attacks the ring. Use dry base and solvent.</td></tr><tr><td>Regio-isomers</td><td>With several activated positions, ortho/para selectivity depends on solvent and temperature.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-1">Low</span></h2><p>Small amounts of water are tolerated, but with carbonate at temperature water gives hydroxide, which forms phenol by-products.</p></section>
+    <section><h2>Heat of reaction</h2><p>SNAr with amines releases significant heat; combined with nitro groups, thermal stability of the reaction mass sets the safe operating limit.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Run DSC on the reaction mass in the chosen solvent; DMSO with bases has a known lower decomposition onset.</li><li>Control dosing rather than heating everything together.</li><li>Plan fluoride waste treatment (calcium precipitation).</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/aromatic-nitration/' | relative_url }}">Aromatic nitration (makes the activated ring)</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/finkelstein-halide-exchange/' | relative_url }}">← Finkelstein reaction</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/sulfonamide-formation/' | relative_url }}">Sulfonamide formation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"nucleophilic-aromatic-substitution","name":"Nucleophilic aromatic substitution (SNAr)","cat":"Aromatic substitution","eq":{"r":[{"m":{"a":[["F",4.33,-2,0,0],["C",3.464,-1.5,0,0],["C",3.464,-0.5,0,1],["C",2.598,0,0,1],["C",1.732,-0.5,0,0],["C",1.732,-1.5,0,1],["C",2.598,-2,0,1],["N",0.866,0,1,0],["O",0.866,1,0,0],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1],[4,7,1],[7,8,2],[7,9,1]]},"l":"4-Fluoronitrobenzene"},{"m":{"a":[["C",0,0,0,2],["C",0,-1,0,2],["O",0.866,-1.5,0,0],["C",1.732,-1,0,2],["C",1.732,0,0,2],["N",0.866,0.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[0,5,1]]},"l":"Morpholine"}],"p":[{"m":{"a":[["O",1.732,-0.5,0,0],["N",0.866,0,1,0],["O",0.866,1,-1,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,0],["C",-0.866,-2,0,1],["C",0,-1.5,0,1],["N",-2.598,-2,0,0],["C",-3.464,-1.5,0,2],["C",-4.33,-2,0,2],["O",-4.33,-3,0,0],["C",-3.464,-3.5,0,2],["C",-2.598,-3,0,2]],"b":[[0,1,2],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1],[6,9,1],[9,10,1],[10,11,1],[11,12,1],[12,13,1],[13,14,1],[9,14,1]]},"l":"4-Morpholinonitrobenzene"},{"m":{"a":[["F",0,0,0,1]],"b":[]},"l":"HF (as salt with the base)"}],"cond":"K₂CO₃, DMSO or acetonitrile, 60–100 °C"},"mech":[{"cap":"The amine nitrogen attacks the carbon bearing fluorine. The ring π electrons move round onto the nitro group, which holds the negative charge.","sp":[{"lp":[5],"m":{"a":[["C",0,0,0,2],["C",0,-1,0,2],["O",0.866,-1.5,0,0],["C",1.732,-1,0,2],["C",1.732,0,0,2],["N",0.866,0.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[0,5,1]]}},{"m":{"a":[["F",4.33,-2,0,0],["C",3.464,-1.5,0,0],["C",3.464,-0.5,0,1],["C",2.598,0,0,1],["C",1.732,-0.5,0,0],["C",1.732,-1.5,0,1],["C",2.598,-2,0,1],["N",0.866,0,1,0],["O",0.866,1,0,0],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1],[4,7,1],[7,8,2],[7,9,1]]}}],"ar":[{"f":["l",0,5],"t":["n",0,5,1,1]},{"f":["b",1,1,2],"t":["b",1,2,3]},{"f":["b",1,3,4],"t":["b",1,4,7]},{"f":["b",1,7,8],"t":["a",1,8]}]},{"cap":"The Meisenheimer complex collapses: electrons flow back into the ring and fluoride leaves.","sp":[{"lp":[8],"m":{"a":[["F",4.33,-2,0,0],["C",3.464,-1.5,0,0],["C",3.464,-0.5,0,1],["C",2.598,0,0,1],["C",1.732,-0.5,0,0],["C",1.732,-1.5,0,1],["C",2.598,-2,0,1],["N",0.866,0,1,0],["O",0.866,1,-1,0],["O",0,-0.5,-1,0],["N",4.33,-1,1,1],["C",5.196,-1.5,0,2],["C",6.062,-1,0,2],["O",6.062,0,0,0],["C",5.196,0.5,0,2],["C",4.33,0,0,2]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,1],[5,6,2],[1,6,1],[4,7,2],[7,8,1],[7,9,1],[1,10,1],[10,11,1],[11,12,1],[12,13,1],[13,14,1],[14,15,1],[10,15,1]]}}],"ar":[{"f":["l",0,8],"t":["b",0,7,8]},{"f":["b",0,4,7],"t":["b",0,3,4]},{"f":["b",0,2,3],"t":["b",0,1,2]},{"f":["b",0,0,1],"t":["a",0,0]}]},{"cap":"After the base removes the N–H proton: the substituted nitroarene and fluoride (as potassium fluoride).","sp":[{"m":{"a":[["O",1.732,-0.5,0,0],["N",0.866,0,1,0],["O",0.866,1,-1,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,0],["C",-0.866,-2,0,1],["C",0,-1.5,0,1],["N",-2.598,-2,0,0],["C",-3.464,-1.5,0,2],["C",-4.33,-2,0,2],["O",-4.33,-3,0,0],["C",-3.464,-3.5,0,2],["C",-2.598,-3,0,2]],"b":[[0,1,2],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1],[6,9,1],[9,10,1],[10,11,1],[11,12,1],[12,13,1],[13,14,1],[9,14,1]]}},{"m":{"a":[["F",0,0,-1,0]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Charge the solvent, the fluoronitroarene and powdered potassium carbonate.","level":0.45,"color":"#f2f0d8","solid":"#ffffff","T":25,"stir":true},{"cap":"Dose the amine and heat to 70–80 °C. The solution turns deep yellow as the product forms.","dose":{"color":"#f7f7f2","name":"Morpholine"},"heat":true,"glow":true,"T":75,"color":"#f2d24a","level":0.55},{"cap":"Hold until the fluoroarene is consumed.","heat":true,"T":80,"color":"#efc634","solid":"#ffffff"},{"cap":"Cool and add water: the product precipitates as a yellow solid while the salts dissolve.","cool":true,"dose":{"color":"#dceef8","name":"Water"},"T":25,"level":0.8,"solid":"#f2d24a","color":"#f4ecc4"},{"cap":"Filter, wash and dry the product.","T":20,"solid":"#f2d24a"}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

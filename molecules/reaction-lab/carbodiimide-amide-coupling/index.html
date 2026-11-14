@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Amide coupling with a carbodiimide"
+seo_title: "Carbodiimide Amide Coupling: Mechanism, By-products | PharmaChemE"
+description: "Carboxylic acid and amine coupled with a carbodiimide (DIC, EDC, DCC): animated O-acylisourea mechanism, urea by-product, additives, sensitisers and plant tips."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Carbodiimide coupling"
+    url: /molecules/reaction-lab/carbodiimide-amide-coupling/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Amide coupling with a carbodiimide",
+        "description": "Carboxylic acid and amine coupled with a carbodiimide (DIC, EDC, DCC): animated O-acylisourea mechanism, urea by-product, additives, sensitisers and plant tips.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of amide coupling with a carbodiimide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: A carbodiimide nitrogen takes the acid proton. Step 2: The carboxylate attacks the central carbon of the protonated carbodiimide, forming the O-acylisourea. Step 3: The amine attacks the activated carbonyl carbon. Step 4: The intermediate collapses; the isourea leaves and becomes the urea by-product after proton transfers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is carbodiimide coupling moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water hydrolyses the activated acid back to the acid and consumes carbodiimide (making urea). Use dry solvent; EDC couplings tolerate some water."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Acylation and activation</p>
+  <h1>Amide coupling with a carbodiimide</h1>
+  <p class="rl-intro">A carbodiimide activates a carboxylic acid as an O-acylisourea, a reactive ester that an amine attacks to form the amide. The carbodiimide ends up as a urea by-product. Additives such as HOBt or Oxyma are usually added to stop side reactions and racemisation.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Mildly exothermic</b></div>
+    <div><span>Type</span><b>Acylation and activation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Carboxylic acid (acetic acid shown) + Amine + Diisopropylcarbodiimide (DIC) → Amide + Diisopropylurea <span>(DMF, DCM or EtOAc, 0–25 °C, often with HOBt or Oxyma)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the acid, the additive (HOBt or Oxyma) and solvent; cool to 0–5 °C.</li><li>Dose the carbodiimide. The active ester forms; mild exotherm.</li><li>Dose the amine and warm to 20 °C.</li><li>Stir until the acid is consumed. With DCC the urea precipitates; with DIC or EDC it stays dissolved and is washed out.</li><li>Wash with dilute acid, bicarbonate and water; separate the layers.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>A carbodiimide nitrogen takes the acid proton.</li><li>The carboxylate attacks the central carbon of the protonated carbodiimide, forming the O-acylisourea.</li><li>The amine attacks the activated carbonyl carbon.</li><li>The intermediate collapses; the isourea leaves and becomes the urea by-product after proton transfers.</li><li>Products: the amide and diisopropylurea.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Carbodiimides (DCC, DIC, EDC) are strong skin sensitisers; avoid all skin contact and handle in closed systems.</li><li>Benzotriazole additives (HOBt, HOAt) are energetic in dry form and restricted for transport; Oxyma is often preferred.</li><li>Choose the carbodiimide by how its urea is removed: DCC urea filters off, EDC urea washes out with water, DIC urea dissolves in common solvents.</li><li>Pre-activation time matters: leaving the O-acylisourea too long without amine gives N-acylurea.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>N-Acylurea</td><td>O-acylisourea rearranges when the amine reacts slowly. Add HOBt or Oxyma; add the amine promptly.</td></tr><tr><td>Racemisation / epimerisation</td><td>Activated chiral acids (amino acids) lose stereochemistry via oxazolone. Use additives, low temperature and weak bases.</td></tr><tr><td>Anhydride</td><td>Excess acid with carbodiimide. Usually still couples, but changes stoichiometry.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water hydrolyses the activated acid back to the acid and consumes carbodiimide (making urea). Use dry solvent; EDC couplings tolerate some water.</p></section>
+    <section><h2>Heat of reaction</h2><p>Activation and coupling release moderate heat; dose the carbodiimide with cooling on scale.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Health surveillance and closed handling for carbodiimide sensitisers.</li><li>Specify urea and additive limits in the product.</li><li>For large scale, acid chlorides, mixed anhydrides or propylphosphonic anhydride (T3P) are common alternatives.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/amide-from-acid-chloride/' | relative_url }}">Amide from an acid chloride</a><a href="{{ '/molecules/reaction-lab/acid-chloride-thionyl-chloride/' | relative_url }}">Acid chloride with thionyl chloride</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/alpha-bromination-of-ketone/' | relative_url }}">← α-Bromination</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/acid-chloride-thionyl-chloride/' | relative_url }}">Acid chloride (SOCl₂) →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"carbodiimide-amide-coupling","name":"Amide coupling with a carbodiimide","cat":"Acylation and activation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1]]},"l":"Carboxylic acid (acetic acid shown)"},{"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]},"l":"Amine"},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,1],["C",0.866,1,0,3],["N",0,-0.5,0,0],["C",0,-1.5,0,0,1],["N",0,-2.5,0,0],["C",-0.866,-3,0,1],["C",-1.732,-2.5,0,3],["C",-0.866,-4,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,2],[5,6,1],[6,7,1],[6,8,1]]},"l":"Diisopropylcarbodiimide (DIC)"}],"p":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]},"l":"Amide"},{"m":{"a":[["C",5.196,-0.5,0,3],["C",4.33,0,0,1],["C",4.33,1,0,3],["N",3.464,-0.5,0,1],["C",2.598,0,0,0],["O",2.598,1,0,0],["N",1.732,-0.5,0,1],["C",0.866,0,0,1],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,2],[4,6,1],[6,7,1],[7,8,1],[7,9,1]]},"l":"Diisopropylurea"}],"cond":"DMF, DCM or EtOAc, 0–25 °C, often with HOBt or Oxyma"},"mech":[{"cap":"A carbodiimide nitrogen takes the acid proton.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]}},{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,1],["C",0.866,1,0,3],["N",0,-0.5,0,0],["C",0,-1.5,0,0,1],["N",0,-2.5,0,0],["C",-0.866,-3,0,1],["C",-1.732,-2.5,0,3],["C",-0.866,-4,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,2],[5,6,1],[6,7,1],[6,8,1]]}}],"ar":[{"f":["l",1,3],"t":["n",1,3,0,4]},{"f":["b",0,3,4],"t":["a",0,3]}]},{"cap":"The carboxylate attacks the central carbon of the protonated carbodiimide, forming the O-acylisourea.","sp":[{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,2],[1,3,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,1],["C",0.866,1,0,3],["N",0,-0.5,1,1],["C",0,-1.5,0,0,1],["N",0,-2.5,0,0],["C",-0.866,-3,0,1],["C",-1.732,-2.5,0,3],["C",-0.866,-4,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,2],[5,6,1],[6,7,1],[6,8,1]]}}],"ar":[{"f":["l",0,3],"t":["n",0,3,1,4]},{"f":["b",1,3,4],"t":["a",1,3]}]},{"cap":"The amine attacks the activated carbonyl carbon.","sp":[{"m":{"a":[["C",5.196,-0.5,0,3],["C",4.33,0,0,0],["O",4.461,1.213,0,0],["O",3.464,-0.5,0,0],["C",2.598,0,0,0],["N",2.598,1,0,0],["C",3.464,1.5,0,1],["C",4.135,1.021,0,3],["C",3.464,2.5,0,3],["N",1.732,-0.5,0,1],["C",0.866,0,0,1],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,2],[5,6,1],[6,7,1],[6,8,1],[4,9,1],[9,10,1],[10,11,1],[10,12,1]]}},{"lp":[1],"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]}}],"ar":[{"f":["l",1,1],"t":["n",1,1,0,1]},{"f":["b",0,1,2],"t":["a",0,2]}]},{"cap":"The intermediate collapses; the isourea leaves and becomes the urea by-product after proton transfers.","sp":[{"lp":[2],"m":{"a":[["C",4.83,0.866,0,3],["C",4.33,0,0,0],["O",3.797,0.808,-1,0],["N",5.196,-0.5,1,2],["C",6.062,0,0,3],["O",3.464,-0.5,0,0],["C",2.598,0,0,0],["N",2.598,1,0,0],["C",3.464,1.5,0,1],["C",4.33,1,0,3],["C",3.464,2.5,0,3],["N",1.732,-0.5,0,1],["C",0.866,0,0,1],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[1,5,1],[5,6,1],[6,7,2],[7,8,1],[8,9,1],[8,10,1],[6,11,1],[11,12,1],[12,13,1],[12,14,1]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,1,5],"t":["a",0,5]}]},{"cap":"Products: the amide and diisopropylurea.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]}},{"m":{"a":[["C",5.196,-0.5,0,3],["C",4.33,0,0,1],["C",4.33,1,0,3],["N",3.464,-0.5,0,1],["C",2.598,0,0,0],["O",2.598,1,0,0],["N",1.732,-0.5,0,1],["C",0.866,0,0,1],["C",0.866,1,0,3],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,2],[4,6,1],[6,7,1],[7,8,1],[7,9,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the acid, the additive (HOBt or Oxyma) and solvent; cool to 0–5 °C.","level":0.45,"color":"#eef1f3","T":3,"cool":true,"n2":true,"stir":true},{"cap":"Dose the carbodiimide. The active ester forms; mild exotherm.","dose":{"color":"#f7f7f2","name":"DIC"},"glow":true,"cool":true,"T":8,"level":0.52},{"cap":"Dose the amine and warm to 20 °C.","dose":{"color":"#f7f7f2","name":"Amine"},"T":20,"level":0.6},{"cap":"Stir until the acid is consumed. With DCC the urea precipitates; with DIC or EDC it stays dissolved and is washed out.","T":22},{"cap":"Wash with dilute acid, bicarbonate and water; separate the layers.","layers":["#eef1f3","#d8ecf6"],"T":20,"level":0.8}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

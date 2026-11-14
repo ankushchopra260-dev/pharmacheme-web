@@ -1,0 +1,102 @@
+---
+layout: default
+title: "Chlorination of a pyridone with phosphorus oxychloride"
+seo_title: "POCl₃ Chlorination of Pyridones: Mechanism, Quench | PharmaChemE"
+description: "Hydroxy-heteroarene (2-pyridone) to chloro-heteroarene with POCl₃: animated mechanism, HCl off-gas, very high moisture sensitivity and the hazardous quench."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "POCl₃ chlorination"
+    url: /molecules/reaction-lab/chlorination-with-phosphorus-oxychloride/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Chlorination of a pyridone with phosphorus oxychloride",
+        "description": "Hydroxy-heteroarene (2-pyridone) to chloro-heteroarene with POCl₃: animated mechanism, HCl off-gas, very high moisture sensitivity and the hazardous quench.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of chlorination of a pyridone with phosphorus oxychloride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The pyridone oxygen attacks phosphorus and a chloride leaves. Step 2: Chloride adds to the ring carbon next to nitrogen; the C=N⁺ π electrons move onto nitrogen. Step 3: The nitrogen lone pair pushes back and the dichlorophosphate group leaves. Loss of the N–H proton gives the aromatic chloropyridine and HCl."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is POCl₃ chlorination moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Very high. Water destroys POCl₃ with heat and HCl and hydrolyses the activated intermediates back to the starting material. Dry reagents, dry equipment and a nitrogen blanket are needed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in chlorination of a pyridone with phosphorus oxychloride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen chloride: about 38.3 kg (25.7 m³ at 25 °C) per 100 kg of 2-Pyridone. Released during the reaction; scrub in water then caustic. The quench releases much more acid, mostly dissolved."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Aromatic substitution</p>
+  <h1>Chlorination of a pyridone with phosphorus oxychloride</h1>
+  <p class="rl-intro">Phosphorus oxychloride turns the C=O of a pyridone (or the OH of a hydroxypyrimidine or quinolinone) into a C–Cl bond. The oxygen is first activated on phosphorus, chloride adds to the ring carbon, and the phosphate group leaves as the ring becomes aromatic. It is one of the most used steps in heterocyclic API and agrochemical synthesis, and its quench is a well-known hazard.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Hydrogen chloride</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-4">Very high</b></div>
+    <div><span>Heat</span><b>Mild reaction, hazardous quench</b></div>
+    <div><span>Type</span><b>Aromatic substitution</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">2-Pyridone + POCl₃ → 2-Chloropyridine + Dichlorophosphoric acid <span>(neat POCl₃ or toluene, 90–110 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Dry reactor under nitrogen. Charge the pyridone and POCl₃ (often 3–5 eq, as solvent).</li><li>Heat to 100–105 °C. The solid dissolves and HCl comes off to the scrubber.</li><li>Hold until conversion is complete, then distil off most of the excess POCl₃ under vacuum.</li><li>This flask is now the quench vessel with ice water (or buffered water); the residue, diluted with solvent, is run in slowly. Very exothermic, with HCl; watch for delayed heat.</li><li>Neutralise, then extract the chloro-heteroarene.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The pyridone oxygen attacks phosphorus and a chloride leaves.</li><li>Chloride adds to the ring carbon next to nitrogen; the C=N⁺ π electrons move onto nitrogen.</li><li>The nitrogen lone pair pushes back and the dichlorophosphate group leaves. Loss of the N–H proton gives the aromatic chloropyridine and HCl.</li><li>Products: the chloro-heteroarene and dichlorophosphoric acid (with HCl).</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>POCl₃ reacts violently with water, releasing heat and HCl. Keep everything dry until the planned quench.</li><li>The quench of POCl₃ residues can be delayed: phosphorodichloridic acid intermediates hydrolyse slowly and then fast. Distil off excess POCl₃ first, quench slowly into a well-stirred aqueous phase, and confirm the heat has finished.</li><li>Never add water to the reaction mass; always add the mass to water (reverse quench).</li><li>POCl₃ is very toxic by inhalation; use closed handling and a scrubbed vent.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of 2-Pyridone (molar mass 95.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Hydrogen chloride</td><td>38.3 kg</td><td>25.7 m³</td><td>Released during the reaction; scrub in water then caustic. The quench releases much more acid, mostly dissolved.</td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Unreacted pyridone</td><td>Wet POCl₃ or too low temperature. Use dry reagent and confirm conversion before the quench.</td></tr><tr><td>Phosphorylated intermediates</td><td>Incomplete reaction; they hydrolyse back to the pyridone in the quench. Hold long enough at temperature.</td></tr><tr><td>Over-chlorination</td><td>Other OH or activated positions chlorinated. Control temperature and POCl₃ excess; additives (PCl₅, DMF) increase reactivity.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-4">Very high</span></h2><p>Water destroys POCl₃ with heat and HCl and hydrolyses the activated intermediates back to the starting material. Dry reagents, dry equipment and a nitrogen blanket are needed.</p></section>
+    <section><h2>Heat of reaction</h2><p>The chlorination itself releases moderate heat at reflux; the aqueous quench of excess POCl₃ releases far more and can be delayed. Calorimetry on the quench is strongly advised.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Recover excess POCl₃ by distillation; it cuts both cost and quench heat.</li><li>Quench into water with spare cooling, volume and venting.</li><li>Glass-lined or alloy equipment; phosphoric and hydrochloric acids together are very corrosive.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a><a href="{{ '/molecules/reaction-lab/vilsmeier-haack-formylation/' | relative_url }}">Vilsmeier–Haack (also POCl₃)</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/claisen-condensation/' | relative_url }}">← Claisen condensation</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/finkelstein-halide-exchange/' | relative_url }}">Finkelstein reaction →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"chlorination-with-phosphorus-oxychloride","name":"Chlorination of a pyridone with phosphorus oxychloride","cat":"Aromatic substitution","eq":{"r":[{"m":{"a":[["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["N",0,-1.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[1,6,1]]},"l":"2-Pyridone"},{"m":{"a":[["O",1.732,-0.5,0,0],["P",0.866,0,0,0],["Cl",0.866,1,0,0],["Cl",0.866,-1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,2],[1,2,1],[1,3,1],[1,4,1]]},"l":"POCl₃"}],"p":[{"m":{"a":[["Cl",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["N",0,-1.5,0,0]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1]]},"l":"2-Chloropyridine"},{"m":{"a":[["O",1.732,-0.5,0,1],["P",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0.866,-1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[1,4,1]]},"l":"Dichlorophosphoric acid"}],"cond":"neat POCl₃ or toluene, 90–110 °C"},"mech":[{"cap":"The pyridone oxygen attacks phosphorus and a chloride leaves.","sp":[{"lp":[0],"m":{"a":[["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["N",0,-1.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[1,6,1]]}},{"m":{"a":[["O",1.732,-0.5,0,0],["P",0.866,0,0,0],["Cl",0.866,1,0,0],["Cl",0.866,-1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,2],[1,2,1],[1,3,1],[1,4,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"Chloride adds to the ring carbon next to nitrogen; the C=N⁺ π electrons move onto nitrogen.","sp":[{"m":{"a":[["Cl",2.232,0.366,0,0],["P",1.732,-0.5,0,0],["Cl",2.598,-1,0,0],["O",1.232,-1.366,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,0],["N",-0.866,0,1,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,2],[1,4,1],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[8,9,1],[9,10,2],[5,10,1]]}},{"lp":[0],"m":{"a":[["Cl",0,0,-1,0]],"b":[]}}],"ar":[{"f":["l",1,0],"t":["n",1,0,0,5]},{"f":["b",0,5,6],"t":["a",0,6]}]},{"cap":"The nitrogen lone pair pushes back and the dichlorophosphate group leaves. Loss of the N–H proton gives the aromatic chloropyridine and HCl.","sp":[{"lp":[7],"m":{"a":[["Cl",1.866,1,0,0],["P",0.866,1,0,0],["Cl",0.866,2,0,0],["O",-0.134,1,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,0],["Cl",0.866,-1,0,0],["N",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,2],[1,4,1],[4,5,1],[5,6,1],[5,7,1],[7,8,1],[8,9,2],[9,10,1],[10,11,2],[5,11,1]]}}],"ar":[{"f":["l",0,7],"t":["b",0,5,7]},{"f":["b",0,4,5],"t":["a",0,4]}]},{"cap":"Products: the chloro-heteroarene and dichlorophosphoric acid (with HCl).","sp":[{"m":{"a":[["Cl",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["N",0,-1.5,0,0]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1]]}},{"m":{"a":[["O",1.732,-0.5,0,1],["P",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0.866,-1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[1,4,1]]}}],"ar":[]}],"lab":[{"cap":"Dry reactor under nitrogen. Charge the pyridone and POCl₃ (often 3–5 eq, as solvent).","level":0.45,"color":"#efeee6","solid":"#ffffff","T":25,"n2":true,"stir":true},{"cap":"Heat to 100–105 °C. The solid dissolves and HCl comes off to the scrubber.","heat":true,"T":104,"gas":{"name":"HCl"},"solid":null,"color":"#ead9a3"},{"cap":"Hold until conversion is complete, then distil off most of the excess POCl₃ under vacuum.","heat":true,"distil":true,"T":80,"level":0.35,"color":"#d9b974"},{"cap":"This flask is now the quench vessel with ice water (or buffered water); the residue, diluted with solvent, is run in slowly. Very exothermic, with HCl; watch for delayed heat.","dose":{"color":"#d9b974","name":"Reaction mass"},"cool":true,"glow":true,"gas":{"name":"HCl"},"T":30,"level":0.8,"color":"#e8dcc0"},{"cap":"Neutralise, then extract the chloro-heteroarene.","layers":["#efe6cf","#dceef8"],"T":25}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
