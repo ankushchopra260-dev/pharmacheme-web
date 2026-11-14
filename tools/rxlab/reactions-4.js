@@ -6,22 +6,22 @@ module.exports = [
     seo: 'Ketal Protection with Ethylene Glycol: Mechanism',
     desc: 'Protecting a ketone as a 1,3-dioxolane with ethylene glycol and acid: animated mechanism, Dean–Stark water removal, moisture and by-product control.',
     intro: 'A ketone and ethylene glycol form a cyclic ketal (a 1,3-dioxolane) with an acid catalyst. The ketal survives bases, hydrides and Grignard reagents, and comes off again with aqueous acid. Every step is reversible, so water must be removed to reach full conversion.',
-    eq: { r: [['CC(C)=O', 'Ketone (acetone shown)'], ['OCCO', 'Ethylene glycol']], p: [['CC1(C)OCCO1', '1,3-Dioxolane (ketal)'], ['O', 'Water']], cond: 'p-TsOH (cat.), toluene, reflux' },
+    eq: { r: [['O=C1CCCCC1', 'Ketone (cyclohexanone shown)'], ['OCCO', 'Ethylene glycol']], p: [['C1CCC2(CC1)OCCO2', '1,3-Dioxolane (ketal)'], ['O', 'Water']], cond: 'p-TsOH (cat.), toluene, reflux' },
     mech: [
       { cap: 'The acid catalyst protonates the carbonyl oxygen.',
-        sp: [{ s: 'CC(C)=O', lp: [3] }, { s: H3O }], ar: [{ f: ['l', 0, 3], t: ['n', 0, 3, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
+        sp: [{ s: 'O=C1CCCCC1', lp: [0] }, { s: H3O }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
       { cap: 'One OH of ethylene glycol attacks the activated carbonyl carbon.',
-        sp: [{ s: 'CC(C)=[O+][2H]' }, { s: 'OCCO', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
+        sp: [{ s: '[2H][O+]=C1CCCCC1' }, { s: 'OCCO', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 2] }, { f: ['b', 0, 1, 2], t: ['a', 0, 1] }] },
       { cap: 'After proton transfers (the hemiketal), the remaining OH is protonated. The ether oxygen lone pair pushes it out as water, forming an oxocarbenium ion.',
-        sp: [{ s: 'CC(C)(OCCO)[O+]([2H])[2H]', lp: [3] }], ar: [{ f: ['l', 0, 3], t: ['b', 0, 1, 3] }, { f: ['b', 0, 1, 7], t: ['a', 0, 7] }] },
+        sp: [{ s: '[2H][O+]([2H])C1(OCCO)CCCCC1', lp: [4] }], ar: [{ f: ['l', 0, 4], t: ['b', 0, 3, 4] }, { f: ['b', 0, 1, 3], t: ['a', 0, 1] }] },
       { cap: 'The second OH of the glycol closes the five-membered ring by attacking the same carbon.',
-        sp: [{ s: 'CC(C)=[O+]CCO', lp: [6] }], ar: [{ f: ['l', 0, 6], t: ['n', 0, 6, 0, 1] }, { f: ['b', 0, 1, 3], t: ['a', 0, 3] }] },
+        sp: [{ s: 'OCC[O+]=C1CCCCC1', lp: [0] }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 0, 4] }, { f: ['b', 0, 3, 4], t: ['a', 0, 3] }] },
       { cap: 'Water takes the proton and the neutral ketal forms; the acid catalyst is regenerated.',
-        sp: [{ s: 'CC1(C)OCC[O+]1[2H]' }, { s: 'O', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 7] }, { f: ['b', 0, 6, 7], t: ['a', 0, 6] }] },
-      { cap: 'Products: the ketal and water. Removing the water (Dean–Stark trap, orthoformate or sieves) drives the equilibrium to the ketal.', sp: [{ s: 'CC1(C)OCCO1' }, { s: 'O' }], ar: [] }
+        sp: [{ s: '[2H][O+]1CCOC12CCCCC2' }, { s: 'O', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 0] }, { f: ['b', 0, 0, 1], t: ['a', 0, 1] }] },
+      { cap: 'Products: the ketal and water. Removing the water (Dean–Stark trap, orthoformate or sieves) drives the equilibrium to the ketal.', sp: [{ s: 'C1CCC2(CC1)OCCO2' }, { s: 'O' }], ar: [] }
     ],
     lab: [
-      { cap: 'Charge the ketone, ethylene glycol (1.5–3 eq), p-toluenesulfonic acid and toluene.', level: 0.45, color: '#eef0e6', T: 25, stir: true },
+      { cap: 'Charge cyclohexanone, ethylene glycol (1.5–3 eq), p-toluenesulfonic acid and toluene.', level: 0.45, color: '#eef0e6', T: 25, stir: true },
       { cap: 'Heat to reflux. Water distils with toluene and separates in the Dean–Stark trap.', heat: true, distil: true, T: 110 },
       { cap: 'Hold until no more water collects and the ketone is consumed.', heat: true, distil: true, T: 112 },
       { cap: 'Cool and neutralise the acid with sodium bicarbonate solution before any concentration.', dose: { color: '#e4f2fb', name: 'aq. NaHCO₃' }, gas: { name: 'CO₂', slow: true }, T: 25, level: 0.7 },
@@ -41,7 +41,7 @@ module.exports = [
     ],
     moist: { lvl: 'Medium', txt: 'Water is a product and hydrolyses the ketal back in acid. Start dry and remove water continuously; once neutralised, the ketal is stable to water.' },
     exo: { short: 'Close to thermoneutral', txt: 'Ketal formation releases little heat; energy goes into the reflux that removes water.' },
-    plant: ['Measure the water collected against theory as a progress check.', 'Remove the deprotection acid completely after the protected steps, or the ketal falls off early.', 'Glass-lined equipment for the acid catalyst at reflux.'],
+    plant: ['Measure the water collected against theory as a progress check.', 'Keep later steps free of aqueous acid, or the ketal hydrolyses early.', 'Glass-lined equipment for the acid catalyst at reflux.'],
     links: [['/molecules/reaction-lab/fischer-esterification/', 'Fischer esterification (also a water-removal equilibrium)'], ['/molecules/reaction-lab/grignard-addition-to-ketone/', 'Grignard addition (needs the ketone protected elsewhere)'], ['/molecules/reaction/', 'Reaction Builder']]
   },
   {
@@ -90,7 +90,7 @@ module.exports = [
     seo: 'POCl₃ Chlorination of Pyridones: Mechanism, Quench',
     desc: 'Hydroxy-heteroarene (2-pyridone) to chloro-heteroarene with POCl₃: animated mechanism, HCl off-gas, very high moisture sensitivity and the hazardous quench.',
     intro: 'Phosphorus oxychloride turns the C=O of a pyridone (or the OH of a hydroxypyrimidine or quinolinone) into a C–Cl bond. The oxygen is first activated on phosphorus, chloride adds to the ring carbon, and the phosphate group leaves as the ring becomes aromatic. It is one of the most used steps in heterocyclic API and agrochemical synthesis, and its quench is a well-known hazard.',
-    eq: { r: [['O=C1C=CC=CN1', '2-Pyridone'], ['O=P(Cl)(Cl)Cl', 'POCl₃']], p: [['Clc1ccccn1', '2-Chloropyridine'], ['OP(=O)(Cl)Cl', 'Dichlorophosphoric acid']], cond: 'neat POCl₃ or toluene, 90–110 °C' },
+    eq: { r: [['O=C1C=CC=CN1', '2-Pyridone'], ['O=P(Cl)(Cl)Cl', 'POCl₃']], p: [['Clc1ccccn1', '2-Chloropyridine'], ['OP(=O)(Cl)Cl', 'Dichlorophosphoric acid']], cond: 'neat POCl₃ or toluene, 90–110 °C', note: 'at reflux the dichlorophosphoric acid and excess POCl₃ release HCl; the gas figure assumes about 1 mol HCl per mol' },
     mech: [
       { cap: 'The pyridone oxygen attacks phosphorus and a chloride leaves.',
         sp: [{ s: 'O=C1C=CC=CN1', lp: [0] }, { s: 'O=P(Cl)(Cl)Cl' }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 1, 2], t: ['a', 1, 2] }] },
@@ -136,7 +136,7 @@ module.exports = [
       { cap: 'Products: the alkyl iodide and chloride, which leaves solution as sodium chloride.', sp: [{ s: 'CCCCI' }, { s: '[Cl-]' }], ar: [] }
     ],
     lab: [
-      { cap: 'Charge acetone and sodium iodide (1.2–2 eq); it dissolves.', level: 0.45, color: '#f1f2ee', T: 25, stir: true },
+      { cap: 'Under nitrogen, charge acetone and sodium iodide (1.2–2 eq); it dissolves.', level: 0.45, color: '#f1f2ee', T: 25, stir: true, n2: true },
       { cap: 'Add the alkyl chloride and heat to reflux.', dose: { color: '#f7f7f7', name: 'Alkyl chloride' }, heat: true, T: 56, level: 0.55 },
       { cap: 'Sodium chloride precipitates as a fine white solid as the exchange proceeds.', heat: true, T: 56, solid: '#ffffff' },
       { cap: 'Cool, filter off the salt, and concentrate the filtrate. Wash with thiosulfate to remove any iodine colour.', T: 20, solid: null, color: '#f3ecd3', level: 0.4 }
@@ -173,7 +173,7 @@ module.exports = [
     ],
     lab: [
       { cap: 'Charge the solvent, the fluoronitroarene and powdered potassium carbonate.', level: 0.45, color: '#f2f0d8', solid: '#ffffff', T: 25, stir: true },
-      { cap: 'Dose the amine and heat to 70–80 °C. The solution turns deep yellow as the product forms.', dose: { color: '#f7f7f2', name: 'Morpholine' }, heat: true, glow: true, T: 75, color: '#f2d24a', level: 0.55 },
+      { cap: 'Dose the amine and heat to 70–80 °C. The solution turns deep yellow: the nitroaniline-type product itself is coloured.', dose: { color: '#f7f7f2', name: 'Morpholine' }, heat: true, glow: true, T: 75, color: '#f2d24a', level: 0.55 },
       { cap: 'Hold until the fluoroarene is consumed.', heat: true, T: 80, color: '#efc634', solid: '#ffffff' },
       { cap: 'Cool and add water: the product precipitates as a yellow solid while the salts dissolve.', cool: true, dose: { color: '#dceef8', name: 'Water' }, T: 25, level: 0.8, solid: '#f2d24a', color: '#f4ecc4' },
       { cap: 'Filter, wash and dry the product.', T: 20, solid: '#f2d24a' }
@@ -279,7 +279,7 @@ module.exports = [
         sp: [{ s: 'CNC', lp: [1] }, { s: 'C=O' }], ar: [{ f: ['l', 0, 1], t: ['n', 0, 1, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
       { cap: 'After proton transfers, the OH is protonated; the nitrogen lone pair pushes out water and forms the iminium ion.',
         sp: [{ s: 'CN(C)C[O+]([2H])[2H]', lp: [1] }], ar: [{ f: ['l', 0, 1], t: ['b', 0, 1, 3] }, { f: ['b', 0, 3, 4], t: ['a', 0, 4] }] },
-      { cap: 'The enol of the ketone attacks the iminium carbon; the iminium C=N⁺ π electrons move onto nitrogen.',
+      { cap: 'Acid turns a little of the ketone into its enol (as in α-bromination). The enol attacks the iminium carbon; the iminium C=N⁺ π electrons move onto nitrogen.',
         sp: [{ s: 'C=[N+](C)C' }, { s: 'C=C(C)O', lp: [3] }], ar: [{ f: ['l', 1, 3], t: ['b', 1, 1, 3] }, { f: ['b', 1, 0, 1], t: ['n', 1, 0, 0, 0] }, { f: ['b', 0, 0, 1], t: ['a', 0, 1] }] },
       { cap: 'Water removes the proton from the carbonyl oxygen, giving the neutral β-amino ketone.',
         sp: [{ s: '[2H][O+]=C(C)CCN(C)C' }, { s: 'O', lp: [0] }], ar: [{ f: ['l', 1, 0], t: ['n', 1, 0, 0, 0] }, { f: ['b', 0, 0, 1], t: ['a', 0, 1] }] },
@@ -309,7 +309,7 @@ module.exports = [
     links: [['/molecules/reaction-lab/aldol-condensation/', 'Aldol condensation (enolate chemistry)'], ['/molecules/reaction-lab/reductive-amination/', 'Reductive amination (iminium ions)'], ['/molecules/reaction/', 'Reaction Builder']]
   },
   {
-    slug: 'alpha-bromination-of-ketone', name: 'α-Bromination of a ketone', short: 'α-Bromination', cat: 'Aromatic substitution',
+    slug: 'alpha-bromination-of-ketone', name: 'α-Bromination of a ketone', short: 'α-Bromination', cat: 'Substitution and alkylation',
     seo: 'Alpha-Bromination of Ketones: Enol Mechanism, HBr',
     desc: 'Acid-catalysed α-bromination of a ketone with bromine: animated enol mechanism, HBr gas per kg, lachrymator handling, over-bromination and plant control.',
     intro: 'In acid, a ketone forms a small amount of enol, which attacks bromine. Loss of a proton gives the α-bromoketone and HBr. The HBr made speeds up enol formation, so the reaction can start slowly and then accelerate. α-Bromoketones are strong lachrymators and alkylating agents.',
@@ -353,8 +353,8 @@ module.exports = [
     slug: 'carbodiimide-amide-coupling', name: 'Amide coupling with a carbodiimide', short: 'Carbodiimide coupling', cat: 'Acylation and activation',
     seo: 'Carbodiimide Amide Coupling: Mechanism, By-products',
     desc: 'Carboxylic acid and amine coupled with a carbodiimide (DIC, EDC, DCC): animated O-acylisourea mechanism, urea by-product, additives, sensitisers and plant tips.',
-    intro: 'A carbodiimide activates a carboxylic acid as an O-acylisourea, a reactive ester that an amine attacks to form the amide. The carbodiimide ends up as a urea by-product. Additives such as HOBt or Oxyma are usually added to stop side reactions and racemisation.',
-    eq: { r: [['CC(=O)O', 'Carboxylic acid (acetic acid shown)'], ['CN', 'Amine'], ['CC(C)N=C=NC(C)C', 'Diisopropylcarbodiimide (DIC)']], p: [['CC(=O)NC', 'Amide'], ['CC(C)NC(=O)NC(C)C', 'Diisopropylurea']], cond: 'DMF, DCM or EtOAc, 0–25 °C, often with HOBt or Oxyma' },
+    intro: 'A carbodiimide activates a carboxylic acid as an O-acylisourea, a reactive ester that an amine attacks to form the amide. The carbodiimide ends up as a urea by-product. Additives such as HOBt or the oxime additive are usually added to stop side reactions and racemisation.',
+    eq: { r: [['CC(=O)O', 'Carboxylic acid (acetic acid shown)'], ['CN', 'Amine (methylamine shown)'], ['CC(C)N=C=NC(C)C', 'Diisopropylcarbodiimide (DIC)']], p: [['CC(=O)NC', 'Amide'], ['CC(C)NC(=O)NC(C)C', 'Diisopropylurea']], cond: 'DMF, DCM or EtOAc, 0–25 °C, often with HOBt or the oxime additive' },
     mech: [
       { cap: 'A carbodiimide nitrogen takes the acid proton.',
         sp: [{ s: 'CC(=O)O[2H]' }, { s: 'CC(C)N=C=NC(C)C', lp: [3] }], ar: [{ f: ['l', 1, 3], t: ['n', 1, 3, 0, 4] }, { f: ['b', 0, 3, 4], t: ['a', 0, 3] }] },
@@ -367,7 +367,7 @@ module.exports = [
       { cap: 'Products: the amide and diisopropylurea.', sp: [{ s: 'CC(=O)NC' }, { s: 'CC(C)NC(=O)NC(C)C' }], ar: [] }
     ],
     lab: [
-      { cap: 'Charge the acid, the additive (HOBt or Oxyma) and solvent; cool to 0–5 °C.', level: 0.45, color: '#eef1f3', T: 3, cool: true, n2: true, stir: true },
+      { cap: 'Charge the acid, the additive (HOBt or the oxime additive) and solvent; cool to 0–5 °C.', level: 0.45, color: '#eef1f3', T: 3, cool: true, n2: true, stir: true },
       { cap: 'Dose the carbodiimide. The active ester forms; mild exotherm.', dose: { color: '#f7f7f2', name: 'DIC' }, glow: true, cool: true, T: 8, level: 0.52 },
       { cap: 'Dose the amine and warm to 20 °C.', dose: { color: '#f7f7f2', name: 'Amine' }, T: 20, level: 0.6 },
       { cap: 'Stir until the acid is consumed. With DCC the urea precipitates; with DIC or EDC it stays dissolved and is washed out.', T: 22 },
@@ -376,18 +376,18 @@ module.exports = [
     gas: [], gasNote: 'None',
     care: [
       'Carbodiimides (DCC, DIC, EDC) are strong skin sensitisers; avoid all skin contact and handle in closed systems.',
-      'Benzotriazole additives (HOBt, HOAt) are energetic in dry form and restricted for transport; Oxyma is often preferred.',
+      'Benzotriazole additives (HOBt, HOAt) are energetic in dry form and restricted for transport; the oxime additive ethyl cyano(hydroxyimino)acetate is often preferred.',
       'Choose the carbodiimide by how its urea is removed: DCC urea filters off, EDC urea washes out with water, DIC urea dissolves in common solvents.',
       'Pre-activation time matters: leaving the O-acylisourea too long without amine gives N-acylurea.'
     ],
     byp: [
-      ['N-Acylurea', 'O-acylisourea rearranges when the amine reacts slowly. Add HOBt or Oxyma; add the amine promptly.'],
+      ['N-Acylurea', 'O-acylisourea rearranges when the amine reacts slowly. Add HOBt or the oxime additive; add the amine promptly.'],
       ['Racemisation / epimerisation', 'Activated chiral acids (amino acids) lose stereochemistry via oxazolone. Use additives, low temperature and weak bases.'],
       ['Anhydride', 'Excess acid with carbodiimide. Usually still couples, but changes stoichiometry.']
     ],
     moist: { lvl: 'Medium', txt: 'Water hydrolyses the activated acid back to the acid and consumes carbodiimide (making urea). Use dry solvent; EDC couplings tolerate some water.' },
     exo: { short: 'Mildly exothermic', txt: 'Activation and coupling release moderate heat; dose the carbodiimide with cooling on scale.' },
-    plant: ['Health surveillance and closed handling for carbodiimide sensitisers.', 'Specify urea and additive limits in the product.', 'For large scale, acid chlorides, mixed anhydrides or propylphosphonic anhydride (T3P) are common alternatives.'],
+    plant: ['Health surveillance and closed handling for carbodiimide sensitisers.', 'Specify urea and additive limits in the product.', 'For large scale, acid chlorides, mixed anhydrides or propylphosphonic anhydride are common alternatives.'],
     links: [['/molecules/reaction-lab/amide-from-acid-chloride/', 'Amide from an acid chloride'], ['/molecules/reaction-lab/acid-chloride-thionyl-chloride/', 'Acid chloride with thionyl chloride'], ['/molecules/reaction/', 'Reaction Builder']]
   }
 ];

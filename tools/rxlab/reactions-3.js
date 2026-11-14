@@ -139,7 +139,7 @@ module.exports = [
       { cap: 'After loss of the O–H proton, triethylamine removes a proton from a methyl group on sulfur, forming a sulfur ylide.',
         sp: [{ s: 'CC(C)O[S+](C[2H])C' }, { s: 'CCN(CC)CC', lp: [2] }], ar: [{ f: ['l', 1, 2], t: ['n', 1, 2, 0, 6] }, { f: ['b', 0, 5, 6], t: ['a', 0, 5] }] },
       { cap: 'The ylide carbon takes the hydrogen on the alcohol carbon through a five-membered ring; C=O forms and dimethyl sulfide leaves.',
-        sp: [{ s: 'CC([2H])(C)O[S+]([CH2-])C', lp: [6] }], ar: [{ f: ['l', 0, 6], t: ['n', 0, 6, 0, 2] }, { f: ['b', 0, 1, 2], t: ['b', 0, 1, 4] }, { f: ['b', 0, 4, 5], t: ['a', 0, 5] }] },
+        together: true, sp: [{ s: 'CC([2H])(C)O[S+]([CH2-])C', lp: [6], xy: [[-0.95, 0.3], [0, 0], [0.25, 0.97], [-0.2, -0.98], [0.95, -0.3], [1.75, 0.3], [1.45, 1.25], [2.7, 0.1]] }], ar: [{ f: ['l', 0, 6], t: ['n', 0, 6, 0, 2] }, { f: ['b', 0, 1, 2], t: ['b', 0, 1, 4] }, { f: ['b', 0, 4, 5], t: ['a', 0, 5] }] },
       { cap: 'Products: the ketone, dimethyl sulfide, CO and CO₂ (and triethylamine hydrochloride).', sp: [{ s: 'CC(C)=O' }, { s: 'CSC' }, { s: 'O=C=O' }, { s: '[C-]#[O+]' }], ar: [] }
     ],
     lab: [
