@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Aldol condensation (base-catalysed)"
+seo_title: "Aldol Condensation: Enolate Mechanism and Control | PharmaChemE"
+description: "Base-catalysed aldol condensation of a ketone and an aldehyde to an enone: animated enolate mechanism, dehydration, by-products and plant control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Aldol condensation"
+    url: /molecules/reaction-lab/aldol-condensation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Aldol condensation (base-catalysed)",
+        "description": "Base-catalysed aldol condensation of a ketone and an aldehyde to an enone: animated enolate mechanism, dehydration, by-products and plant control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of aldol condensation (base-catalysed)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Hydroxide removes a proton from the carbon next to the carbonyl. The electrons form a C=C bond and push the C=O π electrons onto oxygen: an enolate. Step 2: The enolate attacks the aldehyde carbon with its C=C bond, re-forming the ketone C=O. Step 3: The alkoxide takes a proton from water, giving the β-hydroxy ketone (the aldol). Step 4: Hydroxide removes the next α-proton, forming a new enolate. Step 5: The enolate pushes out hydroxide (E1cB elimination), giving the conjugated C=C bond."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is aldol condensation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "None. Runs in aqueous or alcoholic base; water is also a product."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Carbon–carbon bond formation</p>
+  <h1>Aldol condensation (base-catalysed)</h1>
+  <p class="rl-intro">Base removes a proton next to a ketone carbonyl to form an enolate, which adds to an aldehyde. The β-hydroxy ketone then loses water to give a conjugated enone. Using an aldehyde with no α-hydrogen, such as benzaldehyde, keeps it from reacting with itself.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-0">None</b></div>
+    <div><span>Heat</span><b>Moderately exothermic</b></div>
+    <div><span>Type</span><b>Carbon–carbon bond formation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ketone (acetone shown) + Aldehyde (benzaldehyde shown) → Enone + Water <span>(NaOH (aq), ethanol, 20–40 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the aldehyde and the ketone (in excess) in ethanol.</li><li>Dose dilute sodium hydroxide slowly. The mixture warms and turns yellow as the enone forms.</li><li>Hold at 25–35 °C. The product often crystallises from the mixture.</li><li>Neutralise the base with dilute acid, then filter and wash the product.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>Hydroxide removes a proton from the carbon next to the carbonyl. The electrons form a C=C bond and push the C=O π electrons onto oxygen: an enolate.</li><li>The enolate attacks the aldehyde carbon with its C=C bond, re-forming the ketone C=O.</li><li>The alkoxide takes a proton from water, giving the β-hydroxy ketone (the aldol).</li><li>Hydroxide removes the next α-proton, forming a new enolate.</li><li>The enolate pushes out hydroxide (E1cB elimination), giving the conjugated C=C bond.</li><li>Product: the enone (benzalacetone here), with hydroxide regenerated.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>The base is only a catalyst, but the addition and condensation steps release heat. Dose base and keep the temperature in range.</li><li>Too much base or heat drives side reactions and coloured tars.</li><li>Aldehydes oxidise in air to acids, which consume base; check the aldehyde quality.</li><li>Neutralise before any distillation; hot base reverses the aldol (retro-aldol) and polymerises enones.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Double condensation product</td><td>Both α-positions of the ketone react (e.g. dibenzalacetone). Use excess ketone and dose the aldehyde.</td></tr><tr><td>Ketone self-condensation</td><td>Enolate adding to another ketone. Keep the aldehyde present and the base dilute.</td></tr><tr><td>Cannizzaro products</td><td>Aldehydes without α-H disproportionate in strong base. Use mild base concentration.</td></tr><tr><td>Retro-aldol</td><td>The aldol step reverses at high temperature or long holds before dehydration. Control time and temperature.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-0">None</span></h2><p>Runs in aqueous or alcoholic base; water is also a product.</p></section>
+    <section><h2>Heat of reaction</h2><p>Carbon–carbon bond formation and neutralisation release moderate heat; dose base and acid with cooling.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Fix the ketone-to-aldehyde ratio and dosing order in development; they control the double-addition product.</li><li>Seed if the product crystallises during the reaction to avoid oiling out.</li><li>Check colour and residual aldehyde in the isolated product.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/grignard-addition-to-ketone/' | relative_url }}">Grignard addition (another C–C bond)</a><a href="{{ '/process-modelling/solubility-curve-crystallisation/' | relative_url }}">Solubility and crystallisation</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/aromatic-sulfonation/' | relative_url }}">← Sulfonation</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/swern-oxidation/' | relative_url }}">Swern oxidation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"aldol-condensation","name":"Aldol condensation (base-catalysed)","cat":"Carbon–carbon bond formation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]},"l":"Ketone (acetone shown)"},{"m":{"a":[["O",1.732,-0.5,0,0],["C",0.866,0,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]},"l":"Aldehyde (benzaldehyde shown)"}],"p":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["C",1.732,-0.5,0,1],["C",0.866,0,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[8,9,1],[9,10,2],[5,10,1]]},"l":"Enone"},{"m":{"a":[["O",0,0,0,2]],"b":[]},"l":"Water"}],"cond":"NaOH (aq), ethanol, 20–40 °C"},"mech":[{"cap":"Hydroxide removes a proton from the carbon next to the carbonyl. The electrons form a C=C bond and push the C=O π electrons onto oxygen: an enolate.","sp":[{"lp":[0],"m":{"a":[["O",0,0,-1,1]],"b":[]}},{"m":{"a":[["H",2.598,0,0,0],["C",1.732,-0.5,0,2],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[2,4,2]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,0]},{"f":["b",1,0,1],"t":["b",1,1,2]},{"f":["b",1,2,4],"t":["a",1,4]}]},{"cap":"The enolate attacks the aldehyde carbon with its C=C bond, re-forming the ketone C=O.","sp":[{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,2],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,-1,0]],"b":[[0,1,2],[1,2,1],[1,3,1]]}},{"m":{"a":[["O",1.732,-0.5,0,0],["C",0.866,0,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]}}],"ar":[{"f":["l",0,3],"t":["b",0,1,3]},{"f":["b",0,0,1],"t":["n",0,0,1,1]},{"f":["b",1,0,1],"t":["a",1,0]}]},{"cap":"The alkoxide takes a proton from water, giving the β-hydroxy ketone (the aldol).","sp":[{"lp":[5],"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["C",1.732,-0.5,0,2],["C",0.866,0,0,1],["O",0.866,1,-1,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[4,6,1],[6,7,2],[7,8,1],[8,9,2],[9,10,1],[10,11,2],[6,11,1]]}},{"m":{"a":[["O",0.866,0,0,1],["H",0,-0.5,0,0]],"b":[[0,1,1]]}}],"ar":[{"f":["l",0,5],"t":["n",0,5,1,1]},{"f":["b",1,0,1],"t":["a",1,0]}]},{"cap":"Hydroxide removes the next α-proton, forming a new enolate.","sp":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["C",1.732,-0.5,0,1],["H",1.732,-1.5,0,0],["C",0.866,0,0,1],["O",0.866,1,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[3,5,1],[5,6,1],[5,7,1],[7,8,2],[8,9,1],[9,10,2],[10,11,1],[11,12,2],[7,12,1]]}},{"lp":[0],"m":{"a":[["O",0,0,-1,1]],"b":[]}}],"ar":[{"f":["l",1,0],"t":["n",1,0,0,4]},{"f":["b",0,3,4],"t":["b",0,1,3]},{"f":["b",0,1,2],"t":["a",0,2]}]},{"cap":"The enolate pushes out hydroxide (E1cB elimination), giving the conjugated C=C bond.","sp":[{"lp":[2],"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,-1,0],["C",1.732,-0.5,0,1],["C",0.866,0,0,1],["O",0.866,1,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1],[4,5,1],[4,6,1],[6,7,2],[7,8,1],[8,9,2],[9,10,1],[10,11,2],[6,11,1]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,1,3],"t":["b",0,3,4]},{"f":["b",0,4,5],"t":["a",0,5]}]},{"cap":"Product: the enone (benzalacetone here), with hydroxide regenerated.","sp":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["C",1.732,-0.5,0,1],["C",0.866,0,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[8,9,1],[9,10,2],[5,10,1]]}},{"m":{"a":[["O",0,0,-1,1]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Charge the aldehyde and the ketone (in excess) in ethanol.","level":0.45,"color":"#f2f2ec","T":22,"stir":true},{"cap":"Dose dilute sodium hydroxide slowly. The mixture warms and turns yellow as the enone forms.","dose":{"color":"#f3f8fb","name":"NaOH (aq)"},"glow":true,"T":30,"color":"#f3e7a0","level":0.6},{"cap":"Hold at 25–35 °C. The product often crystallises from the mixture.","T":30,"solid":"#f6e6a0","color":"#f0e090"},{"cap":"Neutralise the base with dilute acid, then filter and wash the product.","dose":{"color":"#e6f3fb","name":"dil. HCl"},"T":22,"level":0.7,"solid":"#f6e6a0"}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

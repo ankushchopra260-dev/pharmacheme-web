@@ -1,0 +1,102 @@
+---
+layout: default
+title: "Curtius rearrangement of an acyl azide"
+seo_title: "Curtius Rearrangement: Mechanism, N₂ Gas and Azides | PharmaChemE"
+description: "Curtius rearrangement of an acyl azide to an isocyanate and Boc carbamate: animated mechanism, nitrogen gas per kg, azide hazards and urea by-products."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Curtius rearrangement"
+    url: /molecules/reaction-lab/curtius-rearrangement/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Curtius rearrangement of an acyl azide",
+        "description": "Curtius rearrangement of an acyl azide to an isocyanate and Boc carbamate: animated mechanism, nitrogen gas per kg, azide hazards and urea by-products.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of curtius rearrangement of an acyl azide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: In one concerted step, the R group moves from carbon to nitrogen while nitrogen gas leaves; the nitrogen lone pair forms C=N. Step 2: tert-Butanol attacks the isocyanate carbon; the C=N π bond moves onto nitrogen. Step 3: The proton moves from oxygen to nitrogen, giving the carbamate."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is curtius rearrangement moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water reacts with the isocyanate to give the amine and CO₂, and the amine then forms urea. Use dry toluene and tert-butanol."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in curtius rearrangement of an acyl azide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nitrogen: about 32.9 kg (28.8 m³ at 25 °C) per 100 kg of acyl azide (acetyl azide shown). Inert, but large in volume and released as fast as the azide rearranges. Size the vent for the dosing rate."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Nitrogen chemistry</p>
+  <h1>Curtius rearrangement of an acyl azide</h1>
+  <p class="rl-intro">On warming, an acyl azide loses nitrogen gas while the group on the carbonyl moves to nitrogen, giving an isocyanate. Trapping the isocyanate with tert-butanol gives a Boc-protected amine, a carbon shorter than the starting acid. The reaction is clean, but azides are energetic and the nitrogen release must be planned.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Nitrogen</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Exothermic with gas</b></div>
+    <div><span>Type</span><b>Nitrogen chemistry</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Acyl azide (acetyl azide shown) + tert-Butanol → Boc carbamate + Nitrogen <span>(toluene, 70–90 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge toluene and tert-butanol and heat to 80 °C under nitrogen.</li><li>Dose the acyl azide solution slowly into the hot mixture, so it rearranges as it arrives and never builds up. Nitrogen comes off steadily.</li><li>Hold until gas stops and no azide or isocyanate remains (IR check).</li><li>Cool and work up; the Boc carbamate is in the toluene.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>In one concerted step, the R group moves from carbon to nitrogen while nitrogen gas leaves; the nitrogen lone pair forms C=N.</li><li>tert-Butanol attacks the isocyanate carbon; the C=N π bond moves onto nitrogen.</li><li>The proton moves from oxygen to nitrogen, giving the carbamate.</li><li>Products: the Boc carbamate and nitrogen gas.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Acyl azides are energetic and can decompose violently. Keep them in solution, never isolate them dry, and dose them into hot solvent so they react as they arrive.</li><li>Azide reagents (sodium azide, DPPA) can form hydrazoic acid with acid, which is highly toxic and explosive. Avoid acids and heavy metals (copper, lead in drains).</li><li>The gas rate equals the rearrangement rate; a blocked vent pressurises the reactor.</li><li>Isocyanates are toxic and sensitisers; confirm full conversion before work-up.</li><li>Continuous flow is widely used for Curtius reactions to keep the azide inventory small.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of acyl azide (acetyl azide shown) (molar mass 85.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Nitrogen</td><td>32.9 kg</td><td>28.8 m³</td><td>Inert, but large in volume and released as fast as the azide rearranges. Size the vent for the dosing rate.</td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Symmetrical urea</td><td>Water converts some isocyanate to the amine, which adds to more isocyanate. Keep the system dry.</td></tr><tr><td>Free amine</td><td>Isocyanate hydrolysis by water (with CO₂ release). Dry solvent and alcohol.</td></tr><tr><td>Unreacted azide</td><td>Too low a temperature or too short a hold. Confirm by IR before cooling.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water reacts with the isocyanate to give the amine and CO₂, and the amine then forms urea. Use dry toluene and tert-butanol.</p></section>
+    <section><h2>Heat of reaction</h2><p>The rearrangement releases heat together with nitrogen; azide decomposition releases much more. DSC data on the acyl azide solution are essential.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Run a DSC on the azide solution and set the maximum safe temperature with margin.</li><li>Dose-controlled addition into hot solvent is the safe pattern.</li><li>Treat aqueous waste containing azide (e.g. with nitrous acid) before discharge.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/boc-protection-of-amine/' | relative_url }}">Boc protection</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/epoxidation-with-peracid/' | relative_url }}">← Peracid epoxidation</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/acetylation-with-acetic-anhydride/' | relative_url }}">Acetylation (Ac₂O) →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"curtius-rearrangement","name":"Curtius rearrangement of an acyl azide","cat":"Nitrogen chemistry","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["N",0,-0.5,0,0],["N",0,-1.5,1,0],["N",0,-2.5,-1,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,2]]},"l":"Acyl azide (acetyl azide shown)"},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["C",0.866,-1,0,3],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]},"l":"tert-Butanol"}],"p":[{"m":{"a":[["C",3.464,-0.5,0,3],["N",2.598,0,0,1],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",0.5,-1.366,0,3],["C",-0.866,-1,0,3],["C",-0.5,0.366,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[5,6,1],[5,7,1],[5,8,1]]},"l":"Boc carbamate"},{"m":{"a":[["N",0.866,0,0,0],["N",0,-0.5,0,0]],"b":[[0,1,3]]},"l":"Nitrogen"}],"cond":"toluene, 70–90 °C"},"mech":[{"cap":"In one concerted step, the R group moves from carbon to nitrogen while nitrogen gas leaves; the nitrogen lone pair forms C=N.","sp":[{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["N",0,-0.5,0,0],["N",0,-1.5,1,0],["N",0,-2.5,-1,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,2]]}}],"ar":[{"f":["b",0,0,1],"t":["n",0,0,0,3]},{"f":["b",0,3,4],"t":["b",0,4,5]},{"f":["l",0,3],"t":["b",0,1,3]}]},{"cap":"tert-Butanol attacks the isocyanate carbon; the C=N π bond moves onto nitrogen.","sp":[{"lp":[4],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["C",0.866,-1,0,3],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]}},{"m":{"a":[["C",-0.5,0.866,0,3],["N",0,0,0,0],["C",1,0,0,0],["O",2,0,0,0]],"b":[[0,1,1],[1,2,2],[2,3,2]]}}],"ar":[{"f":["l",0,4],"t":["n",0,4,1,2]},{"f":["b",1,1,2],"t":["a",1,1]}]},{"cap":"The proton moves from oxygen to nitrogen, giving the carbamate.","sp":[{"lp":[1],"m":{"a":[["C",3.464,-0.5,0,3],["N",2.598,0,-1,0],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["C",0,-0.5,0,0],["C",0.5,-1.366,0,3],["C",-0.866,-1,0,3],["C",-0.5,0.366,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[4,6,1],[6,7,1],[6,8,1],[6,9,1]]}}],"ar":[{"f":["l",0,1],"t":["n",0,1,0,5]},{"f":["b",0,4,5],"t":["a",0,4]}]},{"cap":"Products: the Boc carbamate and nitrogen gas.","sp":[{"m":{"a":[["C",3.464,-0.5,0,3],["N",2.598,0,0,1],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",0.5,-1.366,0,3],["C",-0.866,-1,0,3],["C",-0.5,0.366,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[5,6,1],[5,7,1],[5,8,1]]}},{"m":{"a":[["N",0.866,0,0,0],["N",0,-0.5,0,0]],"b":[[0,1,3]]}}],"ar":[]}],"lab":[{"cap":"Charge toluene and tert-butanol and heat to 80 °C under nitrogen.","level":0.4,"color":"#eef1f3","T":80,"heat":true,"n2":true,"stir":true},{"cap":"Dose the acyl azide solution slowly into the hot mixture, so it rearranges as it arrives and never builds up. Nitrogen comes off steadily.","dose":{"color":"#f5f2df","name":"Acyl azide (solution)"},"gas":{"name":"N₂"},"heat":true,"T":82,"level":0.55},{"cap":"Hold until gas stops and no azide or isocyanate remains (IR check).","heat":true,"T":85,"gas":{"name":"N₂","slow":true}},{"cap":"Cool and work up; the Boc carbamate is in the toluene.","T":25,"level":0.5}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Acetylation with acetic anhydride"
+seo_title: "Acetylation with Acetic Anhydride: Mechanism, Heat | PharmaChemE"
+description: "N-acetylation of an amine with acetic anhydride: animated mechanism, exotherm, delayed hydrolysis of anhydride, by-products and plant control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Acetylation (Ac₂O)"
+    url: /molecules/reaction-lab/acetylation-with-acetic-anhydride/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Acetylation with acetic anhydride",
+        "description": "N-acetylation of an amine with acetic anhydride: animated mechanism, exotherm, delayed hydrolysis of anhydride, by-products and plant control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of acetylation with acetic anhydride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The amine nitrogen attacks one carbonyl carbon of the anhydride. Step 2: The intermediate collapses and acetate leaves. Step 3: Acetate takes the proton from nitrogen: the neutral amide and acetic acid."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is acetylation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water slowly consumes acetic anhydride (making acetic acid). A little water mostly wastes reagent; amines react much faster than water, so the reaction can even be run in water."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Acylation and activation</p>
+  <h1>Acetylation with acetic anhydride</h1>
+  <p class="rl-intro">Acetic anhydride transfers an acetyl group to amines (and, more slowly, to alcohols and phenols). The leaving group is acetate, and acetic acid is the only by-product, so it is cheap and clean. The plant concern is heat: the reaction is fast with amines, and excess anhydride reacts with water later, sometimes after a delay.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None (acetic acid vapour)</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Exothermic</b></div>
+    <div><span>Type</span><b>Acylation and activation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Amine (methylamine shown) + Acetic anhydride → Acetamide + Acetic acid <span>(toluene, ethyl acetate or water, 20–50 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the amine in the solvent at 20 °C.</li><li>Dose acetic anhydride. The temperature rises quickly; set the rate by the cooling.</li><li>Hold until the amine is consumed. The product may crystallise.</li><li>Add water to destroy excess anhydride. This can be slow to start and then warm the batch; add slowly and watch the temperature.</li><li>Filter the product or separate the layers.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The amine nitrogen attacks one carbonyl carbon of the anhydride.</li><li>The intermediate collapses and acetate leaves.</li><li>Acetate takes the proton from nitrogen: the neutral amide and acetic acid.</li><li>Products: the acetamide and acetic acid.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Fast and exothermic with amines; dose anhydride with cooling.</li><li>Acetic anhydride hydrolysis by water is slow in two phases and can start late, then accelerate. Add water slowly with mixing and wait for the heat before adding more.</li><li>Acetic anhydride is corrosive and a lachrymator, and is a regulated chemical in many countries; keep records.</li><li>With catalysts such as DMAP or acids, alcohols and phenols acetylate too; choose conditions for the selectivity needed.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none (acetic acid vapour)).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Diacetylation</td><td>Excess anhydride with heat on primary amines or amides. Use 1.05–1.2 eq and moderate temperature.</td></tr><tr><td>O-acetylation</td><td>Hydroxyl groups in the molecule acylated. Keep without catalyst and cool, or hydrolyse the ester selectively afterwards.</td></tr><tr><td>Acetic acid in product</td><td>Wash or dry well; acetic acid has a strong smell and limits.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water slowly consumes acetic anhydride (making acetic acid). A little water mostly wastes reagent; amines react much faster than water, so the reaction can even be run in water.</p></section>
+    <section><h2>Heat of reaction</h2><p>Amine acetylation releases significant heat quickly. Hydrolysis of the excess anhydride releases more, sometimes with a delay.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Calorimetry on the water quench of excess anhydride; it is a classic delayed exotherm.</li><li>Recover acetic acid from the mother liquor where volumes allow.</li><li>Keep anhydride stock under lock and record usage as required.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/amide-from-acid-chloride/' | relative_url }}">Amide from an acid chloride</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/curtius-rearrangement/' | relative_url }}">← Curtius rearrangement</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/vilsmeier-haack-formylation/' | relative_url }}">Vilsmeier–Haack →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"acetylation-with-acetic-anhydride","name":"Acetylation with acetic anhydride","cat":"Acylation and activation","eq":{"r":[{"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]},"l":"Amine (methylamine shown)"},{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[4,6,2]]},"l":"Acetic anhydride"}],"p":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]},"l":"Acetamide"},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1]]},"l":"Acetic acid"}],"cond":"toluene, ethyl acetate or water, 20–50 °C"},"mech":[{"cap":"The amine nitrogen attacks one carbonyl carbon of the anhydride.","sp":[{"lp":[1],"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]}},{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1],[4,6,2]]}}],"ar":[{"f":["l",0,1],"t":["n",0,1,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"The intermediate collapses and acetate leaves.","sp":[{"lp":[2],"m":{"a":[["C",3.098,0.866,0,3],["C",2.598,0,0,0],["O",2.098,0.866,-1,0],["N",3.464,-0.5,1,2],["C",4.33,0,0,3],["O",1.732,-0.5,0,0],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[1,5,1],[5,6,1],[6,7,1],[6,8,2]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,1,5],"t":["a",0,5]}]},{"cap":"Acetate takes the proton from nitrogen: the neutral amide and acetic acid.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,1,1],["H",0.866,1,0,0],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[3,5,1]]}},{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,2],[1,3,1]]}}],"ar":[{"f":["l",1,3],"t":["n",1,3,0,4]},{"f":["b",0,3,4],"t":["a",0,3]}]},{"cap":"Products: the acetamide and acetic acid.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the amine in the solvent at 20 °C.","level":0.45,"color":"#eef1f3","T":20,"stir":true},{"cap":"Dose acetic anhydride. The temperature rises quickly; set the rate by the cooling.","dose":{"color":"#f6f6f2","name":"Ac₂O"},"glow":true,"cool":true,"T":38,"level":0.58},{"cap":"Hold until the amine is consumed. The product may crystallise.","T":35,"solid":"#ffffff"},{"cap":"Add water to destroy excess anhydride. This can be slow to start and then warm the batch; add slowly and watch the temperature.","dose":{"color":"#dceef8","name":"Water"},"glow":true,"T":32,"level":0.75,"solid":"#ffffff"},{"cap":"Filter the product or separate the layers.","T":20,"solid":"#ffffff"}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

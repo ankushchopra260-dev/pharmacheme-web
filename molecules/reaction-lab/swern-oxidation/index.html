@@ -1,0 +1,102 @@
+---
+layout: default
+title: "Swern oxidation of an alcohol"
+seo_title: "Swern Oxidation: Mechanism, CO Gas and Cold Control | PharmaChemE"
+description: "Swern oxidation of an alcohol with DMSO and oxalyl chloride: animated mechanism, CO, CO₂ and dimethyl sulfide off-gas per kg, −60 °C control and by-products."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Swern oxidation"
+    url: /molecules/reaction-lab/swern-oxidation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Swern oxidation of an alcohol",
+        "description": "Swern oxidation of an alcohol with DMSO and oxalyl chloride: animated mechanism, CO, CO₂ and dimethyl sulfide off-gas per kg, −60 °C control and by-products.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of swern oxidation of an alcohol?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The DMSO oxygen attacks a carbonyl carbon of oxalyl chloride. Step 2: The intermediate collapses and chloride leaves. Step 3: Chloride attacks sulfur and the rest falls apart into CO₂, CO and chloride: this is where the gas comes from, and it starts already at −60 °C. Step 4: The alcohol attacks the chlorodimethylsulfonium ion; chloride leaves. Step 5: After loss of the O–H proton, triethylamine removes a proton from a methyl group on sulfur, forming a sulfur ylide. Step 6: The ylide carbon takes the hydrogen on the alcohol carbon through a five-membered ring; C=O forms and dimethyl sulfide leaves."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is swern oxidation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "High. Water destroys oxalyl chloride and the activated DMSO, giving HCl and wasting reagent. Use dry DMSO, solvent and alcohol."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in swern oxidation of an alcohol?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Carbon monoxide: about 46.6 kg (40.7 m³ at 25 °C) per 100 kg of alcohol (isopropanol shown), with 1 eq of oxalyl chloride. Toxic and odourless. Vent to a safe place; use CO detectors. Carbon dioxide: about 73.2 kg (40.7 m³ at 25 °C) per 100 kg of alcohol (isopropanol shown), with 1 eq of oxalyl chloride. Released with the CO during activation. Dimethyl sulfide: about 103.4 kg (40.7 m³ at 25 °C) per 100 kg of alcohol (isopropanol shown). Boils at 37 °C; very strong smell. Scrub with bleach (hypochlorite) to oxidise it."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Oxidation</p>
+  <h1>Swern oxidation of an alcohol</h1>
+  <p class="rl-intro">Dimethyl sulfoxide, activated by oxalyl chloride at very low temperature, oxidises an alcohol to an aldehyde or ketone without metals. The price is three gases: carbon monoxide, carbon dioxide and foul-smelling dimethyl sulfide. The cold temperature is essential: the activated DMSO decomposes violently as it warms.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/oxidation-reactions/' | relative_url }}">Oxidation reactions in plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Carbon monoxide, Carbon dioxide, Dimethyl sulfide</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-3">High</b></div>
+    <div><span>Heat</span><b>Exothermic at −60 °C</b></div>
+    <div><span>Type</span><b>Oxidation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Alcohol (isopropanol shown) + DMSO + Oxalyl chloride → Ketone + Dimethyl sulfide + CO₂ + CO <span>(DCM, −70 to −50 °C; then Et₃N)</span><br><span>Not fully balanced as drawn: two moles of triethylamine hydrochloride not shown.</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Dry reactor under nitrogen. Charge dichloromethane and oxalyl chloride; cool to −70 °C.</li><li>Dose DMSO slowly. CO and CO₂ come off at once; keep below −60 °C.</li><li>Dose the alcohol, still below −60 °C.</li><li>Dose triethylamine. A thick white salt forms.</li><li>Warm to 0 °C. Dimethyl sulfide is released (strong smell); vent through a bleach scrubber.</li><li>Quench with water and separate: the ketone in the organic layer.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The DMSO oxygen attacks a carbonyl carbon of oxalyl chloride.</li><li>The intermediate collapses and chloride leaves.</li><li>Chloride attacks sulfur and the rest falls apart into CO₂, CO and chloride: this is where the gas comes from, and it starts already at −60 °C.</li><li>The alcohol attacks the chlorodimethylsulfonium ion; chloride leaves.</li><li>After loss of the O–H proton, triethylamine removes a proton from a methyl group on sulfur, forming a sulfur ylide.</li><li>The ylide carbon takes the hydrogen on the alcohol carbon through a five-membered ring; C=O forms and dimethyl sulfide leaves.</li><li>Products: the ketone, dimethyl sulfide, CO and CO₂ (and triethylamine hydrochloride).</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Keep below −60 °C until the base has been added. The activated DMSO species decomposes as it warms, with gas and heat, and can run away.</li><li>Carbon monoxide is toxic and has no smell. Vent safely and monitor the area.</li><li>Dimethyl sulfide is flammable and smells at extremely low levels; scrub the vent with bleach.</li><li>Oxalyl chloride reacts violently with water; keep the system dry.</li><li>Large-scale Swern needs strong cooling; continuous flow or other activators are often used instead.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of alcohol (isopropanol shown) (molar mass 60.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Carbon monoxide</td><td>46.6 kg</td><td>40.7 m³</td><td>Toxic and odourless. Vent to a safe place; use CO detectors. <i>(with 1 eq of oxalyl chloride)</i></td></tr><tr><td>Carbon dioxide</td><td>73.2 kg</td><td>40.7 m³</td><td>Released with the CO during activation. <i>(with 1 eq of oxalyl chloride)</i></td></tr><tr><td>Dimethyl sulfide</td><td>103.4 kg</td><td>40.7 m³</td><td>Boils at 37 °C; very strong smell. Scrub with bleach (hypochlorite) to oxidise it.</td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Methylthiomethyl (MTM) ether</td><td>Pummerer-type side reaction if the mixture warms before the base is added. Keep cold.</td></tr><tr><td>Alkyl chloride</td><td>Chloride displacing the activated alcohol at higher temperature. Keep cold and add base on time.</td></tr><tr><td>Epimerisation α to the new carbonyl</td><td>Excess triethylamine on warming. Use diisopropylethylamine or less base.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-3">High</span></h2><p>Water destroys oxalyl chloride and the activated DMSO, giving HCl and wasting reagent. Use dry DMSO, solvent and alcohol.</p></section>
+    <section><h2>Heat of reaction</h2><p>Activation of DMSO and the base addition release heat that must be removed at very low temperature. Loss of cooling is dangerous because the intermediate decomposes on warming.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Check the cryogenic cooling capacity against the dosing time before scheduling.</li><li>CO monitors at the vent and in the area.</li><li>Consider TEMPO/bleach or other oxidations for large batches.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/oxidation-reactions/' | relative_url }}">Oxidation reactions in plants</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/aldol-condensation/' | relative_url }}">← Aldol condensation</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/epoxidation-with-peracid/' | relative_url }}">Peracid epoxidation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"swern-oxidation","name":"Swern oxidation of an alcohol","cat":"Oxidation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,1],["C",0.866,1,0,3],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,1]]},"l":"Alcohol (isopropanol shown)"},{"m":{"a":[["C",1.732,-0.5,0,3],["S",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]},"l":"DMSO"},{"m":{"a":[["Cl",2.598,0,0,0],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["C",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[3,5,1]]},"l":"Oxalyl chloride"}],"p":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]},"l":"Ketone"},{"m":{"a":[["C",1.732,-0.5,0,3],["S",0.866,0,0,0],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1]]},"l":"Dimethyl sulfide"},{"m":{"a":[["O",0,0,0,0],["C",1,0,0,0],["O",2,0,0,0]],"b":[[0,1,2],[1,2,2]]},"l":"CO₂"},{"m":{"a":[["C",0.866,0,-1,0],["O",0,-0.5,1,0]],"b":[[0,1,3]]},"l":"CO"}],"cond":"DCM, −70 to −50 °C; then Et₃N"},"mech":[{"cap":"The DMSO oxygen attacks a carbonyl carbon of oxalyl chloride.","sp":[{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,3],["S",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]}},{"m":{"a":[["Cl",2.598,0,0,0],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["C",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[3,5,1]]}}],"ar":[{"f":["l",0,3],"t":["n",0,3,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"The intermediate collapses and chloride leaves.","sp":[{"lp":[5],"m":{"a":[["C",4.33,0,0,3],["S",3.464,-0.5,1,0],["C",3.464,-1.5,0,3],["O",2.598,0,0,0],["C",1.732,-0.5,0,0],["O",1.232,-1.366,-1,0],["Cl",2.232,-1.366,0,0],["C",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,1],[4,6,1],[4,7,1],[7,8,2],[7,9,1]]}}],"ar":[{"f":["l",0,5],"t":["b",0,4,5]},{"f":["b",0,4,6],"t":["a",0,6]}]},{"cap":"Chloride attacks sulfur and the rest falls apart into CO₂, CO and chloride: this is where the gas comes from, and it starts already at −60 °C.","sp":[{"lp":[0],"m":{"a":[["Cl",0,0,-1,0]],"b":[]}},{"m":{"a":[["C",4.33,0,0,3],["S",3.464,-0.5,1,0],["C",3.464,-1.5,0,3],["O",2.598,0,0,0],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["C",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,2],[4,6,1],[6,7,2],[6,8,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,1]},{"f":["b",1,1,3],"t":["b",1,3,4]},{"f":["b",1,4,6],"t":["b",1,6,7]},{"f":["b",1,6,8],"t":["a",1,8]}]},{"cap":"The alcohol attacks the chlorodimethylsulfonium ion; chloride leaves.","sp":[{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,1],["C",0.866,1,0,3],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["S",0.866,0,1,0],["C",0.866,1,0,3],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[{"f":["l",0,3],"t":["n",0,3,1,1]},{"f":["b",1,1,3],"t":["a",1,3]}]},{"cap":"After loss of the O–H proton, triethylamine removes a proton from a methyl group on sulfur, forming a sulfur ylide.","sp":[{"m":{"a":[["C",4.33,0,0,3],["C",3.464,-0.5,0,1],["C",3.464,-1.5,0,3],["O",2.598,0,0,0],["S",1.732,-0.5,1,0],["C",0.866,0,0,2],["H",0,-0.5,0,0],["C",1.732,-1.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,1],[5,6,1],[4,7,1]]}},{"lp":[2],"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["N",1.732,-0.5,0,0],["C",1.732,-1.5,0,2],["C",2.598,-2,0,3],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[2,5,1],[5,6,1]]}}],"ar":[{"f":["l",1,2],"t":["n",1,2,0,6]},{"f":["b",0,5,6],"t":["a",0,5]}]},{"cap":"The ylide carbon takes the hydrogen on the alcohol carbon through a five-membered ring; C=O forms and dimethyl sulfide leaves.","sp":[{"lp":[6],"m":{"a":[["C",2.098,0.866,0,3],["C",2.598,0,0,0],["H",3.464,0.5,0,0],["C",3.098,-0.866,0,3],["O",1.732,-0.5,0,0],["S",0.866,0,1,0],["C",0.866,1,-1,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1],[4,5,1],[5,6,1],[5,7,1]]}}],"ar":[{"f":["l",0,6],"t":["n",0,6,0,2]},{"f":["b",0,1,2],"t":["b",0,1,4]},{"f":["b",0,4,5],"t":["a",0,5]}]},{"cap":"Products: the ketone, dimethyl sulfide, CO and CO₂ (and triethylamine hydrochloride).","sp":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["S",0.866,0,0,0],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1]]}},{"m":{"a":[["O",0,0,0,0],["C",1,0,0,0],["O",2,0,0,0]],"b":[[0,1,2],[1,2,2]]}},{"m":{"a":[["C",0.866,0,-1,0],["O",0,-0.5,1,0]],"b":[[0,1,3]]}}],"ar":[]}],"lab":[{"cap":"Dry reactor under nitrogen. Charge dichloromethane and oxalyl chloride; cool to −70 °C.","level":0.4,"color":"#eef1f3","T":-70,"n2":true,"cool":true,"stir":true},{"cap":"Dose DMSO slowly. CO and CO₂ come off at once; keep below −60 °C.","dose":{"color":"#f6f6f6","name":"DMSO"},"gas":{"name":"CO + CO₂"},"cool":true,"glow":true,"T":-62,"level":0.48},{"cap":"Dose the alcohol, still below −60 °C.","dose":{"color":"#f6f6f6","name":"Alcohol"},"cool":true,"T":-62,"level":0.56},{"cap":"Dose triethylamine. A thick white salt forms.","dose":{"color":"#f6f6f6","name":"Et₃N"},"cool":true,"T":-55,"solid":"#ffffff","level":0.66,"glow":true},{"cap":"Warm to 0 °C. Dimethyl sulfide is released (strong smell); vent through a bleach scrubber.","T":0,"gas":{"name":"Me₂S vapour","slow":true},"solid":"#ffffff"},{"cap":"Quench with water and separate: the ketone in the organic layer.","dose":{"color":"#dceef8","name":"Water"},"solid":null,"layers":["#d8ecf6","#eef1f3"],"T":10,"level":0.85}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

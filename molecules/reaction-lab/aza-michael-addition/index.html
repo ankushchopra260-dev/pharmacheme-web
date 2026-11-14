@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Aza-Michael addition of an amine to an acrylate"
+seo_title: "Aza-Michael Addition to Acrylates: Mechanism | PharmaChemE"
+description: "Amine adding to an acrylate ester (aza-Michael): animated conjugate addition mechanism, exotherm, acrylate polymerisation risk and bis-addition control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Aza-Michael addition"
+    url: /molecules/reaction-lab/aza-michael-addition/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Aza-Michael addition of an amine to an acrylate",
+        "description": "Amine adding to an acrylate ester (aza-Michael): animated conjugate addition mechanism, exotherm, acrylate polymerisation risk and bis-addition control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of aza-Michael addition of an amine to an acrylate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The amine attacks the end carbon of the C=C bond. The C=C π electrons move towards the carbonyl, and the C=O π electrons move onto oxygen: an enolate forms. Step 2: The enolate re-forms C=O and its α-carbon takes the proton from nitrogen (through the solvent)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is aza-Michael addition moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Low. Water does not stop the addition; with long holds it can hydrolyse the ester slowly."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Carbon–carbon bond formation</p>
+  <h1>Aza-Michael addition of an amine to an acrylate</h1>
+  <p class="rl-intro">An amine adds to the end carbon of an acrylate, an α,β-unsaturated ester, in a conjugate (Michael) addition. A proton then moves to the α-carbon, giving a β-amino ester. It needs no catalyst, but acrylates polymerise easily and the addition is exothermic, so dosing and inhibitor control matter.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-1">Low</b></div>
+    <div><span>Heat</span><b>Exothermic</b></div>
+    <div><span>Type</span><b>Carbon–carbon bond formation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Amine (methylamine shown) + Methyl acrylate → β-Amino ester <span>(methanol or neat, 20–40 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the amine (in excess) in methanol, with air in the head space if the acrylate inhibitor needs oxygen.</li><li>Dose the acrylate slowly. The addition is exothermic; keep below 40 °C.</li><li>Hold until the acrylate is gone (check by GC or HPLC).</li><li>Distil off methanol and excess amine.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The amine attacks the end carbon of the C=C bond. The C=C π electrons move towards the carbonyl, and the C=O π electrons move onto oxygen: an enolate forms.</li><li>The enolate re-forms C=O and its α-carbon takes the proton from nitrogen (through the solvent).</li><li>Product: the β-amino ester. Being a secondary amine, it can add to a second acrylate.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Acrylates can polymerise violently with heat, light or contamination. Keep the inhibitor (e.g. MEHQ, which needs dissolved oxygen) and avoid inerting acrylate storage completely.</li><li>The addition is exothermic; dose the acrylate into the amine at a controlled rate.</li><li>Methyl acrylate is flammable, toxic and a strong sensitiser with a sharp smell; use closed transfer.</li><li>Do not distil mixtures with unreacted acrylate without inhibitor.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Bis-adduct</td><td>The product amine adds to a second acrylate. Use excess amine and dose acrylate into it.</td></tr><tr><td>Amide (aminolysis of the ester)</td><td>At high temperature or long holds the amine attacks the ester. Keep mild conditions.</td></tr><tr><td>Polyacrylate</td><td>Polymerisation from inhibitor loss or overheating. Keep inhibitor and temperature control.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-1">Low</span></h2><p>Water does not stop the addition; with long holds it can hydrolyse the ester slowly.</p></section>
+    <section><h2>Heat of reaction</h2><p>Conjugate addition of amines to acrylates releases about 20 kcal per mole. Acrylate polymerisation, if started, releases far more.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Check inhibitor level of the acrylate lot before use.</li><li>Interlock acrylate dosing on high temperature.</li><li>Keep acrylate stock cool, away from light, with air in the head space.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/epoxide-ring-opening-with-amine/' | relative_url }}">Epoxide opening with an amine</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/cyanide-substitution/' | relative_url }}">← Cyanation (NaCN)</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/acid-chloride-thionyl-chloride/' | relative_url }}">Acid chloride (SOCl₂) →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"aza-michael-addition","name":"Aza-Michael addition of an amine to an acrylate","cat":"Carbon–carbon bond formation","eq":{"r":[{"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]},"l":"Amine (methylamine shown)"},{"m":{"a":[["C",3.464,-0.5,0,2],["C",2.598,0,0,1],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[2,3,2],[2,4,1],[4,5,1]]},"l":"Methyl acrylate"}],"p":[{"m":{"a":[["C",5.196,-0.5,0,3],["N",4.33,0,0,1],["C",3.464,-0.5,0,2],["C",2.598,0,0,2],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,2],[4,6,1],[6,7,1]]},"l":"β-Amino ester"}],"cond":"methanol or neat, 20–40 °C"},"mech":[{"cap":"The amine attacks the end carbon of the C=C bond. The C=C π electrons move towards the carbonyl, and the C=O π electrons move onto oxygen: an enolate forms.","sp":[{"lp":[1],"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]}},{"m":{"a":[["C",3.464,-0.5,0,2],["C",2.598,0,0,1],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[2,3,2],[2,4,1],[4,5,1]]}}],"ar":[{"f":["l",0,1],"t":["n",0,1,1,0]},{"f":["b",1,0,1],"t":["b",1,1,2]},{"f":["b",1,2,3],"t":["a",1,3]}]},{"cap":"The enolate re-forms C=O and its α-carbon takes the proton from nitrogen (through the solvent).","sp":[{"lp":[6],"m":{"a":[["C",5.196,-0.5,0,3],["N",4.33,0,1,1],["H",4.33,1,0,0],["C",3.464,-0.5,0,2],["C",2.598,0,0,1],["C",1.732,-0.5,0,0],["O",1.732,-1.5,-1,0],["O",0.866,0,0,0],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[4,5,2],[5,6,1],[5,7,1],[7,8,1]]}}],"ar":[{"f":["l",0,6],"t":["b",0,5,6]},{"f":["b",0,4,5],"t":["n",0,4,0,2]},{"f":["b",0,1,2],"t":["a",0,1]}]},{"cap":"Product: the β-amino ester. Being a secondary amine, it can add to a second acrylate.","sp":[{"m":{"a":[["C",5.196,-0.5,0,3],["N",4.33,0,0,1],["C",3.464,-0.5,0,2],["C",2.598,0,0,2],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,2],[4,6,1],[6,7,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the amine (in excess) in methanol, with air in the head space if the acrylate inhibitor needs oxygen.","level":0.45,"color":"#eef1f3","T":20,"stir":true},{"cap":"Dose the acrylate slowly. The addition is exothermic; keep below 40 °C.","dose":{"color":"#f7f7f7","name":"Methyl acrylate"},"glow":true,"cool":true,"T":32,"level":0.6},{"cap":"Hold until the acrylate is gone (check by GC or HPLC).","T":30},{"cap":"Distil off methanol and excess amine.","distil":true,"heat":true,"T":60,"level":0.4}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

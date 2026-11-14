@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Aromatic sulfonation with sulfur trioxide (oleum)"
+seo_title: "Aromatic Sulfonation with SO₃: Mechanism, Heat | PharmaChemE"
+description: "Sulfonation of an arene with sulfur trioxide or oleum: animated mechanism, strong heat release, reversibility, water hazard, by-products and plant control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Sulfonation"
+    url: /molecules/reaction-lab/aromatic-sulfonation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Aromatic sulfonation with sulfur trioxide (oleum)",
+        "description": "Sulfonation of an arene with sulfur trioxide or oleum: animated mechanism, strong heat release, reversibility, water hazard, by-products and plant control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of aromatic sulfonation with sulfur trioxide (oleum)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: A π bond of the ring attacks sulfur in SO₃; an S=O π bond moves onto oxygen. Step 2: Hydrogen sulfate removes the proton from the σ-complex and the ring becomes aromatic again."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is sulfonation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "High. Water reacts with SO₃ to form sulfuric acid, releasing much heat and diluting the sulfonating agent. Too much water stops sulfonation and can let arene accumulate."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Aromatic substitution</p>
+  <h1>Aromatic sulfonation with sulfur trioxide (oleum)</h1>
+  <p class="rl-intro">Sulfur trioxide, present in oleum (fuming sulfuric acid), is a strong electrophile. An aromatic ring attacks the sulfur, and loss of a proton gives the arenesulfonic acid. Sulfonation is very exothermic and, unlike most aromatic substitutions, reversible: hot dilute acid removes the sulfonic acid group again.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None; SO₃ mist from oleum</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-3">High</b></div>
+    <div><span>Heat</span><b>About 40 kcal/mol released</b></div>
+    <div><span>Type</span><b>Aromatic substitution</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Arene (benzene shown) + Sulfur trioxide (in oleum) → Arenesulfonic acid <span>(oleum or SO₃, 20–60 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the arene (or its solution in sulfuric acid) and cool to 15–20 °C.</li><li>Dose oleum slowly. Heat comes off at once and white SO₃ fumes appear at the vent.</li><li>Hold at 40–60 °C until the arene is consumed.</li><li>This flask is now the drown-out vessel with ice water; the acid mass is run into it slowly. Very exothermic.</li><li>The sulfonic acid (or its sodium salt after neutralising) is isolated from the aqueous acid.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>A π bond of the ring attacks sulfur in SO₃; an S=O π bond moves onto oxygen.</li><li>Hydrogen sulfate removes the proton from the σ-complex and the ring becomes aromatic again.</li><li>Product: the arenesulfonic acid (after protonation of the sulfonate). In hot dilute acid this whole sequence can run backwards.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Oleum and SO₃ react violently with water and give dense, corrosive acid mist. Never add water to oleum.</li><li>Sulfonation releases about 40 kcal per mole with SO₃; dose by the cooling capacity.</li><li>Charring and oxidation start at high temperature and with excess SO₃; stay inside the developed temperature window.</li><li>The drown-out (dilution) of the acid mass is very exothermic; add the acid to ice water, slowly, with cooling.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none; SO₃ mist from oleum).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Disulfonic acids</td><td>Excess SO₃ or high temperature. Use close to the required amount and control temperature.</td></tr><tr><td>Sulfones (Ar–SO₂–Ar)</td><td>From a sulfonic acid reacting with more arene at high SO₃ strength. Keep the arene from building up.</td></tr><tr><td>Isomers</td><td>Sulfonation is reversible, so time and temperature can shift the isomer ratio towards the thermodynamic product.</td></tr><tr><td>Desulfonation</td><td>Heating in dilute acid removes the group again. Avoid long hot holds after dilution.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-3">High</span></h2><p>Water reacts with SO₃ to form sulfuric acid, releasing much heat and diluting the sulfonating agent. Too much water stops sulfonation and can let arene accumulate.</p></section>
+    <section><h2>Heat of reaction</h2><p>Around 40 kcal per mole with SO₃ (less with sulfuric acid, because water forms). Add oleum with cooling; the dilution at the end releases more heat.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Track the free SO₃ content of the oleum lot; it sets the amount to charge.</li><li>Use a mist eliminator or scrubber for SO₃ fumes.</li><li>Glass-lined or alloy equipment rated for oleum.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a><a href="{{ '/molecules/reaction-lab/aromatic-nitration/' | relative_url }}">Aromatic nitration</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/alcohol-to-alkyl-chloride-thionyl-chloride/' | relative_url }}">← Alkyl chloride (SOCl₂)</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/aldol-condensation/' | relative_url }}">Aldol condensation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"aromatic-sulfonation","name":"Aromatic sulfonation with sulfur trioxide (oleum)","cat":"Aromatic substitution","eq":{"r":[{"m":{"a":[["C",0,0,0,1],["C",0,-1,0,1],["C",0.866,-1.5,0,1],["C",1.732,-1,0,1],["C",1.732,0,0,1],["C",0.866,0.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[0,5,1]]},"l":"Arene (benzene shown)"},{"m":{"a":[["O",1.732,-0.5,0,0],["S",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,0]],"b":[[0,1,2],[1,2,2],[1,3,2]]},"l":"Sulfur trioxide (in oleum)"}],"p":[{"m":{"a":[["O",1.732,0.5,0,1],["S",0.866,0,0,0],["O",0.366,0.866,0,0],["O",1.366,-0.866,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,2],[1,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1]]},"l":"Arenesulfonic acid"}],"cond":"oleum or SO₃, 20–60 °C"},"mech":[{"cap":"A π bond of the ring attacks sulfur in SO₃; an S=O π bond moves onto oxygen.","sp":[{"m":{"a":[["C",0,0,0,1],["C",0,-1,0,1],["C",0.866,-1.5,0,1],["C",1.732,-1,0,1],["C",1.732,0,0,1],["C",0.866,0.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[0,5,1]]}},{"m":{"a":[["O",1.732,-0.5,0,0],["S",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,0]],"b":[[0,1,2],[1,2,2],[1,3,2]]}}],"ar":[{"f":["b",0,2,3],"t":["n",0,3,1,1]},{"f":["b",1,0,1],"t":["a",1,0]}]},{"cap":"Hydrogen sulfate removes the proton from the σ-complex and the ring becomes aromatic again.","sp":[{"m":{"a":[["O",1.732,0.5,-1,0],["S",0.866,0,0,0],["O",0.366,0.866,0,0],["O",1.366,-0.866,0,0],["C",0,-0.5,0,0],["H",0.866,-1,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,1,1]],"b":[[0,1,1],[1,2,2],[1,3,2],[1,4,1],[4,5,1],[4,6,1],[6,7,2],[7,8,1],[8,9,2],[9,10,1],[4,10,1]]}},{"lp":[4],"m":{"a":[["O",1.732,-0.5,0,1],["S",0.866,0,0,0],["O",0.866,1,0,0],["O",0.866,-1,0,0],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,2],[1,3,2],[1,4,1]]}}],"ar":[{"f":["l",1,4],"t":["n",1,4,0,5]},{"f":["b",0,4,5],"t":["b",0,4,10]}]},{"cap":"Product: the arenesulfonic acid (after protonation of the sulfonate). In hot dilute acid this whole sequence can run backwards.","sp":[{"m":{"a":[["O",1.732,0.5,0,1],["S",0.866,0,0,0],["O",0.366,0.866,0,0],["O",1.366,-0.866,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,2],[1,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the arene (or its solution in sulfuric acid) and cool to 15–20 °C.","level":0.4,"color":"#efefe8","T":18,"cool":true,"stir":true},{"cap":"Dose oleum slowly. Heat comes off at once and white SO₃ fumes appear at the vent.","dose":{"color":"#f3f3ee","name":"Oleum"},"glow":true,"cool":true,"gas":{"name":"SO₃ mist","slow":true},"T":35,"level":0.55,"color":"#e9e2c6"},{"cap":"Hold at 40–60 °C until the arene is consumed.","heat":true,"T":55,"color":"#e2d7aa"},{"cap":"This flask is now the drown-out vessel with ice water; the acid mass is run into it slowly. Very exothermic.","dose":{"color":"#e2d7aa","name":"Reaction mass"},"glow":true,"cool":true,"T":30,"level":0.85,"color":"#ece6cc"},{"cap":"The sulfonic acid (or its sodium salt after neutralising) is isolated from the aqueous acid.","T":20,"solid":"#ffffff"}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
