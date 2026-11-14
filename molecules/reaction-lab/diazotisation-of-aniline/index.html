@@ -1,0 +1,101 @@
+---
+layout: default
+title: "Diazotisation of an aromatic amine"
+seo_title: "Diazotisation: Mechanism, Temperature and Safety | PharmaChemE"
+description: "Aromatic amine to diazonium salt with sodium nitrite and acid: animated mechanism, why it must stay cold, nitrogen gas on decomposition, NOx and excess nitrite."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Diazotisation"
+    url: /molecules/reaction-lab/diazotisation-of-aniline/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Diazotisation of an aromatic amine",
+        "description": "Aromatic amine to diazonium salt with sodium nitrite and acid: animated mechanism, why it must stay cold, nitrogen gas on decomposition, NOx and excess nitrite.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of diazotisation of an aromatic amine?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: In acid, nitrous acid is protonated and loses water, giving the nitrosonium ion NO⁺. Step 2: The amine nitrogen attacks the nitrogen of NO⁺. Step 3: After loss of a proton, the N-nitrosamine rearranges: a proton moves from nitrogen to oxygen (through the solvent) as the N=N bond forms. Step 4: The diazohydroxide is protonated on oxygen; the nitrogen lone pair pushes water out and the N≡N triple bond forms."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is diazotisation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "None. The reaction runs in water. The concern is temperature and stability, not moisture."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in diazotisation of an aromatic amine?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nitrogen: about 30.1 kg (26.3 m³ at 25 °C) per 100 kg of aromatic amine (aniline shown), released when the diazonium decomposes, or in the next step (Sandmeyer, hydrolysis). Not toxic, but its volume is large: plan the vent for the next step and for any decomposition."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Nitrogen chemistry</p>
+  <h1>Diazotisation of an aromatic amine</h1>
+  <p class="rl-intro">Nitrous acid, made from sodium nitrite and acid, turns an aromatic amine into a diazonium salt. Diazonium salts are the gateway to Sandmeyer reactions, azo dyes and many substitutions, but they are unstable: they lose nitrogen gas as they warm, and dry diazonium salts can explode.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Nitrogen</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-0">None</b></div>
+    <div><span>Heat</span><b>Exothermic; decomposition much more so</b></div>
+    <div><span>Type</span><b>Nitrogen chemistry</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Aromatic amine (aniline shown) + Sodium nitrite + HCl (2–3 eq) → Diazonium chloride + Water <span>(water, 0–5 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge water, hydrochloric acid and the amine: the amine hydrochloride forms a white slurry.</li><li>Cool to 0–5 °C with brine in the jacket.</li><li>Dose sodium nitrite solution below the surface, keeping below 5 °C. The solid dissolves as the diazonium forms.</li><li>Check for a slight excess of nitrite with starch–iodide paper (it turns blue-black).</li><li>Destroy the excess nitrite with sulfamic acid. This gives nitrogen gas bubbles.</li><li>Use the cold diazonium solution at once in the next step. Never isolate or dry it.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>In acid, nitrous acid is protonated and loses water, giving the nitrosonium ion NO⁺.</li><li>The amine nitrogen attacks the nitrogen of NO⁺.</li><li>After loss of a proton, the N-nitrosamine rearranges: a proton moves from nitrogen to oxygen (through the solvent) as the N=N bond forms.</li><li>The diazohydroxide is protonated on oxygen; the nitrogen lone pair pushes water out and the N≡N triple bond forms.</li><li>Product: the aryl diazonium salt. Warm it, and it loses N₂: that is what the next step uses, and also why it must stay cold until then.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Keep the diazonium below 5 °C (or the limit from DSC for your compound). It decomposes as it warms, giving nitrogen gas and heat.</li><li>Never isolate dry diazonium salts unless they are a known stable form (e.g. tetrafluoroborate) and the hazard is studied.</li><li>Dose nitrite below the surface; added on top, it forms toxic brown NOx gas.</li><li>Use enough acid (2.5–3 eq) so free amine does not couple with the diazonium to form triazenes or azo compounds.</li><li>Remove excess nitrite before the next step; it causes side reactions and NOx.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of aromatic amine (aniline shown) (molar mass 93.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Nitrogen</td><td>30.1 kg</td><td>26.3 m³</td><td>Not toxic, but its volume is large: plan the vent for the next step and for any decomposition. <i>(released when the diazonium decomposes, or in the next step (Sandmeyer, hydrolysis))</i></td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Phenol</td><td>From the diazonium reacting with water when warm. Keep cold and use it promptly.</td></tr><tr><td>Triazenes and azo compounds</td><td>Free amine coupling with diazonium when acid is too low. Keep excess acid.</td></tr><tr><td>Nitrosamines</td><td>From nitrite with secondary amines present (also in other steps). A regulated impurity: control nitrite and its removal.</td></tr><tr><td>NOx</td><td>From nitrite in strong acid at the surface. Dose sub-surface and keep a slight excess only.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-0">None</span></h2><p>The reaction runs in water. The concern is temperature and stability, not moisture.</p></section>
+    <section><h2>Heat of reaction</h2><p>Diazotisation releases a moderate amount of heat, removed by cold jacket. The decomposition of the diazonium releases far more and gives nitrogen gas, so thermal stability data (DSC) are needed before scale-up.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Interlock nitrite dosing on high temperature.</li><li>Have a plan to quench the diazonium if the next step is delayed.</li><li>Continuous flow is increasingly used for diazotisation because it keeps the inventory of diazonium small.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a><a href="{{ '/articles/continuous-flow-chemistry/' | relative_url }}">Continuous flow chemistry</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/boc-deprotection-with-hcl/' | relative_url }}">← Boc deprotection</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/reductive-amination/' | relative_url }}">Reductive amination →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"diazotisation-of-aniline","name":"Diazotisation of an aromatic amine","cat":"Nitrogen chemistry","eq":{"r":[{"m":{"a":[["N",0.866,0,0,2],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1]]},"l":"Aromatic amine (aniline shown)"},{"m":{"a":[["N",2.266,0.5,0,0],["O",3.132,0,0,0],["O",1.4,0,-1,0],["Na",0,0,1,0]],"b":[[0,1,2],[0,2,1]]},"l":"Sodium nitrite"},{"m":{"a":[["Cl",0,0,0,1]],"b":[]},"l":"HCl (2–3 eq)"}],"p":[{"m":{"a":[["N",-0.524,1.44,0,0],["N",-0.866,0.5,1,0],["C",-1.208,-0.44,0,0],["C",-2.193,-0.613,0,1],["C",-2.535,-1.553,0,1],["C",-1.892,-2.319,0,1],["C",-0.907,-2.145,0,1],["C",-0.565,-1.206,0,1],["Cl",0.876,0.5,-1,0]],"b":[[0,1,3],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]},"l":"Diazonium chloride"},{"m":{"a":[["O",0,0,0,2]],"b":[]},"l":"Water"}],"cond":"water, 0–5 °C"},"mech":[{"cap":"In acid, nitrous acid is protonated and loses water, giving the nitrosonium ion NO⁺.","sp":[{"lp":[0],"m":{"a":[["O",2.598,0,0,0],["N",1.732,-0.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,2],[1,2,1],[2,3,1],[2,4,1]]}}],"ar":[{"f":["l",0,0],"t":["b",0,0,1]},{"f":["b",0,1,2],"t":["a",0,2]}]},{"cap":"The amine nitrogen attacks the nitrogen of NO⁺.","sp":[{"lp":[0],"m":{"a":[["N",0.866,0,0,2],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1]]}},{"m":{"a":[["N",-0.866,0,0,0],["O",0,-0.5,1,0]],"b":[[0,1,3]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"After loss of a proton, the N-nitrosamine rearranges: a proton moves from nitrogen to oxygen (through the solvent) as the N=N bond forms.","sp":[{"lp":[2],"m":{"a":[["O",2.598,0,0,0],["N",1.732,-0.5,0,0],["N",0.866,0,0,0],["H",0.866,1,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,1],[2,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,0,1],"t":["a",0,0]}]},{"cap":"The diazohydroxide is protonated on oxygen; the nitrogen lone pair pushes water out and the N≡N triple bond forms.","sp":[{"lp":[4],"m":{"a":[["H",3.464,-0.5,0,0],["O",2.598,0,1,0],["H",2.598,1,0,0],["N",1.732,-0.5,0,0],["N",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[8,9,1],[9,10,2],[5,10,1]]}}],"ar":[{"f":["l",0,4],"t":["b",0,3,4]},{"f":["b",0,1,3],"t":["a",0,1]}]},{"cap":"Product: the aryl diazonium salt. Warm it, and it loses N₂: that is what the next step uses, and also why it must stay cold until then.","sp":[{"m":{"a":[["N",-1.732,1,0,0],["N",-0.866,0.5,1,0],["C",0,0,0,0],["C",0,-1,0,1],["C",0.866,-1.5,0,1],["C",1.732,-1,0,1],["C",1.732,0,0,1],["C",0.866,0.5,0,1]],"b":[[0,1,3],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]}},{"m":{"a":[["Cl",0,0,-1,0]],"b":[]}},{"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Charge water, hydrochloric acid and the amine: the amine hydrochloride forms a white slurry.","level":0.45,"color":"#eef3f6","solid":"#ffffff","T":25,"stir":true},{"cap":"Cool to 0–5 °C with brine in the jacket.","cool":true,"T":2},{"cap":"Dose sodium nitrite solution below the surface, keeping below 5 °C. The solid dissolves as the diazonium forms.","dose":{"color":"#f0f6fa","name":"NaNO₂ (aq)"},"glow":true,"cool":true,"T":4,"level":0.6,"solid":null,"color":"#f3efcf"},{"cap":"Check for a slight excess of nitrite with starch–iodide paper (it turns blue-black).","cool":true,"T":3},{"cap":"Destroy the excess nitrite with sulfamic acid. This gives nitrogen gas bubbles.","dose":{"color":"#ffffff","name":"Sulfamic acid"},"gas":{"name":"N₂ (from excess nitrite)","slow":true},"cool":true,"T":3},{"cap":"Use the cold diazonium solution at once in the next step. Never isolate or dry it.","cool":true,"T":3,"color":"#f2ebc4"}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

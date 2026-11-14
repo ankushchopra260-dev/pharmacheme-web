@@ -1,0 +1,101 @@
+---
+layout: default
+title: "Aromatic bromination with bromine and iron(III) bromide"
+seo_title: "Aromatic Bromination: Mechanism, HBr and Bromine | PharmaChemE"
+description: "Electrophilic bromination of an arene with Br₂ and FeBr₃: animated mechanism, HBr gas per kg, bromine handling, moisture sensitivity and isomer control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Aromatic bromination"
+    url: /molecules/reaction-lab/aromatic-bromination/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Aromatic bromination with bromine and iron(III) bromide",
+        "description": "Electrophilic bromination of an arene with Br₂ and FeBr₃: animated mechanism, HBr gas per kg, bromine handling, moisture sensitivity and isomer control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of aromatic bromination with bromine and iron(iii) bromide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Bromine coordinates to iron(III) bromide. A π bond of the ring attacks the outer bromine, and the Br–Br bond breaks towards iron. Step 2: The σ-complex loses its proton to FeBr₄⁻, the ring becomes aromatic again, and HBr and FeBr₃ are released."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is aromatic bromination moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "High. Water deactivates FeBr₃ (and AlBr₃), slowing the reaction and letting bromine build up. It also makes HBr much more corrosive to equipment."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in aromatic bromination with bromine and iron(iii) bromide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen bromide: about 103.6 kg (31.3 m³ at 25 °C) per 100 kg of arene (benzene shown). Corrosive fumes. Scrub in water then caustic; HBr can be recovered as hydrobromic acid."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Aromatic substitution</p>
+  <h1>Aromatic bromination with bromine and iron(III) bromide</h1>
+  <p class="rl-intro">Iron(III) bromide polarises bromine so that one end becomes strongly electrophilic. The aromatic ring attacks it, and loss of a proton restores the aromatic ring. One mole of hydrogen bromide gas forms for every bromine put on the ring.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Hydrogen bromide</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-3">High</b></div>
+    <div><span>Heat</span><b>Moderately exothermic</b></div>
+    <div><span>Type</span><b>Aromatic substitution</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Arene (benzene shown) + Bromine → Aryl bromide + Hydrogen bromide <span>(FeBr₃ (cat.), 20–50 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the arene (and solvent) with a little iron powder or FeBr₃ under nitrogen.</li><li>Dose bromine slowly. The red-brown colour fades as it reacts; HBr gas goes to the scrubber.</li><li>Hold at 40–50 °C until the arene is used up and the gas slows.</li><li>Quench excess bromine with sodium bisulfite solution: the red colour disappears.</li><li>Separate: aryl bromide in the organic layer.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>Bromine coordinates to iron(III) bromide. A π bond of the ring attacks the outer bromine, and the Br–Br bond breaks towards iron.</li><li>The σ-complex loses its proton to FeBr₄⁻, the ring becomes aromatic again, and HBr and FeBr₃ are released.</li><li>Products: aryl bromide and HBr gas; the catalyst is regenerated.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Bromine is very toxic and corrosive, with a high vapour pressure. Use closed transfer, and have thiosulfate or bisulfite ready for spills.</li><li>HBr comes off with the reaction; size the scrubber for the dosing rate.</li><li>Keep water out: it deactivates the Lewis acid catalyst and makes the mixture corrosive.</li><li>Bromine dosed into a stalled reaction accumulates (the colour stays red). Stop dosing until it fades.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of arene (benzene shown) (molar mass 78.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Hydrogen bromide</td><td>103.6 kg</td><td>31.3 m³</td><td>Corrosive fumes. Scrub in water then caustic; HBr can be recovered as hydrobromic acid.</td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Dibromo products</td><td>Excess bromine or long holds. Use close to 1.0 eq and stop at the right conversion.</td></tr><tr><td>Isomers</td><td>Set by the substituent; ortho/para ratio shifts with temperature and solvent.</td></tr><tr><td>Benzylic bromination</td><td>With alkyl arenes under light or radical conditions. Keep in the dark, without radical initiators.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-3">High</span></h2><p>Water deactivates FeBr₃ (and AlBr₃), slowing the reaction and letting bromine build up. It also makes HBr much more corrosive to equipment.</p></section>
+    <section><h2>Heat of reaction</h2><p>Heat release is moderate; the bromine dosing rate controls both heat and HBr gas.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Glass-lined or PTFE-lined equipment; bromine and HBr attack most metals.</li><li>Watch the colour as a simple accumulation check.</li><li>N-Bromosuccinimide is easier to handle for small batches but costs more.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a><a href="{{ '/molecules/reaction-lab/friedel-crafts-acylation/' | relative_url }}">Friedel–Crafts acylation</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/reductive-amination/' | relative_url }}">← Reductive amination</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/ester-hydrolysis-saponification/' | relative_url }}">Saponification →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"aromatic-bromination","name":"Aromatic bromination with bromine and iron(III) bromide","cat":"Aromatic substitution","eq":{"r":[{"m":{"a":[["C",0,0,0,1],["C",0,-1,0,1],["C",0.866,-1.5,0,1],["C",1.732,-1,0,1],["C",1.732,0,0,1],["C",0.866,0.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[0,5,1]]},"l":"Arene (benzene shown)"},{"m":{"a":[["Br",0.866,0,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1]]},"l":"Bromine"}],"p":[{"m":{"a":[["Br",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1]]},"l":"Aryl bromide"},{"m":{"a":[["Br",0,0,0,1]],"b":[]},"l":"Hydrogen bromide"}],"cond":"FeBr₃ (cat.), 20–50 °C"},"mech":[{"cap":"Bromine coordinates to iron(III) bromide. A π bond of the ring attacks the outer bromine, and the Br–Br bond breaks towards iron.","sp":[{"m":{"a":[["C",0,0,0,1],["C",0,-1,0,1],["C",0.866,-1.5,0,1],["C",1.732,-1,0,1],["C",1.732,0,0,1],["C",0.866,0.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[0,5,1]]}},{"m":{"a":[["Br",0.866,0,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1]]}},{"m":{"a":[["Br",1.732,-0.5,0,0],["Fe",0.866,0,0,0],["Br",0.866,1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[{"f":["b",0,0,1],"t":["n",0,0,1,0]},{"f":["b",1,0,1],"t":["n",1,1,2,1]}]},{"cap":"The σ-complex loses its proton to FeBr₄⁻, the ring becomes aromatic again, and HBr and FeBr₃ are released.","sp":[{"m":{"a":[["Br",-0.5,0.866,0,0],["C",0,0,0,0],["H",-1,0,0,0],["C",0,-1,0,1],["C",0.866,-1.5,0,1],["C",1.732,-1,0,1],["C",1.732,0,0,1],["C",0.866,0.5,1,1]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[1,7,1]]}},{"lp":[0],"m":{"a":[["Br",1.732,-0.5,0,0],["Fe",0.866,0,-1,0],["Br",0.866,1,0,0],["Br",0.866,-1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]}}],"ar":[{"f":["l",1,0],"t":["n",1,0,0,2]},{"f":["b",0,1,2],"t":["b",0,1,7]}]},{"cap":"Products: aryl bromide and HBr gas; the catalyst is regenerated.","sp":[{"m":{"a":[["Br",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1]]}},{"m":{"a":[["Br",0,0,0,1]],"b":[]}},{"m":{"a":[["Br",1.732,-0.5,0,0],["Fe",0.866,0,0,0],["Br",0.866,1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the arene (and solvent) with a little iron powder or FeBr₃ under nitrogen.","level":0.45,"color":"#eceae4","solid":"#5a4a3a","T":20,"n2":true,"stir":true},{"cap":"Dose bromine slowly. The red-brown colour fades as it reacts; HBr gas goes to the scrubber.","dose":{"color":"#9b2c13","name":"Bromine"},"gas":{"name":"HBr"},"color":"#d9a07a","glow":true,"T":30,"level":0.55},{"cap":"Hold at 40–50 °C until the arene is used up and the gas slows.","T":45,"heat":true,"gas":{"name":"HBr","slow":true},"color":"#cf8f63"},{"cap":"Quench excess bromine with sodium bisulfite solution: the red colour disappears.","dose":{"color":"#e6f3fb","name":"aq. NaHSO₃"},"color":"#efe6d3","level":0.75,"T":25,"solid":null},{"cap":"Separate: aryl bromide in the organic layer.","layers":["#efe6d3","#dceef8"],"T":25}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

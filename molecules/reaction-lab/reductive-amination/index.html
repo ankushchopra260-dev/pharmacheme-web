@@ -1,0 +1,93 @@
+---
+layout: default
+title: "Reductive amination with sodium triacetoxyborohydride"
+seo_title: "Reductive Amination: Mechanism, Imine and Hydride | PharmaChemE"
+description: "Ketone and amine to a new amine through an iminium ion reduced by sodium triacetoxyborohydride: animated mechanism, moisture, by-products and plant handling."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Reductive amination"
+    url: /molecules/reaction-lab/reductive-amination/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Reductive amination with sodium triacetoxyborohydride",
+        "description": "Ketone and amine to a new amine through an iminium ion reduced by sodium triacetoxyborohydride: animated mechanism, moisture, by-products and plant handling.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of reductive amination with sodium triacetoxyborohydride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The amine attacks the carbonyl carbon; the C=O π bond moves onto oxygen. Step 2: After proton transfers, the OH is protonated by acetic acid; the nitrogen lone pair pushes water out, forming an iminium ion. Step 3: A B–H bond of the triacetoxyborohydride delivers hydride to the iminium carbon."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is reductive amination moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water slowly destroys the hydride and pushes the imine back to ketone and amine. Use dry solvent; a drying agent or molecular sieves help slow imine formations."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Nitrogen chemistry</p>
+  <h1>Reductive amination with sodium triacetoxyborohydride</h1>
+  <p class="rl-intro">A ketone or aldehyde and an amine form an iminium ion, which a mild hydride reagent reduces to a new amine. Sodium triacetoxyborohydride is selective: it reduces the iminium much faster than the ketone, so everything can be mixed in one pot.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Small H₂ from the hydride; CO₂ in the bicarbonate quench</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Mildly exothermic</b></div>
+    <div><span>Type</span><b>Nitrogen chemistry</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ketone (acetone shown) + Amine (methylamine shown) + NaBH(OAc)₃ → Secondary amine <span>(DCE, THF or EtOAc, AcOH, 20–25 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the ketone, the amine and acetic acid in the solvent; stir for the imine to form.</li><li>Add sodium triacetoxyborohydride in portions. Mild exotherm; a little gas.</li><li>Stir at room temperature until the ketone or imine is consumed.</li><li>Quench with aqueous sodium bicarbonate: carbon dioxide foams.</li><li>Separate: the amine in the organic layer (raise the pH first if it is protonated).</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The amine attacks the carbonyl carbon; the C=O π bond moves onto oxygen.</li><li>After proton transfers, the OH is protonated by acetic acid; the nitrogen lone pair pushes water out, forming an iminium ion.</li><li>A B–H bond of the triacetoxyborohydride delivers hydride to the iminium carbon.</li><li>Product: the new secondary amine.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>The reagent reacts with water and alcohols; use dry, non-alcoholic solvent.</li><li>Portion-wise solid addition can give delayed exotherms; add in measured portions and watch the temperature.</li><li>The bicarbonate quench neutralises acetic acid and gives a lot of CO₂; add slowly.</li><li>Sodium cyanoborohydride, the older reagent, gives HCN with acid; triacetoxyborohydride avoids that.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (small H₂ from the hydride; CO₂ in the bicarbonate quench).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Alcohol from the ketone</td><td>Direct reduction of the ketone when the iminium forms slowly. Let the imine form first; keep the reagent mild.</td></tr><tr><td>Over-alkylation (tertiary amine)</td><td>The product amine reacts again with the carbonyl. Use excess of the starting amine.</td></tr><tr><td>Acetylated amine</td><td>Acetate transfer from the reagent at long holds. Avoid large excess and long holds.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water slowly destroys the hydride and pushes the imine back to ketone and amine. Use dry solvent; a drying agent or molecular sieves help slow imine formations.</p></section>
+    <section><h2>Heat of reaction</h2><p>Modest heat release on reagent addition and in the bicarbonate quench.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Check the imine formation by HPLC before adding the reagent.</li><li>Triacetoxyborohydride is a moisture-sensitive solid: weigh quickly and keep containers closed.</li><li>Catalytic hydrogenation is the usual large-scale alternative when the molecule allows.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/molecules/reaction-lab/sodium-borohydride-reduction/' | relative_url }}">Sodium borohydride reduction</a><a href="{{ '/articles/hydrogenation-and-reduction/' | relative_url }}">Hydrogenation and reduction</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/diazotisation-of-aniline/' | relative_url }}">← Diazotisation</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/aromatic-bromination/' | relative_url }}">Aromatic bromination →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"reductive-amination","name":"Reductive amination with sodium triacetoxyborohydride","cat":"Nitrogen chemistry","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]},"l":"Ketone (acetone shown)"},{"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]},"l":"Amine (methylamine shown)"},{"m":{"a":[["Na",0,0,1,0],["H",3.132,-1,0,0],["B",3.132,0,-1,0],["O",3.998,-0.5,0,0],["C",4.864,0,0,0],["C",5.73,-0.5,0,3],["O",4.864,1,0,0],["O",3.132,1,0,0],["C",2.266,1.5,0,0],["C",2.266,2.5,0,3],["O",1.4,1,0,0],["O",2.266,-0.5,0,0],["C",2.266,-1.5,0,0],["C",3.132,-2,0,3],["O",1.4,-2,0,0]],"b":[[1,2,1],[2,3,1],[3,4,1],[4,5,1],[4,6,2],[2,7,1],[7,8,1],[8,9,1],[8,10,2],[2,11,1],[11,12,1],[12,13,1],[12,14,2]]},"l":"NaBH(OAc)₃"}],"p":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,1],["C",1.732,-1.5,0,3],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1]]},"l":"Secondary amine"}],"cond":"DCE, THF or EtOAc, AcOH, 20–25 °C"},"mech":[{"cap":"The amine attacks the carbonyl carbon; the C=O π bond moves onto oxygen.","sp":[{"lp":[1],"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]}}],"ar":[{"f":["l",0,1],"t":["n",0,1,1,1]},{"f":["b",1,1,3],"t":["a",1,3]}]},{"cap":"After proton transfers, the OH is protonated by acetic acid; the nitrogen lone pair pushes water out, forming an iminium ion.","sp":[{"lp":[6],"m":{"a":[["C",1.232,-1.366,0,3],["C",1.732,-0.5,0,0],["C",2.232,-1.366,0,3],["O",2.598,0,1,0],["H",3.464,-0.5,0,0],["H",2.598,1,0,0],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[1,6,1],[6,7,1]]}}],"ar":[{"f":["l",0,6],"t":["b",0,1,6]},{"f":["b",0,1,3],"t":["a",0,3]}]},{"cap":"A B–H bond of the triacetoxyborohydride delivers hydride to the iminium carbon.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["C",1.732,-1.5,0,3],["N",0.866,0,1,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1]]}},{"m":{"a":[["H",2.598,-1,0,0],["B",2.598,0,-1,0],["O",3.464,-0.5,0,0],["C",4.33,0,0,0],["C",5.196,-0.5,0,3],["O",4.33,1,0,0],["O",2.598,1,0,0],["C",1.732,1.5,0,0],["C",1.732,2.5,0,3],["O",0.866,1,0,0],["O",1.732,-0.5,0,0],["C",1.732,-1.5,0,0],["C",2.598,-2,0,3],["O",0.866,-2,0,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[3,5,2],[1,6,1],[6,7,1],[7,8,1],[7,9,2],[1,10,1],[10,11,1],[11,12,1],[11,13,2]]}}],"ar":[{"f":["b",1,0,1],"t":["n",1,0,0,1]},{"f":["b",0,1,3],"t":["a",0,3]}]},{"cap":"Product: the new secondary amine.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,1],["C",1.732,-1.5,0,3],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the ketone, the amine and acetic acid in the solvent; stir for the imine to form.","level":0.45,"color":"#eef1f3","T":22,"stir":true,"n2":true},{"cap":"Add sodium triacetoxyborohydride in portions. Mild exotherm; a little gas.","dose":{"color":"#ffffff","name":"NaBH(OAc)₃"},"glow":true,"T":26,"solid":"#ffffff","gas":{"name":"H₂ (traces)","slow":true}},{"cap":"Stir at room temperature until the ketone or imine is consumed.","T":23,"solid":"#ffffff"},{"cap":"Quench with aqueous sodium bicarbonate: carbon dioxide foams.","dose":{"color":"#dceef8","name":"aq. NaHCO₃"},"gas":{"name":"CO₂"},"solid":null,"level":0.75,"T":20},{"cap":"Separate: the amine in the organic layer (raise the pH first if it is protonated).","layers":["#eef1f3","#d8ecf6"],"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

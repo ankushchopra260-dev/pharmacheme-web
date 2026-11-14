@@ -1,0 +1,101 @@
+---
+layout: default
+title: "Grignard addition to a ketone"
+seo_title: "Grignard Reaction with a Ketone: Mechanism | PharmaChemE"
+description: "Grignard reagent adding to a ketone: animated mechanism, lab sequence, why water and air must be kept out, exotherm, quench gas and by-product control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Grignard addition"
+    url: /molecules/reaction-lab/grignard-addition-to-ketone/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Grignard addition to a ketone",
+        "description": "Grignard reagent adding to a ketone: animated mechanism, lab sequence, why water and air must be kept out, exotherm, quench gas and by-product control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of grignard addition to a ketone?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The carbon–magnesium bond is strongly polarised; its electrons attack the carbonyl carbon. The C=O π bond moves onto oxygen. Step 2: In the quench, the alkoxide oxygen takes a proton from the acid. Magnesium salts go into the water layer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is grignard addition moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Very high. One mole of water destroys one mole of Grignard reagent and makes alkane gas. Even 0.1 % water in a large solvent charge wastes a lot of reagent. Dry solvent, dry nitrogen, and a dry, leak-tested reactor are required."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in grignard addition to a ketone?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Methane: about 2.8 kg (4.2 m³ at 25 °C) per 100 kg of ketone (acetone shown), per 0.1 eq of excess Grignard destroyed in the quench. Flammable. Vent to a safe place; keep the quench area free of ignition sources."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Carbon–carbon bond formation</p>
+  <h1>Grignard addition to a ketone</h1>
+  <p class="rl-intro">A Grignard reagent (R–Mg–X) carries a carbon with a lot of negative character. It adds to the carbon of a ketone to make a new C–C bond, and after an acidic quench gives a tertiary alcohol. It is one of the most useful bond-forming reactions in API plants, and one of the most moisture-sensitive.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Methane</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-4">Very high</b></div>
+    <div><span>Heat</span><b>About 60 kcal/mol released</b></div>
+    <div><span>Type</span><b>Carbon–carbon bond formation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ketone (acetone shown) + Methylmagnesium bromide → Tertiary alcohol <span>(1) THF, 0–10 °C  2) aq. NH₄Cl)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Dry the reactor (water below 0.01 % in THF) and keep it under nitrogen.</li><li>Charge the Grignard solution in THF. It is grey-brown.</li><li>Cool to 0 °C in the jacket.</li><li>Dose the ketone slowly. Each drop reacts at once: the temperature rises, so dosing is set by the cooling.</li><li>Stir at 5–10 °C until a quenched sample shows no ketone left.</li><li>Transfer into cold aqueous ammonium chloride (reverse quench). Excess Grignard gives methane; magnesium salts form a white solid that dissolves in the acid.</li><li>Two layers: the product in the organic layer, magnesium salts in the water.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The carbon–magnesium bond is strongly polarised; its electrons attack the carbonyl carbon. The C=O π bond moves onto oxygen.</li><li>A magnesium alkoxide forms. Nothing more happens until the quench: this is why the reagent must be added before water.</li><li>In the quench, the alkoxide oxygen takes a proton from the acid. Magnesium salts go into the water layer.</li><li>Product: the tertiary alcohol. Any water present before the quench would have destroyed the Grignard reagent instead, giving methane gas.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Water and air destroy the reagent. Dry the reactor, solvent and nitrogen; check water by Karl Fischer before charging.</li><li>The addition is fast and exothermic. If the temperature does not rise when dosing starts, stop: unreacted ketone may be accumulating.</li><li>Quench is also exothermic and gives flammable gas from excess reagent. Quench slowly into cold aqueous acid with good venting.</li><li>THF can contain peroxides. Use inhibited or freshly tested solvent and never distil it to dryness.</li><li>When making the Grignard reagent from magnesium, the start-up (initiation) can be delayed and then run away. Add only a small part of the halide until the reaction has clearly started.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of ketone (acetone shown) (molar mass 58.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Methane</td><td>2.8 kg</td><td>4.2 m³</td><td>Flammable. Vent to a safe place; keep the quench area free of ignition sources. <i>(per 0.1 eq of excess Grignard destroyed in the quench)</i></td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Alkane (R–H)</td><td>From water or alcohol in the system destroying the reagent. Dry everything; titrate the reagent before use.</td></tr><tr><td>Enolisation (ketone recovered)</td><td>Bulky reagents can take a proton instead of adding. Lower temperature or add cerium chloride.</td></tr><tr><td>Reduction to secondary alcohol</td><td>Reagents with β-hydrogens can transfer a hydride. Keep cold; choose the reagent with care.</td></tr><tr><td>Wurtz coupling (R–R)</td><td>During reagent preparation at high halide concentration. Dose the halide slowly into magnesium.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-4">Very high</span></h2><p>One mole of water destroys one mole of Grignard reagent and makes alkane gas. Even 0.1 % water in a large solvent charge wastes a lot of reagent. Dry solvent, dry nitrogen, and a dry, leak-tested reactor are required.</p></section>
+    <section><h2>Heat of reaction</h2><p>Strongly exothermic, of the order of 60 kcal per mole of reagent added. Run as a dosing-controlled semi-batch.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Titrate the Grignard solution before use; its strength drops in storage.</li><li>Use a reverse quench (reaction mass into the acid) so the acid is always in excess.</li><li>Have a plan for what happens if cooling fails during dosing: stop the feed first.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/grignard-friedel-crafts-coupling/' | relative_url }}">Grignard, Friedel-Crafts and coupling reactions</a><a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">Semi-batch dosing simulator</a><a href="{{ '/training/modules/runaway-reactions-safe-dosing/' | relative_url }}">Runaway reactions and safe dosing</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/acid-chloride-thionyl-chloride/' | relative_url }}">← Acid chloride (SOCl₂)</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/fischer-esterification/' | relative_url }}">Fischer esterification →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"grignard-addition-to-ketone","name":"Grignard addition to a ketone","cat":"Carbon–carbon bond formation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]},"l":"Ketone (acetone shown)"},{"m":{"a":[["C",1.732,-0.5,0,3],["Mg",0.866,0,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1]]},"l":"Methylmagnesium bromide"}],"p":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["C",0.866,-1,0,3],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]},"l":"Tertiary alcohol"}],"cond":"1) THF, 0–10 °C  2) aq. NH₄Cl"},"mech":[{"cap":"The carbon–magnesium bond is strongly polarised; its electrons attack the carbonyl carbon. The C=O π bond moves onto oxygen.","sp":[{"m":{"a":[["C",1.732,-0.5,0,3],["Mg",0.866,0,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]}}],"ar":[{"f":["b",0,0,1],"t":["n",0,0,1,1]},{"f":["b",1,1,3],"t":["a",1,3]}]},{"cap":"A magnesium alkoxide forms. Nothing more happens until the quench: this is why the reagent must be added before water.","sp":[{"m":{"a":[["C",2.098,0.866,0,3],["C",2.598,0,0,0],["C",3.464,0.5,0,3],["C",3.098,-0.866,0,3],["O",1.732,-0.5,0,0],["Mg",0.866,0,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1],[4,5,1],[5,6,1]]}}],"ar":[]},{"cap":"In the quench, the alkoxide oxygen takes a proton from the acid. Magnesium salts go into the water layer.","sp":[{"lp":[4],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["C",0.866,-1,0,3],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]}},{"m":{"a":[["H",1.732,-0.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[{"f":["l",0,4],"t":["n",0,4,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"Product: the tertiary alcohol. Any water present before the quench would have destroyed the Grignard reagent instead, giving methane gas.","sp":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["C",0.866,1,0,3],["C",0.866,-1,0,3],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]}},{"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Dry the reactor (water below 0.01 % in THF) and keep it under nitrogen.","level":0,"T":25,"n2":true},{"cap":"Charge the Grignard solution in THF. It is grey-brown.","level":0.45,"color":"#8b7d6b","T":25,"stir":true},{"cap":"Cool to 0 °C in the jacket.","T":0,"cool":true},{"cap":"Dose the ketone slowly. Each drop reacts at once: the temperature rises, so dosing is set by the cooling.","dose":{"color":"#f5f5f5","name":"Ketone in THF"},"T":8,"level":0.6,"glow":true,"cool":true},{"cap":"Stir at 5–10 °C until a quenched sample shows no ketone left.","T":6,"cool":true,"color":"#9a8d79"},{"cap":"Transfer into cold aqueous ammonium chloride (reverse quench). Excess Grignard gives methane; magnesium salts form a white solid that dissolves in the acid.","dose":{"color":"#d9eef7","name":"aq. NH₄Cl"},"gas":{"name":"Methane (from excess reagent)","slow":true},"T":15,"level":0.85,"solid":"#ffffff","glow":true},{"cap":"Two layers: the product in the organic layer, magnesium salts in the water.","layers":["#efe8d4","#cfe6f2"],"solid":null,"T":20,"gas":null,"cool":false}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -162,6 +162,7 @@
       children:
         - { title: "Structure Builder", url: /molecules/structure/ }
         - { title: "Reaction Builder", url: /molecules/reaction/ }
+        - { title: "Reaction Lab (mechanisms)", url: /molecules/reaction-lab/ }
     - title: "Related"
       children:
         - { title: "Solvents and reagents", url: /solvents/ }

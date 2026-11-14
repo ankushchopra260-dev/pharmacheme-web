@@ -1,0 +1,93 @@
+---
+layout: default
+title: "Fischer esterification"
+seo_title: "Fischer Esterification: Mechanism and Plant Tips | PharmaChemE"
+description: "Acid-catalysed esterification of a carboxylic acid with an alcohol: animated mechanism, why water must be removed, by-products and plant handling."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Fischer esterification"
+    url: /molecules/reaction-lab/fischer-esterification/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Fischer esterification",
+        "description": "Acid-catalysed esterification of a carboxylic acid with an alcohol: animated mechanism, why water must be removed, by-products and plant handling.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of fischer esterification?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The acid catalyst protonates the carbonyl oxygen. This makes the carbonyl carbon much more open to attack by a weak nucleophile like an alcohol. Step 2: The alcohol oxygen attacks the carbonyl carbon, and the C=O π electrons move onto the protonated oxygen. Step 3: A proton moves from the oxygen that came from the alcohol to one of the OH groups (through the solvent). That OH becomes a good leaving group: water. Step 4: An OH lone pair pushes back down to re-form C=O, and water leaves. Step 5: Water takes the proton back: the ester forms and the acid catalyst is regenerated."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is fischer esterification moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Low. Water does not destroy anything, but it is a product: any water in the feed pushes the equilibrium back and lowers conversion. Use dry alcohol where conversion matters."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Acylation and activation</p>
+  <h1>Fischer esterification</h1>
+  <p class="rl-intro">An acid and an alcohol give an ester and water when a strong acid catalyst is present. Every step is reversible, so the reaction stops at an equilibrium. The plant work is about pushing that equilibrium: excess alcohol, removing the water, or both.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None in the reaction; CO₂ in the bicarbonate wash</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-1">Low</b></div>
+    <div><span>Heat</span><b>Close to thermoneutral</b></div>
+    <div><span>Type</span><b>Acylation and activation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Acetic acid + Ethanol → Ethyl acetate + Water <span>(H₂SO₄ (cat.), reflux)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the acid, excess alcohol and toluene (for azeotropic water removal).</li><li>Add concentrated sulfuric acid slowly. It warms the mixture.</li><li>Heat to reflux. Water distils over with toluene and separates in the Dean–Stark trap.</li><li>Hold until no more water collects and the acid content stops falling.</li><li>Cool and wash with sodium bicarbonate solution to remove the catalyst and leftover acid. Carbon dioxide foams up: add slowly.</li><li>Separate the layers: ester in the organic layer.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The acid catalyst protonates the carbonyl oxygen. This makes the carbonyl carbon much more open to attack by a weak nucleophile like an alcohol.</li><li>The alcohol oxygen attacks the carbonyl carbon, and the C=O π electrons move onto the protonated oxygen.</li><li>A proton moves from the oxygen that came from the alcohol to one of the OH groups (through the solvent). That OH becomes a good leaving group: water.</li><li>An OH lone pair pushes back down to re-form C=O, and water leaves.</li><li>Water takes the proton back: the ester forms and the acid catalyst is regenerated.</li><li>Products: ester and water. Removing the water (or using a large excess of alcohol) is what drives the conversion past the equilibrium.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>The reaction stops at equilibrium. Plan how water leaves (Dean–Stark, molecular sieves, distillation) rather than only extending the hold time.</li><li>Concentrated sulfuric acid addition is exothermic; add it to the mixture, not the other way round.</li><li>The bicarbonate wash gives CO₂ and can foam over. Add slowly with good venting and leave head space.</li><li>Strong acid at reflux can dehydrate the alcohol, especially secondary and tertiary alcohols.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none in the reaction; CO₂ in the bicarbonate wash).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Dialkyl ether</td><td>From the alcohol and acid at high temperature. Keep the catalyst low and avoid overheating.</td></tr><tr><td>Alkene</td><td>Dehydration of secondary or tertiary alcohols. Use a milder catalyst such as p-toluenesulfonic acid or a different route.</td></tr><tr><td>Unreacted acid</td><td>Equilibrium not pushed far enough. Remove water or increase the alcohol excess.</td></tr><tr><td>Alkyl sulfates</td><td>Methanol or ethanol with sulfuric acid can form alkyl hydrogen sulfates and traces of dialkyl sulfates (genotoxic). Use the least catalyst needed.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-1">Low</span></h2><p>Water does not destroy anything, but it is a product: any water in the feed pushes the equilibrium back and lowers conversion. Use dry alcohol where conversion matters.</p></section>
+    <section><h2>Heat of reaction</h2><p>The esterification itself releases very little heat. The heat comes from adding sulfuric acid and from the bicarbonate neutralisation.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Track water collected in the trap against the theoretical amount; it is a simple conversion check.</li><li>Glass-lined equipment for hot sulfuric acid.</li><li>Check the ester for residual alcohol and sulfate esters before release.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">Improve reaction conversion and yield</a><a href="{{ '/solvents/' | relative_url }}">Solvent properties</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/grignard-addition-to-ketone/' | relative_url }}">← Grignard addition</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/amide-from-acid-chloride/' | relative_url }}">Amide coupling (acid chloride) →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"fischer-esterification","name":"Fischer esterification","cat":"Acylation and activation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1]]},"l":"Acetic acid"},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]},"l":"Ethanol"}],"p":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["O",1.732,-0.5,0,0],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[3,5,2]]},"l":"Ethyl acetate"},{"m":{"a":[["O",0,0,0,2]],"b":[]},"l":"Water"}],"cond":"H₂SO₄ (cat.), reflux"},"mech":[{"cap":"The acid catalyst protonates the carbonyl oxygen. This makes the carbonyl carbon much more open to attack by a weak nucleophile like an alcohol.","sp":[{"lp":[2],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1]]}},{"m":{"a":[["H",1.732,-0.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[{"f":["l",0,2],"t":["n",0,2,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"The alcohol oxygen attacks the carbonyl carbon, and the C=O π electrons move onto the protonated oxygen.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,1],["O",0.866,0,1,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2],[3,4,1]]}},{"lp":[2],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]}}],"ar":[{"f":["l",1,2],"t":["n",1,2,0,1]},{"f":["b",0,1,3],"t":["a",0,3]}]},{"cap":"A proton moves from the oxygen that came from the alcohol to one of the OH groups (through the solvent). That OH becomes a good leaving group: water.","sp":[{"lp":[2],"m":{"a":[["C",3.098,0.866,0,3],["C",2.598,0,0,0],["O",2.098,0.866,0,1],["O",3.464,-0.5,0,0],["H",4.33,0,0,0],["O",1.732,-0.5,1,0],["H",1.732,-1.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[1,5,1],[5,6,1],[5,7,1],[7,8,1]]}}],"ar":[{"f":["l",0,2],"t":["n",0,2,0,6]},{"f":["b",0,5,6],"t":["a",0,5]}]},{"cap":"An OH lone pair pushes back down to re-form C=O, and water leaves.","sp":[{"lp":[2],"m":{"a":[["C",2.598,1,0,3],["C",2.598,0,0,0],["O",3.464,-0.5,0,0],["H",4.33,0,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3],["O",2.598,-1,1,0],["H",3.464,-1.5,0,0],["H",1.732,-1.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[1,4,1],[4,5,1],[5,6,1],[1,7,1],[7,8,1],[7,9,1]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,1,7],"t":["a",0,7]}]},{"cap":"Water takes the proton back: the ester forms and the acid catalyst is regenerated.","sp":[{"m":{"a":[["C",2.598,1,0,3],["C",2.598,0,0,0],["O",3.464,-0.5,1,0],["H",4.33,0,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[2,3,1],[1,4,1],[4,5,1],[5,6,1]]}},{"lp":[0],"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[{"f":["l",1,0],"t":["n",1,0,0,3]},{"f":["b",0,2,3],"t":["a",0,2]}]},{"cap":"Products: ester and water. Removing the water (or using a large excess of alcohol) is what drives the conversion past the equilibrium.","sp":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["O",1.732,-0.5,0,0],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[3,5,2]]}},{"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Charge the acid, excess alcohol and toluene (for azeotropic water removal).","level":0.5,"color":"#eef0e6","T":25,"stir":true},{"cap":"Add concentrated sulfuric acid slowly. It warms the mixture.","dose":{"color":"#f4f4f4","name":"H₂SO₄"},"glow":true,"T":35},{"cap":"Heat to reflux. Water distils over with toluene and separates in the Dean–Stark trap.","T":92,"heat":true,"distil":true},{"cap":"Hold until no more water collects and the acid content stops falling.","T":95,"heat":true,"distil":true,"color":"#efe9d6"},{"cap":"Cool and wash with sodium bicarbonate solution to remove the catalyst and leftover acid. Carbon dioxide foams up: add slowly.","T":25,"dose":{"color":"#e4f2fb","name":"aq. NaHCO₃"},"gas":{"name":"CO₂ (from the wash)"},"level":0.75},{"cap":"Separate the layers: ester in the organic layer.","layers":["#efe9d6","#d8ecf6"],"T":25}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,101 @@
+---
+layout: default
+title: "Lithium aluminium hydride reduction of an ester"
+seo_title: "LiAlH₄ Reduction of Esters: Mechanism and Safe Quench | PharmaChemE"
+description: "Ester to alcohol with lithium aluminium hydride: animated two-hydride mechanism, hydrogen in the quench, very high moisture sensitivity and safe work-up."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "LiAlH₄ ester reduction"
+    url: /molecules/reaction-lab/lithium-aluminium-hydride-ester-reduction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Lithium aluminium hydride reduction of an ester",
+        "description": "Ester to alcohol with lithium aluminium hydride: animated two-hydride mechanism, hydrogen in the quench, very high moisture sensitivity and safe work-up.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of lithium aluminium hydride reduction of an ester?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: A hydride from AlH₄⁻ attacks the ester carbonyl carbon; the C=O π bond moves onto oxygen. Step 2: The intermediate collapses: C=O re-forms and ethoxide leaves, giving an aldehyde. Step 3: The aldehyde is more reactive than the ester, so it takes a second hydride at once. That is why the reaction cannot be stopped at the aldehyde with LiAlH₄."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is lialh₄ ester reduction moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Very high. Water destroys the reagent violently and gives hydrogen. Wet THF can cause a fire on charging. Dry the solvent (Karl Fischer), dry the reactor and keep a nitrogen blanket throughout."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in lithium aluminium hydride reduction of an ester?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen: about 2.3 kg (27.8 m³ at 25 °C) per 100 kg of ester (ethyl acetate shown), when 0.25 eq of excess LiAlH₄ is destroyed in the quench (4 H₂ per AlH₄⁻). Flammable. Quench under nitrogen sweep; vent to a safe place."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Reduction</p>
+  <h1>Lithium aluminium hydride reduction of an ester</h1>
+  <p class="rl-intro">Lithium aluminium hydride is a far stronger hydride donor than sodium borohydride. It reduces esters all the way to primary alcohols, using two hydrides per ester. It reacts violently with water and alcohols, so both the reaction and the quench need care.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Hydrogen</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-4">Very high</b></div>
+    <div><span>Heat</span><b>Strongly exothermic, quench violent</b></div>
+    <div><span>Type</span><b>Reduction</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ester (ethyl acetate shown) + Lithium aluminium hydride → Primary alcohol + Alcohol from the ester part <span>(dry THF, 0 °C to reflux; then careful quench)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Dry reactor under nitrogen. Charge dry THF and LiAlH₄: a grey suspension.</li><li>Cool to 0 °C and dose the ester in THF. Strong exotherm; keep below 10 °C.</li><li>Warm, then reflux briefly to finish the reduction.</li><li>Cool to 0 °C. Quench by slowly adding water, drop by drop: very vigorous hydrogen evolution.</li><li>Then 15 % sodium hydroxide, then more water. The aluminium salts become a white, granular solid that filters well.</li><li>Filter off the salts; the alcohol is in the THF filtrate.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>A hydride from AlH₄⁻ attacks the ester carbonyl carbon; the C=O π bond moves onto oxygen.</li><li>The intermediate collapses: C=O re-forms and ethoxide leaves, giving an aldehyde.</li><li>The aldehyde is more reactive than the ester, so it takes a second hydride at once. That is why the reaction cannot be stopped at the aldehyde with LiAlH₄.</li><li>After the quench, the two alkoxides become two alcohols: the primary alcohol from the acyl part and the alcohol from the ester part.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>LiAlH₄ reacts violently with water, alcohols and acids, giving hydrogen that can ignite. Keep it dry and never charge solid onto a wet surface.</li><li>Use a quench with known amounts (for x g LiAlH₄: x mL water, x mL 15 % NaOH, 3x mL water) to get filterable salts and avoid gels.</li><li>Dosing the ester gives a strong exotherm; set the dosing rate by the cooling.</li><li>Solid LiAlH₄ dust can ignite in moist air. Handle it under nitrogen, or use the THF solution.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of ester (ethyl acetate shown) (molar mass 88.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Hydrogen</td><td>2.3 kg</td><td>27.8 m³</td><td>Flammable. Quench under nitrogen sweep; vent to a safe place. <i>(when 0.25 eq of excess LiAlH₄ is destroyed in the quench (4 H₂ per AlH₄⁻))</i></td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Aluminium gels</td><td>Wrong quench ratio or speed. Follow the water/caustic/water quench and stir long enough.</td></tr><tr><td>Over-reduction of other groups</td><td>LiAlH₄ also reduces acids, amides, nitriles and halides. Protect or choose a milder reagent.</td></tr><tr><td>Aldehyde</td><td>Not isolated with LiAlH₄. For aldehydes, use DIBAL at −78 °C.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-4">Very high</span></h2><p>Water destroys the reagent violently and gives hydrogen. Wet THF can cause a fire on charging. Dry the solvent (Karl Fischer), dry the reactor and keep a nitrogen blanket throughout.</p></section>
+    <section><h2>Heat of reaction</h2><p>Both the reduction and the quench release a lot of heat; the quench also releases hydrogen. Both are dosing-controlled.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Many plants replace LiAlH₄ with sodium bis(2-methoxyethoxy)aluminium hydride (a toluene solution) for safer handling.</li><li>Quench into a vessel with spare volume for foaming.</li><li>Check the vent for hydrogen and keep ignition sources away.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/molecules/reaction-lab/sodium-borohydride-reduction/' | relative_url }}">Sodium borohydride reduction</a><a href="{{ '/articles/hydrogenation-and-reduction/' | relative_url }}">Hydrogenation and reduction</a><a href="{{ '/process-safety/' | relative_url }}">Process safety</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/sodium-borohydride-reduction/' | relative_url }}">← NaBH₄ reduction</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/williamson-ether-synthesis/' | relative_url }}">Williamson ether →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"lithium-aluminium-hydride-ester-reduction","name":"Lithium aluminium hydride reduction of an ester","cat":"Reduction","eq":{"r":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1]]},"l":"Ester (ethyl acetate shown)"},{"m":{"a":[["Li",0,0,1,0],["Al",1.4,0,-1,4]],"b":[]},"l":"Lithium aluminium hydride"}],"p":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]},"l":"Primary alcohol"},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]},"l":"Alcohol from the ester part"}],"cond":"dry THF, 0 °C to reflux; then careful quench"},"mech":[{"cap":"A hydride from AlH₄⁻ attacks the ester carbonyl carbon; the C=O π bond moves onto oxygen.","sp":[{"m":{"a":[["H",1.732,-0.5,0,0],["Al",0.866,0,-1,0],["H",0.866,1,0,0],["H",0.866,-1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]}},{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1]]}}],"ar":[{"f":["b",0,0,1],"t":["n",0,0,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"The intermediate collapses: C=O re-forms and ethoxide leaves, giving an aldehyde.","sp":[{"lp":[3],"m":{"a":[["C",2.098,0.866,0,3],["C",2.598,0,0,0],["H",3.464,0.5,0,0],["O",3.098,-0.866,-1,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1],[4,5,1],[5,6,1]]}}],"ar":[{"f":["l",0,3],"t":["b",0,1,3]},{"f":["b",0,1,4],"t":["a",0,4]}]},{"cap":"The aldehyde is more reactive than the ester, so it takes a second hydride at once. That is why the reaction cannot be stopped at the aldehyde with LiAlH₄.","sp":[{"m":{"a":[["H",1.732,-0.5,0,0],["Al",0.866,0,-1,0],["H",0.866,1,0,0],["H",0.866,-1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["H",0.866,1,0,0],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,2]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,1]]}}],"ar":[{"f":["b",0,0,1],"t":["n",0,0,1,1]},{"f":["b",1,1,3],"t":["a",1,3]}]},{"cap":"After the quench, the two alkoxides become two alcohols: the primary alcohol from the acyl part and the alcohol from the ester part.","sp":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1]]}}],"ar":[]}],"lab":[{"cap":"Dry reactor under nitrogen. Charge dry THF and LiAlH₄: a grey suspension.","level":0.4,"color":"#b9b7b1","solid":"#8f8f8f","T":20,"n2":true,"stir":true},{"cap":"Cool to 0 °C and dose the ester in THF. Strong exotherm; keep below 10 °C.","cool":true,"dose":{"color":"#f6f6f6","name":"Ester in THF"},"glow":true,"T":8,"level":0.55},{"cap":"Warm, then reflux briefly to finish the reduction.","T":66,"heat":true},{"cap":"Cool to 0 °C. Quench by slowly adding water, drop by drop: very vigorous hydrogen evolution.","cool":true,"T":5,"dose":{"color":"#dceef8","name":"Water"},"gas":{"name":"Hydrogen"},"glow":true},{"cap":"Then 15 % sodium hydroxide, then more water. The aluminium salts become a white, granular solid that filters well.","dose":{"color":"#e5f2fa","name":"15 % NaOH, water"},"gas":{"name":"Hydrogen","slow":true},"solid":"#ffffff","color":"#eeeeea","T":15,"level":0.62},{"cap":"Filter off the salts; the alcohol is in the THF filtrate.","solid":null,"T":20,"level":0.5,"color":"#f2f1ec"}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

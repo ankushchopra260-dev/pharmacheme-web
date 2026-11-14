@@ -1,0 +1,93 @@
+---
+layout: default
+title: "Amide formation from an acid chloride"
+seo_title: "Amide from Acid Chloride and Amine: Mechanism | PharmaChemE"
+description: "Acid chloride and amine to amide with a base (Schotten–Baumann type): animated mechanism, exotherm, HCl capture, moisture and by-product control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Amide coupling (acid chloride)"
+    url: /molecules/reaction-lab/amide-from-acid-chloride/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Amide formation from an acid chloride",
+        "description": "Acid chloride and amine to amide with a base (Schotten–Baumann type): animated mechanism, exotherm, HCl capture, moisture and by-product control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of amide formation from an acid chloride?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The amine nitrogen attacks the carbonyl carbon of the acid chloride. The C=O π bond moves onto oxygen. Step 2: The tetrahedral intermediate collapses: C=O re-forms and chloride leaves. Step 3: Triethylamine takes the proton from nitrogen, giving the neutral amide and triethylamine hydrochloride."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is amide coupling moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "High. The acid chloride reacts with water to give the carboxylic acid and HCl, lowering yield and adding an impurity that can be hard to remove. Dry solvent and amine are needed; the Schotten–Baumann version in water works only because the amine reacts faster than water."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Acylation and activation</p>
+  <h1>Amide formation from an acid chloride</h1>
+  <p class="rl-intro">An amine attacks an acid chloride and the amide forms in minutes, releasing one mole of HCl. A base, usually triethylamine or aqueous alkali, takes up the HCl so that the amine is not used up as its salt. It is one of the most common bond-forming steps in API synthesis.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None while the base is present; HCl fumes without base</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-3">High</b></div>
+    <div><span>Heat</span><b>Strongly exothermic</b></div>
+    <div><span>Type</span><b>Acylation and activation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Acid chloride + Amine (methylamine shown) + Triethylamine → Amide + Triethylamine hydrochloride <span>(toluene or THF, 0–10 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Under nitrogen, charge the amine and triethylamine in the solvent.</li><li>Cool to 0 °C.</li><li>Dose the acid chloride slowly. Each drop reacts at once; the temperature rises and the hydrochloride salt starts to come out.</li><li>Stir at 5–10 °C until the amine is used up (check by TLC or HPLC).</li><li>Add water to dissolve the salt, then separate the layers.</li><li>Amide in the organic layer, triethylamine hydrochloride in the water.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The amine nitrogen attacks the carbonyl carbon of the acid chloride. The C=O π bond moves onto oxygen.</li><li>The tetrahedral intermediate collapses: C=O re-forms and chloride leaves.</li><li>Triethylamine takes the proton from nitrogen, giving the neutral amide and triethylamine hydrochloride.</li><li>Products: the amide and the hydrochloride salt, which usually comes out as a white solid in non-polar solvents.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Fast and exothermic: control the temperature with the dosing rate.</li><li>Use at least one equivalent of base; without it half the amine is lost as its hydrochloride and HCl can fume.</li><li>Acid chlorides hydrolyse in moist air and solvent to the acid and HCl. Keep everything dry until the reaction is complete.</li><li>Thick slurries of the hydrochloride salt can stop stirring; leave enough solvent.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none while the base is present; HCl fumes without base).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Carboxylic acid</td><td>From water hydrolysing the acid chloride. Dry solvent and amine; dose the acid chloride last.</td></tr><tr><td>Diacylation (imide)</td><td>Excess acid chloride on primary amides at higher temperature. Keep near 1.0–1.05 eq and cold.</td></tr><tr><td>Ester</td><td>If an alcohol is present (solvent or another group). Avoid alcohol solvents.</td></tr><tr><td>Ketene products</td><td>Acid chlorides with an α-hydrogen can lose HCl to a ketene with strong base. Keep cold and dose slowly.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-3">High</span></h2><p>The acid chloride reacts with water to give the carboxylic acid and HCl, lowering yield and adding an impurity that can be hard to remove. Dry solvent and amine are needed; the Schotten–Baumann version in water works only because the amine reacts faster than water.</p></section>
+    <section><h2>Heat of reaction</h2><p>Typically 20–30 kcal per mole of acid chloride, plus the heat of neutralising HCl with the base. Run as dosing-controlled.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Charge the acid chloride below the liquid surface or with good mixing to avoid local hot spots.</li><li>Check the amine assay before charging; the stoichiometry depends on it.</li><li>The aqueous layer contains triethylamine hydrochloride; it can be recovered with caustic.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/molecules/reaction-lab/acid-chloride-thionyl-chloride/' | relative_url }}">Making the acid chloride</a><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common reactions in plants</a><a href="{{ '/process-modelling/semi-batch-dosing-simulator/' | relative_url }}">Semi-batch dosing simulator</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/fischer-esterification/' | relative_url }}">← Fischer esterification</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/friedel-crafts-acylation/' | relative_url }}">Friedel–Crafts acylation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"amide-from-acid-chloride","name":"Amide formation from an acid chloride","cat":"Acylation and activation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1]]},"l":"Acid chloride"},{"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]},"l":"Amine (methylamine shown)"},{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["N",1.732,-0.5,0,0],["C",1.732,-1.5,0,2],["C",2.598,-2,0,3],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[2,5,1],[5,6,1]]},"l":"Triethylamine"}],"p":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]},"l":"Amide"},{"m":{"a":[["C",1.732,-2.232,0,3],["C",2.232,-1.366,0,2],["N",1.732,-0.5,1,1],["C",0.732,-0.5,0,2],["C",0.232,-1.366,0,3],["C",2.232,0.366,0,2],["C",1.732,1.232,0,3],["Cl",3.632,-0.5,-1,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[2,5,1],[5,6,1]]},"l":"Triethylamine hydrochloride"}],"cond":"toluene or THF, 0–10 °C"},"mech":[{"cap":"The amine nitrogen attacks the carbonyl carbon of the acid chloride. The C=O π bond moves onto oxygen.","sp":[{"lp":[1],"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["Cl",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1]]}}],"ar":[{"f":["l",0,1],"t":["n",0,1,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"The tetrahedral intermediate collapses: C=O re-forms and chloride leaves.","sp":[{"lp":[2],"m":{"a":[["C",2.232,0.366,0,3],["C",1.732,-0.5,0,0],["O",2.598,-1,-1,0],["Cl",1.232,-1.366,0,0],["N",0.866,0,1,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[1,3,1],[1,4,1],[4,5,1]]}}],"ar":[{"f":["l",0,2],"t":["b",0,1,2]},{"f":["b",0,1,3],"t":["a",0,3]}]},{"cap":"Triethylamine takes the proton from nitrogen, giving the neutral amide and triethylamine hydrochloride.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,1,0],["H",0.866,1,0,0],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[3,5,1]]}},{"lp":[2],"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["N",1.732,-0.5,0,0],["C",1.732,-1.5,0,2],["C",2.598,-2,0,3],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[2,5,1],[5,6,1]]}}],"ar":[{"f":["l",1,2],"t":["n",1,2,0,4]},{"f":["b",0,3,4],"t":["a",0,3]}]},{"cap":"Products: the amide and the hydrochloride salt, which usually comes out as a white solid in non-polar solvents.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,1],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]}},{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["N",1.732,-0.5,1,1],["C",1.732,-1.5,0,2],["C",2.598,-2,0,3],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[2,5,1],[5,6,1]]}},{"m":{"a":[["Cl",0,0,-1,0]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Under nitrogen, charge the amine and triethylamine in the solvent.","level":0.45,"color":"#eef1f3","T":25,"n2":true,"stir":true},{"cap":"Cool to 0 °C.","T":0,"cool":true},{"cap":"Dose the acid chloride slowly. Each drop reacts at once; the temperature rises and the hydrochloride salt starts to come out.","dose":{"color":"#f1ead0","name":"Acid chloride"},"glow":true,"cool":true,"T":8,"level":0.55,"solid":"#ffffff"},{"cap":"Stir at 5–10 °C until the amine is used up (check by TLC or HPLC).","cool":true,"T":6},{"cap":"Add water to dissolve the salt, then separate the layers.","dose":{"color":"#dceef8","name":"Water"},"solid":null,"level":0.8,"T":15},{"cap":"Amide in the organic layer, triethylamine hydrochloride in the water.","layers":["#eef1f3","#d8ecf6"],"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
