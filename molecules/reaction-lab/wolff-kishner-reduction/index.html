@@ -1,0 +1,102 @@
+---
+layout: default
+title: "Wolff–Kishner reduction of a ketone"
+seo_title: "Wolff–Kishner Reduction: Mechanism, Hydrazone, N₂ | PharmaChemE"
+description: "Wolff–Kishner reduction of a ketone to an alkane through its hydrazone: animated mechanism, nitrogen gas evolution and plant control notes."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Wolff–Kishner reduction"
+    url: /molecules/reaction-lab/wolff-kishner-reduction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Wolff–Kishner reduction of a ketone",
+        "description": "Wolff–Kishner reduction of a ketone to an alkane through its hydrazone: animated mechanism, nitrogen gas evolution and plant control notes.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of wolff–Kishner reduction of a ketone?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Hydrazine’s lone pair attacks the ketone carbon; the C=O π bond moves onto oxygen. Step 2: The alkoxide removes the proton from the new ammonium nitrogen, giving the neutral hemiaminal. Step 3: Acid protonates the hemiaminal oxygen, turning it into a leaving group. Step 4: Water leaves, and nitrogen’s lone pair forms the new C=N, giving the hydrazone. Step 5: Hot base removes a proton from the terminal nitrogen; the electrons form a new N=N bond as the adjacent C=N drops to a single bond, giving a stabilised carbanion."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is wolff–Kishner reduction moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Low. Some water is generated and removed during hydrazone formation; the reaction otherwise runs in a high-boiling solvent and is not sensitive to adventitious moisture in the way an organometallic step would be."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in wolff–Kishner reduction of a ketone?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nitrogen: about 23.3 kg (20.4 m³ at 25 °C) per 100 kg of ketone (acetophenone shown). Inert, but released steadily at high temperature; size the vent for the heating rate."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Reduction</p>
+  <h1>Wolff–Kishner reduction of a ketone</h1>
+  <p class="rl-intro">Hydrazine first condenses with a ketone to give a hydrazone. Strong base and heat then remove both hydrazone protons; the resulting anion loses nitrogen gas and is protonated by the solvent, replacing the original carbonyl carbon’s double bond with two C–H bonds. It is the usual way to deoxygenate a ketone completely, without going through an alcohol.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/hydrogenation-and-reduction/' | relative_url }}">Hydrogenation and reductions in plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Nitrogen</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-1">Low</b></div>
+    <div><span>Heat</span><b>Net endothermic (needs sustained heating)</b></div>
+    <div><span>Type</span><b>Reduction</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ketone (acetophenone shown) + Hydrazine → Alkane (ethylbenzene) + Nitrogen <span>(KOH, diethylene glycol, 180–200 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the ketone, hydrazine (as the hydrate) and diethylene glycol.</li><li>Heat to reflux to form the hydrazone; water of condensation collects.</li><li>Add potassium hydroxide and raise the temperature further.</li><li>Hold at 180–200 °C; nitrogen comes off steadily as the reduction proceeds.</li><li>Cool and separate: the alkane, often distilled directly from the hot mixture.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>Hydrazine’s lone pair attacks the ketone carbon; the C=O π bond moves onto oxygen.</li><li>The alkoxide removes the proton from the new ammonium nitrogen, giving the neutral hemiaminal.</li><li>Acid protonates the hemiaminal oxygen, turning it into a leaving group.</li><li>Water leaves, and nitrogen’s lone pair forms the new C=N, giving the hydrazone.</li><li>Hot base removes a proton from the terminal nitrogen; the electrons form a new N=N bond as the adjacent C=N drops to a single bond, giving a stabilised carbanion.</li><li>Under the strongly basic, hot conditions this carbanion loses nitrogen gas and is protonated by the solvent; the net, debated over several steps, replaces the carbonyl carbon’s double bond with two C–H bonds.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Hydrazine is toxic and a suspected carcinogen; handle with closed transfer and good ventilation.</li><li>The reaction runs at high temperature (often 180–200 °C) in a high-boiling solvent; plan for the heating duty and the equipment rating.</li><li>Excess hydrazine and the hot strong base are both corrosive; use compatible materials of construction.</li><li>The classical method needs no acid-sensitive or base-sensitive groups elsewhere in the molecule to survive the harsh conditions.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of ketone (acetophenone shown) (molar mass 120.2 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Nitrogen</td><td>23.3 kg</td><td>20.4 m³</td><td>Inert, but released steadily at high temperature; size the vent for the heating rate.</td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Unreacted hydrazone</td><td>Insufficient base or temperature for the final step. Confirm KOH charge and hold temperature.</td></tr><tr><td>Azine (ketone + hydrazone condensation)</td><td>Excess ketone relative to hydrazine. Use hydrazine in excess, not the reverse.</td></tr><tr><td>Alcohol (incomplete reduction)</td><td>Hydrolysis of the hydrazone back toward the ketone/alcohol pathway under poor conditions. Keep the system properly basic and hot.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-1">Low</span></h2><p>Some water is generated and removed during hydrazone formation; the reaction otherwise runs in a high-boiling solvent and is not sensitive to adventitious moisture in the way an organometallic step would be.</p></section>
+    <section><h2>Heat of reaction</h2><p>The overall sequence requires substantial external heat; it is not a reaction that runs away on its own.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Heat-transfer capacity at 180–200 °C is the usual plant constraint, not reagent addition rate.</li><li>Hydrazine waste streams need dedicated treatment.</li><li>Milder variants (Huang-Minlon or catalysed low-temperature versions) exist if the harsh classical conditions are a constraint.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/hydrogenation-and-reduction/' | relative_url }}">Hydrogenation and reductions in plants</a><a href="{{ '/molecules/reaction-lab/sodium-borohydride-reduction/' | relative_url }}">Sodium borohydride reduction (a milder carbonyl reduction)</a><a href="{{ '/molecules/reaction-lab/reductive-amination/' | relative_url }}">Reductive amination (also goes through an imine/hydrazone-like intermediate)</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/reformatsky-reaction/' | relative_url }}">← Reformatsky reaction</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/darzens-glycidic-ester-synthesis/' | relative_url }}">Darzens condensation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"wolff-kishner-reduction","name":"Wolff–Kishner reduction of a ketone","cat":"Reduction","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1]]},"l":"Ketone (acetophenone shown)"},{"m":{"a":[["N",0.866,0,0,2],["N",0,-0.5,0,2]],"b":[[0,1,1]]},"l":"Hydrazine"}],"p":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]},"l":"Alkane (ethylbenzene)"},{"m":{"a":[["N",0.866,0,0,0],["N",0,-0.5,0,0]],"b":[[0,1,3]]},"l":"Nitrogen"}],"cond":"KOH, diethylene glycol, 180–200 °C"},"mech":[{"cap":"Hydrazine’s lone pair attacks the ketone carbon; the C=O π bond moves onto oxygen.","sp":[{"lp":[0],"m":{"a":[["N",0.866,0,0,2],["N",0,-0.5,0,2]],"b":[[0,1,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"The alkoxide removes the proton from the new ammonium nitrogen, giving the neutral hemiaminal.","sp":[{"lp":[0],"m":{"a":[["O",1.232,-1.366,-1,0],["C",1.732,-0.5,0,0],["C",2.232,-1.366,0,3],["C",2.598,0,0,0],["C",3.464,-0.5,0,1],["C",4.33,0,0,1],["C",4.33,1,0,1],["C",3.464,1.5,0,1],["C",2.598,1,0,1],["N",0.866,0,1,1],["H",0.866,1,0,0],["N",0,-0.5,0,2]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1],[1,9,1],[9,10,1],[9,11,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,0,10]},{"f":["b",0,9,10],"t":["a",0,9]}]},{"cap":"Acid protonates the hemiaminal oxygen, turning it into a leaving group.","sp":[{"lp":[0],"m":{"a":[["O",1.232,-1.366,0,1],["C",1.732,-0.5,0,0],["C",2.232,-1.366,0,3],["C",2.598,0,0,0],["C",3.464,-0.5,0,1],["C",4.33,0,0,1],["C",4.33,1,0,1],["C",3.464,1.5,0,1],["C",2.598,1,0,1],["N",0.866,0,0,1],["N",0,-0.5,0,2]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1],[1,9,1],[9,10,1]]}},{"m":{"a":[["H",1.732,-0.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"Water leaves, and nitrogen’s lone pair forms the new C=N, giving the hydrazone.","sp":[{"lp":[11],"m":{"a":[["H",3.688,-0.388,0,0],["O",2.598,0,1,0],["H",2.598,1,0,0],["C",1.732,-0.5,0,0],["C",1.732,-1.5,0,3],["C",2.598,-1,0,0],["C",2.598,-2,0,1],["C",3.464,-2.5,0,1],["C",4.33,-2,0,1],["C",4.33,-1,0,1],["C",3.41,-0.651,0,1],["N",0.866,0,0,1],["N",0,-0.5,0,2]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,1],[3,5,1],[5,6,2],[6,7,1],[7,8,2],[8,9,1],[9,10,2],[5,10,1],[3,11,1],[11,12,1]]}}],"ar":[{"f":["b",0,1,3],"t":["a",0,1]},{"f":["l",0,11],"t":["b",0,3,11]}]},{"cap":"Hot base removes a proton from the terminal nitrogen; the electrons form a new N=N bond as the adjacent C=N drops to a single bond, giving a stabilised carbanion.","sp":[{"lp":[0],"m":{"a":[["O",0,0,-1,1]],"b":[]}},{"m":{"a":[["C",2.598,0,0,0],["C",3.464,-0.5,0,3],["C",2.598,1,0,0],["C",3.464,1.5,0,1],["C",3.464,2.5,0,1],["C",2.598,3,0,1],["C",1.732,2.5,0,1],["C",1.732,1.5,0,1],["N",1.732,-0.5,0,0],["N",0.866,0,0,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[0,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[0,8,2],[8,9,1],[9,10,1],[9,11,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,10]},{"f":["b",1,9,10],"t":["b",1,8,9]},{"f":["b",1,0,8],"t":["a",1,0]}]},{"cap":"Under the strongly basic, hot conditions this carbanion loses nitrogen gas and is protonated by the solvent; the net, debated over several steps, replaces the carbonyl carbon’s double bond with two C–H bonds.","sp":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,2],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]}},{"m":{"a":[["N",0.866,0,0,0],["N",0,-0.5,0,0]],"b":[[0,1,3]]}}],"ar":[]}],"lab":[{"cap":"Charge the ketone, hydrazine (as the hydrate) and diethylene glycol.","level":0.4,"color":"#f0eee6","T":25,"stir":true},{"cap":"Heat to reflux to form the hydrazone; water of condensation collects.","heat":true,"distil":true,"T":120,"level":0.5},{"cap":"Add potassium hydroxide and raise the temperature further.","dose":{"color":"#f5f2df","name":"KOH"},"heat":true,"T":180,"level":0.55},{"cap":"Hold at 180–200 °C; nitrogen comes off steadily as the reduction proceeds.","heat":true,"gas":{"name":"N₂"},"T":195,"level":0.5},{"cap":"Cool and separate: the alkane, often distilled directly from the hot mixture.","cool":true,"T":25,"layers":["#eef1e3","#d9ecf7"]}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

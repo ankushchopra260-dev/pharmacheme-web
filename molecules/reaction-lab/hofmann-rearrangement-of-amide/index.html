@@ -1,0 +1,102 @@
+---
+layout: default
+title: "Hofmann rearrangement of an amide"
+seo_title: "Hofmann Rearrangement: Mechanism, Isocyanate, CO₂ | PharmaChemE"
+description: "Hofmann rearrangement of a primary amide with bromine and base to a one-carbon-shorter amine: animated mechanism, isocyanate intermediate and CO₂ loss."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Hofmann rearrangement"
+    url: /molecules/reaction-lab/hofmann-rearrangement-of-amide/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Hofmann rearrangement of an amide",
+        "description": "Hofmann rearrangement of a primary amide with bromine and base to a one-carbon-shorter amine: animated mechanism, isocyanate intermediate and CO₂ loss.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of hofmann rearrangement of an amide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Hydroxide removes one N–H proton from the amide. Step 2: The amide anion’s lone pair attacks bromine, displacing bromide and giving the N-bromoamide. Step 3: Hydroxide removes the remaining N–H, giving the N-bromoamide anion. Step 4: In one concerted step, exactly as in the Curtius rearrangement, methyl migrates from carbon to nitrogen as bromide leaves and nitrogen’s lone pair forms the isocyanate. Step 5: Water attacks the isocyanate carbon; the C=N π bond moves onto nitrogen. Step 6: The nitrogen anion removes the proton from the new oxocarbenium, giving methylcarbamic acid."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is hofmann rearrangement moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Low. The reaction is run in water throughout; water is in fact required for the final hydrolysis-decarboxylation step. No special drying is needed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in hofmann rearrangement of an amide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Carbon dioxide: about 74.5 kg (41.4 m³ at 25 °C) per 100 kg of primary amide (acetamide shown). Released as the carbamic acid intermediate decarboxylates; vent as the mixture warms."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Nitrogen chemistry</p>
+  <h1>Hofmann rearrangement of an amide</h1>
+  <p class="rl-intro">Base and bromine convert a primary amide’s N–H into an N–Br bond. A second deprotonation sets up a concerted 1,2-shift, exactly like the Curtius rearrangement: the R group migrates from carbon to nitrogen as bromide leaves, giving an isocyanate. Water adds to the isocyanate and the resulting carbamic acid loses carbon dioxide at once, leaving an amine one carbon shorter than the starting amide.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Carbon dioxide</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-1">Low</b></div>
+    <div><span>Heat</span><b>Exothermic</b></div>
+    <div><span>Type</span><b>Nitrogen chemistry</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Primary amide (acetamide shown) + Bromine (2 eq) + Hydroxide (excess) → Amine (one carbon shorter) + Carbon dioxide + Bromide <span>(aq. NaOH, 0–25 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the amide into cold aqueous sodium hydroxide.</li><li>Dose bromine slowly; the N-bromoamide forms with a yellow tinge that fades.</li><li>Warm gently; the rearrangement proceeds with steady gas evolution as the carbamic acid decarboxylates.</li><li>Hold until gas evolution stops.</li><li>Cool, acidify to free the amine as its salt if needed, and separate.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>Hydroxide removes one N–H proton from the amide.</li><li>The amide anion’s lone pair attacks bromine, displacing bromide and giving the N-bromoamide.</li><li>Hydroxide removes the remaining N–H, giving the N-bromoamide anion.</li><li>In one concerted step, exactly as in the Curtius rearrangement, methyl migrates from carbon to nitrogen as bromide leaves and nitrogen’s lone pair forms the isocyanate.</li><li>Water attacks the isocyanate carbon; the C=N π bond moves onto nitrogen.</li><li>The nitrogen anion removes the proton from the new oxocarbenium, giving methylcarbamic acid.</li><li>Carbamic acids are unstable and lose carbon dioxide at once, leaving the free amine, one carbon shorter than the starting amide.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Bromine is corrosive and the N-bromoamide intermediate can be unstable; keep the mixture cold until dosing is complete.</li><li>Excess hydroxide is needed through to the end: it is consumed in both deprotonations and in neutralising HBr formed.</li><li>The migrating group retains its configuration (no free carbocation forms), which matters for chiral substrates.</li><li>CO₂ evolution can be vigorous on warming; control the heating rate and vent adequately.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of primary amide (acetamide shown) (molar mass 59.1 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Carbon dioxide</td><td>74.5 kg</td><td>41.4 m³</td><td>Released as the carbamic acid intermediate decarboxylates; vent as the mixture warms.</td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Unreacted amide</td><td>Insufficient bromine or base. Check both charges before warming.</td></tr><tr><td>N,N-dibromoamide</td><td>Excess bromine brominates both N–H bonds, which can divert the rearrangement. Limit bromine to about 1 equivalent beyond what reacts.</td></tr><tr><td>Symmetrical urea</td><td>The free amine product can react with unreacted isocyanate. Keep the amine product protonated (as its salt) until isocyanate is consumed.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-1">Low</span></h2><p>The reaction is run in water throughout; water is in fact required for the final hydrolysis-decarboxylation step. No special drying is needed.</p></section>
+    <section><h2>Heat of reaction</h2><p>Bromination and the rearrangement itself release heat; the later decarboxylation is mildly endothermic and needs gentle warming.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Dose bromine under good cooling and ventilation; it is both corrosive and volatile.</li><li>Size the CO₂ vent for the warming step.</li><li>If isolating the amine as a salt, acidify before the product amine can react with any remaining isocyanate.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/curtius-rearrangement/' | relative_url }}">Curtius rearrangement (the same migration step)</a><a href="{{ '/molecules/reaction-lab/diazotisation-of-aniline/' | relative_url }}">Diazotisation of aniline</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/knoevenagel-condensation/' | relative_url }}">← Knoevenagel condensation</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/reformatsky-reaction/' | relative_url }}">Reformatsky reaction →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"hofmann-rearrangement-of-amide","name":"Hofmann rearrangement of an amide","cat":"Nitrogen chemistry","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["N",0,-0.5,0,2]],"b":[[0,1,1],[1,2,2],[1,3,1]]},"l":"Primary amide (acetamide shown)"},{"m":{"a":[["Br",0.866,0,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1]]},"l":"Bromine (2 eq)"},{"m":{"a":[["O",0,0,-1,1]],"b":[]},"l":"Hydroxide (excess)"}],"p":[{"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]},"l":"Amine (one carbon shorter)"},{"m":{"a":[["O",0,0,0,0],["C",1,0,0,0,1],["O",2,0,0,0]],"b":[[0,1,2],[1,2,2]]},"l":"Carbon dioxide"},{"m":{"a":[["Br",0,0,-1,0]],"b":[]},"l":"Bromide"}],"cond":"aq. NaOH, 0–25 °C"},"mech":[{"cap":"Hydroxide removes one N–H proton from the amide.","sp":[{"lp":[0],"m":{"a":[["O",0,0,-1,1]],"b":[]}},{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,1],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,4]},{"f":["b",1,3,4],"t":["a",1,3]}]},{"cap":"The amide anion’s lone pair attacks bromine, displacing bromide and giving the N-bromoamide.","sp":[{"lp":[3],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["N",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,2],[1,3,1]]}},{"m":{"a":[["Br",0.866,0,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1]]}}],"ar":[{"f":["l",0,3],"t":["n",0,3,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"Hydroxide removes the remaining N–H, giving the N-bromoamide anion.","sp":[{"lp":[0],"m":{"a":[["O",0,0,-1,1]],"b":[]}},{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,0,0],["H",0.866,1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[3,5,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,4]},{"f":["b",1,3,4],"t":["a",1,3]}]},{"cap":"In one concerted step, exactly as in the Curtius rearrangement, methyl migrates from carbon to nitrogen as bromide leaves and nitrogen’s lone pair forms the isocyanate.","sp":[{"lp":[3],"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["N",0.866,0,-1,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]}}],"ar":[{"f":["b",0,0,1],"t":["n",0,0,0,3]},{"f":["b",0,3,4],"t":["a",0,4]},{"f":["l",0,3],"t":["b",0,1,3]}]},{"cap":"Water attacks the isocyanate carbon; the C=N π bond moves onto nitrogen.","sp":[{"lp":[0],"m":{"a":[["O",0,0,0,2]],"b":[]}},{"m":{"a":[["C",-0.5,0.866,0,3],["N",0,0,0,0],["C",1,0,0,0,1],["O",2,0,0,0]],"b":[[0,1,1],[1,2,2],[2,3,2]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,2]},{"f":["b",1,1,2],"t":["a",1,1]}]},{"cap":"The nitrogen anion removes the proton from the new oxocarbenium, giving methylcarbamic acid.","sp":[{"lp":[1],"m":{"a":[["C",3.464,-0.5,0,3],["N",2.598,0,-1,0],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,2],[2,4,1],[4,5,1],[4,6,1]]}}],"ar":[{"f":["l",0,1],"t":["n",0,1,0,5]},{"f":["b",0,4,5],"t":["a",0,4]}]},{"cap":"Carbamic acids are unstable and lose carbon dioxide at once, leaving the free amine, one carbon shorter than the starting amide.","sp":[{"m":{"a":[["C",0.866,0,0,3],["N",0,-0.5,0,2]],"b":[[0,1,1]]}},{"m":{"a":[["O",0,0,0,0],["C",1,0,0,0,1],["O",2,0,0,0]],"b":[[0,1,2],[1,2,2]]}}],"ar":[]}],"lab":[{"cap":"Charge the amide into cold aqueous sodium hydroxide.","level":0.45,"color":"#eef0e6","T":5,"cool":true},{"cap":"Dose bromine slowly; the N-bromoamide forms with a yellow tinge that fades.","dose":{"color":"#e8a45a","name":"Bromine"},"T":8,"level":0.55,"cool":true},{"cap":"Warm gently; the rearrangement proceeds with steady gas evolution as the carbamic acid decarboxylates.","heat":true,"gas":{"name":"CO₂"},"T":35,"level":0.6},{"cap":"Hold until gas evolution stops.","heat":true,"T":40,"gas":{"name":"CO₂","slow":true}},{"cap":"Cool, acidify to free the amine as its salt if needed, and separate.","cool":true,"T":15,"layers":["#eef1e3","#d9ecf7"]}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

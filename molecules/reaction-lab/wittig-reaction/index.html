@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Wittig reaction of an aldehyde"
+seo_title: "Wittig Reaction: Mechanism, Oxaphosphetane | PharmaChemE"
+description: "Wittig reaction of an aldehyde with a phosphorus ylide to an alkene: animated betaine and oxaphosphetane mechanism, tributylphosphine oxide by-product."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Wittig reaction"
+    url: /molecules/reaction-lab/wittig-reaction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Wittig reaction of an aldehyde",
+        "description": "Wittig reaction of an aldehyde with a phosphorus ylide to an alkene: animated betaine and oxaphosphetane mechanism, tributylphosphine oxide by-product.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of wittig reaction of an aldehyde?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The ylide carbon’s lone pair attacks the aldehyde carbon; the C=O π bond moves onto oxygen, giving the betaine. Step 2: The alkoxide oxygen’s lone pair closes onto phosphorus, forming the four-membered oxaphosphetane. Step 3: The ring falls apart in one concerted step: the P–C and O–C bonds break while the C–C and P–O bonds each gain a π bond, giving the alkene and the very stable P=O."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is wittig reaction moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "High. Water destroys the ylide before it can react, giving back the phosphonium salt and hydroxide. Dry the solvent and keep the system under nitrogen until the aldehyde is fully dosed."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Carbon–carbon bond formation</p>
+  <h1>Wittig reaction of an aldehyde</h1>
+  <p class="rl-intro">A phosphorus ylide adds its nucleophilic carbon to an aldehyde, and the resulting alkoxide closes onto the phosphorus to give a four-membered oxaphosphetane. This ring falls apart in one concerted step, giving the alkene and the very stable tributylphosphine oxide, which is what drives the reaction forward.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/grignard-friedel-crafts-coupling/' | relative_url }}">Grignard, Friedel–Crafts and coupling reactions at scale</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None; butane if n-BuLi is used as the base (from the alkoxide quench)</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-3">High</b></div>
+    <div><span>Heat</span><b>Moderately exothermic</b></div>
+    <div><span>Type</span><b>Carbon–carbon bond formation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Aldehyde (cyclohexanecarbaldehyde shown) + Methylenetributylphosphorane → Alkene (vinylcyclohexane) + Tributylphosphine oxide <span>(THF, −78 °C to 20 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Under nitrogen, charge the phosphonium salt in dry THF and cool to −78 °C.</li><li>Dose base (e.g. n-BuLi or NaH) to generate the ylide; the solution turns deep orange-red.</li><li>Dose the aldehyde slowly at low temperature; the colour fades as the ylide is consumed.</li><li>Warm slowly to room temperature to let the oxaphosphetane collapse.</li><li>Quench and separate: the alkene in the organic layer, tributylphosphine oxide mostly removed on work-up or by chromatography.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The ylide carbon’s lone pair attacks the aldehyde carbon; the C=O π bond moves onto oxygen, giving the betaine.</li><li>The alkoxide oxygen’s lone pair closes onto phosphorus, forming the four-membered oxaphosphetane.</li><li>The ring falls apart in one concerted step: the P–C and O–C bonds break while the C–C and P–O bonds each gain a π bond, giving the alkene and the very stable P=O.</li><li>Products: the alkene and tributylphosphine oxide, whose strong P=O bond is the thermodynamic driving force for the whole reaction.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Phosphonium salts and strong bases (n-BuLi, NaH) are moisture-sensitive; dry the reactor and solvent.</li><li>n-Butyllithium is pyrophoric; dose under nitrogen with care and have the appropriate fire suppressant on hand.</li><li>Non-stabilised ylides (as here) react fast and give mainly the cis (Z) alkene at low temperature; warming early or using excess base can erode selectivity.</li><li>Tributylphosphine oxide is a persistent by-product; plan its removal (aqueous wash, chromatography or crystallisation) early.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none; butane if n-BuLi is used as the base (from the alkoxide quench)).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Trans (E) alkene</td><td>Equilibration of the betaine before ring closure, often from warming too early. Keep cold until the oxaphosphetane has formed.</td></tr><tr><td>Unreacted phosphonium salt</td><td>Incomplete deprotonation. Check base strength and stoichiometry.</td></tr><tr><td>Alcohol (aldehyde reduced)</td><td>Trace water or excess strong base can give unwanted reduction pathways with some ylides. Keep the system dry.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-3">High</span></h2><p>Water destroys the ylide before it can react, giving back the phosphonium salt and hydroxide. Dry the solvent and keep the system under nitrogen until the aldehyde is fully dosed.</p></section>
+    <section><h2>Heat of reaction</h2><p>Ylide formation and the addition both release heat; the ring collapse itself is close to thermoneutral but is driven forward by the stability of the P=O product.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Generate the ylide cold and use it promptly; it is not usually stored.</li><li>Plan for tributylphosphine oxide removal in the work-up design.</li><li>Non-stabilised ylides need strict temperature control for selectivity; stabilised ylides (ester-substituted) are more forgiving.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/grignard-friedel-crafts-coupling/' | relative_url }}">Grignard, Friedel–Crafts and coupling reactions at scale</a><a href="{{ '/molecules/reaction-lab/grignard-addition-to-ketone/' | relative_url }}">Grignard addition (also builds a C–C bond at a carbonyl)</a><a href="{{ '/molecules/reaction-lab/aldol-condensation/' | relative_url }}">Aldol condensation</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/baeyer-villiger-oxidation/' | relative_url }}">← Baeyer–Villiger oxidation</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/appel-reaction-alcohol-to-bromide/' | relative_url }}">Appel reaction →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"wittig-reaction","name":"Wittig reaction of an aldehyde","cat":"Carbon–carbon bond formation","eq":{"r":[{"m":{"a":[["O",1.732,-0.5,0,0],["C",0.866,0,0,1],["C",0,-0.5,0,1],["C",-0.866,0,0,2],["C",-1.732,-0.5,0,2],["C",-1.732,-1.5,0,2],["C",-0.866,-2,0,2],["C",0,-1.5,0,2]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1]]},"l":"Aldehyde (cyclohexanecarbaldehyde shown)"},{"m":{"a":[["C",3.464,0.5,-1,2],["P",3.464,-0.5,1,0],["C",4.33,0,0,2],["C",5.196,-0.5,0,2],["C",6.062,0,0,2],["C",6.928,-0.5,0,3],["C",3.464,-1.5,0,2],["C",2.598,-2,0,2],["C",2.598,-3,0,2],["C",1.732,-3.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[1,6,1],[6,7,1],[7,8,1],[8,9,1],[1,10,1],[10,11,1],[11,12,1],[12,13,1]]},"l":"Methylenetributylphosphorane"}],"p":[{"m":{"a":[["C",0.866,0,0,1],["C",1.732,-0.5,0,2],["C",0,-0.5,0,1],["C",-0.866,0,0,2],["C",-1.732,-0.5,0,2],["C",-1.732,-1.5,0,2],["C",-0.866,-2,0,2],["C",0,-1.5,0,2]],"b":[[0,1,2],[0,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1]]},"l":"Alkene (vinylcyclohexane)"},{"m":{"a":[["O",3.464,0.5,0,0],["P",3.464,-0.5,0,0],["C",4.33,0,0,2],["C",5.196,-0.5,0,2],["C",6.062,0,0,2],["C",6.928,-0.5,0,3],["C",3.464,-1.5,0,2],["C",2.598,-2,0,2],["C",2.598,-3,0,2],["C",1.732,-3.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[1,6,1],[6,7,1],[7,8,1],[8,9,1],[1,10,1],[10,11,1],[11,12,1],[12,13,1]]},"l":"Tributylphosphine oxide"}],"cond":"THF, −78 °C to 20 °C"},"mech":[{"cap":"The ylide carbon’s lone pair attacks the aldehyde carbon; the C=O π bond moves onto oxygen, giving the betaine.","sp":[{"lp":[0],"m":{"a":[["C",3.464,0.5,-1,2],["P",3.464,-0.5,1,0],["C",4.33,0,0,2],["C",5.196,-0.5,0,2],["C",6.062,0,0,2],["C",6.928,-0.5,0,3],["C",3.464,-1.5,0,2],["C",2.598,-2,0,2],["C",2.598,-3,0,2],["C",1.732,-3.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[1,6,1],[6,7,1],[7,8,1],[8,9,1],[1,10,1],[10,11,1],[11,12,1],[12,13,1]]}},{"m":{"a":[["O",1.732,-0.5,0,0],["C",0.866,0,0,1],["C",0,-0.5,0,1],["C",-0.866,0,0,2],["C",-1.732,-0.5,0,2],["C",-1.732,-1.5,0,2],["C",-0.866,-2,0,2],["C",0,-1.5,0,2]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,1]},{"f":["b",1,0,1],"t":["a",1,0]}]},{"cap":"The alkoxide oxygen’s lone pair closes onto phosphorus, forming the four-membered oxaphosphetane.","sp":[{"lp":[0],"m":{"a":[["O",5.196,0.5,-1,0],["C",4.33,1,0,1],["C",4.33,2,0,1],["C",3.464,2.5,0,2],["C",3.464,3.5,0,2],["C",4.33,4,0,2],["C",5.196,3.5,0,2],["C",5.196,2.5,0,2],["C",3.464,0.5,0,2],["P",3.464,-0.5,1,0],["C",4.33,0,0,2],["C",5.196,-0.5,0,2],["C",6.062,0,0,2],["C",6.928,-0.5,0,3],["C",3.464,-1.5,0,2],["C",2.598,-2,0,2],["C",2.598,-3,0,2],["C",1.732,-3.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1],[1,8,1],[8,9,1],[9,10,1],[10,11,1],[11,12,1],[12,13,1],[9,14,1],[14,15,1],[15,16,1],[16,17,1],[9,18,1],[18,19,1],[19,20,1],[20,21,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,0,9]}]},{"cap":"The ring falls apart in one concerted step: the P–C and O–C bonds break while the C–C and P–O bonds each gain a π bond, giving the alkene and the very stable P=O.","sp":[{"m":{"a":[["O",3.376,0.377,0,0],["C",4.004,1.155,0,1],["C",4.999,1.26,0,1],["C",5.587,0.451,0,2],["C",6.582,0.557,0,2],["C",6.988,1.471,0,2],["C",6.399,2.279,0,2],["C",5.405,2.174,0,2],["C",3.227,1.783,0,2],["P",2.598,1.006,0,0],["C",2.598,0,0,2],["C",3.464,-0.5,0,2],["C",4.33,0,0,2],["C",5.196,-0.5,0,3],["C",1.684,0.406,0,2],["C",1.741,-0.592,0,2],["C",0.905,-1.141,0,2],["C",0.962,-2.139,0,3],["C",1.579,1.4,0,2],["C",0.8,0.773,0,2],["C",-0.133,1.135,0,2],["C",-0.912,0.508,0,3]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1],[1,8,1],[8,9,1],[0,9,1],[9,10,1],[10,11,1],[11,12,1],[12,13,1],[9,14,1],[14,15,1],[15,16,1],[16,17,1],[9,18,1],[18,19,1],[19,20,1],[20,21,1]]}}],"ar":[{"f":["b",0,0,1],"t":["b",0,0,9]},{"f":["b",0,8,9],"t":["b",0,1,8]}]},{"cap":"Products: the alkene and tributylphosphine oxide, whose strong P=O bond is the thermodynamic driving force for the whole reaction.","sp":[{"m":{"a":[["C",0.866,0,0,1],["C",1.732,-0.5,0,2],["C",0,-0.5,0,1],["C",-0.866,0,0,2],["C",-1.732,-0.5,0,2],["C",-1.732,-1.5,0,2],["C",-0.866,-2,0,2],["C",0,-1.5,0,2]],"b":[[0,1,2],[0,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1]]}},{"m":{"a":[["O",3.464,0.5,0,0],["P",3.464,-0.5,0,0],["C",4.33,0,0,2],["C",5.196,-0.5,0,2],["C",6.062,0,0,2],["C",6.928,-0.5,0,3],["C",3.464,-1.5,0,2],["C",2.598,-2,0,2],["C",2.598,-3,0,2],["C",1.732,-3.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[1,6,1],[6,7,1],[7,8,1],[8,9,1],[1,10,1],[10,11,1],[11,12,1],[12,13,1]]}}],"ar":[]}],"lab":[{"cap":"Under nitrogen, charge the phosphonium salt in dry THF and cool to −78 °C.","level":0.4,"color":"#f0eee6","T":-78,"n2":true,"cool":true},{"cap":"Dose base (e.g. n-BuLi or NaH) to generate the ylide; the solution turns deep orange-red.","dose":{"color":"#f5f2df","name":"Base"},"T":-78,"color":"#c9532f","level":0.5,"cool":true},{"cap":"Dose the aldehyde slowly at low temperature; the colour fades as the ylide is consumed.","dose":{"color":"#f5f5f5","name":"Aldehyde"},"T":-70,"color":"#e8e3d2","level":0.6,"cool":true},{"cap":"Warm slowly to room temperature to let the oxaphosphetane collapse.","heat":true,"T":20,"level":0.6},{"cap":"Quench and separate: the alkene in the organic layer, tributylphosphine oxide mostly removed on work-up or by chromatography.","layers":["#eef1e3","#d9ecf7"],"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

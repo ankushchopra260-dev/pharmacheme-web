@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Baeyer–Villiger oxidation of a ketone"
+seo_title: "Baeyer–Villiger Oxidation: Mechanism and Migration | PharmaChemE"
+description: "Baeyer–Villiger oxidation of a ketone to an ester with a peracid: animated Criegee intermediate, migration step, and by-product control."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Baeyer–Villiger oxidation"
+    url: /molecules/reaction-lab/baeyer-villiger-oxidation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Baeyer–Villiger oxidation of a ketone",
+        "description": "Baeyer–Villiger oxidation of a ketone to an ester with a peracid: animated Criegee intermediate, migration step, and by-product control.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of baeyer–Villiger oxidation of a ketone?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The peracid’s terminal oxygen attacks the ketone carbon; the ketone π bond moves onto its own oxygen, giving the Criegee intermediate. Step 2: In the key step, the more electron-rich group (phenyl) migrates from carbon to the adjacent oxygen as the weak O–O bond breaks, expelling acetate and re-forming the carbonyl: this gives the ester, still bearing the proton from the peracid. Step 3: The departed acetate removes the proton from the new ester oxygen, giving the neutral ester and acetic acid."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is baeyer–Villiger oxidation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Low. The reaction tolerates some water (it is often run as an aqueous peracid solution), but excess water dilutes the peracid and slows the reaction."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Oxidation</p>
+  <h1>Baeyer–Villiger oxidation of a ketone</h1>
+  <p class="rl-intro">A peracid adds to a ketone to give the Criegee intermediate. The group best able to stabilise positive charge then migrates from carbon to the adjacent oxygen as the weak O–O bond breaks, inserting an oxygen next to the carbonyl and giving an ester.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/oxidation-reactions/' | relative_url }}">Oxidation reactions in plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None under normal operation</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-1">Low</b></div>
+    <div><span>Heat</span><b>Exothermic</b></div>
+    <div><span>Type</span><b>Oxidation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Ketone (acetophenone shown) + Peracetic acid → Phenyl acetate (ester) + Acetic acid <span>(dichloromethane, 20–40 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the ketone in dichloromethane and cool.</li><li>Dose peracetic acid solution slowly; the addition is exothermic.</li><li>Stir until the ketone is consumed (HPLC or iodometric peracid check).</li><li>Quench excess peracid with sodium thiosulfate or sulfite solution.</li><li>Separate and wash out the acetic acid by-product.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The peracid’s terminal oxygen attacks the ketone carbon; the ketone π bond moves onto its own oxygen, giving the Criegee intermediate.</li><li>In the key step, the more electron-rich group (phenyl) migrates from carbon to the adjacent oxygen as the weak O–O bond breaks, expelling acetate and re-forming the carbonyl: this gives the ester, still bearing the proton from the peracid.</li><li>The departed acetate removes the proton from the new ester oxygen, giving the neutral ester and acetic acid.</li><li>Products: the ester, with oxygen now inserted between the carbonyl and the migrated group, and acetic acid.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Peracids are concentrated oxidisers; never let them contact reducing agents, metals or heat sources uncontrolled.</li><li>The migration step is also oxidative at the carbon; electron-rich or more substituted groups migrate faster, which sets regiochemistry on unsymmetrical ketones.</li><li>Quench all excess peracid before work-up or concentration; residual peracid is a runaway hazard on heating.</li><li>Esters can over-oxidise or hydrolyse under the acidic peracid conditions if held too long; control reaction time.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none under normal operation).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Unreacted ketone</td><td>Insufficient peracid or too cold. Verify peracid titre before dosing.</td></tr><tr><td>Over-oxidation / ring-opened acids</td><td>Prolonged exposure to strong peracid. Quench promptly at the target conversion.</td></tr><tr><td>Wrong regiochemistry ester</td><td>The less-migrating group inserted instead; check which group is more electron-rich before choosing substrate.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-1">Low</span></h2><p>The reaction tolerates some water (it is often run as an aqueous peracid solution), but excess water dilutes the peracid and slows the reaction.</p></section>
+    <section><h2>Heat of reaction</h2><p>Both the addition and the migration release heat; dose the peracid under cooling.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Titrate peracid strength before each batch; it decomposes on storage.</li><li>Keep a thiosulfate quench ready for any excess peracid before work-up.</li><li>Segregate peracid waste streams from reducing or combustible waste.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/oxidation-reactions/' | relative_url }}">Oxidation reactions in plants</a><a href="{{ '/molecules/reaction-lab/epoxidation-with-peracid/' | relative_url }}">Epoxidation with a peracid (the other common peracid reaction)</a><a href="{{ '/molecules/reaction-lab/swern-oxidation/' | relative_url }}">Swern oxidation</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/beckmann-rearrangement-of-oxime/' | relative_url }}">← Beckmann rearrangement</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/wittig-reaction/' | relative_url }}">Wittig reaction →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"baeyer-villiger-oxidation","name":"Baeyer–Villiger oxidation of a ketone","cat":"Oxidation","eq":{"r":[{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1]]},"l":"Ketone (acetophenone shown)"},{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]},"l":"Peracetic acid"}],"p":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1]]},"l":"Phenyl acetate (ester)"},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1]]},"l":"Acetic acid"}],"cond":"dichloromethane, 20–40 °C"},"mech":[{"cap":"The peracid’s terminal oxygen attacks the ketone carbon; the ketone π bond moves onto its own oxygen, giving the Criegee intermediate.","sp":[{"lp":[4],"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1]]}}],"ar":[{"f":["l",0,4],"t":["n",0,4,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"In the key step, the more electron-rich group (phenyl) migrates from carbon to the adjacent oxygen as the weak O–O bond breaks, expelling acetate and re-forming the carbonyl: this gives the ester, still bearing the proton from the peracid.","sp":[{"lp":[8],"m":{"a":[["C",2.964,-1.366,0,3],["C",3.464,-0.5,0,0],["C",4.33,0,0,0],["C",5.196,-0.5,0,1],["C",6.062,0,0,1],["C",6.062,1,0,1],["C",5.196,1.5,0,1],["C",4.33,1,0,1],["O",3.964,-1.366,-1,0],["O",2.598,0,1,0],["H",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[1,8,1],[1,9,1],[9,10,1],[9,11,1],[11,12,1],[12,13,1],[12,14,2]]}}],"ar":[{"f":["b",0,1,2],"t":["n",0,2,0,9]},{"f":["b",0,9,11],"t":["a",0,11]},{"f":["l",0,8],"t":["b",0,1,8]}]},{"cap":"The departed acetate removes the proton from the new ester oxygen, giving the neutral ester and acetic acid.","sp":[{"lp":[2],"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,-1,0]],"b":[[0,1,1],[1,2,2],[1,3,1]]}},{"m":{"a":[["C",3.464,-0.5,0,1],["C",4.33,0,0,1],["C",4.33,1,0,1],["C",3.464,1.5,0,1],["C",2.598,1,0,1],["C",2.598,0,0,0],["O",1.732,-0.5,1,0],["H",1.732,-1.5,0,0],["C",0.866,0,0,0],["C",0.866,1,0,3],["O",0,-0.5,0,0]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[0,5,1],[5,6,1],[6,7,1],[6,8,1],[8,9,1],[8,10,2]]}}],"ar":[{"f":["l",0,2],"t":["n",0,2,1,7]},{"f":["b",1,6,7],"t":["a",1,6]}]},{"cap":"Products: the ester, with oxygen now inserted between the carbonyl and the migrated group, and acetic acid.","sp":[{"m":{"a":[["C",2.598,0,0,3],["C",1.732,-0.5,0,0],["O",1.732,-1.5,0,0],["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1]]}},{"m":{"a":[["C",1.732,-0.5,0,3],["C",0.866,0,0,0],["O",0.866,1,0,0],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,2],[1,3,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the ketone in dichloromethane and cool.","level":0.4,"color":"#eef0ec","T":10,"cool":true},{"cap":"Dose peracetic acid solution slowly; the addition is exothermic.","dose":{"color":"#f5f2df","name":"Peracetic acid"},"glow":true,"T":25,"level":0.6,"cool":true},{"cap":"Stir until the ketone is consumed (HPLC or iodometric peracid check).","T":25},{"cap":"Quench excess peracid with sodium thiosulfate or sulfite solution.","dose":{"color":"#e6f2fb","name":"aq. Na₂S₂O₃"},"T":20,"level":0.75},{"cap":"Separate and wash out the acetic acid by-product.","layers":["#eef1e3","#d9ecf7"],"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

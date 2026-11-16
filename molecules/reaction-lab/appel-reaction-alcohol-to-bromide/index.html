@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Appel reaction: alcohol to alkyl bromide"
+seo_title: "Appel Reaction: Mechanism, PPh₃ and CBr₄ | PharmaChemE"
+description: "Appel reaction converting an alcohol to an alkyl bromide with triphenylphosphine and carbon tetrabromide: animated mechanism, inversion, by-products."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Appel reaction"
+    url: /molecules/reaction-lab/appel-reaction-alcohol-to-bromide/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Appel reaction: alcohol to alkyl bromide",
+        "description": "Appel reaction converting an alcohol to an alkyl bromide with triphenylphosphine and carbon tetrabromide: animated mechanism, inversion, by-products.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of appel reaction: alcohol to alkyl bromide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Phosphorus’s lone pair attacks a bromine of carbon tetrabromide, displacing a tribromomethyl carbanion. Step 2: The alcohol oxygen attacks the electrophilic phosphorus, displacing bromide and forming an alkoxyphosphonium salt. Step 3: Bromide attacks the carbon from the back side as the C–O bond breaks; the departing oxygen immediately forms a π bond to phosphorus, giving the very stable P=O and completing the inversion."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is appel reaction moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water reacts with CBr₄/PPh₃ before the alcohol can, consuming reagent. Dry the solvent; the alcohol substrate itself is the intended source of the nucleophilic oxygen."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Substitution and alkylation</p>
+  <h1>Appel reaction: alcohol to alkyl bromide</h1>
+  <p class="rl-intro">Triphenylphosphine attacks a bromine of carbon tetrabromide, making a strong halogenating agent without using a strong acid. The alcohol then attacks that activated phosphorus, and bromide displaces the resulting phosphonium leaving group from the back side, giving the alkyl bromide with inversion and triphenylphosphine oxide as the thermodynamic driver.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None under normal operation</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Mildly exothermic</b></div>
+    <div><span>Type</span><b>Substitution and alkylation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Primary alcohol (1-butanol shown) + Carbon tetrabromide + Triphenylphosphine → Alkyl bromide (with inversion) + Triphenylphosphine oxide + Bromoform <span>(dichloromethane, 0–25 °C)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge triphenylphosphine in dichloromethane and cool to 0 °C.</li><li>Dose carbon tetrabromide; the mixture turns yellow-orange as the bromophosphonium salt forms.</li><li>Dose the alcohol; bromoform separates as the reaction proceeds.</li><li>Warm to room temperature and stir to completion.</li><li>Filter off triphenylphosphine oxide and separate: the alkyl bromide in the organic layer.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>Phosphorus’s lone pair attacks a bromine of carbon tetrabromide, displacing a tribromomethyl carbanion.</li><li>The alcohol oxygen attacks the electrophilic phosphorus, displacing bromide and forming an alkoxyphosphonium salt.</li><li>Bromide attacks the carbon from the back side as the C–O bond breaks; the departing oxygen immediately forms a π bond to phosphorus, giving the very stable P=O and completing the inversion.</li><li>Products: the alkyl bromide (inverted at that carbon) and triphenylphosphine oxide. The tribromomethyl carbanion from step 1 is protonated by the alcohol along the way, giving bromoform.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Carbon tetrabromide and bromoform are both suspected carcinogens; handle in a fume hood with appropriate PPE.</li><li>The reaction inverts the stereochemistry at the carbon bearing the leaving oxygen; this matters for chiral substrates.</li><li>Triphenylphosphine oxide is difficult to remove by distillation; plan filtration, chromatography or extraction.</li><li>The reagent combination is also moisture sensitive in the early steps; dry solvent improves yield.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none under normal operation).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Unreacted alcohol</td><td>Insufficient CBr₄/PPh₃ or reagent degraded by moisture. Use fresh, dry reagents.</td></tr><tr><td>Ether (from the alcohol attacking another alkoxyphosphonium)</td><td>Slow addition and excess reagent reduce this side path.</td></tr><tr><td>Elimination product (alkene)</td><td>Secondary or tertiary alcohols can eliminate instead of substituting. Keep temperature low for such substrates.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water reacts with CBr₄/PPh₃ before the alcohol can, consuming reagent. Dry the solvent; the alcohol substrate itself is the intended source of the nucleophilic oxygen.</p></section>
+    <section><h2>Heat of reaction</h2><p>Formation of the bromophosphonium and the alkoxyphosphonium salts both release modest heat; the final inversion step is close to thermoneutral.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Use the minimum excess of CBr₄/PPh₃ needed; both add to by-product load.</li><li>Plan disposal for bromoform and triphenylphosphine oxide separately.</li><li>For chiral substrates, confirm inversion is the desired outcome before choosing this route.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/nitration-sulfonation-halogenation/' | relative_url }}">Nitration, sulfonation and halogenation</a><a href="{{ '/molecules/reaction-lab/mesylation-of-alcohol/' | relative_url }}">Mesylation (another way to activate an alcohol)</a><a href="{{ '/molecules/reaction-lab/alcohol-to-alkyl-chloride-thionyl-chloride/' | relative_url }}">Alcohol to chloride with SOCl₂</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/wittig-reaction/' | relative_url }}">← Wittig reaction</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/carbamate-formation-chloroformate/' | relative_url }}">Carbamate formation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"appel-reaction-alcohol-to-bromide","name":"Appel reaction: alcohol to alkyl bromide","cat":"Substitution and alkylation","eq":{"r":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1]]},"l":"Primary alcohol (1-butanol shown)"},{"m":{"a":[["C",0.866,0,0,0],["Br",1.732,-0.5,0,0],["Br",0.866,1,0,0],["Br",0.866,-1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[0,2,1],[0,3,1],[0,4,1]]},"l":"Carbon tetrabromide"},{"m":{"a":[["P",0.866,0,0,0],["C",1.732,-0.5,0,0],["C",1.732,-1.5,0,1],["C",2.598,-2,0,1],["C",3.464,-1.5,0,1],["C",3.464,-0.5,0,1],["C",2.598,0,0,1],["C",0.866,1,0,0],["C",1.732,1.5,0,1],["C",1.732,2.5,0,1],["C",0.866,3,0,1],["C",0,2.5,0,1],["C",0,1.5,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1],[0,7,1],[7,8,2],[8,9,1],[9,10,2],[10,11,1],[11,12,2],[7,12,1],[0,13,1],[13,14,2],[14,15,1],[15,16,2],[16,17,1],[17,18,2],[13,18,1]]},"l":"Triphenylphosphine"}],"p":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1]]},"l":"Alkyl bromide (with inversion)"},{"m":{"a":[["O",1.732,-0.5,0,0],["P",0.866,0,0,0],["C",0.866,1,0,0],["C",1.732,1.5,0,1],["C",1.732,2.5,0,1],["C",0.866,3,0,1],["C",0,2.5,0,1],["C",0,1.5,0,1],["C",0.866,-1,0,0],["C",0.128,-1.507,0,1],["C",0,-2.5,0,1],["C",0.866,-3,0,1],["C",1.732,-2.5,0,1],["C",1.732,-1.5,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",-0.245,-1.533,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[1,8,1],[8,9,2],[9,10,1],[10,11,2],[11,12,1],[12,13,2],[8,13,1],[1,14,1],[14,15,2],[15,16,1],[16,17,2],[17,18,1],[18,19,2],[14,19,1]]},"l":"Triphenylphosphine oxide"},{"m":{"a":[["C",0.866,0,0,1],["Br",1.732,-0.5,0,0],["Br",0.866,1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[0,2,1],[0,3,1]]},"l":"Bromoform"}],"cond":"dichloromethane, 0–25 °C"},"mech":[{"cap":"Phosphorus’s lone pair attacks a bromine of carbon tetrabromide, displacing a tribromomethyl carbanion.","sp":[{"lp":[0],"m":{"a":[["P",0.866,0,0,0],["C",1.732,-0.5,0,0],["C",1.732,-1.5,0,1],["C",2.598,-2,0,1],["C",3.464,-1.5,0,1],["C",3.464,-0.5,0,1],["C",2.598,0,0,1],["C",0.866,1,0,0],["C",1.732,1.5,0,1],["C",1.732,2.5,0,1],["C",0.866,3,0,1],["C",0,2.5,0,1],["C",0,1.5,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[1,6,1],[0,7,1],[7,8,2],[8,9,1],[9,10,2],[10,11,1],[11,12,2],[7,12,1],[0,13,1],[13,14,2],[14,15,1],[15,16,2],[16,17,1],[17,18,2],[13,18,1]]}},{"m":{"a":[["C",0.866,0,0,0],["Br",1.732,-0.5,0,0],["Br",0.866,1,0,0],["Br",0.866,-1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[0,2,1],[0,3,1],[0,4,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,1]},{"f":["b",1,0,1],"t":["a",1,0]}]},{"cap":"The alcohol oxygen attacks the electrophilic phosphorus, displacing bromide and forming an alkoxyphosphonium salt.","sp":[{"lp":[4],"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["O",0,-0.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1]]}},{"m":{"a":[["P",0.866,0,1,0],["Br",1.732,-0.5,0,0],["C",0.866,1,0,0],["C",1.732,1.5,0,1],["C",1.732,2.5,0,1],["C",0.866,3,0,1],["C",0,2.5,0,1],["C",0,1.5,0,1],["C",0.866,-1,0,0],["C",0.128,-1.507,0,1],["C",0,-2.5,0,1],["C",0.866,-3,0,1],["C",1.732,-2.5,0,1],["C",1.732,-1.5,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",-0.245,-1.533,0,1]],"b":[[0,1,1],[0,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[0,8,1],[8,9,2],[9,10,1],[10,11,2],[11,12,1],[12,13,2],[8,13,1],[0,14,1],[14,15,2],[15,16,1],[16,17,2],[17,18,1],[18,19,2],[14,19,1]]}}],"ar":[{"f":["l",0,4],"t":["n",0,4,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"Bromide attacks the carbon from the back side as the C–O bond breaks; the departing oxygen immediately forms a π bond to phosphorus, giving the very stable P=O and completing the inversion.","sp":[{"lp":[0],"m":{"a":[["Br",0,0,-1,0]],"b":[]}},{"m":{"a":[["C",5.196,-0.5,0,3],["C",4.33,0,0,2],["C",3.464,-0.5,0,2],["C",2.598,0,0,2],["O",1.732,-0.5,1,0],["H",1.979,-1.459,0,0],["P",0.866,0,0,1],["C",0.866,1,0,0],["C",1.732,1.5,0,1],["C",1.732,2.5,0,1],["C",0.866,3,0,1],["C",0,2.5,0,1],["C",0,1.5,0,1],["C",0.866,-1,0,0],["C",0.128,-1.507,0,1],["C",0,-2.5,0,1],["C",0.866,-3,0,1],["C",1.732,-2.5,0,1],["C",1.609,-1.521,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",-0.245,-1.533,0,1]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[4,6,1],[6,7,1],[7,8,2],[8,9,1],[9,10,2],[10,11,1],[11,12,2],[7,12,1],[6,13,1],[13,14,2],[14,15,1],[15,16,2],[16,17,1],[17,18,2],[13,18,1],[6,19,1],[19,20,2],[20,21,1],[21,22,2],[22,23,1],[23,24,2],[19,24,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,3]},{"f":["b",1,3,4],"t":["a",1,4]},{"f":["l",1,4],"t":["b",1,4,6]}]},{"cap":"Products: the alkyl bromide (inverted at that carbon) and triphenylphosphine oxide. The tribromomethyl carbanion from step 1 is protonated by the alcohol along the way, giving bromoform.","sp":[{"m":{"a":[["C",3.464,-0.5,0,3],["C",2.598,0,0,2],["C",1.732,-0.5,0,2],["C",0.866,0,0,2],["Br",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[2,3,1],[3,4,1]]}},{"m":{"a":[["O",1.732,-0.5,0,0],["P",0.866,0,0,0],["C",0.866,1,0,0],["C",1.732,1.5,0,1],["C",1.732,2.5,0,1],["C",0.866,3,0,1],["C",0,2.5,0,1],["C",0,1.5,0,1],["C",0.866,-1,0,0],["C",0.128,-1.507,0,1],["C",0,-2.5,0,1],["C",0.866,-3,0,1],["C",1.732,-2.5,0,1],["C",1.732,-1.5,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",-0.245,-1.533,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[1,8,1],[8,9,2],[9,10,1],[10,11,2],[11,12,1],[12,13,2],[8,13,1],[1,14,1],[14,15,2],[15,16,1],[16,17,2],[17,18,1],[18,19,2],[14,19,1]]}},{"m":{"a":[["C",0.866,0,0,1],["Br",1.732,-0.5,0,0],["Br",0.866,1,0,0],["Br",0,-0.5,0,0]],"b":[[0,1,1],[0,2,1],[0,3,1]]}}],"ar":[]}],"lab":[{"cap":"Charge triphenylphosphine in dichloromethane and cool to 0 °C.","level":0.4,"color":"#f0eee6","T":0,"cool":true},{"cap":"Dose carbon tetrabromide; the mixture turns yellow-orange as the bromophosphonium salt forms.","dose":{"color":"#f5f2df","name":"CBr₄"},"T":5,"color":"#e8b35a","level":0.55,"cool":true},{"cap":"Dose the alcohol; bromoform separates as the reaction proceeds.","dose":{"color":"#f5f5f5","name":"Alcohol"},"T":15,"solid":"#f0e9c8","level":0.65},{"cap":"Warm to room temperature and stir to completion.","heat":true,"T":22},{"cap":"Filter off triphenylphosphine oxide and separate: the alkyl bromide in the organic layer.","layers":["#eef1e3","#d9ecf7"],"solid":null,"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

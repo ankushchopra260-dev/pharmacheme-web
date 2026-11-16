@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Beckmann rearrangement of cyclohexanone oxime"
+seo_title: "Beckmann Rearrangement: Mechanism to Caprolactam | PharmaChemE"
+description: "Beckmann rearrangement of cyclohexanone oxime to caprolactam: animated ring-expansion mechanism, nitrilium ion, water control and plant notes."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Beckmann rearrangement"
+    url: /molecules/reaction-lab/beckmann-rearrangement-of-oxime/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Beckmann rearrangement of cyclohexanone oxime",
+        "description": "Beckmann rearrangement of cyclohexanone oxime to caprolactam: animated ring-expansion mechanism, nitrilium ion, water control and plant notes.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of beckmann rearrangement of cyclohexanone oxime?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Acid protonates the oxime oxygen, turning it into a leaving group. Step 2: In one concerted step, the ring bond migrates from carbon to nitrogen as water leaves and nitrogen’s lone pair forms a triple bond: a cyclic nitrilium ion, with the ring now one atom bigger. Step 3: Water attacks the electrophilic nitrilium carbon; one π bond of the triple bond collapses onto nitrogen. Step 4: A second water molecule removes the proton from the new oxocarbenium, giving the neutral iminol."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is beckmann rearrangement moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water hydrolyses the oxime back to the ketone before it can rearrange, and later hydrolyses the lactam if the quench runs hot. Keep the oxime dry going in; keep the quench cold and short."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Nitrogen chemistry</p>
+  <h1>Beckmann rearrangement of cyclohexanone oxime</h1>
+  <p class="rl-intro">Under strong acid, an oxime loses water while the ring carbon anti to the leaving group migrates from carbon to nitrogen, giving a nitrilium ion. Water adds back and tautomerises to the amide. Starting from cyclohexanone oxime, the ring expands by one atom: the product is caprolactam, the nylon-6 monomer.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None from the rearrangement itself; ammonia is consumed in the neutralisation</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Strongly exothermic</b></div>
+    <div><span>Type</span><b>Nitrogen chemistry</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Cyclohexanone oxime → Caprolactam <span>(conc. H₂SO₄ (or oleum), 100–120 °C)</span><br><span>Not fully balanced as drawn: water lost and re-added; shown as net loss in the equation.</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge oleum (or conc. sulfuric acid) and cool.</li><li>Dose molten cyclohexanone oxime slowly; the rearrangement is strongly exothermic.</li><li>Hold at 110–120 °C until oxime is consumed (IR or titration check).</li><li>Cool and run into chilled water and ammonia to neutralise; ammonium sulfate crystallises.</li><li>Separate: caprolactam melts out as the upper layer, ammonium sulfate liquor below.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>Acid protonates the oxime oxygen, turning it into a leaving group.</li><li>In one concerted step, the ring bond migrates from carbon to nitrogen as water leaves and nitrogen’s lone pair forms a triple bond: a cyclic nitrilium ion, with the ring now one atom bigger.</li><li>Water attacks the electrophilic nitrilium carbon; one π bond of the triple bond collapses onto nitrogen.</li><li>A second water molecule removes the proton from the new oxocarbenium, giving the neutral iminol.</li><li>This iminol is just the tautomer of an amide; it settles to the far more stable lactam, caprolactam.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>The rearrangement is strongly exothermic; dose the oxime into the acid, not the reverse, and control the rate by cooling.</li><li>Oleum and hot concentrated sulfuric acid are highly corrosive; use acid-resistant equipment and PPE.</li><li>Local overheating during neutralisation can hydrolyse the lactam back to the amino acid; add the acid mass to cold water, not the reverse.</li><li>Ammonium sulfate by-product is roughly 1.5–2 kg per kg of product; plan its handling or sale.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction (none from the rearrangement itself; ammonia is consumed in the neutralisation).</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Amino-caproic acid</td><td>The lactam hydrolyses in hot, dilute acid or base during work-up. Keep the neutralisation cold and brief.</td></tr><tr><td>Cyclohexanone (recovered)</td><td>Oxime hydrolyses back if water is present before the acid activates it. Keep the oxime dry until charged.</td></tr><tr><td>Tar / sulfonated by-products</td><td>Prolonged contact with hot oleum degrades the ring. Limit hold time at temperature.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water hydrolyses the oxime back to the ketone before it can rearrange, and later hydrolyses the lactam if the quench runs hot. Keep the oxime dry going in; keep the quench cold and short.</p></section>
+    <section><h2>Heat of reaction</h2><p>The rearrangement itself and the later neutralisation of the acid both release substantial heat; both steps need good cooling.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Dose rate is set by the cooling duty, not by throughput targets.</li><li>Glass-lined or acid-brick equipment for the hot sulfuric acid stage.</li><li>Segregate the ammonium sulfate stream for recovery.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/curtius-rearrangement/' | relative_url }}">Curtius rearrangement (a related 1,2-shift)</a><a href="{{ '/molecules/reaction-lab/vilsmeier-haack-formylation/' | relative_url }}">Another strong-acid aromatic step</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/carbodiimide-amide-coupling/' | relative_url }}">← Carbodiimide coupling</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/baeyer-villiger-oxidation/' | relative_url }}">Baeyer–Villiger oxidation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"beckmann-rearrangement-of-oxime","name":"Beckmann rearrangement of cyclohexanone oxime","cat":"Nitrogen chemistry","eq":{"r":[{"m":{"a":[["O",1.732,-0.5,0,1],["N",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,2],["C",-1.732,-0.5,0,2],["C",-1.732,-1.5,0,2],["C",-0.866,-2,0,2],["C",0,-1.5,0,2]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1]]},"l":"Cyclohexanone oxime"}],"p":[{"m":{"a":[["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.826,0.063,0,2],["C",-1.782,-0.231,0,2],["C",-2.147,-1.162,0,2],["C",-1.647,-2.028,0,2],["C",-0.658,-2.177,0,2],["N",0.075,-1.497,0,1]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[1,7,1]]},"l":"Caprolactam"}],"cond":"conc. H₂SO₄ (or oleum), 100–120 °C"},"mech":[{"cap":"Acid protonates the oxime oxygen, turning it into a leaving group.","sp":[{"lp":[0],"m":{"a":[["O",1.732,-0.5,0,1],["N",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,2],["C",-1.732,-0.5,0,2],["C",-1.732,-1.5,0,2],["C",-0.866,-2,0,2],["C",0,-1.5,0,2]],"b":[[0,1,1],[1,2,2],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[2,7,1]]}},{"m":{"a":[["H",1.732,-0.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"In one concerted step, the ring bond migrates from carbon to nitrogen as water leaves and nitrogen’s lone pair forms a triple bond: a cyclic nitrilium ion, with the ring now one atom bigger.","sp":[{"lp":[3],"m":{"a":[["H",2.598,0,0,0],["O",1.732,-0.5,1,0],["H",1.732,-1.5,0,0],["N",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.866,0,0,2],["C",-1.732,-0.5,0,2],["C",-1.732,-1.5,0,2],["C",-0.866,-2,0,2],["C",0,-1.5,0,2]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,1],[6,7,1],[7,8,1],[8,9,1],[4,9,1]]}}],"ar":[{"f":["b",0,4,5],"t":["n",0,5,0,3]},{"f":["b",0,1,3],"t":["a",0,1]},{"f":["l",0,3],"t":["b",0,3,4]}]},{"cap":"Water attacks the electrophilic nitrilium carbon; one π bond of the triple bond collapses onto nitrogen.","sp":[{"lp":[0],"m":{"a":[["O",0,0,0,2]],"b":[]}},{"m":{"a":[["C",0,0,0,0,1],["N",0,-1,1,0],["C",0.782,-1.623,0,2],["C",1.757,-1.401,0,2],["C",2.191,-0.5,0,2],["C",1.757,0.401,0,2],["C",0.782,0.623,0,2]],"b":[[0,1,3],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[0,6,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"A second water molecule removes the proton from the new oxocarbenium, giving the neutral iminol.","sp":[{"m":{"a":[["H",1.732,-0.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["C",0,-0.5,0,0],["N",-0.826,0.063,0,0],["C",-1.782,-0.231,0,2],["C",-2.147,-1.162,0,2],["C",-1.647,-2.028,0,2],["C",-0.658,-2.177,0,2],["C",0.075,-1.497,0,2]],"b":[[0,1,1],[1,2,1],[1,3,1],[3,4,2],[4,5,1],[5,6,1],[6,7,1],[7,8,1],[8,9,1],[3,9,1]]}},{"lp":[0],"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[{"f":["l",1,0],"t":["n",1,0,0,2]},{"f":["b",0,1,2],"t":["a",0,1]}]},{"cap":"This iminol is just the tautomer of an amide; it settles to the far more stable lactam, caprolactam.","sp":[{"m":{"a":[["O",0.866,0,0,0],["C",0,-0.5,0,0],["C",-0.826,0.063,0,2],["C",-1.782,-0.231,0,2],["C",-2.147,-1.162,0,2],["C",-1.647,-2.028,0,2],["C",-0.658,-2.177,0,2],["N",0.075,-1.497,0,1]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,1],[5,6,1],[6,7,1],[1,7,1]]}}],"ar":[]}],"lab":[{"cap":"Charge oleum (or conc. sulfuric acid) and cool.","level":0.4,"color":"#eef0e6","T":15,"cool":true},{"cap":"Dose molten cyclohexanone oxime slowly; the rearrangement is strongly exothermic.","dose":{"color":"#f5f2df","name":"Oxime (molten)"},"heat":true,"glow":true,"T":110,"level":0.6,"cool":true},{"cap":"Hold at 110–120 °C until oxime is consumed (IR or titration check).","heat":true,"T":115},{"cap":"Cool and run into chilled water and ammonia to neutralise; ammonium sulfate crystallises.","cool":true,"dose":{"color":"#eaf4ea","name":"water / NH₃"},"T":10,"solid":"#f2f2ea","level":0.8},{"cap":"Separate: caprolactam melts out as the upper layer, ammonium sulfate liquor below.","layers":["#f6efd6","#e4eef5"],"T":70}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

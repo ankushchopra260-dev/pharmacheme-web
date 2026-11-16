@@ -1,0 +1,94 @@
+---
+layout: default
+title: "Reformatsky reaction"
+seo_title: "Reformatsky Reaction: Mechanism and Zinc Control | PharmaChemE"
+description: "Reformatsky reaction of an organozinc ester enolate with an aldehyde: animated addition mechanism, quench, and plant control notes."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Reformatsky reaction"
+    url: /molecules/reaction-lab/reformatsky-reaction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Reformatsky reaction",
+        "description": "Reformatsky reaction of an organozinc ester enolate with an aldehyde: animated addition mechanism, quench, and plant control notes.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of reformatsky reaction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The carbon–zinc bond is polarised; its electrons attack the aldehyde carbon, exactly as a Grignard reagent would. The C=O π bond moves onto oxygen. Step 2: In the aqueous quench, the alkoxide oxygen takes a proton from the acid. Zinc salts go into the water layer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is reformatsky reaction moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water degrades the organozinc before use, though it is more forgiving than a Grignard reagent. Dry the solvent and keep the zinc insertion step under nitrogen."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Carbon–carbon bond formation</p>
+  <h1>Reformatsky reaction</h1>
+  <p class="rl-intro">Zinc inserts into the carbon–bromine bond of an α-bromoester, giving an organozinc reagent milder than a Grignard. Its carbon adds to an aldehyde exactly as a Grignard reagent would, and aqueous quench gives the β-hydroxy ester.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/grignard-friedel-crafts-coupling/' | relative_url }}">Grignard, Friedel–Crafts and coupling reactions at scale</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>None</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Moderately exothermic</b></div>
+    <div><span>Type</span><b>Carbon–carbon bond formation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Organozinc ester enolate (from ethyl bromoacetate) + Aldehyde (benzaldehyde shown) → β-Hydroxy ester <span>(1) THF, 0–25 °C  2) aq. NH₄Cl)</span><br><span>Not fully balanced as drawn: zinc insertion into BrCH₂CO₂Et not shown.</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Activate zinc dust and charge with ethyl bromoacetate in dry THF under nitrogen; the organozinc forms.</li><li>Dose the aldehyde slowly at 0–10 °C.</li><li>Stir until the aldehyde is consumed.</li><li>Quench into cold aqueous ammonium chloride (reverse quench); zinc salts form a white solid.</li><li>Separate: the β-hydroxy ester in the organic layer, zinc salts in the water.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The carbon–zinc bond is polarised; its electrons attack the aldehyde carbon, exactly as a Grignard reagent would. The C=O π bond moves onto oxygen.</li><li>A zinc alkoxide forms and simply waits in solution until the quench supplies a proton.</li><li>In the aqueous quench, the alkoxide oxygen takes a proton from the acid. Zinc salts go into the water layer.</li><li>Product: the β-hydroxy ester, with zinc salts removed in the aqueous wash.</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Zinc activation (with acid wash, iodine or ultrasound) is often needed before insertion proceeds reliably.</li><li>The organozinc is less reactive than a Grignard and tolerates some functional groups (esters, mild acidity) that a Grignard would attack.</li><li>Water and air still degrade the reagent, though less violently than with Grignards; keep the system reasonably dry.</li><li>The product β-hydroxy ester can eliminate to the acrylate under acidic conditions or heat; keep work-up mild.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>No gas is formed in the main reaction.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Ethyl acetate (reagent destroyed)</td><td>Protic contamination before the aldehyde is added. Dry the solvent and substrate.</td></tr><tr><td>Self-condensation of the organozinc</td><td>Slow or warm addition lets the reagent react with its own ester group. Keep cold and dose promptly.</td></tr><tr><td>Acrylate ester (dehydration)</td><td>Acidic or hot work-up eliminates the new hydroxyl. Keep the quench mild and cool.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water degrades the organozinc before use, though it is more forgiving than a Grignard reagent. Dry the solvent and keep the zinc insertion step under nitrogen.</p></section>
+    <section><h2>Heat of reaction</h2><p>The addition step releases moderate heat; the insertion step itself can have an induction period.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Confirm zinc activation (gas evolution or colour change) before dosing the aldehyde.</li><li>Reverse quench into cold aqueous ammonium chloride, as with Grignard reactions.</li><li>Keep later steps mild to avoid dehydrating the product.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/grignard-friedel-crafts-coupling/' | relative_url }}">Grignard, Friedel–Crafts and coupling reactions at scale</a><a href="{{ '/molecules/reaction-lab/grignard-addition-to-ketone/' | relative_url }}">Grignard addition (the same addition step)</a><a href="{{ '/molecules/reaction-lab/aldol-condensation/' | relative_url }}">Aldol condensation</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/hofmann-rearrangement-of-amide/' | relative_url }}">← Hofmann rearrangement</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/wolff-kishner-reduction/' | relative_url }}">Wolff–Kishner reduction →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"reformatsky-reaction","name":"Reformatsky reaction","cat":"Carbon–carbon bond formation","eq":{"r":[{"m":{"a":[["Zn",4.33,0,0,0],["Br",5.196,-0.5,0,0],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[0,2,1],[2,3,1],[3,4,2],[3,5,1],[5,6,1],[6,7,1]]},"l":"Organozinc ester enolate (from ethyl bromoacetate)"},{"m":{"a":[["O",1.732,-0.5,0,0],["C",0.866,0,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]},"l":"Aldehyde (benzaldehyde shown)"}],"p":[{"m":{"a":[["O",5.196,-0.5,0,1],["C",4.33,0,0,1],["C",4.33,1,0,0],["C",5.196,1.5,0,1],["C",5.196,2.5,0,1],["C",4.33,3,0,1],["C",3.464,2.5,0,1],["C",3.464,1.5,0,1],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[1,8,1],[8,9,1],[9,10,2],[9,11,1],[11,12,1],[12,13,1]]},"l":"β-Hydroxy ester"}],"cond":"1) THF, 0–25 °C  2) aq. NH₄Cl"},"mech":[{"cap":"The carbon–zinc bond is polarised; its electrons attack the aldehyde carbon, exactly as a Grignard reagent would. The C=O π bond moves onto oxygen.","sp":[{"m":{"a":[["Zn",4.33,0,0,0],["Br",5.196,-0.5,0,0],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[0,2,1],[2,3,1],[3,4,2],[3,5,1],[5,6,1],[6,7,1]]}},{"m":{"a":[["O",1.732,-0.5,0,0],["C",0.866,0,0,1],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,2],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]}}],"ar":[{"f":["b",0,0,2],"t":["n",0,2,1,1]},{"f":["b",1,0,1],"t":["a",1,0]}]},{"cap":"A zinc alkoxide forms and simply waits in solution until the quench supplies a proton.","sp":[{"m":{"a":[["Zn",6.062,0,0,0],["Br",6.928,-0.5,0,0],["O",5.196,-0.5,0,0],["C",4.33,0,0,1],["C",4.33,1,0,0],["C",5.196,1.5,0,1],["C",5.196,2.5,0,1],["C",4.33,3,0,1],["C",3.464,2.5,0,1],["C",3.464,1.5,0,1],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[0,2,1],[2,3,1],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1],[3,10,1],[10,11,1],[11,12,2],[11,13,1],[13,14,1],[14,15,1]]}}],"ar":[]},{"cap":"In the aqueous quench, the alkoxide oxygen takes a proton from the acid. Zinc salts go into the water layer.","sp":[{"lp":[0],"m":{"a":[["O",5.196,-0.5,-1,0],["C",4.33,0,0,1],["C",4.33,1,0,0],["C",5.196,1.5,0,1],["C",5.196,2.5,0,1],["C",4.33,3,0,1],["C",3.464,2.5,0,1],["C",3.464,1.5,0,1],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[1,8,1],[8,9,1],[9,10,2],[9,11,1],[11,12,1],[12,13,1]]}},{"m":{"a":[["H",1.732,-0.5,0,0],["O",0.866,0,1,0],["H",0.866,1,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1],[1,2,1],[1,3,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,0]},{"f":["b",1,0,1],"t":["a",1,1]}]},{"cap":"Product: the β-hydroxy ester, with zinc salts removed in the aqueous wash.","sp":[{"m":{"a":[["O",5.196,-0.5,0,1],["C",4.33,0,0,1],["C",4.33,1,0,0],["C",5.196,1.5,0,1],["C",5.196,2.5,0,1],["C",4.33,3,0,1],["C",3.464,2.5,0,1],["C",3.464,1.5,0,1],["C",3.464,-0.5,0,2],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[1,8,1],[8,9,1],[9,10,2],[9,11,1],[11,12,1],[12,13,1]]}},{"m":{"a":[["O",0,0,0,2]],"b":[]}}],"ar":[]}],"lab":[{"cap":"Activate zinc dust and charge with ethyl bromoacetate in dry THF under nitrogen; the organozinc forms.","level":0.4,"color":"#dfe3df","T":25,"n2":true,"stir":true},{"cap":"Dose the aldehyde slowly at 0–10 °C.","dose":{"color":"#f5f5f5","name":"Aldehyde"},"T":8,"level":0.6,"cool":true,"glow":true},{"cap":"Stir until the aldehyde is consumed.","T":15,"cool":true},{"cap":"Quench into cold aqueous ammonium chloride (reverse quench); zinc salts form a white solid.","cool":true,"dose":{"color":"#9a8d79","name":"Reaction mass"},"T":15,"level":0.85,"solid":"#ffffff"},{"cap":"Separate: the β-hydroxy ester in the organic layer, zinc salts in the water.","layers":["#efe8d4","#cfe6f2"],"solid":null,"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

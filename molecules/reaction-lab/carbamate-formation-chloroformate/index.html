@@ -1,0 +1,102 @@
+---
+layout: default
+title: "Carbamate formation with ethyl chloroformate"
+seo_title: "Carbamate Formation with Chloroformate: Mechanism | PharmaChemE"
+description: "Carbamate formation from an amine and ethyl chloroformate: animated addition-elimination mechanism, HCl by-product, and plant control notes."
+breadcrumbs:
+  - label: "Molecules"
+    url: /molecules/
+  - label: "Reaction Lab"
+    url: /molecules/reaction-lab/
+  - label: "Carbamate formation"
+    url: /molecules/reaction-lab/carbamate-formation-chloroformate/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Carbamate formation with ethyl chloroformate",
+        "description": "Carbamate formation from an amine and ethyl chloroformate: animated addition-elimination mechanism, HCl by-product, and plant control notes.",
+        "learningResourceType": "Interactive simulation",
+        "educationalLevel": "Undergraduate and professional",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the mechanism of carbamate formation with ethyl chloroformate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: The amine’s lone pair attacks the chloroformate carbon; the C=O π bond moves onto oxygen. Step 2: The alkoxide reforms the carbonyl as chloride leaves, giving a protonated carbamate. Step 3: The chloride just released removes the ammonium proton, giving the neutral carbamate and HCl."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is carbamate formation moisture sensitive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Medium. Water hydrolyses the chloroformate to CO₂ and ethanol, wasting reagent. Use dry solvent; the aqueous base wash is fine once the reaction is complete."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What gas is released in carbamate formation with ethyl chloroformate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen chloride: about 34.0 kg (22.8 m³ at 25 °C) per 100 kg of amine (benzylamine shown). Usually absorbed by the base present, but any excess must be vented to a scrubber."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-14
+---
+<link rel="stylesheet" href="{{ '/assets/css/reaction-lab.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container rl-page">
+  <p class="rl-cat"><a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a> · Acylation and activation</p>
+  <h1>Carbamate formation with ethyl chloroformate</h1>
+  <p class="rl-intro">Ethyl chloroformate reacts with an amine exactly like an acid chloride: the amine adds to the carbonyl, chloride leaves, and a base removes the resulting ammonium proton. The result is a carbamate, a common protecting group and intermediate step in agrochemical and pharma synthesis.</p>
+  <p class="rl-small">Background and plant practice: <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a>.</p>
+  <div class="rl-facts">
+    <div><span>Gas evolved</span><b>Hydrogen chloride</b></div>
+    <div><span>Moisture sensitivity</span><b class="lv-2">Medium</b></div>
+    <div><span>Heat</span><b>Moderately exothermic</b></div>
+    <div><span>Type</span><b>Acylation and activation</b></div>
+  </div>
+  <div class="rl-eq" id="rl-eq" aria-label="Reaction equation"></div>
+  <p class="rl-eqtxt">Amine (benzylamine shown) + Ethyl chloroformate → Ethyl N-benzylcarbamate + Hydrogen chloride <span>(dichloromethane, 0–10 °C, with a mild base)</span></p>
+  <div class="rl-grid">
+    <section class="rl-panel" aria-labelledby="h-lab"><h2 id="h-lab">In the lab</h2><div id="rl-lab" class="rl-lab"></div><ol class="rl-steps-txt"><li>Charge the amine, dichloromethane and a mild base (sodium bicarbonate solution or triethylamine) and cool.</li><li>Dose ethyl chloroformate slowly; HCl is taken up by the base as it forms.</li><li>Stir at 0–10 °C until the amine is consumed.</li><li>Wash with water to remove the base salt and any excess chloroformate.</li><li>Separate: the carbamate in the organic layer.</li></ol></section>
+    <section class="rl-panel" aria-labelledby="h-mech"><h2 id="h-mech">Mechanism</h2><div id="rl-mech" class="rl-mech"></div><ol class="rl-steps-txt"><li>The amine’s lone pair attacks the chloroformate carbon; the C=O π bond moves onto oxygen.</li><li>The alkoxide reforms the carbonyl as chloride leaves, giving a protonated carbamate.</li><li>The chloride just released removes the ammonium proton, giving the neutral carbamate and HCl.</li><li>Products: the carbamate and hydrogen chloride (usually taken up by a base in the flask).</li></ol></section>
+  </div>
+  <div class="rl-info">
+    <section><h2>What to take care of</h2><ul><li>Ethyl chloroformate is a lachrymator and reacts readily with water; keep the system closed and well vented.</li><li>Use a base (bicarbonate, triethylamine) to mop up HCl as it forms, or the amine substrate itself is consumed as its hydrochloride salt.</li><li>Add the chloroformate to the amine, not the reverse, to avoid local excess and symmetrical urea by-product.</li><li>Keep the reaction cold; chloroformates can decompose with heat, releasing CO₂ and the corresponding alkyl chloride.</li></ul></section>
+    <section><h2>Gas evolution</h2><p>Per 100 kg of amine (benzylamine shown) (molar mass 107.2 g/mol), at full conversion:</p><div class="rl-tw"><table class="rl-t"><thead><tr><th>Gas</th><th>Mass</th><th>Volume at 25 °C</th><th>Handling</th></tr></thead><tbody><tr><td>Hydrogen chloride</td><td>34.0 kg</td><td>22.8 m³</td><td>Usually absorbed by the base present, but any excess must be vented to a scrubber.</td></tr></tbody></table></div><p class="rl-small">The gas comes off as fast as the reaction runs. In a dosing-controlled step the peak gas rate is about the dosing rate in kmol/h times the moles of gas per mole, so size the vent and scrubber on that.</p></section>
+    <section><h2>By-products and how to control them</h2><div class="rl-tw"><table class="rl-t"><thead><tr><th>By-product</th><th>Cause and control</th></tr></thead><tbody><tr><td>Symmetrical urea</td><td>Excess amine reacts with the carbamate’s own leaving potential, or chloroformate is dosed too fast. Control stoichiometry and addition rate.</td></tr><tr><td>Amine hydrochloride (recovered)</td><td>Without added base, HCl protonates the amine and stalls the reaction. Add a base or use excess amine.</td></tr><tr><td>Carbonate / diethyl carbonate</td><td>Chloroformate reacting with adventitious water. Keep the reactor and reagents dry.</td></tr></tbody></table></div></section>
+    <section><h2>Moisture sensitivity: <span class="lv-2">Medium</span></h2><p>Water hydrolyses the chloroformate to CO₂ and ethanol, wasting reagent. Use dry solvent; the aqueous base wash is fine once the reaction is complete.</p></section>
+    <section><h2>Heat of reaction</h2><p>The addition-elimination at the carbonyl releases moderate heat; dosing controls the rate.</p></section>
+    <section><h2>Plant tips</h2><ul><li>Scrub HCl off-gas even when a base is present, in case of local excess.</li><li>Chloroformates are also toxic by inhalation; handle in contained equipment.</li><li>Confirm the base chosen does not also react competitively with the chloroformate.</li></ul></section>
+  </div>
+  <div class="related-box"><h3>Related</h3><a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in API and agrochemical plants</a><a href="{{ '/molecules/reaction-lab/boc-protection-of-amine/' | relative_url }}">Boc protection (another amine-protecting step)</a><a href="{{ '/molecules/reaction-lab/amide-from-acid-chloride/' | relative_url }}">Amide from an acid chloride (the same mechanism)</a><a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a></div>
+  <nav class="rl-nav" aria-label="Other reactions"><a href="{{ '/molecules/reaction-lab/appel-reaction-alcohol-to-bromide/' | relative_url }}">← Appel reaction</a><a href="{{ '/molecules/reaction-lab/' | relative_url }}">All reactions</a><a href="{{ '/molecules/reaction-lab/knoevenagel-condensation/' | relative_url }}">Knoevenagel condensation →</a></nav>
+  <p class="rl-small">Mechanisms are drawn in the usual textbook form for teaching; some steps that happen together are shown separately. Conditions, quantities and hazards are typical, not a validated procedure for your process.</p>
+</div>
+<script type="application/json" id="rl-data">{"slug":"carbamate-formation-chloroformate","name":"Carbamate formation with ethyl chloroformate","cat":"Acylation and activation","eq":{"r":[{"m":{"a":[["N",1.732,-0.5,0,2],["C",0.866,0,0,2],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]},"l":"Amine (benzylamine shown)"},{"m":{"a":[["Cl",3.464,-0.5,0,0],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1]]},"l":"Ethyl chloroformate"}],"p":[{"m":{"a":[["O",2.598,1,0,0],["C",2.598,0,0,0],["N",3.464,-0.5,0,1],["C",4.33,0,0,2],["C",5.196,-0.5,0,0],["C",5.196,-1.5,0,1],["C",6.062,-2,0,1],["C",6.928,-1.5,0,1],["C",6.928,-0.5,0,1],["C",6.062,0,0,1],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1],[1,10,1],[10,11,1],[11,12,1]]},"l":"Ethyl N-benzylcarbamate"},{"m":{"a":[["Cl",0.866,0,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1]]},"l":"Hydrogen chloride"}],"cond":"dichloromethane, 0–10 °C, with a mild base"},"mech":[{"cap":"The amine’s lone pair attacks the chloroformate carbon; the C=O π bond moves onto oxygen.","sp":[{"lp":[0],"m":{"a":[["N",1.732,-0.5,0,2],["C",0.866,0,0,2],["C",0,-0.5,0,0],["C",-0.866,0,0,1],["C",-1.732,-0.5,0,1],["C",-1.732,-1.5,0,1],["C",-0.866,-2,0,1],["C",0,-1.5,0,1]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1]]}},{"m":{"a":[["Cl",3.464,-0.5,0,0],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,2],[1,3,1],[3,4,1],[4,5,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,1]},{"f":["b",1,1,2],"t":["a",1,2]}]},{"cap":"The alkoxide reforms the carbonyl as chloride leaves, giving a protonated carbamate.","sp":[{"lp":[9],"m":{"a":[["N",3.464,-0.5,1,2],["C",4.33,0,0,2],["C",5.196,-0.5,0,0],["C",5.196,-1.5,0,1],["C",6.062,-2,0,1],["C",6.928,-1.5,0,1],["C",6.928,-0.5,0,1],["C",6.062,0,0,1],["C",2.598,0,0,0],["O",3.098,0.866,-1,0],["Cl",2.098,0.866,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[1,2,1],[2,3,2],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[2,7,1],[0,8,1],[8,9,1],[8,10,1],[8,11,1],[11,12,1],[12,13,1]]}}],"ar":[{"f":["l",0,9],"t":["b",0,8,9]},{"f":["b",0,8,10],"t":["a",0,10]}]},{"cap":"The chloride just released removes the ammonium proton, giving the neutral carbamate and HCl.","sp":[{"lp":[0],"m":{"a":[["Cl",0,0,-1,0]],"b":[]}},{"m":{"a":[["N",3.464,-0.5,1,1],["H",3.464,-1.5,0,0],["C",4.33,0,0,2],["C",5.196,-0.5,0,0],["C",5.196,-1.5,0,1],["C",6.062,-2,0,1],["C",6.928,-1.5,0,1],["C",6.928,-0.5,0,1],["C",6.062,0,0,1],["C",2.598,0,0,0],["O",2.598,1,0,0],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,1],[0,2,1],[2,3,1],[3,4,2],[4,5,1],[5,6,2],[6,7,1],[7,8,2],[3,8,1],[0,9,1],[9,10,2],[9,11,1],[11,12,1],[12,13,1]]}}],"ar":[{"f":["l",0,0],"t":["n",0,0,1,1]},{"f":["b",1,0,1],"t":["a",1,0]}]},{"cap":"Products: the carbamate and hydrogen chloride (usually taken up by a base in the flask).","sp":[{"m":{"a":[["O",2.598,1,0,0],["C",2.598,0,0,0],["N",3.464,-0.5,0,1],["C",4.33,0,0,2],["C",5.196,-0.5,0,0],["C",5.196,-1.5,0,1],["C",6.062,-2,0,1],["C",6.928,-1.5,0,1],["C",6.928,-0.5,0,1],["C",6.062,0,0,1],["O",1.732,-0.5,0,0],["C",0.866,0,0,2],["C",0,-0.5,0,3]],"b":[[0,1,2],[1,2,1],[2,3,1],[3,4,1],[4,5,2],[5,6,1],[6,7,2],[7,8,1],[8,9,2],[4,9,1],[1,10,1],[10,11,1],[11,12,1]]}},{"m":{"a":[["Cl",0.866,0,0,0],["H",0,-0.5,0,0]],"b":[[0,1,1]]}}],"ar":[]}],"lab":[{"cap":"Charge the amine, dichloromethane and a mild base (sodium bicarbonate solution or triethylamine) and cool.","level":0.45,"color":"#eef0e6","T":5,"cool":true},{"cap":"Dose ethyl chloroformate slowly; HCl is taken up by the base as it forms.","dose":{"color":"#f5f2df","name":"Ethyl chloroformate"},"T":8,"level":0.6,"cool":true,"gas":{"name":"HCl (mostly absorbed)","slow":true}},{"cap":"Stir at 0–10 °C until the amine is consumed.","T":8,"cool":true},{"cap":"Wash with water to remove the base salt and any excess chloroformate.","dose":{"color":"#e6f2fb","name":"Water"},"T":15,"level":0.75},{"cap":"Separate: the carbamate in the organic layer.","layers":["#eef1e3","#d9ecf7"],"T":20}]}</script>
+<script src="{{ '/assets/js/reaction-lab.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
