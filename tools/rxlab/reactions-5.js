@@ -6,7 +6,7 @@ module.exports = [
     seo: 'Beckmann Rearrangement: Mechanism to Caprolactam',
     desc: 'Beckmann rearrangement of cyclohexanone oxime to caprolactam: animated ring-expansion mechanism, nitrilium ion, water control and plant notes.',
     intro: 'Under strong acid, an oxime loses water while the ring carbon anti to the leaving group migrates from carbon to nitrogen, giving a nitrilium ion. Water adds back and tautomerises to the amide. Starting from cyclohexanone oxime, the ring expands by one atom: the product is caprolactam, the nylon-6 monomer.',
-    eq: { r: [['ON=C1CCCCC1', 'Cyclohexanone oxime']], p: [['O=C1CCCCCN1', 'Caprolactam']], cond: 'conc. H₂SO₄ (or oleum), 100–120 °C', note: 'water lost and re-added; shown as net loss in the equation' },
+    eq: { r: [['ON=C1CCCCC1', 'Cyclohexanone oxime']], p: [['O=C1CCCCCN1', 'Caprolactam']], cond: 'conc. H₂SO₄ (or oleum), 100–120 °C', note: 'water leaves in the migration step and a fresh water molecule adds back two steps later; the two cancel, so no water appears in the equation' },
     mech: [
       { cap: 'Acid protonates the oxime oxygen, turning it into a leaving group.',
         sp: [{ s: 'ON=C1CCCCC1', lp: [0] }, { s: H3O }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
@@ -84,31 +84,31 @@ module.exports = [
   {
     slug: 'wittig-reaction', name: 'Wittig reaction of an aldehyde', short: 'Wittig reaction', cat: 'Carbon–carbon bond formation',
     seo: 'Wittig Reaction: Mechanism, Oxaphosphetane',
-    desc: 'Wittig reaction of an aldehyde with a phosphorus ylide to an alkene: animated betaine and oxaphosphetane mechanism, tributylphosphine oxide by-product.',
-    intro: 'A phosphorus ylide adds its nucleophilic carbon to an aldehyde, and the resulting alkoxide closes onto the phosphorus to give a four-membered oxaphosphetane. This ring falls apart in one concerted step, giving the alkene and the very stable tributylphosphine oxide, which is what drives the reaction forward.',
-    eq: { r: [['O=CC1CCCCC1', 'Aldehyde (cyclohexanecarbaldehyde shown)'], ['[CH2-][P+](CCCC)(CCCC)CCCC', 'Methylenetributylphosphorane']], p: [['C(=C)C1CCCCC1', 'Alkene (vinylcyclohexane)'], ['O=P(CCCC)(CCCC)CCCC', 'Tributylphosphine oxide']], cond: 'THF, −78 °C to 20 °C' },
+    desc: 'Wittig reaction of an aldehyde with a phosphorus ylide to an alkene: animated betaine and oxaphosphetane mechanism, triphenylphosphine oxide by-product.',
+    intro: 'A phosphorus ylide adds its nucleophilic carbon to an aldehyde, and the resulting alkoxide closes onto the phosphorus to give a four-membered oxaphosphetane. This ring falls apart in one concerted step, giving the alkene and the very stable triphenylphosphine oxide, which is what drives the reaction forward.',
+    eq: { r: [['O=CCC', 'Aldehyde (propanal shown)'], ['[CH2-][P+](c1ccccc1)(c1ccccc1)c1ccccc1', 'Methylenetriphenylphosphorane']], p: [['C(=C)CC', 'Alkene (1-butene)'], ['O=P(c1ccccc1)(c1ccccc1)c1ccccc1', 'Triphenylphosphine oxide']], cond: 'THF, −78 °C to 20 °C' },
     mech: [
       { cap: 'The ylide carbon’s lone pair attacks the aldehyde carbon; the C=O π bond moves onto oxygen, giving the betaine.',
-        sp: [{ s: '[CH2-][P+](CCCC)(CCCC)CCCC', lp: [0] }, { s: 'O=CC1CCCCC1' }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 0, 1], t: ['a', 1, 0] }] },
+        sp: [{ s: '[CH2-][P+](c1ccccc1)(c1ccccc1)c1ccccc1', lp: [0] }, { s: 'O=CCC' }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 1, 1] }, { f: ['b', 1, 0, 1], t: ['a', 1, 0] }] },
       { cap: 'The alkoxide oxygen’s lone pair closes onto phosphorus, forming the four-membered oxaphosphetane.',
-        sp: [{ s: '[O-]C(C1CCCCC1)C[P+](CCCC)(CCCC)CCCC', lp: [0] }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 0, 9] }] },
+        sp: [{ s: '[O-]C(CC)C[P+](c1ccccc1)(c1ccccc1)c1ccccc1', lp: [0] }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 0, 5] }] },
       { cap: 'The ring falls apart in one concerted step: the P–C and O–C bonds break while the C–C and P–O bonds each gain a π bond, giving the alkene and the very stable P=O.',
-        sp: [{ s: 'O1C(C2CCCCC2)CP1(CCCC)(CCCC)CCCC' }], ar: [{ f: ['b', 0, 0, 1], t: ['b', 0, 0, 9] }, { f: ['b', 0, 8, 9], t: ['b', 0, 1, 8] }] },
-      { cap: 'Products: the alkene and tributylphosphine oxide, whose strong P=O bond is the thermodynamic driving force for the whole reaction.', sp: [{ s: 'C(=C)C1CCCCC1' }, { s: 'O=P(CCCC)(CCCC)CCCC' }], ar: [] }
+        sp: [{ s: 'O1C(CC)CP1(c1ccccc1)(c1ccccc1)c1ccccc1' }], ar: [{ f: ['b', 0, 0, 1], t: ['b', 0, 0, 5] }, { f: ['b', 0, 4, 5], t: ['b', 0, 1, 4] }] },
+      { cap: 'Products: the alkene and triphenylphosphine oxide, whose strong P=O bond is the thermodynamic driving force for the whole reaction.', sp: [{ s: 'C(=C)CC' }, { s: 'O=P(c1ccccc1)(c1ccccc1)c1ccccc1' }], ar: [] }
     ],
     lab: [
       { cap: 'Under nitrogen, charge the phosphonium salt in dry THF and cool to −78 °C.', level: 0.4, color: '#f0eee6', T: -78, n2: true, cool: true },
       { cap: 'Dose base (e.g. n-BuLi or NaH) to generate the ylide; the solution turns deep orange-red.', dose: { color: '#f5f2df', name: 'Base' }, T: -78, color: '#c9532f', level: 0.5, cool: true },
       { cap: 'Dose the aldehyde slowly at low temperature; the colour fades as the ylide is consumed.', dose: { color: '#f5f5f5', name: 'Aldehyde' }, T: -70, color: '#e8e3d2', level: 0.6, cool: true },
       { cap: 'Warm slowly to room temperature to let the oxaphosphetane collapse.', heat: true, T: 20, level: 0.6 },
-      { cap: 'Quench and separate: the alkene in the organic layer, tributylphosphine oxide mostly removed on work-up or by chromatography.', layers: ['#eef1e3', '#d9ecf7'], T: 20 }
+      { cap: 'Quench and separate: the alkene in the organic layer, triphenylphosphine oxide mostly removed on work-up or by chromatography.', layers: ['#eef1e3', '#d9ecf7'], T: 20 }
     ],
-    gas: [], gasNote: 'None; butane if n-BuLi is used as the base (from the alkoxide quench)',
+    gas: [], gasNote: 'None; a trace of butane if any unreacted n-BuLi is quenched at work-up',
     care: [
       'Phosphonium salts and strong bases (n-BuLi, NaH) are moisture-sensitive; dry the reactor and solvent.',
       'n-Butyllithium is pyrophoric; dose under nitrogen with care and have the appropriate fire suppressant on hand.',
       'Non-stabilised ylides (as here) react fast and give mainly the cis (Z) alkene at low temperature; warming early or using excess base can erode selectivity.',
-      'Tributylphosphine oxide is a persistent by-product; plan its removal (aqueous wash, chromatography or crystallisation) early.'
+      'Triphenylphosphine oxide is a persistent by-product that often crystallises out on concentration; plan its removal (aqueous wash, chromatography or crystallisation) early.'
     ],
     byp: [
       ['Trans (E) alkene', 'Equilibration of the betaine before ring closure, often from warming too early. Keep cold until the oxaphosphetane has formed.'],
@@ -117,7 +117,7 @@ module.exports = [
     ],
     moist: { lvl: 'High', txt: 'Water destroys the ylide before it can react, giving back the phosphonium salt and hydroxide. Dry the solvent and keep the system under nitrogen until the aldehyde is fully dosed.' },
     exo: { short: 'Moderately exothermic', txt: 'Ylide formation and the addition both release heat; the ring collapse itself is close to thermoneutral but is driven forward by the stability of the P=O product.' },
-    plant: ['Generate the ylide cold and use it promptly; it is not usually stored.', 'Plan for tributylphosphine oxide removal in the work-up design.', 'Non-stabilised ylides need strict temperature control for selectivity; stabilised ylides (ester-substituted) are more forgiving.'],
+    plant: ['Generate the ylide cold and use it promptly; it is not usually stored.', 'Plan for triphenylphosphine oxide removal in the work-up design; it crystallises well and is often removed by filtration.', 'Non-stabilised ylides need strict temperature control for selectivity; stabilised ylides (ester-substituted) are more forgiving.'],
     links: [['/molecules/reaction-lab/grignard-addition-to-ketone/', 'Grignard addition (also builds a C–C bond at a carbonyl)'], ['/molecules/reaction-lab/aldol-condensation/', 'Aldol condensation'], ['/molecules/reaction/', 'Reaction Builder']]
   },
   {
@@ -200,7 +200,7 @@ module.exports = [
   },
   {
     slug: 'knoevenagel-condensation', name: 'Knoevenagel condensation', short: 'Knoevenagel condensation', cat: 'Carbon–carbon bond formation',
-    seo: 'Knoevenagel Condensation: Mechanism and Base Control',
+    seo: 'Knoevenagel Condensation: Mechanism, Base Control',
     desc: 'Knoevenagel condensation of an aldehyde with diethyl malonate: animated enolate mechanism, dehydration, and plant control notes.',
     intro: 'A mild base removes the strongly acidified proton between two ester groups in diethyl malonate. This enolate adds to an aldehyde, and after a second deprotonation the adduct loses water to give the conjugated alkylidene malonate. The doubly activated methylene makes this run under milder base than a simple aldol.',
     eq: { r: [['O=Cc1ccccc1', 'Aldehyde (benzaldehyde shown)'], ['O=C(OCC)CC(=O)OCC', 'Diethyl malonate']], p: [['O=C(OCC)C(=Cc1ccccc1)C(=O)OCC', 'Diethyl benzylidenemalonate'], ['O', 'Water']], cond: 'piperidine (cat.), ethanol, 40–60 °C' },
@@ -246,12 +246,12 @@ module.exports = [
     seo: 'Hofmann Rearrangement: Mechanism, Isocyanate, CO₂',
     desc: 'Hofmann rearrangement of a primary amide with bromine and base to a one-carbon-shorter amine: animated mechanism, isocyanate intermediate and CO₂ loss.',
     intro: 'Base and bromine convert a primary amide’s N–H into an N–Br bond. A second deprotonation sets up a concerted 1,2-shift, exactly like the Curtius rearrangement: the R group migrates from carbon to nitrogen as bromide leaves, giving an isocyanate. Water adds to the isocyanate and the resulting carbamic acid loses carbon dioxide at once, leaving an amine one carbon shorter than the starting amide.',
-    eq: { r: [['CC(=O)N', 'Primary amide (acetamide shown)'], ['BrBr', 'Bromine (2 eq)'], ['[OH-]', 'Hydroxide (excess)']], p: [['CN', 'Amine (one carbon shorter)'], ['O=C=O', 'Carbon dioxide'], ['[Br-]', 'Bromide']], cond: 'aq. NaOH, 0–25 °C' },
+    eq: { r: [['CC(=O)N', 'Primary amide (acetamide shown)'], ['BrBr', 'Bromine (1 eq consumed; typically dosed in slight excess)'], ['[OH-]', 'Hydroxide (excess)']], p: [['CN', 'Amine (one carbon shorter)'], ['O=C=O', 'Carbon dioxide'], ['[Br-]', 'Bromide (2 eq: one from N-bromination, one when the same N–Br bond leaves in the migration step)']], cond: 'aq. NaOH, 0–25 °C', note: 'only 1 eq of Br₂ reacts in the mechanism; excess is used in practice to drive N-bromination to completion' },
     mech: [
       { cap: 'Hydroxide removes one N–H proton from the amide.',
         sp: [{ s: '[OH-]', lp: [0] }, { s: 'CC(=O)N[2H]' }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 1, 4] }, { f: ['b', 1, 3, 4], t: ['a', 1, 3] }] },
       { cap: 'The amide anion’s lone pair attacks bromine, displacing bromide and giving the N-bromoamide.',
-        sp: [{ s: 'CC(=O)[N-]', lp: [3] }, { s: 'BrBr' }], ar: [{ f: ['l', 0, 3], t: ['n', 0, 3, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
+        sp: [{ s: 'CC(=O)[NH-]', lp: [3] }, { s: 'BrBr' }], ar: [{ f: ['l', 0, 3], t: ['n', 0, 3, 1, 0] }, { f: ['b', 1, 0, 1], t: ['a', 1, 1] }] },
       { cap: 'Hydroxide removes the remaining N–H, giving the N-bromoamide anion.',
         sp: [{ s: '[OH-]', lp: [0] }, { s: 'CC(=O)N([2H])Br' }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 1, 4] }, { f: ['b', 1, 3, 4], t: ['a', 1, 3] }] },
       { cap: 'In one concerted step, exactly as in the Curtius rearrangement, methyl migrates from carbon to nitrogen as bromide leaves and nitrogen’s lone pair forms the isocyanate.',
