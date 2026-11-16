@@ -93,7 +93,13 @@ module.exports = [
       { cap: 'The alkoxide oxygen’s lone pair closes onto phosphorus, forming the four-membered oxaphosphetane.',
         sp: [{ s: '[O-]C(CC)C[P+](c1ccccc1)(c1ccccc1)c1ccccc1', lp: [0] }], ar: [{ f: ['l', 0, 0], t: ['n', 0, 0, 0, 5] }] },
       { cap: 'The ring falls apart in one concerted step: the P–C and O–C bonds break while the C–C and P–O bonds each gain a π bond, giving the alkene and the very stable P=O.',
-        sp: [{ s: 'O1C(CC)CP1(c1ccccc1)(c1ccccc1)c1ccccc1' }], ar: [{ f: ['b', 0, 0, 1], t: ['b', 0, 0, 5] }, { f: ['b', 0, 4, 5], t: ['b', 0, 1, 4] }] },
+        together: true,
+        sp: [{ s: 'O1C(CC)CP1(c1ccccc1)(c1ccccc1)c1ccccc1',
+          xy: [[-0.87, 0.5], [-1.73, 0], [-2.6, 0.4], [-3.4, 0], [-0.87, -0.5], [0, 0],
+               [0, 1], [0.87, 1.5], [0.87, 2.5], [0, 3], [-0.87, 2.5], [-0.87, 1.5],
+               [1, 0], [1.5, -0.87], [2.5, -0.87], [3, 0], [2.5, 0.87], [1.5, 0.87],
+               [0, -1], [-0.87, -1.5], [-0.87, -2.5], [0, -3], [0.87, -2.5], [0.87, -1.5]] }],
+        ar: [{ f: ['b', 0, 0, 1], t: ['b', 0, 0, 5] }, { f: ['b', 0, 4, 5], t: ['b', 0, 1, 4] }] },
       { cap: 'Products: the alkene and triphenylphosphine oxide, whose strong P=O bond is the thermodynamic driving force for the whole reaction.', sp: [{ s: 'C(=C)CC' }, { s: 'O=P(c1ccccc1)(c1ccccc1)c1ccccc1' }], ar: [] }
     ],
     lab: [
