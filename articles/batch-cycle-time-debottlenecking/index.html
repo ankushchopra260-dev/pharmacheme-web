@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-11-06"
+        "dateModified": "2026-11-17"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-06
+last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -105,6 +105,7 @@ last_modified_at: 2026-11-06
   <figure class="art-fig" data-fig="gantt">
     <figcaption>Try it: the dryer row has no gaps, so it is the bottleneck. Add a second dryer, then shorten distillation, and watch the batches per week change. Then try shortening a step that is not on the bottleneck.</figcaption>
   </figure>
+  <p>To build a real schedule for your own train, with analysis holds, cleaning, maintenance downtime and the batches already running, use the <a href="{{ '/calculators/batch-schedule-gantt/' | relative_url }}">batch scheduler</a>. It draws the Gantt chart and gives the BCT and the start-to-end time of every batch.</p>
   <p>Draw the chart with what actually happens on the shop floor, not with the batch card times. Take the last ten batch records and use the median for each step, including waits.</p>
 
   <h2 id="fix">Ways to debottleneck <span class="lvl l2">Working level</span></h2>
@@ -157,6 +158,7 @@ last_modified_at: 2026-11-06
 
   <div class="related-box">
     <h3>Related</h3>
+    <a href="{{ '/calculators/batch-schedule-gantt/' | relative_url }}">Batch scheduler (Gantt chart)</a>
     <a href="{{ '/articles/centrifuge-cake-weight/' | relative_url }}">Centrifuge calculation</a>
     <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration time calculation</a>
     <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load and heat-up time</a>
