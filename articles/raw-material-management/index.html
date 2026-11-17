@@ -1,12 +1,12 @@
 ---
 layout: default
-title: "Raw Material Management: Specifications, Vendor Qualification, Sampling and Release"
-seo_title: "Raw Material Management in Pharma Plants | PharmaChemE"
-description: "Raw material control in API plants: specifications, vendor qualification, quarantine, sampling and release, consumption norms and inventory planning."
+title: "Raw Material Quality Control: Specifications, Vendor Qualification, Sampling and Release"
+seo_title: "Raw Material Quality Control in Pharma Plants | PharmaChemE"
+description: "Raw material quality control in API plants: specifications, vendor qualification, quarantine, sampling and release, and consumption norms."
 breadcrumbs:
   - label: Articles
     url: /articles/
-  - label: "Raw Material Management"
+  - label: "Raw Material Quality Control"
     url: /articles/raw-material-management/
 structured_data: |
   {
@@ -14,8 +14,8 @@ structured_data: |
     "@graph": [
       {
         "@type": "Article",
-        "headline": "Raw Material Management: Specifications, Vendor Qualification, Sampling and Release",
-        "description": "Raw material control in API plants: specifications, vendor qualification, quarantine, sampling and release, consumption norms and inventory planning.",
+        "headline": "Raw Material Quality Control: Specifications, Vendor Qualification, Sampling and Release",
+        "description": "Raw material quality control in API plants: specifications, vendor qualification, quarantine, sampling and release, and consumption norms.",
         "author": {
           "@type": "Person",
           "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
@@ -67,7 +67,7 @@ last_modified_at: 2026-11-17
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container article-body" style="padding:32px 20px 64px;">
-  <h1>Raw Material Management</h1>
+  <h1>Raw Material Quality Control</h1>
   <p class="article-meta">Plant Departments &middot; Raw Materials &middot; <span class="art-updated">October 2026</span></p>
 
   <p class="art-lede">Raw materials are usually the largest part of the cost of an API, and a wrong or poor-quality material can spoil a batch long before anyone notices. Good raw material management connects purchase, stores, QC and production so the right material is in the right place, approved, at the right time.</p>
@@ -77,7 +77,7 @@ last_modified_at: 2026-11-17
     <li><a href="#vendor">Vendor qualification</a><span>Basics</span></li>
     <li><a href="#receipt">Receipt, quarantine, sampling and release</a><span>Working level</span></li>
     <li><a href="#norms">Consumption norms and yield</a><span>Working level</span></li>
-    <li><a href="#inv">Inventory planning</a><span>Going deeper</span></li>
+    <li><a href="#inv">Planning quantities</a><span>Going deeper</span></li>
     <li><a href="#faq">Questions people ask</a></li>
   </ol></nav>
 
@@ -130,15 +130,8 @@ last_modified_at: 2026-11-17
   <h2 id="norms">Consumption norms and yield <span class="lvl l2">Working level</span></h2>
   <p>The <strong>consumption norm</strong> is the planned kg of each raw material per kg of product. Comparing actual consumption with the norm batch by batch shows losses early: a solvent norm creeping up points to <a href="{{ '/articles/solvent-recovery-troubleshooting/' | relative_url }}">recovery problems</a>; a reagent above norm may mean a weighing error, a poor assay or a side reaction. The <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">consumption norms</a> article covers how to set and track them.</p>
 
-  <h2 id="inv">Inventory planning <span class="lvl l3">Going deeper</span></h2>
-  <p>Inventory is a balance between running out (a stopped plant) and holding too much (cash locked up, retest dates expiring, storage limits). The usual tools:</p>
-<ul>
-<li><strong>Requirement from the production plan:</strong> batches planned &times; norm per batch, plus losses.</li>
-<li><strong>Lead time and safety stock:</strong> reorder when stock falls to (daily use &times; lead time) + safety stock. Imported or single-source materials need more safety stock.</li>
-<li><strong>ABC analysis:</strong> the few high-value materials (A) get tight, frequent control; the many low-value ones (C) simpler rules.</li>
-<li><strong>Storage limits:</strong> flammable solvents are limited by licence and tank capacity, not just by cash. Plan deliveries around them.</li>
-</ul>
-<p>The full method, with worked numbers and a planning sheet, is in <a href="{{ '/articles/raw-material-planning/' | relative_url }}">raw material planning</a>.</p>
+  <h2 id="inv">Planning quantities <span class="lvl l3">Going deeper</span></h2>
+  <p>Once a material is approved, the next questions are how much to hold and when to order: requirement from the batch plan, lead time to QC release, safety stock and reorder point. These are covered with worked numbers and a planning sheet in <a href="{{ '/articles/raw-material-planning/' | relative_url }}">raw material planning</a>. One point belongs here: QC release time is part of the lead time, so a slow or queued test is a planning problem as much as a quality one.</p>
 
   <div class="art-note"><b>On the plant</b><p>When a batch misbehaves, the first raw-material question is &ldquo;new lot or new vendor?&rdquo;. Keep a simple table of which lots went into which batches; it saves days in an investigation.</p></div>
 

@@ -98,7 +98,7 @@ last_modified_at: 2026-11-17
     <li><strong>Order quantity:</strong> how much to order each time, set by cost, pack size, minimum order, storage limits and shelf life.</li>
     <li><strong>Safety stock:</strong> the cover held for the things that go wrong: a late truck, a rejected lot, a batch that needs a second charge, an extra batch squeezed into the month.</li>
   </ul>
-  <p>The quality side of raw materials (specifications, vendor approval, sampling and release) is covered in <a href="{{ '/articles/raw-material-management/' | relative_url }}">raw material management</a>, and storage in <a href="{{ '/articles/chemical-warehouse-storage/' | relative_url }}">chemical warehouse management</a>. This page is about quantities and timing.</p>
+  <p>The quality side of raw materials (specifications, vendor approval, sampling and release) is covered in <a href="{{ '/articles/raw-material-management/' | relative_url }}">raw material quality control</a>, and storage in <a href="{{ '/articles/chemical-warehouse-storage/' | relative_url }}">chemical warehouse management</a>. This page is about quantities and timing.</p>
   <h2 id="requirement">From batch plan to requirement <span class="lvl l1">Basics</span></h2>
 <p>Requirement comes from the production plan, product by product, through the consumption norm (the bill of materials per batch):</p>
   <div class="formula-box">
@@ -199,6 +199,7 @@ last_modified_at: 2026-11-17
   <h2 id="planner">A planning sheet you can use <span class="lvl l2">Working level</span></h2>
 <p>The planner below does the monthly calculation for several materials at once. Enter each material&rsquo;s norm, the batches planned, recovery for solvents, the current stock and the lead time; it gives the fresh requirement, the reorder point, the days of cover and a suggested order quantity rounded up to the pack size.</p>
   <div class="cb-w" data-w="rmplan"></div>
+  <p>This planner works on one month at a time and keeps nothing. For running stock day to day, the <a href="{{ '/exclusive/raw-material-stock-pr-decision-tool/' | relative_url }}">raw material stock and PR tool</a> (an offline app, ₹2,999) keeps the production plan, norms and stock in one file. It flags each material as short, thin on cushion or sufficient, and keeps a log of purchase requisitions raised.</p>
   <h2 id="priorities">Where to spend the planning effort <span class="lvl l3">Going deeper</span></h2>
 <p>A plant with three hundred materials cannot plan all of them in the same detail. Sort them twice:</p>
   <ul>
@@ -234,7 +235,7 @@ last_modified_at: 2026-11-17
   </ul>
   <div class="related-box">
     <h3>Related</h3>
-    <a href="{{ '/articles/raw-material-management/' | relative_url }}">Raw material management</a>
+    <a href="{{ '/articles/raw-material-management/' | relative_url }}">Raw material quality control</a>
     <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a>
     <a href="{{ '/articles/chemical-warehouse-storage/' | relative_url }}">Chemical warehouse management</a>
     <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
