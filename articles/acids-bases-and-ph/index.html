@@ -1,0 +1,193 @@
+---
+layout: default
+title: "Acids, Bases and pH for Chemical Engineers: pKa, Buffers and Extraction"
+seo_title: "Acids, Bases and pH: pKa, Buffers, Extraction | PharmaChemE"
+description: "Acid and base definitions, pH and pKa, strong versus weak acids, buffers, using pH to move a product between layers, and the heat of neutralisation."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Acids, Bases and pH
+    url: /articles/acids-bases-and-ph/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Acids, Bases and pH for Chemical Engineers: pKa, Buffers and Extraction",
+        "description": "Acid and base definitions, pH and pKa, strong versus weak acids, buffers, using pH to move a product between layers, and the heat of neutralisation.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is pH 7 always neutral?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. pH 7 is neutral only at 25 °C. Water ionises more as temperature rises, so at 60 °C neutral water is about pH 6.5. Compare pH readings at the same temperature."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between pH and pKa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "pH describes a solution: how acidic it is now. pKa describes a compound: how readily it gives up a proton. When the pH equals the pKa, half of the compound is in its acid form and half in its base form."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "At what pH should I extract an amine into the organic layer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At least two pH units above the pKa of its protonated form. For a typical aliphatic amine with a pKa near 10 to 11 that means pH 12 or more, so that over 99 percent is in the neutral, organic-soluble form."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does it take so much acid to bring the effluent pH down?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The effluent is probably buffered by carbonate, acetate, phosphate or amines. The acid first converts the buffer before the pH moves much. A titration curve of a real sample shows how much acid is needed."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Acids, Bases and pH</h1>
+  <p class="article-meta">Basic chemistry &middot; pH, pKa and neutralisation &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">pH is the most adjusted number on a chemical plant. It decides which layer the product sits in during a wash, whether a salt precipitates, how fast steel corrodes and whether the effluent can leave the site. Yet many pH problems come from treating it as a single reading rather than understanding what sets it. This page covers the chemistry behind the number.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#def">What acids and bases are</a><span>Basics</span></li>
+    <li><a href="#ph">The pH scale</a><span>Basics</span></li>
+    <li><a href="#strength">Strong and weak acids: pKa</a><span>Basics</span></li>
+    <li><a href="#buffer">Buffers and the Henderson&ndash;Hasselbalch equation</a><span>Working level</span></li>
+    <li><a href="#extraction">Using pH to move a product between layers</a><span>Working level</span></li>
+    <li><a href="#heat">Neutralisation heat and safe dilution</a><span>Working level</span></li>
+    <li><a href="#measure">Measuring pH on the plant</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="def">What acids and bases are <span class="lvl l1">Basics</span></h2>
+<p>Three definitions are in use, and each is useful in its place.</p>
+  <ul>
+    <li><strong>Arrhenius:</strong> an acid gives H<sup>+</sup> in water, a base gives OH<sup>&minus;</sup>. Fine for hydrochloric acid and caustic soda.</li>
+    <li><strong>Br&oslash;nsted&ndash;Lowry:</strong> an acid is a proton donor, a base is a proton acceptor. This one covers amines, carbonates and reactions in organic solvents, and it is the one to think in.</li>
+    <li><strong>Lewis:</strong> an acid accepts an electron pair, a base donates one. This explains why aluminium chloride, boron trifluoride and zinc chloride act as acid catalysts even though they have no proton.</li>
+  </ul>
+  <p>When an acid gives up its proton, what is left is its <strong>conjugate base</strong>: acetic acid becomes acetate. The stronger the acid, the weaker its conjugate base.</p>
+  <h2 id="ph">The pH scale <span class="lvl l1">Basics</span></h2>
+<div class="formula-box">
+    pH = &minus;log<sub>10</sub>[H<sup>+</sup>] &nbsp;&nbsp;&nbsp; pOH = &minus;log<sub>10</sub>[OH<sup>&minus;</sup>] &nbsp;&nbsp;&nbsp; pH + pOH = pK<sub>w</sub> = 14.0 at 25 &deg;C
+    <small>[H<sup>+</sup>] in mol/L. Each pH unit is a factor of ten in acidity: pH 2 is ten times more acidic than pH 3.</small>
+  </div>
+  <p>Neutral means equal H<sup>+</sup> and OH<sup>&minus;</sup>, which is pH 7.0 only at 25 &deg;C. Water ionises more as it warms, so at 60 &deg;C neutral is about pH 6.5. A hot sample that reads 6.5 is not acidic. pH meters correct the electrode response for temperature, but they cannot correct the chemistry; for comparisons, measure at a fixed temperature.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Solution</th><th>Approximate pH</th></tr></thead><tbody>
+    <tr><td>0.1 mol/L hydrochloric acid</td><td>1.0</td></tr>
+    <tr><td>0.1 mol/L acetic acid</td><td>2.9</td></tr>
+    <tr><td>Pure water at 25 &deg;C</td><td>7.0</td></tr>
+    <tr><td>Saturated sodium bicarbonate</td><td>about 8.3</td></tr>
+    <tr><td>1 percent sodium hydroxide (0.25 mol/L)</td><td>13.4</td></tr>
+  </tbody></table></div>
+  <h2 id="strength">Strong and weak acids: pKa <span class="lvl l1">Basics</span></h2>
+<p>A <strong>strong</strong> acid such as hydrochloric, sulfuric (first proton) or nitric acid is completely ionised in water. A <strong>weak</strong> acid such as acetic acid only partly ionises, and the balance is described by its acid dissociation constant K<sub>a</sub>, usually quoted as pK<sub>a</sub> = &minus;log K<sub>a</sub>. The lower the pK<sub>a</sub>, the stronger the acid.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Acid (or protonated base)</th><th>pK<sub>a</sub> in water, 25 &deg;C</th></tr></thead><tbody>
+    <tr><td>Hydrochloric acid</td><td>below 0 (strong)</td></tr>
+    <tr><td>Hydrogen sulfate ion, HSO<sub>4</sub><sup>&minus;</sup> (second proton of H<sub>2</sub>SO<sub>4</sub>)</td><td>1.99</td></tr>
+    <tr><td>Phosphoric acid, first proton</td><td>2.15</td></tr>
+    <tr><td>Formic acid</td><td>3.75</td></tr>
+    <tr><td>Acetic acid</td><td>4.76</td></tr>
+    <tr><td>Pyridinium ion</td><td>5.2</td></tr>
+    <tr><td>Carbonic acid, first proton</td><td>6.35</td></tr>
+    <tr><td>Ammonium ion</td><td>9.25</td></tr>
+    <tr><td>Phenol</td><td>10.0</td></tr>
+    <tr><td>Triethylammonium ion</td><td>10.7</td></tr>
+  </tbody></table></div>
+  <p>Bases are compared through the pK<sub>a</sub> of their protonated form. Triethylamine (pK<sub>a</sub> 10.7 for Et<sub>3</sub>NH<sup>+</sup>) is a stronger base than pyridine (5.2). Values in organic solvents are different, sometimes by several units.</p>
+  <div class="formula-box">
+    Weak acid, pH &asymp; &frac12;(pK<sub>a</sub> &minus; log C)<br>
+    0.1 mol/L acetic acid: &frac12;(4.76 + 1.00) = 2.88
+    <small>Good when the acid is less than about 5 percent ionised. Strong acid: pH = &minus;log C.</small>
+  </div>
+  <h2 id="buffer">Buffers and the Henderson&ndash;Hasselbalch equation <span class="lvl l2">Working level</span></h2>
+<p>A mixture of a weak acid and its conjugate base resists changes in pH. This is a <strong>buffer</strong>.</p>
+  <div class="formula-box">
+    pH = pK<sub>a</sub> + log ( [base form] / [acid form] )
+    <small>When the two forms are equal, pH = pK<sub>a</sub>. One pH unit either side, the ratio is 10 : 1.</small>
+  </div>
+  <p>Buffers explain two things engineers see often. First, why it takes much more acid or alkali than expected to move the pH of an effluent containing acetate, carbonate or phosphate: the buffer soaks it up. Second, why a pH titration curve is flat near the pK<sub>a</sub> and steep near the end point, which makes pH control around neutral difficult with strong reagents.</p>
+  <h2 id="extraction">Using pH to move a product between layers <span class="lvl l2">Working level</span></h2>
+<p>The neutral form of an organic acid or base dissolves in the organic layer; the charged form (salt) dissolves in water. pH decides which form you have.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Compound type</th><th>To pull into water</th><th>To push into the organic layer</th></tr></thead><tbody>
+    <tr><td>Carboxylic acid, pK<sub>a</sub> about 4 to 5</td><td>pH above pK<sub>a</sub> + 2 (about 7 or more): forms the carboxylate</td><td>pH below pK<sub>a</sub> &minus; 2 (about 2 or less)</td></tr>
+    <tr><td>Amine, pK<sub>a</sub> of the salt about 9 to 11</td><td>pH below pK<sub>a</sub> &minus; 2: forms the ammonium salt</td><td>pH above pK<sub>a</sub> + 2 (about 12 or more)</td></tr>
+    <tr><td>Phenol, pK<sub>a</sub> about 10</td><td>pH above about 12</td><td>pH below about 8</td></tr>
+  </tbody></table></div>
+  <p>Two pH units from the pK<sub>a</sub> gives about 99 percent in one form. One unit gives only about 91 percent, which is why a wash at the &ldquo;right&rdquo; pH can still lose product. This is also how acidic and basic impurities are removed: a bicarbonate wash takes out a carboxylic acid but leaves a phenol behind. More in <a href="{{ '/articles/workup-and-phase-separation/' | relative_url }}">work-up and phase separation</a>.</p>
+  <h2 id="heat">Neutralisation heat and safe dilution <span class="lvl l2">Working level</span></h2>
+<p>A strong acid and a strong base release about 13.7 kcal per mole of water formed. That is a lot of heat in a small volume.</p>
+  <div class="formula-box">
+    H<sub>2</sub>SO<sub>4</sub> + 2 NaOH &rarr; Na<sub>2</sub>SO<sub>4</sub> + 2 H<sub>2</sub>O<br>
+    100 kg of 98 percent H<sub>2</sub>SO<sub>4</sub> = 98 / 98.07 = 0.999 kmol &rarr; 2.00 kmol water formed<br>
+    Heat &asymp; 2,000 mol &times; 13.7 kcal/mol &asymp; 27,400 kcal
+    <small>Neutralisation only. Diluting the concentrated acid releases a large additional amount of heat on top of this.</small>
+  </div>
+  <ul>
+    <li><strong>Acid into water, never water into acid.</strong> Water added to concentrated sulfuric acid boils locally and throws hot acid out.</li>
+    <li>Dose the neutralising agent slowly with cooling and agitation, and watch the temperature, not only the pH.</li>
+    <li>Carbonate and bicarbonate neutralisations also release CO<sub>2</sub>. Allow for foam and vent capacity.</li>
+  </ul>
+  <p>The <a href="{{ '/articles/thermochemistry-and-heat-of-reaction/' | relative_url }}">thermochemistry article</a> shows how to turn a heat like this into a temperature rise.</p>
+  <h2 id="measure">Measuring pH on the plant <span class="lvl l3">Going deeper</span></h2>
+<ul>
+    <li><strong>Calibrate</strong> with two or three buffers (pH 4, 7 and 10) that bracket the range you expect. Check the slope; replace the electrode when it drifts.</li>
+    <li><strong>Mixed solvents.</strong> In methanol&ndash;water or acetone&ndash;water mixtures the reading is not a true pH and can be off by a unit or more. Use it as a trend, and fix the method for each process.</li>
+    <li><strong>Two-phase mixtures.</strong> Stop the agitator, let the layers settle and sample the aqueous layer. A reading taken in an emulsion is unreliable.</li>
+    <li><strong>pH paper</strong> is useful for a quick check but reads only to about half a unit, and colour is hard to judge in coloured streams.</li>
+    <li><strong>Fluoride, strong alkali and hot samples</strong> shorten electrode life. Use the right electrode type.</li>
+  </ul>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Is pH 7 always neutral?</h3>
+  <p>No. pH 7 is neutral only at 25 °C. Water ionises more as temperature rises, so at 60 °C neutral water is about pH 6.5. Compare pH readings at the same temperature.</p>
+  <h3>What is the difference between pH and pKa?</h3>
+  <p>pH describes a solution: how acidic it is now. pKa describes a compound: how readily it gives up a proton. When the pH equals the pKa, half of the compound is in its acid form and half in its base form.</p>
+  <h3>At what pH should I extract an amine into the organic layer?</h3>
+  <p>At least two pH units above the pKa of its protonated form. For a typical aliphatic amine with a pKa near 10 to 11 that means pH 12 or more, so that over 99 percent is in the neutral, organic-soluble form.</p>
+  <h3>Why does it take so much acid to bring the effluent pH down?</h3>
+  <p>The effluent is probably buffered by carbonate, acetate, phosphate or amines. The acid first converts the buffer before the pH moves much. A titration curve of a real sample shows how much acid is needed.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Harris, <i>Quantitative Chemical Analysis</i>, 9th ed., W. H. Freeman, 2015 (pH, buffers, pK<sub>a</sub> values)</li>
+    <li>Haynes (ed.), <i>CRC Handbook of Chemistry and Physics</i>, CRC Press (dissociation constants, ionisation of water)</li>
+    <li>Anderson, <i>Practical Process Research and Development</i>, 2nd ed., Academic Press, 2012 (extractive work-up)</li>
+    <li>Perry&rsquo;s <i>Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019 (heats of neutralisation and dilution)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/workup-and-phase-separation/' | relative_url }}">Work-up and phase separation</a>
+    <a href="{{ '/articles/solutions-and-concentration-units/' | relative_url }}">Solutions and concentration units</a>
+    <a href="{{ '/articles/chemical-equilibrium-basics/' | relative_url }}">Chemical equilibrium basics</a>
+    <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics</a>
+    <a href="{{ '/calculators/scrubber-solution-calculator/' | relative_url }}">Scrubber solution calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,191 @@
+---
+layout: default
+title: "Gas Laws and the Ideal Gas Equation for Chemical Engineers: PV = nRT with Plant Examples"
+seo_title: "Gas Laws and Ideal Gas Equation: PV = nRT | PharmaChemE"
+description: "Boyle, Charles and PV = nRT, R in every unit, Nm³ versus actual m³, partial pressure, gas density, nitrogen for a pressure purge, and when ideal gas fails."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Gas Laws and Ideal Gas Equation
+    url: /articles/gas-laws-and-ideal-gas-equation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Gas Laws and the Ideal Gas Equation for Chemical Engineers: PV = nRT with Plant Examples",
+        "description": "Boyle, Charles and PV = nRT, R in every unit, Nm³ versus actual m³, partial pressure, gas density, nitrogen for a pressure purge, and when ideal gas fails.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why must temperature be in kelvin in PV = nRT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The gas laws are proportional to absolute temperature, which starts at zero kelvin. Using °C gives wrong ratios, and at 0 °C would divide by zero. Add 273.15 to the Celsius value."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between Nm³ and m³?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nm³ is the volume the gas would occupy at normal conditions, usually 0 °C and 1.013 bar, and measures an amount of gas. Actual m³ is the volume at the real line temperature and pressure, and is what you use for line sizing and velocity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much nitrogen does a pressure purge use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Calculate the moles in the headspace before and after pressurising with PV = nRT, using absolute pressures. For 5 m³ taken from atmospheric to 3 bar(g) at 25 °C, one cycle uses about 0.6 kmol, or 13.6 Nm³."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When is the ideal gas equation not accurate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At high pressure, near the condensation point and at low temperature. For cylinders, high-pressure hydrogen or easily liquefied gases such as ammonia and chlorine, use a compressibility factor or property tables."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Gas Laws and the Ideal Gas Equation</h1>
+  <p class="article-meta">Basic chemistry &middot; PV = nRT and plant gas calculations &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Nitrogen for inerting, CO<sub>2</sub> from a quench, hydrogen in a hydrogenator, vapour in a tank vent: gases are handled on every plant, and almost every gas calculation is the same equation, PV = nRT, with the units sorted out. Most errors are not in the physics but in gauge versus absolute pressure, °C versus kelvin, and Nm³ versus actual m³. This page covers all three with worked examples.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#laws">The simple gas laws</a><span>Basics</span></li>
+    <li><a href="#pvnrt">The ideal gas equation</a><span>Basics</span></li>
+    <li><a href="#molar">Molar volume, Nm³ and actual m³</a><span>Basics</span></li>
+    <li><a href="#inert">Worked example: nitrogen for a pressure purge</a><span>Working level</span></li>
+    <li><a href="#dalton">Gas mixtures and partial pressure</a><span>Working level</span></li>
+    <li><a href="#density">Gas density and heavier-than-air vapours</a><span>Working level</span></li>
+    <li><a href="#heating">Closed vessels and temperature</a><span>Working level</span></li>
+    <li><a href="#real">When the ideal gas equation is not good enough</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="laws">The simple gas laws <span class="lvl l1">Basics</span></h2>
+<p>Early experiments found how a fixed amount of gas behaves when one property changes:</p>
+  <ul>
+    <li><strong>Boyle&rsquo;s law:</strong> at constant temperature, P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub>. Halve the volume and the pressure doubles.</li>
+    <li><strong>Charles&rsquo;s law:</strong> at constant pressure, V<sub>1</sub>/T<sub>1</sub> = V<sub>2</sub>/T<sub>2</sub>. Gas expands as it warms.</li>
+    <li><strong>Gay-Lussac&rsquo;s law:</strong> at constant volume, P<sub>1</sub>/T<sub>1</sub> = P<sub>2</sub>/T<sub>2</sub>. A closed vessel&rsquo;s pressure rises as it warms.</li>
+    <li><strong>Avogadro&rsquo;s law:</strong> equal volumes of gases at the same temperature and pressure contain the same number of moles.</li>
+  </ul>
+  <p>All four are parts of one equation.</p>
+  <h2 id="pvnrt">The ideal gas equation <span class="lvl l1">Basics</span></h2>
+<div class="formula-box">
+    PV = nRT
+    <small>P absolute pressure, V volume, n moles, T absolute temperature in kelvin (K = &deg;C + 273.15).</small>
+  </div>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Value of R</th><th>Units to use with it</th></tr></thead><tbody>
+    <tr><td>0.08314</td><td>bar&middot;m<sup>3</sup> / (kmol&middot;K)</td></tr>
+    <tr><td>8.314</td><td>kPa&middot;m<sup>3</sup> / (kmol&middot;K), or J / (mol&middot;K)</td></tr>
+    <tr><td>0.08206</td><td>atm&middot;L / (mol&middot;K), or atm&middot;m<sup>3</sup> / (kmol&middot;K)</td></tr>
+    <tr><td>1.987</td><td>cal / (mol&middot;K), or kcal / (kmol&middot;K)</td></tr>
+  </tbody></table></div>
+  <p>Two rules prevent most mistakes:</p>
+  <ul>
+    <li><strong>Temperature in kelvin.</strong> Using &deg;C gives nonsense, and division by zero at 0 &deg;C.</li>
+    <li><strong>Pressure absolute.</strong> Plant gauges read gauge pressure. Absolute = gauge + atmospheric, about 1.013 bar at sea level. A vessel at 2 bar(g) is at 3.013 bar(a). Vacuum gauges need the same care: 700 mmHg vacuum is 60 mmHg absolute.</li>
+  </ul>
+  <h2 id="molar">Molar volume, Nm³ and actual m³ <span class="lvl l1">Basics</span></h2>
+<p>One kilomole of any ideal gas occupies:</p>
+  <ul>
+    <li>22.41 m<sup>3</sup> at 0 &deg;C and 1.013 bar (the usual &ldquo;normal&rdquo; conditions, Nm<sup>3</sup>)</li>
+    <li>23.64 m<sup>3</sup> at 15 &deg;C and 1.013 bar (a common &ldquo;standard&rdquo; condition, Sm<sup>3</sup>)</li>
+    <li>24.47 m<sup>3</sup> at 25 &deg;C and 1.013 bar</li>
+  </ul>
+  <p>Normal and standard conditions are not defined the same way by every supplier or code. Always state the reference temperature and pressure next to a gas flow.</p>
+  <div class="formula-box">
+    Actual flow = Normal flow &times; (T / 273.15) &times; (1.013 / P<sub>abs</sub>)<br>
+    100 Nm<sup>3</sup>/h of nitrogen at 40 &deg;C and 0.5 bar(g): 100 &times; (313.15 / 273.15) &times; (1.013 / 1.513) = 76.8 m<sup>3</sup>/h actual
+    <small>Line sizing, velocity and flowmeter selection use the actual flow. Purchase, consumption and mass balance use the normal flow.</small>
+  </div>
+  <h2 id="inert">Worked example: nitrogen for a pressure purge <span class="lvl l2">Working level</span></h2>
+<p>A reactor has 5 m<sup>3</sup> of headspace at 25 &deg;C and atmospheric pressure. It is pressurised with nitrogen to 3 bar(g). How much nitrogen does one cycle use?</p>
+  <div class="formula-box">
+    n before = P V / R T = 1.013 &times; 5 / (0.08314 &times; 298.15) = 0.204 kmol<br>
+    n after = 4.013 &times; 5 / (0.08314 &times; 298.15) = 0.810 kmol<br>
+    Nitrogen added = 0.605 kmol = 16.9 kg = 13.6 Nm<sup>3</sup>
+    <small>If the vessel is then vented to atmosphere, the oxygen fraction falls by the pressure ratio, 1.013 / 4.013, about a quarter per cycle.</small>
+  </div>
+  <p>Three cycles take air at 20.9 percent oxygen down to about 0.3 percent, using about 41 Nm<sup>3</sup> of nitrogen. The <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and limiting oxygen concentration article</a> covers the target and the methods in detail.</p>
+  <h2 id="dalton">Gas mixtures and partial pressure <span class="lvl l2">Working level</span></h2>
+<p><strong>Dalton&rsquo;s law</strong>: in a gas mixture each component behaves as if it were alone, and the total pressure is the sum of the partial pressures. For an ideal mixture:</p>
+  <div class="formula-box">
+    p<sub>i</sub> = y<sub>i</sub> &times; P<sub>total</sub>
+    <small>y<sub>i</sub> is the mole fraction, which for ideal gases also equals the volume fraction. Air at 1.013 bar has an oxygen partial pressure of 0.209 &times; 1.013 = 0.212 bar.</small>
+  </div>
+  <p>Partial pressure is what drives gas solubility and reaction rate. Hydrogen at 5 bar(g) in a reactor whose headspace also holds solvent vapour has a hydrogen partial pressure lower than the gauge suggests. It is also why a vessel containing a volatile solvent shows a higher pressure than the gas alone would give: the solvent&rsquo;s vapour pressure adds to it.</p>
+  <h2 id="density">Gas density and heavier-than-air vapours <span class="lvl l2">Working level</span></h2>
+<div class="formula-box">
+    &rho; = P M / R T<br>
+    Air at 25 &deg;C, 1.013 bar: 1.013 &times; 28.96 / (0.08314 &times; 298.15) = 1.18 kg/m<sup>3</sup>
+    <small>M is the molar mass in kg/kmol. Doubling the pressure doubles the density; heating from 25 to 100 &deg;C lowers it by about a fifth.</small>
+  </div>
+  <p>The ratio of a vapour&rsquo;s molar mass to 28.96 tells you how it moves when released. Dichloromethane vapour (M = 84.9) is about three times as heavy as air, and toluene vapour (92.1) a little heavier still. These vapours flow along floors and collect in pits, trenches and drains, which is why gas detectors for them are mounted low and confined-space entry needs testing near the floor.</p>
+  <h2 id="heating">Closed vessels and temperature <span class="lvl l2">Working level</span></h2>
+<p>A closed receiver holds air at 1.013 bar(a) and 25 &deg;C. In the sun it reaches 55 &deg;C.</p>
+  <div class="formula-box">
+    P<sub>2</sub> = 1.013 &times; 328.15 / 298.15 = 1.115 bar(a), a rise of about 0.10 bar
+  </div>
+  <p>The gas alone gives only a small rise. If the vessel also contains a volatile solvent, the solvent&rsquo;s vapour pressure rises much faster with temperature and usually dominates. That is the reason tanks breathe and closed drums bulge; see <a href="{{ '/articles/storage-tank-breathing-losses/' | relative_url }}">storage tank breathing losses</a>.</p>
+  <h2 id="real">When the ideal gas equation is not good enough <span class="lvl l3">Going deeper</span></h2>
+<p>Real molecules have size and attract each other. The ideal gas equation works well for nitrogen, oxygen, hydrogen, argon and air at the pressures in most batch plants (up to roughly 10 bar) and ambient or higher temperatures. It becomes less accurate:</p>
+  <ul>
+    <li>at high pressure, such as gas cylinders and high-pressure hydrogenation;</li>
+    <li>near the condensation point, for vapours and for gases that liquefy easily such as ammonia, chlorine, CO<sub>2</sub> and propane;</li>
+    <li>at low temperature.</li>
+  </ul>
+  <p>The correction is the <strong>compressibility factor</strong>, PV = ZnRT, where Z = 1 for an ideal gas. Z comes from charts, an equation of state or property tables. For a hydrogen cylinder at about 200 bar, Z is roughly 1.1, so the ideal gas equation overestimates the contents by about 10 percent. For condensable gases, use property tables or vapour pressure data rather than PV = nRT.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why must temperature be in kelvin in PV = nRT?</h3>
+  <p>The gas laws are proportional to absolute temperature, which starts at zero kelvin. Using °C gives wrong ratios, and at 0 °C would divide by zero. Add 273.15 to the Celsius value.</p>
+  <h3>What is the difference between Nm³ and m³?</h3>
+  <p>Nm³ is the volume the gas would occupy at normal conditions, usually 0 °C and 1.013 bar, and measures an amount of gas. Actual m³ is the volume at the real line temperature and pressure, and is what you use for line sizing and velocity.</p>
+  <h3>How much nitrogen does a pressure purge use?</h3>
+  <p>Calculate the moles in the headspace before and after pressurising with PV = nRT, using absolute pressures. For 5 m³ taken from atmospheric to 3 bar(g) at 25 °C, one cycle uses about 0.6 kmol, or 13.6 Nm³.</p>
+  <h3>When is the ideal gas equation not accurate?</h3>
+  <p>At high pressure, near the condensation point and at low temperature. For cylinders, high-pressure hydrogen or easily liquefied gases such as ammonia and chlorine, use a compressibility factor or property tables.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Himmelblau and Riggs, <i>Basic Principles and Calculations in Chemical Engineering</i>, 8th ed., Prentice Hall, 2012</li>
+    <li>Smith, Van Ness and Abbott, <i>Introduction to Chemical Engineering Thermodynamics</i>, 8th ed., McGraw-Hill, 2017 (compressibility)</li>
+    <li>Perry&rsquo;s <i>Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019</li>
+    <li>NIST Chemistry WebBook, thermophysical properties of fluids, <a href="https://webbook.nist.gov/chemistry/fluid/">webbook.nist.gov</a></li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and limiting oxygen concentration</a>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/articles/storage-tank-breathing-losses/' | relative_url }}">Storage tank breathing losses</a>
+    <a href="{{ '/articles/mole-concept-and-stoichiometry/' | relative_url }}">Mole concept and stoichiometry</a>
+    <a href="{{ '/calculators/tank-vent-sizing/' | relative_url }}">Tank vent sizing</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

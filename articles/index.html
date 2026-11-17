@@ -10,7 +10,7 @@ page_search:
   groups: '.art-group'
   heads: ''
   placeholder: "Search articles: e.g. HAZOP, distillation, scrubber"
-last_modified_at: 2026-11-06
+last_modified_at: 2026-11-17
 ---
 
 <style>.art-students{background:var(--panel);border:1px solid var(--grid-line);border-left:4px solid var(--brass);border-radius:0 8px 8px 0;padding:10px 14px;margin:0 0 18px;color:var(--paper)}.art-students a{color:var(--brass)}.art-start{margin-bottom:28px}.art-start h2{font-size:1.15rem;margin:0 0 10px}.art-start ol{margin:0;padding-left:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:6px 28px}.art-start li{color:var(--muted);line-height:1.5}.art-start a{color:var(--paper);font-weight:600;margin-right:6px}.art-start a:hover{color:var(--brass)}.art-start span{font-size:.86rem}.art-group{margin:8px 0 36px;scroll-margin-top:130px}.art-group h2{font-size:1.25rem;margin:0 0 14px}.art-group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.art-group-nav a{font-size:.82rem;padding:5px 12px;border:1px solid var(--line,#2a3440);border-radius:999px;color:inherit;text-decoration:none}.art-group-nav a:hover{border-color:currentColor}.tool-card .art-new{font-size:.7rem;font-weight:600;color:var(--brass);margin-left:6px;vertical-align:middle}</style>
@@ -18,6 +18,7 @@ last_modified_at: 2026-11-06
   <h1>Chemical &amp; Pharmaceutical Engineering Articles</h1>
   <p>Plain explanations that start from the basics and go deep, with worked examples, interactive figures and notes from the plant floor.</p>
   <nav class="art-group-nav" aria-label="Article areas">
+    <a href="#basic-chemistry">Basic chemistry</a>
     <a href="#process-safety">Process safety</a>
     <a href="#scale-up-reaction-engineering">Scale-up &amp; reaction engineering</a>
     <a href="#technology-transfer-case-study">Technology transfer &amp; scale-up</a>
@@ -32,7 +33,7 @@ last_modified_at: 2026-11-06
   </nav>
 </div>
 <div class="container art-start">
-  <p class="art-students">In class 12 and deciding? Read <a href="{{ '/articles/why-choose-chemical-engineering/' | relative_url }}">Why choose chemical engineering?</a> &middot; Starting your first job? Take the free <a href="{{ '/freshers/industry-readiness-score/' | relative_url }}">industry readiness score</a>.</p>
+  <p class="art-students">In class 12 and deciding? Read <a href="{{ '/articles/why-choose-chemical-engineering/' | relative_url }}">Why choose chemical engineering?</a> &middot; Need a chemistry refresher? Start with <a href="#basic-chemistry">Basic chemistry</a>. &middot; Starting your first job? Take the free <a href="{{ '/freshers/industry-readiness-score/' | relative_url }}">industry readiness score</a>.</p>
   <h2>New here? Start with these six</h2>
   <ol>
       <li><a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and Energy Balance</a><span>the habit behind every other calculation</span></li>
@@ -216,6 +217,62 @@ last_modified_at: 2026-11-06
       <h3>Solar and Renewables for Industrial Plants</h3>
       <p>Rooftop, captive, group captive and open access solar: net metering, a worked payback, sizing and plant safety checks.</p>
       <a href="{{ '/articles/solar-and-renewables-for-industrial-plants/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    </div>
+  </section>
+  <section class="art-group" id="basic-chemistry">
+    <h2>Basic chemistry</h2>
+    <p style="color:var(--muted);margin:-6px 0 14px">A refresher on the chemistry behind plant calculations, written for engineers. Start at the top if it has been a while.</p>
+    <div class="grid-cards">
+    <div class="tool-card">
+      <h3>Atomic Structure and the Periodic Table <span class="art-new">New</span></h3>
+      <p>Isotopes and atomic mass, valence electrons, periodic trends, and an element balance from solvent to scrubber.</p>
+      <a href="{{ '/articles/atomic-structure-and-periodic-table/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Chemical Bonding Basics <span class="art-new">New</span></h3>
+      <p>Ionic, covalent and hydrogen bonds, polarity and solvent choice, and bond energies as a first estimate of reaction heat.</p>
+      <a href="{{ '/articles/chemical-bonding-basics/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Mole Concept and Stoichiometry <span class="art-new">New</span></h3>
+      <p>Kilomoles, limiting reagent, excess and yield, worked through a full batch, plus gas evolved from a quench.</p>
+      <a href="{{ '/articles/mole-concept-and-stoichiometry/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Acids, Bases and pH<span class="art-new">New</span></h3>
+      <p>pH and pKa, buffers, choosing the wash pH to move a product between layers, and neutralisation heat.</p>
+      <a href="{{ '/articles/acids-bases-and-ph/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Chemical Equilibrium Basics <span class="art-new">New</span></h3>
+      <p>K, Le Chatelier, how temperature moves K, solubility products, and how to tell a stalled batch from a slow one.</p>
+      <a href="{{ '/articles/chemical-equilibrium-basics/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Oxidation States and Redox <span class="art-new">New</span></h3>
+      <p>Oxidation numbers, balancing by half-equations, sizing a peroxide quench, COD from a formula, oxidiser hazards.</p>
+      <a href="{{ '/articles/oxidation-states-and-redox-reactions/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Solutions and Concentration Units <span class="art-new">New</span></h3>
+      <p>Percent, molarity, normality and ppm, converting with density, and dilution of plant acids and lyes.</p>
+      <a href="{{ '/articles/solutions-and-concentration-units/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Gas Laws and the Ideal Gas Equation <span class="art-new">New</span></h3>
+      <p>PV = nRT with gauge and absolute pressure, Nm³ versus actual m³, nitrogen for a pressure purge, gas density.</p>
+      <a href="{{ '/articles/gas-laws-and-ideal-gas-equation/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Organic Nomenclature and Functional Groups <span class="art-new">New</span></h3>
+      <p>Reading IUPAC and plant names, the main functional groups with their hazards, isomers and chirality.</p>
+      <a href="{{ '/articles/organic-nomenclature-and-functional-groups/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
+    </div>
+    <div class="tool-card">
+      <h3>Thermochemistry and Heat of Reaction <span class="art-new">New</span></h3>
+      <p>Specific and latent heat in kcal, Hess’s law, a worked heat of reaction and the adiabatic temperature rise.</p>
+      <a href="{{ '/articles/thermochemistry-and-heat-of-reaction/' | relative_url }}" class="btn btn-outline btn-sm">Read Article</a>
     </div>
     </div>
   </section>

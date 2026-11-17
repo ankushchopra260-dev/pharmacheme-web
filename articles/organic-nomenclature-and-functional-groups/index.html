@@ -1,0 +1,195 @@
+---
+layout: default
+title: "Organic Nomenclature and Functional Groups for Chemical Engineers: Names, Structures and Hazards"
+seo_title: "Organic Nomenclature and Functional Groups | PharmaChemE"
+description: "IUPAC naming basics, common solvent and reagent names decoded, the main functional groups and what each means for reactivity and hazards, isomers and chirality."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Organic Nomenclature and Functional Groups
+    url: /articles/organic-nomenclature-and-functional-groups/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Organic Nomenclature and Functional Groups for Chemical Engineers: Names, Structures and Hazards",
+        "description": "IUPAC naming basics, common solvent and reagent names decoded, the main functional groups and what each means for reactivity and hazards, isomers and chirality.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I name a simple organic compound?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Find the longest carbon chain containing the main functional group, number it so that group gets the lowest number, name the side groups with their positions in alphabetical order, and add the ending for the main group, such as -ol for an alcohol or -one for a ketone."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a functional group?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An atom or group of atoms attached to the carbon skeleton that decides how the molecule reacts, for example an OH in alcohols, a C=O in ketones or an NH2 in primary amines. Compounds with the same functional group behave in similar ways."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which functional groups are hazardous to scale up?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Groups that store a lot of energy, such as nitro, azide, diazo, peroxide, N-oxide and acetylene, and reagents that react violently with water, such as acid chlorides. These need thermal screening and careful quench design before scale-up."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do enantiomers matter in pharma?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Mirror-image forms of a molecule have the same physical properties but can have different effects in the body. Many drugs are specified as a single enantiomer, so chiral purity becomes a release test and racemisation becomes a process risk."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Organic Nomenclature and Functional Groups</h1>
+  <p class="article-meta">Basic chemistry &middot; Names, structures and reactive groups &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A route sheet from R&amp;D is written in structures and names: 4-methyl-2-pentanone, N,N-dimethylformamide, a tert-butyl carbamate. An engineer who can read them knows straight away which steps will release gas, which streams are flammable, which layer the product sits in and which intermediates need a thermal screen. You do not need to be an organic chemist for that, only to know the naming rules and the main functional groups.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#carbon">Why carbon chemistry is its own subject</a><span>Basics</span></li>
+    <li><a href="#hydrocarbons">Hydrocarbons and the counting prefixes</a><span>Basics</span></li>
+    <li><a href="#iupac">Reading and building an IUPAC name</a><span>Basics</span></li>
+    <li><a href="#groups">The main functional groups</a><span>Working level</span></li>
+    <li><a href="#energetic">Groups that need a thermal screen</a><span>Working level</span></li>
+    <li><a href="#isomers">Isomers and chirality</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="carbon">Why carbon chemistry is its own subject <span class="lvl l1">Basics</span></h2>
+<p>Carbon forms four bonds and bonds strongly to itself, so it builds chains, branches and rings of almost any size. Millions of compounds are possible from a handful of elements: carbon, hydrogen, oxygen, nitrogen, halogens, sulfur and phosphorus. The skeleton of carbon and hydrogen carries the bulk of the molecule; the <strong>functional groups</strong> attached to it decide how it reacts.</p>
+  <p>Chemists draw structures as <strong>skeletal formulas</strong>: each corner and line end is a carbon, hydrogens on carbon are not drawn, and every other atom is written in. The <a href="{{ '/molecules/structure/' | relative_url }}">molecule structure tool</a> draws one from a name or SMILES string and gives the formula and molar mass.</p>
+  <h2 id="hydrocarbons">Hydrocarbons and the counting prefixes <span class="lvl l1">Basics</span></h2>
+<p>The name of a carbon chain starts with a prefix for the number of carbons:</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Carbons</th><th>Prefix</th><th>Alkane</th><th>Carbons</th><th>Prefix</th><th>Alkane</th></tr></thead><tbody>
+    <tr><td>1</td><td>meth-</td><td>methane</td><td>6</td><td>hex-</td><td>hexane</td></tr>
+    <tr><td>2</td><td>eth-</td><td>ethane</td><td>7</td><td>hept-</td><td>heptane</td></tr>
+    <tr><td>3</td><td>prop-</td><td>propane</td><td>8</td><td>oct-</td><td>octane</td></tr>
+    <tr><td>4</td><td>but-</td><td>butane</td><td>9</td><td>non-</td><td>nonane</td></tr>
+    <tr><td>5</td><td>pent-</td><td>pentane</td><td>10</td><td>dec-</td><td>decane</td></tr>
+  </tbody></table></div>
+  <p>The ending tells you the bonding: <strong>-ane</strong> for only single bonds (alkanes), <strong>-ene</strong> for a C=C double bond (alkenes), <strong>-yne</strong> for a triple bond (alkynes). A six-membered ring with alternating double bonds is <strong>benzene</strong>, the parent of the aromatic compounds: toluene is methylbenzene, xylene is dimethylbenzene.</p>
+  <h2 id="iupac">Reading and building an IUPAC name <span class="lvl l1">Basics</span></h2>
+<ol>
+    <li>Find the longest carbon chain that contains the main functional group. It gives the parent name.</li>
+    <li>Number the chain so the main group gets the lowest number.</li>
+    <li>Name the side groups (methyl, ethyl, chloro, bromo, nitro) with their positions, in alphabetical order.</li>
+    <li>Add the ending for the main group: -ol for an alcohol, -one for a ketone, -oic acid for an acid.</li>
+  </ol>
+  <div class="formula-box">
+    CH<sub>3</sub>&ndash;CO&ndash;CH<sub>2</sub>&ndash;CH(CH<sub>3</sub>)&ndash;CH<sub>3</sub><br>
+    Longest chain: five carbons (pent-) &middot; ketone on carbon 2 (-2-one) &middot; methyl on carbon 4<br>
+    Name: 4-methylpentan-2-one, sold as methyl isobutyl ketone (MIBK)
+  </div>
+  <p>Plants mostly use trade or trivial names and abbreviations. The table below decodes the common ones.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Plant name</th><th>Systematic name</th><th>Type</th></tr></thead><tbody>
+    <tr><td>Acetone</td><td>propan-2-one</td><td>Ketone</td></tr>
+    <tr><td>IPA, isopropanol</td><td>propan-2-ol</td><td>Alcohol</td></tr>
+    <tr><td>MEK</td><td>butan-2-one</td><td>Ketone</td></tr>
+    <tr><td>MDC, DCM, methylene chloride</td><td>dichloromethane</td><td>Halide</td></tr>
+    <tr><td>EDC</td><td>1,2-dichloroethane</td><td>Halide</td></tr>
+    <tr><td>THF</td><td>oxolane (tetrahydrofuran)</td><td>Cyclic ether</td></tr>
+    <tr><td>MTBE</td><td>2-methoxy-2-methylpropane</td><td>Ether</td></tr>
+    <tr><td>Ethyl acetate</td><td>ethyl ethanoate</td><td>Ester</td></tr>
+    <tr><td>Acetonitrile</td><td>ethanenitrile</td><td>Nitrile</td></tr>
+    <tr><td>DMF</td><td>N,N-dimethylformamide</td><td>Amide</td></tr>
+    <tr><td>DMSO</td><td>dimethyl sulfoxide</td><td>Sulfoxide</td></tr>
+    <tr><td>Acetic acid</td><td>ethanoic acid</td><td>Carboxylic acid</td></tr>
+  </tbody></table></div>
+  <h2 id="groups">The main functional groups <span class="lvl l2">Working level</span></h2>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Group</th><th>Structure</th><th>Example</th><th>What to watch on the plant</th></tr></thead><tbody>
+    <tr><td>Alkene</td><td>C=C</td><td>Styrene</td><td>Can polymerise with heat; inhibitor level matters in storage</td></tr>
+    <tr><td>Aromatic ring</td><td>benzene ring</td><td>Toluene</td><td>Stable ring; substitution reactions (nitration, halogenation) are strongly exothermic</td></tr>
+    <tr><td>Alkyl halide</td><td>C&ndash;Cl, C&ndash;Br, C&ndash;I</td><td>Benzyl chloride</td><td>Alkylating agents, often toxic; release HX on hydrolysis or burning</td></tr>
+    <tr><td>Alcohol</td><td>C&ndash;OH</td><td>Methanol</td><td>Flammable; hydrogen bonds, mixes with water if small</td></tr>
+    <tr><td>Phenol</td><td>OH on a ring</td><td>Phenol</td><td>Weakly acidic (pK<sub>a</sub> about 10), toxic through the skin</td></tr>
+    <tr><td>Ether</td><td>C&ndash;O&ndash;C</td><td>THF, diethyl ether</td><td>Very flammable; some form explosive peroxides on storage</td></tr>
+    <tr><td>Aldehyde</td><td>&ndash;CHO</td><td>Benzaldehyde</td><td>Oxidises in air to the acid; reactive</td></tr>
+    <tr><td>Ketone</td><td>C&ndash;CO&ndash;C</td><td>Acetone</td><td>Flammable solvent; stable</td></tr>
+    <tr><td>Carboxylic acid</td><td>&ndash;COOH</td><td>Acetic acid</td><td>Acidic (pK<sub>a</sub> 4 to 5); moves into water above about pH 7</td></tr>
+    <tr><td>Ester</td><td>&ndash;COO&ndash;</td><td>Ethyl acetate</td><td>Hydrolyses in strong acid or base</td></tr>
+    <tr><td>Amide</td><td>&ndash;CONH&ndash;</td><td>DMF</td><td>Very stable; DMF decomposes with some strong reagents (NaH, POCl<sub>3</sub>)</td></tr>
+    <tr><td>Amine</td><td>&ndash;NH<sub>2</sub>, &ndash;NHR, &ndash;NR<sub>2</sub></td><td>Triethylamine</td><td>Basic, odorous, corrosive to copper and brass</td></tr>
+    <tr><td>Nitrile</td><td>&ndash;C&equiv;N</td><td>Acetonitrile</td><td>Can release HCN in some conditions; stable as a solvent</td></tr>
+    <tr><td>Acid chloride</td><td>&ndash;COCl</td><td>Acetyl chloride</td><td>Reacts violently with water, gives HCl</td></tr>
+    <tr><td>Anhydride</td><td>&ndash;CO&ndash;O&ndash;CO&ndash;</td><td>Acetic anhydride</td><td>Reacts with water exothermically, slower than acid chlorides</td></tr>
+    <tr><td>Nitro</td><td>&ndash;NO<sub>2</sub></td><td>Nitrobenzene</td><td>Energetic; can decompose violently when hot; screen by DSC</td></tr>
+    <tr><td>Sulfonic acid</td><td>&ndash;SO<sub>3</sub>H</td><td>p-Toluenesulfonic acid</td><td>Strong acid, used as a catalyst</td></tr>
+    <tr><td>Thiol</td><td>&ndash;SH</td><td>Ethanethiol</td><td>Strong smell at very low levels; odour complaints</td></tr>
+  </tbody></table></div>
+  <p>Amines and alcohols are further classed as <strong>primary, secondary or tertiary</strong> by how many carbons are attached to the nitrogen, or to the carbon bearing the OH. It matters: tertiary alcohols dehydrate easily in acid, and primary amines react where tertiary ones cannot.</p>
+  <h2 id="energetic">Groups that need a thermal screen <span class="lvl l2">Working level</span></h2>
+<p>Some groups store a lot of energy and can decompose fast, with heat and gas. When any of these appear on a route sheet, ask for DSC data before scale-up:</p>
+  <ul>
+    <li>Nitro and nitrate esters</li>
+    <li>Azides, diazo compounds and diazonium salts</li>
+    <li>Peroxides and peracids</li>
+    <li>N-oxides and hydroxylamines</li>
+    <li>Acetylenes and metal acetylides</li>
+    <li>Hydrazines and some N&ndash;N rich rings such as tetrazoles and triazoles</li>
+  </ul>
+  <p>See <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">how to read DSC, ARC and RC1 data</a> and <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">hazardous reagents and quench</a>.</p>
+  <h2 id="isomers">Isomers and chirality <span class="lvl l3">Going deeper</span></h2>
+<p><strong>Isomers</strong> have the same formula but different structures, and so different properties.</p>
+  <ul>
+    <li><strong>Structural isomers</strong> have a different connection of atoms. Ethanol and dimethyl ether are both C<sub>2</sub>H<sub>6</sub>O; one is a liquid that mixes with water, the other a gas.</li>
+    <li><strong>Positional isomers</strong> on a ring are called ortho, meta and para (1,2-, 1,3- and 1,4-). Nitration of toluene gives a mixture, and separating the isomers is often the hardest step.</li>
+    <li><strong>Cis and trans (or E and Z)</strong> isomers differ in the arrangement around a double bond.</li>
+    <li><strong>Enantiomers</strong> are mirror images, like left and right hands, found when a carbon carries four different groups. They have identical physical properties but can act differently in the body, so many drugs are made and specified as one enantiomer, labelled R or S. Chiral purity is then a release test, and racemisation (loss of one hand) is a process risk.</li>
+  </ul>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do I name a simple organic compound?</h3>
+  <p>Find the longest carbon chain containing the main functional group, number it so that group gets the lowest number, name the side groups with their positions in alphabetical order, and add the ending for the main group, such as -ol for an alcohol or -one for a ketone.</p>
+  <h3>What is a functional group?</h3>
+  <p>An atom or group of atoms attached to the carbon skeleton that decides how the molecule reacts, for example an OH in alcohols, a C=O in ketones or an NH2 in primary amines. Compounds with the same functional group behave in similar ways.</p>
+  <h3>Which functional groups are hazardous to scale up?</h3>
+  <p>Groups that store a lot of energy, such as nitro, azide, diazo, peroxide, N-oxide and acetylene, and reagents that react violently with water, such as acid chlorides. These need thermal screening and careful quench design before scale-up.</p>
+  <h3>Why do enantiomers matter in pharma?</h3>
+  <p>Mirror-image forms of a molecule have the same physical properties but can have different effects in the body. Many drugs are specified as a single enantiomer, so chiral purity becomes a release test and racemisation becomes a process risk.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>IUPAC, <i>Nomenclature of Organic Chemistry: IUPAC Recommendations and Preferred Names 2013</i>, Royal Society of Chemistry, 2014</li>
+    <li>Clayden, Greeves and Warren, <i>Organic Chemistry</i>, 2nd ed., Oxford University Press, 2012</li>
+    <li>Urben (ed.), <i>Bretherick&rsquo;s Handbook of Reactive Chemical Hazards</i>, Elsevier (energetic groups)</li>
+    <li>Anderson, <i>Practical Process Research and Development</i>, 2nd ed., Academic Press, 2012</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/common-chemical-reactions-in-plants/' | relative_url }}">Common chemical reactions in plants</a>
+    <a href="{{ '/molecules/structure/' | relative_url }}">Molecule structure tool</a>
+    <a href="{{ '/molecules/reaction-lab/' | relative_url }}">Reaction Lab</a>
+    <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read DSC, ARC and RC1 data</a>
+    <a href="{{ '/articles/chemical-bonding-basics/' | relative_url }}">Chemical bonding basics</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

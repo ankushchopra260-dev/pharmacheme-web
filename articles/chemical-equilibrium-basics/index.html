@@ -1,0 +1,175 @@
+---
+layout: default
+title: "Chemical Equilibrium Basics for Chemical Engineers: K, Le Chatelier and Temperature"
+seo_title: "Chemical Equilibrium Basics: K and Le Chatelier | PharmaChemE"
+description: "What equilibrium is, how to use K, Le Chatelier in the plant, why temperature moves K, solubility products, and how to tell a stalled batch from a slow one."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Chemical Equilibrium Basics
+    url: /articles/chemical-equilibrium-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Chemical Equilibrium Basics for Chemical Engineers: K, Le Chatelier and Temperature",
+        "description": "What equilibrium is, how to use K, Le Chatelier in the plant, why temperature moves K, solubility products, and how to tell a stalled batch from a slow one.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does a catalyst change the equilibrium?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. A catalyst speeds up the forward and reverse reactions equally, so equilibrium is reached faster but at the same composition. Only temperature changes the equilibrium constant itself."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does heating reduce the yield of some reactions?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For an exothermic reversible reaction, the equilibrium constant falls as temperature rises, so less product is present at equilibrium. The reaction is faster when hot but stops earlier."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the equilibrium constant used for?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It tells you how far a reaction can go at a given temperature and feed ratio. From K you can calculate the maximum conversion, and how much excess reagent or product removal is needed to reach a target."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I know if my batch has stalled at equilibrium?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compare the final conversion with the calculated equilibrium value, approach it from the product side in the lab, or spike in a little product. If conversion falls back, the batch is at equilibrium."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Chemical Equilibrium Basics</h1>
+  <p class="article-meta">Basic chemistry &middot; K, Le Chatelier and temperature &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A batch that stops short of completion and will not move, however long it is held, is often not a fault at all. It has reached equilibrium. Knowing that is worth a great deal of steam and reactor time, because the fix is never to wait longer. This page covers what equilibrium is, how to calculate where it lies, and which levers move it.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#what">What equilibrium is</a><span>Basics</span></li>
+    <li><a href="#k">The equilibrium constant K</a><span>Basics</span></li>
+    <li><a href="#worked">Worked example: how far will it go?</a><span>Working level</span></li>
+    <li><a href="#lechatelier">Le Chatelier&rsquo;s principle on the plant</a><span>Basics</span></li>
+    <li><a href="#temp">Temperature changes K itself</a><span>Working level</span></li>
+    <li><a href="#solubility">Equilibrium beyond reactions: solubility and phases</a><span>Working level</span></li>
+    <li><a href="#diagnose">Equilibrium or just slow? How to tell</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="what">What equilibrium is <span class="lvl l1">Basics</span></h2>
+<p>Many reactions run in both directions at once. At the start the forward reaction is fast because there is plenty of reactant. As product builds up the reverse reaction speeds up, until the two rates match. From then on the composition stops changing, although molecules are still reacting both ways. This is <strong>dynamic equilibrium</strong>, shown with a double arrow: A + B &#8652; C + D.</p>
+  <p>Two points that are often confused:</p>
+  <ul>
+    <li><strong>Equilibrium is not the same as completion.</strong> It can lie far towards products (the reaction looks complete), far towards reactants (hardly anything happens), or anywhere between.</li>
+    <li><strong>A catalyst does not move it.</strong> A catalyst speeds up both directions equally, so equilibrium is reached sooner, but at the same composition.</li>
+  </ul>
+  <h2 id="k">The equilibrium constant K <span class="lvl l1">Basics</span></h2>
+<p>For a reaction aA + bB &#8652; cC + dD, the ratio below has a fixed value at a given temperature, whatever amounts you start with.</p>
+  <div class="formula-box">
+    K = [C]<sup>c</sup> [D]<sup>d</sup> / ( [A]<sup>a</sup> [B]<sup>b</sup> )
+    <small>Concentrations at equilibrium. For gases partial pressures are used instead, giving K<sub>p</sub>. Pure solids and pure liquids such as a solid catalyst or a solvent in large excess are left out.</small>
+  </div>
+  <ul>
+    <li>K much larger than 1 (say above 1,000): products dominate, the reaction goes essentially to completion.</li>
+    <li>K much smaller than 1 (say below 0.001): reactants dominate; little product forms unless you remove it.</li>
+    <li>K between about 0.001 and 1,000: a real mixture at the end, and the plant has to work for its conversion.</li>
+  </ul>
+  <h2 id="worked">Worked example: how far will it go? <span class="lvl l2">Working level</span></h2>
+<p>Take an isomerisation A &#8652; B with K = 3 at the reaction temperature. Start with 1 mol of A and let x mol convert.</p>
+  <div class="formula-box">
+    K = x / (1 &minus; x) = 3 &rarr; x = 0.75
+    <small>The batch stops at 75 percent conversion whatever the hold time or catalyst load.</small>
+  </div>
+  <p>For a reaction with two reactants and two products, A + B &#8652; C + D, the answer depends on the feed ratio, so an excess of one reactant pushes conversion of the other higher. The <a href="{{ '/articles/esterification-and-hydrolysis/' | relative_url }}">esterification article</a> works through this case with real numbers: about 67 percent at a 1 : 1 feed with K near 4, about 90 percent with a threefold excess.</p>
+  <h2 id="lechatelier">Le Chatelier&rsquo;s principle on the plant <span class="lvl l1">Basics</span></h2>
+<p>If you disturb a system at equilibrium, it shifts to oppose the disturbance. In practice there are four levers.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Change</th><th>What the equilibrium does</th><th>Plant example</th></tr></thead><tbody>
+    <tr><td>Add more reactant</td><td>Shifts towards products</td><td>Excess alcohol in an esterification</td></tr>
+    <tr><td>Remove a product</td><td>Shifts towards products</td><td>Dean-Stark water removal, distilling off a low-boiling product, venting a gas</td></tr>
+    <tr><td>Raise the pressure (gas reactions)</td><td>Shifts towards the side with fewer gas moles</td><td>High pressure for hydrogenations and ammonia synthesis</td></tr>
+    <tr><td>Raise the temperature</td><td>Shifts in the endothermic direction</td><td>An exothermic reaction gives less product at equilibrium when hot</td></tr>
+  </tbody></table></div>
+  <p>Adding an inert solvent or nitrogen does not change K, but it can change concentrations or partial pressures and so the position of a reaction where the number of moles changes.</p>
+  <h2 id="temp">Temperature changes K itself <span class="lvl l2">Working level</span></h2>
+<p>Concentration and pressure move the composition but leave K the same. Temperature changes K. The van &rsquo;t Hoff equation gives the size of the change.</p>
+  <div class="formula-box">
+    ln(K<sub>2</sub>/K<sub>1</sub>) = &minus;(&Delta;H / R) &times; (1/T<sub>2</sub> &minus; 1/T<sub>1</sub>)<br>
+    Example: &Delta;H = &minus;10 kcal/mol, K = 100 at 25 &deg;C. At 85 &deg;C:<br>
+    ln(K<sub>2</sub>/100) = (10,000 / 1.987) &times; (1/358.15 &minus; 1/298.15) = &minus;2.83 &rarr; K<sub>2</sub> &asymp; 5.9
+    <small>R = 1.987 cal/mol&middot;K, temperatures in kelvin. Assumes &Delta;H roughly constant over the range.</small>
+  </div>
+  <p>This is the central trade-off for exothermic reversible reactions. Heating makes the reaction faster but lowers the conversion it can reach. A common answer is to run hot at the start for rate, then cool towards the end to collect the better equilibrium, or to remove product continuously so that equilibrium is never reached.</p>
+  <h2 id="solubility">Equilibrium beyond reactions: solubility and phases <span class="lvl l2">Working level</span></h2>
+<p>The same idea governs solubility, vapour&ndash;liquid behaviour and partition between layers. A saturated solution is an equilibrium between the solid and the dissolved form. For a sparingly soluble salt this is written as a <strong>solubility product</strong>, K<sub>sp</sub>.</p>
+  <div class="formula-box">
+    CaSO<sub>4</sub>(s) &#8652; Ca<sup>2+</sup> + SO<sub>4</sub><sup>2&minus;</sup> &nbsp;&nbsp; K<sub>sp</sub> = [Ca<sup>2+</sup>][SO<sub>4</sub><sup>2&minus;</sup>] &asymp; 4.9 &times; 10<sup>&minus;5</sup> at 25 &deg;C<br>
+    Simple estimate: solubility = &radic;K<sub>sp</sub> = 7.0 &times; 10<sup>&minus;3</sup> mol/L &asymp; 1.0 g/L
+    <small>The measured solubility of gypsum is close to 2 g/L, because ions in solution pair up and interact. Use measured data for design and the K<sub>sp</sub> estimate for direction.</small>
+  </div>
+  <p>The useful consequence is the <strong>common ion effect</strong>. Adding sulfate or calcium from another source lowers the solubility further, which is why calcium sulfate scale forms in cooling towers and evaporators as the water concentrates. The same principle is used deliberately when a product is salted out with sodium chloride. For crystallisation, see <a href="{{ '/articles/solubility-curve-and-crystallisation-yield/' | relative_url }}">solubility curves and crystallisation yield</a>.</p>
+  <h2 id="diagnose">Equilibrium or just slow? How to tell <span class="lvl l3">Going deeper</span></h2>
+<p>Both look the same on a trend: conversion that creeps and then stops. They need opposite fixes, so it is worth separating them.</p>
+  <ul>
+    <li><strong>Check the end point against a calculation.</strong> If it matches the equilibrium conversion for the feed ratio and temperature, the reaction is doing what thermodynamics allows.</li>
+    <li><strong>Try the reverse.</strong> In the lab, start from the products. If the mixture moves back to the same composition, that is equilibrium.</li>
+    <li><strong>Spike test.</strong> Add a little extra of a product. At equilibrium, conversion falls back. If the reaction was merely slow, it carries on unchanged.</li>
+    <li><strong>Add catalyst or raise the temperature briefly.</strong> A slow reaction speeds up and goes further. An equilibrium speeds up but stops at the same place, or lower if the reaction is exothermic.</li>
+  </ul>
+  <p>If it is equilibrium, the levers are excess reagent, product removal and temperature. If it is slow, they are catalyst, temperature, mixing and concentration. The <a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">conversion and yield article</a> has a full troubleshooting table.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Does a catalyst change the equilibrium?</h3>
+  <p>No. A catalyst speeds up the forward and reverse reactions equally, so equilibrium is reached faster but at the same composition. Only temperature changes the equilibrium constant itself.</p>
+  <h3>Why does heating reduce the yield of some reactions?</h3>
+  <p>For an exothermic reversible reaction, the equilibrium constant falls as temperature rises, so less product is present at equilibrium. The reaction is faster when hot but stops earlier.</p>
+  <h3>What is the equilibrium constant used for?</h3>
+  <p>It tells you how far a reaction can go at a given temperature and feed ratio. From K you can calculate the maximum conversion, and how much excess reagent or product removal is needed to reach a target.</p>
+  <h3>How do I know if my batch has stalled at equilibrium?</h3>
+  <p>Compare the final conversion with the calculated equilibrium value, approach it from the product side in the lab, or spike in a little product. If conversion falls back, the batch is at equilibrium.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Atkins and de Paula, <i>Physical Chemistry</i>, Oxford University Press (chemical equilibrium, van &rsquo;t Hoff equation)</li>
+    <li>Smith, Van Ness and Abbott, <i>Introduction to Chemical Engineering Thermodynamics</i>, 8th ed., McGraw-Hill, 2017</li>
+    <li>Levenspiel, <i>Chemical Reaction Engineering</i>, 3rd ed., Wiley, 1999</li>
+    <li>Haynes (ed.), <i>CRC Handbook of Chemistry and Physics</i>, CRC Press (solubility products)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/esterification-and-hydrolysis/' | relative_url }}">Esterification and hydrolysis</a>
+    <a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">Improve reaction conversion and yield</a>
+    <a href="{{ '/articles/acids-bases-and-ph/' | relative_url }}">Acids, bases and pH</a>
+    <a href="{{ '/articles/solubility-curve-and-crystallisation-yield/' | relative_url }}">Solubility curve and crystallisation yield</a>
+    <a href="{{ '/articles/thermochemistry-and-heat-of-reaction/' | relative_url }}">Thermochemistry and heat of reaction</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

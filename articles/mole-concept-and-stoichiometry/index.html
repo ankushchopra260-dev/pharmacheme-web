@@ -1,0 +1,183 @@
+---
+layout: default
+title: "Mole Concept and Stoichiometry for Chemical Engineers: Limiting Reagent, Excess and Yield"
+seo_title: "Mole Concept and Stoichiometry for Engineers | PharmaChemE"
+description: "Moles, kilomoles and molar mass, balancing equations, limiting reagent, percent excess, theoretical and actual yield, with a worked batch example in kg."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Mole Concept and Stoichiometry
+    url: /articles/mole-concept-and-stoichiometry/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Mole Concept and Stoichiometry for Chemical Engineers: Limiting Reagent, Excess and Yield",
+        "description": "Moles, kilomoles and molar mass, balancing equations, limiting reagent, percent excess, theoretical and actual yield, with a worked batch example in kg.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between a mole and a kilomole?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A kilomole is 1,000 moles. The molar mass in g/mol is numerically the same as kg/kmol, so dividing kilograms by the molar mass gives kilomoles directly, which is convenient on a plant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I find the limiting reagent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Convert each reactant to moles, divide by its coefficient in the balanced equation, and the smallest result is the limiting reagent. It decides the theoretical yield."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does 1.2 equivalents mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It means 1.2 moles of that reagent for every mole of the limiting starting material. It is a mole ratio, not a mass ratio."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does my yield come out above 100 percent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually the product is still wet, contains solvent or inorganic salt, or the starting material was charged on the wrong basis. Recalculate on a dry, assay-corrected basis."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Mole Concept and Stoichiometry</h1>
+  <p class="article-meta">Basic chemistry &middot; Moles, limiting reagent and yield &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Reactions happen molecule by molecule, but plants buy and weigh in kilograms. The mole is the bridge between the two. Once you can move between kilograms and kilomoles without thinking, charging sheets, yield reports, gas evolution and scrubber loads all become the same simple calculation. This page goes through it with one complete batch example.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#mole">What a mole is</a><span>Basics</span></li>
+    <li><a href="#balance">Balanced equations are mole ratios</a><span>Basics</span></li>
+    <li><a href="#limiting">Limiting reagent, excess and yield</a><span>Basics</span></li>
+    <li><a href="#worked">Worked example: an acetylation batch</a><span>Working level</span></li>
+    <li><a href="#purity">Purity, strength and hydrates</a><span>Working level</span></li>
+    <li><a href="#gas">Gas from a reaction: moles to volume</a><span>Working level</span></li>
+    <li><a href="#mistakes">Common stoichiometry mistakes</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="mole">What a mole is <span class="lvl l1">Basics</span></h2>
+<p>A <strong>mole</strong> is a count: 6.022 &times; 10<sup>23</sup> particles (Avogadro&rsquo;s number). It is chosen so that one mole of a substance weighs its molar mass in grams. One mole of water weighs 18.02 g; one mole of sodium hydroxide weighs 40.00 g.</p>
+  <div class="formula-box">
+    moles = mass / molar mass<br>
+    kmol = kg / (kg/kmol)
+    <small>The molar mass in g/mol is the same number as kg/kmol. Plants work in kmol so that the masses come out directly in kg.</small>
+  </div>
+  <p>Molar mass is the sum of the atomic masses in the formula. For sulfuric acid, H<sub>2</sub>SO<sub>4</sub>: 2(1.008) + 32.06 + 4(15.999) = 98.07 g/mol. The atomic masses are in the <a href="{{ '/articles/atomic-structure-and-periodic-table/' | relative_url }}">periodic table article</a>.</p>
+  <h2 id="balance">Balanced equations are mole ratios <span class="lvl l1">Basics</span></h2>
+<p>A balanced equation has the same number of each kind of atom on both sides. The numbers in front of each formula are <strong>mole ratios</strong>, not mass ratios.</p>
+  <div class="formula-box">
+    2 NaOH + H<sub>2</sub>SO<sub>4</sub> &rarr; Na<sub>2</sub>SO<sub>4</sub> + 2 H<sub>2</sub>O
+    <small>Two moles of caustic for every mole of acid. In mass: 80.00 kg NaOH for 98.07 kg H<sub>2</sub>SO<sub>4</sub>.</small>
+  </div>
+  <p>To balance an equation, balance the atoms that appear in only one compound on each side first, then the rest, and leave hydrogen and oxygen for last. Check the charges too if ions are written.</p>
+  <p>In process chemistry the amount of each reagent is often given in <strong>equivalents</strong> (eq). &ldquo;1.2 eq of base&rdquo; means 1.2 moles of base for every mole of the limiting starting material, whatever the masses.</p>
+  <h2 id="limiting">Limiting reagent, excess and yield <span class="lvl l1">Basics</span></h2>
+<ul>
+    <li><strong>Limiting reagent:</strong> the one that runs out first. Divide the moles of each reactant by its coefficient in the equation; the smallest result is limiting.</li>
+    <li><strong>Percent excess</strong> of another reagent = (moles charged &minus; moles needed) / moles needed &times; 100.</li>
+    <li><strong>Theoretical yield:</strong> the product you would get if all the limiting reagent turned into product.</li>
+    <li><strong>Percent yield</strong> = actual product / theoretical product &times; 100, on a pure, dry basis.</li>
+  </ul>
+  <p>Conversion and selectivity are related but different: conversion is how much of the limiting reagent was used up, selectivity is how much of that went to the wanted product. The <a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">conversion and yield article</a> deals with how to improve them.</p>
+  <h2 id="worked">Worked example: an acetylation batch <span class="lvl l2">Working level</span></h2>
+<p>4-Aminophenol is acetylated with acetic anhydride to give paracetamol and acetic acid. A batch charges 100 kg of 4-aminophenol and 105 kg of acetic anhydride, and 125 kg of dry product is isolated.</p>
+  <div class="formula-box">
+    C<sub>6</sub>H<sub>7</sub>NO + C<sub>4</sub>H<sub>6</sub>O<sub>3</sub> &rarr; C<sub>8</sub>H<sub>9</sub>NO<sub>2</sub> + C<sub>2</sub>H<sub>4</sub>O<sub>2</sub><br>
+    Molar masses: 109.13, 102.09, 151.16, 60.05 kg/kmol
+  </div>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Step</th><th>Calculation</th><th>Result</th></tr></thead><tbody>
+    <tr><td>Moles of 4-aminophenol</td><td>100 / 109.13</td><td>0.9164 kmol</td></tr>
+    <tr><td>Moles of acetic anhydride</td><td>105 / 102.09</td><td>1.0285 kmol</td></tr>
+    <tr><td>Limiting reagent</td><td>1 : 1 ratio, smaller number</td><td>4-Aminophenol</td></tr>
+    <tr><td>Excess anhydride</td><td>(1.0285 &minus; 0.9164) / 0.9164</td><td>12.2 percent (1.12 eq)</td></tr>
+    <tr><td>Theoretical paracetamol</td><td>0.9164 &times; 151.16</td><td>138.5 kg</td></tr>
+    <tr><td>Percent yield</td><td>125 / 138.5</td><td>90.2 percent</td></tr>
+    <tr><td>Acetic acid formed</td><td>0.9164 &times; 60.05</td><td>55.0 kg</td></tr>
+    <tr><td>Anhydride left over</td><td>0.1121 &times; 102.09</td><td>11.4 kg</td></tr>
+  </tbody></table></div>
+  <p>Check the mass balance: 100 + 105 = 205 kg in; 138.5 + 55.0 + 11.4 = 204.9 kg out at full conversion. A balance that closes is the best sign that the arithmetic is right. The 13.5 kg of missing product is in the mother liquor, the wash, or lost on transfer, and the next question is which.</p>
+  <div class="art-note"><b>On the plant</b><p>The leftover anhydride and the acetic acid do not vanish at the end of the reaction. Any water added in the work-up turns the anhydride into more acetic acid, with heat. Both end up in the mother liquor and the effluent, so include them in the solvent recovery and ETP load.</p></div>
+  <h2 id="purity">Purity, strength and hydrates <span class="lvl l2">Working level</span></h2>
+<p>Most mistakes in stoichiometry are not arithmetic but the basis of the mass.</p>
+  <ul>
+    <li><strong>Assay.</strong> 100 kg of 4-aminophenol at 98.5 percent assay contains 98.5 kg of the compound. Use the pure mass for the moles.</li>
+    <li><strong>Solution strength.</strong> 100 kg of 32 percent hydrochloric acid contains 32 kg of HCl and 68 kg of water. 100 kg of 48 percent caustic lye contains 48 kg of NaOH.</li>
+    <li><strong>Hydrates.</strong> Copper sulfate pentahydrate, CuSO<sub>4</sub>&middot;5H<sub>2</sub>O, has a molar mass of 249.7, not 159.6. Weighing the hydrate as if it were anhydrous under-charges the copper by more than a third.</li>
+    <li><strong>Wet cake.</strong> A wet cake with 20 percent loss on drying is only 80 percent solid. Charge on a dry basis and add the water to the balance.</li>
+  </ul>
+  <p>The <a href="{{ '/articles/solutions-and-concentration-units/' | relative_url }}">solutions and concentration article</a> covers strengths, densities and dilution.</p>
+  <h2 id="gas">Gas from a reaction: moles to volume <span class="lvl l2">Working level</span></h2>
+<p>A kilomole of any ideal gas takes up 22.41 m<sup>3</sup> at 0 &deg;C and 1 atm, and 24.47 m<sup>3</sup> at 25 &deg;C and 1 atm. That makes it easy to estimate the gas a reaction gives off.</p>
+  <div class="formula-box">
+    NaHCO<sub>3</sub> + HCl &rarr; NaCl + H<sub>2</sub>O + CO<sub>2</sub><br>
+    50 kg sodium bicarbonate / 84.01 = 0.595 kmol CO<sub>2</sub><br>
+    Mass = 0.595 &times; 44.01 = 26.2 kg &nbsp;&middot;&nbsp; Volume at 25 &deg;C = 0.595 &times; 24.47 = 14.6 m<sup>3</sup>
+    <small>Assumes all the bicarbonate reacts. Released over a few minutes this is enough to foam a vessel over or pressurise a closed one.</small>
+  </div>
+  <p>This is why bicarbonate quenches are dosed slowly with the vent open. The <a href="{{ '/articles/gas-laws-and-ideal-gas-equation/' | relative_url }}">gas laws article</a> shows how to correct for other temperatures and pressures.</p>
+  <h2 id="mistakes">Common stoichiometry mistakes <span class="lvl l3">Going deeper</span></h2>
+<h3>Using mass ratios instead of mole ratios</h3>
+  <p>&ldquo;Equal weights of the two reactants&rdquo; is almost never equal moles. Convert to moles first.</p>
+  <h3>Mixing up equivalents and moles for acids and bases</h3>
+  <p>Sulfuric acid has two acidic protons. One mole of H<sub>2</sub>SO<sub>4</sub> neutralises two moles of NaOH. Phosphoric acid is in between, because its third proton is very weak.</p>
+  <h3>Forgetting side reactions that consume reagent</h3>
+  <p>Water in a solvent destroys Grignard reagents, acid chlorides, anhydrides and hydrides one mole for one mole (or more). 500 ppm of water in 1,000 L of toluene is about 0.43 kg, or 24 mol, which is enough to destroy 24 mol of an organometallic reagent before it reaches the substrate.</p>
+  <h3>Reporting yield on a wet or impure basis</h3>
+  <p>A 95 percent yield on a wet cake can be an 85 percent yield on dry, pure product. State the basis every time.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between a mole and a kilomole?</h3>
+  <p>A kilomole is 1,000 moles. The molar mass in g/mol is numerically the same as kg/kmol, so dividing kilograms by the molar mass gives kilomoles directly, which is convenient on a plant.</p>
+  <h3>How do I find the limiting reagent?</h3>
+  <p>Convert each reactant to moles, divide by its coefficient in the balanced equation, and the smallest result is the limiting reagent. It decides the theoretical yield.</p>
+  <h3>What does 1.2 equivalents mean?</h3>
+  <p>It means 1.2 moles of that reagent for every mole of the limiting starting material. It is a mole ratio, not a mass ratio.</p>
+  <h3>Why does my yield come out above 100 percent?</h3>
+  <p>Usually the product is still wet, contains solvent or inorganic salt, or the starting material was charged on the wrong basis. Recalculate on a dry, assay-corrected basis.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Himmelblau and Riggs, <i>Basic Principles and Calculations in Chemical Engineering</i>, 8th ed., Prentice Hall, 2012</li>
+    <li>Felder, Rousseau and Bullard, <i>Elementary Principles of Chemical Processes</i>, 4th ed., Wiley, 2016</li>
+    <li>IUPAC (CIAAW), standard atomic weights, <a href="https://www.ciaaw.org/atomic-weights.htm">ciaaw.org</a></li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+    <a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">Improve reaction conversion and yield</a>
+    <a href="{{ '/articles/gas-laws-and-ideal-gas-equation/' | relative_url }}">Gas laws and the ideal gas equation</a>
+    <a href="{{ '/articles/solutions-and-concentration-units/' | relative_url }}">Solutions and concentration units</a>
+    <a href="{{ '/molecules/reaction/' | relative_url }}">Reaction Builder</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

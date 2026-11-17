@@ -1,0 +1,203 @@
+---
+layout: default
+title: "Atomic Structure and the Periodic Table for Chemical Engineers"
+seo_title: "Atomic Structure and Periodic Table Basics | PharmaChemE"
+description: "Protons, electrons, isotopes and atomic mass, how to read the periodic table, and the trends that explain reactivity, polarity and corrosion on a plant."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Atomic Structure and Periodic Table
+    url: /articles/atomic-structure-and-periodic-table/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Atomic Structure and the Periodic Table for Chemical Engineers",
+        "description": "Protons, electrons, isotopes and atomic mass, how to read the periodic table, and the trends that explain reactivity, polarity and corrosion on a plant.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why is the atomic mass of chlorine 35.45 and not a whole number?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because natural chlorine is a mix of two isotopes, chlorine-35 (about 76 percent) and chlorine-37 (about 24 percent). The 35.45 is the weighted average, and it is the value to use in all calculations."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What decides how an element reacts?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Mainly the number of electrons in its outer shell. Elements in the same column of the periodic table have the same number of valence electrons, so they react in similar ways, for example sodium and potassium both react with water."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is electronegativity used for in practice?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It tells you how polar a bond is. A large difference between two atoms gives a polar or ionic bond, which affects solubility in water, boiling point and which part of a molecule reacts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is nitrogen an inert gas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not strictly. It reacts very slowly because of its strong triple bond, so it is used for inerting. Lithium metal and some hot metals react with nitrogen, and for those argon is used instead."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Atomic Structure and the Periodic Table</h1>
+  <p class="article-meta">Basic chemistry &middot; Atoms, elements and trends &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Every mass balance on a plant starts with a molar mass, and every molar mass starts with the periodic table. The table also explains a lot that engineers meet without naming it: why sodium metal is stored under oil, why chlorine ends up as HCl in the scrubber, why nickel catalysts work and why chloride pits stainless steel. This page covers the parts of atomic structure that you actually use, with plant examples.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#atom">What an atom is made of</a><span>Basics</span></li>
+    <li><a href="#mass">Why atomic masses are not whole numbers</a><span>Basics</span></li>
+    <li><a href="#electrons">Electrons, shells and valence</a><span>Basics</span></li>
+    <li><a href="#reading">Reading the periodic table</a><span>Basics</span></li>
+    <li><a href="#trends">Trends across the table, and what they mean in practice</a><span>Working level</span></li>
+    <li><a href="#worked">Worked example: chlorine from a solvent ends up in the scrubber</a><span>Working level</span></li>
+    <li><a href="#elements">Elements every plant engineer meets</a><span>Working level</span></li>
+    <li><a href="#corrosion">The periodic table and corrosion</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="atom">What an atom is made of <span class="lvl l1">Basics</span></h2>
+<p>An atom has a small, heavy <strong>nucleus</strong> of protons and neutrons, surrounded by electrons. Protons carry a positive charge, electrons an equal negative charge, and neutrons none. Almost all the mass sits in the nucleus; almost all the chemistry happens in the electrons.</p>
+  <ul>
+    <li><strong>Atomic number (Z)</strong> is the number of protons. It fixes the element: every atom with 17 protons is chlorine.</li>
+    <li><strong>Mass number (A)</strong> is protons plus neutrons. Chlorine-35 has 17 protons and 18 neutrons.</li>
+    <li>A neutral atom has as many electrons as protons. An <strong>ion</strong> has gained or lost electrons: Na<sup>+</sup> has lost one, Cl<sup>&minus;</sup> has gained one.</li>
+  </ul>
+  <p>Atoms of the same element with different numbers of neutrons are <strong>isotopes</strong>. They react almost identically, which is why chemistry ignores them most of the time. Pharma is one place they matter: deuterium (hydrogen with one neutron) is used in NMR solvents such as CDCl<sub>3</sub> and in a few deuterated drugs, where the slightly stronger C&ndash;D bond slows down metabolism.</p>
+  <h2 id="mass">Why atomic masses are not whole numbers <span class="lvl l1">Basics</span></h2>
+<p>The atomic mass printed on the table is the average over the natural mix of isotopes. Chlorine is about 75.8 percent chlorine-35 and 24.2 percent chlorine-37, so:</p>
+  <div class="formula-box">
+    Average atomic mass of Cl = 0.7576 &times; 34.969 + 0.2424 &times; 36.966 = 35.45
+    <small>Isotope masses and abundances from the IUPAC (CIAAW) tables. This is the 35.45 g/mol you use in every calculation.</small>
+  </div>
+  <p>The same number is grams per mole, or kilograms per kilomole. On a plant the kilomole is the natural unit: 1 kmol of chlorine atoms weighs 35.45 kg. The <a href="{{ '/articles/mole-concept-and-stoichiometry/' | relative_url }}">mole concept article</a> takes this further.</p>
+  <h2 id="electrons">Electrons, shells and valence <span class="lvl l1">Basics</span></h2>
+<p>Electrons fill shells around the nucleus. Only the outermost shell, the <strong>valence shell</strong>, takes part in bonding, and the number of valence electrons decides how an element behaves.</p>
+  <ul>
+    <li>Atoms tend to gain, lose or share electrons until they have a full outer shell, usually eight electrons (the octet rule). Hydrogen is satisfied with two.</li>
+    <li>Sodium has one valence electron and gives it up easily, so it forms Na<sup>+</sup> and reacts violently with water.</li>
+    <li>Chlorine has seven and takes one more, so it forms Cl<sup>&minus;</sup> or shares an electron in a covalent bond.</li>
+    <li>Carbon has four and shares all of them, which is why it forms four bonds and long chains.</li>
+    <li>Helium, neon and argon already have full shells and almost never react.</li>
+  </ul>
+  <div class="art-note"><b>On the plant</b><p>Nitrogen is not a noble gas, it is just very slow to react because of its strong triple bond. Lithium metal does react with nitrogen at room temperature, and some hot metals and organometallics do too. For those, the inert gas is argon.</p></div>
+  <h2 id="reading">Reading the periodic table <span class="lvl l1">Basics</span></h2>
+<p>The table is arranged by atomic number. <strong>Rows (periods)</strong> show how many electron shells an atom has. <strong>Columns (groups)</strong> collect elements with the same number of valence electrons, which is why elements in a group behave alike.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Group</th><th>Members you meet</th><th>Behaviour</th><th>Where you see it</th></tr></thead><tbody>
+    <tr><td>1, alkali metals</td><td>Li, Na, K</td><td>Lose one electron, react with water to give hydrogen and heat</td><td>Sodium metal, NaH, n-butyllithium, caustic soda, potash</td></tr>
+    <tr><td>2, alkaline earth metals</td><td>Mg, Ca</td><td>Lose two electrons</td><td>Grignard magnesium, lime, calcium scaling in cooling water</td></tr>
+    <tr><td>3 to 12, transition metals</td><td>Cr, Fe, Ni, Cu, Zn, Pd, Pt</td><td>Several oxidation states, good catalysts, form coloured compounds</td><td>Stainless steel, hydrogenation catalysts, metal residues in API</td></tr>
+    <tr><td>14</td><td>C, Si</td><td>Share four electrons</td><td>All of organic chemistry, silica gel, glass lining</td></tr>
+    <tr><td>15</td><td>N, P</td><td>Three bonds plus a lone pair</td><td>Amines, ammonia, nitric acid, phosphoric acid, POCl<sub>3</sub></td></tr>
+    <tr><td>16</td><td>O, S</td><td>Two bonds plus two lone pairs</td><td>Water, alcohols, sulfuric acid, thionyl chloride</td></tr>
+    <tr><td>17, halogens</td><td>F, Cl, Br, I</td><td>Take one electron; very reactive as elements</td><td>Chlorination, bromination, HCl, chlorinated solvents</td></tr>
+    <tr><td>18, noble gases</td><td>He, Ar</td><td>Full shell, unreactive</td><td>Argon blanketing, helium leak testing</td></tr>
+  </tbody></table></div>
+  <p>Metals sit on the left and in the middle, non-metals on the upper right, with a staircase of semi-metals such as silicon and boron in between.</p>
+  <h2 id="trends">Trends across the table, and what they mean in practice <span class="lvl l2">Working level</span></h2>
+<p>Three properties change in a regular way across the table. You do not need the numbers by heart, only the direction.</p>
+  <ul>
+    <li><strong>Electronegativity</strong>, the pull an atom has on shared electrons, rises from left to right and from bottom to top. Fluorine is the highest. It decides whether a bond is polar, and so whether a molecule mixes with water.</li>
+    <li><strong>Atomic size</strong> grows down a group and shrinks across a period. Big atoms such as iodine and bromine hold their outer electrons loosely, so C&ndash;I and C&ndash;Br bonds break more easily than C&ndash;Cl. That is why alkyl iodides and bromides are better alkylating agents, and also more toxic.</li>
+    <li><strong>Metallic character</strong>, the ease of losing electrons, rises down and to the left. Potassium is more reactive than sodium, which is more reactive than lithium.</li>
+  </ul>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Element</th><th>Electronegativity (Pauling)</th><th>Element</th><th>Electronegativity (Pauling)</th></tr></thead><tbody>
+    <tr><td>F</td><td>3.98</td><td>C</td><td>2.55</td></tr>
+    <tr><td>O</td><td>3.44</td><td>H</td><td>2.20</td></tr>
+    <tr><td>Cl</td><td>3.16</td><td>Si</td><td>1.90</td></tr>
+    <tr><td>N</td><td>3.04</td><td>Mg</td><td>1.31</td></tr>
+    <tr><td>Br</td><td>2.96</td><td>Na</td><td>0.93</td></tr>
+  </tbody></table></div>
+  <p>The difference between two atoms tells you how polar the bond between them is. O&ndash;H (difference 1.24) is very polar, C&ndash;H (0.35) is close to non-polar, and Na&ndash;Cl (2.23) is ionic. The <a href="{{ '/articles/chemical-bonding-basics/' | relative_url }}">chemical bonding article</a> builds on this.</p>
+  <h2 id="worked">Worked example: chlorine from a solvent ends up in the scrubber <span class="lvl l2">Working level</span></h2>
+<p>A site sends 100 kg of dichloromethane (CH<sub>2</sub>Cl<sub>2</sub>) waste to an incinerator. How much HCl reaches the scrubber, and how much caustic does it take?</p>
+  <div class="formula-box">
+    Molar mass CH<sub>2</sub>Cl<sub>2</sub> = 12.011 + 2(1.008) + 2(35.45) = 84.93 kg/kmol<br>
+    Chlorine content = 70.90 / 84.93 = 83.5 percent by mass<br>
+    CH<sub>2</sub>Cl<sub>2</sub> + O<sub>2</sub> &rarr; CO<sub>2</sub> + 2 HCl<br>
+    100 / 84.93 = 1.177 kmol solvent &rarr; 2.355 kmol HCl &times; 36.46 = 85.9 kg HCl<br>
+    NaOH needed = 2.355 kmol &times; 40.00 = 94.2 kg (as 100 percent NaOH)
+    <small>Ideal complete combustion, no other chlorine sources. Real scrubbers are sized with a margin on top.</small>
+  </div>
+  <p>The point is that the chlorine atoms do not disappear. Whatever happens to the solvent, each chlorine atom ends up somewhere: as HCl, as chloride in the effluent, or as a chlorinated by-product. An element balance is the quickest check on any process that handles halogens or sulfur.</p>
+  <h2 id="elements">Elements every plant engineer meets <span class="lvl l2">Working level</span></h2>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Element</th><th>Atomic mass</th><th>Where you meet it</th></tr></thead><tbody>
+    <tr><td>H, hydrogen</td><td>1.008</td><td>Hydrogenation, the gas from metals and hydrides with water</td></tr>
+    <tr><td>C, carbon</td><td>12.011</td><td>Every organic compound, activated carbon</td></tr>
+    <tr><td>N, nitrogen</td><td>14.007</td><td>Inerting, amines, nitration</td></tr>
+    <tr><td>O, oxygen</td><td>15.999</td><td>Air, water, oxidations, the oxygen limit in inerting</td></tr>
+    <tr><td>Na, sodium</td><td>22.990</td><td>Caustic soda, sodium salts in effluent</td></tr>
+    <tr><td>Mg, magnesium</td><td>24.305</td><td>Grignard reagents</td></tr>
+    <tr><td>Si, silicon</td><td>28.085</td><td>Glass, silica gel, silicone oils</td></tr>
+    <tr><td>P, phosphorus</td><td>30.974</td><td>POCl<sub>3</sub>, phosphoric acid, phosphonium reagents</td></tr>
+    <tr><td>S, sulfur</td><td>32.06</td><td>Sulfuric acid, SO<sub>2</sub> off-gas, thionyl chloride</td></tr>
+    <tr><td>Cl, chlorine</td><td>35.45</td><td>HCl, chlorinated solvents, chloride corrosion</td></tr>
+    <tr><td>K, potassium</td><td>39.098</td><td>Potassium carbonate, potassium tert-butoxide</td></tr>
+    <tr><td>Fe, iron</td><td>55.845</td><td>Carbon and stainless steel, iron reductions</td></tr>
+    <tr><td>Ni, nickel</td><td>58.693</td><td>Raney nickel, alloy steels</td></tr>
+    <tr><td>Cu, copper</td><td>63.546</td><td>Coupling catalysts, cooling coils</td></tr>
+    <tr><td>Br, bromine</td><td>79.904</td><td>Bromination, HBr off-gas</td></tr>
+    <tr><td>Pd, palladium</td><td>106.42</td><td>Pd/C hydrogenation and coupling catalysts</td></tr>
+  </tbody></table></div>
+  <p>Standard atomic weights rounded from the IUPAC table. Use the same values throughout one calculation so that mass balances close.</p>
+  <h2 id="corrosion">The periodic table and corrosion <span class="lvl l3">Going deeper</span></h2>
+<p>Corrosion is metal atoms losing electrons. Metals that give up electrons easily (further left and lower in the table, and further down the galvanic series) corrode first. Zinc protects steel in galvanising because zinc loses electrons more readily than iron, so the zinc corrodes instead.</p>
+  <p>Stainless steel resists corrosion because its chromium forms a very thin, tight oxide film. Chloride ions are small and can break through that film at weak spots, which is why chloride causes pitting and stress corrosion cracking in stainless steel, and why the chloride content of cooling water and process streams matters. See <a href="{{ '/articles/materials-of-construction/' | relative_url }}">materials of construction</a> for how this shapes equipment choice.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>Why is the atomic mass of chlorine 35.45 and not a whole number?</h3>
+  <p>Because natural chlorine is a mix of two isotopes, chlorine-35 (about 76 percent) and chlorine-37 (about 24 percent). The 35.45 is the weighted average, and it is the value to use in all calculations.</p>
+  <h3>What decides how an element reacts?</h3>
+  <p>Mainly the number of electrons in its outer shell. Elements in the same column of the periodic table have the same number of valence electrons, so they react in similar ways, for example sodium and potassium both react with water.</p>
+  <h3>What is electronegativity used for in practice?</h3>
+  <p>It tells you how polar a bond is. A large difference between two atoms gives a polar or ionic bond, which affects solubility in water, boiling point and which part of a molecule reacts.</p>
+  <h3>Is nitrogen an inert gas?</h3>
+  <p>Not strictly. It reacts very slowly because of its strong triple bond, so it is used for inerting. Lithium metal and some hot metals react with nitrogen, and for those argon is used instead.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>IUPAC Commission on Isotopic Abundances and Atomic Weights (CIAAW), standard atomic weights, <a href="https://www.ciaaw.org/atomic-weights.htm">ciaaw.org</a></li>
+    <li>Greenwood and Earnshaw, <i>Chemistry of the Elements</i>, 2nd ed., Butterworth-Heinemann, 1997</li>
+    <li>Atkins and de Paula, <i>Physical Chemistry</i>, Oxford University Press (atomic structure)</li>
+    <li>Haynes (ed.), <i>CRC Handbook of Chemistry and Physics</i>, CRC Press (electronegativities)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/chemical-bonding-basics/' | relative_url }}">Chemical bonding basics</a>
+    <a href="{{ '/articles/mole-concept-and-stoichiometry/' | relative_url }}">Mole concept and stoichiometry</a>
+    <a href="{{ '/articles/materials-of-construction/' | relative_url }}">Materials of construction</a>
+    <a href="{{ '/articles/scrubber-design/' | relative_url }}">Scrubber design</a>
+    <a href="{{ '/molecules/structure/' | relative_url }}">Molecule structure tool</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

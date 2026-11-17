@@ -1,0 +1,176 @@
+---
+layout: default
+title: "Thermochemistry and Heat of Reaction for Chemical Engineers: Enthalpy, Hess’s Law and Adiabatic Rise"
+seo_title: "Thermochemistry and Heat of Reaction Basics | PharmaChemE"
+description: "Enthalpy, specific and latent heat in kcal, heats of formation and Hess’s law, a worked heat of reaction, adiabatic temperature rise and heats of dilution."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Thermochemistry and Heat of Reaction
+    url: /articles/thermochemistry-and-heat-of-reaction/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Thermochemistry and Heat of Reaction for Chemical Engineers: Enthalpy, Hess’s Law and Adiabatic Rise",
+        "description": "Enthalpy, specific and latent heat in kcal, heats of formation and Hess’s law, a worked heat of reaction, adiabatic temperature rise and heats of dilution.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does a negative heat of reaction mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The reaction releases heat: it is exothermic. The enthalpy of the products is lower than that of the reactants, and the difference appears as heat that the jacket or condenser has to remove."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I calculate a heat of reaction from tables?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use Hess’s law: add up the heats of formation of the products, each multiplied by its coefficient, and subtract the same sum for the reactants. Make sure the phases match the real conditions, especially for water."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is adiabatic temperature rise?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The temperature increase the batch would see if the reaction heat stayed in the mass with no cooling. It equals the heat released divided by the batch mass times its specific heat, and it is the first number used to judge the severity of a cooling failure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why measure the heat of reaction if it can be calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Calculated values assume pure compounds and ignore side reactions, mixing heats and accumulation. Reaction calorimetry measures the real heat under real dosing, which is what cooling and safety design need."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Thermochemistry and Heat of Reaction</h1>
+  <p class="article-meta">Basic chemistry &middot; Enthalpy, heat of reaction and temperature rise &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Every reactor jacket, condenser and chiller on a plant is sized from a heat balance, and the largest term in many of them is the heat of reaction. Thermochemistry is the part of chemistry that puts a number on it. This page covers the quantities in kcal and °C, shows how to calculate a heat of reaction from tables, and turns it into the figure that matters most for safety: how hot the batch would get if cooling failed.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#terms">Heat, enthalpy and the sign convention</a><span>Basics</span></li>
+    <li><a href="#sensible">Sensible heat and latent heat</a><span>Basics</span></li>
+    <li><a href="#formation">Heats of formation and Hess&rsquo;s law</a><span>Working level</span></li>
+    <li><a href="#worked">Worked example: hydrogenation of nitrobenzene</a><span>Working level</span></li>
+    <li><a href="#adiabatic">Adiabatic temperature rise</a><span>Working level</span></li>
+    <li><a href="#solution">Heats of solution, dilution and neutralisation</a><span>Working level</span></li>
+    <li><a href="#measure">Estimated or measured?</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="terms">Heat, enthalpy and the sign convention <span class="lvl l1">Basics</span></h2>
+<p><strong>Enthalpy</strong> (H) is the heat content of a system at constant pressure, which is how most plant equipment runs. What we measure and use is the <strong>change</strong> in enthalpy, &Delta;H.</p>
+  <ul>
+    <li><strong>Exothermic:</strong> heat is released, &Delta;H is negative. Neutralisations, nitrations, hydrogenations, oxidations, Grignard formation.</li>
+    <li><strong>Endothermic:</strong> heat is absorbed, &Delta;H is positive. Evaporation, dissolving many salts, cracking.</li>
+  </ul>
+  <p>Units on this site are kcal, kcal/kg and kcal/mol. 1 kcal = 4.184 kJ; 1 kcal is the heat to warm 1 kg of water by about 1 &deg;C.</p>
+  <h2 id="sensible">Sensible heat and latent heat <span class="lvl l1">Basics</span></h2>
+<div class="formula-box">
+    Sensible heat: Q = m &times; C<sub>p</sub> &times; &Delta;T &nbsp;&nbsp;&nbsp; Latent heat: Q = m &times; &lambda;
+    <small>m in kg, C<sub>p</sub> in kcal/kg&middot;&deg;C, &Delta;T in &deg;C, &lambda; (heat of vaporisation) in kcal/kg.</small>
+  </div>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Liquid</th><th>C<sub>p</sub> near 25 &deg;C, kcal/kg&middot;&deg;C</th><th>Heat of vaporisation at the boiling point, kcal/kg</th><th>Boiling point, &deg;C</th></tr></thead><tbody>
+    <tr><td>Water</td><td>1.00</td><td>539</td><td>100</td></tr>
+    <tr><td>Methanol</td><td>0.60</td><td>263</td><td>65</td></tr>
+    <tr><td>Acetone</td><td>0.52</td><td>120</td><td>56</td></tr>
+    <tr><td>Toluene</td><td>0.41</td><td>86</td><td>111</td></tr>
+    <tr><td>Dichloromethane</td><td>0.28</td><td>79</td><td>40</td></tr>
+  </tbody></table></div>
+  <p>Two practical points come straight from this table. Water needs about twice the heat of a typical solvent to warm, and two to seven times as much to boil off, which is why aqueous evaporations are steam hungry. And a refluxing solvent removes heat at a fixed temperature, which is why reflux is used as a temperature limiter in exothermic steps, as long as the condenser can keep up. Detailed values are in the <a href="{{ '/calculators/steam-tables/' | relative_url }}">steam tables</a> and the solvent data pages.</p>
+  <h2 id="formation">Heats of formation and Hess&rsquo;s law <span class="lvl l2">Working level</span></h2>
+<p>The <strong>standard heat of formation</strong>, &Delta;H<sub>f</sub>&deg;, is the enthalpy change when one mole of a compound forms from its elements in their standard states at 25 &deg;C and 1 atm. Elements themselves are zero. Values are tabulated for thousands of compounds.</p>
+  <p><strong>Hess&rsquo;s law</strong> says the heat of a reaction depends only on the start and end states, not the route. So:</p>
+  <div class="formula-box">
+    &Delta;H<sub>r</sub>&deg; = &Sigma; &Delta;H<sub>f</sub>&deg;(products) &minus; &Sigma; &Delta;H<sub>f</sub>&deg;(reactants)
+    <small>Multiply each value by its coefficient in the balanced equation. Watch the phase: liquid and gaseous water differ by the heat of vaporisation.</small>
+  </div>
+  <h2 id="worked">Worked example: hydrogenation of nitrobenzene <span class="lvl l2">Working level</span></h2>
+<div class="formula-box">
+    C<sub>6</sub>H<sub>5</sub>NO<sub>2</sub>(l) + 3 H<sub>2</sub>(g) &rarr; C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub>(l) + 2 H<sub>2</sub>O(l)<br>
+    &Delta;H<sub>f</sub>&deg;, kcal/mol: nitrobenzene +3.0 &middot; hydrogen 0 &middot; aniline +7.6 &middot; water &minus;68.3<br>
+    &Delta;H<sub>r</sub>&deg; = [7.6 + 2(&minus;68.3)] &minus; [3.0 + 0] = &minus;132 kcal/mol
+    <small>Heats of formation of the liquids from the NIST Chemistry WebBook, rounded. Published values for this reaction are around &minus;130 kcal/mol.</small>
+  </div>
+  <p>Per kilogram of nitrobenzene (molar mass 123.11), that is 132,000 / 123.11 &asymp; 1,070 kcal/kg. For comparison, boiling off a kilogram of methanol absorbs about 263 kcal. This one reaction is among the most exothermic run routinely in batch plants, which is why it is run semi-batch with the hydrogen feed as the control.</p>
+  <h2 id="adiabatic">Adiabatic temperature rise <span class="lvl l2">Working level</span></h2>
+<p>The most useful single safety number is the temperature the batch would reach if all the remaining reaction happened with no cooling at all.</p>
+  <div class="formula-box">
+    &Delta;T<sub>ad</sub> = (&minus;&Delta;H<sub>r</sub> &times; n) / (m &times; C<sub>p</sub>)<br>
+    1,000 kg batch with 150 kg nitrobenzene (1.218 kmol), mixture C<sub>p</sub> about 0.5 kcal/kg&middot;&deg;C:<br>
+    &Delta;T<sub>ad</sub> = (132 &times; 1,218) / (1,000 &times; 0.5) &asymp; 320 &deg;C
+    <small>n in mol, &Delta;H<sub>r</sub> in kcal/mol, m in kg. Illustrative figures; use the measured heat of reaction and the real batch mass for design.</small>
+  </div>
+  <p>A 320 &deg;C rise from a 60 &deg;C start would boil the solvent and push the mass into the range where nitro compounds decompose. In practice the batch never holds that much unreacted material at once, because hydrogen is fed only as fast as it reacts. A common screening rule (Stoessel) treats an adiabatic rise above about 200 &deg;C as high severity and below about 50 &deg;C as low, provided no gas is formed. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a> and <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">hydrogenation safety</a>.</p>
+  <h2 id="solution">Heats of solution, dilution and neutralisation <span class="lvl l2">Working level</span></h2>
+<p>Not all the heat in a batch comes from the main reaction.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Process</th><th>Approximate heat</th><th>Plant note</th></tr></thead><tbody>
+    <tr><td>Strong acid + strong base</td><td>&minus;13.7 kcal per mol of water formed</td><td>Neutralisations and pH adjustment</td></tr>
+    <tr><td>Solid NaOH dissolving in water</td><td>about &minus;10.6 kcal/mol (&minus;265 kcal/kg)</td><td>Flake caustic make-up gets hot</td></tr>
+    <tr><td>Diluting 98 % sulfuric acid to dilute acid</td><td>large; on the order of &minus;20 kcal per mol of acid on full dilution</td><td>Always acid into water, with cooling</td></tr>
+    <tr><td>Ammonium nitrate or urea dissolving</td><td>positive (endothermic)</td><td>Solution cools</td></tr>
+  </tbody></table></div>
+  <p>These terms are easy to forget in a heat balance and can be as large as the reaction itself in a work-up. Include them when sizing cooling for quench and neutralisation steps; the <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">heat load calculator</a> can carry them.</p>
+  <h2 id="measure">Estimated or measured? <span class="lvl l3">Going deeper</span></h2>
+<p>Tables and Hess&rsquo;s law give a good first number, but they assume pure compounds in standard states and say nothing about side reactions or decomposition. For anything going to scale:</p>
+  <ul>
+    <li>Use <strong>reaction calorimetry</strong> (RC1 or similar) to measure the heat of the real reaction under real dosing, and how much accumulates.</li>
+    <li>Use <strong>DSC or ARC</strong> to find decomposition energy and onset temperature of the reaction mixture and isolated intermediates.</li>
+    <li>Compare the maximum temperature the batch could reach (process temperature plus &Delta;T<sub>ad</sub> of the accumulated material) with the boiling point and the decomposition onset.</li>
+  </ul>
+  <p>The <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">DSC, ARC and RC1 article</a> explains how to read those results.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What does a negative heat of reaction mean?</h3>
+  <p>The reaction releases heat: it is exothermic. The enthalpy of the products is lower than that of the reactants, and the difference appears as heat that the jacket or condenser has to remove.</p>
+  <h3>How do I calculate a heat of reaction from tables?</h3>
+  <p>Use Hess’s law: add up the heats of formation of the products, each multiplied by its coefficient, and subtract the same sum for the reactants. Make sure the phases match the real conditions, especially for water.</p>
+  <h3>What is adiabatic temperature rise?</h3>
+  <p>The temperature increase the batch would see if the reaction heat stayed in the mass with no cooling. It equals the heat released divided by the batch mass times its specific heat, and it is the first number used to judge the severity of a cooling failure.</p>
+  <h3>Why measure the heat of reaction if it can be calculated?</h3>
+  <p>Calculated values assume pure compounds and ignore side reactions, mixing heats and accumulation. Reaction calorimetry measures the real heat under real dosing, which is what cooling and safety design need.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>NIST Chemistry WebBook, standard enthalpies of formation, <a href="https://webbook.nist.gov/chemistry/">webbook.nist.gov</a></li>
+    <li>Stoessel, <i>Thermal Safety of Chemical Processes</i>, 2nd ed., Wiley-VCH, 2020 (severity criteria, adiabatic temperature rise)</li>
+    <li>Perry&rsquo;s <i>Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019 (heat capacities, heats of solution)</li>
+    <li>Smith, Van Ness and Abbott, <i>Introduction to Chemical Engineering Thermodynamics</i>, 8th ed., McGraw-Hill, 2017</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read DSC, ARC and RC1 data</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/heat-load-calculation/' | relative_url }}">Heat load calculation</a>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

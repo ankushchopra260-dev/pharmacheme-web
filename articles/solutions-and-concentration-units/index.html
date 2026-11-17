@@ -1,0 +1,178 @@
+---
+layout: default
+title: "Solutions and Concentration Units for Chemical Engineers: Percent, Molarity, Normality and ppm"
+seo_title: "Concentration Units: Molarity, Normality, ppm | PharmaChemE"
+description: "Percent w/w and w/v, molarity, molality, normality, mole fraction and ppm, converting with density, and dilution calculations for plant acids and lyes."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Solutions and Concentration Units
+    url: /articles/solutions-and-concentration-units/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Solutions and Concentration Units for Chemical Engineers: Percent, Molarity, Normality and ppm",
+        "description": "Percent w/w and w/v, molarity, molality, normality, mole fraction and ppm, converting with density, and dilution calculations for plant acids and lyes.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between molarity and normality?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Molarity is moles per litre. Normality is equivalents per litre, where an equivalent is the amount that gives or takes one mole of H+ or of electrons. For HCl and NaOH they are equal; for sulfuric acid normality is twice the molarity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I convert percent to molarity?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Multiply 1,000 by the density in g/mL and by the mass fraction, then divide by the molar mass. For 32 percent HCl: 1,000 × 1.16 × 0.32 / 36.46 = about 10.2 M."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is mg/L the same as ppm?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For water and dilute aqueous solutions, yes, approximately, because one litre weighs about one kilogram. For solvents with a different density, convert using the density."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much 48 percent caustic do I need for 1,000 kg of 10 percent solution?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "About 208 kg of 48 percent lye made up with about 792 kg of water. Add the lye to the water slowly with cooling, because dilution releases heat."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Solutions and Concentration Units</h1>
+  <p class="article-meta">Basic chemistry &middot; Strengths, conversions and dilution &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">The lab writes 2 M, the purchase order says 32 percent, the analyst reports 18.4 N and the effluent permit is in mg/L. They are all ways of saying how much is dissolved in how much, and mistakes between them are among the most common causes of a wrong charge. This page lists the units, shows how to convert between them, and covers the dilutions that come up every week.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#terms">Solute, solvent and solubility</a><span>Basics</span></li>
+    <li><a href="#units">The units in use</a><span>Basics</span></li>
+    <li><a href="#convert">Converting with density</a><span>Working level</span></li>
+    <li><a href="#dilution">Dilution and mixing two strengths</a><span>Working level</span></li>
+    <li><a href="#ppm">Small numbers: ppm, ppb and water content</a><span>Working level</span></li>
+    <li><a href="#colligative">When concentration changes physical properties</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="terms">Solute, solvent and solubility <span class="lvl l1">Basics</span></h2>
+<p>A <strong>solution</strong> is a uniform mixture. The substance in the larger amount is the <strong>solvent</strong>; what is dissolved in it is the <strong>solute</strong>. A solution is <strong>saturated</strong> when no more solute will dissolve at that temperature. Solubility usually rises with temperature for solids and falls with temperature for gases, which is why a heated water stream gives off dissolved air and why cooling crystallises a product.</p>
+  <p>Whether something dissolves at all depends on polarity: like dissolves like. See <a href="{{ '/articles/chemical-bonding-basics/' | relative_url }}">chemical bonding basics</a>.</p>
+  <h2 id="units">The units in use <span class="lvl l1">Basics</span></h2>
+<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Unit</th><th>Definition</th><th>Where you see it</th></tr></thead><tbody>
+    <tr><td>% w/w (mass percent)</td><td>kg solute per 100 kg solution</td><td>Commercial acids and lyes, purchase specs. Does not change with temperature.</td></tr>
+    <tr><td>% w/v</td><td>g solute per 100 mL solution</td><td>Lab reagents, pharmacopoeia solutions</td></tr>
+    <tr><td>% v/v</td><td>mL solute per 100 mL solution</td><td>Alcohol strength, solvent blends</td></tr>
+    <tr><td>Molarity, M</td><td>mol solute per litre of solution</td><td>Lab procedures, titrations. Changes slightly with temperature.</td></tr>
+    <tr><td>Molality, m</td><td>mol solute per kg of solvent</td><td>Freezing and boiling point calculations</td></tr>
+    <tr><td>Normality, N</td><td>equivalents per litre of solution</td><td>Titration reagents, older SOPs</td></tr>
+    <tr><td>Mole fraction, x</td><td>mol of one component / total mol</td><td>Vapour pressure, distillation, gas mixtures</td></tr>
+    <tr><td>ppm, ppb</td><td>parts per million or billion, by mass unless stated</td><td>Water in solvents (Karl Fischer), metals in API, effluent</td></tr>
+    <tr><td>mg/L</td><td>mg solute per litre</td><td>Effluent limits; equal to ppm for dilute water solutions</td></tr>
+  </tbody></table></div>
+  <p><strong>Normality</strong> needs care. One equivalent is the amount that gives or takes one mole of H<sup>+</sup> (or one mole of electrons in a redox reaction). For HCl and NaOH, normality equals molarity. For sulfuric acid, with two protons, N = 2 &times; M.</p>
+  <h2 id="convert">Converting with density <span class="lvl l2">Working level</span></h2>
+<p>Mass-based units need the solution density to become volume-based. The conversion is the same every time:</p>
+  <div class="formula-box">
+    Molarity (mol/L) = 1,000 &times; density (g/mL) &times; mass fraction / molar mass
+    <small>Mass fraction as a decimal: 32 percent = 0.32. Densities at 20 &deg;C.</small>
+  </div>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Commercial grade</th><th>Density, g/mL</th><th>Molarity</th><th>Normality</th></tr></thead><tbody>
+    <tr><td>Hydrochloric acid 32 %</td><td>1.16</td><td>10.2 M</td><td>10.2 N</td></tr>
+    <tr><td>Hydrochloric acid 36 %</td><td>1.18</td><td>11.7 M</td><td>11.7 N</td></tr>
+    <tr><td>Sulfuric acid 98 %</td><td>1.84</td><td>18.4 M</td><td>36.8 N</td></tr>
+    <tr><td>Nitric acid 68 %</td><td>1.41</td><td>15.2 M</td><td>15.2 N</td></tr>
+    <tr><td>Sodium hydroxide lye 48 %</td><td>1.51</td><td>18.1 M</td><td>18.1 N</td></tr>
+    <tr><td>Hydrogen peroxide 50 %</td><td>1.20</td><td>17.6 M</td><td>&mdash;</td></tr>
+  </tbody></table></div>
+  <p>Rounded values; densities vary slightly between suppliers and with temperature. Use the certificate of analysis for an exact charge.</p>
+  <p>Mole fraction from mass percent: convert each component to moles and divide. For 32 percent HCl, 32 g HCl is 0.878 mol and 68 g water is 3.775 mol, so x<sub>HCl</sub> = 0.878 / 4.653 = 0.189.</p>
+  <h2 id="dilution">Dilution and mixing two strengths <span class="lvl l2">Working level</span></h2>
+<p>When you dilute, the amount of solute stays the same.</p>
+  <div class="formula-box">
+    Volume basis: C<sub>1</sub>V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub> &nbsp;(molarity or normality)<br>
+    Mass basis: m<sub>1</sub>w<sub>1</sub> = m<sub>2</sub>w<sub>2</sub> &nbsp;(mass percent)
+    <small>Use the mass form for plant work in percent. Volumes of strong acids and lyes are not additive: 1 L of acid plus 1 L of water does not give exactly 2 L.</small>
+  </div>
+  <p><strong>Example.</strong> Make 1,000 kg of 10 percent NaOH from 48 percent lye.</p>
+  <div class="formula-box">
+    m<sub>1</sub> &times; 0.48 = 1,000 &times; 0.10 &rarr; m<sub>1</sub> = 208.3 kg of 48 percent lye<br>
+    Water = 1,000 &minus; 208.3 = 791.7 kg
+  </div>
+  <p>To mix two strengths to a target (for example spent and fresh acid), use the same balance with both streams: m<sub>A</sub>w<sub>A</sub> + m<sub>B</sub>w<sub>B</sub> = (m<sub>A</sub> + m<sub>B</sub>) w<sub>target</sub>.</p>
+  <div class="art-note"><b>On the plant</b><p>Diluting caustic lye and sulfuric acid releases a lot of heat. Charge the water first, then add the concentrated stream slowly with agitation and cooling. Dilution of 98 percent sulfuric acid can boil the water locally if the order is reversed.</p></div>
+  <h2 id="ppm">Small numbers: ppm, ppb and water content <span class="lvl l2">Working level</span></h2>
+<ul>
+    <li>1 percent = 10,000 ppm. 1 ppm = 1,000 ppb.</li>
+    <li>In water and dilute aqueous effluent, 1 mg/L &asymp; 1 ppm by mass, because a litre weighs about 1 kg.</li>
+    <li>In a solvent, ppm by mass and mg/L are not the same: 500 ppm water in toluene (density 0.867) is about 430 mg/L.</li>
+    <li>In gases, ppm is usually by volume (ppmv), which for ideal gases equals the mole fraction &times; 10<sup>6</sup>. Exposure limits are quoted this way.</li>
+  </ul>
+  <div class="formula-box">
+    Water in 1,000 L of toluene at 500 ppm = 1,000 &times; 0.867 &times; 500 / 10<sup>6</sup> = 0.43 kg = 24 mol
+    <small>Enough to destroy 24 mol of a water-sensitive reagent such as a Grignard or an acid chloride. This is why Karl Fischer limits are set on solvents for these steps.</small>
+  </div>
+  <h2 id="colligative">When concentration changes physical properties <span class="lvl l3">Going deeper</span></h2>
+<p>Dissolved material lowers the vapour pressure of the solvent, raises its boiling point and lowers its freezing point. For dilute solutions the effect depends on the number of dissolved particles, not on what they are.</p>
+  <ul>
+    <li><strong>Raoult&rsquo;s law</strong>: the partial pressure of a solvent is its mole fraction times its pure vapour pressure. This is the starting point for distillation calculations, see <a href="{{ '/articles/distillation-basics/' | relative_url }}">distillation basics</a>.</li>
+    <li><strong>Boiling point rise</strong>: a concentrated salt solution boils several degrees above 100 &deg;C. Evaporators lose temperature driving force for this reason.</li>
+    <li><strong>Freezing point fall</strong>: the reason brine and glycol work as low-temperature coolants.</li>
+  </ul>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between molarity and normality?</h3>
+  <p>Molarity is moles per litre. Normality is equivalents per litre, where an equivalent is the amount that gives or takes one mole of H+ or of electrons. For HCl and NaOH they are equal; for sulfuric acid normality is twice the molarity.</p>
+  <h3>How do I convert percent to molarity?</h3>
+  <p>Multiply 1,000 by the density in g/mL and by the mass fraction, then divide by the molar mass. For 32 percent HCl: 1,000 × 1.16 × 0.32 / 36.46 = about 10.2 M.</p>
+  <h3>Is mg/L the same as ppm?</h3>
+  <p>For water and dilute aqueous solutions, yes, approximately, because one litre weighs about one kilogram. For solvents with a different density, convert using the density.</p>
+  <h3>How much 48 percent caustic do I need for 1,000 kg of 10 percent solution?</h3>
+  <p>About 208 kg of 48 percent lye made up with about 792 kg of water. Add the lye to the water slowly with cooling, because dilution releases heat.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Harris, <i>Quantitative Chemical Analysis</i>, 9th ed., W. H. Freeman, 2015 (concentration units, normality)</li>
+    <li>Perry&rsquo;s <i>Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019 (densities of aqueous acids and bases)</li>
+    <li>Haynes (ed.), <i>CRC Handbook of Chemistry and Physics</i>, CRC Press (concentrative properties of aqueous solutions)</li>
+    <li>Himmelblau and Riggs, <i>Basic Principles and Calculations in Chemical Engineering</i>, 8th ed., Prentice Hall, 2012</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/mole-concept-and-stoichiometry/' | relative_url }}">Mole concept and stoichiometry</a>
+    <a href="{{ '/articles/acids-bases-and-ph/' | relative_url }}">Acids, bases and pH</a>
+    <a href="{{ '/calculators/scrubber-solution-calculator/' | relative_url }}">Scrubber solution calculator</a>
+    <a href="{{ '/calculators/solvent-mixture-density-viscosity-calculator/' | relative_url }}">Solvent mixture density and viscosity</a>
+    <a href="{{ '/calculators/unit-converter/' | relative_url }}">Unit converter</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>

@@ -1,0 +1,187 @@
+---
+layout: default
+title: "Oxidation States and Redox Reactions for Chemical Engineers: Balancing, Quenching and COD"
+seo_title: "Oxidation States and Redox Reactions Basics | PharmaChemE"
+description: "How to assign oxidation numbers, balance redox reactions by half-equations, size a peroxide quench, estimate COD, and why oxidisers and fuels are kept apart."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Oxidation States and Redox
+    url: /articles/oxidation-states-and-redox-reactions/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Oxidation States and Redox Reactions for Chemical Engineers: Balancing, Quenching and COD",
+        "description": "How to assign oxidation numbers, balance redox reactions by half-equations, size a peroxide quench, estimate COD, and why oxidisers and fuels are kept apart.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between oxidation and reduction?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Oxidation is loss of electrons, which shows as a rise in oxidation number. Reduction is gain of electrons and a fall in oxidation number. They always happen together in the same reaction."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I find the oxidation number of sulfur in sulfuric acid?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen is +1 and oxygen is −2. In H2SO4 that gives 2(+1) + S + 4(−2) = 0, so sulfur is +6."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much sodium sulfite is needed to quench hydrogen peroxide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "One mole of sulfite per mole of peroxide. For 5 kg of pure peroxide (0.147 kmol), that is about 18.5 kg of sodium sulfite, plus a margin, dosed slowly with cooling because the quench is exothermic."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is COD related to redox?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "COD is the oxygen needed to oxidise the organics in a sample completely. For a known compound you can calculate it from the combustion equation, for example 1.50 kg of oxygen per kg of methanol."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Oxidation States and Redox Reactions</h1>
+  <p class="article-meta">Basic chemistry &middot; Oxidation numbers, balancing and plant uses &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">Oxidation and reduction are everywhere on a plant, often without the name. A hydrogenation is a reduction, a peroxide quench is a redox titration done in a reactor, COD in the effluent is an oxidation count, and rust is iron being oxidised. Oxidation numbers are the bookkeeping that makes these calculations straightforward. This page shows how to use them.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#def">Oxidation and reduction</a><span>Basics</span></li>
+    <li><a href="#numbers">Assigning oxidation numbers</a><span>Basics</span></li>
+    <li><a href="#balance">Balancing redox reactions with half-equations</a><span>Working level</span></li>
+    <li><a href="#quench">Worked example: quenching residual peroxide</a><span>Working level</span></li>
+    <li><a href="#cod">COD: an oxidation count for effluent</a><span>Working level</span></li>
+    <li><a href="#safety">Oxidisers, fuels and incompatibility</a><span>Going deeper</span></li>
+    <li><a href="#corrosion">Corrosion is redox</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="def">Oxidation and reduction <span class="lvl l1">Basics</span></h2>
+<p><strong>Oxidation</strong> is loss of electrons. <strong>Reduction</strong> is gain of electrons. The two always happen together: the electrons one substance loses, another gains. Hence &ldquo;redox&rdquo;.</p>
+  <ul>
+    <li>The substance that is reduced is the <strong>oxidising agent</strong> (oxidant): it takes electrons. Examples: oxygen, hydrogen peroxide, hypochlorite, permanganate, nitric acid, chlorine.</li>
+    <li>The substance that is oxidised is the <strong>reducing agent</strong> (reductant): it gives electrons. Examples: hydrogen, metals, sodium borohydride, sodium sulfite, sodium dithionite.</li>
+  </ul>
+  <p>In organic chemistry a simpler test usually works. Gaining oxygen or losing hydrogen is oxidation; gaining hydrogen or losing oxygen is reduction. Ethanol to acetaldehyde is an oxidation; nitrobenzene to aniline is a reduction.</p>
+  <h2 id="numbers">Assigning oxidation numbers <span class="lvl l1">Basics</span></h2>
+<p>An oxidation number is the charge an atom would carry if every bond were fully ionic. The rules, in order of priority:</p>
+  <ol>
+    <li>An element on its own is zero: Fe, H<sub>2</sub>, O<sub>2</sub>, Cl<sub>2</sub>.</li>
+    <li>A simple ion has its own charge: Na<sup>+</sup> is +1, Cl<sup>&minus;</sup> is &minus;1.</li>
+    <li>Group 1 metals are +1, group 2 are +2. Fluorine is &minus;1.</li>
+    <li>Hydrogen is +1 (except in metal hydrides such as NaH, where it is &minus;1).</li>
+    <li>Oxygen is &minus;2 (except in peroxides, &minus;1).</li>
+    <li>The numbers add up to the overall charge: zero for a molecule, the ion charge for an ion.</li>
+  </ol>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Element</th><th>Compound</th><th>Oxidation number</th></tr></thead><tbody>
+    <tr><td>Sulfur</td><td>H<sub>2</sub>S &middot; SO<sub>2</sub> &middot; H<sub>2</sub>SO<sub>4</sub></td><td>&minus;2 &middot; +4 &middot; +6</td></tr>
+    <tr><td>Nitrogen</td><td>NH<sub>3</sub> &middot; N<sub>2</sub> &middot; NO<sub>2</sub> &middot; HNO<sub>3</sub></td><td>&minus;3 &middot; 0 &middot; +4 &middot; +5</td></tr>
+    <tr><td>Chlorine</td><td>HCl &middot; Cl<sub>2</sub> &middot; NaOCl &middot; ClO<sub>2</sub></td><td>&minus;1 &middot; 0 &middot; +1 &middot; +4</td></tr>
+    <tr><td>Manganese</td><td>MnO<sub>2</sub> &middot; KMnO<sub>4</sub></td><td>+4 &middot; +7</td></tr>
+    <tr><td>Chromium</td><td>Cr<sub>2</sub>O<sub>3</sub> &middot; K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub></td><td>+3 &middot; +6</td></tr>
+    <tr><td>Carbon</td><td>CH<sub>4</sub> &middot; CH<sub>3</sub>OH &middot; HCHO &middot; HCOOH &middot; CO<sub>2</sub></td><td>&minus;4 &middot; &minus;2 &middot; 0 &middot; +2 &middot; +4</td></tr>
+  </tbody></table></div>
+  <p>The carbon row is the ladder of organic oxidation: alkane, alcohol, aldehyde, acid, carbon dioxide. Each step up releases heat when it happens with oxygen, and the last step is combustion.</p>
+  <h2 id="balance">Balancing redox reactions with half-equations <span class="lvl l2">Working level</span></h2>
+<p>Redox equations are hard to balance by inspection. The half-equation method always works.</p>
+  <ol>
+    <li>Split the reaction into an oxidation half and a reduction half.</li>
+    <li>In each half, balance the atoms other than O and H.</li>
+    <li>Balance O by adding H<sub>2</sub>O, then H by adding H<sup>+</sup> (in acid) or, in base, add OH<sup>&minus;</sup> to both sides afterwards.</li>
+    <li>Balance charge by adding electrons.</li>
+    <li>Multiply the halves so that the electrons cancel, then add them.</li>
+  </ol>
+  <div class="formula-box">
+    Reduction: MnO<sub>4</sub><sup>&minus;</sup> + 8 H<sup>+</sup> + 5 e<sup>&minus;</sup> &rarr; Mn<sup>2+</sup> + 4 H<sub>2</sub>O<br>
+    Oxidation: Fe<sup>2+</sup> &rarr; Fe<sup>3+</sup> + e<sup>&minus;</sup> &nbsp;(&times; 5)<br>
+    Overall: MnO<sub>4</sub><sup>&minus;</sup> + 5 Fe<sup>2+</sup> + 8 H<sup>+</sup> &rarr; Mn<sup>2+</sup> + 5 Fe<sup>3+</sup> + 4 H<sub>2</sub>O
+    <small>Manganese goes from +7 to +2 (gains 5 electrons); each iron goes from +2 to +3 (loses 1). Check: charge on each side is +17.</small>
+  </div>
+  <h2 id="quench">Worked example: quenching residual peroxide <span class="lvl l2">Working level</span></h2>
+<p>After an oxidation, residual hydrogen peroxide must be destroyed before work-up. Sodium sulfite is a common quench.</p>
+  <div class="formula-box">
+    Na<sub>2</sub>SO<sub>3</sub> + H<sub>2</sub>O<sub>2</sub> &rarr; Na<sub>2</sub>SO<sub>4</sub> + H<sub>2</sub>O<br>
+    S: +4 &rarr; +6 (loses 2 e<sup>&minus;</sup>) &nbsp;&middot;&nbsp; each O in H<sub>2</sub>O<sub>2</sub>: &minus;1 &rarr; &minus;2 (gains 1 e<sup>&minus;</sup>, two atoms)<br>
+    Residual peroxide: 10 kg of 50 percent H<sub>2</sub>O<sub>2</sub> = 5.0 kg / 34.01 = 0.147 kmol<br>
+    Sodium sulfite needed = 0.147 &times; 126.04 = 18.5 kg, plus a margin
+    <small>The quench is strongly exothermic. Dose the sulfite as a solution with cooling, and confirm the end point with peroxide test strips or a starch&ndash;iodide test.</small>
+  </div>
+  <div class="art-note"><b>On the plant</b><p>Measure the residual oxidant before quenching rather than assuming the charge was used up. An unexpectedly high reading points to an incomplete oxidation, and quenching it blind can overheat the batch.</p></div>
+  <h2 id="cod">COD: an oxidation count for effluent <span class="lvl l2">Working level</span></h2>
+<p>Chemical oxygen demand (COD) is the oxygen needed to oxidise the organic matter in a sample fully to CO<sub>2</sub> and water. In the lab it is measured with dichromate, but it can be estimated from the formula of a known compound.</p>
+  <div class="formula-box">
+    Methanol: CH<sub>3</sub>OH + 1.5 O<sub>2</sub> &rarr; CO<sub>2</sub> + 2 H<sub>2</sub>O &rarr; 48.0 / 32.04 = 1.50 kg O<sub>2</sub> per kg<br>
+    Acetone: C<sub>3</sub>H<sub>6</sub>O + 4 O<sub>2</sub> &rarr; 3 CO<sub>2</sub> + 3 H<sub>2</sub>O &rarr; 128.0 / 58.08 = 2.20 kg O<sub>2</sub> per kg<br>
+    Toluene: C<sub>7</sub>H<sub>8</sub> + 9 O<sub>2</sub> &rarr; 7 CO<sub>2</sub> + 4 H<sub>2</sub>O &rarr; 288.0 / 92.14 = 3.13 kg O<sub>2</sub> per kg
+    <small>Theoretical COD. Measured values can be lower for compounds the test does not fully oxidise.</small>
+  </div>
+  <p>So 10 kg of methanol lost to drain adds 15 kg of COD to the effluent. Numbers like these are the quickest way to find which stream drives the ETP load. See <a href="{{ '/articles/etp-load-reduction-at-source/' | relative_url }}">ETP load reduction at source</a>.</p>
+  <h2 id="safety">Oxidisers, fuels and incompatibility <span class="lvl l3">Going deeper</span></h2>
+<p>A redox reaction needs an oxidant and a reductant in contact. When both are concentrated, the reaction can be fast and violent. That is the chemical reason behind storage segregation rules.</p>
+  <ul>
+    <li><strong>Nitric acid with organics, solvents or wood.</strong> Concentrated nitric acid oxidises organic matter with heat and NO<sub>x</sub>; it has started fires on spilled sawdust and rags.</li>
+    <li><strong>Peroxides and permanganate with solvents.</strong> Keep them away from acetone, alcohols and other fuels, and from metal contamination that catalyses their decomposition.</li>
+    <li><strong>Hypochlorite with acids or ammonia.</strong> Acid releases chlorine gas; ammonia and amines form chloramines.</li>
+    <li><strong>Strong reductants with water or air.</strong> Hydrides and some metal powders react with water to give hydrogen, and some ignite in air.</li>
+  </ul>
+  <p>Use a compatibility chart before mixing waste streams or storing drums together. The site&rsquo;s <a href="{{ '/calculators/compatibility/' | relative_url }}">chemical compatibility checker</a> is a starting point.</p>
+  <h2 id="corrosion">Corrosion is redox <span class="lvl l3">Going deeper</span></h2>
+<p>When steel rusts, iron is oxidised (Fe &rarr; Fe<sup>2+</sup> + 2 e<sup>&minus;</sup>) and something else, usually dissolved oxygen or H<sup>+</sup>, is reduced. Remove the oxidant and corrosion slows: this is why boiler feed water is deaerated and treated with an oxygen scavenger.</p>
+  <p>When two different metals touch in a conducting liquid, the more easily oxidised one corrodes faster and protects the other. Zinc on galvanised steel and sacrificial anodes on tanks use this on purpose; a carbon steel bolt in a stainless flange suffers from it by accident. See <a href="{{ '/articles/materials-of-construction/' | relative_url }}">materials of construction</a>.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between oxidation and reduction?</h3>
+  <p>Oxidation is loss of electrons, which shows as a rise in oxidation number. Reduction is gain of electrons and a fall in oxidation number. They always happen together in the same reaction.</p>
+  <h3>How do I find the oxidation number of sulfur in sulfuric acid?</h3>
+  <p>Hydrogen is +1 and oxygen is −2. In H2SO4 that gives 2(+1) + S + 4(−2) = 0, so sulfur is +6.</p>
+  <h3>How much sodium sulfite is needed to quench hydrogen peroxide?</h3>
+  <p>One mole of sulfite per mole of peroxide. For 5 kg of pure peroxide (0.147 kmol), that is about 18.5 kg of sodium sulfite, plus a margin, dosed slowly with cooling because the quench is exothermic.</p>
+  <h3>How is COD related to redox?</h3>
+  <p>COD is the oxygen needed to oxidise the organics in a sample completely. For a known compound you can calculate it from the combustion equation, for example 1.50 kg of oxygen per kg of methanol.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Harris, <i>Quantitative Chemical Analysis</i>, 9th ed., W. H. Freeman, 2015 (redox balancing and titrations)</li>
+    <li>Greenwood and Earnshaw, <i>Chemistry of the Elements</i>, 2nd ed., Butterworth-Heinemann, 1997 (oxidation states)</li>
+    <li>Metcalf and Eddy, <i>Wastewater Engineering: Treatment and Resource Recovery</i>, 5th ed., McGraw-Hill, 2014 (COD)</li>
+    <li>Urben (ed.), <i>Bretherick&rsquo;s Handbook of Reactive Chemical Hazards</i>, Elsevier (latest edition)</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/oxidation-reactions/' | relative_url }}">Oxidation reactions in plants</a>
+    <a href="{{ '/articles/hydrogenation-and-reduction/' | relative_url }}">Hydrogenation and reduction</a>
+    <a href="{{ '/articles/etp-basics/' | relative_url }}">ETP basics</a>
+    <a href="{{ '/articles/hazardous-reagents-and-quench/' | relative_url }}">Hazardous reagents and quench</a>
+    <a href="{{ '/calculators/compatibility/' | relative_url }}">Chemical compatibility checker</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
