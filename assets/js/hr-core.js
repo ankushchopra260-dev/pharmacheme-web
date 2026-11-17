@@ -90,7 +90,7 @@
       if (a.rad) throw 'Radicals are not supported (' + a.el + ')';
       if (a.el === 'C') {
         var dO = nbo(a, 'O', 2), tN = nbo(a, 'N', 3), dN = nbo(a, 'N', 2), dC = nbo(a, 'C', 2), tC = nbo(a, 'C', 3), dS = nbo(a, 'S', 2);
-        if (a.q) throw 'Charged carbon is not supported';
+        if (a.q) throw 'Charged carbon is not supported (carbon monoxide is taken from measured data)';
         if (dO.length >= 2) a.t = 'O=C=O';
         else if (tN.length) a.t = 'CN*';
         else if (dO.length === 1) { a.t = 'CO'; A[dO[0].a].absorbed = true; if (dC.length || dN.length) a.t = 'ketene'; }
@@ -151,11 +151,11 @@
       if (r.ar && r.size === 6) return; /* benzene rings: built into C[B] groups */
       var het = {}, dbl = 0, exoCO = 0, endoCO = 0;
       r.atoms.forEach(function (k) { var el = A[k].el; if (el !== 'C') het[el] = (het[el] || 0) + 1; if (A[k].t === 'CO') exoCO++; });
-      r.bonds.forEach(function (b) { if (mol.getBondOrder(b) === 2) dbl++; });
+      r.bonds.forEach(function (b) { if (mol.getBondOrder(b) === 2 && (r.hetero5 || !mol.isAromaticBond(b))) dbl++; });
       var nO = het.O || 0, other = Object.keys(het).filter(function (e) { return e !== 'O'; }).length;
       var name = null, s = r.size, conj = false;
       if (dbl === 2) { /* conjugated if an atom of one double bond is bonded to an atom of the other */
-        var db = r.bonds.filter(function (b) { return mol.getBondOrder(b) === 2; });
+        var db = r.bonds.filter(function (b) { return mol.getBondOrder(b) === 2 && (r.hetero5 || !mol.isAromaticBond(b)); });
         var a1 = [mol.getBondAtom(0, db[0]), mol.getBondAtom(1, db[0])], a2 = [mol.getBondAtom(0, db[1]), mol.getBondAtom(1, db[1])];
         conj = a1.some(function (p) { return a2.some(function (q) { return mol.getBond(p, q) >= 0; }); });
       }
@@ -387,6 +387,13 @@
     for (var k in Mdl.vap) if (k !== 'const') s += Mdl.vap[k] * (f[k] || 0);
     return s;
   }
+  function gaUnc(c) {
+    var F = c.atoms.F || 0, X = (c.atoms.Cl || 0) + (c.atoms.Br || 0) + (c.atoms.I || 0), u = 1.5;
+    if (c.ga.notes.some(function (n) { return /fused|bridged/.test(n); })) u = 6;
+    else if (c.ga.notes.length) u = 4;
+    if (F >= 4) u = Math.max(u, 10); else if (F || X >= 3) u = Math.max(u, 4); else if (X) u = Math.max(u, 2.5);
+    return u;
+  }
   function parseFlag(fl) {
     var out = {};
     (fl || '').split(';').forEach(function (x) { if (!x) return; out[x[0]] = parseFloat(x.slice(1)); });
@@ -413,25 +420,21 @@
     if (override !== undefined && override !== null && override !== '' && isFinite(+override)) return { v: +override, how: 'your value', u: 0, notes: [] };
     var m = c.meas, notes = [], g = null, gu = 0, ghow = '';
     if (m && m[3]) {
-      var fl = parseFlag(m[3][2]), single = m[3][1].length === 1 && m[3][1] !== 'a';
-      if (fl.g !== undefined && single && c.gaOK) {
-        notes.push('The only published gas value (' + srcName(m[3][1]) + ', ' + m[3][0].toFixed(1) + ') disagrees with group additivity by ' + Math.abs(m[3][0] - c.ga.value).toFixed(0) + ' kcal/mol, so group additivity is used.');
-      } else {
-        g = m[3][0]; ghow = 'measured, gas (' + srcName(m[3][1]) + ')'; gu = m[3][1] === 'a' ? 0.1 : m[3][1].length > 1 ? 0.5 : 1;
-        if (fl.D !== undefined || fl.d !== undefined) { gu = Math.max(gu, (fl.D || fl.d) / 2); notes.push('Published gas values differ by ' + (fl.D || fl.d).toFixed(1) + ' kcal/mol' + (fl.D !== undefined ? '; the one closest to group additivity is used.' : '.')); }
-        if (fl.g !== undefined) notes.push('Group additivity gives ' + fl.g.toFixed(1) + ' kcal/mol; check this compound.');
-      }
+      var fl = parseFlag(m[3][2]);
+      g = m[3][0]; ghow = 'measured, gas (' + srcName(m[3][1]) + ')'; gu = m[3][1] === 'a' ? 0.1 : m[3][1].length > 1 ? 0.5 : 1;
+      if (fl.D !== undefined || fl.d !== undefined) { var sp = fl.D !== undefined ? fl.D : fl.d; gu = Math.max(gu, sp / 2); notes.push('Published gas values differ by ' + sp.toFixed(1) + ' kcal/mol' + (fl.D !== undefined ? '; the one closest to group additivity is used.' : '.')); }
+      if (c.gaOK && Math.abs(m[3][0] - c.ga.value) > 8) { gu = Math.max(gu, Math.abs(m[3][0] - c.ga.value) / 2); notes.push('Group additivity gives ' + c.ga.value.toFixed(1) + ' kcal/mol, ' + Math.abs(m[3][0] - c.ga.value).toFixed(0) + ' away from the published value; the published value is used, with a wider uncertainty. Check it if this compound matters.'); }
     }
-    if (g === null && c.gaOK) { g = c.ga.value; gu = c.ga.notes.length ? 4 : 1.5; ghow = 'group additivity, gas'; if (c.ga.notes.length) notes = notes.concat(c.ga.notes); }
+    if (g === null && c.gaOK) { g = c.ga.value; gu = gaUnc(c); ghow = 'group additivity, gas'; if (c.ga.notes.length) notes = notes.concat(c.ga.notes); if (gu >= 4) notes.push('Group additivity is less reliable for this type of compound (typical error about ' + gu.toFixed(0) + ' kcal/mol).'); }
     if (phase === 'g') {
       if (g !== null) return { v: g, how: ghow, u: gu, notes: notes };
       if (m && m[4] && c.hvapEst !== null) return { v: m[4][0] + c.hvapEst, how: 'measured liquid + estimated heat of vaporisation', u: 1.5, notes: notes };
       return null;
     }
     if (phase === 'l' || phase === 's') {
-      if (phase === 's' && m && m[5]) return { v: m[5][0], how: 'measured, solid (' + srcName(m[5][1]) + ')', u: m[5][1].length > 1 ? 0.5 : 1, notes: notes };
+      if (phase === 's' && m && m[5]) { var fs = parseFlag(m[5][2]), su = m[5][1].length > 1 ? 0.5 : 1; if (fs.f !== undefined) { su = 5; notes.push('The published solid and liquid values differ by ' + fs.f.toFixed(1) + ' kcal/mol, which is not a plausible heat of fusion; check the solid value.'); } return { v: m[5][0], how: 'measured, solid (' + srcName(m[5][1]) + ')', u: su, notes: notes }; }
       var lv = null, lu = 0, lhow = '';
-      if (m && m[4]) { lv = m[4][0]; lu = m[4][1] === 'a' ? 0.1 : m[4][1].length > 1 ? 0.5 : 1; lhow = 'measured, liquid (' + srcName(m[4][1]) + ')'; var fl2 = parseFlag(m[4][2]); if (fl2.v !== undefined) notes.push('The published liquid and gas values imply a heat of vaporisation of ' + fl2.v.toFixed(1) + ' kcal/mol, which looks inconsistent.'); }
+      if (m && m[4]) { lv = m[4][0]; lu = m[4][1] === 'a' ? 0.1 : m[4][1].length > 1 ? 0.5 : 1; lhow = 'measured, liquid (' + srcName(m[4][1]) + ')'; var fl2 = parseFlag(m[4][2]); if (fl2.v !== undefined) { lu = Math.max(lu, 5); notes.push('The published liquid and gas values imply a heat of vaporisation of ' + fl2.v.toFixed(1) + ' kcal/mol, which looks inconsistent; check the liquid value.'); } }
       else if (g !== null && c.hvapEst !== null) { lv = g - c.hvapEst; lu = Math.sqrt(gu * gu + 1.5 * 1.5); lhow = ghow.replace(', gas', '') + ' − estimated heat of vaporisation (' + c.hvapEst.toFixed(1) + ')'; }
       if (lv === null) return null;
       if (phase === 's') { notes.push('No measured solid value: the liquid value is used. The heat of fusion (often 3 to 8 kcal/mol) is not included, so enter a measured ΔHf if you have one.'); return { v: lv, how: lhow + ', used for the solid', u: Math.sqrt(lu * lu + 25), notes: notes }; }

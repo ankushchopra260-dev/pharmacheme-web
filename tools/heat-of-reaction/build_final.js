@@ -23,11 +23,14 @@ for(const o of rows){
   if(g&&l){const hv=g.v-l.v;let est=null;try{est=vapEst(H.vapFeatures(OCL,m))}catch(e){}
     if(!(g.s==='a'&&l.s==='a')&&(hv<0||hv>45||(est!=null&&Math.abs(hv-est)>8))){l.flag=(l.flag?l.flag+';':'')+'v'+hv.toFixed(1);}}
   if(g&&gaClean&&Math.abs(g.v-ga)>8&&g.s!=='ATcT'){g.flag=(g.flag?g.flag+';':'')+'g'+ga.toFixed(1);stats.gaConflict++}
+  if(l&&s){const gap=l.v-s.v;if(gap<0||gap>15)s.flag=(s.flag?s.flag+';':'')+'f'+gap.toFixed(1)}
   const rec=[NAME[o.cas]||o.name,o.cas,+o.mw];
   const ph=x=>x?(x.flag?[x.v,x.s,x.flag]:[x.v,x.s]):0;rec.push(ph(g),ph(l),ph(s));
   if(g)stats.g++;if(l)stats.l++;if(s)stats.s++;if((g&&g.flag)||(l&&l.flag))stats.flag++;
   out[o.idc]=rec;
 }
+/* carbon monoxide: the open data stores it as a charged structure that is filtered above */
+out[OCL.Molecule.fromSmiles('[C-]#[O+]').getIDCode()]=['carbon monoxide','630-08-0',28.01,[-26.42,'a'],0,0];
 fs.writeFileSync('/home/claude/pharmacheme-web/assets/data/hr-measured.json',JSON.stringify(out));
 const data={groups:{},other:G.other,remaps:G.remaps,bonds,vap,
   atoms:{H:52.103,C:171.29,N:112.97,O:59.555,F:18.97,Cl:28.992,Br:26.74,I:25.52}};

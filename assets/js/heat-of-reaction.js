@@ -41,12 +41,21 @@
     try { c._info = window.HRCore.compound(window.OCL, Mdl, Meas, c.smiles); } catch (e) { c._info = null; }
     return c._info;
   }
+  /* substances that are gases at 25 °C and 1 atm */
+  const GAS_SMILES = ["[H][H]", "O=O", "N#N", "ClCl", "FF", "Cl", "Br", "F", "N", "O=C=O", "[C-]#[O+]", "O=S=O", "S", "C", "CC", "CCC", "CCCC", "CC(C)C", "C=C", "CC=C", "C=CC=C", "CC(=C)C", "C=CC", "CC=CC", "C#C", "CC#C", "CCl", "CBr", "CF", "C=CCl", "ClC(Cl)=O", "C=O", "CN", "CNC", "CN(C)C", "CCN", "COC", "C1CO1", "C=C=O", "C#N", "FC(F)(F)F", "O=NO", "N=O", "O=[N]=O", "N#CCl"];
+  let gasIdc = null;
+  function isGas(inf) {
+    if (!gasIdc) { gasIdc = {}; GAS_SMILES.forEach((x) => { try { gasIdc[window.OCL.Molecule.fromSmiles(x).getIDCode()] = 1; } catch (e) { /* skip */ } }); }
+    return !!gasIdc[inf.idc];
+  }
   function defaultPhase(inf) {
-    if (!inf || !inf.meas) return "l";
+    if (!inf) return "l";
+    if (isGas(inf)) return "g";
     const m = inf.meas;
+    if (!m) return "l";
     if (m[4]) return "l";
-    if (m[5] && !m[4]) return "s";
-    if (m[3] && inf.mw < 60 && !m[4]) return "g";
+    if (m[5]) return "s";
+    if (m[3] && inf.hvapEst !== null && inf.hvapEst < 5.5) return "g";
     return "l";
   }
 
@@ -109,6 +118,7 @@
       ${c.status === "busy" ? `<div class="hr-msg">Looking up…</div>` : c.msg ? `<div class="hr-msg hr-err">${c.msg}</div>` : ""}
       ${c.smiles ? `<div class="hr-struct">${molSVG(c.smiles, 220, 120)}</div><div class="hr-meta"><span>${sub(inf ? inf.formula : "?")}</span><span>${inf ? f(inf.mw, 2) + " g/mol" : ""}</span></div>` : `<div class="hr-empty">No structure yet</div>`}
       <div class="hr-row2"><label>Phase <select data-k="phase">${["g", "l", "s"].map((p) => `<option value="${p}"${(c.phase || "l") === p ? " selected" : ""}>${PH[p]}</option>`).join("")}</select></label><label>Your ΔH<sub>f</sub> <input type="number" step="any" data-k="over" value="${esc(c.over || "")}" placeholder="optional" class="hr-over"><em>kcal/mol</em></label></div>
+      ${inf && c.phase && c.phase !== "g" && isGas(inf) ? `<div class="hr-src hr-err">This is a gas at 25 °C and 1 atm. Choose Gas unless it is condensed or dissolved, and then enter your own ΔH<sub>f</sub>.</div>` : ""}
       ${c.smiles ? `<div class="hr-src">${h ? `ΔH<sub>f</sub> = <b>${f(h.v, 2)}</b> kcal/mol · ${esc(h.how)}` : `<span class="hr-err">No value: ${esc(inf && inf.ga.missing.length ? inf.ga.missing[0] : "not in the data")}. Enter your own ΔH<sub>f</sub>.</span>`}</div>` : ""}
     </div>`;
   }
@@ -200,12 +210,12 @@
   // ---------------------------------------------------------------
   // State
   // ---------------------------------------------------------------
-  function stateObj() { return { c: comps.map((c) => [c.role, c.label, c.smiles, c.coeff, c.phase, c.over || "", c.phaseSet ? 1 : 0]), b: basisId, k: basisKg }; }
+  function stateObj() { return { c: comps.map((c) => [c.role, c.label, c.smiles, c.coeff, c.phase, c.over || "", c.phaseSet ? 1 : 0]), bi: comps.findIndex((c) => c.id === basisId), k: basisKg }; }
   function loadState(o) {
     if (!o || !Array.isArray(o.c)) return false;
     comps = []; nextId = 1;
-    o.c.forEach((a) => comps.push({ id: nextId++, role: a[0] === "P" ? "P" : "R", label: a[1] || "", smiles: a[2] === "[HH]" ? "[H][H]" : a[2] || "", coeff: +a[3] || 1, phase: a[4] || "", over: a[5] || "", phaseSet: !!a[6], status: a[2] ? "ok" : "" }));
-    basisId = o.b || null; basisKg = +o.k || 1000;
+    o.c.forEach((a) => comps.push({ id: nextId++, role: a[0] === "P" ? "P" : "R", label: a[1] || "", smiles: a[2] === "[HH]" ? "[H][H]" : a[2] || "", coeff: a[3] === undefined || a[3] === "" || !isFinite(+a[3]) ? 1 : +a[3], phase: a[4] || "", over: a[5] || "", phaseSet: !!a[6], status: a[2] ? "ok" : "" }));
+    basisId = o.bi >= 0 && comps[o.bi] ? comps[o.bi].id : null; basisKg = isFinite(+o.k) && o.k !== undefined ? +o.k : 1000;
     return true;
   }
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(stateObj())); } catch (e) { /* storage unavailable */ } }

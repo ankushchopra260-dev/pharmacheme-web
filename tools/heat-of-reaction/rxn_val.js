@@ -18,6 +18,7 @@ for(const [n,rx] of R){const [l,r]=rx.split('>>');const comps=[];
  for(const [side,sgn] of [[l,-1],[r,1]])for(let t of side.split('.')){let k=1;const m=t.match(/^(\d+)(.*)$/);if(m&&!/^\d/.test(m[2])&&!t.startsWith('[')){k=+m[1];t=m[2]}comps.push({c:H.compound(OCL,Mdl,Meas,t),nu:sgn*k,phase:'g',label:t})}
  const res=H.reaction(Mdl,comps);
  if(res.unbalanced.length){console.log('UNBAL',n,res.unbalanced);continue}
+ if(!res.ok){console.log('NOT OK',n,res.msgs);continue}
  if(!res.measAll){console.log('no meas',n,comps.filter(c=>!(c.c.meas&&c.c.meas[3])).map(c=>c.label));continue}
  rows.push({n,meas:res.gasMeas,ga:res.gaAll?res.gasGA:null,be:res.beAll?res.gasBE:null});}
 for(const r of rows)console.log(r.n.padEnd(36),r.meas.toFixed(1).padStart(7),r.ga!=null?(r.ga-r.meas).toFixed(1).padStart(6):'   —  ',r.be!=null?(r.be-r.meas).toFixed(1).padStart(6):'   —');
