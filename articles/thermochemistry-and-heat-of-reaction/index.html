@@ -76,7 +76,7 @@ last_modified_at: 2026-11-17
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Thermochemistry and Heat of Reaction</h1>
   <p class="article-meta">Basic chemistry &middot; Enthalpy, heat of reaction and temperature rise &middot; <span class="art-updated">November 2026</span></p>
-  <p class="art-lede">Every reactor jacket, condenser and chiller on a plant is sized from a heat balance, and the largest term in many of them is the heat of reaction. Thermochemistry is the part of chemistry that puts a number on it. This page covers the quantities in kcal and °C, shows how to calculate a heat of reaction from tables, and turns it into the figure that matters most for safety: how hot the batch would get if cooling failed.</p>
+  <p class="art-lede">Every reactor jacket, condenser and chiller on a plant is sized from a heat balance, and the largest term in many of them is the heat of reaction. Thermochemistry is the part of chemistry that puts a number on it. Below, the quantities are in kcal and °C, a heat of reaction is worked out from tables, and then turned into the figure that matters most for safety: how hot the batch would get if cooling failed.</p>
   <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
     <li><a href="#terms">Heat, enthalpy and the sign convention</a><span>Basics</span></li>
     <li><a href="#sensible">Sensible heat and latent heat</a><span>Basics</span></li>
@@ -130,11 +130,11 @@ last_modified_at: 2026-11-17
     &Delta;T<sub>ad</sub> = (132 &times; 1,218) / (1,000 &times; 0.5) &asymp; 320 &deg;C
     <small>n in mol, &Delta;H<sub>r</sub> in kcal/mol, m in kg. Illustrative figures; use the measured heat of reaction and the real batch mass for design.</small>
   </div>
-  <p>A 320 &deg;C rise from a 60 &deg;C start would boil the solvent and push the mass into the range where nitro compounds decompose. In practice the batch never holds that much unreacted material at once, because hydrogen is fed only as fast as it reacts. A common screening rule (Stoessel) treats an adiabatic rise above about 200 &deg;C as high severity and below about 50 &deg;C as low, provided no gas is formed. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a> and <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">hydrogenation safety</a>.</p>
+  <p>A 320 &deg;C rise from a 60 &deg;C start would boil the solvent and push the mass into the range where nitro compounds decompose. All the nitro compound is in the reactor from the start, so the full rise is available. What limits it is the hydrogen supply: the reaction cannot release heat faster than hydrogen arrives, so on loss of cooling, stopping the hydrogen feed and venting the headspace stops the heat. Watch also for the hydroxylamine intermediate building up, because it is thermally unstable in its own right. A common screening rule (Stoessel) treats an adiabatic rise above about 200 &deg;C as high severity and below about 50 &deg;C as low, provided no gas is formed. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a> and <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">hydrogenation safety</a>.</p>
   <h2 id="solution">Heats of solution, dilution and neutralisation <span class="lvl l2">Working level</span></h2>
 <p>Not all the heat in a batch comes from the main reaction.</p>
   <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Process</th><th>Approximate heat</th><th>Plant note</th></tr></thead><tbody>
-    <tr><td>Strong acid + strong base</td><td>&minus;13.7 kcal per mol of water formed</td><td>Neutralisations and pH adjustment</td></tr>
+    <tr><td>Strong acid + strong base</td><td>&minus;13.3 kcal per mol of water formed</td><td>Neutralisations and pH adjustment</td></tr>
     <tr><td>Solid NaOH dissolving in water</td><td>about &minus;10.6 kcal/mol (&minus;265 kcal/kg)</td><td>Flake caustic make-up gets hot</td></tr>
     <tr><td>Diluting 98 % sulfuric acid to dilute acid</td><td>large; on the order of &minus;20 kcal per mol of acid on full dilution</td><td>Always acid into water, with cooling</td></tr>
     <tr><td>Ammonium nitrate or urea dissolving</td><td>positive (endothermic)</td><td>Solution cools</td></tr>
@@ -143,8 +143,8 @@ last_modified_at: 2026-11-17
   <h2 id="measure">Estimated or measured? <span class="lvl l3">Going deeper</span></h2>
 <p>Tables and Hess&rsquo;s law give a good first number, but they assume pure compounds in standard states and say nothing about side reactions or decomposition. For anything going to scale:</p>
   <ul>
-    <li>Use <strong>reaction calorimetry</strong> (RC1 or similar) to measure the heat of the real reaction under real dosing, and how much accumulates.</li>
-    <li>Use <strong>DSC or ARC</strong> to find decomposition energy and onset temperature of the reaction mixture and isolated intermediates.</li>
+    <li>Use <strong>reaction calorimetry</strong> to measure the heat of the real reaction under real dosing, and how much accumulates.</li>
+    <li>Use <strong>DSC or adiabatic (accelerating rate) calorimetry</strong> to find decomposition energy and onset temperature of the reaction mixture and isolated intermediates.</li>
     <li>Compare the maximum temperature the batch could reach (process temperature plus &Delta;T<sub>ad</sub> of the accumulated material) with the boiling point and the decomposition onset.</li>
   </ul>
   <p>The <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">DSC, ARC and RC1 article</a> explains how to read those results.</p>
