@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Oxidation States and Redox Reactions</h1>
   <p class="article-meta">Basic chemistry &middot; Oxidation numbers, balancing and plant uses &middot; <span class="art-updated">November 2026</span></p>
@@ -113,6 +114,7 @@ last_modified_at: 2026-11-17
     <tr><td>Carbon</td><td>CH<sub>4</sub> &middot; CH<sub>3</sub>OH &middot; HCHO &middot; HCOOH &middot; CO<sub>2</sub></td><td>&minus;4 &middot; &minus;2 &middot; 0 &middot; +2 &middot; +4</td></tr>
   </tbody></table></div>
   <p>The carbon row is the ladder of organic oxidation: alkane, alcohol, aldehyde, acid, carbon dioxide. Each step up releases heat when it happens with oxygen, and the last step is combustion.</p>
+  <div class="cb-w" data-w="oxnum"></div>
   <h2 id="balance">Balancing redox reactions with half-equations <span class="lvl l2">Working level</span></h2>
 <p>Redox equations are hard to balance by inspection. The half-equation method always works.</p>
   <ol>
@@ -147,6 +149,7 @@ last_modified_at: 2026-11-17
     <small>Theoretical COD. Measured values can be lower for compounds the test does not fully oxidise.</small>
   </div>
   <p>So 10 kg of methanol lost to drain adds 15 kg of COD to the effluent. Numbers like these are the quickest way to find which stream drives the ETP load. See <a href="{{ '/articles/etp-load-reduction-at-source/' | relative_url }}">ETP load reduction at source</a>.</p>
+  <div class="cb-w" data-w="cod"></div>
   <h2 id="safety">Oxidisers, fuels and incompatibility <span class="lvl l3">Going deeper</span></h2>
 <p>A redox reaction needs an oxidant and a reductant in contact. When both are concentrated, the reaction can be fast and violent. That is the chemical reason behind storage segregation rules.</p>
   <ul>
@@ -185,3 +188,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

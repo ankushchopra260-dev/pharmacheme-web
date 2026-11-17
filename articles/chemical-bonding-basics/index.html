@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Chemical Bonding Basics</h1>
   <p class="article-meta">Basic chemistry &middot; Bonds, polarity and intermolecular forces &middot; <span class="art-updated">November 2026</span></p>
@@ -99,6 +100,7 @@ last_modified_at: 2026-11-17
     <tr><td>above about 1.7</td><td>Mostly ionic</td><td>Na&ndash;Cl, K&ndash;F</td></tr>
   </tbody></table></div>
   <p>The cut-offs are rules of thumb, not sharp lines. The <a href="{{ '/articles/atomic-structure-and-periodic-table/' | relative_url }}">periodic table article</a> lists the electronegativity values.</p>
+  <div class="cb-w" data-w="polarity"></div>
   <h2 id="polarity">Polar bonds and polar molecules <span class="lvl l1">Basics</span></h2>
 <p>In a polar bond the shared electrons sit closer to the more electronegative atom, which carries a small negative charge (&delta;&minus;) while the other atom carries a small positive charge (&delta;+). Whether the whole molecule is polar also depends on its shape.</p>
   <ul>
@@ -180,3 +182,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

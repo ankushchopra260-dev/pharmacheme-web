@@ -1,0 +1,30 @@
+/* Basic chemistry article tools (assets/js/chem-basics.js) */
+.cb-box .cb-h { margin: 0 0 10px; font-weight: 700; color: var(--paper); font-size: 1rem; }
+.cb-f { display: flex; align-items: center; gap: 6px; }
+.cb-f span { color: var(--muted); font-size: .85rem; }
+.cb-f em { font-style: normal; color: var(--muted); font-size: .8rem; }
+.cb-f input { font: 600 .9rem var(--f-mono); color: var(--paper); background: var(--bg-deep); border: 1px solid #2C4C6C; border-radius: 8px; padding: 5px 8px; width: 6.5em; }
+.cb-f input:focus-visible, .cb-f select:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.cb-sub { margin: 0 0 6px; font-weight: 600; color: var(--brass); font-size: .85rem; }
+.cb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 18px; }
+.cb-grid > div { display: flex; flex-direction: column; gap: 8px; }
+.cb-grid .cb-f { display: grid; grid-template-columns: 1fr 7.5em 1.6em; }
+.cb-grid .cb-f input { width: 100%; box-sizing: border-box; }
+.cb-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 6px 18px; }
+.cb-grid2 .cb-f input { width: 3.5em; }
+.cb-err { color: #F08A6B; margin: 8px 0 0; font-size: .9rem; }
+.cb-tab { margin-top: 10px; overflow-x: auto; }
+.cb-tab .art-table { margin: 0; }
+.cb-bar { height: 8px; background: linear-gradient(90deg, #2C4C6C, var(--brass) 45%, #F08A6B); border-radius: 999px; margin-top: 12px; position: relative; opacity: .35; }
+.cb-bar i { position: absolute; left: 0; top: -3px; height: 14px; border-right: 3px solid var(--paper); }
+.cb-split { display: flex; height: 34px; border-radius: 6px; overflow: hidden; margin: 6px 0 4px; font: 600 .8rem var(--f-sans); }
+.cb-split div { display: flex; align-items: center; justify-content: center; white-space: nowrap; overflow: hidden; transition: flex-grow .25s; min-width: 0; }
+.cb-org { background: #C9A227; color: #0B1622; }
+.cb-aq { background: #2E6FA3; color: #fff; }
+.cb-steps { display: flex; align-items: flex-end; gap: 6px; height: 80px; margin-top: 12px; }
+.cb-steps span { flex: 1; max-width: 56px; background: var(--brass); border-radius: 4px 4px 0 0; position: relative; }
+.cb-steps em { position: absolute; top: -17px; left: 0; right: 0; text-align: center; font: 600 .7rem var(--f-mono); color: var(--paper); font-style: normal; }
+.cb-msg { margin: 10px 0 0; color: var(--paper); font-size: .92rem; }
+.cb-w { margin: 16px 0 22px; }
+@media (prefers-reduced-motion: reduce) { .cb-split div { transition: none; } }
+@media (max-width: 520px) { .cb-f input { width: 5.5em; } .cb-t input { width: 9em !important; } }

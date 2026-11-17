@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Chemical Equilibrium Basics</h1>
   <p class="article-meta">Basic chemistry &middot; K, Le Chatelier and temperature &middot; <span class="art-updated">November 2026</span></p>
@@ -112,6 +113,7 @@ last_modified_at: 2026-11-17
     <small>The batch stops at 75 percent conversion whatever the hold time or catalyst load.</small>
   </div>
   <p>For a reaction with two reactants and two products, A + B &#8652; C + D, the answer depends on the feed ratio, so an excess of one reactant pushes conversion of the other higher. The <a href="{{ '/articles/esterification-and-hydrolysis/' | relative_url }}">esterification article</a> works through this case with real numbers: about 67 percent at a 1 : 1 feed with K near 4, about 90 percent with a threefold excess.</p>
+  <div class="cb-w" data-w="equil"></div>
   <h2 id="lechatelier">Le Chatelier&rsquo;s principle on the plant <span class="lvl l1">Basics</span></h2>
 <p>If you disturb a system at equilibrium, it shifts to oppose the disturbance. In practice there are four levers.</p>
   <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Change</th><th>What the equilibrium does</th><th>Plant example</th></tr></thead><tbody>
@@ -173,3 +175,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

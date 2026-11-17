@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Thermochemistry and Heat of Reaction</h1>
   <p class="article-meta">Basic chemistry &middot; Enthalpy, heat of reaction and temperature rise &middot; <span class="art-updated">November 2026</span></p>
@@ -114,6 +115,7 @@ last_modified_at: 2026-11-17
     &Delta;H<sub>r</sub>&deg; = &Sigma; &Delta;H<sub>f</sub>&deg;(products) &minus; &Sigma; &Delta;H<sub>f</sub>&deg;(reactants)
     <small>Multiply each value by its coefficient in the balanced equation. Watch the phase: liquid and gaseous water differ by the heat of vaporisation.</small>
   </div>
+  <div class="cb-w" data-w="formation"></div>
   <h2 id="worked">Worked example: hydrogenation of nitrobenzene <span class="lvl l2">Working level</span></h2>
 <div class="formula-box">
     C<sub>6</sub>H<sub>5</sub>NO<sub>2</sub>(l) + 3 H<sub>2</sub>(g) &rarr; C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub>(l) + 2 H<sub>2</sub>O(l)<br>
@@ -131,6 +133,7 @@ last_modified_at: 2026-11-17
     <small>n in mol, &Delta;H<sub>r</sub> in kcal/mol, m in kg. Illustrative figures; use the measured heat of reaction and the real batch mass for design.</small>
   </div>
   <p>A 320 &deg;C rise from a 60 &deg;C start would boil the solvent and push the mass into the range where nitro compounds decompose. All the nitro compound is in the reactor from the start, so the full rise is available. What limits it is the hydrogen supply: the reaction cannot release heat faster than hydrogen arrives, so on loss of cooling, stopping the hydrogen feed and venting the headspace stops the heat. Watch also for the hydroxylamine intermediate building up, because it is thermally unstable in its own right. A common screening rule (Stoessel) treats an adiabatic rise above about 200 &deg;C as high severity and below about 50 &deg;C as low, provided no gas is formed. See <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">semi-batch dosing and accumulation</a> and <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">hydrogenation safety</a>.</p>
+  <div class="cb-w" data-w="adiabatic"></div>
   <h2 id="solution">Heats of solution, dilution and neutralisation <span class="lvl l2">Working level</span></h2>
 <p>Not all the heat in a batch comes from the main reaction.</p>
   <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Process</th><th>Approximate heat</th><th>Plant note</th></tr></thead><tbody>
@@ -174,3 +177,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

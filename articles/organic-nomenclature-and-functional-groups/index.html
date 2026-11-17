@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Organic Nomenclature and Functional Groups</h1>
   <p class="article-meta">Basic chemistry &middot; Names, structures and reactive groups &middot; <span class="art-updated">November 2026</span></p>
@@ -127,7 +128,8 @@ last_modified_at: 2026-11-17
     <tr><td>Acetic acid</td><td>ethanoic acid</td><td>Carboxylic acid</td></tr>
   </tbody></table></div>
   <h2 id="groups">The main functional groups <span class="lvl l2">Working level</span></h2>
-<div class="art-table-wrap"><table class="art-table"><thead><tr><th>Group</th><th>Structure</th><th>Example</th><th>What to watch on the plant</th></tr></thead><tbody>
+<div class="cb-w" data-w="groups"></div>
+  <div class="art-table-wrap"><table class="art-table" id="fg-table"><thead><tr><th>Group</th><th>Structure</th><th>Example</th><th>What to watch on the plant</th></tr></thead><tbody>
     <tr><td>Alkene</td><td>C=C</td><td>Styrene</td><td>Can polymerise with heat; inhibitor level matters in storage</td></tr>
     <tr><td>Aromatic ring</td><td>benzene ring</td><td>Toluene</td><td>Stable ring; substitution reactions (nitration, halogenation) are strongly exothermic</td></tr>
     <tr><td>Alkyl halide</td><td>C&ndash;Cl, C&ndash;Br, C&ndash;I</td><td>Benzyl chloride</td><td>Alkylating agents, often toxic; release HX on hydrolysis or burning</td></tr>
@@ -193,3 +195,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

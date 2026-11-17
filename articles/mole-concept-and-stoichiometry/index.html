@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Mole Concept and Stoichiometry</h1>
   <p class="article-meta">Basic chemistry &middot; Moles, limiting reagent and yield &middot; <span class="art-updated">November 2026</span></p>
@@ -125,10 +126,11 @@ last_modified_at: 2026-11-17
     <tr><td>Theoretical paracetamol</td><td>0.9164 &times; 151.16</td><td>138.5 kg</td></tr>
     <tr><td>Percent yield</td><td>125 / 138.5</td><td>90.2 percent</td></tr>
     <tr><td>Acetic acid formed</td><td>0.9164 &times; 60.05</td><td>55.0 kg</td></tr>
-    <tr><td>Anhydride left over</td><td>0.1121 &times; 102.09</td><td>11.4 kg</td></tr>
+    <tr><td>Anhydride left over</td><td>0.1122 &times; 102.09</td><td>11.5 kg</td></tr>
   </tbody></table></div>
-  <p>Check the mass balance: 100 + 105 = 205 kg in; 138.5 + 55.0 + 11.4 = 204.9 kg out at full conversion. A balance that closes is the best sign that the arithmetic is right. The 13.5 kg of missing product is in the mother liquor, the wash, or lost on transfer, and the next question is which.</p>
+  <p>Check the mass balance: 100 + 105 = 205 kg in; 138.5 + 55.0 + 11.5 = 205.0 kg out at full conversion. A balance that closes is the best sign that the arithmetic is right. The 13.5 kg of missing product is in the mother liquor, the wash, or lost on transfer, and the next question is which.</p>
   <div class="art-note"><b>On the plant</b><p>The leftover anhydride and the acetic acid do not vanish at the end of the reaction. Any water added in the work-up turns the anhydride into more acetic acid, with heat. Both end up in the mother liquor and the effluent, so include them in the solvent recovery and ETP load.</p></div>
+  <div class="cb-w" data-w="limiting"></div>
   <h2 id="purity">Purity, strength and hydrates <span class="lvl l2">Working level</span></h2>
 <p>Most mistakes in stoichiometry are not arithmetic but the basis of the mass.</p>
   <ul>
@@ -181,3 +183,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

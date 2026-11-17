@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Acids, Bases and pH</h1>
   <p class="article-meta">Basic chemistry &middot; pH, pKa and neutralisation &middot; <span class="art-updated">November 2026</span></p>
@@ -128,6 +129,7 @@ last_modified_at: 2026-11-17
     0.1 mol/L acetic acid: &frac12;(4.76 + 1.00) = 2.88
     <small>Good when the acid is less than about 5 percent ionised. Strong acid: pH = &minus;log C.</small>
   </div>
+  <div class="cb-w" data-w="ph"></div>
   <h2 id="buffer">Buffers and the Henderson&ndash;Hasselbalch equation <span class="lvl l2">Working level</span></h2>
 <p>A mixture of a weak acid and its conjugate base resists changes in pH. This is a <strong>buffer</strong>.</p>
   <div class="formula-box">
@@ -143,6 +145,7 @@ last_modified_at: 2026-11-17
     <tr><td>Phenol, pK<sub>a</sub> about 10</td><td>pH above about 12</td><td>pH below about 8</td></tr>
   </tbody></table></div>
   <p>Two pH units from the pK<sub>a</sub> gives about 99 percent in one form. One unit gives only about 91 percent, which is why a wash at the &ldquo;right&rdquo; pH can still lose product. This is also how acidic and basic impurities are removed: a bicarbonate wash takes out a carboxylic acid but leaves a phenol behind. More in <a href="{{ '/articles/workup-and-phase-separation/' | relative_url }}">work-up and phase separation</a>.</p>
+  <div class="cb-w" data-w="extract"></div>
   <h2 id="heat">Neutralisation heat and safe dilution <span class="lvl l2">Working level</span></h2>
 <p>A strong acid and a strong base release about 13.3 kcal per mole of water formed. That is a lot of heat in a small volume.</p>
   <div class="formula-box">
@@ -191,3 +194,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

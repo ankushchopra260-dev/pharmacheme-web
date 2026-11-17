@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Gas Laws and the Ideal Gas Equation</h1>
   <p class="article-meta">Basic chemistry &middot; PV = nRT and plant gas calculations &middot; <span class="art-updated">November 2026</span></p>
@@ -126,6 +127,7 @@ last_modified_at: 2026-11-17
     100 Nm<sup>3</sup>/h of nitrogen at 40 &deg;C and 0.5 bar(g): 100 &times; (313.15 / 273.15) &times; (1.013 / 1.513) = 76.8 m<sup>3</sup>/h actual
     <small>Line sizing, velocity and flowmeter selection use the actual flow. Purchase, consumption and mass balance use the normal flow.</small>
   </div>
+  <div class="cb-w" data-w="gasflow"></div>
   <h2 id="inert">Worked example: nitrogen for a pressure purge <span class="lvl l2">Working level</span></h2>
 <p>A reactor has 5 m<sup>3</sup> of headspace at 25 &deg;C and atmospheric pressure. It is pressurised with nitrogen to 3 bar(g). How much nitrogen does one cycle use?</p>
   <div class="formula-box">
@@ -135,6 +137,7 @@ last_modified_at: 2026-11-17
     <small>If the vessel is then vented to atmosphere, the oxygen fraction falls by the pressure ratio, 1.013 / 4.013, about a quarter per cycle.</small>
   </div>
   <p>Three cycles take air at 20.9 percent oxygen down to about 0.3 percent, using about 41 Nm<sup>3</sup> of nitrogen. The <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">inerting and limiting oxygen concentration article</a> covers the target and the methods in detail.</p>
+  <div class="cb-w" data-w="purge"></div>
   <h2 id="dalton">Gas mixtures and partial pressure <span class="lvl l2">Working level</span></h2>
 <p><strong>Dalton&rsquo;s law</strong>: in a gas mixture each component behaves as if it were alone, and the total pressure is the sum of the partial pressures. For an ideal mixture:</p>
   <div class="formula-box">
@@ -189,3 +192,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

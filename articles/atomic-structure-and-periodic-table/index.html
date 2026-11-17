@@ -73,6 +73,7 @@ structured_data: |
 last_modified_at: 2026-11-17
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <div class="container article-body" style="padding:32px 20px 64px;">
   <h1>Atomic Structure and the Periodic Table</h1>
   <p class="article-meta">Basic chemistry &middot; Atoms, elements and trends &middot; <span class="art-updated">November 2026</span></p>
@@ -103,6 +104,7 @@ last_modified_at: 2026-11-17
     <small>Isotope masses and abundances from the IUPAC (CIAAW) tables. This is the 35.45 g/mol you use in every calculation.</small>
   </div>
   <p>The same number is grams per mole, or kilograms per kilomole. On a plant the kilomole is the natural unit: 1 kmol of chlorine atoms weighs 35.45 kg. The <a href="{{ '/articles/mole-concept-and-stoichiometry/' | relative_url }}">mole concept article</a> takes this further.</p>
+  <div class="cb-w" data-w="molar"></div>
   <h2 id="electrons">Electrons, shells and valence <span class="lvl l1">Basics</span></h2>
 <p>Electrons fill shells around the nucleus. Only the outermost shell, the <strong>valence shell</strong>, takes part in bonding, and the number of valence electrons decides how an element behaves.</p>
   <ul>
@@ -201,3 +203,4 @@ last_modified_at: 2026-11-17
   </div>
 </div>
 <script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
