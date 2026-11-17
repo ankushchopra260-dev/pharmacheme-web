@@ -59,7 +59,7 @@ structured_data: |
             "name": "Why is my BCT longer than the bottleneck time?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Material held in a piece of equipment while it waits for the next stage, cleaning, downtime and, with fewer than three shifts, stages waiting for the next shift all add to the time between batch starts. The dashed bars in the chart show where batches are waiting."
+              "text": "Material held in a piece of equipment while it waits for the next stage, downtime and, with fewer than three shifts, stages waiting for the next shift all add to the time between batches. The dashed bars in the chart show where batches are waiting."
             }
           },
           {
@@ -94,7 +94,7 @@ last_modified_at: 2026-11-17
 
   <h2 id="how">How the schedule is built</h2>
   <ul>
-    <li>Batches are taken in order: the batches already in progress first, from the stage they are in, then the new batches. Each stage starts as soon as the batch has finished the previous stage and its analysis, and the equipment is free and clean.</li>
+    <li>Batches are taken in order: the batches already in progress first, from the stage they are in, then the new batches. A batch in progress holds its equipment from the start of the plan, whatever the shift or downtime. Each stage starts as soon as the batch has finished the previous stage and the equipment is free and clean.</li>
     <li><strong>In-process tests</strong> (an IPC sample, an LOD check) belong in the stage time: the equipment is occupied while the result comes back.</li>
     <li><strong>Material waits in the equipment</strong> (box ticked): if the next stage is busy, the material stays put and the equipment is still occupied, shown as a dashed bar. That is right for a reaction mass in a reactor. Untick it when the material is unloaded into drums or a holding tank and the equipment is freed.</li>
     <li><strong>Final product analysis</strong> starts after the last stage unloads the product. The equipment is free, so it does not affect the BCT, but it adds to the STE: a batch counts as released only when the analysis is done.</li>
@@ -102,13 +102,13 @@ last_modified_at: 2026-11-17
     <li><strong>Minimum gap between starts</strong> holds back new batches. Without it, the first stage starts batches as fast as it can, which can pile up work in progress in front of a slower stage. Setting the gap to the bottleneck time gives a steadier schedule with less waiting.</li>
   </ul>
   <h2 id="shifts">Shifts and the month</h2>
-  <p>The default is three 8-hour shifts a day, starting at 06:00, so the plant runs round the clock. With one or two shifts, a stage can start only inside a working shift; a stage that has started runs to the end, as a reaction or a drying cycle would. Hours outside the shifts are shaded in the chart, and the A, B and C shifts are marked along the top. Output is worked out for a 28-day month by default; change the days to match how you report.</p>
+  <p>The BCT shown is the average gap between batches in the plan, taken from both batch starts and unloading of the last stage, and never less than the bottleneck allows; output is worked out from it. The default is three 8-hour shifts a day, starting at 06:00, so the plant runs round the clock. With one or two shifts, a stage can start only inside a working shift; a stage that has started runs to the end, as a reaction or a drying cycle would. Hours outside the shifts are shaded in the chart, and the A, B and C shifts are marked along the top. Output is worked out for a 28-day month by default; change the days to match how you report.</p>
 
   <h2 id="faq">Questions people ask</h2>
   <h3>What is the difference between BCT and STE?</h3>
   <p>BCT (batch cycle time) is the gap between one batch starting and the next one starting; it sets the output. STE (start-to-end time) is how long one batch takes from its first charge to release, including waits and analysis; it sets the work in progress and the lead time.</p>
   <h3>Why is my BCT longer than the bottleneck time?</h3>
-  <p>Material held in a piece of equipment while it waits for the next stage, cleaning, downtime and, with fewer than three shifts, stages waiting for the next shift all add to the time between batch starts. The dashed bars in the chart show where batches are waiting.</p>
+  <p>Material held in a piece of equipment while it waits for the next stage, downtime and, with fewer than three shifts, stages waiting for the next shift all add to the time between batches. The dashed bars in the chart show where batches are waiting.</p>
   <h3>How do I schedule parallel equipment such as two dryers?</h3>
   <p>List both in the stage's equipment field separated by a comma, for example Dryer A, Dryer B. Each batch goes to whichever is free first, and the hours per batch are shared between them.</p>
 

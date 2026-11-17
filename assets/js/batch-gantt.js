@@ -15,14 +15,14 @@
   const num = (v, def) => { const x = parseFloat(v); return isFinite(x) ? x : def; };
   const COLORS = ["#C9A227", "#4E9AD6", "#6FCB9F", "#E07A6A", "#B48EDB", "#E3A15C", "#5FC3C1", "#D47FB0", "#9FB34A", "#7F8FE0"];
 
-  function todayAt8() { const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(6, 0, 0, 0); return toLocalInput(d); }
+  function tomorrowAt6() { const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(6, 0, 0, 0); return toLocalInput(d); }
   function toLocalInput(d) { const p = (n) => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; }
   function addH(startStr, h) { const d = new Date(startStr); return new Date(d.getTime() + h * 3600e3); }
   function fmtDT(d) { return d.toLocaleString("en-GB", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", hour12: false }).replace(",", ""); }
   function hoursBetween(a, b) { return (new Date(b).getTime() - new Date(a).getTime()) / 3600e3; }
 
   const DEFAULT = () => ({
-    start: todayAt8(), n: 10, out: 250, unit: "kg", prefix: "B-", first: 103, gap: 0, view: "eq", zoom: 6,
+    start: tomorrowAt6(), n: 10, out: 250, unit: "kg", prefix: "B-", first: 103, gap: 0, view: "eq", zoom: 6,
     qc: 24, shiftLen: 8, shifts: 3, shiftStart: "06:00", days: 28,
     stages: [
       { name: "Reaction (with in-process test)", eq: "Reactor A", t: 16, hold: true, cl: 0 },
@@ -75,8 +75,13 @@
     }
     const nS = S.stages.length;
     const jobs = [];
+    if (!nS) return { segs, batches, U, load: {}, bn: null, bct0: NaN, actBCT: NaN, end: 0, busy: {}, warn: ["Add at least one stage."], stop: true };
+    const blank = S.stages.map((st, k) => (units(st.eq).length ? 0 : k + 1)).filter(Boolean);
+    if (blank.length) return { segs: [], batches, U, load: {}, bn: null, bct0: NaN, actBCT: NaN, end: 0, busy: {}, warn: [`Enter the equipment for stage ${blank.join(", ")}.`], stop: true };
     S.wip.forEach((w) => { const st = Math.min(Math.max(0, Math.round(num(w.stage, 0))), nS - 1); jobs.push({ name: w.name || "WIP", wip: true, from: st, done: Math.max(0, num(w.done, 0)) }); });
-    for (let i = 0; i < Math.max(0, Math.round(num(S.n, 0))); i++) jobs.push({ name: `${S.prefix}${num(S.first, 1) + i}`, wip: false, from: 0, done: 0 });
+    const nNew = Math.min(500, Math.max(0, Math.round(num(S.n, 0))));
+    if (num(S.n, 0) > 500) warn.push("Only the first 500 new batches are scheduled.");
+    for (let i = 0; i < nNew; i++) jobs.push({ name: `${S.prefix}${num(S.first, 1) + i}`, wip: false, from: 0, done: 0 });
 
     let lastNewStart = null;
     jobs.forEach((J, ji) => {
@@ -88,9 +93,15 @@
         if (!list.length) { warn.push(`Stage ${k + 1} has no equipment.`); return; }
         let t = Math.max(0, num(st.t, 0));
         if (J.wip && k === J.from) t = Math.max(0, t - J.done);
-        const an = 0, cl = Math.max(0, num(st.cl, 0));
-        const occ = t + (st.hold ? an : 0);
-        const p = place(list, ready, occ, prev && prev.hold ? prev.u : null, ready);
+        const an = 0, cl = Math.max(0, num(st.cl, 0)), occ = t;
+        let p;
+        if (J.wip && k === J.from) {
+          /* already running: it occupies its equipment from the start of the plan, whatever the shift or downtime */
+          const free = list.filter((u) => avail[u] <= 1e-9);
+          p = { u: free[0] || list[0], s: 0 };
+          if (!free.length) warn.push(`${J.name}: more WIP batches than ${list.join("/")} can hold at once.`);
+          if (clash(p.u, 0, occ)) warn.push(`${J.name} is still running in ${p.u} during its planned downtime.`);
+        } else p = place(list, ready, occ, prev && prev.hold ? prev.u : null, ready);
         if (!p) { warn.push(`No usable equipment for stage ${k + 1}.`); return; }
         // the previous stage's equipment is released when this stage starts (material held) or at its own end
         if (prev) {
@@ -99,7 +110,7 @@
             if (clash(prev.u, prev.occEnd, p.s - prev.occEnd)) warn.push(`${J.name}: material is still in ${prev.u} during its planned downtime. Move the downtime or add a holding vessel.`);
           }
           const rel = prev.hold ? Math.max(prev.occEnd, p.s) : prev.occEnd;
-          if (prev.u !== p.u) { avail[prev.u] = Math.max(avail[prev.u], rel + prev.cl); if (prev.cl > 0) segs.push({ u: prev.u, s: rel, e: rel + prev.cl, type: "clean", job: J }); }
+          if (prev.u !== p.u) { avail[prev.u] = Math.max(avail[prev.u], rel + prev.cl); if (prev.cl > 0) { segs.push({ u: prev.u, s: rel, e: rel + prev.cl, type: "clean", job: J }); if (clash(prev.u, rel, prev.cl)) warn.push(`Cleaning of ${prev.u} after ${J.name} runs into its downtime.`); } }
         }
         if (startT === null) { startT = p.s; if (!J.wip) lastNewStart = p.s; }
         segs.push({ u: p.u, s: p.s, e: p.s + t, type: "work", job: J, color, stage: k, label: st.name });
@@ -107,7 +118,7 @@
         prev = { u: p.u, s: p.s, occEnd: p.s + occ, hold: st.hold, cl, stage: k };
         ready = p.s + t + an;
       }
-      if (prev) { avail[prev.u] = Math.max(avail[prev.u], prev.occEnd + prev.cl); if (prev.cl > 0) segs.push({ u: prev.u, s: prev.occEnd, e: prev.occEnd + prev.cl, type: "clean", job: J }); }
+      if (prev) { avail[prev.u] = Math.max(avail[prev.u], prev.occEnd + prev.cl); if (prev.cl > 0) { segs.push({ u: prev.u, s: prev.occEnd, e: prev.occEnd + prev.cl, type: "clean", job: J }); if (clash(prev.u, prev.occEnd, prev.cl)) warn.push(`Cleaning of ${prev.u} after ${J.name} runs into its downtime.`); } }
       const unloaded = ready, qc = Math.max(0, num(S.qc, 0));
       if (qc > 0) segs.push({ u: null, s: unloaded, e: unloaded + qc, type: "qc", job: J, color, label: "Final product analysis" });
       batches.push({ job: J, color, start: startT, unloaded, end: unloaded + qc, ste: unloaded + qc - startT });
@@ -116,13 +127,20 @@
     // theoretical BCT: occupancy per batch on each unit, shared over parallel units
     const load = {};
     U.forEach((u) => (load[u] = 0));
-    S.stages.forEach((st) => { const l = units(st.eq); l.forEach((u) => { load[u] += (num(st.t, 0) + num(st.cl, 0)) / l.length; }); });
+    S.stages.forEach((st, k) => {
+      const l = units(st.eq), nx = S.stages[k + 1] ? units(S.stages[k + 1].eq) : [];
+      const same = l.length === 1 && nx.length === 1 && nx[0] === l[0];   // batch carries on in the same unit: no cleaning in between
+      l.forEach((u) => { load[u] += (num(st.t, 0) + (same ? 0 : num(st.cl, 0))) / l.length; });
+    });
     let bn = null; U.forEach((u) => { if (!bn || load[u] > load[bn]) bn = u; });
     const end = Math.max(0, ...segs.map((x) => x.e));
     const busy = {}; U.forEach((u) => (busy[u] = 0));
     segs.forEach((x) => { if (x.u && x.type !== "down") busy[x.u] += x.e - x.s; });
     const newB = batches.filter((b) => !b.job.wip);
-    const actBCT = newB.length > 1 ? (newB[newB.length - 1].start - newB[0].start) / (newB.length - 1) : NaN;
+    const gapStart = newB.length > 1 ? (newB[newB.length - 1].start - newB[0].start) / (newB.length - 1) : NaN;
+    const un = newB.map((b) => b.unloaded).sort((a, b) => a - b);
+    const gapOut = un.length > 1 ? (un[un.length - 1] - un[0]) / (un.length - 1) : NaN;
+    const actBCT = Math.max(isFinite(gapStart) ? gapStart : 0, isFinite(gapOut) ? gapOut : 0) || NaN;
     return { segs, batches, U, load, bn, bct0: load[bn], actBCT, end, busy, warn };
   }
 
@@ -153,15 +171,12 @@
     const Wk = shiftWindow(), len = Math.max(1, num(S.shiftLen, 8)), hm = String(S.shiftStart || "06:00").split(":"), sh = (+hm[0] || 0) + (+hm[1] || 0) / 60;
     const off0 = ((sh - (t0.getHours() + t0.getMinutes() / 60)) % 24 + 24) % 24, perDay = Math.max(1, Math.round(24 / len));
     for (let d = -1; d * 24 + off0 <= horizon; d++) {
-      const base = d * 24 + off0;
-      for (let k = 0; k < perDay; k++) {
-        const a = base + k * len, b2 = a + len; if (b2 <= 0 || a >= horizon) continue;
-        const xa = left + Math.max(0, a) * pxH, xb = left + Math.min(horizon, b2) * pxH;
-        const working = Wk.cont || k < Wk.n;
-        if (!working) g += `<rect x="${xa}" y="${top}" width="${xb - xa}" height="${H - 10 - top}" fill="rgba(0,0,0,.35)"/>`;
-        if (a >= 0) g += `<line x1="${left + a * pxH}" y1="${top}" x2="${left + a * pxH}" y2="${H - 10}" stroke="#1d3349" stroke-width="1"/>`;
-        if (len * pxH >= 16 && a >= 0) g += `<text x="${left + a * pxH + 3}" y="${top - 1}" fill="${working ? "#6f8299" : "#4a5a6c"}" font-size="9" font-family="sans-serif">${"ABCDEF"[k] || ""}</text>`;
+      const base = d * 24 + off0, nW = Wk.cont ? perDay : Wk.n;
+      for (let k = 0; k < nW; k++) {
+        const a = base + k * len; if (a + len <= 0 || a >= horizon) continue;
+        if (a >= 0) { g += `<line x1="${left + a * pxH}" y1="${top}" x2="${left + a * pxH}" y2="${H - 10}" stroke="#1d3349" stroke-width="1"/>`; if (len * pxH >= 16) g += `<text x="${left + a * pxH + 3}" y="${top - 1}" fill="#6f8299" font-size="9" font-family="sans-serif">${"ABCDEF"[k] || ""}</text>`; }
       }
+      if (!Wk.cont) { const a = Math.max(0, base + Wk.workH), b2 = Math.min(horizon, base + 24); if (b2 > a) g += `<rect x="${left + a * pxH}" y="${top}" width="${(b2 - a) * pxH}" height="${H - 10 - top}" fill="rgba(0,0,0,.35)"><title>No shift</title></rect>`; }
     }
     g += `<line x1="${left}" y1="${top - 6}" x2="${left}" y2="${H - 10}" stroke="#C9A227" stroke-width="1.5"/><text x="${left - 4}" y="${top - 12}" fill="#C9A227" font-size="10" text-anchor="end" font-family="sans-serif">${esc(t0.toTimeString().slice(0, 5))}</text>`;
     rows.forEach((r, i) => {
@@ -200,7 +215,7 @@
   }
   function editors() {
     const st = S.stages.map((s, i) => `<tr><td>${i + 1}</td><td>${inp(`stages.${i}.name`, s.name, { type: "text", w: "12em", aria: "Stage name" })}</td><td>${inp(`stages.${i}.eq`, s.eq, { type: "text", w: "11em", aria: "Equipment" })}</td><td>${inp(`stages.${i}.t`, s.t, { aria: "Stage time including in-process tests, h" })}</td><td><label class="bg-chk"><input type="checkbox" data-p="stages.${i}.hold"${s.hold ? " checked" : ""}> waits in it</label></td><td>${inp(`stages.${i}.cl`, s.cl, { aria: "Cleaning after each batch, h" })}</td><td class="bg-btns"><button type="button" data-act="up" data-i="${i}" aria-label="Move up">↑</button><button type="button" data-act="del-stage" data-i="${i}" aria-label="Remove stage">×</button></td></tr>`).join("");
-    const eqOpts = (sel) => allUnits().map((u) => `<option${u === sel ? " selected" : ""}>${esc(u)}</option>`).join("");
+    const eqOpts = (sel) => { const U = allUnits(); return (sel && U.indexOf(sel) < 0 ? `<option value="${esc(sel)}" selected>${esc(sel)} (not in stages)</option>` : "") + U.map((u) => `<option${u === sel ? " selected" : ""}>${esc(u)}</option>`).join(""); };
     const dn = S.down.map((d, i) => `<tr><td><select data-p="down.${i}.eq" aria-label="Equipment">${eqOpts(d.eq)}</select></td><td>${inp(`down.${i}.at`, d.at || toLocalInput(addH(S.start, num(d.atOffset, 0))), { type: "dt", aria: "From" })}</td><td>${inp(`down.${i}.h`, d.h, { aria: "Hours" })}</td><td>${inp(`down.${i}.note`, d.note, { type: "text", w: "11em", aria: "Reason" })}</td><td class="bg-btns"><button type="button" data-act="del-down" data-i="${i}" aria-label="Remove">×</button></td></tr>`).join("");
     const stOpts = (sel) => S.stages.map((s, k) => `<option value="${k}"${k === +sel ? " selected" : ""}>${k + 1}. ${esc(s.name)}</option>`).join("");
     const wp = S.wip.map((w, i) => `<tr><td>${inp(`wip.${i}.name`, w.name, { type: "text", w: "8em", aria: "Batch" })}</td><td><select data-p="wip.${i}.stage" aria-label="Current stage">${stOpts(w.stage)}</select></td><td>${inp(`wip.${i}.done`, w.done, { aria: "Hours done in this stage" })}</td><td class="bg-btns"><button type="button" data-act="del-wip" data-i="${i}" aria-label="Remove">×</button></td></tr>`).join("");
@@ -232,27 +247,27 @@
 
   function results() {
     const R = schedule(), out = num(S.out, 0), unit = esc(S.unit || ""), days = Math.max(1, num(S.days, 28)), W = shiftWindow();
+    if (R.stop) { $("bg-results").innerHTML = R.warn.map((w) => `<div class="bg-note bg-bad">${esc(w)}</div>`).join(""); lastR = R; return; }
     const allB = R.batches, newB = allB.filter((b) => !b.job.wip);
     const total = allB.length * out, lastEnd = allB.length ? Math.max(...allB.map((b) => b.end)) : 0;
     const steAvg = newB.length ? newB.reduce((a, b) => a + b.ste, 0) / newB.length : NaN;
-    const bct = isFinite(R.actBCT) ? R.actBCT : R.bct0;
+    const bct = Math.max(isFinite(R.actBCT) ? R.actBCT : 0, R.bct0);
     const util = R.U.map((u) => ({ u, p: R.end > 0 ? (100 * R.busy[u]) / R.end : 0, l: R.load[u] }));
-    let h = `<div class="bg-grid4">
-      <div class="readout"><div class="label">BCT, gap between batch starts</div><div class="val">${f(bct, 1)} h</div><div class="bg-unit">Bottleneck allows ${f(R.bct0, 1)} h (${esc(R.bn || "—")})</div></div>
+    let h = `<div class="bg-grid4" aria-live="polite">
+      <div class="readout"><div class="label">BCT, gap between batches</div><div class="val">${f(bct, 1)} h</div><div class="bg-unit">Average in this plan; the bottleneck alone allows ${f(R.bct0, 1)} h (${esc(R.bn || "—")})</div></div>
       <div class="readout"><div class="label">STE, start to end per batch</div><div class="val">${f(steAvg, 1)} h</div><div class="bg-unit">Average of new batches, including waits and ${f(num(S.qc, 0), 0)} h final analysis</div></div>
       <div class="readout"><div class="label">Output at this pace</div><div class="val">${f(((24 * days) / bct) * out, 0)}</div><div class="bg-unit">${unit} in ${f(days, 0)} days · ${f((24 * days) / bct, 1)} batches</div></div>
       <div class="readout"><div class="label">This plan</div><div class="val">${f(total, 0)}</div><div class="bg-unit">${unit} from ${allB.length} batches · last released ${allB.length ? esc(fmtDT(addH(S.start, lastEnd))) : "—"}</div></div>
     </div>`;
     if (!W.cont) h += `<div class="bg-note">Working ${W.n} shift${W.n > 1 ? "s" : ""} of ${f(W.len, 0)} h a day: a stage starts only inside a shift and, once started, runs to the end. Hours outside the shifts are shaded in the chart.</div>`;
     if (R.warn.length) h += R.warn.filter((v, i, a) => a.indexOf(v) === i).map((w) => `<div class="bg-note bg-bad">${esc(w)}</div>`).join("");
-    if (isFinite(R.actBCT) && R.actBCT > R.bct0 * 1.1) h += `<div class="bg-note">The batches start every ${f(R.actBCT, 1)} h on average, slower than the ${f(R.bct0, 1)} h the bottleneck alone would allow. Waits for the next stage (dashed bars), downtime or a held stage are adding time; look for dashed bars in the chart.</div>`;
+    if (bct > R.bct0 * 1.1) h += `<div class="bg-note">Batches come through every ${f(bct, 1)} h on average, slower than the ${f(R.bct0, 1)} h the bottleneck alone would allow. Downtime, stages waiting for a shift or material waiting in equipment (dashed bars) are adding time.</div>`;
     h += `<div class="bg-toolbar"><div class="pill-group"><button type="button" class="pill${S.view !== "batch" ? " active" : ""}" data-view="eq">By equipment</button><button type="button" class="pill${S.view === "batch" ? " active" : ""}" data-view="batch">By batch</button></div>
-      <label>Zoom <input type="range" min="2" max="20" step="1" data-p="zoom" value="${S.zoom}"></label>
       <button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button></div>
       <div class="bg-legend"><span><i style="background:#C9A227"></i>Stage</span><span><i style="background:#C9A227;opacity:.45"></i>Final analysis (by batch view)</span><span><i class="dash"></i>Waiting for next stage</span><span><i class="clean"></i>Cleaning</span><span><i class="down"></i>Downtime</span><span><i class="wip"></i>WIP batch</span></div>
       <div class="bg-chart">${gantt(R)}</div>`;
-    h += `<h3 class="bg-h">Batches</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Batch</th><th>Starts</th><th>Unloaded</th><th>Released after analysis</th><th>STE, h</th><th>Gap from previous start, h</th><th>Output, ${unit}</th><th>Cumulative, ${unit}</th></tr></thead><tbody>
-      ${allB.map((b, i) => { const prevNew = !b.job.wip ? newB[newB.indexOf(b) - 1] : null; return `<tr><td><i class="bg-dot" style="background:${b.color}"></i>${esc(b.job.name)}${b.job.wip ? " <small>(WIP)</small>" : ""}</td><td>${esc(fmtDT(addH(S.start, b.start)))}</td><td>${esc(fmtDT(addH(S.start, b.unloaded)))}</td><td>${esc(fmtDT(addH(S.start, b.end)))}</td><td>${b.job.wip ? f(b.ste, 1) + " <small>(remaining)</small>" : f(b.ste, 1)}</td><td>${prevNew ? f(b.start - prevNew.start, 1) : "—"}</td><td>${f(out, 0)}</td><td>${f(out * (i + 1), 0)}</td></tr>`; }).join("")}</tbody></table></div>`;
+    h += `<h3 class="bg-h">Batches</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Batch</th><th>Starts</th><th>Unloaded</th><th>Released after analysis</th><th>STE, h</th><th>Gap from previous start, h</th><th>Output, ${unit}</th><th>Cumulative by release, ${unit}</th></tr></thead><tbody>
+      ${(() => { const ord = allB.slice().sort((a, b) => a.end - b.end); allB.forEach((b) => { b.cum = out * (ord.indexOf(b) + 1); }); return ""; })()}${allB.map((b, i) => { const prevNew = !b.job.wip ? newB[newB.indexOf(b) - 1] : null; return `<tr><td><i class="bg-dot" style="background:${b.color}"></i>${esc(b.job.name)}${b.job.wip ? " <small>(WIP)</small>" : ""}</td><td>${esc(fmtDT(addH(S.start, b.start)))}</td><td>${esc(fmtDT(addH(S.start, b.unloaded)))}</td><td>${esc(fmtDT(addH(S.start, b.end)))}</td><td>${b.job.wip ? f(b.ste, 1) + " <small>(remaining)</small>" : f(b.ste, 1)}</td><td>${prevNew ? f(b.start - prevNew.start, 1) : "—"}</td><td>${f(out, 0)}</td><td>${f(b.cum, 0)}</td></tr>`; }).join("")}</tbody></table></div>`;
     h += `<h3 class="bg-h">Equipment</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Equipment</th><th>Hours per batch (shared over parallel units)</th><th>Busy in this plan</th><th></th></tr></thead><tbody>
       ${util.map((x) => `<tr><td>${esc(x.u)}${x.u === R.bn ? " <b>· bottleneck</b>" : ""}</td><td>${f(x.l, 1)}</td><td>${f(x.p, 0)} %</td><td><div class="bg-bar"><i style="width:${Math.min(100, x.p)}%"></i></div></td></tr>`).join("")}</tbody></table></div>
       <p class="bg-small">Busy time counts stage time (with in-process tests), waiting for the next stage and cleaning, over the whole plan horizon (so it is low at the start and end of a plan). Hours per batch on the bottleneck set the shortest possible BCT.</p>`;
@@ -280,18 +295,29 @@
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage unavailable */ } }
   function renderAll() { $("bg-editors").innerHTML = editors(); results(); save(); }
 
+  function normalise(o) {
+    const d = DEFAULT();
+    if (!o || typeof o !== "object" || !Array.isArray(o.stages)) return d;
+    const r = Object.assign(d, o);
+    ["stages", "down", "wip"].forEach((k) => { if (!Array.isArray(r[k])) r[k] = []; });
+    r.stages = r.stages.filter((x) => x && typeof x === "object");
+    r.down = r.down.filter((x) => x && typeof x === "object");
+    r.wip = r.wip.filter((x) => x && typeof x === "object");
+    return r;
+  }
   function init() {
     const mount = $("calc-mount"); if (!mount) return;
     try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
-    if (!S || !Array.isArray(S.stages)) S = DEFAULT();
+    S = normalise(S);
     mount.innerHTML = `${typeof plateHeader === "function" ? plateHeader("PharmaChemE Batch Scheduler", "GANTT · BCT · STE · WIP") : ""}
       <p class="bg-small" style="margin-top:0">Set the stages and equipment, add any downtime and the batches already running, and the schedule, Gantt chart and output update as you type. Everything stays in your browser.</p>
       <div class="pill-group" style="margin-bottom:12px"><button type="button" class="pill" data-act="reset">Load the example</button><button type="button" class="pill" data-act="clear">Start blank</button></div>
-      <div id="bg-editors"></div><h3 class="bg-h">Schedule</h3><div id="bg-results" aria-live="polite"></div>`;
-    renderAll();
+      <div id="bg-editors"></div><h3 class="bg-h">Schedule</h3><div class="bg-toolbar" style="margin:0 0 6px"><label>Chart zoom <input type="range" min="2" max="20" step="1" data-p="zoom" value="${S.zoom}" aria-label="Chart zoom"></label></div><div id="bg-results"></div>`;
+    try { renderAll(); } catch (e) { S = DEFAULT(); renderAll(); }
     mount.addEventListener("input", (e) => {
       const p = e.target.getAttribute("data-p"); if (!p) return;
       setPath(p, e.target.type === "checkbox" ? e.target.checked : e.target.value);
+      if (p === "zoom") { save(); const c = document.querySelector(".bg-chart"); if (c && lastR && !lastR.stop) c.innerHTML = gantt(lastR); return; }
       if (/^stages\.\d+\.(name|eq)$/.test(p) || p === "start") { save(); results(); return; }
       save(); results();
     });
@@ -301,14 +327,14 @@
       const act = b.dataset.act, i = +b.dataset.i;
       if (b.dataset.view) { S.view = b.dataset.view; save(); results(); return; }
       if (act === "add-stage") S.stages.push({ name: "New stage", eq: "Equipment", t: 4, hold: false, cl: 0 });
-      else if (act === "del-stage") { S.stages.splice(i, 1); S.wip.forEach((w) => { if (w.stage >= S.stages.length) w.stage = Math.max(0, S.stages.length - 1); }); }
-      else if (act === "up" && i > 0) { const t = S.stages[i - 1]; S.stages[i - 1] = S.stages[i]; S.stages[i] = t; }
+      else if (act === "del-stage") { S.stages.splice(i, 1); S.wip = S.wip.filter((w) => +w.stage !== i); S.wip.forEach((w) => { if (+w.stage > i) w.stage = +w.stage - 1; }); }
+      else if (act === "up" && i > 0) { const t = S.stages[i - 1]; S.stages[i - 1] = S.stages[i]; S.stages[i] = t; S.wip.forEach((w) => { if (+w.stage === i) w.stage = i - 1; else if (+w.stage === i - 1) w.stage = i; }); }
       else if (act === "add-down") S.down.push({ eq: allUnits()[0] || "", at: toLocalInput(addH(S.start, 24)), h: 8, note: "Preventive maintenance" });
       else if (act === "del-down") S.down.splice(i, 1);
       else if (act === "add-wip") S.wip.push({ name: "WIP-" + (S.wip.length + 1), stage: 0, done: 0 });
       else if (act === "del-wip") S.wip.splice(i, 1);
       else if (act === "reset") S = DEFAULT();
-      else if (act === "clear") S = { start: todayAt8(), n: 5, out: 100, unit: "kg", prefix: "B-", first: 1, gap: 0, view: "eq", zoom: 6, qc: 24, shiftLen: 8, shifts: 3, shiftStart: "06:00", days: 28, stages: [{ name: "Stage 1", eq: "Reactor", t: 8, hold: true, cl: 0 }], down: [], wip: [] };
+      else if (act === "clear") S = { start: tomorrowAt6(), n: 5, out: 100, unit: "kg", prefix: "B-", first: 1, gap: 0, view: "eq", zoom: 6, qc: 24, shiftLen: 8, shifts: 3, shiftStart: "06:00", days: 28, stages: [{ name: "Stage 1", eq: "Reactor", t: 8, hold: true, cl: 0 }], down: [], wip: [] };
       else if (act === "csv") { csv(); return; }
       else if (act === "print") { window.print(); return; }
       else return;

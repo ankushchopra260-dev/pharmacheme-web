@@ -39,4 +39,4 @@
 .bg-bar { width: 120px; height: 8px; background: var(--grid-line); border-radius: 4px; overflow: hidden; }
 .bg-bar i { display: block; height: 100%; background: var(--brass); }
 @media (max-width: 760px) { .bg-grid4 { grid-template-columns: 1fr 1fr; } }
-@media print { .bg-sec, .bg-toolbar, .pill-group { display: none !important; } .bg-chart { overflow: visible; } }
+@media print { .bg-sec, .bg-toolbar, .pill-group, #bg-editors { display: none !important; } .bg-chart { overflow: visible; background: #fff; border-color: #999; } .bg-chart svg { max-width: 100%; height: auto; } .bg-scroll { overflow: visible; } }
