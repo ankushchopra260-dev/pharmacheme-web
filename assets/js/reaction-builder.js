@@ -334,7 +334,7 @@
     }
     let html = `<h3 class="rb-h">Equation</h3>${equationHTML(ready)}`;
     if (pending) html += `<div class="rb-note">${pending} component${pending > 1 ? "s have" : " has"} no structure yet and ${pending > 1 ? "are" : "is"} left out of the calculations.</div>`;
-    html += `<div class="pill-group rb-eq-actions"><button type="button" class="pill" id="rb-balance">Auto-balance</button><button type="button" class="pill" id="rb-dl-png">Download image</button><button type="button" class="pill" id="rb-print">Print / save as PDF</button><button type="button" class="pill" id="rb-share">Copy link</button><span id="rb-share-msg" class="rb-small"></span></div><div id="rb-balance-msg" class="rb-msg"></div>`;
+    html += `<div class="pill-group rb-eq-actions"><button type="button" class="pill" id="rb-balance">Auto-balance</button><button type="button" class="pill" id="rb-dl-png">Download image</button><button type="button" class="pill" id="rb-print">Print / save as PDF</button><button type="button" class="pill" id="rb-share">Copy link</button><a class="pill" id="rb-heat" href="${'/calculators/heat-of-reaction-calculator/#rx=' + encodeURIComponent(JSON.stringify({ c: comps.filter((c) => c.smiles).map((c) => [c.role, c.label || '', c.smiles, c.coeff || 1]) }))}">Heat of reaction</a><span id="rb-share-msg" class="rb-small"></span></div><div id="rb-balance-msg" class="rb-msg"></div>`;
 
     // Element balance
     const eb = elementBalance(ready);
