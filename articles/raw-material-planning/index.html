@@ -1,0 +1,245 @@
+---
+layout: default
+title: "Raw Material Planning for Batch Plants: Requirement, Lead Time, Safety Stock and Reorder Point"
+seo_title: "Raw Material Planning: Safety Stock, Reorder Point | PharmaChemE"
+description: "Raw material planning for batch plants: requirement from the batch plan, solvent recovery, lead time to QC release, safety stock, reorder point, order size."
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Raw Material Planning
+    url: /articles/raw-material-planning/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Raw Material Planning for Batch Plants: Requirement, Lead Time, Safety Stock and Reorder Point",
+        "description": "Raw material planning for batch plants: requirement from the batch plan, solvent recovery, lead time to QC release, safety stock, reorder point, order size.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-17",
+        "dateModified": "2026-11-17"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I calculate the raw material requirement for a month?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Multiply the batches planned for each product by its consumption norm per batch and add across products. For solvents, multiply the gross use by one minus the recovery fraction to get the fresh solvent needed. Convert pure-basis norms to the strength actually bought."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the reorder point formula?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Reorder point = average daily use × lead time in days + safety stock. The lead time should run from raising the purchase order to QC release, not just to delivery. Compare it with the inventory position (released + quarantine + on order), not with stock on the shelf."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much safety stock should a plant keep?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A simple rule is 7 to 10 days of use for domestic multi-source materials and 15 to 30 days for imported or single-source ones. A statistical method uses the variation of demand and of lead time; for imported materials the lead-time variation usually dominates."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is EOQ useful in a batch plant?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes as a guide. The total cost curve is flat near the EOQ, so rounding to a month’s use or a full pack costs very little. The final quantity is set by pack size, minimum order, retest date, storage limits and campaign plans."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-17
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/chem-basics.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Raw Material Planning for Batch Plants</h1>
+  <p class="article-meta">Plant departments &middot; Requirement, lead time and reorder point &middot; <span class="art-updated">November 2026</span></p>
+  <p class="art-lede">A batch that cannot start because one drum of reagent is missing costs a full shift of reactor time. A store full of a key starting material that will pass its retest date before it is used costs cash and a write-off. Raw material planning sits between those two failures. It answers four questions for every material: how much do we need, when must the order go, how much should we order, and how much should sit in the store as cover. The arithmetic is simple. Most of the trouble comes from wrong inputs: norms that ignore recovery, lead times that forget QC release, and safety stock set by habit.</p>
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#questions">What the plan has to answer</a><span>Basics</span></li>
+    <li><a href="#requirement">From batch plan to requirement</a><span>Basics</span></li>
+    <li><a href="#leadtime">Lead time is longer than the supplier says</a><span>Basics</span></li>
+    <li><a href="#safety">Safety stock: how much cover</a><span>Working level</span></li>
+    <li><a href="#rop">Reorder point and inventory position</a><span>Working level</span></li>
+    <li><a href="#quantity">How much to order</a><span>Working level</span></li>
+    <li><a href="#planner">A planning sheet you can use</a><span>Working level</span></li>
+    <li><a href="#priorities">Where to spend the planning effort</a><span>Going deeper</span></li>
+    <li><a href="#review">The monthly planning meeting</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <h2 id="questions">What the plan has to answer <span class="lvl l1">Basics</span></h2>
+<p>Every raw material, solvent and packing item needs four numbers, reviewed at least once a month against the production plan:</p>
+  <ul>
+    <li><strong>Requirement:</strong> how much the planned batches will consume, period by period.</li>
+    <li><strong>Reorder point:</strong> the stock level at which a fresh order must be placed so that it arrives, and is released by QC, before the store runs dry.</li>
+    <li><strong>Order quantity:</strong> how much to order each time, set by cost, pack size, minimum order, storage limits and shelf life.</li>
+    <li><strong>Safety stock:</strong> the cover held for the things that go wrong: a late truck, a rejected lot, a batch that needs a second charge, an extra batch squeezed into the month.</li>
+  </ul>
+  <p>The quality side of raw materials (specifications, vendor approval, sampling and release) is covered in <a href="{{ '/articles/raw-material-management/' | relative_url }}">raw material management</a>, and storage in <a href="{{ '/articles/chemical-warehouse-storage/' | relative_url }}">chemical warehouse management</a>. This page is about quantities and timing.</p>
+  <h2 id="requirement">From batch plan to requirement <span class="lvl l1">Basics</span></h2>
+<p>Requirement comes from the production plan, product by product, through the consumption norm (the bill of materials per batch):</p>
+  <div class="formula-box">
+    Gross requirement = Σ over products (batches planned &times; norm per batch)<br>
+    Fresh solvent requirement = gross use &times; (1 &minus; recovery fraction)
+    <small>Norm in kg per batch at the actual batch size. Recovery fraction is the share of the solvent that comes back from recovery fit to reuse, on average.</small>
+  </div>
+  <p>Three corrections are easy to forget:</p>
+  <ul>
+    <li><strong>Solvent recovery.</strong> A batch that uses 1,800 kg of toluene does not need 1,800 kg of fresh toluene if 85 percent comes back from the recovery column. Planning on gross use over-buys solvent by a factor of five or more. Planning on an optimistic recovery figure runs the tank dry in the month the recovery column is down for maintenance.</li>
+    <li><strong>Assay and strength.</strong> A norm written as pure material must be converted to what is bought: 100 kg of NaOH is 208 kg of 48 percent lye. See <a href="{{ '/articles/solutions-and-concentration-units/' | relative_url }}">solutions and concentration units</a>.</li>
+    <li><strong>Shared materials.</strong> A solvent or base used in several products must be added up across all of them before it is compared with stock.</li>
+  </ul>
+  <p><strong>Example.</strong> Two products share toluene. Product A runs 20 batches in the month at 1,800 kg toluene per batch with 85 percent recovery; product B runs 12 batches at 1,200 kg with 80 percent recovery.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Product</th><th>Batches</th><th>Gross toluene per batch</th><th>Recovery</th><th>Fresh per batch</th><th>Fresh in the month</th></tr></thead><tbody>
+    <tr><td>A</td><td>20</td><td>1,800 kg</td><td>85 %</td><td>270 kg</td><td>5,400 kg</td></tr>
+    <tr><td>B</td><td>12</td><td>1,200 kg</td><td>80 %</td><td>240 kg</td><td>2,880 kg</td></tr>
+    <tr><td colspan="5"><b>Total fresh toluene</b></td><td><b>8,280 kg</b></td></tr>
+  </tbody></table></div>
+  <p>The gross use is 50,400 kg, six times the fresh requirement. Recovery is the biggest single number in solvent planning, so track the real figure month by month in the <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">solvent recovery balance</a> rather than the design figure. Norms themselves come from the <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">consumption norm</a> of each product, updated from actual batches.</p>
+  <h2 id="leadtime">Lead time is longer than the supplier says <span class="lvl l1">Basics</span></h2>
+<p>The lead time that matters for planning is from the day the purchase order is raised to the day the material is released for use. It has several parts:</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Step</th><th>Domestic material</th><th>Imported material</th></tr></thead><tbody>
+    <tr><td>Indent approval and purchase order</td><td>2 to 5 days</td><td>3 to 7 days</td></tr>
+    <tr><td>Supplier manufacture or dispatch</td><td>5 to 20 days</td><td>20 to 45 days</td></tr>
+    <tr><td>Transit, port and customs clearance</td><td>1 to 5 days</td><td>10 to 25 days</td></tr>
+    <tr><td>Receipt, sampling, QC testing and release</td><td>3 to 7 days</td><td>3 to 10 days</td></tr>
+  </tbody></table></div>
+  <p>Typical ranges for illustration; use your own purchase records. A plant that plans on the supplier&rsquo;s quoted dispatch time alone will be short every month by about the length of the QC release step. For a material whose test takes long (a full pharmacopoeial test, microbial limits, a residual solvent check by GC, an outside lab), that step can be the largest part.</p>
+  <div class="art-note"><b>On the plant</b><p>Ask QC how long each critical material really takes from sampling to release, including the queue on the instrument, and put that number in the plan. It is usually longer than the test method suggests.</p></div>
+  <h2 id="safety">Safety stock: how much cover <span class="lvl l2">Working level</span></h2>
+<p>Safety stock protects against two kinds of variation: consumption that is higher than planned during the lead time, and a lead time that is longer than planned. There are two common ways to set it.</p>
+  <h3>Days of cover</h3>
+  <p>The simplest rule: safety stock = average daily use &times; a number of days. Plants often use 7 to 10 days for domestic, multi-source materials and 15 to 30 days for imported or single-source ones. It is easy to explain and adjust, but it ignores how variable each material actually is.</p>
+  <h3>Statistical safety stock</h3>
+  <div class="formula-box">
+    SS = z &times; &radic;( LT &times; &sigma;<sub>d</sub><sup>2</sup> + d<sup>2</sup> &times; &sigma;<sub>LT</sub><sup>2</sup> )
+    <small>d average demand per period (week), &sigma;<sub>d</sub> its standard deviation, LT average lead time in the same periods, &sigma;<sub>LT</sub> its standard deviation, z the service factor.</small>
+  </div>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Cycle service level (chance of no stock-out in a cycle)</th><th>90 %</th><th>95 %</th><th>98 %</th><th>99 %</th></tr></thead><tbody>
+    <tr><td>z</td><td>1.28</td><td>1.65</td><td>2.05</td><td>2.33</td></tr>
+  </tbody></table></div>
+  <p><strong>Example: an imported key starting material.</strong> Average use 1,867 kg per week (20 batches of 400 kg a month) with a standard deviation of 600 kg per week; lead time 50 days (7.1 weeks) with a standard deviation of 1.5 weeks; 95 percent service level.</p>
+  <div class="formula-box">
+    SS = 1.65 &times; &radic;( 7.14 &times; 600<sup>2</sup> + 1,867<sup>2</sup> &times; 1.5<sup>2</sup> ) = 1.65 &times; &radic;( 2.57 + 7.84 ) &times; 10<sup>3</sup> &asymp; 5,320 kg
+    <small>Demand variation alone would need 2,650 kg; lead-time variation alone 4,620 kg. For imported materials the lead time usually drives the safety stock.</small>
+  </div>
+  <p>That is about 20 days of cover. The useful lesson is where the number comes from: shortening or steadying the lead time (a second approved source, a local stockist, a supplier holding stock on consignment) cuts safety stock more than better forecasting does.</p>
+  <div class="cb-w" data-w="safetystock"></div>
+  <h2 id="rop">Reorder point and inventory position <span class="lvl l2">Working level</span></h2>
+<div class="formula-box">
+    Reorder point (ROP) = average daily use &times; lead time in days + safety stock<br>
+    Inventory position = released stock + stock in quarantine + quantity on order &minus; quantity already reserved
+    <small>Order when the inventory position falls to the reorder point, not when the stock on the shelf does.</small>
+  </div>
+  <p>Comparing the reorder point with stock on the shelf, rather than with the inventory position, is the classic mistake: the material already on order is forgotten and the same requirement is ordered twice.</p>
+  <p><strong>Example.</strong> For the key starting material above, with 15 days of cover as safety stock (4,000 kg) and 266.7 kg per day of use:</p>
+  <div class="formula-box">
+    ROP = 266.7 &times; 50 + 4,000 = 17,333 kg<br>
+    Today: 9,500 kg released + 2,000 kg in quarantine + 16,000 kg on order = 27,500 kg inventory position
+  </div>
+  <p>The weekly projection below follows the batch plan. The order on the way arrives in week 3 and is released in week 4. The inventory position reaches the reorder point in week 6, so the next order goes then.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Week</th><th>Batches of product A</th><th>Use, kg</th><th>Released into stock, kg</th><th>Available stock at week end, kg</th><th>Inventory position, kg</th><th>Action</th></tr></thead><tbody>
+    <tr><td>Start</td><td></td><td></td><td></td><td>11,500</td><td>27,500</td><td>Quarantine lot released in week 1</td></tr>
+    <tr><td>1</td><td>5</td><td>2,000</td><td></td><td>9,500</td><td>25,500</td><td></td></tr>
+    <tr><td>2</td><td>5</td><td>2,000</td><td></td><td>7,500</td><td>23,500</td><td></td></tr>
+    <tr><td>3</td><td>4</td><td>1,600</td><td></td><td>5,900</td><td>21,900</td><td>Order received, in QC</td></tr>
+    <tr><td>4</td><td>6</td><td>2,400</td><td>16,000</td><td>19,500</td><td>19,500</td><td></td></tr>
+    <tr><td>5</td><td>5</td><td>2,000</td><td></td><td>17,500</td><td>17,500</td><td></td></tr>
+    <tr><td>6</td><td>5</td><td>2,000</td><td></td><td>15,500</td><td>15,500</td><td><b>Below 17,333: place the next order</b></td></tr>
+    <tr><td>7</td><td>0</td><td>0</td><td></td><td>15,500</td><td>15,500</td><td>Planned shutdown</td></tr>
+    <tr><td>8</td><td>5</td><td>2,000</td><td></td><td>13,500</td><td>13,500</td><td></td></tr>
+  </tbody></table></div>
+  <p>Available stock never falls below the 4,000 kg safety stock in these eight weeks. In week 3 it is down to 5,900 kg; if the incoming lot had failed QC that week, the plant would have been running on safety stock with seven weeks to wait for a replacement. That is the situation the safety stock is for, and the reason to start chasing a second source before it happens.</p>
+  <h2 id="quantity">How much to order <span class="lvl l2">Working level</span></h2>
+<p>The economic order quantity (EOQ) balances the cost of placing orders against the cost of holding stock:</p>
+  <div class="formula-box">
+    EOQ = &radic;( 2 &times; D &times; S / H )
+    <small>D annual use (kg), S cost of one order (purchase, freight minimum, receipt, sampling and testing, ₹), H cost of holding 1 kg for a year (₹/kg; usually 18 to 25 percent of the price, covering interest, storage, insurance and the risk of expiry).</small>
+  </div>
+  <p>For the key starting material: 96,000 kg a year, ₹60,000 per order (an import with clearing, freight and a full test), ₹1,200/kg with 20 percent holding cost, so H = ₹240/kg per year.</p>
+  <div class="art-table-wrap"><table class="art-table"><thead><tr><th>Order size</th><th>Orders a year</th><th>Ordering + holding cost a year</th><th>Above the minimum</th></tr></thead><tbody>
+    <tr><td>5,000 kg</td><td>19.2</td><td>₹17.5 lakh</td><td>+5 %</td></tr>
+    <tr><td>6,930 kg (EOQ)</td><td>13.9</td><td>₹16.6 lakh</td><td>&mdash;</td></tr>
+    <tr><td>8,000 kg</td><td>12</td><td>₹16.8 lakh</td><td>+1 %</td></tr>
+    <tr><td>10,000 kg</td><td>9.6</td><td>₹17.8 lakh</td><td>+7 %</td></tr>
+    <tr><td>16,000 kg</td><td>6</td><td>₹22.8 lakh</td><td>+37 %</td></tr>
+  </tbody></table></div>
+  <p>The curve is flat near the minimum, so the EOQ is a guide, not a rule. Rounding to a convenient quantity such as a month&rsquo;s use costs almost nothing. Doubling it does. In practice the order size is then adjusted for:</p>
+  <ul>
+    <li><strong>Pack size and minimum order.</strong> Round up to full drums, bags, IBCs or a tanker load.</li>
+    <li><strong>Price breaks.</strong> A lower price for a larger lot is worth taking only if the saving beats the extra holding cost.</li>
+    <li><strong>Retest date and shelf life.</strong> Never order more than will be used before the retest date with a margin: maximum order &asymp; daily use &times; (remaining shelf life &minus; lead time &minus; a buffer).</li>
+    <li><strong>Storage limits.</strong> Flammable solvents are capped by the licensed quantity and tank capacity, not by cost. See <a href="{{ '/articles/peso-licensing-for-chemical-plants/' | relative_url }}">PESO licensing</a>.</li>
+    <li><strong>One lot per campaign.</strong> For a critical material, buying one large lot for a whole campaign removes lot-to-lot variation from the process, at the cost of more stock.</li>
+  </ul>
+  <div class="cb-w" data-w="eoq"></div>
+  <h2 id="planner">A planning sheet you can use <span class="lvl l2">Working level</span></h2>
+<p>The planner below does the monthly calculation for several materials at once. Enter each material&rsquo;s norm, the batches planned, recovery for solvents, the current stock and the lead time; it gives the fresh requirement, the reorder point, the days of cover and a suggested order quantity rounded up to the pack size.</p>
+  <div class="cb-w" data-w="rmplan"></div>
+  <h2 id="priorities">Where to spend the planning effort <span class="lvl l3">Going deeper</span></h2>
+<p>A plant with three hundred materials cannot plan all of them in the same detail. Sort them twice:</p>
+  <ul>
+    <li><strong>By value (ABC).</strong> Typically 10 to 20 percent of the materials make up 70 to 80 percent of the purchase value. These A items get weekly review, statistical safety stock and tight order quantities.</li>
+    <li><strong>By risk.</strong> A cheap material can stop the plant just as surely as an expensive one. Flag single-source items, imports, key starting materials, materials with long QC release and anything with a short retest period, and give them more cover whatever their value.</li>
+  </ul>
+  <p>Catalysts and items consumed only in some campaigns (a palladium catalyst, a chiral auxiliary, a filter aid for one product) need planning by campaign rather than by month, with the order placed from the campaign start date backwards.</p>
+  <h2 id="review">The monthly planning meeting <span class="lvl l3">Going deeper</span></h2>
+<p>Planning works when production, stores, QC and purchase look at the same numbers once a month (more often for A items), usually after the next month&rsquo;s production plan is fixed:</p>
+  <ol>
+    <li>Freeze the batch plan for the next month and a rough plan for the two months after.</li>
+    <li>Recalculate requirements with the current norms and the last three months&rsquo; actual recovery.</li>
+    <li>Compare inventory position with reorder points; raise indents for everything below.</li>
+    <li>Review exceptions: orders that are late, lots in QC hold, materials near retest, slow-moving stock.</li>
+    <li>Track a few measures: stock-outs that stopped a batch, days of inventory by class, and value written off as expired.</li>
+  </ol>
+  <p>Stock-outs and expiry write-offs pull in opposite directions. A plan that drives one to zero usually makes the other worse; the aim is to keep both small and to know why each one happened.</p>
+  <h2 id="faq">Questions people ask</h2>
+  <h3>How do I calculate the raw material requirement for a month?</h3>
+  <p>Multiply the batches planned for each product by its consumption norm per batch and add across products. For solvents, multiply the gross use by one minus the recovery fraction to get the fresh solvent needed. Convert pure-basis norms to the strength actually bought.</p>
+  <h3>What is the reorder point formula?</h3>
+  <p>Reorder point = average daily use × lead time in days + safety stock. The lead time should run from raising the purchase order to QC release, not just to delivery. Compare it with the inventory position (released + quarantine + on order), not with stock on the shelf.</p>
+  <h3>How much safety stock should a plant keep?</h3>
+  <p>A simple rule is 7 to 10 days of use for domestic multi-source materials and 15 to 30 days for imported or single-source ones. A statistical method uses the variation of demand and of lead time; for imported materials the lead-time variation usually dominates.</p>
+  <h3>Is EOQ useful in a batch plant?</h3>
+  <p>Yes as a guide. The total cost curve is flat near the EOQ, so rounding to a month’s use or a full pack costs very little. The final quantity is set by pack size, minimum order, retest date, storage limits and campaign plans.</p>
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>Silver, Pyke and Thomas, <i>Inventory and Production Management in Supply Chains</i>, 4th ed., CRC Press, 2016</li>
+    <li>Chopra and Meindl, <i>Supply Chain Management: Strategy, Planning and Operation</i>, Pearson (safety stock with variable lead time)</li>
+    <li>ICH Q7, <i>Good Manufacturing Practice Guide for Active Pharmaceutical Ingredients</i>, section 7: materials management</li>
+    <li>Revised Schedule M, Drugs and Cosmetics Rules (India), 2023: materials and stores</li>
+  </ul>
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/raw-material-management/' | relative_url }}">Raw material management</a>
+    <a href="{{ '/articles/consumption-norms-and-cost-per-kg/' | relative_url }}">Consumption norms and cost per kg</a>
+    <a href="{{ '/articles/chemical-warehouse-storage/' | relative_url }}">Chemical warehouse management</a>
+    <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
+    <a href="{{ '/calculators/batch-size-calculator/' | relative_url }}">Batch size calculator</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/chem-basics.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

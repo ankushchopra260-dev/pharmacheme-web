@@ -28,3 +28,12 @@
 .cb-w { margin: 16px 0 22px; }
 @media (prefers-reduced-motion: reduce) { .cb-split div { transition: none; } }
 @media (max-width: 520px) { .cb-f input { width: 5.5em; } .cb-t input { width: 9em !important; } }
+
+.cb-plan input { font: 600 .82rem var(--f-mono); color: var(--paper); background: var(--bg-deep); border: 1px solid #2C4C6C; border-radius: 6px; padding: 4px 6px; width: 6em; }
+.cb-plan input:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
+.cb-plan th { white-space: normal; min-width: 5.5em; font-size: .75rem; vertical-align: bottom; }
+.cb-plan td { white-space: nowrap; }
+.cb-plan td.no, .cb-plan .no { color: #F08A6B; }
+.cb-add, .cb-del { font: 600 .85rem var(--f-sans); color: var(--brass); background: none; border: 1px solid var(--brass); border-radius: 999px; padding: 5px 14px; cursor: pointer; }
+.cb-del { border: none; color: var(--muted); font-size: 1.1rem; padding: 0 6px; }
+.cb-add:focus-visible, .cb-del:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }

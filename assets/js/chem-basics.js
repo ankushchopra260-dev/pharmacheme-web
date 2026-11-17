@@ -292,6 +292,85 @@
     });
   };
 
+  W.safetystock = function (r) {
+    var Z = [['1.28', '90 %'], ['1.65', '95 %'], ['2.05', '98 %'], ['2.33', '99 %']];
+    r.innerHTML = box('Safety stock and reorder point',
+      '<div class="art-ctl">' + inp('d', 'Average use per week', 1867, 'kg') + inp('sd', 'Std. deviation of weekly use', 600, 'kg') + '</div>' +
+      '<div class="art-ctl">' + inp('lt', 'Lead time, PO to QC release', 50, 'days') + inp('slt', 'Std. deviation of lead time', 10.5, 'days') + sel('z', 'Service level', Z, '1.65') + '</div>' +
+      '<div class="art-read">' + rd('ss', 'Safety stock, kg') + rd('sdays', 'Safety stock, days of use') + rd('rop', 'Reorder point, kg') + rd('split', 'Share due to lead-time variation') + '</div>',
+      'Defaults are the imported key starting material in the example. Weekly figures are converted to days internally.');
+    wire(r, function () {
+      var d = num(r, 'd') / 7, sd = num(r, 'sd') / Math.sqrt(7), lt = num(r, 'lt'), slt = num(r, 'slt'), z = +val(r, 'z');
+      var a = lt * sd * sd, b = d * d * slt * slt, ss = z * Math.sqrt(a + b);
+      out(r, 'ss', f(ss, 0)); out(r, 'sdays', f(ss / d, 1)); out(r, 'rop', f(d * lt + ss, 0)); out(r, 'split', f(100 * b / (a + b), 0) + ' %');
+    });
+  };
+
+  W.eoq = function (r) {
+    r.innerHTML = box('Economic order quantity',
+      '<div class="art-ctl">' + inp('D', 'Annual use', 96000, 'kg') + inp('S', 'Cost per order', 60000, '₹') + inp('p', 'Price', 1200, '₹/kg') + inp('h', 'Holding cost', 20, '% a year') + inp('q', 'Your order size', 8000, 'kg') + '</div>' +
+      '<div class="art-read">' + rd('eoq', 'EOQ, kg') + rd('n', 'Orders a year at EOQ') + rd('c', 'Ordering + holding at EOQ, ₹ a year') + rd('cq', 'At your order size, ₹ a year') + rd('pen', 'Extra cost of your order size') + '</div>',
+      'Cost per order includes purchase effort, freight minimums, receipt, sampling and testing. Holding cost covers interest, storage, insurance and expiry risk.');
+    wire(r, function () {
+      var D = num(r, 'D'), S = num(r, 'S'), H = num(r, 'p') * num(r, 'h') / 100, q = num(r, 'q');
+      var e = Math.sqrt(2 * D * S / H), c = function (Q) { return D / Q * S + Q / 2 * H; };
+      out(r, 'eoq', f(e, 0)); out(r, 'n', f(D / e, 1)); out(r, 'c', f(c(e), 0)); out(r, 'cq', f(c(q), 0));
+      var pen = (c(q) / c(e) - 1) * 100; out(r, 'pen', '+' + f(pen, 1) + ' %', pen > 10 ? 'no' : '');
+    });
+  };
+
+  W.rmplan = function (r) {
+    var cols = [['m', 'Material', 'text', 12], ['norm', 'Gross use per batch, kg'], ['b', 'Batches in the month'], ['rec', 'Recovery, %'], ['st', 'Released stock, kg'], ['qs', 'In QC, kg'], ['oo', 'On order, kg'], ['lt', 'Lead time to release, days'], ['sf', 'Safety stock, days'], ['pk', 'Pack size, kg'], ['moq', 'Minimum order, kg']];
+    var rows = [
+      ['KSM-1 (imported)', 400, 20, 0, 9500, 2000, 16000, 50, 15, 25, 5000],
+      ['Toluene (product A)', 1800, 20, 85, 3200, 0, 0, 7, 10, 172, 2000],
+      ['Toluene (product B)', 1200, 12, 80, 0, 0, 0, 7, 10, 172, 0],
+      ['Caustic lye 48 %', 300, 20, 0, 2600, 0, 0, 5, 7, 1000, 1000]
+    ];
+    var days = 30;
+    function head() { return '<tr>' + cols.map(function (c) { return '<th>' + c[1] + '</th>'; }).join('') + '<th></th></tr>'; }
+    function row(v, i) { return '<tr data-i="' + i + '">' + cols.map(function (c, j) { return '<td><input ' + (c[2] === 'text' ? 'type="text" style="width:' + c[3] + 'em"' : 'type="number" step="any" inputmode="decimal"') + ' data-c="' + j + '" value="' + v[j] + '" aria-label="' + c[1] + '"></td>'; }).join('') + '<td><button type="button" class="cb-del" data-del="' + i + '" aria-label="Remove row">×</button></td></tr>'; }
+    function draw() {
+      r.innerHTML = box('Monthly raw material planner',
+        '<div class="art-ctl">' + inp('days', 'Days in the month', days, 'days', 1) + '</div><div class="cb-tab cb-plan"><table class="art-table"><thead>' + head() + '</thead><tbody>' + rows.map(row).join('') + '</tbody></table></div>' +
+        '<div class="art-ctl" style="margin-top:10px"><button type="button" class="cb-add">+ Add material</button></div>' +
+        '<p class="cb-sub" style="margin-top:14px" data-o="sum"></p><div class="cb-tab cb-res" data-o="res"></div>',
+        'Rows whose names match before any bracket, such as Toluene (product A) and Toluene (product B), are added together. Lead time, safety days, pack size and minimum order are taken from the first of them. Suggested order = enough to bring the inventory position to the reorder point plus one month&rsquo;s use, at least the minimum order, rounded up to whole packs. Check retest dates and storage limits before ordering.');
+      calc();
+    }
+    function read() {
+      [].forEach.call(r.querySelectorAll('tbody tr'), function (tr) {
+        var i = +tr.getAttribute('data-i');
+        [].forEach.call(tr.querySelectorAll('input'), function (inpt) { var j = +inpt.getAttribute('data-c'); rows[i][j] = cols[j][2] === 'text' ? inpt.value : parseFloat(inpt.value) || 0; });
+      });
+      var dd = parseFloat(r.querySelector('[data-k="days"]').value); days = dd > 0 ? dd : 30;
+    }
+    function calc() {
+      read();
+      var groups = {}, order = [];
+      rows.forEach(function (v, i) {
+        var key = String(v[0]).replace(/\s*\(.*\)\s*$/, '').trim().toLowerCase() || ('#' + i);
+        var need = v[1] * v[2] * (1 - Math.min(Math.max(v[3], 0), 100) / 100);
+        if (!groups[key]) { groups[key] = { name: String(v[0]).replace(/\s*\(.*\)\s*$/, '').trim() || 'Row ' + (i + 1), n: 0, need: 0, st: 0, qs: 0, oo: 0, lt: v[7], sf: v[8], pk: v[9], moq: v[10] }; order.push(key); }
+        var g = groups[key]; g.n++; g.need += need; g.st += v[4]; g.qs += v[5]; g.oo += v[6];
+      });
+      var nOrd = 0, html = '<table class="art-table"><thead><tr><th>Material</th><th>Fresh need in month, kg</th><th>Daily use, kg</th><th>Reorder point, kg</th><th>Inventory position, kg</th><th>Days of cover (released)</th><th>Suggested order, kg</th></tr></thead><tbody>';
+      order.forEach(function (k) {
+        var g = groups[k], du = g.need / days, ss = du * g.sf, rop = du * g.lt + ss, pos = g.st + g.qs + g.oo, cov = du > 0 ? g.st / du : NaN, q = null;
+        if (du > 0 && pos <= rop) { q = Math.max(rop + g.need - pos, g.moq || 0); if (g.pk > 0) q = Math.ceil(q / g.pk) * g.pk; nOrd++; }
+        html += '<tr><td>' + g.name.replace(/</g, '&lt;') + (g.n > 1 ? ' <small>(' + g.n + ' rows)</small>' : '') + '</td><td>' + f(g.need, 0) + '</td><td>' + f(du, 1) + '</td><td>' + f(rop, 0) + '</td><td>' + f(pos, 0) + '</td><td' + (cov < g.sf ? ' class="no"' : '') + '>' + (isFinite(cov) ? f(cov, 0) : '–') + '</td><td' + (q !== null ? ' class="no"' : '') + '>' + (q !== null ? '<b>' + f(q, 0) + '</b>' : du > 0 ? 'not yet' : '–') + '</td></tr>';
+      });
+      out(r, 'res', html + '</tbody></table>');
+      out(r, 'sum', nOrd ? nOrd + ' material' + (nOrd > 1 ? 's are' : ' is') + ' at or below the reorder point:' : 'Nothing is below its reorder point:');
+    }
+    draw();
+    r.addEventListener('input', function (e) { if (e.target.matches('input')) calc(); });
+    r.addEventListener('click', function (e) {
+      if (e.target.classList.contains('cb-add')) { read(); rows.push(['New material', 0, 0, 0, 0, 0, 0, 7, 10, 25, 0]); draw(); }
+      var d = e.target.getAttribute('data-del'); if (d !== null) { read(); rows.splice(+d, 1); draw(); }
+    });
+  };
+
   function init() { [].forEach.call(document.querySelectorAll('.cb-w[data-w]'), function (n) { var w = W[n.getAttribute('data-w')]; if (w) { try { w(n); } catch (e) { if (window.console) console.error(e); } } }); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
