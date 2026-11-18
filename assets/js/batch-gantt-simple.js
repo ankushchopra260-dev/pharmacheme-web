@@ -10,7 +10,7 @@
 // ================================================================
 (function () {
   "use strict";
-  const KEY = "pce-batch-simple-v4";
+  const KEY = "pce-batch-simple-v5";
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (v, d) => { const x = parseFloat(v); return isFinite(x) ? x : d; };
@@ -23,7 +23,7 @@
   function monthEnd() { const a = new Date(S.start + "T00:00:00"); const b = new Date(a.getFullYear(), a.getMonth() + 1, 1); return Math.round((b - a) / 86400e3); }
   function tomorrow() { const d = new Date(); d.setDate(d.getDate() + 1); const p = (n) => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; }
   const DEFAULT = () => ({
-    start: nextMonth1(), days: 28, unit: "kg", mode: "regular",
+    start: nextMonth1(), days: "", unit: "kg", mode: "regular",
     stages: [
       { name: "Stage-01", bct: 48, ste: 96, pre: 0, note: "", n: 14, wip: "", out: 25, link: "first" },
       { name: "Stage-02", bct: 72, ste: 144, pre: 0, note: "", n: 9, wip: "", out: 30, link: "first" },
@@ -42,7 +42,10 @@
 
   /* BCT is the charging gap (the longest equipment time in the stage); a batch moves through the
      stage's equipment over its STE, so batches overlap when BCT < STE */
-  const autoN = (st) => { const g = num(st.bct, 0); return g > 0 ? Math.floor((24 * Math.max(1, num(S.days, 28))) / g + 1e-9) : 0; };
+  /* working days: the calendar days of the month unless the user has typed a number */
+  const daysSet = () => String(S.days == null ? "" : S.days).trim() !== "" && num(S.days, 0) > 0;
+  const workDays = (cal) => (daysSet() ? num(S.days, 0) : cal == null ? monthEnd() : cal);
+  const autoN = (st, cal) => { const g = num(st.bct, 0); return g > 0 ? Math.floor((24 * workDays(cal)) / g + 1e-9) : 0; };
   const newCount = (st) => Math.min(500, Math.max(0, S.mode === "regular" ? autoN(st) : Math.round(num(st.n, 0))));
 
   /* Running (regular) product: the line has been running before the month and keeps running after it.
@@ -62,8 +65,8 @@
         let nW = 0, nN = 0;
         const n = Math.min(500, autoN(st));
         /* last month ran the same way: n charges from its first day; those still running are the opening WIP */
-        const Dp = prevMonthDays();
-        for (let i = 0; i < n; i++) { const s0 = -Dp + phi + i * bct, e = s0 + ste; if (s0 < -1e-9 && e > 1e-9) b.push({ wip: true, j: nW++, s: s0, e }); }
+        const Dp = prevMonthDays(), nP = Math.min(500, autoN(st, Dp));
+        for (let i = 0; i < nP; i++) { const s0 = -Dp + phi + i * bct, e = s0 + ste; if (s0 < -1e-9 && e > 1e-9) b.push({ wip: true, j: nW++, s: s0, e }); }
         for (let i = 0; i < n; i++) { const s0 = phi + i * bct, e = s0 + ste; b.push({ wip: false, i: nN++, s: s0, e, close: s0 < D - 1e-9 && e > D + 1e-9, next: s0 >= D - 1e-9 }); }
         b.sort((x, y) => x.s - y.s);
         let q = 0; b.forEach((x) => { if (x.wip) x.j = q++; });
@@ -75,7 +78,7 @@
     });
     for (let k = 1; k < out.length; k++) {
       const a = out[k - 1], c = out[k];
-      if (a.bct > 0 && c.bct > 0 && c.bct < a.bct - 1e-9) warn.push(`${c.st.name || "Stage " + (k + 1)} can take ${autoN(c.st)} batches in ${f(num(S.days, 28), 0)} working days but ${a.st.name || "the stage before"} makes ${autoN(a.st)}; the difference has to come from stock.`);
+      if (a.bct > 0 && c.bct > 0 && c.bct < a.bct - 1e-9) warn.push(`${c.st.name || "Stage " + (k + 1)} can take ${autoN(c.st)} batches in ${f(workDays(), 0)} working days but ${a.st.name || "the stage before"} makes ${autoN(a.st)}; the difference has to come from stock.`);
     }
     return { rows: out, warn, D, end: Math.max(D, ...out.map((r) => Math.max(0, ...r.batches.map((x) => x.e)))) };
   }
@@ -106,7 +109,7 @@
       }
       /* every batch on its own line, one below the other */
       b.forEach((x, q) => { x.lane = q; });
-      if (prev && st.link !== "last" && prev.batches.length < n) warn.push(S.mode === "regular" ? `${nm} can take ${n} batches in ${f(num(S.days, 28), 0)} days but ${prev.st.name || "the stage before"} makes ${prev.batches.length}; the other ${n - prev.batches.length} need intermediate from stock.` : `${nm} has more batches than the stage before it can feed.`);
+      if (prev && st.link !== "last" && prev.batches.length < n) warn.push(S.mode === "regular" ? `${nm} can take ${n} batches in ${f(workDays(), 0)} days but ${prev.st.name || "the stage before"} makes ${prev.batches.length}; the other ${n - prev.batches.length} need intermediate from stock.` : `${nm} has more batches than the stage before it can feed.`);
       if (bctH > 0 && steH > 0 && bctH > steH) warn.push(`${nm}: BCT is longer than STE, so the equipment stands idle between batches.`);
       if (n > 0 && bctH <= 0) warn.push(`${nm}: enter a BCT above zero.`);
       const hasPre = !wip.length && pre > 0;
@@ -169,7 +172,7 @@
       <td><input type="text" data-p="stages.${i}.name" value="${esc(s.name)}" style="width:9em" aria-label="Stage name"></td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.bct" value="${esc(s.bct)}" aria-label="BCT, hours"></td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.ste" value="${esc(s.ste)}" aria-label="STE, hours"></td>
-      <td>${S.mode === "regular" ? `<span class="bs-auto" data-o="n${i}" title="24 h × ${esc(S.days)} days ÷ BCT">${autoN(s)}</span>` : `<input type="number" step="1" min="0" data-p="stages.${i}.n" value="${esc(s.n)}" aria-label="New batches">`}</td>
+      <td>${S.mode === "regular" ? `<span class="bs-auto" data-o="n${i}" title="24 h × ${esc(workDays())} days ÷ BCT">${autoN(s)}</span>` : `<input type="number" step="1" min="0" data-p="stages.${i}.n" value="${esc(s.n)}" aria-label="New batches">`}</td>
       ${S.mode === "regular" ? `<td colspan="3"><span class="bg-small">${i === 0 ? "running product: the line is already full" : "—"}</span></td>` : `<td>${i === 0 ? `<span class="bg-small">plan start</span>` : `<select data-p="stages.${i}.link" aria-label="Starts after">${opt("first", s.link, "#01 of previous stage")}${opt("last", s.link, "last of previous stage")}</select>`}</td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.pre" value="${esc(s.pre)}" aria-label="Hours before first batch"></td>
       <td><input type="text" data-p="stages.${i}.note" value="${esc(s.note)}" class="bs-note" aria-label="What happens before the first batch"></td>`}
@@ -177,7 +180,7 @@
       <td class="bg-btns"><button type="button" data-act="up" data-i="${i}" aria-label="Move up">↑</button><button type="button" data-act="del" data-i="${i}" aria-label="Remove stage">×</button></td></tr>`;
     return `<div class="bs-plan">
         <label><span>First day</span><input type="date" data-p="start" value="${esc(S.start)}"></label>
-        <label><span title="Batches = 24 h × these days ÷ BCT">Working days in a month</span><input type="number" step="1" min="1" data-p="days" value="${esc(S.days)}"></label>
+        <label><span title="Batches = 24 h × these days ÷ BCT">Working days in a month</span><input type="number" step="1" min="1" data-p="days" value="${esc(daysSet() ? S.days : "")}" placeholder="${monthEnd()} (auto)" aria-label="Working days in a month; leave empty for the days in the month"></label>
         <label><span>Product</span><select data-p="mode"><option value="regular"${S.mode === "regular" ? " selected" : ""}>Running product: 24 h × days ÷ BCT, WIP automatic</option><option value="campaign"${S.mode !== "regular" ? " selected" : ""}>New product or campaign: batches entered, starts empty</option></select></label>
         <label><span>Output unit</span><input type="text" data-p="unit" value="${esc(S.unit)}"></label>
       </div>
@@ -198,9 +201,9 @@
     const mEnd = fmtD(lastDay(D)) + " 24:00";
     h += `<div class="bg-grid4" aria-live="polite">
       <div class="readout"><div class="label">Output to ${esc(fmtShort(lastDay(D)))}</div><div class="val">${f(cl.done * lo, 0)}</div><div class="bg-unit">${unit} · ${cl.done} batches of ${esc(last.st.name || "the last stage")} finished by ${esc(mEnd)}</div></div>
-      <div class="readout"><div class="label">Opening WIP</div><div class="val">${reg ? sumOpen : 0}</div><div class="bg-unit">${reg ? "batches charged last month, finishing this month" : "a new product starts empty"}</div></div>
-      <div class="readout"><div class="label">Closing WIP</div><div class="val">${sumClose}</div><div class="bg-unit">batches still running at month end${!reg && C.some((c) => c.next) ? " · " + C.reduce((a, c) => a + c.next, 0) + " more start next month" : ""}</div></div>
-      <div class="readout"><div class="label">Slowest stage</div><div class="val">${bn ? esc(bn.st.name || "") : "—"}</div><div class="bg-unit">${bn ? "BCT " + f(bn.bctH, 0) + " h · " + autoN(bn.st) + " batches in " + f(num(S.days, 28), 0) + " working days" : ""}</div></div></div>`;
+      <div class="readout"><div class="label">Opening WIP</div><div class="val">${reg ? sumOpen : 0}</div><div class="bg-unit">${reg ? (sumOpen === 1 ? "batch" : "batches") + " charged last month, finishing this month" : "a new product starts empty"}</div></div>
+      <div class="readout"><div class="label">Closing WIP</div><div class="val">${sumClose}</div><div class="bg-unit">${sumClose === 1 ? "batch" : "batches"} still running at month end${!reg && C.some((c) => c.next) ? " · " + C.reduce((a, c) => a + c.next, 0) + " more start next month" : ""}</div></div>
+      <div class="readout"><div class="label">Slowest stage</div><div class="val">${bn ? esc(bn.st.name || "") : "—"}</div><div class="bg-unit">${bn ? "BCT " + f(bn.bctH, 0) + " h · " + autoN(bn.st) + " batches in " + f(workDays(), 0) + " working days" : ""}</div></div></div>`;
     P.warn.forEach((w) => (h += `<div class="bg-note">${esc(w)}</div>`));
     h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button><span class="bg-small" style="margin:0">Each batch has its own line. Grey bars: opening WIP, charged last month. Red dashed outline: closing WIP, still running at the red month-end line.${reg ? "" : " Grey block: time before the first batch (hover for the note)."}</span></div>`;
     h += `<div class="bs-chart">${chart(P)}</div>`;
@@ -210,6 +213,7 @@
       ${P.rows.map((r) => r.batches.map((b) => `<tr><td>${esc(r.st.name)}</td><td>${label(b)}</td><td>${esc(fmtDT(dateAt(b.s)))}</td><td>${esc(fmtDT(dateAt(b.e)))}</td><td>${f((b.e - b.s) * 24, 0)}</td><td>${status(b)}</td></tr>`).join("")).join("")}</tbody></table></div>`;
     $("bs-results").innerHTML = h;
     S.stages.forEach((st, i) => { const o = document.querySelector(`[data-o="n${i}"]`); if (o) o.textContent = autoN(st); });
+    const di = document.querySelector('#bs-editors [data-p="days"]'); if (di) di.placeholder = monthEnd() + " (auto)";
     lastP = P;
   }
   const status = (b) => (b.wip ? "Opening WIP" : b.close ? "Closing WIP" : b.next ? "Next month" : "");
@@ -238,7 +242,7 @@
     const p = path.split("."); let o = S;
     for (let i = 0; i < p.length - 1; i++) o = o[p[i]];
     const k = p[p.length - 1];
-    o[k] = ["name", "note", "unit", "start", "link", "wip", "mode"].indexOf(k) >= 0 ? v : num(v, 0);
+    o[k] = ["name", "note", "unit", "start", "link", "wip", "mode", "days"].indexOf(k) >= 0 ? v : num(v, 0);
   }
 
   function initSimple(mount) {
