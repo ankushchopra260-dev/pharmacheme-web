@@ -65,13 +65,13 @@
         if (last && s < last.s + bct - 1e-9) s = last.s + bct;
         b.push({ wip: false, i, s, e: s + ste });
       }
-      const lanesEnd = [];
-      b.forEach((x) => { const ds = Math.max(0, x.s); /* a lane is reused only after a clear gap, so bars never touch end to start */ let l = lanesEnd.findIndex((e) => e < ds - 1e-9); if (l < 0) { l = lanesEnd.length; lanesEnd.push(0); } x.lane = l; lanesEnd[l] = x.e; });
+      /* every batch on its own line, one below the other */
+      b.forEach((x, q) => { x.lane = q; });
       if (prev && st.link !== "last" && prev.batches.length < n) warn.push(S.mode === "regular" ? `${nm} can take ${n} batches in ${f(num(S.days, 28), 0)} days but ${prev.st.name || "the stage before"} makes ${prev.batches.length}; the other ${n - prev.batches.length} need intermediate from stock.` : `${nm} has more batches than the stage before it can feed.`);
       if (bctH > 0 && steH > 0 && bctH > steH) warn.push(`${nm}: BCT is longer than STE, so the equipment stands idle between batches.`);
       if (n > 0 && bctH <= 0) warn.push(`${nm}: enter a BCT above zero.`);
       const hasPre = !wip.length && pre > 0;
-      out.push({ st, k, bctH, steH, bct, ste, pre: hasPre ? pre : 0, preS: anchor, preE: anchor + (hasPre ? pre : 0), batches: b, nNew: n, nWip: wip.length, lanes: Math.max(1, lanesEnd.length) });
+      out.push({ st, k, bctH, steH, bct, ste, pre: hasPre ? pre : 0, preS: anchor, preE: anchor + (hasPre ? pre : 0), batches: b, nNew: n, nWip: wip.length, lanes: Math.max(1, b.length) });
     });
     return { rows: out, warn, end: Math.max(0, ...out.map((r) => Math.max(r.preE, ...r.batches.map((x) => x.e)))) };
   }
@@ -157,7 +157,7 @@
       <div class="readout"><div class="label">Output of this campaign</div><div class="val">${f(outTot, 0)}</div><div class="bg-unit">${esc(S.unit)} from the last stage${nW ? ", WIP included" : ""}</div></div>
       <div class="readout"><div class="label">Slowest stage</div><div class="val">${bn ? esc(bn.st.name || "") : "—"}</div><div class="bg-unit">${bn ? "BCT " + f(bn.bctH, 0) + " h · " + autoN(bn.st) + " batches in " + f(days, 0) + " days" : ""}</div></div></div>`;
     P.warn.forEach((w) => (h += `<div class="bg-note">${esc(w)}</div>`));
-    h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button><span class="bg-small" style="margin:0">Grey block: time before the first batch (hover for the note). Grey bars: batches already in progress. Batches overlap when BCT is shorter than STE (the batch has moved on to the next reactor) and are drawn one under the other.</span></div>`;
+    h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button><span class="bg-small" style="margin:0">Grey block: time before the first batch (hover for the note). Grey bars: batches already in progress. Each batch has its own line; batches overlap when BCT is shorter than STE (the batch has moved on to the next reactor).</span></div>`;
     h += `<div class="bs-chart">${chart(P)}</div>`;
     h += `<h3 class="bg-h">Stage summary</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Stage</th><th>Before first batch</th><th>First batch starts</th><th>Last batch ends</th><th>Days on the stage</th><th>Output, ${esc(S.unit)}</th></tr></thead><tbody>
       ${P.rows.map((r) => { const b0 = r.batches[0], bl = r.batches[r.batches.length - 1]; return `<tr><td>${esc(r.st.name)}</td><td>${r.pre ? f(r.pre * 24, 0) + " h · " + esc(r.st.note || "") : "—"}</td><td>${b0 ? esc(fmtDT(dateAt(Math.max(0, b0.s)))) : "—"}</td><td>${bl ? esc(fmtDT(dateAt(bl.e))) : "—"}</td><td>${bl ? f(bl.e - r.preS, 1) : "—"}</td><td>${f(r.batches.length * num(r.st.out, 0), 0)}</td></tr>`; }).join("")}</tbody></table></div>
