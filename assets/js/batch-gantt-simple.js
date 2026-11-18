@@ -25,10 +25,10 @@
   const DEFAULT = () => ({
     start: nextMonth1(), days: "", unit: "kg", mode: "regular",
     stages: [
-      { name: "Stage-01", bct: 48, ste: 96, pre: 0, note: "", n: 14, wip: "", out: 25, link: "first" },
-      { name: "Stage-02", bct: 72, ste: 144, pre: 0, note: "", n: 9, wip: "", out: 30, link: "first" },
-      { name: "Stage-03", bct: 48, ste: 96, pre: 0, note: "", n: 14, wip: "", out: 45, link: "first" },
-      { name: "Stage-04", bct: 96, ste: 144, pre: 0, note: "", n: 7, wip: "", out: 50, link: "first" },
+      { name: "Stage-01", bct: 48, ste: 96, first: 1, pre: 0, note: "", n: 14, wip: "", out: 25, link: "first" },
+      { name: "Stage-02", bct: 72, ste: 144, first: 1, pre: 0, note: "", n: 9, wip: "", out: 30, link: "first" },
+      { name: "Stage-03", bct: 48, ste: 96, first: 1, pre: 0, note: "", n: 14, wip: "", out: 45, link: "first" },
+      { name: "Stage-04", bct: 96, ste: 144, first: 1, pre: 0, note: "", n: 7, wip: "", out: 50, link: "first" },
     ],
   });
   let S = null;
@@ -85,7 +85,15 @@
 
   /* all times inside are in days from the first day 00:00; inputs are hours */
   function plan() {
-    if (S.mode === "regular") return planRegular();
+    const P = S.mode === "regular" ? planRegular() : planCampaign();
+    /* batch numbers: new batches from the stage's first batch no.; batches carried in from last month take the numbers before it */
+    P.rows.forEach((r) => {
+      const first = Math.max(1, Math.round(num(r.st.first, 1))), nW = r.batches.filter((b) => b.wip).length;
+      r.batches.forEach((b) => { const no = b.wip ? first - nW + b.j : first + b.i; b.no = no >= 1 ? no : null; });
+    });
+    return P;
+  }
+  function planCampaign() {
     const out = [], warn = [];
     S.stages.forEach((st, k) => {
       const nm = st.name || "Stage " + (k + 1);
@@ -119,7 +127,7 @@
     out.forEach((r) => r.batches.forEach((x) => { x.close = x.s < D - 1e-9 && x.e > D + 1e-9; x.next = x.s >= D - 1e-9; }));
     return { rows: out, warn, D, end: Math.max(0, ...out.map((r) => Math.max(r.preE, ...r.batches.map((x) => x.e)))) };
   }
-  const label = (b) => (b.wip ? "WIP" + (b.j + 1) : "#" + String(b.i + 1).padStart(2, "0"));
+  const label = (b) => (b.no != null ? "#" + String(b.no).padStart(2, "0") : "WIP" + (b.j + 1));
 
   function chart(P) {
     const days = Math.max(7, Math.ceil(P.end - 1e-9), (P.D || 0) + 1);
@@ -127,7 +135,7 @@
     const left = nameW + numW * 2;
     const rowsH = P.rows.map((r) => r.lanes * laneH + 8);
     const H = top + rowsH.reduce((a, b) => a + b, 0) + 2, W = left + days * cw + 2;
-    let g = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Stage-wise batch schedule by day" font-family="sans-serif">`;
+    let g = "";
     g += `<rect x="0" y="0" width="${W}" height="${top}" fill="#E26A12"/>`;
     g += `<text x="8" y="${top - 10}" fill="#fff" font-size="12" font-weight="700">Stage</text>`;
     g += `<text transform="translate(${nameW + numW / 2 + 4},${top - 8}) rotate(-90)" fill="#fff" font-size="12" font-weight="700">BCT, h</text>`;
@@ -163,7 +171,9 @@
     });
     g += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#555"/>`;
     if (P.D < days) { const xm = left + P.D * cw; g += `<line x1="${xm}" y1="${top - 30}" x2="${xm}" y2="${y}" stroke="#C0152F" stroke-width="2" stroke-dasharray="6 4"/><text x="${xm - 4}" y="${top + 14}" fill="#C0152F" font-size="11" font-weight="700" text-anchor="end">month end</text>`; }
-    return g + `</svg>`;
+    /* the same drawing shown through four windows, so the dates and the stage columns stay in view while scrolling */
+    const svg = (x, y0, w, h, cls, label) => `<svg class="${cls}" xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${x} ${y0} ${w} ${h}" font-family="sans-serif"${label ? ` role="img" aria-label="${label}"` : ' aria-hidden="true"'}>${g}</svg>`;
+    return `<div class="bs-grid" style="grid-template-columns:${left}px ${W - left}px">${svg(0, 0, left, top, "bs-corner")}${svg(left, 0, W - left, top, "bs-head")}${svg(0, top, left, H - top, "bs-left")}${svg(left, top, W - left, H - top, "bs-body", "Stage-wise batch schedule by day")}</div>`;
   }
 
   function editors() {
@@ -172,6 +182,7 @@
       <td><input type="text" data-p="stages.${i}.name" value="${esc(s.name)}" style="width:9em" aria-label="Stage name"></td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.bct" value="${esc(s.bct)}" aria-label="BCT, hours"></td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.ste" value="${esc(s.ste)}" aria-label="STE, hours"></td>
+      <td><input type="number" step="1" min="1" data-p="stages.${i}.first" value="${esc(s.first == null ? 1 : s.first)}" class="bs-first" aria-label="First batch number this month"></td>
       <td>${S.mode === "regular" ? `<span class="bs-auto" data-o="n${i}" title="24 h × ${esc(workDays())} days ÷ BCT">${autoN(s)}</span>` : `<input type="number" step="1" min="0" data-p="stages.${i}.n" value="${esc(s.n)}" aria-label="New batches">`}</td>
       ${S.mode === "regular" ? `<td colspan="3"><span class="bg-small">${i === 0 ? "running product: the line is already full" : "—"}</span></td>` : `<td>${i === 0 ? `<span class="bg-small">plan start</span>` : `<select data-p="stages.${i}.link" aria-label="Starts after">${opt("first", s.link, "#01 of previous stage")}${opt("last", s.link, "last of previous stage")}</select>`}</td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.pre" value="${esc(s.pre)}" aria-label="Hours before first batch"></td>
@@ -184,7 +195,7 @@
         <label><span>Product</span><select data-p="mode"><option value="regular"${S.mode === "regular" ? " selected" : ""}>Running product: 24 h × days ÷ BCT, WIP automatic</option><option value="campaign"${S.mode !== "regular" ? " selected" : ""}>New product or campaign: batches entered, starts empty</option></select></label>
         <label><span>Output unit</span><input type="text" data-p="unit" value="${esc(S.unit)}"></label>
       </div>
-      <div class="bg-scroll"><table class="bg-tab bs-tab"><thead><tr><th>Stage</th><th>BCT, h</th><th>STE, h</th><th>${S.mode === "regular" ? "Batches in the month" : "Batches"}</th><th>Starts after</th><th>Hours before first batch</th><th>What happens before it</th><th>Output per batch, ${esc(S.unit)}</th><th></th></tr></thead><tbody>${S.stages.map(row).join("")}</tbody></table></div>
+      <div class="bg-scroll"><table class="bg-tab bs-tab"><thead><tr><th>Stage</th><th>BCT, h</th><th>STE, h</th><th>First batch no.</th><th>${S.mode === "regular" ? "Batches in the month" : "Batches"}</th><th>Starts after</th><th>Hours before first batch</th><th>What happens before it</th><th>Output per batch, ${esc(S.unit)}</th><th></th></tr></thead><tbody>${S.stages.map(row).join("")}</tbody></table></div>
       <div class="pill-group"><button type="button" class="pill" data-act="add">+ Add stage</button><button type="button" class="pill" data-act="reset">Load the example</button></div>`;
   }
 
@@ -255,7 +266,7 @@
     mount.addEventListener("click", (e) => {
       const b = e.target.closest("button"); if (!b) return;
       const a = b.dataset.act, i = +b.dataset.i;
-      if (a === "add") { const l = S.stages[S.stages.length - 1]; S.stages.push({ name: "Stage-" + String(S.stages.length + 1).padStart(2, "0"), bct: l ? l.bct : 48, ste: l ? l.ste : 96, pre: 24, note: "Cleaning", n: l ? l.n : 2, wip: "", out: 0, link: "first" }); }
+      if (a === "add") { const l = S.stages[S.stages.length - 1]; S.stages.push({ name: "Stage-" + String(S.stages.length + 1).padStart(2, "0"), bct: l ? l.bct : 48, ste: l ? l.ste : 96, first: 1, pre: 24, note: "Cleaning", n: l ? l.n : 2, wip: "", out: 0, link: "first" }); }
       else if (a === "del") S.stages.splice(i, 1);
       else if (a === "up" && i > 0) { const t = S.stages[i - 1]; S.stages[i - 1] = S.stages[i]; S.stages[i] = t; }
       else if (a === "reset") S = DEFAULT();

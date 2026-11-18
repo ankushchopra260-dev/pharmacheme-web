@@ -53,7 +53,12 @@
 .bs-tab th { white-space: normal; }
 .bs-tab td { vertical-align: middle; }
 .bs-auto { display: inline-block; min-width: 3em; padding: 6px 8px; font-family: var(--f-mono, monospace); color: var(--paper); }
-.bs-chart { overflow-x: auto; background: #fff; border: 1px solid #555; -webkit-overflow-scrolling: touch; }
+.bs-chart { overflow: auto; max-height: 80vh; background: #fff; border: 1px solid #555; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
 .bs-chart svg { display: block; }
+.bs-grid { display: grid; width: max-content; background: #fff; }
+.bs-corner { position: sticky; top: 0; left: 0; z-index: 3; background: #E26A12; }
+.bs-head { position: sticky; top: 0; z-index: 2; background: #E26A12; }
+.bs-left { position: sticky; left: 0; z-index: 2; background: #fff; }
+.bs-tab input.bs-first { width: 4.5em; }
 #calc-mount input[type=date] { background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); padding: 6px 7px; font-family: var(--f-mono); font-size: .82rem; }
-@media print { #bs-editors, .bs-tabs, #bs-intro { display: none !important; } .bs-chart { overflow: visible; } .bs-chart svg { max-width: 100%; height: auto; } }
+@media print { #bs-editors, .bs-tabs, #bs-intro { display: none !important; } .bs-chart { overflow: visible; max-height: none; } .bs-corner, .bs-head, .bs-left { position: static; } }
