@@ -66,7 +66,7 @@
         b.push({ wip: false, i, s, e: s + ste });
       }
       const lanesEnd = [];
-      b.forEach((x) => { const ds = Math.max(0, x.s); let l = lanesEnd.findIndex((e) => e <= ds + 1e-9); if (l < 0) { l = lanesEnd.length; lanesEnd.push(0); } x.lane = l; lanesEnd[l] = x.e; });
+      b.forEach((x) => { const ds = Math.max(0, x.s); /* a lane is reused only after a clear gap, so bars never touch end to start */ let l = lanesEnd.findIndex((e) => e < ds - 1e-9); if (l < 0) { l = lanesEnd.length; lanesEnd.push(0); } x.lane = l; lanesEnd[l] = x.e; });
       if (prev && st.link !== "last" && prev.batches.length < n) warn.push(S.mode === "regular" ? `${nm} can take ${n} batches in ${f(num(S.days, 28), 0)} days but ${prev.st.name || "the stage before"} makes ${prev.batches.length}; the other ${n - prev.batches.length} need intermediate from stock.` : `${nm} has more batches than the stage before it can feed.`);
       if (bctH > 0 && steH > 0 && bctH > steH) warn.push(`${nm}: BCT is longer than STE, so the equipment stands idle between batches.`);
       if (n > 0 && bctH <= 0) warn.push(`${nm}: enter a BCT above zero.`);
