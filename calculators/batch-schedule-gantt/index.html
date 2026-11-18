@@ -2,7 +2,7 @@
 layout: default
 title: "Batch Scheduler: Gantt Chart, BCT and STE for Batch Plants"
 seo_title: "Batch Schedule Gantt Chart: BCT and STE | PharmaChemE"
-description: "Free batch scheduler: stage-wise Gantt chart from BCT and STE in hours, calculated or manual batch count, WIP batches, cleaning time and a detailed mode."
+description: "Free batch scheduler: stage-wise Gantt chart from BCT and STE in hours, opening and closing WIP for running products, campaigns and a detailed mode."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
@@ -95,7 +95,8 @@ last_modified_at: 2026-11-18
   <h2 id="stage-wise">Stage-wise mode</h2>
   <p>Each stage is one row, with times in hours and the chart drawn in days. The first batch of a stage starts after its <strong>hours before first batch</strong> (the grey block: cleaning, transfer of material from another site, analysis, equipment modification); each following batch starts <strong>BCT</strong> hours after the one before and lasts <strong>STE</strong> hours.</p>
   <p>A stage usually has more than one piece of equipment: a reactor, then a filter, then a dryer. BCT is the longest time any one of them holds a batch, so a new batch can be charged every BCT hours while the previous one is still moving through the rest of the stage. When BCT is shorter than STE the batches overlap and are drawn one under the other.</p>
-  <p><strong>Batches</strong>: for a regular product the number is calculated as 24 h × days in the month ÷ the gap between batches (28 days by default), so a stage with a BCT of 48 h runs 14 batches in 28 days. For a campaign product, enter the number of batches for each stage. <strong>WIP</strong>: for batches already running in a stage, enter the hours left in each, separated by commas (for example 20, 90). They are drawn in grey from the first day, go to the next stage first, and the new batches follow them.</p>
+  <p>Choose the kind of product. A <strong>running product</strong> has been made month after month, so the line is already full on the first day. Each stage charges a batch every BCT hours, giving 24 h × days ÷ BCT batches (14 in 28 days at a BCT of 48 h). Batches charged last month and still running are the <strong>opening WIP</strong>: they are shown in grey and their output counts in this month. Batches charged this month that are still running at month end are the <strong>closing WIP</strong>, outlined in red; their output falls in the next month. Both are worked out by the tool.</p>
+  <p>A <strong>new product or a campaign</strong> starts with empty equipment, so there is no opening WIP. Enter the number of batches for each stage, the hours before the first batch and whether a stage starts after batch #01 or the last batch of the stage before. Batches still running at month end show as closing WIP, and any that start after it are listed as next month.</p>
   <p>A stage can start after <strong>batch #01 of the previous stage</strong>, when the stages run on different equipment and the first lot can move on at once, or after the <strong>last batch of the previous stage</strong>, when the stage needs the equipment the previous stage was using, or needs the whole lot. In the first case a batch also never starts before the matching batch of the previous stage has finished.</p>
   <h2 id="how">Detailed mode: how the schedule is built</h2>
   <ul>
