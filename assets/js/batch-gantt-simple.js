@@ -129,6 +129,29 @@
   }
   const label = (b) => (b.no != null ? "#" + String(b.no).padStart(2, "0") : "WIP" + (b.j + 1));
 
+  let fullSvg = "";
+  /* Print: a clean landscape report in its own window, with the whole chart scaled to the page */
+  function printReport() {
+    const r = $("bs-results"); if (!r || !fullSvg) { window.print(); return; }
+    const reads = [...r.querySelectorAll(".readout")].map((d) => `<div class="ro"><div class="l">${esc(d.querySelector(".label").textContent)}</div><div class="v">${esc(d.querySelector(".val").textContent)}</div><div class="u">${esc(d.querySelector(".bg-unit").textContent)}</div></div>`).join("");
+    const notes = [...r.querySelectorAll(".bg-note")].map((d) => `<p class="n">${esc(d.textContent)}</p>`).join("");
+    const tabs = [...r.querySelectorAll("h3.bg-h")].map((h3) => { const t = h3.nextElementSibling && h3.nextElementSibling.querySelector("table"); return `<h2>${esc(h3.textContent)}</h2>${t ? t.outerHTML : ""}`; }).join("");
+    const prod = S.mode === "regular" ? "Running product" : "New product or campaign";
+    const doc = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Batch schedule ${esc(fmtD(dateAt(0)))}</title><style>
+@page { size: A4 landscape; margin: 10mm; }
+body { font: 11px/1.35 Arial, sans-serif; color: #000; margin: 0; }
+h1 { font-size: 16px; margin: 0 0 2px; } h2 { font-size: 13px; margin: 14px 0 4px; } .sub { color: #444; margin-bottom: 8px; }
+.ros { display: flex; gap: 8px; margin-bottom: 8px; } .ro { flex: 1; border: 1px solid #999; padding: 5px 7px; } .ro .l { font-weight: bold; } .ro .v { font-size: 17px; font-weight: bold; } .ro .u { color: #333; }
+.n { margin: 2px 0; padding: 3px 6px; border-left: 3px solid #E26A12; }
+.ch .pb { break-inside: avoid; page-break-inside: avoid; margin-bottom: 6px; border: 1px solid #555; } .ch svg { width: 100%; height: auto; display: block; }
+table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid #bbb; padding: 2px 5px; text-align: left; } th { background: #eee; }
+tr, .ro { break-inside: avoid; }
+</style></head><body><h1>Batch schedule</h1><div class="sub">${esc(prod)} · from ${esc(fmtD(dateAt(0)))} · pharmacheme.in batch scheduler</div><div class="ros">${reads}</div>${notes}${tabs.split("<h2>Batch dates")[0]}<h2 style="break-before:page">Gantt chart</h2><div class="ch">${fullSvg}</div>${tabs.indexOf("<h2>Batch dates") >= 0 ? '<h2 style="break-before:page">Batch dates' + tabs.split("<h2>Batch dates")[1] : ""}<script>window.onload=function(){setTimeout(function(){window.print();},300);};<\/script></body></html>`;
+    const w = window.open("", "_blank");
+    if (!w) { window.print(); return; }
+    w.document.open(); w.document.write(doc); w.document.close();
+  }
+
   function chart(P) {
     const days = Math.max(7, Math.ceil(P.end - 1e-9), (P.D || 0) + 1);
     const cw = 26, nameW = 130, numW = 38, top = 104, laneH = 22;
@@ -147,8 +170,10 @@
     }
     [nameW, nameW + numW].forEach((x) => (g += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#555"/>`));
     let y = top;
+    const bands = [];
     P.rows.forEach((r, i) => {
       const h = rowsH[i];
+      bands.push([y, h]);
       g += `<rect x="0" y="${y}" width="${W}" height="${h}" fill="#fff"/><line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#555"/>`;
       for (let d = 0; d < days; d++) g += `<line x1="${left + d * cw}" y1="${y}" x2="${left + d * cw}" y2="${y + h}" stroke="#d6d6d6"/>`;
       g += `<text x="6" y="${y + h / 2 + 5}" fill="#111" font-size="13">${esc(r.st.name || "Stage " + (i + 1))}</text>`;
@@ -173,7 +198,10 @@
     if (P.D < days) { const xm = left + P.D * cw; g += `<line x1="${xm}" y1="${top - 30}" x2="${xm}" y2="${y}" stroke="#C0152F" stroke-width="2" stroke-dasharray="6 4"/><text x="${xm - 4}" y="${top + 14}" fill="#C0152F" font-size="11" font-weight="700" text-anchor="end">month end</text>`; }
     /* the same drawing shown through four windows, so the dates and the stage columns stay in view while scrolling */
     const svg = (x, y0, w, h, cls, label) => `<svg class="${cls}" xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${x} ${y0} ${w} ${h}" font-family="sans-serif"${label ? ` role="img" aria-label="${label}"` : ' aria-hidden="true"'}>${g}</svg>`;
-    return `<div class="bs-grid" style="grid-template-columns:${left}px ${W - left}px">${svg(0, 0, left, top, "bs-corner")}${svg(left, 0, W - left, top, "bs-head")}${svg(0, top, left, H - top, "bs-left")}${svg(left, top, W - left, H - top, "bs-body", "Stage-wise batch schedule by day")}</div>`;
+    /* for printing: one block per stage, each with the date header above it, so no stage is cut between pages */
+    const win = (y0, h) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 ${y0} ${W} ${h}" width="${W}" height="${h}" font-family="sans-serif">${g}</svg>`;
+    fullSvg = bands.map(([y0, h]) => `<div class="pb">${win(0, top)}${win(y0, h + 1)}</div>`).join("");
+    return `<div class="bs-grid" style="grid-template-columns:${left}px ${W - left}px">${svg(0, 0, left, top, "bs-corner")}${svg(left, 0, W - left, top, "bs-head")}${svg(0, top, left, H - top, "bs-left")}${svg(left, top, W - left, H - top, "bs-body", "Stage-wise batch schedule by day")}</div><div class="bs-print">${fullSvg}</div>`;
   }
 
   function editors() {
@@ -216,7 +244,7 @@
       <div class="readout"><div class="label">Closing WIP</div><div class="val">${sumClose}</div><div class="bg-unit">${sumClose === 1 ? "batch" : "batches"} still running at month end${!reg && C.some((c) => c.next) ? " · " + C.reduce((a, c) => a + c.next, 0) + " more start next month" : ""}</div></div>
       <div class="readout"><div class="label">Slowest stage</div><div class="val">${bn ? esc(bn.st.name || "") : "—"}</div><div class="bg-unit">${bn ? "BCT " + f(bn.bctH, 0) + " h · " + autoN(bn.st) + " batches in " + f(workDays(), 0) + " working days" : ""}</div></div></div>`;
     P.warn.forEach((w) => (h += `<div class="bg-note">${esc(w)}</div>`));
-    h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button><span class="bg-small" style="margin:0">Each batch has its own line. Grey bars: opening WIP, charged last month. Red dashed outline: closing WIP, still running at the red month-end line.${reg ? "" : " Grey block: time before the first batch (hover for the note)."}</span></div>`;
+    h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print / PDF</button><span class="bg-small" style="margin:0">Each batch has its own line. Grey bars: opening WIP, charged last month. Red dashed outline: closing WIP, still running at the red month-end line.${reg ? "" : " Grey block: time before the first batch (hover for the note)."}</span></div>`;
     h += `<div class="bs-chart">${chart(P)}</div>`;
     h += `<h3 class="bg-h">Month summary, ${esc(fmtD(dateAt(0)))} to ${esc(mEnd)}</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Stage</th><th>Opening WIP</th><th>Charged in the month</th><th>Finished in the month</th><th>Closing WIP</th>${reg ? "" : "<th>Start next month</th>"}<th>Output in the month, ${unit}</th></tr></thead><tbody>
       ${P.rows.map((r, k) => { const c = C[k]; return `<tr><td>${esc(r.st.name)}</td><td>${c.open}</td><td>${c.charged}</td><td>${c.done}</td><td>${c.close}</td>${reg ? "" : `<td>${c.next}</td>`}<td>${f(c.done * num(r.st.out, 0), 0)}</td></tr>`; }).join("")}</tbody></table></div>
@@ -271,7 +299,7 @@
       else if (a === "up" && i > 0) { const t = S.stages[i - 1]; S.stages[i - 1] = S.stages[i]; S.stages[i] = t; }
       else if (a === "reset") S = DEFAULT();
       else if (a === "csv") { csv(); return; }
-      else if (a === "print") { window.print(); return; }
+      else if (a === "print") { printReport(); return; }
       else return;
       all();
     });
