@@ -17,9 +17,13 @@
   const f = (v, d) => (isFinite(v) ? Number(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }) : "—");
   const PAL = [["#B7DDEB", "#0B3A52"], ["#F8C59B", "#5A2A06"], ["#C9E7B5", "#1E4A10"], ["#E3CBF0", "#3E1D52"], ["#F6E39A", "#4D3D00"], ["#F3B7B7", "#561212"]];
 
+  function nextMonth1() { const d = new Date(); const p = (n) => String(n).padStart(2, "0"); const m = new Date(d.getFullYear(), d.getMonth() + 1, 1); return `${m.getFullYear()}-${p(m.getMonth() + 1)}-01`; }
+  /* days from the first day to the end of its calendar month (e.g. 1 Dec → 31 Dec 24:00 = 31 days) */
+  function prevMonthDays() { const a = new Date(S.start + "T00:00:00"); const b = new Date(a.getFullYear(), a.getMonth() - 1, a.getDate()); return Math.round((a - b) / 86400e3); }
+  function monthEnd() { const a = new Date(S.start + "T00:00:00"); const b = new Date(a.getFullYear(), a.getMonth() + 1, 1); return Math.round((b - a) / 86400e3); }
   function tomorrow() { const d = new Date(); d.setDate(d.getDate() + 1); const p = (n) => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; }
   const DEFAULT = () => ({
-    start: tomorrow(), days: 28, unit: "kg", mode: "regular",
+    start: nextMonth1(), days: 28, unit: "kg", mode: "regular",
     stages: [
       { name: "Stage-01", bct: 48, ste: 96, pre: 0, note: "", n: 14, wip: "", out: 25, link: "first" },
       { name: "Stage-02", bct: 72, ste: 144, pre: 0, note: "", n: 9, wip: "", out: 30, link: "first" },
@@ -47,7 +51,7 @@
      still running are the opening WIP; batches charged in the month and still running at its end are
      the closing WIP. */
   function planRegular() {
-    const out = [], warn = [], D = Math.max(1, num(S.days, 28));
+    const out = [], warn = [], D = monthEnd();
     let phi = 0, prevSte = 0;
     S.stages.forEach((st, k) => {
       const nm = st.name || "Stage " + (k + 1);
@@ -55,14 +59,12 @@
       if (bct <= 0) warn.push(`${nm}: enter a BCT above zero.`);
       else {
         if (k > 0) phi = (((phi + prevSte) % bct) + bct) % bct;
-        const i0 = -Math.ceil(ste / bct + 1e-9);
         let nW = 0, nN = 0;
-        for (let i = i0; b.length < 600; i++) {
-          const s0 = phi + i * bct; if (s0 >= D - 1e-9) break;
-          const e = s0 + ste; if (e <= 1e-9) continue;
-          if (s0 < -1e-9) b.push({ wip: true, j: nW++, s: s0, e });
-          else b.push({ wip: false, i: nN++, s: s0, e, close: e > D + 1e-9 });
-        }
+        const n = Math.min(500, autoN(st));
+        /* last month ran the same way: n charges from its first day; those still running are the opening WIP */
+        const Dp = prevMonthDays();
+        for (let i = 0; i < n; i++) { const s0 = -Dp + phi + i * bct, e = s0 + ste; if (s0 < -1e-9 && e > 1e-9) b.push({ wip: true, j: nW++, s: s0, e }); }
+        for (let i = 0; i < n; i++) { const s0 = phi + i * bct, e = s0 + ste; b.push({ wip: false, i: nN++, s: s0, e, close: s0 < D - 1e-9 && e > D + 1e-9, next: s0 >= D - 1e-9 }); }
         b.sort((x, y) => x.s - y.s);
         let q = 0; b.forEach((x) => { if (x.wip) x.j = q++; });
       }
@@ -73,7 +75,7 @@
     });
     for (let k = 1; k < out.length; k++) {
       const a = out[k - 1], c = out[k];
-      if (a.bct > 0 && c.bct > 0 && c.bct < a.bct - 1e-9) warn.push(`${c.st.name || "Stage " + (k + 1)} can take ${autoN(c.st)} batches in ${f(D, 0)} days but ${a.st.name || "the stage before"} makes ${autoN(a.st)}; the difference has to come from stock.`);
+      if (a.bct > 0 && c.bct > 0 && c.bct < a.bct - 1e-9) warn.push(`${c.st.name || "Stage " + (k + 1)} can take ${autoN(c.st)} batches in ${f(num(S.days, 28), 0)} working days but ${a.st.name || "the stage before"} makes ${autoN(a.st)}; the difference has to come from stock.`);
     }
     return { rows: out, warn, D, end: Math.max(D, ...out.map((r) => Math.max(0, ...r.batches.map((x) => x.e)))) };
   }
@@ -110,14 +112,14 @@
       const hasPre = !wip.length && pre > 0;
       out.push({ st, k, bctH, steH, bct, ste, pre: hasPre ? pre : 0, preS: anchor, preE: anchor + (hasPre ? pre : 0), batches: b, nNew: n, nWip: wip.length, lanes: Math.max(1, b.length) });
     });
-    const D = Math.max(1, num(S.days, 28));
+    const D = monthEnd();
     out.forEach((r) => r.batches.forEach((x) => { x.close = x.s < D - 1e-9 && x.e > D + 1e-9; x.next = x.s >= D - 1e-9; }));
     return { rows: out, warn, D, end: Math.max(0, ...out.map((r) => Math.max(r.preE, ...r.batches.map((x) => x.e)))) };
   }
   const label = (b) => (b.wip ? "WIP" + (b.j + 1) : "#" + String(b.i + 1).padStart(2, "0"));
 
   function chart(P) {
-    const days = Math.max(7, Math.ceil(P.end));
+    const days = Math.max(7, Math.ceil(P.end - 1e-9), (P.D || 0) + 1);
     const cw = 26, nameW = 130, numW = 38, top = 104, laneH = 22;
     const left = nameW + numW * 2;
     const rowsH = P.rows.map((r) => r.lanes * laneH + 8);
@@ -157,7 +159,7 @@
       y += h;
     });
     g += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#555"/>`;
-    if (P.D < days) { const xm = left + P.D * cw; g += `<line x1="${xm}" y1="${top - 30}" x2="${xm}" y2="${y}" stroke="#C0152F" stroke-width="2" stroke-dasharray="6 4"/><text x="${xm + 4}" y="${top + 14}" fill="#C0152F" font-size="11" font-weight="700">month end</text>`; }
+    if (P.D < days) { const xm = left + P.D * cw; g += `<line x1="${xm}" y1="${top - 30}" x2="${xm}" y2="${y}" stroke="#C0152F" stroke-width="2" stroke-dasharray="6 4"/><text x="${xm - 4}" y="${top + 14}" fill="#C0152F" font-size="11" font-weight="700" text-anchor="end">month end</text>`; }
     return g + `</svg>`;
   }
 
@@ -175,7 +177,7 @@
       <td class="bg-btns"><button type="button" data-act="up" data-i="${i}" aria-label="Move up">↑</button><button type="button" data-act="del" data-i="${i}" aria-label="Remove stage">×</button></td></tr>`;
     return `<div class="bs-plan">
         <label><span>First day</span><input type="date" data-p="start" value="${esc(S.start)}"></label>
-        <label><span>Days in a month</span><input type="number" step="1" min="1" data-p="days" value="${esc(S.days)}"></label>
+        <label><span title="Batches = 24 h × these days ÷ BCT">Working days in a month</span><input type="number" step="1" min="1" data-p="days" value="${esc(S.days)}"></label>
         <label><span>Product</span><select data-p="mode"><option value="regular"${S.mode === "regular" ? " selected" : ""}>Running product: 24 h × days ÷ BCT, WIP automatic</option><option value="campaign"${S.mode !== "regular" ? " selected" : ""}>New product or campaign: batches entered, starts empty</option></select></label>
         <label><span>Output unit</span><input type="text" data-p="unit" value="${esc(S.unit)}"></label>
       </div>
@@ -193,12 +195,12 @@
     const C = P.rows.map(cnt), cl = C[C.length - 1];
     const sumOpen = C.reduce((a, c) => a + c.open, 0), sumClose = C.reduce((a, c) => a + c.close, 0);
     const bn = P.rows.reduce((a, r) => (r.bctH > 0 && (!a || r.bctH > a.bctH) ? r : a), null);
-    const mEnd = fmtDT(dateAt(D));
+    const mEnd = fmtD(lastDay(D)) + " 24:00";
     h += `<div class="bg-grid4" aria-live="polite">
-      <div class="readout"><div class="label">Output in ${f(D, 0)} days</div><div class="val">${f(cl.done * lo, 0)}</div><div class="bg-unit">${unit} · ${cl.done} batches of ${esc(last.st.name || "the last stage")} finished by ${esc(mEnd)}</div></div>
+      <div class="readout"><div class="label">Output to ${esc(fmtShort(lastDay(D)))}</div><div class="val">${f(cl.done * lo, 0)}</div><div class="bg-unit">${unit} · ${cl.done} batches of ${esc(last.st.name || "the last stage")} finished by ${esc(mEnd)}</div></div>
       <div class="readout"><div class="label">Opening WIP</div><div class="val">${reg ? sumOpen : 0}</div><div class="bg-unit">${reg ? "batches charged last month, finishing this month" : "a new product starts empty"}</div></div>
       <div class="readout"><div class="label">Closing WIP</div><div class="val">${sumClose}</div><div class="bg-unit">batches still running at month end${!reg && C.some((c) => c.next) ? " · " + C.reduce((a, c) => a + c.next, 0) + " more start next month" : ""}</div></div>
-      <div class="readout"><div class="label">Slowest stage</div><div class="val">${bn ? esc(bn.st.name || "") : "—"}</div><div class="bg-unit">${bn ? "BCT " + f(bn.bctH, 0) + " h · " + autoN(bn.st) + " batches in " + f(D, 0) + " days" : ""}</div></div></div>`;
+      <div class="readout"><div class="label">Slowest stage</div><div class="val">${bn ? esc(bn.st.name || "") : "—"}</div><div class="bg-unit">${bn ? "BCT " + f(bn.bctH, 0) + " h · " + autoN(bn.st) + " batches in " + f(num(S.days, 28), 0) + " working days" : ""}</div></div></div>`;
     P.warn.forEach((w) => (h += `<div class="bg-note">${esc(w)}</div>`));
     h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button><span class="bg-small" style="margin:0">Each batch has its own line. Grey bars: opening WIP, charged last month. Red dashed outline: closing WIP, still running at the red month-end line.${reg ? "" : " Grey block: time before the first batch (hover for the note)."}</span></div>`;
     h += `<div class="bs-chart">${chart(P)}</div>`;
