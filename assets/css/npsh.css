@@ -1,0 +1,39 @@
+/* NPSH calculator (assets/js/npsh.js) */
+#calc-mount input[type=number], #calc-mount select { background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); padding: 6px 7px; font-family: var(--f-mono); font-size: .85rem; border-radius: 0; box-sizing: border-box; }
+#calc-mount input[type=number] { width: 7em; }
+.np-form select[data-k="str"] { width: 15em !important; max-width: 100%; }
+#calc-mount input::placeholder { color: var(--muted-dim, #6f7f92); }
+#calc-mount input:focus, #calc-mount select:focus { outline: none; border-color: var(--brass); }
+.np-scen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.np-sc { text-align: left; background: var(--bg-deep); border: 1px solid var(--grid-line); color: var(--muted); padding: 9px 11px; cursor: pointer; font-family: var(--f-sans); line-height: 1.35; }
+.np-sc b { display: block; color: var(--paper); font-size: .86rem; margin-bottom: 2px; }
+.np-sc span { font-size: .74rem; }
+.np-sc:hover, .np-sc:focus-visible { border-color: var(--brass); outline: none; }
+.np-sc.on { border-color: var(--brass); box-shadow: inset 3px 0 0 var(--brass); }
+.np-sc.on b { color: var(--brass); }
+.np-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.np-form fieldset { border: 1px solid var(--grid-line); margin: 0; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; align-content: flex-start; }
+.np-form legend { font-family: var(--f-display); color: var(--paper); font-size: .95rem; padding: 0 6px; }
+.np-form label { display: flex; flex-direction: column; gap: 4px; font-family: var(--f-sans); font-size: .76rem; color: var(--muted); max-width: 13em; }
+.np-form label small { color: var(--muted-dim, #6f7f92); }
+.np-form .np-wide { max-width: none; flex-basis: 100%; }
+.np-form .np-wide select { width: 100%; max-width: 26em; }
+.np-small { font-family: var(--f-sans); font-size: .78rem; color: var(--muted); line-height: 1.5; margin: 8px 0; }
+.np-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+.np-grid4 .readout { padding: 12px 14px; }
+.np-unit { font-family: var(--f-sans); font-size: .73rem; color: var(--muted); margin-top: 3px; }
+.np-note { margin-top: 10px; padding: 9px 13px; border-left: 3px solid #D9A441; background: var(--bg-deep); color: var(--paper); font-family: var(--f-sans); font-size: .84rem; line-height: 1.5; }
+.np-bad { border-left-color: var(--rust, #E07A6A); }
+.np-good { border-left-color: #5BB37A; }
+.np-two { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; }
+.np-h { font-family: var(--f-display); color: var(--paper); font-size: 1.05rem; margin: 22px 0 8px; }
+.np-tab { border-collapse: collapse; width: 100%; font-family: var(--f-sans); font-size: .82rem; }
+.np-tab td { padding: 6px; border-bottom: 1px solid var(--grid-line); color: var(--paper); vertical-align: top; }
+.np-tab td:nth-child(2) { font-family: var(--f-mono); white-space: nowrap; }
+.np-tab td:nth-child(3) { color: var(--muted); font-size: .76rem; }
+.np-tab .np-tot td { border-top: 1px solid var(--brass-dim); border-bottom: none; font-weight: 700; color: var(--brass); }
+.np-chart { background: var(--bg-deep); border: 1px solid var(--grid-line); padding: 8px; max-width: 640px; }
+.np-chart svg { display: block; }
+@media (max-width: 760px) { .np-scen { grid-template-columns: 1fr 1fr; } .np-form, .np-two { grid-template-columns: 1fr; } .np-grid4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 420px) { .np-scen { grid-template-columns: 1fr; } }
+@media print { .np-chart { background: #fff; } }

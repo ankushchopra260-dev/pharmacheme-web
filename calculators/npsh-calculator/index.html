@@ -1,0 +1,148 @@
+---
+layout: default
+title: "NPSH Calculator: NPSH Available for Six Suction Arrangements"
+seo_title: "NPSH Calculator: NPSHa, Margin and Limits | PharmaChemE"
+description: "Free NPSH calculator: NPSH available for open tanks, suction lift, nitrogen-padded and vacuum vessels, boiling liquids and hot condensate, with 96 solvents."
+keywords: "NPSH calculator, NPSH available, NPSHa calculation, NPSH margin, pump cavitation, vacuum receiver pump, column bottoms pump NPSH, suction lift"
+needs_calculators: true
+calc_init: |
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.PCENpshInit) window.PCENpshInit();
+  });
+breadcrumbs:
+  - label: Calculators
+    url: /calculators/
+  - label: NPSH Calculator
+    url: /calculators/npsh-calculator/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "NPSH Calculator",
+        "description": "NPSH available for a centrifugal pump in six suction arrangements: open tank, suction lift, nitrogen-padded vessel, vacuum receiver, liquid at its boiling point and hot condensate, with vapour pressure for 96 solvents, suction line loss and the limits on level, temperature, flow and vessel pressure.",
+        "url": "https://www.pharmacheme.in/calculators/npsh-calculator/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any (runs in a web browser)",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the difference between NPSH available and NPSH required?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "NPSH available (NPSHa) is set by the plant: the pressure at the liquid surface, the liquid level, the vapour pressure of the liquid and the loss in the suction line. NPSH required (NPSHr) is set by the pump and read from the vendor curve; it is the suction head at which the pump head has already dropped 3 %. NPSHa must be higher than NPSHr with a margin."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much NPSH margin should I keep?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A common plant rule is at least 1 m above NPSHr at the highest flow, and more for hot liquids, liquids at their boiling point and large or high-speed pumps. ANSI/HI 9.6.1 gives margin ratios by application. The calculator lets you set the margin you want and shows the limits for it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is NPSH so low for a column bottoms pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The liquid at the bottom of a column is at its boiling point, so the vessel pressure and the vapour pressure cancel. Only the liquid height above the pump minus the suction loss is left, which is why bottoms pumps are placed several metres below the column with a short, straight suction line."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does a vacuum vessel always cause cavitation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No, but the margin is small. The pressure in the vessel is close to the vapour pressure of the liquid in it, so the liquid level does most of the work. A pump below a vacuum receiver with enough liquid height runs well; the same pump cavitates when the level drops or the distillate comes in warmer."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-18
+---
+<link rel="stylesheet" href="{{ '/assets/css/npsh.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>NPSH Calculator</h1>
+  <p>NPSH available at a centrifugal pump for the suction arrangements met in a plant: an open tank above the pump, a suction lift from a pit, a reactor under nitrogen, a vacuum receiver, a column bottoms pump and a hot condensate tank. Pick the arrangement, the liquid and its temperature, describe the suction line and enter the NPSHr from the pump curve. The calculator adds up the heads, checks the margin and shows how far the level, temperature, flow or vessel pressure can go before the pump starts to cavitate.</p>
+</div>
+<div class="container calc-mount">
+  <div class="plate" id="calc-mount"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="formula">How NPSH available is worked out</h2>
+  <p>NPSH available is the head at the pump inlet above the vapour pressure of the liquid, in metres of the liquid being pumped:</p>
+  <p class="formula">NPSHa = (P<sub>surface</sub> − P<sub>vapour</sub>) / ρg + Z − h<sub>f</sub></p>
+  <ul>
+    <li><strong>P<sub>surface</sub></strong> is the absolute pressure on the liquid surface: atmospheric pressure at the site altitude for a vented tank, the pad pressure plus atmospheric for a nitrogen-padded vessel, the absolute pressure for a vacuum vessel.</li>
+    <li><strong>P<sub>vapour</sub></strong> is the vapour pressure at the pumping temperature, from the Antoine constants on the PharmaChemE solvent pages (two constant sets for water, so that condensate above 100 °C comes out right).</li>
+    <li><strong>Z</strong> is the lowest liquid level above the pump centre line; it is negative for a suction lift. Use the low-level alarm or trip level, not the normal level.</li>
+    <li><strong>h<sub>f</sub></strong> is the suction line loss at the flow: pipe friction from the Darcy–Weisbach equation with the Churchill friction factor, plus K values for the tank outlet (0.5), each 90° elbow (0.75), each open valve (0.2) and the strainer (2 clean, 8 half blocked or for a foot valve).</li>
+  </ul>
+  <p>NPSHr from the vendor curve is the suction head at which the pump head has fallen 3 % because of cavitation, so a pump running at NPSHa = NPSHr is already cavitating. Keep a margin: a common plant rule is at least 1 m at the highest flow, more for hot or boiling liquids. ANSI/HI 9.6.1 gives margin ratios by application.</p>
+
+  <h2 id="scenarios">The six arrangements</h2>
+  <h3>Open tank, flooded suction</h3>
+  <p>The easy case: atmospheric pressure gives about 10 m of water, the liquid level adds to it and cold liquids have little vapour pressure. Trouble comes from a long or undersized suction line, a blocked strainer, or a solvent that is warmer or more volatile than the pump was selected for.</p>
+  <h3>Suction lift from a sump or pit</h3>
+  <p>The lift comes straight off the atmospheric head, and the suction line is under vacuum. Lifts beyond 4 to 5 m of water are rarely practical, and much less for warm or volatile liquids. The pump has to be self-priming or have a foot valve, and every joint on the suction side must be air tight.</p>
+  <h3>Closed vessel under nitrogen</h3>
+  <p>A nitrogen pad raises the surface pressure and adds head, but only while it is held. If the pad is vented to transfer liquid or the regulator fails, the NPSH falls back to the open-tank value. Check the lowest pressure the vessel actually runs at; the calculator gives the lowest pressure at which the margin still holds.</p>
+  <h3>Vacuum receiver</h3>
+  <p>Distillate in a receiver under vacuum is close to its boiling point at the receiver pressure, so pressure and vapour pressure nearly cancel and the liquid height does almost all the work. Mount the pump well below the receiver, keep the line short and watch the distillate temperature: a few degrees warmer can take the whole margin.</p>
+  <h3>Liquid at its boiling point</h3>
+  <p>For a column bottoms or reboiler pump the liquid is saturated, so NPSHa is just the liquid level minus the suction loss. That is why these pumps sit several metres below the column, with a large, short and insulated suction line and no high points where vapour can collect. The calculator shows the boiling temperature at the vessel pressure.</p>
+  <h3>Hot condensate tank</h3>
+  <p>Water at 95 °C has a vapour pressure of about 634 mmHg, so a vented tank gives only about 1.8 m of pressure head before the liquid level is counted. Condensate pumps cavitate when flash steam from the return lines heats the tank to boiling; mount the pump low and keep the tank vented.</p>
+
+  <h2 id="limits">Limits and the flow chart</h2>
+  <p>For the pump and margin entered, the calculator finds the lowest liquid level (or highest lift), the highest liquid temperature, the highest flow through the suction line and, for closed vessels, the lowest vessel pressure. The chart plots NPSH available against flow: it falls as the suction loss rises with the square of the velocity. NPSHr also rises with flow, so check the vendor curve at the highest flow the pump will see, not only at the rated point.</p>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the difference between NPSH available and NPSH required?</h3>
+  <p>NPSH available (NPSHa) is set by the plant: the pressure at the liquid surface, the liquid level, the vapour pressure of the liquid and the loss in the suction line. NPSH required (NPSHr) is set by the pump and read from the vendor curve; it is the suction head at which the pump head has already dropped 3 %. NPSHa must be higher than NPSHr with a margin.</p>
+  <h3>How much NPSH margin should I keep?</h3>
+  <p>A common plant rule is at least 1 m above NPSHr at the highest flow, and more for hot liquids, liquids at their boiling point and large or high-speed pumps. ANSI/HI 9.6.1 gives margin ratios by application. The calculator lets you set the margin you want and shows the limits for it.</p>
+  <h3>Why is NPSH so low for a column bottoms pump?</h3>
+  <p>The liquid at the bottom of a column is at its boiling point, so the vessel pressure and the vapour pressure cancel. Only the liquid height above the pump minus the suction loss is left, which is why bottoms pumps are placed several metres below the column with a short, straight suction line.</p>
+  <h3>Does a vacuum vessel always cause cavitation?</h3>
+  <p>No, but the margin is small. The pressure in the vessel is close to the vapour pressure of the liquid in it, so the liquid level does most of the work. A pump below a vacuum receiver with enough liquid height runs well; the same pump cavitates when the level drops or the distillate comes in warmer.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">Pipe pressure drop with fittings</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power</a>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and seal troubleshooting</a>
+    <a href="{{ '/articles/urs-for-centrifugal-pumps/' | relative_url }}">URS for centrifugal pumps</a>
+    <a href="{{ '/articles/line-sizing-and-pressure-drop/' | relative_url }}">Line sizing and pressure drop</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/npsh.js' | relative_url }}?v={{ site.time | date: '%s' }}" data-sol="{{ '/assets/data/solvent-lite.json' | relative_url }}"></script>
