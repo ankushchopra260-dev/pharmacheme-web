@@ -1,45 +1,41 @@
-/* NPSH available calculator with suction arrangements (calculators/npsh-calculator/)
-   NPSHa = (P_surface − P_vapour)/(ρg) + Z − h_f, in metres of liquid, referred to the pump inlet centre line.
+/* NPSH calculator with a line diagram: source vessel → suction line → pump → discharge line → destination
+   NPSHa = (P_surface − P_vapour)/(ρg) + Z − h_f(suction), metres of liquid at the pump centre line.
+   Pump head = (P_dest − P_source)/(ρg) + (Z_dest − Z_source) + h_f(suction) + h_f(discharge).
    Vapour pressure: Antoine constants of the PharmaChemE solvent pages (log10 P[mmHg] = A − B/(C + T[°C])).
-   Suction loss: Darcy–Weisbach, Churchill friction factor, K values for entrance, elbows, valves and strainer. */
+   Line loss: Darcy–Weisbach with the Churchill friction factor plus K values for the fittings. */
 (function () {
   "use strict";
   const ME = document.currentScript, DATA = (ME && ME.getAttribute("data-sol")) || "/assets/data/solvent-lite.json";
-  const KEY = "pce-npsh-v1", g = 9.80665, MMHG = 133.322368, KSC = 98066.5;
+  const KEY = "pce-npsh-v2", g = 9.80665, MMHG = 133.322368, KSC = 98066.5;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (v, d) => { const x = parseFloat(v); return isFinite(x) ? x : d; };
   const f = (x, d) => (isFinite(x) ? Number(x).toLocaleString("en-IN", { minimumFractionDigits: d, maximumFractionDigits: d }) : "—");
   let SOL = [];
 
+  /* schedule 40 inside diameters, mm */
+  const NPS = { 15: 15.8, 20: 20.9, 25: 26.6, 40: 40.9, 50: 52.5, 65: 62.7, 80: 77.9, 100: 102.3, 150: 154.1, 200: 202.7 };
+  const INCH = { 15: "½", 20: "¾", 25: "1", 40: "1½", 50: "2", 65: "2½", 80: "3", 100: "4", 150: "6", 200: "8" };
+  const STR = { none: ["None", 0], clean: ["Strainer, clean", 2], dirty: ["Strainer, half blocked", 8], foot: ["Foot valve + strainer", 8] };
+  const base = { q: 20, ns: 80, len: 10, elb: 2, val: 1, str: "clean", npshr: 3, margin: 1, h2: 12, p2: 0, ns2: 65, len2: 30, elb2: 4, val2: 2, eff: 60, alt: 0 };
   const SCEN = {
-    flooded: { t: "Open tank, flooded suction", d: "Vented storage or day tank above the pump.", lvl: "Lowest liquid level above the pump centre line", v: { fluid: "water", T: 30, alt: 0, z: 2, q: 20, id: 80, len: 10, elb: 2, val: 1, str: "clean", kx: 0, npshr: 3, qr: 20 } },
-    lift: { t: "Suction lift from a sump or pit", d: "Pump above the liquid: the lift is taken off the atmospheric head.", lvl: "Lift: pump centre line above the lowest liquid level", v: { fluid: "water", T: 30, alt: 0, z: 3, q: 20, id: 80, len: 8, elb: 2, val: 0, str: "foot", kx: 0, npshr: 3, qr: 20 } },
-    pressure: { t: "Closed vessel under nitrogen", d: "Reactor or tank under a nitrogen blanket or pad.", lvl: "Lowest liquid level above the pump centre line", v: { fluid: "toluene", T: 40, pg: 0.3, z: 1.5, q: 10, id: 50, len: 12, elb: 3, val: 1, str: "clean", kx: 0, npshr: 2.5, qr: 10 } },
-    vacuum: { t: "Vacuum receiver", d: "Distillate or solvent receiver under vacuum.", lvl: "Lowest liquid level above the pump centre line", v: { fluid: "methanol", T: 30, pa: 250, z: 2.5, q: 5, id: 40, len: 8, elb: 3, val: 1, str: "clean", kx: 0, npshr: 2, qr: 5 } },
-    boiling: { t: "Liquid at its boiling point", d: "Column bottoms, reboiler or flash drum: the liquid is saturated at the vessel pressure.", lvl: "Lowest liquid level above the pump centre line", v: { fluid: "toluene", pb: 0, z: 3, q: 15, id: 80, len: 15, elb: 4, val: 1, str: "clean", kx: 0, npshr: 2.5, qr: 15 } },
-    condensate: { t: "Hot condensate tank", d: "Vented tank collecting steam condensate, close to 100 °C.", lvl: "Lowest liquid level above the pump centre line", v: { fluid: "water", T: 95, alt: 0, z: 2, q: 5, id: 50, len: 6, elb: 2, val: 1, str: "clean", kx: 0, npshr: 2, qr: 5 } },
+    flooded: { t: "Open tank", d: "Vented tank above the pump", v: { fluid: "water", T: 30, z: 2 } },
+    lift: { t: "Suction lift", d: "Pump above a sump or pit", v: { fluid: "water", T: 30, z: 3, str: "foot", val: 0, len: 8 } },
+    pressure: { t: "Nitrogen-padded vessel", d: "Closed vessel under N₂", v: { fluid: "toluene", T: 40, pg: 0.3, z: 1.5, q: 10, ns: 50, ns2: 40, elb: 3, h2: 15 } },
+    vacuum: { t: "Vacuum receiver", d: "Receiver under vacuum", v: { fluid: "methanol", T: 30, pa: 250, z: 2.5, q: 5, npshr: 2, ns: 40, ns2: 25, len: 8, elb: 3, h2: 10 } },
+    boiling: { t: "Column bottoms", d: "Liquid at its boiling point", v: { fluid: "toluene", pb: 0, z: 4, npshr: 2.5, q: 15, ns: 80, ns2: 50, len: 15, elb: 4, h2: 20 } },
+    condensate: { t: "Hot condensate", d: "Vented tank, near 100 °C", v: { fluid: "water", T: 95, z: 2, q: 5, npshr: 2, ns: 50, ns2: 40, len: 6, h2: 8 } },
   };
-  const STR = { none: ["No strainer", 0], clean: ["Y/T strainer, clean", 2], dirty: ["Y/T strainer, half blocked", 8], foot: ["Foot valve with strainer", 8] };
-  const FLUIDS = () => [["own", "Other liquid (enter properties)"]].concat(SOL.map((s) => [s.s, s.n]));
-
-  const DEF = () => Object.assign({ sc: "flooded", margin: 1, rho: "", pv: "", mu: "", rough: 0.045 }, SCEN.flooded.v);
+  const DEF = (k) => Object.assign({ sc: k || "flooded", rho: "", pv: "", mu: "", rough: 0.045, kx: 0, pg: 0.3, pa: 250, pb: 0 }, base, SCEN[k || "flooded"].v);
   let S = null;
-  const load = () => { try { const x = JSON.parse(localStorage.getItem(KEY)); if (x && SCEN[x.sc]) return Object.assign(DEF(), x); } catch (e) {} return DEF(); };
+  const load = () => { try { const x = JSON.parse(localStorage.getItem(KEY)); if (x && SCEN[x.sc]) return Object.assign(DEF(x.sc), x); } catch (e) {} return DEF(); };
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
 
   const sol = () => SOL.find((s) => s.s === S.fluid);
-  /* water: two Antoine sets (1–100 °C and 99–374 °C) so hot condensate is right */
-  function antoine(s, T) {
-    if (s.s === "water" && T > 99) return Math.pow(10, 8.14019 - 1810.94 / (244.485 + T));
-    return Math.pow(10, s.a[0] - s.a[1] / (s.a[2] + T));
-  }
-  function tBoil(s, Pmm) {
-    if (s.s === "water" && Pmm > 733) return 1810.94 / (8.14019 - Math.log10(Pmm)) - 244.485;
-    return s.a[1] / (s.a[0] - Math.log10(Pmm)) - s.a[2];
-  }
-  /* water density, Thiesen (0–150 °C, within 0.1 %) */
+  function antoine(s, T) { if (s.s === "water" && T > 99) return Math.pow(10, 8.14019 - 1810.94 / (244.485 + T)); return Math.pow(10, s.a[0] - s.a[1] / (s.a[2] + T)); }
+  function tBoil(s, Pmm) { if (s.s === "water" && Pmm > 733) return 1810.94 / (8.14019 - Math.log10(Pmm)) - 244.485; return s.a[1] / (s.a[0] - Math.log10(Pmm)) - s.a[2]; }
   const rhoWater = (T) => 1000 * (1 - ((T + 288.9414) / (508929.2 * (T + 68.12963))) * (T - 3.9863) ** 2);
+  const pAtm = (alt) => 101325 * Math.pow(1 - 2.25577e-5 * Math.max(-400, Math.min(5000, alt)), 5.25588);
 
   function props(T) {
     const s = sol(), o = { rho: num(S.rho, NaN), pv: num(S.pv, NaN), mu: num(S.mu, NaN), auto: {} };
@@ -51,168 +47,200 @@
     if (!isFinite(o.rho)) o.rho = 1000; if (!isFinite(o.pv)) o.pv = 20; if (!isFinite(o.mu)) o.mu = 1;
     return o;
   }
-  const pAtm = (alt) => 101325 * Math.pow(1 - 2.25577e-5 * Math.max(-400, Math.min(5000, alt)), 5.25588);
 
-  function friction(q, p) {
-    const D = num(S.id, 50) / 1000, A = (Math.PI * D * D) / 4, v = q / 3600 / A;
-    if (!(D > 0) || q <= 0) return { v: 0, hf: 0, Re: 0, fD: 0, K: 0 };
+  function line(q, p, ns, L, K) {
+    const D = (NPS[ns] || num(ns, 50)) / 1000, A = (Math.PI * D * D) / 4, v = q / 3600 / A;
+    if (!(D > 0) || q <= 0) return { v: 0, hf: 0, Re: 0, K, D };
     const Re = (p.rho * v * D) / (p.mu / 1000), e = num(S.rough, 0.045) / 1000;
     const a = Math.pow(2.457 * Math.log(1 / (Math.pow(7 / Re, 0.9) + (0.27 * e) / D)), 16), b = Math.pow(37530 / Re, 16);
     const fD = 8 * Math.pow(Math.pow(8 / Re, 12) + 1 / Math.pow(a + b, 1.5), 1 / 12);
-    const K = 0.5 + 0.75 * Math.max(0, num(S.elb, 0)) + 0.2 * Math.max(0, num(S.val, 0)) + (STR[S.str] || STR.none)[1] + Math.max(0, num(S.kx, 0));
-    const hv = (v * v) / (2 * g), hf = ((fD * Math.max(0, num(S.len, 0))) / D + K) * hv;
-    return { v, hf, Re, fD, K, hv };
+    return { v, Re, K, D, hf: ((fD * Math.max(0, L)) / D + K) * ((v * v) / (2 * g)) };
   }
+  const kSuc = () => 0.5 + 0.75 * Math.max(0, num(S.elb, 0)) + 0.2 * Math.max(0, num(S.val, 0)) + (STR[S.str] || STR.none)[1] + Math.max(0, num(S.kx, 0));
+  /* discharge: elbows, open valves, a check valve (2) and the exit into the vessel (1) */
+  const kDis = () => 0.75 * Math.max(0, num(S.elb2, 0)) + 0.2 * Math.max(0, num(S.val2, 0)) + 2 + 1;
 
-  /* the whole calculation for a given temperature, flow, level and surface pressure (any may be overridden) */
+  function surfaceP(o) {
+    if (o.P != null) return o.P;
+    if (S.sc === "boiling") return num(S.pb, 0) * KSC + pAtm(num(S.alt, 0));
+    if (S.sc === "pressure") return num(S.pg, 0) * KSC + pAtm(num(S.alt, 0));
+    if (S.sc === "vacuum") return num(S.pa, 250) * MMHG;
+    return pAtm(num(S.alt, 0));
+  }
   function calc(o) {
     o = o || {};
-    const sc = S.sc, s = sol();
+    const s = sol(), P = surfaceP(o);
     let T = o.T != null ? o.T : num(S.T, 30);
-    let P;
-    if (sc === "boiling") {
-      P = o.P != null ? o.P : num(S.pb, 0) * KSC + pAtm(0);
-      if (s) T = tBoil(s, P / MMHG);
-    } else if (sc === "pressure") P = o.P != null ? o.P : num(S.pg, 0) * KSC + pAtm(num(S.alt, 0));
-    else if (sc === "vacuum") P = o.P != null ? o.P : num(S.pa, 250) * MMHG;
-    else P = o.P != null ? o.P : pAtm(num(S.alt, 0));
-    const p = props(T);
-    const Pv = sc === "boiling" ? P : p.pv * MMHG;
-    const z = o.z != null ? o.z : sc === "lift" ? -num(S.z, 0) : num(S.z, 0);
+    if (S.sc === "boiling" && s) T = tBoil(s, P / MMHG);
+    const p = props(T), Pv = S.sc === "boiling" ? P : p.pv * MMHG;
+    const z = o.z != null ? o.z : S.sc === "lift" ? -num(S.z, 0) : num(S.z, 0);
     const q = o.q != null ? o.q : num(S.q, 0);
-    const fr = friction(q, p);
-    const hP = P / (p.rho * g), hV = Pv / (p.rho * g);
-    const npsha = hP - hV + z - fr.hf;
-    return { T, P, Pv, p, z, q, fr, hP, hV, npsha };
+    const su = line(q, p, S.ns, num(S.len, 0), kSuc()), di = line(q, p, S.ns2, num(S.len2, 0), kDis());
+    const hP = P / (p.rho * g), hV = Pv / (p.rho * g), npsha = hP - hV + z - su.hf;
+    const P2 = num(S.p2, 0) * KSC + pAtm(num(S.alt, 0));
+    const head = (P2 - P) / (p.rho * g) + (num(S.h2, 0) - z) + su.hf + di.hf;
+    const kW = (p.rho * g * (q / 3600) * head) / (Math.max(5, num(S.eff, 60)) / 100) / 1000;
+    return { T, P, Pv, p, z, q, su, di, hP, hV, npsha, head, kW, P2 };
   }
   const need = () => num(S.npshr, 0) + Math.max(0, num(S.margin, 1));
-
-  function bisect(fn, lo, hi, n) { let flo = fn(lo); for (let i = 0; i < (n || 60); i++) { const m = (lo + hi) / 2, fm = fn(m); if ((fm > 0) === (flo > 0)) { lo = m; flo = fm; } else hi = m; } return (lo + hi) / 2; }
+  function bisect(fn, lo, hi) { let flo = fn(lo); for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2, fm = fn(m); if ((fm > 0) === (flo > 0)) { lo = m; flo = fm; } else hi = m; } return (lo + hi) / 2; }
 
   function limits(R) {
-    const out = [], N = need(), gap = R.npsha - N, s = sol();
-    const lvlName = S.sc === "lift" ? "Highest lift" : "Lowest liquid level";
-    const zLim = R.z - gap;
-    if (S.sc === "lift") out.push([lvlName, zLim <= 0 ? f(-zLim, 2) + " m" : "none", zLim <= 0 ? "pump centre line above the liquid" : `the liquid must stand ${f(zLim, 2)} m above the pump`]);
-    else out.push([lvlName, f(Math.abs(zLim), 2) + " m", zLim >= 0 ? "above the pump centre line" : "below the pump: it could even lift this far, if self-priming"]);
+    const out = [], N = need(), gap = R.npsha - N, s = sol(), zLim = R.z - gap;
+    if (S.sc === "lift") out.push(["Highest lift", zLim <= 0 ? f(-zLim, 2) + " m" : "none"]);
+    else out.push(["Lowest liquid level", zLim >= 0 ? f(zLim, 2) + " m above the pump" : f(-zLim, 2) + " m below the pump"]);
     if (S.sc !== "boiling" && s) {
-      const fn = (T) => calc({ T }).npsha - N;
-      const Tb = tBoil(s, R.P / MMHG);
-      if (fn(-20) < 0) out.push(["Highest liquid temperature", "none", "margin not met even with cold liquid"]);
-      else out.push(["Highest liquid temperature", f(fn(Tb - 0.01) > 0 ? Tb : bisect(fn, -20, Tb - 0.01), 1) + " °C", `boils at ${f(Tb, 1)} °C at the surface pressure`]);
+      const fn = (T) => calc({ T }).npsha - N, Tb = tBoil(s, R.P / MMHG);
+      out.push(["Highest temperature", fn(-20) < 0 ? "none" : f(fn(Tb - 0.01) > 0 ? Tb : bisect(fn, -20, Tb - 0.01), 1) + " °C"]);
     }
-    if (num(S.q, 0) > 0) {
-      const fq = (q) => calc({ q }).npsha - N;
-      if (fq(0) < 0) out.push(["Highest flow", "none", "margin not met even at zero flow"]);
-      else { const hi = Math.max(1, num(S.q, 1)) * 20; out.push(["Highest flow", fq(hi) > 0 ? "> " + f(hi, 0) + " m³/h" : f(bisect(fq, 0, hi), 1) + " m³/h", "for this suction line; NPSHr also rises with flow"]); }
-    }
-    if (S.sc === "pressure" || S.sc === "vacuum") {
-      const Pmin = R.P - gap * R.p.rho * g, pg = (Pmin - pAtm(num(S.alt, 0))) / KSC;
-      out.push(["Lowest vessel pressure", Pmin <= R.Pv ? "none" : S.sc === "vacuum" || pg < 0 ? f(Pmin / MMHG, 0) + " mmHg abs" : f(pg, 3) + " kg/cm² g", Pmin <= R.Pv ? "" : pg < 0 && S.sc === "pressure" ? "the margin holds even with the pad lost and the vessel under vacuum" : "at this level and temperature"]);
-    }
+    if (num(S.q, 0) > 0) { const fq = (q) => calc({ q }).npsha - N, hi = num(S.q, 1) * 20; out.push(["Highest flow", fq(0) < 0 ? "none" : fq(hi) > 0 ? "> " + f(hi, 0) + " m³/h" : f(bisect(fq, 0, hi), 1) + " m³/h"]); }
+    if (S.sc === "pressure" || S.sc === "vacuum") { const Pm = R.P - gap * R.p.rho * g, pg = (Pm - pAtm(num(S.alt, 0))) / KSC; out.push(["Lowest vessel pressure", Pm <= R.Pv ? "none" : pg < 0 ? f(Pm / MMHG, 0) + " mmHg abs" : f(pg, 2) + " kg/cm² g"]); }
     return out;
   }
 
-  /* NPSHa against flow, with NPSHr and the margin line */
-  function chart(R) {
-    const qr = Math.max(0.1, num(S.qr, num(S.q, 10)), num(S.q, 0)), qmax = qr * 1.6, W = 560, H = 260, l = 46, r = 14, t = 14, b = 38;
-    const pts = []; for (let i = 0; i <= 40; i++) { const q = (qmax * i) / 40; pts.push([q, calc({ q }).npsha]); }
-    const ys = pts.map((p) => p[1]).concat([need(), num(S.npshr, 0), 0]);
-    let y0 = Math.min(...ys), y1 = Math.max(...ys); const pad = (y1 - y0) * 0.1 || 1; y0 = Math.floor(y0 - pad); y1 = Math.ceil(y1 + pad);
-    const X = (q) => l + ((W - l - r) * q) / qmax, Y = (h) => t + ((H - t - b) * (y1 - h)) / (y1 - y0);
-    let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="NPSH available against flow" font-family="sans-serif" font-size="11">`;
-    const step = Math.max(1, Math.ceil((y1 - y0) / 6));
-    for (let h = Math.ceil(y0); h <= y1; h += step) s += `<line x1="${l}" x2="${W - r}" y1="${Y(h)}" y2="${Y(h)}" stroke="#2c3b4f"/><text x="${l - 6}" y="${Y(h) + 4}" fill="#9fb0c3" text-anchor="end">${h}</text>`;
-    for (let i = 0; i <= 4; i++) { const q = (qmax * i) / 4; s += `<text x="${X(q)}" y="${H - b + 16}" fill="#9fb0c3" text-anchor="middle">${f(q, q < 10 ? 1 : 0)}</text>`; }
-    s += `<text x="${(l + W - r) / 2}" y="${H - 4}" fill="#9fb0c3" text-anchor="middle">Flow, m³/h</text><text transform="translate(12,${(t + H - b) / 2}) rotate(-90)" fill="#9fb0c3" text-anchor="middle">Head, m of liquid</text>`;
-    s += `<line x1="${l}" x2="${W - r}" y1="${Y(need())}" y2="${Y(need())}" stroke="#D9A441" stroke-dasharray="6 4"/><text x="${W - r - 4}" y="${Y(need()) - 5}" fill="#D9A441" text-anchor="end">NPSHr + margin</text>`;
-    s += `<polyline fill="none" stroke="#4E9AD6" stroke-width="2.4" points="${pts.map((p) => X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1)).join(" ")}"/><text x="${X(pts[4][0])}" y="${Y(pts[4][1]) - 7}" fill="#4E9AD6">NPSH available</text>`;
-    s += `<circle cx="${X(num(S.qr, 0))}" cy="${Y(num(S.npshr, 0))}" r="4.5" fill="#E07A6A"/><text x="${X(num(S.qr, 0)) + 7}" y="${Y(num(S.npshr, 0)) + 14}" fill="#E07A6A">NPSHr at rated flow</text>`;
-    if (R.q > 0) s += `<line x1="${X(R.q)}" x2="${X(R.q)}" y1="${t}" y2="${H - b}" stroke="#7d8da1" stroke-dasharray="2 3"/><text x="${X(R.q) + 4}" y="${t + 10}" fill="#9fb0c3">operating</text>`;
+  /* ---------- the diagram ---------- */
+  function diagram(R) {
+    const sc = S.sc, ok = R.npsha >= need(), cav = R.npsha < num(S.npshr, 0) || (R.Pv > R.P * 1.0001 && sc !== "boiling");
+    const col = cav ? "#E0605A" : ok ? "#5BB37A" : "#D9A441";
+    const PX = 470, lift = sc === "lift", PY = lift ? 250 : 330;
+    const PIPE = "#9fb0c3", LIQ = "#2f6fa3", STEEL = "#c9d3de";
+    let s = `<svg viewBox="0 0 1000 480" width="100%" role="img" aria-label="Line diagram: source vessel, suction line, pump, discharge line and destination" font-family="sans-serif" font-size="13">
+      <defs><marker id="np-ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D9A441"/></marker>
+      <marker id="np-fl" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="${PIPE}"/></marker></defs>`;
+    const dim = (x, y1, y2, txt, dx, ty) => { dx = dx == null ? -8 : dx; return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="#D9A441" stroke-width="1.4" marker-start="url(#np-ar)" marker-end="url(#np-ar)"/><text x="${x + dx}" y="${ty || (y1 + y2) / 2 + 4}" fill="#D9A441" text-anchor="${dx < 0 ? "end" : "start"}" font-weight="700">${txt}</text>`; };
+    const tag = (x, y, txt, c, anchor) => `<text x="${x}" y="${y}" fill="${c || "#c9d3de"}" text-anchor="${anchor || "middle"}">${txt}</text>`;
+    const valve = (x, y, vert) => vert ? `<path d="M${x - 8},${y - 10} L${x + 8},${y - 10} L${x - 8},${y + 10} L${x + 8},${y + 10} z" fill="#1b2838" stroke="${STEEL}" stroke-width="1.6"/>` : `<path d="M${x - 10},${y - 8} L${x + 10},${y + 8} L${x + 10},${y - 8} L${x - 10},${y + 8} z" fill="#1b2838" stroke="${STEEL}" stroke-width="1.6"/>`;
+    const fmtZ = f(num(S.z, 0), 1) + " m";
+
+    /* source vessel */
+    let outX = 185, outY;
+    if (lift) {
+      s += `<line x1="30" y1="300" x2="330" y2="300" stroke="#6b7c8f" stroke-width="2"/><text x="290" y="292" fill="#7d8da1" font-size="11">ground</text>`;
+      s += `<path d="M80,300 L80,455 L290,455 L290,300" fill="none" stroke="${STEEL}" stroke-width="2.5"/><rect x="82" y="370" width="206" height="83" fill="${LIQ}" opacity=".75"/>`;
+      s += `<line x1="200" y1="432" x2="200" y2="${PY}" stroke="${PIPE}" stroke-width="7"/><rect x="190" y="430" width="20" height="14" fill="#1b2838" stroke="${STEEL}"/>${tag(222, 444, "foot valve", "#e8eef5", "start")}`;
+      outX = 200;
+      s += dim(50, 370, PY, "lift " + fmtZ, 8, 285);
+      s += tag(130, 400, "sump", "#e8eef5");
+    } else if (sc === "boiling") {
+      s += `<rect x="130" y="24" width="110" height="246" rx="40" fill="#1b2838" stroke="${STEEL}" stroke-width="2.5"/>`;
+      for (let y = 64; y < 175; y += 22) s += `<line x1="140" y1="${y}" x2="230" y2="${y}" stroke="#55677c" stroke-dasharray="6 4"/>`;
+      s += `<path d="M132,192 L238,192 L238,240 Q185,272 132,240 z" fill="${LIQ}" opacity=".8"/>`;
+      s += `<path d="M240,218 L282,218 L282,170 L240,170" fill="none" stroke="#c8693a" stroke-width="3"/>${tag(290, 198, "reboiler", "#c8693a", "start")}`;
+      s += tag(185, 16, `column ${f(num(S.pb, 0), 2)} kg/cm² g`, "#e8eef5");
+      outY = 266;
+      s += dim(105, 192, PY, fmtZ);
+    } else {
+      const top = 90, bot = 270;
+      s += `<rect x="90" y="${top}" width="190" height="${bot - top}" rx="12" fill="#1b2838" stroke="${STEEL}" stroke-width="2.5"/><path d="M92,170 L278,170 L278,${bot - 10} Q278,${bot - 2} 268,${bot - 2} L102,${bot - 2} Q92,${bot - 2} 92,${bot - 10} z" fill="${LIQ}" opacity=".75"/>`;
+      if (sc === "flooded" || sc === "condensate") {
+        s += `<path d="M185,${top} L185,${top - 30} L205,${top - 30}" fill="none" stroke="${PIPE}" stroke-width="4"/>${tag(212, top - 26, sc === "condensate" ? "vent (flash steam)" : "vent to atmosphere", "#9fb0c3", "start")}`;
+        if (sc === "condensate") s += `<path d="M120,${top - 8} q6,-12 0,-24 q-6,-12 0,-24 M140,${top - 8} q6,-12 0,-24 q-6,-12 0,-24" fill="none" stroke="#7d8da1" stroke-width="1.5"/>`;
+      } else if (sc === "pressure") s += `<path d="M185,${top} L185,${top - 30} L240,${top - 30}" fill="none" stroke="#7fb2d9" stroke-width="3"/>${valve(215, top - 30)}${tag(248, top - 26, `N₂ ${f(num(S.pg, 0), 2)} kg/cm² g`, "#7fb2d9", "start")}`;
+      else if (sc === "vacuum") s += `<path d="M185,${top} L185,${top - 30} L240,${top - 30}" fill="none" stroke="#b48ad9" stroke-width="3"/>${tag(248, top - 26, `to vacuum, ${f(num(S.pa, 0), 0)} mmHg abs`, "#b48ad9", "start")}`;
+      s += tag(185, 140, sc === "pressure" ? "vessel" : sc === "vacuum" ? "receiver" : "tank", "#e8eef5");
+      s += tag(185, 230, f(R.T, 0) + " °C", "#e8eef5");
+      outY = bot;
+      s += dim(70, 170, PY, fmtZ);
+    }
+    /* pump centre line reference */
+    s += `<line x1="30" y1="${PY}" x2="${PX - 34}" y2="${PY}" stroke="#55677c" stroke-dasharray="3 4"/>`;
+    /* suction line */
+    s += lift ? `<path d="M${outX},${PY} L${PX - 28},${PY}" fill="none" stroke="${PIPE}" stroke-width="7"/>` : `<path d="M${outX},${outY} L${outX},${PY} L${PX - 28},${PY}" fill="none" stroke="${PIPE}" stroke-width="7" stroke-linejoin="round"/>`;
+    if (num(S.val, 0) > 0) s += valve(300, PY);
+    if (S.str === "clean" || S.str === "dirty") s += `<path d="M352,${PY} l14,0 l10,16 l-8,5 z" fill="#1b2838" stroke="${S.str === "dirty" ? "#E0605A" : STEEL}" stroke-width="1.6"/>`;
+    s += `<line x1="${lift ? 250 : 330}" y1="${PY - 22}" x2="${lift ? 272 : 352}" y2="${PY - 22}" stroke="${PIPE}" stroke-width="2" marker-end="url(#np-fl)"/>`;
+    s += tag(335, lift ? PY - 52 : PY + 40, `suction ${f(num(S.len, 0), 0)} m, ${INCH[S.ns] || ""}"`, "#c9d3de");
+    s += tag(335, lift ? PY - 35 : PY + 57, `loss ${f(R.su.hf, 2)} m · ${f(R.su.v, 2)} m/s`, "#9fb0c3");
+    /* pump */
+    s += `<path d="M${PX + 10},${PY - 26} L${PX + 10},70 L800,70" fill="none" stroke="${PIPE}" stroke-width="6" stroke-linejoin="round"/>`;
+    s += `<circle cx="${PX}" cy="${PY}" r="28" fill="#1b2838" stroke="${col}" stroke-width="3"/><path d="M${PX - 12},${PY - 14} L${PX + 16},${PY} L${PX - 12},${PY + 14} z" fill="${col}" opacity=".85"/>`;
+    s += `<line x1="${PX}" y1="${PY + 30}" x2="${PX}" y2="${PY + 70}" stroke="${col}" stroke-width="1.5"/><rect x="${PX - 96}" y="${PY + 70}" width="192" height="54" rx="4" fill="#0f1a26" stroke="${col}" stroke-width="2"/>${tag(PX, PY + 93, `NPSHa ${f(R.npsha, 2)} m`, col)}${tag(PX, PY + 113, `NPSHr ${f(num(S.npshr, 0), 1)} m, margin ${f(R.npsha - num(S.npshr, 0), 2)} m`, "#c9d3de")}`;
+    /* discharge fittings */
+    const cy = Math.round((PY + 70) / 2) + 26;
+    s += `<rect x="${PX + 2}" y="${cy}" width="16" height="12" fill="#1b2838" stroke="${STEEL}" stroke-width="1.4"/>${tag(PX + 24, cy + 10, "check valve", "#9fb0c3", "start")}`;
+    if (num(S.val2, 0) > 0) s += valve(PX + 10, cy - 34, true);
+    s += `<line x1="640" y1="54" x2="668" y2="54" stroke="${PIPE}" stroke-width="2" marker-end="url(#np-fl)"/>`;
+    s += tag(650, 100, `discharge ${f(num(S.len2, 0), 0)} m, ${INCH[S.ns2] || ""}"`, "#c9d3de");
+    s += tag(650, 117, `loss ${f(R.di.hf, 2)} m · ${f(R.di.v, 2)} m/s`, "#9fb0c3");
+    /* destination */
+    s += `<path d="M800,70 L830,70 L830,92" fill="none" stroke="${PIPE}" stroke-width="6"/><rect x="800" y="40" width="140" height="130" rx="10" fill="none" stroke="${STEEL}" stroke-width="2.5"/>`;
+    s += tag(870, 125, "destination", "#e8eef5") + tag(870, 145, `${f(num(S.p2, 0), 2)} kg/cm² g`, "#9fb0c3");
+    s += `<line x1="760" y1="${PY}" x2="985" y2="${PY}" stroke="#55677c" stroke-dasharray="3 4"/>`;
+    s += dim(965, 70, PY, f(num(S.h2, 0), 1) + " m", -8, Math.max((70 + PY) / 2 + 4, 195));
+    s += `<rect x="560" y="${PY - 60}" width="180" height="52" rx="4" fill="#0f1a26" stroke="#4E9AD6" stroke-width="1.5"/>${tag(650, PY - 38, `pump head ${f(R.head, 1)} m`, "#7fb2d9")}${tag(650, PY - 18, `${f(R.kW, 2)} kW at ${f(num(S.eff, 60), 0)} %`, "#c9d3de")}`;
+    s += tag(760, PY + 16, "pump centre line", "#7d8da1", "start");
     return s + `</svg>`;
   }
 
   function results() {
-    const R = calc(), N = need(), mar = R.npsha - num(S.npshr, 0), ratio = num(S.npshr, 0) > 0 ? R.npsha / num(S.npshr, 0) : NaN;
-    const ok = R.npsha >= N, cav = mar < 0, flash = R.Pv > R.P * 1.0001 && S.sc !== "boiling";
-    const notes = [];
-    if (flash) notes.push(["bad", `The liquid is above its boiling point at the surface pressure (vapour pressure ${f(R.Pv / MMHG, 0)} mmHg against ${f(R.P / MMHG, 0)} mmHg): it flashes before it reaches the pump.`]);
-    else if (cav) notes.push(["bad", "NPSH available is below the NPSH the pump needs: it will cavitate. Raise the level, cool the liquid, cut suction losses (larger pipe, fewer fittings, clean strainer) or choose a pump with a lower NPSHr."]);
-    else if (!ok) notes.push(["warn", `Margin is ${f(mar, 2)} m, less than the ${f(num(S.margin, 1), 1)} m asked for. NPSHr is the flow at which head has already dropped 3 %, so the pump is cavitating at NPSHr; check with the vendor at the highest flow.`]);
-    else notes.push(["good", `NPSH available is ${f(mar, 2)} m above NPSHr. Confirm against the vendor curve at the highest flow the pump will see.`]);
-    if (S.sc === "boiling") notes.push(["warn", "The liquid is at its boiling point, so pressure and vapour pressure cancel: only the liquid level minus the suction loss is left. Keep the suction line short, insulated and free of high points; any heat pick-up or pressure dip makes vapour."]);
-    if (S.sc === "vacuum") notes.push(["warn", "In a vacuum receiver the gap between vessel pressure and vapour pressure is small, so the liquid level does most of the work. Pumps on vacuum receivers are usually mounted well below the vessel; a falling level or a warmer distillate quickly takes the margin away."]);
-    if (S.sc === "lift") notes.push(["warn", "A suction lift needs a self-priming pump or a foot valve, and the line must be air tight: a leak at a flange or gland lets air in and the pump loses prime."]);
-    if (R.fr.v > 1.5) notes.push(["warn", `Suction velocity ${f(R.fr.v, 2)} m/s. Suction lines are usually sized for about 1 to 1.5 m/s; a larger pipe cuts the loss.`]);
-    if (sol() && sol().s !== "water" && !num(S.rho, NaN) && Math.abs(R.T - 20) > 30) notes.push(["", "Density is the 20 °C value from the solvent page; enter the density at the pumping temperature for hot liquids."]);
-    const card = (l, v, u) => `<div class="readout"><div class="label">${l}</div><div class="val">${v}</div><div class="np-unit">${u}</div></div>`;
-    let h = `<div class="np-grid4" aria-live="polite">${card("NPSH available", f(R.npsha, 2), "m of liquid")}${card("Margin over NPSHr", f(mar, 2), "m · needed " + f(num(S.margin, 1), 1) + " m")}${card("NPSHa / NPSHr", f(ratio, 2), "ratio")}${card("Result", cav || flash ? "Cavitates" : ok ? "OK" : "Tight", cav || flash ? "short of NPSH" : ok ? "margin met" : "below the margin asked for")}</div>`;
-    notes.forEach(([c, t]) => (h += `<div class="np-note ${c === "bad" ? "np-bad" : c === "good" ? "np-good" : ""}">${esc(t)}</div>`));
-    const row = (a, b, c) => `<tr><td>${a}</td><td>${b}</td><td>${c}</td></tr>`;
-    h += `<div class="np-two"><div><h3 class="np-h">How it adds up</h3><table class="np-tab"><tbody>
-      ${row("Surface pressure head", "+ " + f(R.hP, 2) + " m", f(R.P / KSC, 3) + " kg/cm² abs · " + f(R.P / MMHG, 0) + " mmHg")}
-      ${row("Vapour pressure head", "− " + f(R.hV, 2) + " m", f(R.Pv / MMHG, 1) + " mmHg at " + f(R.T, 1) + " °C")}
-      ${row(R.z >= 0 ? "Liquid level above pump" : "Suction lift", (R.z >= 0 ? "+ " : "− ") + f(Math.abs(R.z), 2) + " m", "")}
-      ${row("Suction line loss", "− " + f(R.fr.hf, 2) + " m", R.q > 0 ? f(R.fr.v, 2) + " m/s · Re " + f(R.fr.Re, 0) + " · ΣK " + f(R.fr.K, 2) : "no flow")}
-      <tr class="np-tot"><td>NPSH available</td><td>${f(R.npsha, 2)} m</td><td>${f(R.npsha * R.p.rho * g / KSC, 3)} kg/cm²</td></tr></tbody></table>
-      <p class="np-small">Liquid: density ${f(R.p.rho, 0)} kg/m³, viscosity ${f(R.p.mu, 2)} cP${R.p.auto.pv ? ", vapour pressure from Antoine" : ""}.</p></div>
-      <div><h3 class="np-h">Limits for this pump (NPSHr + ${f(num(S.margin, 1), 1)} m)</h3><table class="np-tab"><tbody>${limits(R).map((x) => row(x[0], x[1], x[2])).join("")}</tbody></table></div></div>`;
-    h += `<h3 class="np-h">NPSH available against flow</h3><div class="np-chart">${chart(R)}</div>`;
-    $("np-results").innerHTML = h;
+    const R = calc(), mar = R.npsha - num(S.npshr, 0), ok = R.npsha >= need(), cav = mar < 0, flash = R.Pv > R.P * 1.0001 && S.sc !== "boiling";
+    $("np-dia").innerHTML = diagram(R);
+    let msg, cls;
+    if (flash) { cls = "np-bad"; msg = `The liquid is above its boiling point at the vessel pressure (vapour pressure ${f(R.Pv / MMHG, 0)} mmHg against ${f(R.P / MMHG, 0)} mmHg): it flashes before reaching the pump.`; }
+    else if (cav) { cls = "np-bad"; msg = "Cavitation: NPSH available is below what the pump needs. Raise the level, cool the liquid, use a larger or shorter suction line, clean the strainer, or choose a pump with lower NPSHr."; }
+    else if (!ok) { cls = ""; msg = `Tight: ${f(mar, 2)} m above NPSHr, less than the ${f(num(S.margin, 1), 1)} m margin you asked for.`; }
+    else { cls = "np-good"; msg = `OK: ${f(mar, 2)} m above NPSHr. Check the vendor curve at the highest flow the pump will run at.`; }
+    const extra = [];
+    if (S.sc === "boiling") extra.push("At the boiling point, vessel pressure and vapour pressure cancel: only the liquid height minus the suction loss is left.");
+    if (S.sc === "vacuum") extra.push("Under vacuum the liquid height does most of the work; a lower level or warmer distillate takes the margin away quickly.");
+    if (S.sc === "lift") extra.push("A suction lift needs a self-priming pump or a foot valve and an air-tight suction line.");
+    if (R.su.v > 1.5) extra.push(`Suction velocity ${f(R.su.v, 2)} m/s is high; suction lines are usually sized for 1 to 1.5 m/s.`);
+    if (R.head < 0) extra.push("The destination is lower or at lower pressure than the source: the liquid would flow there by gravity.");
+    const lim = limits(R);
+    $("np-res").innerHTML = `<div class="np-note ${cls}">${esc(msg)}${extra.map((x) => `<br><span class="np-small">${esc(x)}</span>`).join("")}</div>
+      <div class="np-sum"><div><h3 class="np-h">NPSH available</h3><table class="np-tab"><tbody>
+        <tr><td>Vessel pressure</td><td>+ ${f(R.hP, 2)} m</td><td>${f(R.P / MMHG, 0)} mmHg abs</td></tr>
+        <tr><td>Vapour pressure</td><td>− ${f(R.hV, 2)} m</td><td>${f(R.Pv / MMHG, 1)} mmHg at ${f(R.T, 1)} °C</td></tr>
+        <tr><td>${R.z >= 0 ? "Liquid level" : "Lift"}</td><td>${R.z >= 0 ? "+" : "−"} ${f(Math.abs(R.z), 2)} m</td><td></td></tr>
+        <tr><td>Suction loss</td><td>− ${f(R.su.hf, 2)} m</td><td></td></tr>
+        <tr class="np-tot"><td>NPSHa</td><td>${f(R.npsha, 2)} m</td><td></td></tr></tbody></table></div>
+      <div><h3 class="np-h">How far it can go</h3><table class="np-tab"><tbody>${lim.map((x) => `<tr><td>${x[0]}</td><td>${x[1]}</td></tr>`).join("")}</tbody></table>
+      <p class="np-small">Keeping NPSHr + ${f(num(S.margin, 1), 1)} m.</p></div></div>`;
   }
 
   function inputs() {
-    const sc = SCEN[S.sc], s = sol(), T = num(S.T, 30), p = props(T);
-    const inp = (k, lab, unit, step, extra) => `<label><span>${lab}${unit ? ` <small>${unit}</small>` : ""}</span><input type="number" step="${step || "any"}" data-k="${k}" value="${esc(S[k])}"${extra || ""}></label>`;
+    const s = sol(), p = props(num(S.T, 30));
+    const inp = (k, lab, unit, step) => `<label><span>${lab}${unit ? ` <small>${unit}</small>` : ""}</span><input type="number" step="${step || "any"}" min="0" data-k="${k}" value="${esc(S[k])}"></label>`;
+    const sel = (k, lab, opts) => `<label><span>${lab}</span><select data-k="${k}">${opts.map(([v, n]) => `<option value="${esc(v)}"${String(v) === String(S[k]) ? " selected" : ""}>${esc(n)}</option>`).join("")}</select></label>`;
+    const sizes = Object.keys(NPS).map((k) => [k, `${k} mm (${INCH[k]}")`]);
     const auto = (k, lab, unit, val, d) => `<label><span>${lab} <small>${unit}</small></span><input type="number" step="any" data-k="${k}" value="${esc(S[k])}" placeholder="${s ? f(val, d).replace(/,/g, "") : ""}"></label>`;
     let pres = "";
-    if (S.sc === "pressure") pres = inp("pg", "Vessel pressure", "kg/cm² g") + inp("alt", "Site altitude", "m");
-    else if (S.sc === "vacuum") pres = inp("pa", "Vessel pressure", "mmHg abs");
-    else if (S.sc === "boiling") pres = inp("pb", "Vessel pressure", "kg/cm² g") + `<p class="np-small" style="flex-basis:100%">${s ? `${esc(s.n)} boils at ${f(tBoil(s, (num(S.pb, 0) * KSC + pAtm(0)) / MMHG), 1)} °C at this pressure.` : "For another liquid, the vapour pressure equals the vessel pressure."}</p>`;
-    else pres = inp("alt", "Site altitude", "m");
+    if (S.sc === "pressure") pres = inp("pg", "N₂ pressure", "kg/cm² g");
+    else if (S.sc === "vacuum") pres = inp("pa", "Vacuum", "mmHg abs");
+    else if (S.sc === "boiling") pres = inp("pb", "Column pressure", "kg/cm² g");
     return `
-      <div class="np-scen" role="radiogroup" aria-label="Suction arrangement">${Object.keys(SCEN).map((k) => `<button type="button" role="radio" aria-checked="${k === S.sc}" class="np-sc${k === S.sc ? " on" : ""}" data-sc="${k}"><b>${esc(SCEN[k].t)}</b><span>${esc(SCEN[k].d)}</span></button>`).join("")}</div>
+      <div class="np-scen" role="radiogroup" aria-label="Source vessel">${Object.keys(SCEN).map((k) => `<button type="button" role="radio" aria-checked="${k === S.sc}" class="np-sc${k === S.sc ? " on" : ""}" data-sc="${k}"><b>${esc(SCEN[k].t)}</b><span>${esc(SCEN[k].d)}</span></button>`).join("")}</div>
+      <div class="np-row">${sel("fluid", "Liquid", [["own", "Other liquid"]].concat(SOL.map((x) => [x.s, x.n])))}${S.sc === "boiling" ? "" : inp("T", "Temperature", "°C")}${inp("q", "Flow", "m³/h")}</div>
+      <div id="np-dia" class="np-dia"></div>
       <div class="np-form">
-        <fieldset><legend>Liquid</legend>
-          <label class="np-wide"><span>Liquid</span><select data-k="fluid">${FLUIDS().map(([v, n]) => `<option value="${esc(v)}"${v === S.fluid ? " selected" : ""}>${esc(n)}</option>`).join("")}</select></label>
-          ${S.sc === "boiling" ? "" : inp("T", "Temperature", "°C")}
-          ${auto("rho", "Density", "kg/m³", p.rho, 0)}${S.sc === "boiling" && s ? "" : auto("pv", "Vapour pressure", "mmHg abs", p.pv, 1)}${auto("mu", "Viscosity", "cP", p.mu, 2)}
-        </fieldset>
-        <fieldset><legend>Suction vessel</legend>${pres}${inp("z", sc.lvl, "m")}</fieldset>
-        <fieldset><legend>Suction line</legend>
-          ${inp("q", "Flow", "m³/h")}${inp("id", "Pipe inside diameter", "mm")}${inp("len", "Straight length", "m")}${inp("elb", "90° elbows", "", "1", ' min="0"')}${inp("val", "Valves, fully open", "", "1", ' min="0"')}
-          <label><span>Strainer</span><select data-k="str">${Object.keys(STR).map((k) => `<option value="${k}"${k === S.str ? " selected" : ""}>${esc(STR[k][0])}</option>`).join("")}</select></label>
-          ${inp("kx", "Other K", "reducer, tee, meter")}${inp("rough", "Roughness", "mm")}
-        </fieldset>
-        <fieldset><legend>Pump</legend>${inp("npshr", "NPSHr from the pump curve", "m")}${inp("qr", "Rated flow", "m³/h")}${inp("margin", "Margin wanted", "m")}</fieldset>
+        <fieldset><legend>Source</legend>${pres}${inp("z", S.sc === "lift" ? "Lift, pump above liquid" : "Lowest level above pump", "m")}</fieldset>
+        <fieldset><legend>Suction line</legend>${sel("ns", "Pipe size", sizes)}${inp("len", "Length", "m")}${inp("elb", "Elbows", "", 1)}${inp("val", "Valves", "", 1)}${sel("str", "Strainer", Object.keys(STR).map((k) => [k, STR[k][0]]))}</fieldset>
+        <fieldset><legend>Pump</legend>${inp("npshr", "NPSHr (pump curve)", "m")}${inp("margin", "Margin wanted", "m")}${inp("eff", "Efficiency", "%")}</fieldset>
+        <fieldset><legend>Discharge and destination</legend>${inp("h2", "Height above pump", "m")}${inp("p2", "Pressure", "kg/cm² g")}${sel("ns2", "Pipe size", sizes)}${inp("len2", "Length", "m")}${inp("elb2", "Elbows", "", 1)}${inp("val2", "Valves", "", 1)}</fieldset>
       </div>
-      <p class="np-small">Grey values for density, vapour pressure and viscosity come from the solvent data at the temperature; type a value to use your own.</p>`;
+      <details class="np-more"><summary>Liquid properties and more</summary><div class="np-row">${auto("rho", "Density", "kg/m³", p.rho, 0)}${S.sc === "boiling" && s ? "" : auto("pv", "Vapour pressure", "mmHg abs", p.pv, 1)}${auto("mu", "Viscosity", "cP", p.mu, 2)}${inp("alt", "Site altitude", "m")}${inp("rough", "Pipe roughness", "mm")}${inp("kx", "Extra suction K", "")}</div>
+      <p class="np-small">Grey values come from the solvent data at the temperature; type your own to override. Density of solvents other than water is the 20 °C value.</p></details>
+      <div id="np-res"></div>`;
   }
 
-  function all() { $("np-inputs").innerHTML = inputs(); results(); }
-
+  function all() { $("np-in").innerHTML = inputs(); results(); }
   function init() {
     const mount = $("calc-mount"); if (!mount) return;
     S = load();
-    mount.innerHTML = `${typeof plateHeader === "function" ? plateHeader("PharmaChemE NPSH Calculator", "NPSHa · SUCTION · MARGIN") : ""}<div id="np-inputs"></div><div id="np-results"></div>`;
-    mount.addEventListener("click", (e) => {
-      const b = e.target.closest("[data-sc]"); if (!b) return;
-      const k = b.getAttribute("data-sc"); S = Object.assign(DEF(), { margin: S.margin }, SCEN[k].v, { sc: k }); save(); all();
-    });
-    mount.addEventListener("input", (e) => {
+    mount.innerHTML = `${typeof plateHeader === "function" ? plateHeader("PharmaChemE NPSH Calculator", "TANK · PUMP · DESTINATION") : ""}<div id="np-in"></div>`;
+    mount.addEventListener("click", (e) => { const b = e.target.closest("[data-sc]"); if (!b) return; S = DEF(b.getAttribute("data-sc")); save(); all(); });
+    const upd = (e) => {
       const k = e.target.getAttribute("data-k"); if (!k) return;
       S[k] = e.target.value; save();
       if (k === "fluid") { S.rho = S.pv = S.mu = ""; all(); return; }
       results();
-      /* refresh the greyed auto values without rebuilding the form under the cursor */
       const p = props(num(S.T, 30));
-      [["rho", p.rho, 0], ["pv", p.pv, 1], ["mu", p.mu, 2]].forEach(([kk, v, d]) => { const el = mount.querySelector(`[data-k="${kk}"]`); if (el && sol()) el.placeholder = f(v, d).replace(/,/g, ""); });
-      if (k === "pb") { const el = mount.querySelector(".np-form .np-small"); if (el && sol()) el.textContent = `${sol().n} boils at ${f(tBoil(sol(), (num(S.pb, 0) * KSC + pAtm(0)) / MMHG), 1)} °C at this pressure.`; }
-    });
-    mount.addEventListener("change", (e) => { const k = e.target.getAttribute("data-k"); if (k === "str") results(); });
-    const go = () => all();
-    fetch(DATA).then((r) => r.json()).then((d) => { SOL = d; go(); }).catch(() => { S.fluid = "own"; go(); });
+      if (sol()) [["rho", p.rho, 0], ["pv", p.pv, 1], ["mu", p.mu, 2]].forEach(([kk, v, d]) => { const el = mount.querySelector(`[data-k="${kk}"]`); if (el) el.placeholder = f(v, d).replace(/,/g, ""); });
+    };
+    mount.addEventListener("input", upd);
+    mount.addEventListener("change", (e) => { if (e.target.tagName === "SELECT") upd(e); });
+    fetch(DATA).then((r) => r.json()).then((d) => { SOL = d; all(); }).catch(() => { S.fluid = "own"; all(); });
   }
   window.PCENpshInit = init;
-  window.PCENpshTest = { calc: (st) => { S = Object.assign(DEF(), st); return calc(); }, setSol: (d) => (SOL = d), antoine, tBoil };
+  window.PCENpshTest = { calc: (st) => { S = Object.assign(DEF(st.sc), st); return calc(); }, setSol: (d) => (SOL = d), antoine, tBoil };
 })();

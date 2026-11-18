@@ -2,7 +2,7 @@
 layout: default
 title: "NPSH Calculator: NPSH Available for Six Suction Arrangements"
 seo_title: "NPSH Calculator: NPSHa, Margin and Limits | PharmaChemE"
-description: "Free NPSH calculator: NPSH available for open tanks, suction lift, nitrogen-padded and vacuum vessels, boiling liquids and hot condensate, with 96 solvents."
+description: "Free NPSH calculator with a tank-to-pump-to-destination diagram: NPSHa, margin and pump head for open, padded and vacuum vessels, boiling liquid, suction lift."
 keywords: "NPSH calculator, NPSH available, NPSHa calculation, NPSH margin, pump cavitation, vacuum receiver pump, column bottoms pump NPSH, suction lift"
 needs_calculators: true
 calc_init: |
@@ -21,7 +21,7 @@ structured_data: |
       {
         "@type": "WebApplication",
         "name": "NPSH Calculator",
-        "description": "NPSH available for a centrifugal pump in six suction arrangements: open tank, suction lift, nitrogen-padded vessel, vacuum receiver, liquid at its boiling point and hot condensate, with vapour pressure for 96 solvents, suction line loss and the limits on level, temperature, flow and vessel pressure.",
+        "description": "NPSH available for a centrifugal pump in six suction arrangements: open tank, suction lift, nitrogen-padded vessel, vacuum receiver, liquid at its boiling point and hot condensate, drawn as a line diagram from source vessel to pump to destination, with vapour pressure for 96 solvents, line losses, pump head and the limits on level, temperature, flow and vessel pressure.",
         "url": "https://www.pharmacheme.in/calculators/npsh-calculator/",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Any (runs in a web browser)",
@@ -90,7 +90,7 @@ last_modified_at: 2026-11-18
 
 <div class="container calc-page-head">
   <h1>NPSH Calculator</h1>
-  <p>NPSH available at a centrifugal pump for the suction arrangements met in a plant: an open tank above the pump, a suction lift from a pit, a reactor under nitrogen, a vacuum receiver, a column bottoms pump and a hot condensate tank. Pick the arrangement, the liquid and its temperature, describe the suction line and enter the NPSHr from the pump curve. The calculator adds up the heads, checks the margin and shows how far the level, temperature, flow or vessel pressure can go before the pump starts to cavitate.</p>
+  <p>NPSH available at a centrifugal pump, drawn as a line diagram from the source vessel through the pump to the destination. Pick the source (open tank, suction lift, nitrogen-padded vessel, vacuum receiver, column bottoms or hot condensate tank), the liquid and the flow, then enter the level, pipe sizes, lengths and fittings. The diagram shows NPSH available against the pump's NPSHr, the pump head and power, and the calculator gives how low the level, how hot the liquid or how high the flow can go before the margin is lost.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
@@ -122,8 +122,10 @@ last_modified_at: 2026-11-18
   <h3>Hot condensate tank</h3>
   <p>Water at 95 °C has a vapour pressure of about 634 mmHg, so a vented tank gives only about 1.8 m of pressure head before the liquid level is counted. Condensate pumps cavitate when flash steam from the return lines heats the tank to boiling; mount the pump low and keep the tank vented.</p>
 
-  <h2 id="limits">Limits and the flow chart</h2>
-  <p>For the pump and margin entered, the calculator finds the lowest liquid level (or highest lift), the highest liquid temperature, the highest flow through the suction line and, for closed vessels, the lowest vessel pressure. The chart plots NPSH available against flow: it falls as the suction loss rises with the square of the velocity. NPSHr also rises with flow, so check the vendor curve at the highest flow the pump will see, not only at the rated point.</p>
+  <h2 id="limits">How far it can go</h2>
+  <p>For the pump and margin entered, the calculator finds the lowest liquid level (or highest lift), the highest liquid temperature, the highest flow through the suction line and, for closed vessels, the lowest vessel pressure. NPSH available falls as flow rises, because the suction loss grows with the square of the velocity, and NPSHr rises with flow too, so check the vendor curve at the highest flow the pump will see, not only at the rated point.</p>
+  <h2 id="head">Pump head on the discharge side</h2>
+  <p>The discharge line runs from the pump to the destination at the height and pressure entered. Pump head = (destination pressure − source pressure) / ρg + (destination height − source level) + suction loss + discharge loss. The discharge loss counts the elbows and open valves entered, a check valve (K = 2) and the exit into the vessel (K = 1). Power is ρgQH divided by the pump efficiency. Pipe sizes are schedule 40 inside diameters.</p>
 
   <h2 id="faq">Questions people ask</h2>
   <h3>What is the difference between NPSH available and NPSH required?</h3>

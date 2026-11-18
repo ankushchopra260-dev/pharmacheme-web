@@ -1,20 +1,29 @@
 /* NPSH calculator (assets/js/npsh.js) */
 #calc-mount input[type=number], #calc-mount select { background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); padding: 6px 7px; font-family: var(--f-mono); font-size: .85rem; border-radius: 0; box-sizing: border-box; }
 #calc-mount input[type=number] { width: 7em; }
-.np-form select[data-k="str"] { width: 15em !important; max-width: 100%; }
+.np-form select { width: auto !important; max-width: 100%; }
 #calc-mount input::placeholder { color: var(--muted-dim, #6f7f92); }
 #calc-mount input:focus, #calc-mount select:focus { outline: none; border-color: var(--brass); }
-.np-scen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.np-scen { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 12px; }
 .np-sc { text-align: left; background: var(--bg-deep); border: 1px solid var(--grid-line); color: var(--muted); padding: 9px 11px; cursor: pointer; font-family: var(--f-sans); line-height: 1.35; }
 .np-sc b { display: block; color: var(--paper); font-size: .86rem; margin-bottom: 2px; }
 .np-sc span { font-size: .74rem; }
 .np-sc:hover, .np-sc:focus-visible { border-color: var(--brass); outline: none; }
 .np-sc.on { border-color: var(--brass); box-shadow: inset 3px 0 0 var(--brass); }
 .np-sc.on b { color: var(--brass); }
-.np-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.np-form { display: grid; grid-template-columns: 0.8fr 1.4fr 1fr 1.6fr; gap: 10px; }
+.np-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; margin-bottom: 10px; font-family: var(--f-sans); font-size: .76rem; color: var(--muted); }
+.np-row label { display: flex; flex-direction: column; gap: 4px; }
+.np-row select[data-k="fluid"] { min-width: 16em; }
+.np-dia { background: #0f1a26; border: 1px solid var(--grid-line); margin: 4px 0 12px; }
+.np-dia svg { display: block; }
+.np-more { margin: 10px 0 0; font-family: var(--f-sans); font-size: .8rem; color: var(--muted); }
+.np-more summary { cursor: pointer; color: var(--brass); margin-bottom: 8px; }
+.np-sum { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; }
 .np-form fieldset { border: 1px solid var(--grid-line); margin: 0; padding: 8px 12px 12px; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; align-content: flex-start; }
 .np-form legend { font-family: var(--f-display); color: var(--paper); font-size: .95rem; padding: 0 6px; }
 .np-form label { display: flex; flex-direction: column; gap: 4px; font-family: var(--f-sans); font-size: .76rem; color: var(--muted); max-width: 13em; }
+.np-form input[type=number] { width: 5.5em !important; }
 .np-form label small { color: var(--muted-dim, #6f7f92); }
 .np-form .np-wide { max-width: none; flex-basis: 100%; }
 .np-form .np-wide select { width: 100%; max-width: 26em; }
@@ -34,6 +43,7 @@
 .np-tab .np-tot td { border-top: 1px solid var(--brass-dim); border-bottom: none; font-weight: 700; color: var(--brass); }
 .np-chart { background: var(--bg-deep); border: 1px solid var(--grid-line); padding: 8px; max-width: 640px; }
 .np-chart svg { display: block; }
-@media (max-width: 760px) { .np-scen { grid-template-columns: 1fr 1fr; } .np-form, .np-two { grid-template-columns: 1fr; } .np-grid4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 1000px) { .np-scen { grid-template-columns: repeat(3, 1fr); } .np-form { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .np-scen { grid-template-columns: 1fr 1fr; } .np-form, .np-sum { grid-template-columns: 1fr; } }
 @media (max-width: 420px) { .np-scen { grid-template-columns: 1fr; } }
-@media print { .np-chart { background: #fff; } }
+@media print { .np-scen, .np-more summary { display: none; } }
