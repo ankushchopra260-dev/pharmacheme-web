@@ -305,12 +305,11 @@
     r.wip = r.wip.filter((x) => x && typeof x === "object");
     return r;
   }
-  function init() {
-    const mount = $("calc-mount"); if (!mount) return;
+  function init(id) {
+    const mount = $(id || "calc-mount"); if (!mount) return;
     try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
     S = normalise(S);
-    mount.innerHTML = `${typeof plateHeader === "function" ? plateHeader("PharmaChemE Batch Scheduler", "GANTT · BCT · STE · WIP") : ""}
-      <p class="bg-small" style="margin-top:0">Set the stages and equipment, add any downtime and the batches already running, and the schedule, Gantt chart and output update as you type. Everything stays in your browser.</p>
+    mount.innerHTML = `${!id && typeof plateHeader === "function" ? plateHeader("PharmaChemE Batch Scheduler", "GANTT · BCT · STE · WIP") : ""}
       <div class="pill-group" style="margin-bottom:12px"><button type="button" class="pill" data-act="reset">Load the example</button><button type="button" class="pill" data-act="clear">Start blank</button></div>
       <div id="bg-editors"></div><h3 class="bg-h">Schedule</h3><div class="bg-toolbar" style="margin:0 0 6px"><label>Chart zoom <input type="range" min="2" max="20" step="1" data-p="zoom" value="${S.zoom}" aria-label="Chart zoom"></label></div><div id="bg-results"></div>`;
     try { renderAll(); } catch (e) { S = DEFAULT(); renderAll(); }

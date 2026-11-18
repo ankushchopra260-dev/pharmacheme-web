@@ -40,3 +40,8 @@
 .bg-bar i { display: block; height: 100%; background: var(--brass); }
 @media (max-width: 760px) { .bg-grid4 { grid-template-columns: 1fr 1fr; } }
 @media print { .bg-sec, .bg-toolbar, .pill-group, #bg-editors { display: none !important; } .bg-chart { overflow: visible; background: #fff; border-color: #999; } .bg-chart svg { max-width: 100%; height: auto; } .bg-scroll { overflow: visible; } }
+.bs-tabs { margin: 0 0 8px; }
+.bs-chart { overflow-x: auto; background: #fff; border: 1px solid #555; -webkit-overflow-scrolling: touch; }
+.bs-chart svg { display: block; }
+#calc-mount input[type=date] { background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); padding: 6px 7px; font-family: var(--f-mono); font-size: .82rem; }
+@media print { #bs-editors, .bs-tabs, #bs-intro { display: none !important; } .bs-chart { overflow: visible; } .bs-chart svg { max-width: 100%; height: auto; } }

@@ -2,11 +2,11 @@
 layout: default
 title: "Batch Scheduler: Gantt Chart, BCT and STE for Batch Plants"
 seo_title: "Batch Schedule Gantt Chart: BCT and STE | PharmaChemE"
-description: "Free batch scheduler: Gantt chart by equipment or batch, BCT and start-to-end time, shifts, final QC analysis, maintenance downtime, WIP and output."
+description: "Free batch scheduler: stage-wise Gantt chart in days from BCT and STE, with cleaning, transfer, analysis and modification days, plus a detailed hourly mode."
 needs_calculators: true
 calc_init: |
   document.addEventListener('DOMContentLoaded', function () {
-    if (window.PCEBatchGanttInit) window.PCEBatchGanttInit();
+    if (window.PCEBatchSimpleInit) window.PCEBatchSimpleInit();
   });
 breadcrumbs:
   - label: Calculators
@@ -74,14 +74,14 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-17
+last_modified_at: 2026-11-18
 ---
 <link rel="stylesheet" href="{{ '/assets/css/batch-gantt.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
 <div class="container calc-page-head">
   <h1>Batch Scheduler: Gantt Chart, BCT and STE</h1>
-  <p>Plan a run of batches through a multi-stage train and see the Gantt chart equipment-wise or batch-wise. It gives the batch cycle time (BCT, the gap between batch starts), the start-to-end time (STE) of each batch, the output in a 28-day month (or any number of days) and the bottleneck. In-process tests, final product analysis, cleaning, 8-hour shifts, equipment downtime for modification or maintenance, and batches already in progress are all included.</p>
+  <p>Lay out a campaign stage by stage in days, the way it is planned on a spreadsheet: one row per stage, BCT and STE for each, the days before the first batch for cleaning, transfer, analysis or modification, and whether a stage starts after the first or the last batch of the stage before. A detailed mode schedules named equipment in hours. In the detailed mode you can plan a run of batches through a multi-stage train and see the Gantt chart equipment-wise or batch-wise. It gives the batch cycle time (BCT, the gap between batch starts), the start-to-end time (STE) of each batch, the output in a 28-day month (or any number of days) and the bottleneck. In-process tests, final product analysis, cleaning, 8-hour shifts, equipment downtime for modification or maintenance, and batches already in progress are all included.</p>
 </div>
 <div class="container calc-mount">
   <div class="plate" id="calc-mount"></div>
@@ -92,7 +92,10 @@ last_modified_at: 2026-11-17
   <p><strong>BCT</strong> (batch cycle time) is the interval between one batch starting and the next one starting. It decides output: at a BCT of 16 hours the plant makes 42 batches in 28 days, whatever happens downstream. In-process tests are done while the material is still in the equipment, so they are part of the stage time and of the BCT. <strong>STE</strong> (start-to-end time) is how long one batch takes from its first charge to final release, including every wait and the final product analysis after unloading. It decides how many batches are in progress at once and how long a customer order takes.</p>
   <p>The shortest possible BCT is the occupancy of the bottleneck equipment per batch: its stage time with in-process tests, plus cleaning, shared between parallel units. The scheduler shows that figure next to the BCT the plan actually achieves. When the two differ, something is holding the bottleneck: usually material waiting for the next stage, or downtime.</p>
 
-  <h2 id="how">How the schedule is built</h2>
+  <h2 id="stage-wise">Stage-wise mode, in days</h2>
+  <p>Each stage is one row. Batch #01 of a stage starts after its <strong>days before first batch</strong> (the grey block: cleaning, transfer of material from another site, analysis, equipment modification); each following batch starts <strong>BCT</strong> days later and lasts <strong>STE</strong> days. When BCT is shorter than STE the batches overlap and are drawn one under the other.</p>
+  <p>A stage can start after <strong>batch #01 of the previous stage</strong>, when the stages run on different equipment and the first lot can move on at once, or after the <strong>last batch of the previous stage</strong>, when the stage needs the equipment the previous stage was using, or needs the whole lot. In the first case a batch also never starts before the matching batch of the previous stage has finished.</p>
+  <h2 id="how">Detailed mode: how the schedule is built</h2>
   <ul>
     <li>Batches are taken in order: the batches already in progress first, from the stage they are in, then the new batches. A batch in progress holds its equipment from the start of the plan, whatever the shift or downtime. Each stage starts as soon as the batch has finished the previous stage and the equipment is free and clean.</li>
     <li><strong>In-process tests</strong> (an IPC sample, an LOD check) belong in the stage time: the equipment is occupied while the result comes back.</li>
@@ -123,3 +126,4 @@ last_modified_at: 2026-11-17
 </div>
 
 <script src="{{ '/assets/js/batch-gantt.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/batch-gantt-simple.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
