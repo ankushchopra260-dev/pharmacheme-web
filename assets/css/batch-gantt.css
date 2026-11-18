@@ -41,6 +41,18 @@
 @media (max-width: 760px) { .bg-grid4 { grid-template-columns: 1fr 1fr; } }
 @media print { .bg-sec, .bg-toolbar, .pill-group, #bg-editors { display: none !important; } .bg-chart { overflow: visible; background: #fff; border-color: #999; } .bg-chart svg { max-width: 100%; height: auto; } .bg-scroll { overflow: visible; } }
 .bs-tabs { margin: 0 0 8px; }
+.bs-plan { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: flex-end; margin-bottom: 12px; font-family: var(--f-sans); font-size: .78rem; color: var(--muted); }
+.bs-plan label { display: flex; flex-direction: column; gap: 4px; }
+.bs-plan input[data-p="days"] { width: 6em; }
+.bs-plan input[data-p="unit"] { width: 5em; }
+.bs-tab input, .bs-tab select { width: 6em; box-sizing: border-box; }
+.bs-tab input[data-p$=".name"] { width: 8.5em; }
+.bs-tab input.bs-wip { width: 7.5em; }
+.bs-tab input.bs-note { width: 16em; }
+.bs-tab select { width: 12em; }
+.bs-tab th { white-space: normal; }
+.bs-tab td { vertical-align: middle; }
+.bs-auto { display: inline-block; min-width: 3em; padding: 6px 8px; font-family: var(--f-mono, monospace); color: var(--paper); }
 .bs-chart { overflow-x: auto; background: #fff; border: 1px solid #555; -webkit-overflow-scrolling: touch; }
 .bs-chart svg { display: block; }
 #calc-mount input[type=date] { background: var(--bg-deep); color: var(--paper); border: 1px solid var(--grid-line); padding: 6px 7px; font-family: var(--f-mono); font-size: .82rem; }

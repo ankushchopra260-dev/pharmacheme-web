@@ -10,7 +10,7 @@
 // ================================================================
 (function () {
   "use strict";
-  const KEY = "pce-batch-simple-v2";
+  const KEY = "pce-batch-simple-v3";
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (v, d) => { const x = parseFloat(v); return isFinite(x) ? x : d; };
@@ -19,12 +19,12 @@
 
   function tomorrow() { const d = new Date(); d.setDate(d.getDate() + 1); const p = (n) => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; }
   const DEFAULT = () => ({
-    start: tomorrow(), days: 28, unit: "kg", mode: "campaign",
+    start: tomorrow(), days: 28, unit: "kg", mode: "regular",
     stages: [
-      { name: "Stage-01", bct: 48, ste: 96, pre: 48, note: "Cleaning", n: 2, sets: 1, wip: "", out: 0, link: "first" },
-      { name: "Stage-02", bct: 72, ste: 144, pre: 48, note: "Transfer of #01 from the other site + analysis + equipment cleaning", n: 2, sets: 1, wip: "", out: 0, link: "first" },
-      { name: "Stage-03", bct: 48, ste: 96, pre: 48, note: "Modification if any + cleaning", n: 2, sets: 1, wip: "", out: 0, link: "last" },
-      { name: "Stage-04", bct: 96, ste: 144, pre: 48, note: "Modification if any", n: 2, sets: 1, wip: "", out: 250, link: "last" },
+      { name: "Stage-01", bct: 48, ste: 96, pre: 0, note: "", n: 14, wip: "", out: 25, link: "first" },
+      { name: "Stage-02", bct: 72, ste: 144, pre: 0, note: "", n: 9, wip: "", out: 30, link: "first" },
+      { name: "Stage-03", bct: 48, ste: 96, pre: 0, note: "", n: 14, wip: "", out: 45, link: "first" },
+      { name: "Stage-04", bct: 96, ste: 144, pre: 0, note: "", n: 7, wip: "", out: 50, link: "first" },
     ],
   });
   let S = null;
@@ -37,10 +37,9 @@
   const lastDay = (e) => dateAt(Math.ceil(e - 1e-9) - 1);
 
   const wipList = (st) => String(st.wip || "").split(/[,;\s]+/).map((x) => parseFloat(x)).filter((x) => isFinite(x) && x > 0).slice(0, 50);
-  const setsOf = (st) => Math.max(1, Math.min(20, Math.round(num(st.sets, 1))));
-  /* real gap between charges: BCT, but never less than STE shared over the parallel sets */
-  const gapH = (st) => Math.max(num(st.bct, 0), num(st.ste, 0) / setsOf(st));
-  const autoN = (st) => { const g = gapH(st); return g > 0 ? Math.floor((24 * Math.max(1, num(S.days, 28))) / g + 1e-9) : 0; };
+  /* BCT is the charging gap (the longest equipment time in the stage); a batch moves through the
+     stage's equipment over its STE, so batches overlap when BCT < STE */
+  const autoN = (st) => { const g = num(st.bct, 0); return g > 0 ? Math.floor((24 * Math.max(1, num(S.days, 28))) / g + 1e-9) : 0; };
   const newCount = (st) => Math.min(500, Math.max(0, S.mode === "regular" ? autoN(st) : Math.round(num(st.n, 0))));
 
   /* all times inside are in days from the first day 00:00; inputs are hours */
@@ -50,14 +49,13 @@
       const nm = st.name || "Stage " + (k + 1);
       const bctH = Math.max(0, num(st.bct, 0)), steH = Math.max(0, num(st.ste, 0)), preH = Math.max(0, num(st.pre, 0));
       const bct = bctH / 24, ste = steH / 24, pre = preH / 24, n = newCount(st), wip = wipList(st);
-      const prev = out[k - 1], b = [], sets = setsOf(st), free = new Array(Math.max(sets, wip.length)).fill(0);
-      if (wip.length > sets) warn.push(`${nm}: ${wip.length} batches in progress but only ${sets} equipment set${sets > 1 ? "s" : ""}; sets raised to ${wip.length} for the running batches.`);
-      // batches already running: one per set; they end after the hours left
-      wip.forEach((left, j) => { if (left > steH + 1e-9) warn.push(`${nm}: a WIP batch has more hours left (${left}) than the STE (${steH}).`); const e = left / 24; b.push({ wip: true, j, s: e - ste, e, lane: j }); free[j] = e; });
+      const prev = out[k - 1], b = [];
+      // batches already running in the stage; they end after the hours left
+      wip.forEach((left, j) => { if (left > steH + 1e-9) warn.push(`${nm}: a WIP batch has more hours left (${left}) than the STE (${steH}).`); const e = left / 24; b.push({ wip: true, j, s: e - ste, e }); });
+      b.sort((x, y) => x.e - y.e);
       let anchor = 0;
       if (prev && prev.batches.length) anchor = st.link === "last" ? prev.batches[prev.batches.length - 1].e : prev.batches[0].e;
       const firstNew = wip.length ? Math.max(0, Math.max(...b.map((x) => x.s)) + bct, st.link === "last" && prev && prev.batches.length ? anchor : 0) : anchor + pre;
-      const nSets = free.length;
       for (let i = 0; i < n; i++) {
         const idx = b.length;
         let s = firstNew + i * bct;
@@ -65,18 +63,15 @@
         if (prev && st.link !== "last" && prev.batches[i] && prev.batches[i].e > s + 1e-9) s = prev.batches[i].e;
         const last = b[idx - 1];
         if (last && s < last.s + bct - 1e-9) s = last.s + bct;
-        /* a batch can only be charged into an empty set: take the set that empties first */
-        let lane = 0; for (let q = 1; q < nSets; q++) if (free[q] < free[lane] - 1e-9) lane = q;
-        if (s < free[lane] - 1e-9) s = free[lane];
-        b.push({ wip: false, i, s, e: s + ste, lane });
-        free[lane] = s + ste;
+        b.push({ wip: false, i, s, e: s + ste });
       }
-      if (prev && st.link !== "last" && prev.batches.length < n) warn.push(`${nm} has more batches than the stage before it can feed.`);
+      const lanesEnd = [];
+      b.forEach((x) => { const ds = Math.max(0, x.s); let l = lanesEnd.findIndex((e) => e <= ds + 1e-9); if (l < 0) { l = lanesEnd.length; lanesEnd.push(0); } x.lane = l; lanesEnd[l] = x.e; });
+      if (prev && st.link !== "last" && prev.batches.length < n) warn.push(S.mode === "regular" ? `${nm} can take ${n} batches in ${f(num(S.days, 28), 0)} days but ${prev.st.name || "the stage before"} makes ${prev.batches.length}; the other ${n - prev.batches.length} need intermediate from stock.` : `${nm} has more batches than the stage before it can feed.`);
       if (bctH > 0 && steH > 0 && bctH > steH) warn.push(`${nm}: BCT is longer than STE, so the equipment stands idle between batches.`);
-      if (n > 1 && steH > 0 && bctH < steH / sets - 1e-9) warn.push(`${nm}: with ${sets} set${sets > 1 ? "s" : ""}, a batch cannot be charged until the previous one is unloaded, so batches start every ${f(steH / sets, 1)} h, not every ${f(bctH, 1)} h. Add a parallel set or check the BCT.`);
       if (n > 0 && bctH <= 0) warn.push(`${nm}: enter a BCT above zero.`);
       const hasPre = !wip.length && pre > 0;
-      out.push({ st, k, bctH, steH, bct, ste, pre: hasPre ? pre : 0, preS: anchor, preE: anchor + (hasPre ? pre : 0), batches: b, nNew: n, nWip: wip.length, lanes: nSets });
+      out.push({ st, k, bctH, steH, bct, ste, pre: hasPre ? pre : 0, preS: anchor, preE: anchor + (hasPre ? pre : 0), batches: b, nNew: n, nWip: wip.length, lanes: Math.max(1, lanesEnd.length) });
     });
     return { rows: out, warn, end: Math.max(0, ...out.map((r) => Math.max(r.preE, ...r.batches.map((x) => x.e)))) };
   }
@@ -131,21 +126,20 @@
       <td><input type="text" data-p="stages.${i}.name" value="${esc(s.name)}" style="width:9em" aria-label="Stage name"></td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.bct" value="${esc(s.bct)}" aria-label="BCT, hours"></td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.ste" value="${esc(s.ste)}" aria-label="STE, hours"></td>
-      <td><input type="number" step="1" min="1" max="20" data-p="stages.${i}.sets" value="${esc(s.sets == null ? 1 : s.sets)}" style="width:4em" aria-label="Parallel equipment sets"></td>
-      <td>${S.mode === "regular" ? `<span class="bs-auto" data-o="n${i}" title="24 h × ${esc(S.days)} days ÷ batch gap">${autoN(s)}</span>` : `<input type="number" step="1" min="0" data-p="stages.${i}.n" value="${esc(s.n)}" aria-label="New batches">`}</td>
-      <td><input type="text" data-p="stages.${i}.wip" value="${esc(s.wip)}" placeholder="e.g. 20, 60" style="width:7em" aria-label="WIP: hours left in each running batch"></td>
-      <td>${i === 0 ? `<span class="bg-small">plan start</span>` : `<select data-p="stages.${i}.link" aria-label="Starts after">${opt("first", s.link, "batch #01 of previous stage")}${opt("last", s.link, "last batch of previous stage")}</select>`}</td>
+      <td>${S.mode === "regular" ? `<span class="bs-auto" data-o="n${i}" title="24 h × ${esc(S.days)} days ÷ BCT">${autoN(s)}</span>` : `<input type="number" step="1" min="0" data-p="stages.${i}.n" value="${esc(s.n)}" aria-label="New batches">`}</td>
+      <td><input type="text" data-p="stages.${i}.wip" value="${esc(s.wip)}" placeholder="hours left" class="bs-wip" aria-label="WIP: hours left in each running batch"></td>
+      <td>${i === 0 ? `<span class="bg-small">plan start</span>` : `<select data-p="stages.${i}.link" aria-label="Starts after">${opt("first", s.link, "#01 of previous stage")}${opt("last", s.link, "last of previous stage")}</select>`}</td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.pre" value="${esc(s.pre)}" aria-label="Hours before first batch"></td>
-      <td><input type="text" data-p="stages.${i}.note" value="${esc(s.note)}" style="width:15em" aria-label="What happens before the first batch"></td>
+      <td><input type="text" data-p="stages.${i}.note" value="${esc(s.note)}" class="bs-note" aria-label="What happens before the first batch"></td>
       <td><input type="number" step="any" min="0" data-p="stages.${i}.out" value="${esc(s.out)}" aria-label="Output per batch"></td>
       <td class="bg-btns"><button type="button" data-act="up" data-i="${i}" aria-label="Move up">↑</button><button type="button" data-act="del" data-i="${i}" aria-label="Remove stage">×</button></td></tr>`;
-    return `<div class="bg-grid" style="margin-bottom:10px">
-        <label>First day <input type="date" data-p="start" value="${esc(S.start)}"></label>
-        <label>Days in a month <input type="number" step="1" min="1" data-p="days" value="${esc(S.days)}"></label>
-        <label>Batches <select data-p="mode"><option value="regular"${S.mode === "regular" ? " selected" : ""}>Calculated: 24 h × days ÷ BCT (regular product)</option><option value="campaign"${S.mode !== "regular" ? " selected" : ""}>Entered per stage (campaign product)</option></select></label>
-        <label>Output unit <input type="text" data-p="unit" value="${esc(S.unit)}" style="width:4em"></label>
+    return `<div class="bs-plan">
+        <label><span>First day</span><input type="date" data-p="start" value="${esc(S.start)}"></label>
+        <label><span>Days in a month</span><input type="number" step="1" min="1" data-p="days" value="${esc(S.days)}"></label>
+        <label><span>Number of batches</span><select data-p="mode"><option value="regular"${S.mode === "regular" ? " selected" : ""}>Calculated: 24 h × days ÷ BCT (regular product)</option><option value="campaign"${S.mode !== "regular" ? " selected" : ""}>Entered per stage (campaign product)</option></select></label>
+        <label><span>Output unit</span><input type="text" data-p="unit" value="${esc(S.unit)}"></label>
       </div>
-      <div class="bg-scroll"><table class="bg-tab"><thead><tr><th>Stage</th><th>BCT, h (gap between batch starts)</th><th>STE, h (one batch, start to end)</th><th>Parallel sets</th><th>New batches</th><th>WIP: hours left in each running batch</th><th>Starts after</th><th>Hours before first batch</th><th>What happens in those days</th><th>Output per batch, ${esc(S.unit)}</th><th></th></tr></thead><tbody>${S.stages.map(row).join("")}</tbody></table></div>
+      <div class="bg-scroll"><table class="bg-tab bs-tab"><thead><tr><th>Stage</th><th>BCT, h</th><th>STE, h</th><th>Batches</th><th>WIP, hours left</th><th>Starts after</th><th>Hours before first batch</th><th>What happens before it</th><th>Output per batch, ${esc(S.unit)}</th><th></th></tr></thead><tbody>${S.stages.map(row).join("")}</tbody></table></div>
       <div class="pill-group"><button type="button" class="pill" data-act="add">+ Add stage</button><button type="button" class="pill" data-act="reset">Load the example</button></div>`;
   }
 
@@ -156,18 +150,19 @@
     const last = P.rows[P.rows.length - 1], lastEnd = last.batches.length ? last.batches[last.batches.length - 1].e : last.preE;
     const outTot = last.batches.length * num(last.st.out, 0), nW = last.batches.filter((b) => b.wip).length;
     const days = Math.max(1, num(S.days, 28));
+    const bn = P.rows.reduce((a, r) => (r.bctH > 0 && (!a || r.bctH > a.bctH) ? r : a), null);
     h += `<div class="bg-grid4" aria-live="polite">
-      <div class="readout"><div class="label">Campaign</div><div class="val">${f(P.end, P.end % 1 ? 1 : 0)} days</div><div class="bg-unit">${esc(fmtD(dateAt(0)))} to ${esc(fmtD(lastDay(P.end)))}</div></div>
-      <div class="readout"><div class="label">Last batch of ${esc(last.st.name || "last stage")} ends</div><div class="val">${esc(fmtShort(lastDay(lastEnd)))}</div><div class="bg-unit">${last.batches.length - nW} new${nW ? " + " + nW + " WIP" : ""} batches</div></div>
+      <div class="readout"><div class="label">Campaign</div><div class="val">${f(P.end, P.end % 1 ? 1 : 0)} days</div><div class="bg-unit">${esc(fmtD(dateAt(0)))} to ${esc(fmtDT(dateAt(P.end)))}</div></div>
+      <div class="readout"><div class="label">Last batch of ${esc(last.st.name || "last stage")} ends</div><div class="val">${esc(fmtDT(dateAt(lastEnd)))}</div><div class="bg-unit">${last.batches.length - nW} new${nW ? " + " + nW + " WIP" : ""} batches</div></div>
       <div class="readout"><div class="label">Output of this campaign</div><div class="val">${f(outTot, 0)}</div><div class="bg-unit">${esc(S.unit)} from the last stage${nW ? ", WIP included" : ""}</div></div>
-      <div class="readout"><div class="label">Last stage, running steady</div><div class="val">${gapH(last.st) > 0 ? autoN(last.st) : "—"}</div><div class="bg-unit">batches in ${f(days, 0)} days (24 h × days ÷ ${f(gapH(last.st), 1)} h)${gapH(last.st) > 0 && num(last.st.out, 0) ? " · " + f(autoN(last.st) * num(last.st.out, 0), 0) + " " + esc(S.unit) : ""}</div></div></div>`;
+      <div class="readout"><div class="label">Slowest stage</div><div class="val">${bn ? esc(bn.st.name || "") : "—"}</div><div class="bg-unit">${bn ? "BCT " + f(bn.bctH, 0) + " h · " + autoN(bn.st) + " batches in " + f(days, 0) + " days" : ""}</div></div></div>`;
     P.warn.forEach((w) => (h += `<div class="bg-note">${esc(w)}</div>`));
-    h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button><span class="bg-small" style="margin:0">Grey block: time before the first batch (hover for the note). Grey bars: batches already in progress. One row per equipment set; a set takes its next batch only after it is unloaded.</span></div>`;
+    h += `<div class="bg-toolbar"><button type="button" class="pill" data-act="csv">Download CSV</button><button type="button" class="pill" data-act="print">Print</button><span class="bg-small" style="margin:0">Grey block: time before the first batch (hover for the note). Grey bars: batches already in progress. Batches overlap when BCT is shorter than STE (the batch has moved on to the next reactor) and are drawn one under the other.</span></div>`;
     h += `<div class="bs-chart">${chart(P)}</div>`;
     h += `<h3 class="bg-h">Stage summary</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Stage</th><th>Before first batch</th><th>First batch starts</th><th>Last batch ends</th><th>Days on the stage</th><th>Output, ${esc(S.unit)}</th></tr></thead><tbody>
       ${P.rows.map((r) => { const b0 = r.batches[0], bl = r.batches[r.batches.length - 1]; return `<tr><td>${esc(r.st.name)}</td><td>${r.pre ? f(r.pre * 24, 0) + " h · " + esc(r.st.note || "") : "—"}</td><td>${b0 ? esc(fmtDT(dateAt(Math.max(0, b0.s)))) : "—"}</td><td>${bl ? esc(fmtDT(dateAt(bl.e))) : "—"}</td><td>${bl ? f(bl.e - r.preS, 1) : "—"}</td><td>${f(r.batches.length * num(r.st.out, 0), 0)}</td></tr>`; }).join("")}</tbody></table></div>
-      <h3 class="bg-h">Batch dates</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Stage</th><th>Batch</th><th>Set</th><th>Starts</th><th>Ends</th><th>Hours</th></tr></thead><tbody>
-      ${P.rows.map((r) => r.batches.map((b) => `<tr><td>${esc(r.st.name)}</td><td>${label(b)}</td><td>${b.lane + 1}</td><td>${b.wip ? "in progress" : esc(fmtDT(dateAt(b.s)))}</td><td>${esc(fmtDT(dateAt(b.e)))}</td><td>${b.wip ? f(b.e * 24, 0) + " left" : f((b.e - b.s) * 24, 0)}</td></tr>`).join("")).join("")}</tbody></table></div>`;
+      <h3 class="bg-h">Batch dates</h3><div class="bg-scroll"><table class="bg-tab bg-out"><thead><tr><th>Stage</th><th>Batch</th><th>Starts</th><th>Ends</th><th>Hours</th></tr></thead><tbody>
+      ${P.rows.map((r) => r.batches.map((b) => `<tr><td>${esc(r.st.name)}</td><td>${label(b)}</td><td>${b.wip ? "in progress" : esc(fmtDT(dateAt(b.s)))}</td><td>${esc(fmtDT(dateAt(b.e)))}</td><td>${b.wip ? f(b.e * 24, 0) + " left" : f((b.e - b.s) * 24, 0)}</td></tr>`).join("")).join("")}</tbody></table></div>`;
     $("bs-results").innerHTML = h;
     S.stages.forEach((st, i) => { const o = document.querySelector(`[data-o="n${i}"]`); if (o) o.textContent = autoN(st); });
     lastP = P;
@@ -175,10 +170,10 @@
   let lastP = null;
 
   function csv() {
-    const P = lastP || plan(), rows = [["Stage", "Item", "Set", "Start", "End", "Hours", "Note"]];
+    const P = lastP || plan(), rows = [["Stage", "Item", "Start", "End", "Hours", "Note"]];
     P.rows.forEach((r) => {
-      if (r.pre > 0) rows.push([r.st.name, "Before first batch", "", fmtDT(dateAt(r.preS)), fmtDT(dateAt(r.preE)), r.pre * 24, r.st.note || ""]);
-      r.batches.forEach((b) => rows.push([r.st.name, label(b), b.lane + 1, b.wip ? "in progress" : fmtDT(dateAt(b.s)), fmtDT(dateAt(b.e)), Math.round((b.wip ? b.e : b.e - b.s) * 24 * 10) / 10, b.wip ? "WIP" : ""]));
+      if (r.pre > 0) rows.push([r.st.name, "Before first batch", fmtDT(dateAt(r.preS)), fmtDT(dateAt(r.preE)), r.pre * 24, r.st.note || ""]);
+      r.batches.forEach((b) => rows.push([r.st.name, label(b), b.wip ? "in progress" : fmtDT(dateAt(b.s)), fmtDT(dateAt(b.e)), Math.round((b.wip ? b.e : b.e - b.s) * 24 * 10) / 10, b.wip ? "WIP" : ""]));
     });
     const blob = new Blob([rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n")], { type: "text/csv" });
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "stage-schedule.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
@@ -210,7 +205,7 @@
     mount.addEventListener("click", (e) => {
       const b = e.target.closest("button"); if (!b) return;
       const a = b.dataset.act, i = +b.dataset.i;
-      if (a === "add") { const l = S.stages[S.stages.length - 1]; S.stages.push({ name: "Stage-" + String(S.stages.length + 1).padStart(2, "0"), bct: l ? l.bct : 48, ste: l ? l.ste : 96, sets: l ? l.sets : 1, pre: 24, note: "Cleaning", n: l ? l.n : 2, wip: "", out: 0, link: "first" }); }
+      if (a === "add") { const l = S.stages[S.stages.length - 1]; S.stages.push({ name: "Stage-" + String(S.stages.length + 1).padStart(2, "0"), bct: l ? l.bct : 48, ste: l ? l.ste : 96, pre: 24, note: "Cleaning", n: l ? l.n : 2, wip: "", out: 0, link: "first" }); }
       else if (a === "del") S.stages.splice(i, 1);
       else if (a === "up" && i > 0) { const t = S.stages[i - 1]; S.stages[i - 1] = S.stages[i]; S.stages[i] = t; }
       else if (a === "reset") S = DEFAULT();
@@ -225,7 +220,7 @@
     const mount = $("calc-mount"); if (!mount) return;
     mount.innerHTML = `${typeof plateHeader === "function" ? plateHeader("PharmaChemE Batch Scheduler", "STAGE-WISE · BCT · STE · WIP") : ""}
       <div class="pill-group bs-tabs" role="tablist"><button type="button" class="pill active" role="tab" aria-selected="true" data-tab="simple">Stage-wise</button><button type="button" class="pill" role="tab" aria-selected="false" data-tab="adv">Detailed: named equipment and shifts</button></div>
-      <p class="bg-small" id="bs-intro">One row per stage. Enter BCT, STE and the number of batches, the days before the first batch (cleaning, transfer, analysis, modification) and whether the stage starts after batch #01 or the last batch of the stage before. Everything stays in your browser.</p>
+      <p class="bg-small" id="bs-intro">One row per stage. Enter BCT (gap between batch starts) and STE (one batch, start to end) in hours, the number of batches, any batches already running, the hours before the first batch (cleaning, transfer, analysis, modification) and whether the stage starts after batch #01 or the last batch of the stage before. Everything stays in your browser.</p>
       <div id="bs-simple"></div><div id="bg-adv" hidden></div>`;
     initSimple($("bs-simple"));
     let advDone = false;
@@ -234,7 +229,7 @@
       const adv = b.dataset.tab === "adv";
       mount.querySelectorAll("[data-tab]").forEach((x) => { const on = x === b; x.classList.toggle("active", on); x.setAttribute("aria-selected", on ? "true" : "false"); });
       $("bs-simple").hidden = adv; $("bg-adv").hidden = !adv;
-      $("bs-intro").textContent = adv ? "Stages on named equipment with hours, parallel units, 8-hour shifts, cleaning, downtime and batches already in progress." : "One row per stage. Enter BCT, STE and the number of batches, the days before the first batch (cleaning, transfer, analysis, modification) and whether the stage starts after batch #01 or the last batch of the stage before. Everything stays in your browser.";
+      $("bs-intro").textContent = adv ? "Stages on named equipment with hours, parallel units, 8-hour shifts, cleaning, downtime and batches already in progress." : "One row per stage. Enter BCT (gap between batch starts) and STE (one batch, start to end) in hours, the number of batches, any batches already running, the hours before the first batch (cleaning, transfer, analysis, modification) and whether the stage starts after batch #01 or the last batch of the stage before. Everything stays in your browser.";
       if (adv && !advDone && window.PCEBatchGanttInit) { window.PCEBatchGanttInit("bg-adv"); advDone = true; }
     });
   }
