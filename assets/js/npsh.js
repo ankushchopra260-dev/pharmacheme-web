@@ -6,7 +6,8 @@
 (function () {
   "use strict";
   const ME = document.currentScript, DATA = (ME && ME.getAttribute("data-sol")) || "/assets/data/solvent-lite.json";
-  const KEY = "pce-npsh-v2", g = 9.80665, MMHG = 133.322368, KSC = 98066.5;
+  let MODE = "npsh"; /* "npsh" or "head" (pump head calculator page) */
+  let KEY = "pce-npsh-v2"; const g = 9.80665, MMHG = 133.322368, KSC = 98066.5;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (v, d) => { const x = parseFloat(v); return isFinite(x) ? x : d; };
@@ -22,7 +23,7 @@
     flooded: { t: "Open tank", d: "Vented tank above the pump", v: { fluid: "water", T: 30, z: 2 } },
     lift: { t: "Suction lift", d: "Pump above a sump or pit", v: { fluid: "water", T: 30, z: 3, str: "foot", val: 0, len: 8 } },
     pressure: { t: "Nitrogen-padded vessel", d: "Closed vessel under N₂", v: { fluid: "toluene", T: 40, pg: 0.3, z: 1.5, q: 10, ns: 50, ns2: 40, elb: 3, h2: 15 } },
-    vacuum: { t: "Vacuum receiver", d: "Receiver under vacuum", v: { fluid: "methanol", T: 30, pa: 250, z: 2.5, q: 5, npshr: 2, ns: 40, ns2: 25, len: 8, elb: 3, h2: 10 } },
+    vacuum: { t: "Vacuum receiver", d: "Receiver under vacuum", v: { fluid: "methanol", T: 30, pa: 250, z: 2.5, q: 5, npshr: 2, ns: 40, ns2: 40, len: 8, elb: 3, h2: 10 } },
     boiling: { t: "Column bottoms", d: "Liquid at its boiling point", v: { fluid: "toluene", pb: 0, z: 4, npshr: 2.5, q: 15, ns: 80, ns2: 50, len: 15, elb: 4, h2: 20 } },
     condensate: { t: "Hot condensate", d: "Vented tank, near 100 °C", v: { fluid: "water", T: 95, z: 2, q: 5, npshr: 2, ns: 50, ns2: 40, len: 6, h2: 8 } },
   };
@@ -58,7 +59,7 @@
   }
   const kSuc = () => 0.5 + 0.75 * Math.max(0, num(S.elb, 0)) + 0.2 * Math.max(0, num(S.val, 0)) + (STR[S.str] || STR.none)[1] + Math.max(0, num(S.kx, 0));
   /* discharge: elbows, open valves, a check valve (2) and the exit into the vessel (1) */
-  const kDis = () => 0.75 * Math.max(0, num(S.elb2, 0)) + 0.2 * Math.max(0, num(S.val2, 0)) + 2 + 1;
+  const kDis = () => 0.75 * Math.max(0, num(S.elb2, 0)) + 0.2 * Math.max(0, num(S.val2, 0)) + 2;
 
   function surfaceP(o) {
     if (o.P != null) return o.P;
@@ -78,11 +79,20 @@
     const su = line(q, p, S.ns, num(S.len, 0), kSuc()), di = line(q, p, S.ns2, num(S.len2, 0), kDis());
     const hP = P / (p.rho * g), hV = Pv / (p.rho * g), npsha = hP - hV + z - su.hf;
     const P2 = num(S.p2, 0) * KSC + pAtm(num(S.alt, 0));
-    const head = (P2 - P) / (p.rho * g) + (num(S.h2, 0) - z) + su.hf + di.hf;
-    const kW = (p.rho * g * (q / 3600) * head) / (Math.max(5, num(S.eff, 60)) / 100) / 1000;
-    return { T, P, Pv, p, z, q, su, di, hP, hV, npsha, head, kW, P2 };
+    /* velocity head lost where the line ends in the destination (exit loss, K = 1) */
+    const hExit = (di.v * di.v) / (2 * g), h2 = num(S.h2, 0), dPh = (P2 - P) / (p.rho * g);
+    const head = dPh + (h2 - z) + su.hf + di.hf + hExit;
+    const hyd = (p.rho * g * (q / 3600) * head) / 1000, kW = hyd / (Math.max(5, num(S.eff, 60)) / 100);
+    /* gauge readings at the pump flanges (static pressure, gauges at the centre line) */
+    const Ps = P + p.rho * g * (z - su.hf) - (p.rho * su.v * su.v) / 2;
+    const Pd = P2 + p.rho * g * (h2 + di.hf + hExit) - (p.rho * di.v * di.v) / 2;
+    return { T, P, Pv, p, z, q, su, di, hP, hV, npsha, head, kW, hyd, P2, hExit, dPh, h2, Ps, Pd };
   }
   const need = () => num(S.npshr, 0) + Math.max(0, num(S.margin, 1));
+  const MOTORS = [0.37, 0.55, 0.75, 1.1, 1.5, 2.2, 3.7, 5.5, 7.5, 9.3, 11, 15, 18.5, 22, 30, 37, 45, 55, 75, 90, 110, 132, 160, 200];
+  const motor = (kW) => MOTORS.find((m) => m >= kW * 1.15) || null;
+  const gauge = (Pa, alt) => { const gg = (Pa - pAtm(alt)) / KSC; return gg >= 0 ? f(gg, 2) + " kg/cm² g" : f(gg, 2) + " kg/cm² g (" + f((pAtm(alt) - Pa) / MMHG, 0) + " mmHg vacuum)"; };
+  const gaugeShort = (Pa, alt) => { const gg = (Pa - pAtm(alt)) / KSC; return gg >= 0 ? f(gg, 2) + " kg/cm²" : f((pAtm(alt) - Pa) / MMHG, 0) + " mmHg vac"; };
   function bisect(fn, lo, hi) { let flo = fn(lo); for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2, fm = fn(m); if ((fm > 0) === (flo > 0)) { lo = m; flo = fm; } else hi = m; } return (lo + hi) / 2; }
 
   function limits(R) {
@@ -101,7 +111,7 @@
   /* ---------- the diagram ---------- */
   function diagram(R) {
     const sc = S.sc, ok = R.npsha >= need(), cav = R.npsha < num(S.npshr, 0) || (R.Pv > R.P * 1.0001 && sc !== "boiling");
-    const col = cav ? "#E0605A" : ok ? "#5BB37A" : "#D9A441";
+    const col = MODE === "head" ? "#4E9AD6" : cav ? "#E0605A" : ok ? "#5BB37A" : "#D9A441";
     const PX = 470, lift = sc === "lift", PY = lift ? 250 : 330;
     const PIPE = "#9fb0c3", LIQ = "#2f6fa3", STEEL = "#c9d3de";
     let s = `<svg viewBox="0 0 1000 480" width="100%" role="img" aria-label="Line diagram: source vessel, suction line, pump, discharge line and destination" font-family="sans-serif" font-size="13">
@@ -115,7 +125,7 @@
     /* source vessel */
     let outX = 185, outY;
     if (lift) {
-      s += `<line x1="30" y1="300" x2="330" y2="300" stroke="#6b7c8f" stroke-width="2"/><text x="290" y="292" fill="#7d8da1" font-size="11">ground</text>`;
+      s += `<line x1="30" y1="300" x2="330" y2="300" stroke="#6b7c8f" stroke-width="2"/><text x="34" y="316" fill="#7d8da1" font-size="11">ground</text>`;
       s += `<path d="M80,300 L80,455 L290,455 L290,300" fill="none" stroke="${STEEL}" stroke-width="2.5"/><rect x="82" y="370" width="206" height="83" fill="${LIQ}" opacity=".75"/>`;
       s += `<line x1="200" y1="432" x2="200" y2="${PY}" stroke="${PIPE}" stroke-width="7"/><rect x="190" y="430" width="20" height="14" fill="#1b2838" stroke="${STEEL}"/>${tag(222, 444, "foot valve", "#e8eef5", "start")}`;
       outX = 200;
@@ -148,12 +158,20 @@
     s += lift ? `<path d="M${outX},${PY} L${PX - 28},${PY}" fill="none" stroke="${PIPE}" stroke-width="7"/>` : `<path d="M${outX},${outY} L${outX},${PY} L${PX - 28},${PY}" fill="none" stroke="${PIPE}" stroke-width="7" stroke-linejoin="round"/>`;
     if (num(S.val, 0) > 0) s += valve(300, PY);
     if (S.str === "clean" || S.str === "dirty") s += `<path d="M352,${PY} l14,0 l10,16 l-8,5 z" fill="#1b2838" stroke="${S.str === "dirty" ? "#E0605A" : STEEL}" stroke-width="1.6"/>`;
-    s += `<line x1="${lift ? 250 : 330}" y1="${PY - 22}" x2="${lift ? 272 : 352}" y2="${PY - 22}" stroke="${PIPE}" stroke-width="2" marker-end="url(#np-fl)"/>`;
-    s += tag(335, lift ? PY - 52 : PY + 40, `suction ${f(num(S.len, 0), 0)} m, ${INCH[S.ns] || ""}"`, "#c9d3de");
-    s += tag(335, lift ? PY - 35 : PY + 57, `loss ${f(R.su.hf, 2)} m · ${f(R.su.v, 2)} m/s`, "#9fb0c3");
+    s += `<line x1="${lift ? 250 : 232}" y1="${PY - 22}" x2="${lift ? 272 : 254}" y2="${PY - 22}" stroke="${PIPE}" stroke-width="2" marker-end="url(#np-fl)"/>`;
+    s += tag(lift ? 330 : 335, lift ? PY + 22 : PY + 40, `suction ${f(num(S.len, 0), 0)} m, ${INCH[S.ns] || ""}"`, "#c9d3de");
+    s += tag(lift ? 330 : 335, lift ? PY + 39 : PY + 57, `loss ${f(R.su.hf, 2)} m · ${f(R.su.v, 2)} m/s`, "#9fb0c3");
     /* pump */
     s += `<path d="M${PX + 10},${PY - 26} L${PX + 10},70 L800,70" fill="none" stroke="${PIPE}" stroke-width="6" stroke-linejoin="round"/>`;
     s += `<circle cx="${PX}" cy="${PY}" r="28" fill="#1b2838" stroke="${col}" stroke-width="3"/><path d="M${PX - 12},${PY - 14} L${PX + 16},${PY} L${PX - 12},${PY + 14} z" fill="${col}" opacity=".85"/>`;
+    if (MODE === "head") {
+      /* pressure gauges on the suction and discharge flanges */
+      const gz = (x, y, txt, anchor, dx) => `<line x1="${x}" y1="${y}" x2="${x}" y2="${y - 18}" stroke="${STEEL}" stroke-width="2"/><circle cx="${x}" cy="${y - 28}" r="10" fill="#e8eef5" stroke="${STEEL}"/><line x1="${x}" y1="${y - 28}" x2="${x + 6}" y2="${y - 34}" stroke="#0f1a26" stroke-width="1.6"/>${tag(x + dx, y - 24, txt, "#e8eef5", anchor)}`;
+      s += gz(PX - 50, PY - 4, "Ps " + gaugeShort(R.Ps, num(S.alt, 0)), "end", -14);
+      const dy = PY - 70;
+      s += `<line x1="${PX + 7}" y1="${dy}" x2="${PX - 12}" y2="${dy}" stroke="${STEEL}" stroke-width="2"/><circle cx="${PX - 22}" cy="${dy}" r="10" fill="#e8eef5" stroke="${STEEL}"/><line x1="${PX - 22}" y1="${dy}" x2="${PX - 16}" y2="${dy - 6}" stroke="#0f1a26" stroke-width="1.6"/>${tag(PX - 38, dy + 4, "Pd " + gaugeShort(R.Pd, num(S.alt, 0)), "#e8eef5", "end")}`;
+      s += `<rect x="${PX - 96}" y="${PY + 70}" width="192" height="54" rx="4" fill="#0f1a26" stroke="#4E9AD6" stroke-width="2"/>${tag(PX, PY + 93, `total head ${f(R.head, 2)} m`, "#7fb2d9")}${tag(PX, PY + 113, `${f(R.head * R.p.rho * g / KSC, 2)} kg/cm² across the pump`, "#c9d3de")}<line x1="${PX}" y1="${PY + 30}" x2="${PX}" y2="${PY + 70}" stroke="#4E9AD6" stroke-width="1.5"/>`;
+    } else
     s += `<line x1="${PX}" y1="${PY + 30}" x2="${PX}" y2="${PY + 70}" stroke="${col}" stroke-width="1.5"/><rect x="${PX - 96}" y="${PY + 70}" width="192" height="54" rx="4" fill="#0f1a26" stroke="${col}" stroke-width="2"/>${tag(PX, PY + 93, `NPSHa ${f(R.npsha, 2)} m`, col)}${tag(PX, PY + 113, `NPSHr ${f(num(S.npshr, 0), 1)} m, margin ${f(R.npsha - num(S.npshr, 0), 2)} m`, "#c9d3de")}`;
     /* discharge fittings */
     const cy = Math.round((PY + 70) / 2) + 26;
@@ -167,12 +185,54 @@
     s += tag(870, 125, "destination", "#e8eef5") + tag(870, 145, `${f(num(S.p2, 0), 2)} kg/cm² g`, "#9fb0c3");
     s += `<line x1="760" y1="${PY}" x2="985" y2="${PY}" stroke="#55677c" stroke-dasharray="3 4"/>`;
     s += dim(965, 70, PY, f(num(S.h2, 0), 1) + " m", -8, Math.max((70 + PY) / 2 + 4, 195));
+    if (MODE === "head") {
+      /* total static head: source liquid level to destination entry */
+      const ly = lift ? 370 : sc === "boiling" ? 192 : 170, yS = PY - (R.z >= 0 ? 0 : 0);
+      s += `<line x1="290" y1="${ly}" x2="790" y2="${ly}" stroke="#D9A441" stroke-dasharray="2 5" opacity=".7"/>`;
+      s += dim(785, 70, ly, "total static " + f(R.h2 - R.z, 1) + " m", -8, lift ? 340 : Math.max((70 + ly) / 2 + 4, 190));
+      s += `<rect x="560" y="${PY - 60}" width="180" height="52" rx="4" fill="#0f1a26" stroke="#4E9AD6" stroke-width="1.5"/>${tag(650, PY - 38, `${f(R.kW, 2)} kW shaft at ${f(num(S.eff, 60), 0)} %`, "#7fb2d9")}${tag(650, PY - 18, motor(R.kW) ? `motor ${motor(R.kW)} kW` : "", "#c9d3de")}`;
+    } else
     s += `<rect x="560" y="${PY - 60}" width="180" height="52" rx="4" fill="#0f1a26" stroke="#4E9AD6" stroke-width="1.5"/>${tag(650, PY - 38, `pump head ${f(R.head, 1)} m`, "#7fb2d9")}${tag(650, PY - 18, `${f(R.kW, 2)} kW at ${f(num(S.eff, 60), 0)} %`, "#c9d3de")}`;
     s += tag(760, PY + 16, "pump centre line", "#7d8da1", "start");
     return s + `</svg>`;
   }
 
+  function resultsHead() {
+    const R = calc(), alt = num(S.alt, 0), rg = R.p.rho * g, mtr = motor(R.kW);
+    $("np-dia").innerHTML = diagram(R);
+    const notes = [];
+    if (R.head < 0) notes.push(["np-bad", "The destination is lower, or at lower pressure, than the source: the liquid would flow there by gravity and a pump is not needed at this flow."]);
+    if (R.npsha < 2) notes.push(["np-bad", `NPSH available is only ${f(R.npsha, 2)} m: check it against the pump's NPSHr in the NPSH calculator.`]);
+    if (R.Ps < R.Pv * 1.0001) notes.push(["np-bad", "The suction pressure at the pump is below the vapour pressure: the liquid flashes in the suction line."]);
+    if (R.su.v > 1.5) notes.push(["", `Suction velocity ${f(R.su.v, 2)} m/s is high; suction lines are usually sized for 1 to 1.5 m/s.`]);
+    if (R.di.v > 3) notes.push(["", `Discharge velocity ${f(R.di.v, 2)} m/s is high; 1.5 to 3 m/s is usual for pump discharge lines.`]);
+    if (!notes.length) notes.push(["np-good", `Pump duty: ${f(R.q, 1)} m³/h at ${f(R.head, 1)} m total head. Add a margin of about 10 % on head for pipe ageing and fouling when buying the pump.`]);
+    const row = (a, b, c, cls) => `<tr${cls ? ` class="${cls}"` : ""}><td>${a}</td><td>${b}</td><td>${c || ""}</td></tr>`;
+    const sg = (x) => (x >= 0 ? "+ " : "− ") + f(Math.abs(x), 2) + " m";
+    $("np-res").innerHTML = notes.map(([c, t]) => `<div class="np-note ${c}">${esc(t)}</div>`).join("") + `
+      <div class="np-sum"><div><h3 class="np-h">How the total head adds up</h3><table class="np-tab"><tbody>
+        ${row("Delivery static head", f(R.h2, 2) + " m", "destination entry above the pump")}
+        ${row(R.z >= 0 ? "Suction static head" : "Suction lift", f(Math.abs(R.z), 2) + " m", R.z >= 0 ? "liquid level above the pump" : "pump above the liquid level")}
+        ${row("Total static head", sg(R.h2 - R.z), "delivery − suction")}
+        ${row("Pressure head", sg(R.dPh), f(R.P2 / KSC, 3) + " − " + f(R.P / KSC, 3) + " kg/cm² abs")}
+        ${row("Friction head, suction", sg(R.su.hf), f(R.su.v, 2) + " m/s, ΣK " + f(R.su.K, 2))}
+        ${row("Friction head, discharge", sg(R.di.hf), f(R.di.v, 2) + " m/s, ΣK " + f(R.di.K, 2))}
+        ${row("Velocity head at the exit", sg(R.hExit), "v²/2g lost into the destination")}
+        ${row("Total head", f(R.head, 2) + " m", f(R.head * rg / KSC, 3) + " kg/cm² across the pump", "np-tot")}
+      </tbody></table></div>
+      <div><h3 class="np-h">Gauges and power</h3><table class="np-tab"><tbody>
+        ${row("Suction gauge", gauge(R.Ps, alt))}
+        ${row("Discharge gauge", gauge(R.Pd, alt))}
+        ${row("Manometric head", f((R.Pd - R.Ps) / rg + (R.di.v ** 2 - R.su.v ** 2) / (2 * g), 2) + " m", "gauge difference + velocity head change")}
+        ${row("Hydraulic power", f(R.hyd, 2) + " kW")}
+        ${row("Shaft power", f(R.kW, 2) + " kW", "at " + f(num(S.eff, 60), 0) + " % pump efficiency")}
+        ${row("Motor", mtr ? mtr + " kW" : "—", "next standard size above shaft power + 15 %")}
+        ${row("NPSH available", f(R.npsha, 2) + " m", "")}
+      </tbody></table><p class="np-small">Gauge readings assume both gauges at the pump centre line. If the plant gauges read differently, the line has more (or less) loss than entered, or the pump is not at this flow.</p></div></div>`;
+  }
+
   function results() {
+    if (MODE === "head") return resultsHead();
     const R = calc(), mar = R.npsha - num(S.npshr, 0), ok = R.npsha >= need(), cav = mar < 0, flash = R.Pv > R.P * 1.0001 && S.sc !== "boiling";
     $("np-dia").innerHTML = diagram(R);
     let msg, cls;
@@ -215,7 +275,7 @@
       <div class="np-form">
         <fieldset><legend>Source</legend>${pres}${inp("z", S.sc === "lift" ? "Lift, pump above liquid" : "Lowest level above pump", "m")}</fieldset>
         <fieldset><legend>Suction line</legend>${sel("ns", "Pipe size", sizes)}${inp("len", "Length", "m")}${inp("elb", "Elbows", "", 1)}${inp("val", "Valves", "", 1)}${sel("str", "Strainer", Object.keys(STR).map((k) => [k, STR[k][0]]))}</fieldset>
-        <fieldset><legend>Pump</legend>${inp("npshr", "NPSHr (pump curve)", "m")}${inp("margin", "Margin wanted", "m")}${inp("eff", "Efficiency", "%")}</fieldset>
+        <fieldset><legend>Pump</legend>${MODE === "head" ? "" : inp("npshr", "NPSHr (pump curve)", "m") + inp("margin", "Margin wanted", "m")}${inp("eff", "Efficiency", "%")}</fieldset>
         <fieldset><legend>Discharge and destination</legend>${inp("h2", "Height above pump", "m")}${inp("p2", "Pressure", "kg/cm² g")}${sel("ns2", "Pipe size", sizes)}${inp("len2", "Length", "m")}${inp("elb2", "Elbows", "", 1)}${inp("val2", "Valves", "", 1)}</fieldset>
       </div>
       <details class="np-more"><summary>Liquid properties and more</summary><div class="np-row">${auto("rho", "Density", "kg/m³", p.rho, 0)}${S.sc === "boiling" && s ? "" : auto("pv", "Vapour pressure", "mmHg abs", p.pv, 1)}${auto("mu", "Viscosity", "cP", p.mu, 2)}${inp("alt", "Site altitude", "m")}${inp("rough", "Pipe roughness", "mm")}${inp("kx", "Extra suction K", "")}</div>
@@ -224,10 +284,11 @@
   }
 
   function all() { $("np-in").innerHTML = inputs(); results(); }
-  function init() {
+  function init(opts) {
     const mount = $("calc-mount"); if (!mount) return;
+    MODE = (opts && opts.mode) || "npsh"; if (MODE === "head") KEY = "pce-pumphead-v1";
     S = load();
-    mount.innerHTML = `${typeof plateHeader === "function" ? plateHeader("PharmaChemE NPSH Calculator", "TANK · PUMP · DESTINATION") : ""}<div id="np-in"></div>`;
+    mount.innerHTML = `${typeof plateHeader === "function" ? (MODE === "head" ? plateHeader("PharmaChemE Pump Head Calculator", "STATIC · PRESSURE · FRICTION · VELOCITY") : plateHeader("PharmaChemE NPSH Calculator", "TANK · PUMP · DESTINATION")) : ""}<div id="np-in"></div>`;
     mount.addEventListener("click", (e) => { const b = e.target.closest("[data-sc]"); if (!b) return; S = DEF(b.getAttribute("data-sc")); save(); all(); });
     const upd = (e) => {
       const k = e.target.getAttribute("data-k"); if (!k) return;
@@ -242,5 +303,6 @@
     fetch(DATA).then((r) => r.json()).then((d) => { SOL = d; all(); }).catch(() => { S.fluid = "own"; all(); });
   }
   window.PCENpshInit = init;
+  window.PCEPumpHeadInit = () => init({ mode: "head" });
   window.PCENpshTest = { calc: (st) => { S = Object.assign(DEF(st.sc), st); return calc(); }, setSol: (d) => (SOL = d), antoine, tBoil };
 })();
