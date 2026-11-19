@@ -202,8 +202,9 @@
     $("np-dia").innerHTML = diagram(R);
     const notes = [];
     if (R.head < 0) notes.push(["np-bad", "The destination is lower, or at lower pressure, than the source: the liquid would flow there by gravity and a pump is not needed at this flow."]);
-    if (R.npsha < 2) notes.push(["np-bad", `NPSH available is only ${f(R.npsha, 2)} m: check it against the pump's NPSHr in the NPSH calculator.`]);
-    if (R.Ps < R.Pv * 1.0001) notes.push(["np-bad", "The suction pressure at the pump is below the vapour pressure: the liquid flashes in the suction line."]);
+    if (S.sc !== "boiling" && R.Pv > R.P * 1.0001) notes.push(["np-bad", `The liquid is above its boiling point at the source pressure (vapour pressure ${f(R.Pv / MMHG, 0)} mmHg against ${f(R.P / MMHG, 0)} mmHg): it flashes and cannot be pumped like this.`]);
+    else if (R.Ps < R.Pv * 1.0001) notes.push(["np-bad", "The suction pressure at the pump is below the vapour pressure: the liquid flashes in the suction line."]);
+    else if (R.npsha < 2) notes.push(["np-bad", `NPSH available is only ${f(R.npsha, 2)} m: check it against the pump's NPSHr in the NPSH calculator.`]);
     if (R.su.v > 1.5) notes.push(["", `Suction velocity ${f(R.su.v, 2)} m/s is high; suction lines are usually sized for 1 to 1.5 m/s.`]);
     if (R.di.v > 3) notes.push(["", `Discharge velocity ${f(R.di.v, 2)} m/s is high; 1.5 to 3 m/s is usual for pump discharge lines.`]);
     if (!notes.length) notes.push(["np-good", `Pump duty: ${f(R.q, 1)} m³/h at ${f(R.head, 1)} m total head. Add a margin of about 10 % on head for pipe ageing and fouling when buying the pump.`]);
