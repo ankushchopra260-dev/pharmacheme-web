@@ -1,0 +1,137 @@
+---
+layout: default
+title: "NPSH and Cavitation: Whiteboard Lesson with Bubbles"
+seo_title: "NPSH and Cavitation Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on pump cavitation and NPSH: answer, get roasted by Bubbles, then watch the board explain it with plant examples."
+keywords: "NPSH explained, cavitation explained, pump cavitation lesson, NPSH available, impeller eye, vapour pressure, column bottoms pump NPSH"
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: NPSH and cavitation
+    url: /whiteboard/npsh-cavitation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "NPSH and cavitation: whiteboard lesson",
+        "description": "A six-question whiteboard lesson on pump cavitation and NPSH: where cavitation starts, why bubbles form, what they do to the impeller, NPSH available as a savings account, column bottoms pumps and what to check when a pump crackles.",
+        "url": "https://www.pharmacheme.in/whiteboard/npsh-cavitation/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "teaches": [
+          "Net positive suction head",
+          "Pump cavitation"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-20",
+        "dateModified": "2026-11-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Where does cavitation start in a centrifugal pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cavitation starts at the impeller eye, the lowest-pressure point in the pump. Pressure falls along the suction pipe, dips further where the liquid speeds up into the eye, and rises again as the impeller throws it out to the discharge."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Bubbles form when the pressure at the eye falls below what?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A liquid boils when the pressure on it falls below its vapour pressure, whatever its temperature. Water boils at about 70 °C on Everest; at the impeller eye the pressure can fall low enough for liquid to boil at room temperature. Hot liquids and volatile solvents, with higher vapour pressures, cavitate first."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens to the bubbles when they reach the high-pressure part of the impeller?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vapour bubbles formed at the eye are carried into higher pressure and collapse. Each collapse fires a micro-jet of liquid at the vane, thousands of times a second, pitting the metal. Signs: a gravel-like noise, vibration, falling head and pitted vanes at overhaul."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which change gives the pump more NPSH available?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "NPSH available works like a savings account. Deposits: the pressure on the liquid surface and the liquid height above the pump. Withdrawals: the vapour pressure and suction friction. The balance must beat the pump's NPSHr plus a margin, so raise the level, keep the liquid cool and keep the suction short, wide and clean."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A column bottoms pump handles liquid at its boiling point. What is its NPSH available?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For liquid at its boiling point, the vessel pressure equals the vapour pressure, so the two cancel. NPSH available is only the liquid height above the pump minus the suction friction, which is why bottoms pumps sit several metres below the column with short, wide suction lines."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A pump starts crackling and its discharge pressure swings. What do you check first?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Check the suction side first: a clogged strainer, a low tank level or a hotter liquid all reduce NPSH available. Never throttle the suction valve; control flow on the discharge side. If the pump runs far out on its curve, closing the discharge a little cuts flow, friction and NPSHr."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="preload" href="{{ '/assets/fonts/caveat-600.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+
+<div class="container calc-page-head">
+  <h1>NPSH and Cavitation: Whiteboard Lesson</h1>
+  <p>Six questions on why pumps cavitate and how NPSH works. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it with plant examples. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-npsh-cavitation.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/npsh-cavitation/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision.</p>
+  <h3>Where does cavitation start in a centrifugal pump?</h3>
+  <p>Cavitation starts at the impeller eye, the lowest-pressure point in the pump. Pressure falls along the suction pipe, dips further where the liquid speeds up into the eye, and rises again as the impeller throws it out to the discharge.</p>
+  <h3>Bubbles form when the pressure at the eye falls below what?</h3>
+  <p>A liquid boils when the pressure on it falls below its vapour pressure, whatever its temperature. Water boils at about 70 °C on Everest; at the impeller eye the pressure can fall low enough for liquid to boil at room temperature. Hot liquids and volatile solvents, with higher vapour pressures, cavitate first.</p>
+  <h3>What happens to the bubbles when they reach the high-pressure part of the impeller?</h3>
+  <p>Vapour bubbles formed at the eye are carried into higher pressure and collapse. Each collapse fires a micro-jet of liquid at the vane, thousands of times a second, pitting the metal. Signs: a gravel-like noise, vibration, falling head and pitted vanes at overhaul.</p>
+  <h3>Which change gives the pump more NPSH available?</h3>
+  <p>NPSH available works like a savings account. Deposits: the pressure on the liquid surface and the liquid height above the pump. Withdrawals: the vapour pressure and suction friction. The balance must beat the pump&#x27;s NPSHr plus a margin, so raise the level, keep the liquid cool and keep the suction short, wide and clean.</p>
+  <h3>A column bottoms pump handles liquid at its boiling point. What is its NPSH available?</h3>
+  <p>For liquid at its boiling point, the vessel pressure equals the vapour pressure, so the two cancel. NPSH available is only the liquid height above the pump minus the suction friction, which is why bottoms pumps sit several metres below the column with short, wide suction lines.</p>
+  <h3>A pump starts crackling and its discharge pressure swings. What do you check first?</h3>
+  <p>Check the suction side first: a clogged strainer, a low tank level or a hotter liquid all reduce NPSH available. Never throttle the suction valve; control flow on the discharge side. If the pump runs far out on its curve, closing the discharge a little cuts flow, friction and NPSHr.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/npsh-calculator/' | relative_url }}">NPSH calculator with a line diagram</a>
+    <a href="{{ '/calculators/pump-head-calculator/' | relative_url }}">Pump head calculator</a>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and seal troubleshooting</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
