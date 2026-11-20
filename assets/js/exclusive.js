@@ -41,12 +41,14 @@ async function loadMine() {
 }
 // Data retention: Firestore TTL deletes a document once its expireAt passes (policy enabled in Firebase console).
 // Unpaid requests: 90 days. Paid records: 8 years (accounting). Progress: 2 years after last activity.
+/* If the database rules do not yet accept the retention field, save without it rather than lose the request or payment. */
+const safeSet = async (ref, data, opt) => { try { return await setDoc(ref, data, opt); } catch (e) { if (e && e.code === 'permission-denied' && data && 'expireAt' in data) { const d = Object.assign({}, data); delete d.expireAt; return await setDoc(ref, d, opt); } throw e; } };
 const keepUntil = days => Timestamp.fromMillis(Date.now() + days * 864e5);
 const KEEP_UNPAID = 90, KEEP_PAID = 8 * 365, KEEP_PROGRESS = 2 * 365;
 async function saveProgress(id, patch) {
   if (!user) return;
   PROG[id] = Object.assign({}, PROG[id] || {}, patch);
-  try { await setDoc(doc(db, 'progress', key(user.email)), { items: { [id]: PROG[id] }, at: serverTimestamp(), expireAt: keepUntil(KEEP_PROGRESS) }, { merge: true }); } catch (e) { /* progress is a convenience */ }
+  try { await safeSet(doc(db, 'progress', key(user.email)), { items: { [id]: PROG[id] }, at: serverTimestamp(), expireAt: keepUntil(KEEP_PROGRESS) }, { merge: true }); } catch (e) { /* progress is a convenience */ }
   drawPaths();
 }
 function markFinished(id) { if (!finished(id)) { saveProgress(id, { fin: true }); toast('Marked as finished. Your learning path is updated.'); } }
@@ -93,13 +95,13 @@ async function requestPath(pid, btn) {
   btn.disabled = true;
   const rids = s.missing.map(it => key(user.email) + '__' + it.id);
   for (const it of s.missing) {
-    try { await setDoc(doc(db, 'requests', key(user.email) + '__' + it.id), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: it.id, title: it.title, price: '₹' + it.price, expireAt: keepUntil(KEEP_UNPAID) }); } catch (e) { /* still show payment */ }
+    try { await safeSet(doc(db, 'requests', key(user.email) + '__' + it.id), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: it.id, title: it.title, price: '₹' + it.price, expireAt: keepUntil(KEEP_UNPAID) }); } catch (e) { /* still show payment */ }
   }
   notify(NOTIFY, { email: user.email, name: user.displayName || '', item: 'path-' + pid, title: 'Learning path: ' + p.title + ' (' + s.missing.length + ' items)', price: '₹' + s.total, url: location.href.split('#')[0] });
   const holder = document.createElement('div'); btn.replaceWith(holder);
   holder.appendChild(await upiBox({ amount: s.total, key: 'p' + pid, note: 'PharmaChemE path ' + pid, onPaid: async utr => {
-    for (const rid of rids) await setDoc(doc(db, 'requests', rid), { utr, paidAt: serverTimestamp(), expireAt: keepUntil(KEEP_PAID) }, { merge: true });
     notify(NOTIFY, { email: user.email, name: user.displayName || '', item: 'path-' + pid + '|paid', title: 'PAID ₹' + s.total + ', UTR ' + utr + ': learning path ' + p.title, price: '₹' + s.total, url: location.href.split('#')[0] });
+    for (const rid of rids) await safeSet(doc(db, 'requests', rid), { utr, paidAt: serverTimestamp(), expireAt: keepUntil(KEEP_PAID) }, { merge: true });
     holder.innerHTML = '<div class="ts-paid"><b>Payment received for checking (UTR ' + esc(utr) + ').</b> We will switch on all ' + s.missing.length + ' items for ' + esc(user.email) + ' and email you, usually within a few hours.</div>';
   } }));
 }
@@ -163,7 +165,7 @@ async function noAccess() {
   bindWho();
   document.getElementById('ex-req').onclick = async e => {
     e.target.disabled = true;
-    try { await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: ID, title: TITLE, price: PRICE, expireAt: keepUntil(KEEP_UNPAID) }); } catch (er) { /* still show payment */ }
+    try { await safeSet(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: serverTimestamp(), item: ID, title: TITLE, price: PRICE, expireAt: keepUntil(KEEP_UNPAID) }); } catch (er) { /* still show payment */ }
     notify(NOTIFY, { email: user.email, name: user.displayName || '', item: ID, title: TITLE, price: PRICE, url: location.href.split('#')[0] });
     showPay();
   };
@@ -171,8 +173,8 @@ async function noAccess() {
     view(who() + '<p class="ts-ok"><b>Pay ' + esc(PRICE) + ' for this item.</b></p><div id="ex-pay"></div>');
     bindWho();
     document.getElementById('ex-pay').appendChild(await upiBox({ amount, key: 'i', note: 'PharmaChemE ' + ID, onPaid: async utr => {
-      await setDoc(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: (req && req.at) || serverTimestamp(), item: ID, title: TITLE, price: PRICE, utr, paidAt: serverTimestamp(), expireAt: keepUntil(KEEP_PAID) }, { merge: true });
       notify(NOTIFY, { email: user.email, name: user.displayName || '', item: ID + '|paid', title: 'PAID ' + PRICE + ', UTR ' + utr + ': ' + TITLE, price: PRICE, url: location.href.split('#')[0] });
+      await safeSet(doc(db, 'requests', rid), { email: user.email, name: user.displayName || '', at: (req && req.at) || serverTimestamp(), item: ID, title: TITLE, price: PRICE, utr, paidAt: serverTimestamp(), expireAt: keepUntil(KEEP_PAID) }, { merge: true });
       noAccess();
     } }));
   }
