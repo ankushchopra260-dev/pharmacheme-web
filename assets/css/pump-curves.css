@@ -1,0 +1,28 @@
+/* Pump and system curve explorer (assets/js/pump-curves.js) */
+.pc-box { background: var(--panel, #142131); border: 1px solid var(--grid-line, #2c3b4f); border-radius: 10px; padding: 14px; margin: 18px 0; }
+.pc-ctl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 16px; align-items: end; }
+.pc-sl { font-family: var(--f-sans); font-size: .8rem; color: var(--muted, #9fb0c3); }
+.pc-sl input { display: block; margin-top: 4px; }
+.pc-grid label { display: flex; flex-direction: column; gap: 4px; font-family: var(--f-sans); font-size: .8rem; color: var(--muted, #9fb0c3); }
+.pc-sl output { color: var(--paper, #e8eef5); font-weight: 700; font-family: var(--f-mono, monospace); }
+.pc-sl input[type=range] { width: 100%; accent-color: var(--brass, #D9A441); }
+.pc-mode { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; }
+.pc-mode button { background: var(--bg-deep, #0f1824); color: var(--paper, #e8eef5); border: 1px solid var(--grid-line, #2c3b4f); padding: 6px 12px; cursor: pointer; font-family: var(--f-sans); font-size: .82rem; }
+.pc-mode button.on { border-color: var(--brass, #D9A441); color: var(--brass, #D9A441); }
+.pc-mode button:focus-visible, .pc-more summary:focus-visible { outline: 2px solid var(--brass, #D9A441); outline-offset: 2px; }
+.pc-chart { background: var(--bg-deep, #0f1824); border: 1px solid var(--grid-line, #2c3b4f); margin: 12px 0 10px; padding: 6px; }
+.pc-chart svg { display: block; }
+.pc-read { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.pc-read div { background: var(--bg-deep, #0f1824); border: 1px solid var(--grid-line, #2c3b4f); padding: 8px 10px; font-family: var(--f-sans); }
+.pc-read span { display: block; font-size: .72rem; color: var(--muted, #9fb0c3); }
+.pc-read b { font-family: var(--f-mono, monospace); font-size: 1.15rem; color: var(--paper, #e8eef5); }
+.pc-read small { display: block; font-size: .72rem; color: var(--muted, #9fb0c3); }
+.pc-zone { grid-column: 1 / -1; margin: 2px 0 0; padding: 7px 10px; border-left: 3px solid #D9A441; background: var(--bg-deep, #0f1824); font-family: var(--f-sans); font-size: .84rem; color: var(--paper, #e8eef5); }
+.pc-zone.good { border-left-color: #5BB37A; } .pc-zone.bad { border-left-color: #E0605A; }
+.pc-more { margin-top: 10px; font-family: var(--f-sans); font-size: .82rem; color: var(--muted, #9fb0c3); }
+.pc-more summary { cursor: pointer; color: var(--brass, #D9A441); }
+.pc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 14px; margin-top: 10px; }
+.pc-grid input { background: var(--bg-deep, #0f1824); color: var(--paper, #e8eef5); border: 1px solid var(--grid-line, #2c3b4f); padding: 6px; font-family: var(--f-mono, monospace); }
+@media (max-width: 640px) { .pc-ctl, .pc-grid { grid-template-columns: 1fr 1fr; } .pc-read { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 400px) { .pc-ctl, .pc-grid { grid-template-columns: 1fr; } }
+.pc-note { margin: 10px 0 0; font-family: var(--f-sans); font-size: .78rem; line-height: 1.5; color: var(--muted, #9fb0c3); }

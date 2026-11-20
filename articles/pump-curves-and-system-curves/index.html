@@ -1,0 +1,225 @@
+---
+layout: default
+title: "Pump Curves and System Curves: Operating Point, BEP and Flow Control"
+seo_title: "Pump Curve and System Curve: Operating Point, BEP | PharmaChemE"
+description: "How to read a pump curve, draw a system curve and find the operating point. BEP, minimum flow, throttling vs VFD, and pumps in parallel or series."
+keywords: "pump curve, system curve, operating point, best efficiency point, BEP, pump minimum flow, throttling vs VFD, affinity laws, pumps in parallel, pumps in series"
+breadcrumbs:
+  - label: Articles
+    url: /articles/
+  - label: Pump Curves and System Curves
+    url: /articles/pump-curves-and-system-curves/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "Pump Curves and System Curves: Operating Point, BEP and Flow Control",
+        "description": "How to read a pump curve, build a system curve, find the operating point, stay near the best efficiency point and control flow by throttling, speed or impeller trim, with pumps in parallel and series.",
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "mainEntityOfPage": "https://www.pharmacheme.in/articles/pump-curves-and-system-curves/",
+        "datePublished": "2026-11-20",
+        "dateModified": "2026-11-20"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the operating point of a centrifugal pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is where the pump curve and the system curve cross. The pump curve shows the head the pump gives at each flow; the system curve shows the head the piping needs at each flow. The pump settles at the one flow where the two are equal."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you draw a system curve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Add the static head (the height difference between the liquid levels plus the pressure difference between the two vessels, in metres of liquid) to the friction head, which rises with the square of the flow. If the line loses 10 m at 35 m³/h, it loses 10 × (Q / 35)² m at any other flow Q."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the best efficiency point (BEP) of a pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is the flow at which the pump converts shaft power into head most efficiently, usually marked on the vendor curve. Pumps run smoothest and last longest near it; a common preferred operating region is about 70 to 120 % of the BEP flow."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it better to throttle a pump or use a VFD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A VFD saves power when the system is friction-dominated, because it lowers the pump curve instead of burning the extra head in a valve. In a static-dominated system the saving is smaller and the speed cannot go much below the point where the pump can still beat the static head. Throttling the discharge is simple and fine for small pumps or short spells."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do two pumps in parallel give double the flow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Two identical pumps in parallel give double the flow only at the same head. Because friction rises with flow, the system needs more head at the higher flow, so the combined flow is usually well under double. In the example on this page it rises from 38 to 45 m³/h."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-20
+---
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/pump-curves.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container article-body" style="padding:32px 20px 64px;">
+  <h1>Pump Curves and System Curves: Where Your Pump Really Runs</h1>
+  <p class="article-meta">Chemical Engineering &middot; Pumps &middot; <span class="art-updated">Updated November 2026</span></p>
+
+  <p class="art-lede">A pump never runs at the flow on its nameplate unless the piping lets it. It runs where its own curve meets the curve of the system it is bolted into. Once you can draw both curves, most pump questions get much easier: why the flow dropped after the strainer was changed, why a second pump in parallel added so little, why the VFD saved less than the salesman promised, and why a pump left running near shut-off keeps eating its mechanical seal.</p>
+
+  <nav class="art-toc" aria-label="In this article"><b>In this article</b><ol>
+    <li><a href="#idea">The idea in plain words</a><span>Basics</span></li>
+    <li><a href="#pump-curve">Reading a pump curve</a><span>Basics</span></li>
+    <li><a href="#system-curve">Building the system curve</a><span>Basics</span></li>
+    <li><a href="#operating-point">Finding the operating point</a><span>Working level</span></li>
+    <li><a href="#bep">BEP, the preferred region and minimum flow</a><span>Working level</span></li>
+    <li><a href="#control">Throttle, speed or trim</a><span>Working level</span></li>
+    <li><a href="#parallel-series">Two pumps in parallel or series</a><span>Going deeper</span></li>
+    <li><a href="#moving">When the system moves</a><span>Going deeper</span></li>
+    <li><a href="#field">Checking a running pump against its curve</a><span>Going deeper</span></li>
+    <li><a href="#faq">Questions people ask</a></li>
+  </ol></nav>
+  <p><strong>Need the head for your own line?</strong> The <a href="{{ '/calculators/pump-head-calculator/' | relative_url }}">Pump Head Calculator</a> builds it from levels, pressures, pipe and fittings, and the <a href="{{ '/calculators/npsh-calculator/' | relative_url }}">NPSH Calculator</a> checks the suction side.</p>
+
+  <h2 id="idea">The idea in plain words <span class="lvl l1">Basics</span></h2>
+  <p>A centrifugal pump is generous at low flow and tired at high flow: the more you take from it, the less head it can give. The piping is the opposite: it asks for little extra head at low flow and a lot at high flow, because friction grows with the square of the velocity.</p>
+  <p>Put the two on one graph, flow along the bottom and head up the side, and they cross at exactly one point. That is the <strong>operating point</strong>. Neither the pump nor the operator picks it. Every change on the plant (a valve, a speed, a level, a dirty filter) moves one of the curves, and the operating point slides to the new crossing.</p>
+
+  <h2 id="pump-curve">Reading a pump curve <span class="lvl l1">Basics</span></h2>
+  <p>The vendor's performance curve usually carries four lines against flow:</p>
+  <ul>
+    <li><strong>Head (H&ndash;Q).</strong> Highest at zero flow, the <em>shut-off head</em>, typically 10 to 25 % above the head at the best efficiency point for a radial-flow pump, then falling as flow rises. Curves for several impeller diameters are often drawn one under another.</li>
+    <li><strong>Efficiency.</strong> Zero at zero flow, rising to a peak, the <strong>best efficiency point (BEP)</strong>, then falling again.</li>
+    <li><strong>Power.</strong> Shaft power, which for radial-flow pumps (most plant transfer pumps) keeps rising with flow, so the highest power is at the far right, at run-out, not at the duty point. Axial-flow pumps are the opposite, with the highest power at shut-off.</li>
+    <li><strong>NPSH required.</strong> Fairly flat through the middle of the curve and climbing steeply past the BEP; on many pumps it also rises again at very low flow. The vendor value is the point where head has already dropped 3 %, so keep a margin above it.</li>
+  </ul>
+  <p>The curves are measured on water. Head in metres is the same for any thin liquid, so a pump that gives 28 m on water gives 28 m on toluene; the pressure it makes and the power it draws scale with density. Above roughly 20 to 50 cSt (cP divided by specific gravity), viscosity cuts head, flow and especially efficiency, and the curve needs correcting with the Hydraulic Institute method (ANSI/HI 9.6.7). Small pumps are affected sooner.</p>
+
+  <h2 id="system-curve">Building the system curve <span class="lvl l1">Basics</span></h2>
+  <p>The system curve is the head the piping needs at each flow. It has two parts:</p>
+  <div class="formula-box">
+    H<sub>system</sub> = static head + friction head<br>
+    static head = (destination liquid level, or the outlet elevation if the line discharges above the liquid, &minus; source liquid level) + (P<sub>destination</sub> &minus; P<sub>source</sub>) / (&rho; g)<br>
+    friction head at flow Q = friction head at a known flow &times; (Q / Q<sub>known</sub>)&sup2;
+  </div>
+  <p>The static part does not change with flow: it is the price of lifting the liquid and pushing it into a vessel at higher pressure. The friction part is zero at zero flow and grows with the square of the flow in turbulent pipe flow, which covers almost every plant transfer line.</p>
+  <p>Example: a transfer from a storage tank to a reactor. The line discharges through a top nozzle 15 m above the lowest tank level and both are vented, so the static head is 15 m. The pipe, fittings, strainer and flow meter lose 10 m at 35 m&sup3;/h. At 20 m&sup3;/h the friction is 10 &times; (20/35)&sup2; = 3.3 m and the line needs 18.3 m; at 45 m&sup3;/h it needs 15 + 16.5 = 31.5 m.</p>
+
+  <h2 id="operating-point">Finding the operating point <span class="lvl l2">Working level</span></h2>
+  <p>Take a pump whose BEP is 35 m&sup3;/h at 28 m with a shut-off head of 33.6 m and a best efficiency of 70 %, on the line above. Where the curves cross:</p>
+  <div class="formula-box">
+    flow &asymp; 38.2 m&sup3;/h &nbsp;&middot;&nbsp; head &asymp; 26.9 m &nbsp;&middot;&nbsp; 109 % of BEP flow<br>
+    efficiency &asymp; 70 % &nbsp;&middot;&nbsp; shaft power = 1000 &times; 9.81 &times; (38.2 / 3600) &times; 26.9 / 0.70 / 1000 &asymp; 4.0 kW
+  </div>
+  <p>The pump was bought for 35 m&sup3;/h and delivers 38. The line needs only 25 m at 35 m&sup3;/h, but the pump was bought for 28 m, and that 3 m of margin pushes the operating point to the right. Real friction usually comes in below the estimate as well, which pushes it further. The explorer below starts on this example; move the sliders and watch the red point.</p>
+
+  <div class="pc-box"><div id="pc-explorer"></div>
+    <p class="pc-note">The pump curve is a parabola through the shut-off head and the BEP, scaled with the affinity laws for speed, and drawn solid up to 140 % of BEP flow, about where vendor curves stop. Efficiency peaks at the BEP. Real curves differ in detail; use the vendor's curve for design.</p></div>
+
+  <h2 id="bep">BEP, the preferred region and minimum flow <span class="lvl l2">Working level</span></h2>
+  <p>At the BEP the liquid enters and leaves the impeller vanes at the angles they were designed for. Away from it, the flow fights the vanes: the radial load on the shaft rises, the seal faces see more movement and vibration grows. The Hydraulic Institute guideline ANSI/HI 9.6.3 calls the band where a pump runs well the <strong>preferred operating region</strong>, typically about 70 to 120 % of the BEP flow. The vendor also gives a wider allowable region and a minimum continuous flow.</p>
+  <p><strong>Too far left.</strong> At low flow the liquid recirculates at the impeller inlet and outlet, which causes noise, vibration and wear that look like cavitation. Most of the shaft power also turns into heat in a small amount of liquid. With the discharge closed it is all heat:</p>
+  <div class="formula-box">
+    shaft power at shut-off &asymp; 2 kW (about half the 3.8 kW the pump draws at BEP) = 0.48 kcal/s<br>
+    water in the casing &asymp; 8 kg, specific heat 1 kcal/kg &deg;C &rarr; about 0.06 &deg;C/s, or 3.6 &deg;C per minute
+  </div>
+  <p>That ignores the heat taken up by the casing metal, and the liquid next to the impeller heats faster than the average. Ten minutes against a closed valve and the water is about 35 &deg;C hotter. Toluene, with a specific heat of about 0.41 kcal/kg &deg;C and roughly 7 kg in the casing, heats at about 10 &deg;C per minute; it reaches its boiling point quickly, flashes, and the seal runs dry. That is why pumps that can see a closed discharge get a minimum-flow bypass back to the source tank, sized for the vendor's minimum continuous flow.</p>
+  <p><strong>Too far right.</strong> At run-out the NPSH the pump needs rises steeply and the shaft power reaches its highest value. A pump that was fine at the duty point can cavitate or trip its motor when the destination vessel is empty and at atmospheric pressure, because the system curve has dropped and the pump has run out to the right.</p>
+
+  <h2 id="control">Throttle, speed or trim <span class="lvl l2">Working level</span></h2>
+  <p>Suppose the reactor needs 30 m&sup3;/h, not 38. There are four ways to get there. To see the first two in the explorer, set the valve slider to about 9.5 m, then put it back to zero and set the speed to 89 %.</p>
+  <h3>Throttle the discharge valve</h3>
+  <p>Closing the valve adds friction, so the system curve steepens and crosses the pump curve further left. At 30 m&sup3;/h the pump gives 29.5 m but the line needs only 22.3 m, so the valve burns 7.1 m. Shaft power falls a little, to about 3.5 kW, because the pump moves left on its power curve. Simple and reliable; wasteful if the throttling is large and permanent. Always throttle the <em>discharge</em>, never the suction, which takes NPSH away exactly where the pump can least afford it.</p>
+  <h3>Slow the pump with a VFD</h3>
+  <p>The affinity laws say flow changes with speed, head with speed squared and power with speed cubed. Slowing the pump to about 89 % lowers its whole curve until it meets the unthrottled system curve at 30 m&sup3;/h and 22.3 m, with no valve loss. Shaft power is about 2.6 kW, roughly 0.9 kW less than throttling, about 26 %. A batch transfer pump runs a few hours a week, so the saving there is small; on a continuous circulation duty running 8,000 hours a year it is about 7,200 kWh of shaft energy, slightly more at the meter after motor losses, less the 2 to 3 % the drive itself loses. The <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">VFD savings worked example</a> takes it to rupees.</p>
+  <p>The saving depends on how much of the system curve is friction. In a static-dominated system (a tall lift, a high-pressure receiver) the speed cannot go far down before the shut-off head falls below the static head and the flow stops; the cube law then promises far more than the plant gets. Try it in the explorer: raise the static head to 28 m and slow the pump.</p>
+  <h3>Bypass back to the tank</h3>
+  <p>A recirculation line takes the surplus back to the source. It keeps the pump near its BEP and above minimum flow, so it is the right answer for minimum-flow protection, but as a way of controlling flow it wastes all the power spent on the recirculated liquid.</p>
+  <h3>Trim the impeller</h3>
+  <p>If a pump will run throttled for years, machining the impeller to a smaller diameter is cheaper than a VFD. For small trims (up to about 10 %), flow changes roughly with diameter, head with diameter squared and power with diameter cubed. The vendor's curve for the smaller impeller is better than the rule, because larger trims also lose efficiency. A trimmed impeller cannot be put back, so trim in steps.</p>
+
+  <h2 id="parallel-series">Two pumps in parallel or series <span class="lvl l3">Going deeper</span></h2>
+  <p><strong>Parallel</strong> pumps share the flow at the same head: the combined curve is the single-pump curve stretched to double the flow at each head. On our line, adding a second identical pump raises the flow from 38.2 to about 44.7 m&sup3;/h, only 17 % more, because the line needs 31 m at the higher flow and each pump slides left to about 22 m&sup3;/h, only 64 % of its BEP flow. Parallel pumps pay off on flat, static-dominated system curves. Three cautions: pumps in parallel need similar shut-off heads and stable (continuously falling) curves, or the weaker one is pushed back to shut-off; each needs its own non-return valve; and when one trips, the other runs out to the right, so check its NPSH and motor at the single-pump point.</p>
+  <p><strong>Series</strong> pumps add head at the same flow: the combined curve is the single-pump curve doubled in height. On our line two pumps in series give about 54.9 m&sup3;/h at 39.6 m, but each pump is now at 157 % of its BEP flow, past the end of most vendor curves. Series pumping suits steep, high-head systems, and the second pump's casing and seal must be rated for the suction pressure the first one gives it.</p>
+
+  <h2 id="moving">When the system moves <span class="lvl l3">Going deeper</span></h2>
+  <p>The system curve is not fixed. Its static part moves with the liquid levels and the vessel pressures; its friction part moves as strainers and filters load up, as lines foul, and as control valves open and close. A transfer that starts with a full source tank and an empty, vented reactor and ends with an empty tank and a reactor under nitrogen pressure sweeps the operating point across a band of the pump curve.</p>
+  <p>Draw the system curve for both ends of that band, and check that the operating point stays inside the pump's allowable region, the motor covers the right-hand end and the NPSH available covers the NPSH required at the right-hand end. A pump selected for one point and checked at none of the others is the most common source of pump trouble on a batch plant.</p>
+
+  <h2 id="field">Checking a running pump against its curve <span class="lvl l3">Going deeper</span></h2>
+  <ol>
+    <li>Read the suction and discharge pressures and the flow. Head = (P<sub>discharge</sub> &minus; P<sub>suction</sub>) / (&rho; g), plus any height difference between the two gauges, plus the velocity-head difference if the suction and discharge nozzles are different sizes.</li>
+    <li>Mark that point on the vendor curve.</li>
+    <li>On the curve: the pump is healthy and the operating point is where the system put it.</li>
+    <li>Below the curve: worn wear rings or impeller, a partly blocked impeller, air or vapour in the liquid, wrong rotation, or a smaller impeller than you think.</li>
+    <li>Pressures swinging and a gravel noise: suspect cavitation and check the suction side first.</li>
+  </ol>
+  <p>A pump with no flow meter can still be checked: close the discharge for a few seconds and read the shut-off head (not on a pump the vendor says must never run at shut-off). It should match the curve; if it is well below, the pump has lost head and the rest of the curve has dropped with it.</p>
+
+  <h2>Mistakes I see most often</h2>
+  <ul>
+    <li>Selecting the pump at one point and never drawing the system curve for the other end of the batch.</li>
+    <li>Adding margin on flow, then on head, then choosing a bigger pump &ldquo;to be safe&rdquo;, and running it throttled at 50 % of BEP for its whole life.</li>
+    <li>Expecting a second parallel pump to double the flow on a friction-heavy line.</li>
+    <li>Promising cube-law VFD savings on a static-dominated system.</li>
+    <li>Throttling the suction valve to control flow.</li>
+    <li>No minimum-flow bypass on a pump that can see a closed discharge valve.</li>
+  </ul>
+
+  <h2 id="faq">Questions people ask</h2>
+  <h3>What is the operating point of a centrifugal pump?</h3>
+  <p>It is where the pump curve and the system curve cross. The pump curve shows the head the pump gives at each flow; the system curve shows the head the piping needs at each flow. The pump settles at the one flow where the two are equal.</p>
+  <h3>How do you draw a system curve?</h3>
+  <p>Add the static head (the height difference between the liquid levels plus the pressure difference between the two vessels, in metres of liquid) to the friction head, which rises with the square of the flow. If the line loses 10 m at 35 m³/h, it loses 10 × (Q / 35)² m at any other flow Q.</p>
+  <h3>What is the best efficiency point (BEP) of a pump?</h3>
+  <p>It is the flow at which the pump converts shaft power into head most efficiently, usually marked on the vendor curve. Pumps run smoothest and last longest near it; a common preferred operating region is about 70 to 120 % of the BEP flow.</p>
+  <h3>Is it better to throttle a pump or use a VFD?</h3>
+  <p>A VFD saves power when the system is friction-dominated, because it lowers the pump curve instead of burning the extra head in a valve. In a static-dominated system the saving is smaller and the speed cannot go much below the point where the pump can still beat the static head. Throttling the discharge is simple and fine for small pumps or short spells.</p>
+  <h3>Do two pumps in parallel give double the flow?</h3>
+  <p>No. Two identical pumps in parallel give double the flow only at the same head. Because friction rises with flow, the system needs more head at the higher flow, so the combined flow is usually well under double. In the example on this page it rises from 38 to 45 m³/h.</p>
+
+  <h2>Sources and further reading</h2>
+  <ul class="art-sources">
+    <li>ANSI/HI 9.6.3, Rotodynamic Pumps: Guideline for Operating Regions, Hydraulic Institute</li>
+    <li>Karassik, Messina, Cooper and Heald (eds.), <i>Pump Handbook</i>, 4th ed., McGraw-Hill, 2008</li>
+    <li>Green &amp; Southard (eds.), <i>Perry&rsquo;s Chemical Engineers&rsquo; Handbook</i>, 9th ed., McGraw-Hill, 2019</li>
+  </ul>
+
+  <div class="related-box">
+    <h3>Try the Calculators</h3>
+    <a href="{{ '/calculators/pump-head-calculator/' | relative_url }}">Pump head calculator with diagram</a>
+    <a href="{{ '/calculators/npsh-calculator/' | relative_url }}">NPSH calculator</a>
+    <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump power calculator</a>
+    <h3>Related</h3>
+    <a href="{{ '/articles/pump-power-calculation/' | relative_url }}">Pump power calculation</a>
+    <a href="{{ '/whiteboard/npsh-cavitation/' | relative_url }}">NPSH and cavitation: whiteboard lesson</a>
+    <a href="{{ '/articles/pump-and-mechanical-seal-troubleshooting/' | relative_url }}">Pump and mechanical seal troubleshooting</a>
+    <a href="{{ '/articles/urs-for-centrifugal-pumps/' | relative_url }}">URS for centrifugal pumps</a>
+  </div>
+</div>
+<script src="{{ '/assets/js/articles.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+<script src="{{ '/assets/js/pump-curves.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

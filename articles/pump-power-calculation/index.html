@@ -2,7 +2,7 @@
 layout: default
 title: "Pump Power Calculation: Formula, kW from Flow & Head, Examples"
 seo_title: "Pump Power Calculation: kW from Flow and Head | PharmaChemE"
-description: "Pump power calculation: hydraulic, shaft and motor kW from flow and head, the Q×H/367 shortcut, motor margins, pump curves and NPSH. Worked examples."
+description: "Pump power calculation: hydraulic, shaft and motor kW from flow and head, the Q×H/367 shortcut, motor margins, run-out power and NPSH. Worked examples."
 breadcrumbs:
   - label: Articles
     url: /articles/
@@ -28,7 +28,7 @@ structured_data: |
           "name": "PharmaChemE",
           "url": "https://www.pharmacheme.in/"
         },
-        "dateModified": "2026-11-06",
+        "dateModified": "2026-11-20",
         "datePublished": "2026-09-30"
       },
       {
@@ -86,7 +86,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-06
+last_modified_at: 2026-11-20
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -103,7 +103,7 @@ last_modified_at: 2026-11-06
     <li><a href="#ex1">Example 1: water to a tank</a><span>Working level</span></li>
     <li><a href="#ex2">Example 2: solvent into a pressurised reactor</a><span>Working level</span></li>
     <li><a href="#motor">Choosing the motor</a><span>Working level</span></li>
-    <li><a href="#curve">Pump curves and why efficiency is not a constant</a><span>Going deeper</span></li>
+    <li><a href="#curve">Why efficiency changes along the pump curve</a><span>Going deeper</span></li>
     <li><a href="#npsh">NPSH: the problem power calculations don't show</a><span>Going deeper</span></li>
     <li><a href="#field">Checking a running pump</a><span>Going deeper</span></li>
     <li><a href="#faq">Questions people ask</a></li>
@@ -205,12 +205,13 @@ last_modified_at: 2026-11-06
   <p><strong>End-of-curve power.</strong> On a normal centrifugal pump, shaft power keeps rising as flow increases. If the pump can ever run out to high flow, say when the reactor is empty and at atmospheric pressure so the head is much lower, it will draw more power than at the duty point. Read the shaft power at the right-hand end of the pump curve and make sure the motor covers it. Otherwise the overload trips on the first batch.</p>
   <p>Positive displacement pumps (gear, screw, diaphragm) behave the opposite way: flow is nearly fixed and the power rises with discharge pressure. Size their motors at the relief valve setting, and never throttle their discharge.</p>
 
-  <h2 id="curve">Pump curves and why efficiency is not a constant <span class="lvl l3">Going deeper</span></h2>
-  <p>So far we have used a single efficiency figure. In reality a centrifugal pump's efficiency depends on where it operates on its curve. Each pump has a <strong>best efficiency point (BEP)</strong>. Run it at 80&ndash;110 % of the BEP flow and you get the catalogue efficiency, quiet running and long seal life. Run it far to the left (throttled hard) and efficiency falls, the liquid recirculates inside the casing, it heats up, and seals and bearings suffer. Far to the right, efficiency falls again and NPSH required shoots up.</p>
+  <h2 id="curve">Why efficiency changes along the pump curve <span class="lvl l3">Going deeper</span></h2>
+  <p>So far we have used a single efficiency figure. In reality a centrifugal pump's efficiency depends on where it operates on its curve. Each pump has a <strong>best efficiency point (BEP)</strong>. Run it near the BEP (the preferred region is about 70&ndash;120 % of BEP flow, and 80&ndash;110 % is better still) and you get the catalogue efficiency, quiet running and long seal life. Run it far to the left (throttled hard) and efficiency falls, the liquid recirculates inside the casing, it heats up, and seals and bearings suffer. Far to the right, efficiency falls again and NPSH required shoots up.</p>
   <p>Where a pump actually runs is set by two curves crossing: the pump curve (head falls as flow rises) and the system curve (static head plus friction, which rises with flow squared). Change either one and the operating point moves. Closing a discharge valve steepens the system curve; slowing the pump with a VFD lowers the pump curve. The second wastes far less energy, because power falls roughly with the cube of speed on a friction-dominated system. Our <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">VFD article</a> works through the numbers.</p>
   <figure class="art-fig" data-fig="pump-curve">
     <figcaption>Try it: a pump designed for 50 m&sup3;/h at 30 m. Drag the flow down and switch between throttling a valve and slowing the pump. The throttled pump climbs up its own curve and the valve wastes the extra head; the VFD moves the whole pump curve down to meet the system curve.</figcaption>
   </figure>
+  <p>For the full picture (reading the vendor curve, building the system curve, minimum flow, impeller trim and pumps in parallel or series) see <a href="{{ '/articles/pump-curves-and-system-curves/' | relative_url }}">Pump Curves and System Curves</a>.</p>
   <p>Viscous liquids are another trap. Catalogue curves are for water. Above roughly 20&ndash;50 cP, a centrifugal pump loses head, flow and especially efficiency; at a few hundred cP a gear or screw pump is usually the better choice. The Hydraulic Institute correction method gives the factors; for a quick check, expect efficiency to drop noticeably once viscosity gets into the tens of centipoise.</p>
 
   <h2 id="npsh">NPSH: the problem power calculations don't show <span class="lvl l3">Going deeper</span></h2>
@@ -317,6 +318,7 @@ last_modified_at: 2026-11-06
     <a href="{{ '/calculators/pump-power-calculator/' | relative_url }}">Pump Power Calculator</a>
     <a href="{{ '/design-tools/line-sizing/' | relative_url }}">Line Sizing: friction loss per 100 m</a>
     <h3>Related Articles</h3>
+    <a href="{{ '/articles/pump-curves-and-system-curves/' | relative_url }}">Pump curves and system curves</a>
     <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">VFD savings, motor loading and power factor</a>
     <a href="{{ '/articles/solvent-recovery-calculation/' | relative_url }}">Solvent recovery calculation</a>
   </div>
