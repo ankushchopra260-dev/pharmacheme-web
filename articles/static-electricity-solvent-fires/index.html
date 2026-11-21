@@ -29,7 +29,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-17",
-        "dateModified": "2026-11-06"
+        "dateModified": "2026-11-21"
       },
       {
         "@type": "FAQPage",
@@ -62,7 +62,7 @@ structured_data: |
       }
     ]
   }
-last_modified_at: 2026-11-06
+last_modified_at: 2026-11-21
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 
@@ -114,7 +114,7 @@ last_modified_at: 2026-11-06
   <h2 id="liquids">Solvents that hold their charge <span class="lvl l2">Working level</span></h2>
   <p>A liquid's electrical conductivity decides how fast charge drains from it. The standard IEC TS 60079-32-1 groups liquids into three classes:</p>
   <ul>
-    <li><strong>Low conductivity, below about 50 to 100 pS/m (standards differ on the exact boundary):</strong> toluene, xylene, hexane, heptane, many hydrocarbons. Charge can stay in the liquid for tens of seconds, even inside an earthed metal tank.</li>
+    <li><strong>Low conductivity, below about 50 pS/m (standards differ on the exact boundary):</strong> toluene, xylene, hexane, heptane, many hydrocarbons. Charge can stay in the liquid for tens of seconds, even inside an earthed metal tank.</li>
     <li><strong>Medium, up to about 10,000 pS/m:</strong> some esters and ethers.</li>
     <li><strong>High, above 10,000 pS/m:</strong> alcohols, ketones, water. Charge drains in microseconds, but only if the container is earthed. In a plastic can, even methanol charges up.</li>
   </ul>
@@ -126,7 +126,7 @@ last_modified_at: 2026-11-06
   <h3>2. Fill slowly and from the bottom</h3>
   <p>Splash filling from a top nozzle breaks the liquid into droplets and mist, which generates charge and fills the vapour space with a fine flammable mist. Use a dip pipe to the bottom. For low-conductivity solvents, keep the velocity at 1 m/s or less until the pipe outlet is covered by liquid. Avoid air or water slugs in the line, and give the liquid time to relax after a filter before it reaches the tank.</p>
   <h3>3. Take the oxygen away</h3>
-  <p>Most solvent vapours cannot burn below about 10&ndash;12 % oxygen, the limiting oxygen concentration (LOC). Inerting with nitrogen to 8 % or less, checked with an analyser, removes one side of the fire triangle. It is the main control where charge cannot be avoided, such as powder charging or low-conductivity solvents. See the <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">nitrogen purging calculator</a>.</p>
+  <p>Most solvent vapours cannot burn below about 10&ndash;12 % oxygen, the limiting oxygen concentration (LOC). Inerting with nitrogen to 8 % or less with a continuous oxygen analyser (about 6 % if you only spot-check), removes one side of the fire triangle. It is the main control where charge cannot be avoided, such as powder charging or low-conductivity solvents. See the <a href="{{ '/utilities/compressed-air-nitrogen/' | relative_url }}">nitrogen purging calculator</a>.</p>
   <h3>4. Control the people</h3>
   <p>ESD (antistatic) footwear only works on a conductive floor, so check both. No mobile phones in solvent areas. Touch an earthed point before opening a manhole. Cotton or FR clothing rather than synthetics; never take off a jacket or wipe with a dry cloth near open solvent.</p>
   <div class="art-note"><b>On the plant</b><p>Managers set the standard here more than any SOP. If a visitor or a senior person walks into the solvent store in leather-soled shoes, talking on a phone, the rule is dead for everyone who saw it.</p></div>
@@ -177,6 +177,7 @@ last_modified_at: 2026-11-06
 
   <div class="related-box">
     <h3>Related</h3>
+    <a href="{{ '/training/modules/static-and-solvent-fire-safety/' | relative_url }}">Run this as a training session: slides, trainer notes and live checks</a>
     <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Nitrogen inerting and purge cycles</a>
     <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
     <a href="{{ '/process-safety/' | relative_url }}">Process Safety section</a>

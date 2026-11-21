@@ -4,9 +4,9 @@
   minutes: 75 to 90
   level: Plant teams, engineers, students
   extra_live: ', a tank-filling simulator'
-  related: <a href="{{ '/process-safety/' | relative_url }}">process safety</a>
+  related: <a href="{{ '/process-safety/' | relative_url }}">process safety</a> and the article <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static Electricity and Solvent Fires</a>
   live_js: static-live.js
-  live_h1: Static Safety Live
+  live_h1: 'Static and solvent fire safety: live checks'
   live_desc: Five live checks for a solvent static and fire safety session, plus a tank-filling charge simulator and a pipe-speed calculator. Free to use.
   live_intro: Set the conditions, let the room call safe or unsafe, then reveal the answer. Stations 1 to 5 follow the &ldquo;Now you call it&rdquo; slide. Typical textbook values, for teaching.
   live_blocks:

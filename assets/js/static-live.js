@@ -85,7 +85,7 @@
     var st = station(host, '<div class="tk-row"><div><label for="s3o">What is charged</label><select id="s3o"><option value="drum">Unearthed steel drum (100 pF)</option><option value="person">Person in non-ESD shoes (200 pF)</option><option value="funnel">Isolated metal funnel (20 pF)</option></select></div>' +
       '<div><label for="s3s">Solvent vapour</label><select id="s3s">' + opts() + '</select></div>' +
       '<div><label for="s3v">Voltage: <span class="tk-val" id="s3vv"></span> kV</label><input type="range" id="s3v" min="1" max="30" step="0.5" value="8"></div></div><div class="tk-out" id="s3o2"></div>',
-      function () { var r = calc(); return r.E >= r.mie ? ['bad', 'Spark ignites the vapour. ' + fmt(r.E) + ' mJ is ' + fmt(r.E / r.mie, 0) + ' times what ' + r.n + ' needs (' + r.mie + ' mJ).'] : ['ok', 'No ignition. ' + fmt(r.E) + ' mJ is below the ' + r.mie + ' mJ ' + r.n + ' needs. Other objects at the same voltage may store more.']; });
+      function () { var r = calc(); return r.E >= r.mie ? ['bad', 'Spark ignites the vapour. ' + fmt(r.E) + ' mJ is ' + fmt(r.E / r.mie, 0) + ' times what ' + r.n + ' needs (' + r.mie + ' mJ).'] : ['ok', 'Below the MIE: unlikely to ignite at this voltage. ' + fmt(r.E) + ' mJ is below the ' + r.mie + ' mJ ' + r.n + ' needs. Other objects at the same voltage may store more.']; });
     function calc() { var o = OBJ[$(host, '#s3o').value], s = SOLV[$(host, '#s3s').value], V = +$(host, '#s3v').value; return { E: 0.5 * o[1] * 1e-12 * Math.pow(V * 1e3, 2) * 1e3, mie: s.mie, n: s.n.toLowerCase(), C: o[1], V: V }; }
     function upd() { var r = calc(); $(host, '#s3vv').textContent = r.V; $(host, '#s3o2').innerHTML = '<div><b>' + fmt(r.E) + ' mJ</b><span>stored energy &frac12; C V&sup2;</span></div><div><b>' + r.mie + ' mJ</b><span>needed for ' + r.n + '</span></div>'; }
     ['#s3o', '#s3s', '#s3v'].forEach(function (q) { $(host, q).addEventListener('input', upd); }); upd();
@@ -93,17 +93,20 @@
 
   /* 4. Safe to fill? */
   F.s4 = function (host) {
-    var st = station(host, '<div class="tk-row"><div><label for="s4s">Solvent</label><select id="s4s">' + opts() + '</select></div><div><label for="s4v">Speed in the filling pipe: <span class="tk-val" id="s4vv"></span> m/s</label><input type="range" id="s4v" min="0.5" max="7" step="0.5" value="2"></div></div>' +
-      '<div class="tk-row"><div><label for="s4d">Filling pipe</label><select id="s4d"><option value="dip">Dip pipe to the bottom</option><option value="top">Top nozzle, free fall</option></select></div><div><label for="s4e">Earthing</label><select id="s4e"><option value="y">Drum or tank and hose bonded and earthed</option><option value="n">Not earthed</option></select></div><div><label for="s4i">Vessel headspace</label><select id="s4i"><option value="n">Air</option><option value="y">Inerted, oxygen proven below 8 %</option></select></div><div><label for="s4p">Start of the fill</label><select id="s4p"><option value="s">Outlet still above the liquid</option><option value="c">Outlet covered by liquid</option></select></div></div>',
+    var st = station(host, '<div class="tk-row"><div><label for="s4s">Solvent</label><select id="s4s">' + opts() + '</select></div><div><label for="s4v">Speed in the filling pipe: <span class="tk-val" id="s4vv"></span> m/s</label><input type="range" id="s4v" min="0.5" max="10" step="0.5" value="2"></div></div>' +
+      '<div class="tk-row"><div><label for="s4d">Filling pipe</label><select id="s4d"><option value="dip">Dip pipe to the bottom</option><option value="top">Top nozzle, free fall</option></select></div><div><label for="s4e">Earthing</label><select id="s4e"><option value="y">Drum or tank and hose bonded and earthed</option><option value="n">Not earthed</option></select></div><div><label for="s4i">Vessel headspace</label><select id="s4i"><option value="n">Air</option><option value="y">Inerted, oxygen proven below 8 % (continuous analyser)</option></select></div><div><label for="s4w">Water or solids in the liquid</label><select id="s4w"><option value="n">No, single clean liquid</option><option value="y">Yes (wet solvent, slurry, second phase)</option></select></div><div><label for="s4p">Start of the fill</label><select id="s4p"><option value="s">Outlet still above the liquid</option><option value="c">Outlet covered by liquid</option></select></div></div>',
       function () {
         var s = SOLV[$(host, '#s4s').value], v = +$(host, '#s4v').value, bad = [], note = [];
         if ($(host, '#s4e').value === 'n') bad.push('not earthed: charge cannot leak away');
         if ($(host, '#s4d').value === 'top') bad.push('splash filling makes charge and mist');
-        if (s.low && v > 1 && $(host, '#s4p').value === 's') bad.push('above 1 m/s before the outlet is covered');
+        var wet = $(host, '#s4w').value === 'y';
+        if (s.low && v > 1 && $(host, '#s4p').value === 's') bad.push('above 1 m/s before the outlet is covered by two pipe diameters of liquid');
+        if (s.low && v > 1 && wet) bad.push('above 1 m/s with water or solids present: keep 1 m/s for the whole fill');
         if (s.low && v > 7) bad.push('faster than the usual 7 m/s limit');
         if (s.low && $(host, '#s4i').value === 'n') note.push('A low-conductivity solvent in a vessel with air is still a risk even if the other points are right. Inert it, and wait before dipping or sampling.');
+        if (s.low && v > 1) note.push('Above 1 m/s the safe speed also depends on the pipe size and the vessel (the v·d limits in IS/IEC TS 60079-32-1); check it with the filling-speed calculator below.');
         if (bad.length) return ['bad', 'Unsafe: ' + bad.join('; ') + '.'];
-        if (note.length) return ['warn', 'Partly safe. ' + note.join(' ')];
+        if (note.length) return ['warn', 'Not yet proven safe. ' + note.join(' ')];
         return ['ok', 'Safe to fill on these settings. Keep checking the oxygen and the earth clamp during the transfer.'];
       });
     function upd() { $(host, '#s4vv').textContent = $(host, '#s4v').value; }
@@ -112,12 +115,12 @@
 
   /* 5. How many purges? */
   F.s5 = function (host) {
-    var st = station(host, '<div class="tk-row"><div><label for="s5p">Nitrogen pressure: <span class="tk-val" id="s5pv"></span> barg</label><input type="range" id="s5p" min="0.5" max="6" step="0.5" value="2"></div><div><label for="s5n">Purge cycles: <span class="tk-val" id="s5nv"></span></label><input type="range" id="s5n" min="1" max="6" step="1" value="2"></div></div><div class="tk-out" id="s5o"></div><div class="tk-bar" id="s5b" aria-hidden="true"><i></i><u style="left:47.6%"></u><u style="left:38%"></u></div><p class="tk-cite" style="margin:4px 0 0">Markers: target 8 %, limiting oxygen concentration about 10 %. Scale 0 to 21 %.</p>',
-      function () { var o = calc(); if (o <= 8) return ['ok', 'Oxygen about ' + fmt(o) + ' %. At or below the 8 % target. Prove it with an analyser.']; if (o < 10) return ['warn', 'Oxygen about ' + fmt(o) + ' %. Under the 10 % limit but no margin. Add a cycle.']; return ['bad', 'Oxygen about ' + fmt(o) + ' %. Not inerted. Most solvent vapours can still burn.']; });
+    var st = station(host, '<div class="tk-row"><div><label for="s5p">Nitrogen pressure: <span class="tk-val" id="s5pv"></span> barg</label><input type="range" id="s5p" min="0.5" max="6" step="0.5" value="2"></div><div><label for="s5n">Purge cycles: <span class="tk-val" id="s5nv"></span></label><input type="range" id="s5n" min="1" max="6" step="1" value="2"></div></div><div class="tk-out" id="s5o"></div><div class="tk-bar" id="s5b" aria-hidden="true"><i></i><u style="left:47.6%"></u><u style="left:38%"></u><u style="left:28.6%"></u></div><p class="tk-cite" style="margin:4px 0 0">Markers: 6 % (spot checks only), 8 % (continuous O₂ analyser), limiting oxygen concentration about 10 %. Scale 0 to 21 %. Best case: PSA nitrogen at 97 to 99 % purity leaves a little more oxygen.</p>',
+      function () { var o = calc(); if (o <= 6) return ['ok', 'Oxygen about ' + fmt(o) + ' %. Below 6 %, enough even with spot checks. Prove it with an analyser.']; if (o <= 8) return ['warn', 'Oxygen about ' + fmt(o) + ' %. Acceptable only with a continuous oxygen analyser; with spot checks aim for 6 %.']; if (o < 10) return ['warn', 'Oxygen about ' + fmt(o) + ' %. Under the 10 % limit but no margin. Add a cycle.']; return ['bad', 'Oxygen about ' + fmt(o) + ' %. Not inerted. Most solvent vapours can still burn.']; });
     function calc() { var P = +$(host, '#s5p').value, n = +$(host, '#s5n').value; return 21 * Math.pow(1.01325 / (1.01325 + P), n); }
     function upd() {
       var P = +$(host, '#s5p').value, n = +$(host, '#s5n').value, o = calc(); $(host, '#s5pv').textContent = P; $(host, '#s5nv').textContent = n;
-      $(host, '#s5o').innerHTML = '<div><b>' + fmt(o) + ' %</b><span>oxygen after ' + n + ' pressure purge' + (n > 1 ? 's' : '') + '</span></div><div><b>' + fmt(21 * 1.01325 / (1.01325 + P) / 21, 2) + '</b><span>fraction left per cycle</span></div><div><b>' + fmt(n * 2 * P * 0 + n, 0) + ' &times; vessel volume</b><span>nitrogen per cycle is about P &times; volume</span></div>';
+      $(host, '#s5o').innerHTML = '<div><b>' + fmt(o) + ' %</b><span>oxygen after ' + n + ' pressure purge' + (n > 1 ? 's' : '') + '</span></div><div><b>' + fmt(21 * 1.01325 / (1.01325 + P) / 21, 2) + '</b><span>fraction left per cycle</span></div><div><b>' + fmt(n * P / 1.01325, 1) + ' &times; vessel volume</b><span>nitrogen in total (' + fmt(P / 1.01325, 1) + ' per cycle, at atmospheric pressure)</span></div>';
       var b = $(host, '#s5b'); b.firstChild.style.width = Math.min(100, o / 21 * 100) + '%'; b.firstChild.style.background = o <= 8 ? '#5FD09A' : o < 10 ? '#F2A33C' : '#E8706B';
     }
     host.addEventListener('input', upd); upd();
@@ -159,10 +162,10 @@
       q = q * k + gen * tau * (1 - k); peak = Math.max(peak, q); draw();
       if (q >= CRIT) {
         clearInterval(timer); timer = null; $(host, '#si-bang').setAttribute('display', ''); go.disabled = true; vd.className = 'tk-verdict bad';
-        vd.textContent = (st.value === 'gnd' ? 'The charge held in the liquid reached the ignition level. Grounding the tank does not remove it: the liquid needs time, or a lower speed.' : 'A discharge. The tank cannot leak the charge, so it climbs until it sparks. Earth and bond every metal part.');
+        vd.textContent = (st.value === 'gnd' ? 'The charge held in the liquid reached the ignition level. Grounding the tank does not remove it: the liquid needs time, or a lower speed.' : st.value === 'pla' ? 'A discharge. A plastic tank cannot be made safe by earthing it: use an earthed metal or dissipative container for flammable solvents.' : 'A discharge. The tank cannot leak the charge, so it climbs until it sparks. Earth and bond every metal part.');
       } else if (t >= FILL) {
         clearInterval(timer); timer = null; go.disabled = true; vd.className = 'tk-verdict ' + (peak / CRIT > 0.6 ? 'warn' : 'ok');
-        vd.textContent = 'Filled without reaching the ignition level. Peak was ' + Math.round(100 * peak / CRIT) + ' % of the limit' + (peak / CRIT > 0.6 ? ', which is little margin. Try a faster fill to see the limit.' : '.');
+        vd.textContent = 'Filled without reaching the ignition level in this model. Peak was ' + Math.round(100 * peak / CRIT) + ' % of the limit' + (peak / CRIT > 0.6 ? ', which is little margin. Try a faster fill to see the limit.' : '.') + (sl.value === 'low' ? ' With a low-conductivity liquid and air in the tank, still inert it and keep the speed rules (station 4).' : '');
       }
     }
     go.onclick = function () { reset(); go.disabled = true; timer = setInterval(step, 100); };
@@ -180,20 +183,20 @@
       '<div><label for="fl-s">Conductivity, pS/m</label><input type="number" id="fl-s" min="0.01" step="any" value="1"></div>' +
       '<div><label for="fl-e">Relative permittivity</label><input type="number" id="fl-e" min="1" step="0.1" value="2.4"></div></div>' +
       '<div class="tk-out" id="fl-o"></div><div class="tk-verdict" id="fl-vd"></div>' +
-      '<p class="tk-cite" style="margin:8px 0 0">Common guidance for low-conductivity liquids: keep v&sup2;d at or below 0.64 m&sup3;/s&sup2; (d in metres), speed at or below 7 m/s, and about 1 m/s until the filling pipe outlet is covered. Relaxation time &tau; = &epsilon;<sub>0</sub>&epsilon;<sub>r</sub> / &sigma;. Hold the liquid for 2 to 3 times &tau; before it reaches the tank. Confirm the limits against your own standard.</p></div>';
+      '<p class="tk-cite" style="margin:8px 0 0">Guidance for low-conductivity liquids (IS/IEC TS 60079-32-1): about 1 m/s until the filling pipe outlet is covered by two pipe diameters of liquid, 1 m/s for the whole fill if water or solids are present, and no more than 7 m/s. Above 1 m/s the standard also limits v&middot;d (speed &times; pipe diameter) by vessel type, for example 0.25 to 0.5 m&sup2;/s for road tankers; take the figure for your vessel from the standard. Relaxation time &tau; = &epsilon;<sub>0</sub>&epsilon;<sub>r</sub> / &sigma;; wait 3 to 5 &tau; before dipping or sampling. After a filter finer than 30 &micro;m, allow about 100 s in the pipe before the tank.</p></div>';
     var q = $(host, '#fl-q'), d = $(host, '#fl-d'), l = $(host, '#fl-l'), s = $(host, '#fl-s'), e = $(host, '#fl-e');
     var pre = { low: [1, 2.4], med: [1000, 5], high: [1e6, 20] };
     function calc() {
-      var Q = +q.value / 3600, D = +d.value / 1000, A = Math.PI * D * D / 4, v = Q / A, v2d = v * v * D;
+      var Q = +q.value / 3600, D = +d.value / 1000, A = Math.PI * D * D / 4, v = Q / A, vd = v * D;
       var sig = +s.value, er = +e.value, tau = 8.854e-12 * er / (sig * 1e-12), hold = 3 * tau, vol = Q * hold, len = vol / A, low = sig < 50;
-      $(host, '#fl-o').innerHTML = '<div><b>' + fmt(v) + ' m/s</b><span>speed in the pipe</span></div><div><b>' + fmt(v2d) + '</b><span>v&sup2;d, m&sup3;/s&sup2;</span></div><div><b>' + fmt(tau) + ' s</b><span>relaxation time &tau;</span></div><div><b>' + fmt(len, 1) + ' m</b><span>pipe of this size to hold 3&tau;</span></div>';
-      var vd = $(host, '#fl-vd');
-      if (!(v > 0)) { vd.className = 'tk-verdict'; vd.textContent = 'Enter a flow and a pipe size.'; return; }
+      $(host, '#fl-o').innerHTML = '<div><b>' + fmt(v) + ' m/s</b><span>speed in the pipe</span></div><div><b>' + fmt(vd, 2) + '</b><span>v&middot;d, m&sup2;/s</span></div><div><b>' + fmt(tau) + ' s</b><span>relaxation time &tau;</span></div><div><b>' + fmt(len, 1) + ' m</b><span>pipe of this size to hold 3&tau;</span></div>';
+      var el = $(host, '#fl-vd');
+      if (!(v > 0)) { el.className = 'tk-verdict'; el.textContent = 'Enter a flow and a pipe size.'; return; }
       if (low) {
-        if (v > 7 || v2d > 0.64) { vd.className = 'tk-verdict bad'; vd.textContent = 'Too fast for a low-conductivity liquid. Use a larger pipe or a lower rate. Hold the liquid about ' + fmt(hold, 0) + ' s after any filter.'; }
-        else if (v > 1) { vd.className = 'tk-verdict warn'; vd.textContent = 'Within the usual limits, but keep to about 1 m/s until the filling pipe outlet is under the liquid, and allow about ' + fmt(hold, 0) + ' s after any filter.'; }
-        else { vd.className = 'tk-verdict ok'; vd.textContent = 'Within the usual limits. Still use a dip pipe and hold about ' + fmt(hold, 0) + ' s after any filter.'; }
-      } else { vd.className = 'tk-verdict ok'; vd.textContent = 'The liquid loses its charge in a fraction of a second, so speed is not the main limit. The container and every metal part must still be bonded and grounded, because the charge then goes to earth instead of the tank.'; }
+        if (v > 7) { el.className = 'tk-verdict bad'; el.textContent = 'Too fast for a low-conductivity liquid: above 7 m/s. Use a larger pipe or a lower rate.'; }
+        else if (v > 1) { el.className = 'tk-verdict warn'; el.textContent = 'Only after the outlet is covered by two pipe diameters of liquid, never with water or solids present, and only if v·d = ' + fmt(vd, 2) + ' m²/s is within the limit for this vessel in the standard. Start at 1 m/s. After a fine filter allow about 100 s of pipe before the tank; wait about ' + fmt(hold, 0) + ' s (3 τ) or more before dipping.'; }
+        else { el.className = 'tk-verdict ok'; el.textContent = 'At or below 1 m/s: within the starting limit. Still use a dip pipe; wait about ' + fmt(hold, 0) + ' s (3 τ) or more before dipping or sampling.'; }
+      } else { el.className = 'tk-verdict ok'; el.textContent = 'The liquid loses its charge in a fraction of a second, so speed is not the main limit. The container and every metal part must still be bonded and grounded, because the charge then goes to earth instead of the tank.'; }
     }
     l.onchange = function () { s.value = pre[l.value][0]; e.value = pre[l.value][1]; calc(); };
     [q, d, s, e].forEach(function (x) { x.oninput = calc; });

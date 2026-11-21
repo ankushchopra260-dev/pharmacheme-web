@@ -36,6 +36,10 @@ defaults:
     values:
       sitemap: false
   - scope:
+      path: "training/modules/*/deck"
+    values:
+      sitemap: false
+  - scope:
       type: articles
     values:
       layout: article
