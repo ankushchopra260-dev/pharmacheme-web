@@ -74,16 +74,22 @@ for u, fm, body in sorted(pages):
     parts = re.split(r'<h[23]([^>]*)>([\s\S]*?)</h[23]>', body)
     for i in range(1, len(parts) - 2, 3):
         attrs, head, rest = parts[i], parts[i + 1], parts[i + 2]
+        # FAQ items carry their anchor on the wrapping box, not the heading: link the question itself
+        box = re.findall(r'class="faq-item" id="(q-[\w-]+)"', parts[i - 1][-600:])
+        if 'id=' not in attrs and box: attrs += f' id="{box[-1]}"'
         ht = clean(head)
         if not ht or ht.lower() in ('frequently asked questions', 'related', 'questions people ask', 'related articles', 'related calculators', 'try the calculators', 'try the tools', 'try the calculator'): continue
         idm = re.search(r'id="([^"]+)"', attrs)
+        # a card on a listing page (heading + button to another page): the target page is indexed on its own,
+        # and a record here would send the reader to the listing instead of the page
+        if not idm and re.search(r'<a [^>]*class="btn', rest[:1500]): continue
         x = clean(rest)[:650]
         if len(x) < 40: continue
         new.append({'t': ht, 'u': u + ('#' + idm.group(1) if idm else ''), 'k': k, 's': title, 'x': x, 'w': '', 'h': 1})
 
 # keep older records for regenerated pages that the new pass did not reproduce (sections built by JavaScript)
-newkeys = set((r['u'], r['t'].lower()) for r in new); newpages = set(r['u'].split('#')[0] for r in new)
-extra = [r for r in old if id(r) not in keptids and r['k'] not in JS_KINDS and r['u'].split('#')[0] in newpages and (r['u'], r['t'].lower()) not in newkeys and '#' in r['u']]
+newkeys = set((r['u'], r['t'].lower()) for r in new); newpages = set(r['u'].split('#')[0] for r in new); newurls = set(r['u'] for r in new)
+extra = [r for r in old if id(r) not in keptids and r['k'] not in JS_KINDS and r['u'].split('#')[0] in newpages and (r['u'], r['t'].lower()) not in newkeys and '#' in r['u'] and r['u'] not in newurls]  # a renamed heading replaces its old record
 out = keep + new + extra
 json.dump(out, open(f'{R}/assets/data/site-search.json', 'w'), ensure_ascii=False, separators=(',', ':'))
 print('records', len(out), 'added', len(new), 'pages added', len(pages), 'size KB', os.path.getsize(f'{R}/assets/data/site-search.json') // 1024)

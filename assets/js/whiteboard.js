@@ -137,6 +137,7 @@
   }
   async function ask() {
     stop(); const my = token, s = st();
+    const r = root.getBoundingClientRect(); if (r.top < 0 || r.bottom > innerHeight) root.scrollIntoView({ block: "center", behavior: RM ? "auto" : "smooth" });
     prog.textContent = `Q${s.n} of ${L.steps.length}`;
     clear(); place("big"); setFace("smug"); showOpts(true); navBtns([]);
     cap.classList.remove("on");

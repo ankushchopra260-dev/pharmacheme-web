@@ -1,7 +1,7 @@
 /* Whiteboard lessons (assets/js/whiteboard.js) */
 @font-face { font-family: "Caveat"; src: url("../fonts/caveat-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
 .wb { display: flex; justify-content: center; margin: 8px 0 28px; }
-.wb-stage { width: 100%; max-width: 430px; display: flex; flex-direction: column; gap: 8px; padding: 12px; box-sizing: border-box;
+.wb-stage { width: 100%; max-width: min(430px, max(300px, calc((100vh - 270px) * 0.9))); display: flex; flex-direction: column; gap: 8px; padding: 12px; box-sizing: border-box;
   background: radial-gradient(120% 70% at 50% 0%, #22344a 0%, #121c28 70%); border: 1px solid var(--grid-line, #2c3b4f); border-radius: 14px; position: relative; overflow: hidden; }
 .wb-top { display: flex; align-items: center; gap: 10px; font-family: var(--f-sans, sans-serif); color: #e8eef5; font-size: .82rem; }
 .wb-ttl { font-family: var(--f-display, sans-serif); font-size: 1.05rem; flex: 1; }
