@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Filtration and centrifuges: Whiteboard Lesson with Bubbles"
+seo_title: "Filtration and Centrifuges: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on filtration and centrifuges: cake growth, compressible cakes, cracked cakes, G-force, spin-dry limits and inerting."
+image: /assets/img/share/whiteboard-filtration-centrifuges.jpg
+keywords: "filtration explained, constant pressure filtration, compressible cake, cake washing cracks, centrifuge g force, centrifuge spin dry, centrifuge nitrogen inerting, interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Filtration and centrifuges"
+    url: /whiteboard/filtration-centrifuges/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Filtration and centrifuges: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on filtration and centrifuges: cake growth, compressible cakes, cracked cakes, G-force, spin-dry limits and inerting.",
+        "url": "https://www.pharmacheme.in/whiteboard/filtration-centrifuges/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Cake filtration",
+          "Centrifuge G-force",
+          "Centrifuge safety"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Constant-pressure filter, cloth ignored. How long to filter twice the volume?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "During constant-pressure filtration the cake thickens and its resistance grows with the volume filtered. Ignoring cloth resistance, filtration time goes with volume squared, so twice the volume takes about four times as long, and the end of each batch is the slowest. Two thinner loads can be quicker than one thick one."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The cake is soft and compressible. You double the filter pressure. What happens to the rate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For a hard, incompressible cake the filtration rate rises roughly in proportion to pressure. A soft, compressible cake squashes as pressure rises, closing its pores, so the rate rises less than in proportion and can barely change, and very high pressure can blind the cloth. Better fixes are larger crystals or a thinner cake; filter aid suits only waste solids such as carbon, since it stays in the cake."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The cake cracks just before washing. What happens to the wash?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A cake cracks if it is sucked or blown too dry or shrinks as it drains. Wash liquid then channels down the cracks and misses most of the cake, leaving mother liquor and impurities behind. Keep the cake wet until washing, smooth the cracks, or reslurry wash it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A centrifuge basket of half a metre radius spins at 1000 rpm. Roughly what g-force?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Centrifugal force in g is ω²r ÷ g. At 1000 rpm, ω = 2π × 1000 ÷ 60 ≈ 105 rad/s, so with a 0.5 m radius G ≈ 105² × 0.5 ÷ 9.81 ≈ 560 g. At the same speed a larger basket gives more g, which squeezes more liquid from the cake."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You spin longer, but the cake's LOD stops falling after a few minutes. Why?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Free liquid between crystals spins out quickly, so LOD falls fast at first. The liquid left is held in fine pores and on crystal surfaces by capillary forces, and extra spin time barely moves it. Higher g, larger crystals or a final wash with a low-viscosity, low-surface-tension solvent help more. Set the spin time where the LOD curve flattens."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Before spinning a cake wet with toluene, what must be done?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A centrifuge spinning a solvent-wet cake is full of flammable vapour, and static from the cake or bags can ignite it. Purge with nitrogen before spinning and keep the purge on, with an oxygen analyser interlocked to block start-up and stop feeding if oxygen is above the limit, set safely below the solvent's limiting oxygen concentration (often an alarm near 5 % and a trip near 8 %, lower for some solvents). Earth the machine and use conductive bags."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Filtration and Centrifuges: Whiteboard Lesson</h1>
+  <p>Six questions on solid-liquid separation: why filtration slows as the cake grows, soft cakes, cracked cakes and washing, centrifuge G-force, why spinning longer stops helping and inerting before you spin. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-filtration-centrifuges.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/filtration-centrifuges/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Constant-pressure filter, cloth ignored. How long to filter twice the volume?</h3>
+  <p>During constant-pressure filtration the cake thickens and its resistance grows with the volume filtered. Ignoring cloth resistance, filtration time goes with volume squared, so twice the volume takes about four times as long, and the end of each batch is the slowest. Two thinner loads can be quicker than one thick one.</p>
+  <h3>The cake is soft and compressible. You double the filter pressure. What happens to the rate?</h3>
+  <p>For a hard, incompressible cake the filtration rate rises roughly in proportion to pressure. A soft, compressible cake squashes as pressure rises, closing its pores, so the rate rises less than in proportion and can barely change, and very high pressure can blind the cloth. Better fixes are larger crystals or a thinner cake; filter aid suits only waste solids such as carbon, since it stays in the cake.</p>
+  <h3>The cake cracks just before washing. What happens to the wash?</h3>
+  <p>A cake cracks if it is sucked or blown too dry or shrinks as it drains. Wash liquid then channels down the cracks and misses most of the cake, leaving mother liquor and impurities behind. Keep the cake wet until washing, smooth the cracks, or reslurry wash it.</p>
+  <h3>A centrifuge basket of half a metre radius spins at 1000 rpm. Roughly what g-force?</h3>
+  <p>Centrifugal force in g is ω²r ÷ g. At 1000 rpm, ω = 2π × 1000 ÷ 60 ≈ 105 rad/s, so with a 0.5 m radius G ≈ 105² × 0.5 ÷ 9.81 ≈ 560 g. At the same speed a larger basket gives more g, which squeezes more liquid from the cake.</p>
+  <h3>You spin longer, but the cake&#x27;s LOD stops falling after a few minutes. Why?</h3>
+  <p>Free liquid between crystals spins out quickly, so LOD falls fast at first. The liquid left is held in fine pores and on crystal surfaces by capillary forces, and extra spin time barely moves it. Higher g, larger crystals or a final wash with a low-viscosity, low-surface-tension solvent help more. Set the spin time where the LOD curve flattens.</p>
+  <h3>Before spinning a cake wet with toluene, what must be done?</h3>
+  <p>A centrifuge spinning a solvent-wet cake is full of flammable vapour, and static from the cake or bags can ignite it. Purge with nitrogen before spinning and keep the purge on, with an oxygen analyser interlocked to block start-up and stop feeding if oxygen is above the limit, set safely below the solvent&#x27;s limiting oxygen concentration (often an alarm near 5 % and a trip near 8 %, lower for some solvents). Earth the machine and use conductive bags.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/filtration-calculator/' | relative_url }}">Filtration calculator</a>
+    <a href="{{ '/calculators/centrifuge-cake-weight-calculator/' | relative_url }}">Centrifuge cake weight calculator</a>
+    <a href="{{ '/articles/filtration-calculation/' | relative_url }}">Filtration calculation article</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

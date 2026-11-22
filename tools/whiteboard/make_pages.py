@@ -106,6 +106,54 @@ PAGES = {
         related=[('/articles/pid-control-tuning/', 'PID control tuning'),
                  ('/articles/instrumentation-basics/', 'Instrumentation basics'),
                  ('/articles/reading-process-trends-to-find-faults/', 'Reading process trends to find faults')]),
+    'line-sizing-pressure-drop': dict(
+        module='line_sizing',
+        h1='Line Sizing and Pressure Drop: Whiteboard Lesson',
+        seo_title='Line Sizing and Pressure Drop: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on pipe sizing: velocity, why pressure drop goes with D to the fifth, typical speeds, suction lines, steam and water hammer.',
+        intro='Six questions on sizing pipes: what halving the diameter does to velocity and pressure drop, rule-of-thumb speeds, why suction lines are bigger, why steam can run fast and what water hammer does.',
+        keywords='line sizing explained, pipe velocity, pressure drop diameter, typical pipe velocity, pump suction line size, steam line velocity, water hammer, piping interview questions',
+        teaches=['Line sizing', 'Pipe pressure drop', 'Water hammer'],
+        image='/assets/img/share/whiteboard-line-sizing-pressure-drop.jpg',
+        related=[('/calculators/pipe-pressure-drop/', 'Pipe pressure drop calculator'),
+                 ('/articles/line-sizing-and-pressure-drop/', 'Line sizing and pressure drop article'),
+                 ('/calculators/pump-head-calculator/', 'Pump head calculator')]),
+    'filtration-centrifuges': dict(
+        module='filtration_centrifuges',
+        h1='Filtration and Centrifuges: Whiteboard Lesson',
+        seo_title='Filtration and Centrifuges: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on filtration and centrifuges: cake growth, compressible cakes, cracked cakes, G-force, spin-dry limits and inerting.',
+        intro='Six questions on solid-liquid separation: why filtration slows as the cake grows, soft cakes, cracked cakes and washing, centrifuge G-force, why spinning longer stops helping and inerting before you spin.',
+        keywords='filtration explained, constant pressure filtration, compressible cake, cake washing cracks, centrifuge g force, centrifuge spin dry, centrifuge nitrogen inerting, interview questions',
+        teaches=['Cake filtration', 'Centrifuge G-force', 'Centrifuge safety'],
+        image='/assets/img/share/whiteboard-filtration-centrifuges.jpg',
+        related=[('/calculators/filtration-calculator/', 'Filtration calculator'),
+                 ('/calculators/centrifuge-cake-weight-calculator/', 'Centrifuge cake weight calculator'),
+                 ('/articles/filtration-calculation/', 'Filtration calculation article')]),
+    'drying-basics': dict(
+        module='drying_basics',
+        h1='Drying Basics: Whiteboard Lesson',
+        seo_title='Drying Basics Explained: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on drying: wet vs dry basis LOD, the drying curve, vacuum dryers, heat to evaporate water, case hardening and the end point.',
+        intro='Six questions on drying: LOD on a wet and dry basis, the constant and falling rate periods, why dry under vacuum, how much heat evaporation takes, case hardening and how to tell a batch is dry.',
+        keywords='drying explained, LOD wet basis dry basis, drying rate curve, vacuum tray dryer, latent heat evaporation, case hardening, dryer end point, drying interview questions',
+        teaches=['Moisture content and LOD', 'Drying rate curve', 'Vacuum drying'],
+        image='/assets/img/share/whiteboard-drying-basics.jpg',
+        related=[('/articles/drying-and-dryer-scale-up/', 'Drying and dryer scale-up'),
+                 ('/articles/atfd-agitated-thin-film-dryer/', 'Agitated thin film dryer'),
+                 ('/calculators/heat-load-calculator/', 'Heat load calculator')]),
+    'crystallisation': dict(
+        module='crystallisation',
+        h1='Crystallisation: Whiteboard Lesson',
+        seo_title='Crystallisation Explained: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on crystallisation: yield from solubility, crash cooling and fines, seeding, the metastable zone, oiling out and polymorphs.',
+        intro='Six questions on crystallisation: working out yield from solubility, why crash cooling gives fines, why and where to seed, oiling out and why polymorphs matter for a drug.',
+        keywords='crystallisation explained, crystallisation yield solubility, supersaturation nucleation, seeding crystallisation, metastable zone width, oiling out, polymorphs, crystallisation interview questions',
+        teaches=['Crystallisation yield', 'Seeding and the metastable zone', 'Polymorphism'],
+        image='/assets/img/share/whiteboard-crystallisation.jpg',
+        related=[('/articles/solubility-curve-and-crystallisation-yield/', 'Solubility curve and crystallisation yield'),
+                 ('/articles/crystallisation-scale-up/', 'Crystallisation scale-up'),
+                 ('/calculators/filtration-calculator/', 'Filtration calculator')]),
 }
 
 HUB = [
@@ -118,6 +166,10 @@ HUB = [
     ('cooling-towers', 'Cooling towers', 'Range and approach, the wet bulb limit, evaporation, cycles, blowdown and fouled fill.'),
     ('agitation-mixing', 'Agitation and mixing', 'Power and speed, baffles, impellers for solids and gas, scale-up blend time and dosing point.'),
     ('pid-control', 'PID control', 'Offset, gain, derivative and noise, fail positions, cascade and integral windup.'),
+    ('line-sizing-pressure-drop', 'Line sizing and pressure drop', 'Velocity and diameter, the fifth-power rule, typical speeds, suction lines, steam and water hammer.'),
+    ('filtration-centrifuges', 'Filtration and centrifuges', 'Cake growth, soft and cracked cakes, G-force, spin-dry limits and inerting.'),
+    ('drying-basics', 'Drying basics', 'Wet and dry basis, the drying curve, vacuum drying, evaporation heat, case hardening and end point.'),
+    ('crystallisation', 'Crystallisation', 'Yield from solubility, crash cooling, seeding, the metastable zone, oiling out and polymorphs.'),
 ]
 
 E = lambda s: html.escape(s, quote=True)
@@ -201,7 +253,7 @@ def hub_page():
 layout: default
 title: "Whiteboard Lessons for Chemical Engineers"
 seo_title: "Chemical Engineering Whiteboard Lessons | PharmaChemE"
-description: "Free voiced whiteboard lessons for chemical engineers: pumps, heat exchangers, reactions, distillation, vacuum, relief valves, cooling towers, mixing and PID."
+description: "Free voiced whiteboard lessons for chemical engineers: pumps, heat transfer, reactions, separation, drying, crystallisation, utilities and control."
 image: /assets/img/share/whiteboard-npsh.jpg
 breadcrumbs:
   - label: Interview Prep

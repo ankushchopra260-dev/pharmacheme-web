@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Drying basics: Whiteboard Lesson with Bubbles"
+seo_title: "Drying Basics Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on drying: wet vs dry basis LOD, the drying curve, vacuum dryers, heat to evaporate water, case hardening and the end point."
+image: /assets/img/share/whiteboard-drying-basics.jpg
+keywords: "drying explained, LOD wet basis dry basis, drying rate curve, vacuum tray dryer, latent heat evaporation, case hardening, dryer end point, drying interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Drying basics"
+    url: /whiteboard/drying-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Drying basics: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on drying: wet vs dry basis LOD, the drying curve, vacuum dryers, heat to evaporate water, case hardening and the end point.",
+        "url": "https://www.pharmacheme.in/whiteboard/drying-basics/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Moisture content and LOD",
+          "Drying rate curve",
+          "Vacuum drying"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "A wet cake has 20 % LOD (wet basis). What is its moisture on a dry basis?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In 100 kg of wet cake at 20 % LOD there are 20 kg of liquid and 80 kg of dry solid. Wet-basis moisture divides by the total (20 ÷ 100 = 20 %); dry-basis moisture divides by the dry solid (20 ÷ 80 = 25 %). Dryer calculations use the dry basis because the dry solid stays constant, so always state which basis is meant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "In the constant-rate period of drying, what controls how fast it dries?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Early in drying the surface is fully wet and evaporates like a puddle, so the rate is constant and set by heat transfer in and vapour removal. When the surface starts to dry, moisture has to move from inside the particles and the rate falls. Heat and vacuum speed up the constant-rate period as long as the cake does not crust or melt; in the falling-rate period the product warms towards the jacket temperature, so limit the jacket to what the product can take and allow time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why dry a heat-sensitive product in a vacuum tray dryer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lowering the pressure lowers the boiling point: water boils at 100 °C at atmospheric pressure, about 46 °C at 100 mbar and about 33 °C at 50 mbar. A vacuum dryer can therefore remove solvent well below the temperature at which a heat-sensitive product melts, discolours or decomposes. Keep the condenser cold enough to catch the vapour."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Roughly how much heat does it take to evaporate 100 kg of water in a dryer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most dryer heat goes into evaporation. Water's latent heat at around 50 °C is about 570 kcal/kg, so evaporating 100 kg needs about 57,000 kcal, plus heat for the solid, the dryer and losses. Organic solvents need far less per kilogram (methanol about 260, toluene about 85 kcal/kg), which is why removing water is the slow part."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "With a very hot jacket from the start, the product forms a hard crust and stays wet inside. Why?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If the product is heated hard from the start, its surface dries before inner moisture can escape, forming a crust whose closed pores trap moisture: case hardening. The result is product that is dry outside but fails LOD, or hard lumps. Start with moderate heat and raise it in steps as the drying rate falls, keeping the product temperature below its safe limit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you tell when a batch in a vacuum dryer is nearly dry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "While solvent evaporates, the product stays near its boiling point at the dryer vacuum. When the solvent runs out, the product temperature climbs towards the jacket temperature, the vacuum improves and condensate collection stops. These signs show the batch is nearly dry; confirm with an LOD sample."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Drying Basics: Whiteboard Lesson</h1>
+  <p>Six questions on drying: LOD on a wet and dry basis, the constant and falling rate periods, why dry under vacuum, how much heat evaporation takes, case hardening and how to tell a batch is dry. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-drying-basics.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/drying-basics/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>A wet cake has 20 % LOD (wet basis). What is its moisture on a dry basis?</h3>
+  <p>In 100 kg of wet cake at 20 % LOD there are 20 kg of liquid and 80 kg of dry solid. Wet-basis moisture divides by the total (20 ÷ 100 = 20 %); dry-basis moisture divides by the dry solid (20 ÷ 80 = 25 %). Dryer calculations use the dry basis because the dry solid stays constant, so always state which basis is meant.</p>
+  <h3>In the constant-rate period of drying, what controls how fast it dries?</h3>
+  <p>Early in drying the surface is fully wet and evaporates like a puddle, so the rate is constant and set by heat transfer in and vapour removal. When the surface starts to dry, moisture has to move from inside the particles and the rate falls. Heat and vacuum speed up the constant-rate period as long as the cake does not crust or melt; in the falling-rate period the product warms towards the jacket temperature, so limit the jacket to what the product can take and allow time.</p>
+  <h3>Why dry a heat-sensitive product in a vacuum tray dryer?</h3>
+  <p>Lowering the pressure lowers the boiling point: water boils at 100 °C at atmospheric pressure, about 46 °C at 100 mbar and about 33 °C at 50 mbar. A vacuum dryer can therefore remove solvent well below the temperature at which a heat-sensitive product melts, discolours or decomposes. Keep the condenser cold enough to catch the vapour.</p>
+  <h3>Roughly how much heat does it take to evaporate 100 kg of water in a dryer?</h3>
+  <p>Most dryer heat goes into evaporation. Water&#x27;s latent heat at around 50 °C is about 570 kcal/kg, so evaporating 100 kg needs about 57,000 kcal, plus heat for the solid, the dryer and losses. Organic solvents need far less per kilogram (methanol about 260, toluene about 85 kcal/kg), which is why removing water is the slow part.</p>
+  <h3>With a very hot jacket from the start, the product forms a hard crust and stays wet inside. Why?</h3>
+  <p>If the product is heated hard from the start, its surface dries before inner moisture can escape, forming a crust whose closed pores trap moisture: case hardening. The result is product that is dry outside but fails LOD, or hard lumps. Start with moderate heat and raise it in steps as the drying rate falls, keeping the product temperature below its safe limit.</p>
+  <h3>How do you tell when a batch in a vacuum dryer is nearly dry?</h3>
+  <p>While solvent evaporates, the product stays near its boiling point at the dryer vacuum. When the solvent runs out, the product temperature climbs towards the jacket temperature, the vacuum improves and condensate collection stops. These signs show the batch is nearly dry; confirm with an LOD sample.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/drying-and-dryer-scale-up/' | relative_url }}">Drying and dryer scale-up</a>
+    <a href="{{ '/articles/atfd-agitated-thin-film-dryer/' | relative_url }}">Agitated thin film dryer</a>
+    <a href="{{ '/calculators/heat-load-calculator/' | relative_url }}">Heat load calculator</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Crystallisation: Whiteboard Lesson with Bubbles"
+seo_title: "Crystallisation Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on crystallisation: yield from solubility, crash cooling and fines, seeding, the metastable zone, oiling out and polymorphs."
+image: /assets/img/share/whiteboard-crystallisation.jpg
+keywords: "crystallisation explained, crystallisation yield solubility, supersaturation nucleation, seeding crystallisation, metastable zone width, oiling out, polymorphs, crystallisation interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Crystallisation"
+    url: /whiteboard/crystallisation/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Crystallisation: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on crystallisation: yield from solubility, crash cooling and fines, seeding, the metastable zone, oiling out and polymorphs.",
+        "url": "https://www.pharmacheme.in/whiteboard/crystallisation/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Crystallisation yield",
+          "Seeding and the metastable zone",
+          "Polymorphism"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "100 kg dissolved in 300 kg solvent, cooled to 5 °C, where solubility is 10 g per 100 g. Best yield?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At 5 °C the solvent holds 10 g of product per 100 g, so 300 kg of solvent keeps 30 kg dissolved in the mother liquor. The maximum crystallised is 100 − 30 = 70 kg, a 70 % yield. Less solvent, a lower final temperature or an anti-solvent raise it; washing and handling losses bring the real yield a little lower."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You crash-cool a batch fast. The crystals come out very fine and filter badly. Why?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Supersaturation, the excess of dissolved product over its solubility, drives crystallisation. Slow cooling keeps supersaturation low so existing crystals grow. Crash cooling drives supersaturation high, and the batch forms huge numbers of new nuclei instead, giving fine crystals that filter slowly and hold more mother liquor. Cool slowly, especially at the start."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why add seed crystals to a crystallisation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Without seed, crystals nucleate at random, often late and suddenly. Seed crystals give dissolved product a surface to grow on at low supersaturation, so crystal form and size repeat batch after batch. Seed with the correct polymorph, as a slurry, at the right temperature."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "On the solubility chart, where should you add the seed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Below the solubility curve the solution is unsaturated and seed dissolves. Between the solubility curve and the metastable limit it is supersaturated but does not nucleate on its own. Add seed just inside this metastable zone, close to the solubility curve, so the seeds grow with little new nucleation, then cool slowly enough to stay in the zone."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "On cooling, the product separates as an oily layer instead of crystals. Best first fix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Oiling out is the product separating as a liquid instead of crystals, often caused by high supersaturation, impurities or a low melting point. The oil traps impurities and sets into sticky lumps. Seed earlier at lower supersaturation and cool more slowly so crystals form first; if needed, change the solvent ratio or crystallisation temperature."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Same compound, two different crystal forms (polymorphs). Why does it matter for a drug?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Polymorphs are crystal forms of the same molecule with different packing. They can differ in solubility, dissolution rate and stability, which changes how a drug behaves, so the approved form is part of the specification and the wrong form fails the batch. The form is controlled through solvent, temperature, cooling rate and seeding with the correct polymorph."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Crystallisation: Whiteboard Lesson</h1>
+  <p>Six questions on crystallisation: working out yield from solubility, why crash cooling gives fines, why and where to seed, oiling out and why polymorphs matter for a drug. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-crystallisation.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/crystallisation/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>100 kg dissolved in 300 kg solvent, cooled to 5 °C, where solubility is 10 g per 100 g. Best yield?</h3>
+  <p>At 5 °C the solvent holds 10 g of product per 100 g, so 300 kg of solvent keeps 30 kg dissolved in the mother liquor. The maximum crystallised is 100 − 30 = 70 kg, a 70 % yield. Less solvent, a lower final temperature or an anti-solvent raise it; washing and handling losses bring the real yield a little lower.</p>
+  <h3>You crash-cool a batch fast. The crystals come out very fine and filter badly. Why?</h3>
+  <p>Supersaturation, the excess of dissolved product over its solubility, drives crystallisation. Slow cooling keeps supersaturation low so existing crystals grow. Crash cooling drives supersaturation high, and the batch forms huge numbers of new nuclei instead, giving fine crystals that filter slowly and hold more mother liquor. Cool slowly, especially at the start.</p>
+  <h3>Why add seed crystals to a crystallisation?</h3>
+  <p>Without seed, crystals nucleate at random, often late and suddenly. Seed crystals give dissolved product a surface to grow on at low supersaturation, so crystal form and size repeat batch after batch. Seed with the correct polymorph, as a slurry, at the right temperature.</p>
+  <h3>On the solubility chart, where should you add the seed?</h3>
+  <p>Below the solubility curve the solution is unsaturated and seed dissolves. Between the solubility curve and the metastable limit it is supersaturated but does not nucleate on its own. Add seed just inside this metastable zone, close to the solubility curve, so the seeds grow with little new nucleation, then cool slowly enough to stay in the zone.</p>
+  <h3>On cooling, the product separates as an oily layer instead of crystals. Best first fix?</h3>
+  <p>Oiling out is the product separating as a liquid instead of crystals, often caused by high supersaturation, impurities or a low melting point. The oil traps impurities and sets into sticky lumps. Seed earlier at lower supersaturation and cool more slowly so crystals form first; if needed, change the solvent ratio or crystallisation temperature.</p>
+  <h3>Same compound, two different crystal forms (polymorphs). Why does it matter for a drug?</h3>
+  <p>Polymorphs are crystal forms of the same molecule with different packing. They can differ in solubility, dissolution rate and stability, which changes how a drug behaves, so the approved form is part of the specification and the wrong form fails the batch. The form is controlled through solvent, temperature, cooling rate and seeding with the correct polymorph.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/solubility-curve-and-crystallisation-yield/' | relative_url }}">Solubility curve and crystallisation yield</a>
+    <a href="{{ '/articles/crystallisation-scale-up/' | relative_url }}">Crystallisation scale-up</a>
+    <a href="{{ '/calculators/filtration-calculator/' | relative_url }}">Filtration calculator</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

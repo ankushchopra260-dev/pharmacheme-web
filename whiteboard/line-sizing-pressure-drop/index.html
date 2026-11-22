@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Line sizing and pressure drop: Whiteboard Lesson with Bubbles"
+seo_title: "Line Sizing and Pressure Drop: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on pipe sizing: velocity, why pressure drop goes with D to the fifth, typical speeds, suction lines, steam and water hammer."
+image: /assets/img/share/whiteboard-line-sizing-pressure-drop.jpg
+keywords: "line sizing explained, pipe velocity, pressure drop diameter, typical pipe velocity, pump suction line size, steam line velocity, water hammer, piping interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Line sizing and pressure drop"
+    url: /whiteboard/line-sizing-pressure-drop/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Line sizing and pressure drop: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on pipe sizing: velocity, why pressure drop goes with D to the fifth, typical speeds, suction lines, steam and water hammer.",
+        "url": "https://www.pharmacheme.in/whiteboard/line-sizing-pressure-drop/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Line sizing",
+          "Pipe pressure drop",
+          "Water hammer"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Same flow, but the pipe diameter is halved. What happens to the velocity?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Velocity is flow divided by cross-section area, and area goes with diameter squared. Halving the diameter quarters the area, so the same flow moves four times faster. For reference, 1 m³/h of water in a 25 mm bore pipe flows at about 0.57 m/s."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Same flow, diameter halved, turbulent flow. Roughly what happens to the pressure drop?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In turbulent flow the friction pressure drop goes with (L/D) × ρv². Velocity goes with 1/D², so v² goes with 1/D⁴, and with the extra 1/D the pressure drop goes roughly with 1/D⁵. Halving the diameter raises it about 2⁵ = 32 times (slightly more in steel pipe, as the friction factor also rises). One pipe size up can cut pressure drop by more than half."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Typical design velocity for a water line on a pump discharge?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lines are usually sized on a typical velocity and then checked for pressure drop. Rough guides: liquid on a pump discharge about 1.5 to 3 m/s, pump suction about 0.6 to 1.5 m/s to protect NPSH, gravity lines below about 1 m/s, and saturated steam about 20 to 40 m/s."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is a pump suction line usually one size bigger than the discharge?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Suction friction reduces NPSH available, so pump suction lines are kept short and usually one size larger than the discharge, with lower velocity. Use an eccentric reducer with the flat side on top at the pump so no vapour pocket forms, and avoid elbows right at the suction nozzle."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Steam runs at 25 m/s, water at only 2 m/s. Why can steam go so much faster?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pressure drop goes with density × velocity squared. Water is about 1000 kg/m³ while steam at about 7 barg is around 4 kg/m³, so steam at 25 m/s has ρv² of about 2500, similar to water at 2 m/s (about 4000). Steam can therefore run much faster for a similar pressure drop, though too high a velocity causes noise and erosion."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A quick-closing valve stops water flowing at 1 m/s in a long line. What happens?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Suddenly stopping a long column of moving liquid converts its momentum into a pressure surge: water hammer. The rise is about density × pressure-wave speed × change in velocity, roughly 13 bar for each 1 m/s of water stopped in a steel line, on top of the normal pressure. It can burst gaskets and jump pipes off supports, so close valves slowly on long liquid lines, or check the surge where a valve must shut fast."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Line Sizing and Pressure Drop: Whiteboard Lesson</h1>
+  <p>Six questions on sizing pipes: what halving the diameter does to velocity and pressure drop, rule-of-thumb speeds, why suction lines are bigger, why steam can run fast and what water hammer does. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-line-sizing-pressure-drop.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/line-sizing-pressure-drop/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Same flow, but the pipe diameter is halved. What happens to the velocity?</h3>
+  <p>Velocity is flow divided by cross-section area, and area goes with diameter squared. Halving the diameter quarters the area, so the same flow moves four times faster. For reference, 1 m³/h of water in a 25 mm bore pipe flows at about 0.57 m/s.</p>
+  <h3>Same flow, diameter halved, turbulent flow. Roughly what happens to the pressure drop?</h3>
+  <p>In turbulent flow the friction pressure drop goes with (L/D) × ρv². Velocity goes with 1/D², so v² goes with 1/D⁴, and with the extra 1/D the pressure drop goes roughly with 1/D⁵. Halving the diameter raises it about 2⁵ = 32 times (slightly more in steel pipe, as the friction factor also rises). One pipe size up can cut pressure drop by more than half.</p>
+  <h3>Typical design velocity for a water line on a pump discharge?</h3>
+  <p>Lines are usually sized on a typical velocity and then checked for pressure drop. Rough guides: liquid on a pump discharge about 1.5 to 3 m/s, pump suction about 0.6 to 1.5 m/s to protect NPSH, gravity lines below about 1 m/s, and saturated steam about 20 to 40 m/s.</p>
+  <h3>Why is a pump suction line usually one size bigger than the discharge?</h3>
+  <p>Suction friction reduces NPSH available, so pump suction lines are kept short and usually one size larger than the discharge, with lower velocity. Use an eccentric reducer with the flat side on top at the pump so no vapour pocket forms, and avoid elbows right at the suction nozzle.</p>
+  <h3>Steam runs at 25 m/s, water at only 2 m/s. Why can steam go so much faster?</h3>
+  <p>Pressure drop goes with density × velocity squared. Water is about 1000 kg/m³ while steam at about 7 barg is around 4 kg/m³, so steam at 25 m/s has ρv² of about 2500, similar to water at 2 m/s (about 4000). Steam can therefore run much faster for a similar pressure drop, though too high a velocity causes noise and erosion.</p>
+  <h3>A quick-closing valve stops water flowing at 1 m/s in a long line. What happens?</h3>
+  <p>Suddenly stopping a long column of moving liquid converts its momentum into a pressure surge: water hammer. The rise is about density × pressure-wave speed × change in velocity, roughly 13 bar for each 1 m/s of water stopped in a steel line, on top of the normal pressure. It can burst gaskets and jump pipes off supports, so close valves slowly on long liquid lines, or check the surge where a valve must shut fast.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/pipe-pressure-drop/' | relative_url }}">Pipe pressure drop calculator</a>
+    <a href="{{ '/articles/line-sizing-and-pressure-drop/' | relative_url }}">Line sizing and pressure drop article</a>
+    <a href="{{ '/calculators/pump-head-calculator/' | relative_url }}">Pump head calculator</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

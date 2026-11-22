@@ -131,8 +131,11 @@
     nav.querySelectorAll("button").forEach((b) => (b.onclick = () => btns[+b.dataset.i].fn()));
     if (focus) { const f = nav.querySelector(".prim") || nav.querySelector("button"); if (f) { f.focus({ preventScroll: true }); f.scrollIntoView({ block: "nearest" }); } }
   }
+  /* options are shown in a fresh random order each time, so the right answer isn't always in the same place */
+  const order = (n) => { const a = [...Array(n).keys()]; for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   function showOpts(enabled) {
-    opts.innerHTML = st().opts.map((o, i) => `<button type="button" class="wb-opt" data-i="${i}"${enabled ? "" : " disabled"}><b>${"ABCD"[i]}</b>${esc(o.t)}</button>`).join("");
+    const s = st(); if (!s.ord || enabled) s.ord = order(s.opts.length);
+    opts.innerHTML = s.ord.map((i, p) => `<button type="button" class="wb-opt" data-i="${i}"${enabled ? "" : " disabled"}><b>${"ABCD"[p]}</b>${esc(s.opts[i].t)}</button>`).join("");
     opts.querySelectorAll(".wb-opt").forEach((b) => (b.onclick = () => answer(+b.dataset.i)));
   }
   async function ask() {
@@ -148,7 +151,8 @@
   async function answer(i) {
     stop(); const my = token, s = st(), o = s.opts[i];
     clear(); instant = true; await draw(s.board, my); instant = false;
-    opts.querySelectorAll(".wb-opt").forEach((b, j) => {
+    opts.querySelectorAll(".wb-opt").forEach((b) => {
+      const j = +b.dataset.i;
       b.disabled = true; if (s.opts[j].ok) b.classList.add("ok"); if (j === i && !o.ok) b.classList.add("bad"); if (j === i) b.classList.add("picked");
       const sr = s.opts[j].ok ? (j === i ? " (your answer, correct)" : " (correct answer)") : j === i ? " (your answer, wrong)" : "";
       if (sr) b.insertAdjacentHTML("beforeend", `<span class="wb-sr">${sr}</span>`);
