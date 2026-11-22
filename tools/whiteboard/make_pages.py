@@ -149,7 +149,7 @@ def hub_page():
 layout: default
 title: "Whiteboard Lessons for Chemical Engineers"
 seo_title: "Chemical Engineering Whiteboard Lessons | PharmaChemE"
-description: "Free voiced whiteboard lessons for chemical engineers: six interview-style questions each on pumps, heat exchangers, runaway reactions, distillation and vacuum."
+description: "Free voiced whiteboard lessons for chemical engineers: six interview questions each on pumps, heat exchangers, runaway reactions, distillation and vacuum."
 image: /assets/img/share/whiteboard-npsh.jpg
 breadcrumbs:
   - label: Interview Prep
