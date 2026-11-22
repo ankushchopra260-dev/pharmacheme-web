@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Runaway reactions: Whiteboard Lesson with Bubbles"
+seo_title: "Runaway Reactions Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on runaway reactions: heat made vs removed, accumulation, MTSR, adiabatic rise, agitator trips and boiling as a barrier."
+image: /assets/img/share/whiteboard-runaway-reactions.jpg
+keywords: "runaway reaction explained, thermal runaway batch reactor, accumulation semi-batch, MTSR, adiabatic temperature rise, agitator failure dosing, process safety interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Runaway reactions"
+    url: /whiteboard/runaway-reactions/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Runaway reactions: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on runaway reactions: heat made vs removed, accumulation, MTSR, adiabatic rise, agitator trips and boiling as a barrier.",
+        "url": "https://www.pharmacheme.in/whiteboard/runaway-reactions/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Thermal runaway",
+          "Reagent accumulation in semi-batch reactions",
+          "Adiabatic temperature rise"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why can a few degrees of extra temperature make an exothermic reaction run away?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The heat a reaction makes rises roughly exponentially with temperature (a common rule of thumb is that the rate doubles for every 10 °C), while the heat the jacket removes rises only linearly with the temperature difference. At the lower crossing of the two curves the batch is stable; beyond the upper crossing heat generation outruns cooling and the batch runs away."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Semi-batch dosing, and the cooling fails. What decides how hot the batch can get?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a semi-batch reaction the reagent is dosed slowly so heat is released as it is added. If the reaction is slower than the dosing, unreacted reagent accumulates. When cooling fails, that accumulated reagent can still react, so the maximum temperature of the synthesis reaction (MTSR) is the process temperature plus the accumulated fraction times the adiabatic temperature rise. Dosing at a temperature where the reaction keeps up keeps accumulation and MTSR low."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You are dosing, but the temperature isn't rising like it usually does. What do you do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If the temperature does not rise as usual when dosing starts, the reaction may not have started, and the dosed reagent is accumulating. If it then starts, it can release the heat of everything dosed at once, which is how many runaways begin. Stop dosing first, then check the agitator, temperature probe, catalyst and reagent, and restart only once the cause and the amount accumulated are known."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A reaction releases 100 kcal per kg of batch. Cp is 0.5 kcal/kg °C. What is the adiabatic rise?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With no cooling, all the heat stays in the batch. The adiabatic temperature rise is the heat released divided by the heat capacity: 100 kcal/kg ÷ 0.5 kcal/kg °C = 200 °C. Starting at 60 °C, the batch could head for 260 °C. A common severity scale calls an adiabatic rise under 50 °C low, 50 to 200 °C medium and over 200 °C high. 200 °C sits at the boundary and should be treated as high; get reaction calorimetry and DSC data before scale-up."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "During dosing, the agitator trips. Which move is the most dangerous?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When the agitator trips, the dosed reagent stops mixing and collects as a layer that reacts only slowly at the interface, while jacket heat removal drops. Restarting the agitator mixes the whole layer in at once and releases its heat together, so restarting straight away is the dangerous move. Stop dosing immediately and do not restart until the amount accumulated has been assessed; many plants interlock the dosing valve with the agitator so dosing stops automatically."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cooling fails at 60 °C. MTSR 110 °C, solvent boils at 80 °C, TD24 is 150 °C. What happens?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Line the temperatures up: process 60 °C, boiling point 80 °C, MTSR 110 °C, TD24 of decomposition 150 °C. On cooling failure the batch reaches the boiling point before the MTSR, so boiling acts as a barrier, but only if the condenser and vent can handle the vapour; otherwise pressure builds. Decomposition at 150 °C (TD24) stays out of reach; a DSC onset temperature would need a much wider margin."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Runaway Reactions: Whiteboard Lesson</h1>
+  <p>Six questions on why exothermic batches run away and how plants stop it: heat made against heat removed, accumulation in semi-batch dosing, adiabatic temperature rise, agitator trips and what happens when cooling fails. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-runaway-reactions.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/runaway-reactions/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Why can a few degrees of extra temperature make an exothermic reaction run away?</h3>
+  <p>The heat a reaction makes rises roughly exponentially with temperature (a common rule of thumb is that the rate doubles for every 10 °C), while the heat the jacket removes rises only linearly with the temperature difference. At the lower crossing of the two curves the batch is stable; beyond the upper crossing heat generation outruns cooling and the batch runs away.</p>
+  <h3>Semi-batch dosing, and the cooling fails. What decides how hot the batch can get?</h3>
+  <p>In a semi-batch reaction the reagent is dosed slowly so heat is released as it is added. If the reaction is slower than the dosing, unreacted reagent accumulates. When cooling fails, that accumulated reagent can still react, so the maximum temperature of the synthesis reaction (MTSR) is the process temperature plus the accumulated fraction times the adiabatic temperature rise. Dosing at a temperature where the reaction keeps up keeps accumulation and MTSR low.</p>
+  <h3>You are dosing, but the temperature isn&#x27;t rising like it usually does. What do you do?</h3>
+  <p>If the temperature does not rise as usual when dosing starts, the reaction may not have started, and the dosed reagent is accumulating. If it then starts, it can release the heat of everything dosed at once, which is how many runaways begin. Stop dosing first, then check the agitator, temperature probe, catalyst and reagent, and restart only once the cause and the amount accumulated are known.</p>
+  <h3>A reaction releases 100 kcal per kg of batch. Cp is 0.5 kcal/kg °C. What is the adiabatic rise?</h3>
+  <p>With no cooling, all the heat stays in the batch. The adiabatic temperature rise is the heat released divided by the heat capacity: 100 kcal/kg ÷ 0.5 kcal/kg °C = 200 °C. Starting at 60 °C, the batch could head for 260 °C. A common severity scale calls an adiabatic rise under 50 °C low, 50 to 200 °C medium and over 200 °C high. 200 °C sits at the boundary and should be treated as high; get reaction calorimetry and DSC data before scale-up.</p>
+  <h3>During dosing, the agitator trips. Which move is the most dangerous?</h3>
+  <p>When the agitator trips, the dosed reagent stops mixing and collects as a layer that reacts only slowly at the interface, while jacket heat removal drops. Restarting the agitator mixes the whole layer in at once and releases its heat together, so restarting straight away is the dangerous move. Stop dosing immediately and do not restart until the amount accumulated has been assessed; many plants interlock the dosing valve with the agitator so dosing stops automatically.</p>
+  <h3>Cooling fails at 60 °C. MTSR 110 °C, solvent boils at 80 °C, TD24 is 150 °C. What happens?</h3>
+  <p>Line the temperatures up: process 60 °C, boiling point 80 °C, MTSR 110 °C, TD24 of decomposition 150 °C. On cooling failure the batch reaches the boiling point before the MTSR, so boiling acts as a barrier, but only if the condenser and vent can handle the vapour; otherwise pressure builds. Decomposition at 150 °C (TD24) stays out of reach; a DSC onset temperature would need a much wider margin.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/heat-of-reaction-calculator/' | relative_url }}">Heat of reaction calculator</a>
+    <a href="{{ '/articles/semi-batch-dosing-accumulation/' | relative_url }}">Semi-batch dosing and accumulation</a>
+    <a href="{{ '/articles/how-to-read-dsc-arc-rc1-tsu/' | relative_url }}">How to read thermal safety test data</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

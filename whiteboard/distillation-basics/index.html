@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Distillation basics: Whiteboard Lesson with Bubbles"
+seo_title: "Distillation Basics Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on distillation: reflux ratio, minimum reflux, flooding, weeping, the ethanol-water azeotrope and batch distillation cuts."
+image: /assets/img/share/whiteboard-distillation-basics.jpg
+keywords: "distillation explained, reflux ratio, minimum reflux, column flooding, tray weeping, ethanol water azeotrope, batch distillation cuts, distillation interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Distillation basics"
+    url: /whiteboard/distillation-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Distillation basics: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on distillation: reflux ratio, minimum reflux, flooding, weeping, the ethanol-water azeotrope and batch distillation cuts.",
+        "url": "https://www.pharmacheme.in/whiteboard/distillation-basics/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Reflux ratio",
+          "Column flooding and weeping",
+          "Azeotropes"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "You raise the reflux ratio and keep the reboiler steam the same. What happens?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At the top of the column the vapour is condensed; part returns as reflux (L) and the rest leaves as distillate (D). The reflux ratio R = L/D. More reflux washes the heavy component out of the rising vapour, so the top product gets purer, but with the same reboiler steam less distillate comes out. Getting more of both needs more steam."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens at minimum reflux?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Plotting trays needed against reflux ratio gives a curve that shoots to infinity at minimum reflux and flattens to the minimum number of stages at total reflux, where no product is taken. Practical columns run at about 1.2 to 1.5 times the minimum reflux ratio, trading the number of trays against reboiler steam."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You raise the reboiler steam. Column ΔP shoots up and top purity drops. What's happening?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Too much vapour holds liquid up on the trays so it cannot drain through the downcomers. Liquid backs up tray on tray and is carried upward, the pressure drop rises fast and heavy component reaches the top, so purity falls. Cut the reboiler steam and let the column settle; foaming gives similar signs, so check the feed too."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "At very low boil-up, liquid drains straight through the tray holes. What is that called?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "On a sieve tray the vapour flowing up through the holes holds the liquid on the tray. At too low a vapour rate the liquid drips through the holes instead of crossing the tray. This is weeping, and it cuts tray efficiency. Each column has an operating window: enough vapour to stop weeping, not so much that it floods."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ethanol and water: why can't plain distillation get past about 95.6 % ethanol by weight?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ethanol and water form an azeotrope at about 95.6 % ethanol by weight, boiling at about 78.2 °C. There the vapour has the same composition as the liquid, so the x-y curve meets the diagonal and more trays cannot separate them further. IPA and water form a similar azeotrope at about 87 % IPA. Molecular sieves or an entrainer get past it; pressure-swing distillation suits azeotropes that shift strongly with pressure, such as THF–water."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Batch distillation: the top temperature starts creeping up. What does it tell you?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In batch distillation the top temperature stays at the light component's boiling point while it distils. When it starts creeping up, the light component is running out and heavier material is reaching the top. Change receivers, collect the in-between as a separate mid cut to recycle, or raise the reflux to stretch the clean cut."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Distillation Basics: Whiteboard Lesson</h1>
+  <p>Six questions on how a distillation column behaves: what reflux does, minimum reflux, flooding and weeping, why ethanol and water stop at an azeotrope, and when to change receivers in a batch distillation. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-distillation-basics.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/distillation-basics/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>You raise the reflux ratio and keep the reboiler steam the same. What happens?</h3>
+  <p>At the top of the column the vapour is condensed; part returns as reflux (L) and the rest leaves as distillate (D). The reflux ratio R = L/D. More reflux washes the heavy component out of the rising vapour, so the top product gets purer, but with the same reboiler steam less distillate comes out. Getting more of both needs more steam.</p>
+  <h3>What happens at minimum reflux?</h3>
+  <p>Plotting trays needed against reflux ratio gives a curve that shoots to infinity at minimum reflux and flattens to the minimum number of stages at total reflux, where no product is taken. Practical columns run at about 1.2 to 1.5 times the minimum reflux ratio, trading the number of trays against reboiler steam.</p>
+  <h3>You raise the reboiler steam. Column ΔP shoots up and top purity drops. What&#x27;s happening?</h3>
+  <p>Too much vapour holds liquid up on the trays so it cannot drain through the downcomers. Liquid backs up tray on tray and is carried upward, the pressure drop rises fast and heavy component reaches the top, so purity falls. Cut the reboiler steam and let the column settle; foaming gives similar signs, so check the feed too.</p>
+  <h3>At very low boil-up, liquid drains straight through the tray holes. What is that called?</h3>
+  <p>On a sieve tray the vapour flowing up through the holes holds the liquid on the tray. At too low a vapour rate the liquid drips through the holes instead of crossing the tray. This is weeping, and it cuts tray efficiency. Each column has an operating window: enough vapour to stop weeping, not so much that it floods.</p>
+  <h3>Ethanol and water: why can&#x27;t plain distillation get past about 95.6 % ethanol by weight?</h3>
+  <p>Ethanol and water form an azeotrope at about 95.6 % ethanol by weight, boiling at about 78.2 °C. There the vapour has the same composition as the liquid, so the x-y curve meets the diagonal and more trays cannot separate them further. IPA and water form a similar azeotrope at about 87 % IPA. Molecular sieves or an entrainer get past it; pressure-swing distillation suits azeotropes that shift strongly with pressure, such as THF–water.</p>
+  <h3>Batch distillation: the top temperature starts creeping up. What does it tell you?</h3>
+  <p>In batch distillation the top temperature stays at the light component&#x27;s boiling point while it distils. When it starts creeping up, the light component is running out and heavier material is reaching the top. Change receivers, collect the in-between as a separate mid cut to recycle, or raise the reflux to stretch the clean cut.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/batch-distillation-simulator/' | relative_url }}">Batch distillation simulator</a>
+    <a href="{{ '/calculators/mccabe-thiele/' | relative_url }}">McCabe-Thiele diagram tool</a>
+    <a href="{{ '/articles/distillation-basics/' | relative_url }}">Distillation basics article</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Heat exchangers: Whiteboard Lesson with Bubbles"
+seo_title: "Heat Exchangers Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on heat exchangers: LMTD, fouling, tube velocity, tube or shell side, waterlogged steam heaters and venting."
+image: /assets/img/share/whiteboard-heat-exchangers.jpg
+keywords: "heat exchanger explained, LMTD explained, counter-current vs co-current, exchanger fouling, tube side or shell side, steam heater waterlogging, heat exchanger interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Heat exchangers"
+    url: /whiteboard/heat-exchangers/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Heat exchangers: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on heat exchangers: LMTD, fouling, tube velocity, tube or shell side, waterlogged steam heaters and venting.",
+        "url": "https://www.pharmacheme.in/whiteboard/heat-exchangers/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Log mean temperature difference",
+          "Heat exchanger fouling",
+          "Shell-and-tube exchanger design"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Same duty and temperatures. Why does counter-current need less area than co-current?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Counter-current flow keeps a bigger temperature difference along the whole exchanger. Cooling a liquid from 100 to 60 °C with water going from 30 to 50 °C, the log-mean temperature difference (LMTD) is about 31 °C co-current and 39 °C counter-current. Since Q = U × A × LMTD, the co-current exchanger needs about 27 % more area."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Same exchanger, same flows. Over a few months the product leaves hotter. What changed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat crosses the hot film, any fouling, the tube wall, more fouling and the cold film in series, so 1/U is the sum of these resistances. A thin layer of scale or deposit can cut the overall coefficient U by a quarter or more. With the same area and flows, less heat moves and the product leaves hotter."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cooling water flow through the tubes is cut to half. What happens to the water-side film coefficient?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In turbulent flow the film coefficient varies roughly with velocity to the power 0.8, so halving the water flow cuts it to about 0.57 of its value, a fall of about 40 %. Slow water also fouls faster, so tube velocity is usually kept above about 1 m/s, and many plants keep cooling water outlet temperature below about 45 °C to limit scaling."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "One fluid is dirty, corrosive and at high pressure. Which side should it go?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Put the dirty, corrosive or high-pressure fluid on the tube side. Tubes can be rodded or jetted clean, only the tubes and channels need to be made of an expensive alloy, and small-diameter tubes hold high pressure with thin walls. The shell side suits clean fluids, steam and condensing vapours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A steam heater's control valve is wide open, but the outlet is cold and the shell bangs. What's wrong?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Steam heats by condensing, and the condensate must drain through a trap. If the trap fails, or the steam pressure in the shell falls below the condensate back pressure (low supply pressure, or a throttled valve at low load), condensate floods the shell. The controller then opens the valve wide, but it can't help. Flooded tubes lose area, so the outlet stays cold, and steam meeting cold condensate causes water hammer. Check the trap, steam pressure and condensate line; a pump trap helps when steam pressure can fall too low."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Vertical cooler, water in the tubes: should the water enter at the bottom or the top?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Feed cooling water in at the bottom and take it out at the top. Water fed from the top can run down the tube walls and leave the upper part of the tubes full of air, wasting area. Fed from the bottom, the water fills every tube and pushes air out; a vent at the highest point, opened after start-up, removes the rest."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Heat Exchangers: Whiteboard Lesson</h1>
+  <p>Six questions on how heat exchangers work and why they stop working: counter-current flow, fouling, water velocity, which fluid goes in the tubes, flooded steam heaters and air in coolers. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-heat-exchangers.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/heat-exchangers/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Same duty and temperatures. Why does counter-current need less area than co-current?</h3>
+  <p>Counter-current flow keeps a bigger temperature difference along the whole exchanger. Cooling a liquid from 100 to 60 °C with water going from 30 to 50 °C, the log-mean temperature difference (LMTD) is about 31 °C co-current and 39 °C counter-current. Since Q = U × A × LMTD, the co-current exchanger needs about 27 % more area.</p>
+  <h3>Same exchanger, same flows. Over a few months the product leaves hotter. What changed?</h3>
+  <p>Heat crosses the hot film, any fouling, the tube wall, more fouling and the cold film in series, so 1/U is the sum of these resistances. A thin layer of scale or deposit can cut the overall coefficient U by a quarter or more. With the same area and flows, less heat moves and the product leaves hotter.</p>
+  <h3>Cooling water flow through the tubes is cut to half. What happens to the water-side film coefficient?</h3>
+  <p>In turbulent flow the film coefficient varies roughly with velocity to the power 0.8, so halving the water flow cuts it to about 0.57 of its value, a fall of about 40 %. Slow water also fouls faster, so tube velocity is usually kept above about 1 m/s, and many plants keep cooling water outlet temperature below about 45 °C to limit scaling.</p>
+  <h3>One fluid is dirty, corrosive and at high pressure. Which side should it go?</h3>
+  <p>Put the dirty, corrosive or high-pressure fluid on the tube side. Tubes can be rodded or jetted clean, only the tubes and channels need to be made of an expensive alloy, and small-diameter tubes hold high pressure with thin walls. The shell side suits clean fluids, steam and condensing vapours.</p>
+  <h3>A steam heater&#x27;s control valve is wide open, but the outlet is cold and the shell bangs. What&#x27;s wrong?</h3>
+  <p>Steam heats by condensing, and the condensate must drain through a trap. If the trap fails, or the steam pressure in the shell falls below the condensate back pressure (low supply pressure, or a throttled valve at low load), condensate floods the shell. The controller then opens the valve wide, but it can&#x27;t help. Flooded tubes lose area, so the outlet stays cold, and steam meeting cold condensate causes water hammer. Check the trap, steam pressure and condensate line; a pump trap helps when steam pressure can fall too low.</p>
+  <h3>Vertical cooler, water in the tubes: should the water enter at the bottom or the top?</h3>
+  <p>Feed cooling water in at the bottom and take it out at the top. Water fed from the top can run down the tube walls and leave the upper part of the tubes full of air, wasting area. Fed from the bottom, the water fills every tube and pushes air out; a vent at the highest point, opened after start-up, removes the rest.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/lmtd-calculator/' | relative_url }}">LMTD calculator</a>
+    <a href="{{ '/calculators/overall-heat-transfer-coefficient-calculator/' | relative_url }}">Overall heat transfer coefficient calculator</a>
+    <a href="{{ '/articles/heat-exchanger-design-basics/' | relative_url }}">Heat exchanger design basics</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

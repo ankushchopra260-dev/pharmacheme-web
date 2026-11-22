@@ -177,8 +177,10 @@
     stop(); const my = token; navBtns([]); clear(); opts.innerHTML = ""; place("big"); setFace(score >= 5 ? "happy" : score >= 3 ? "smug" : "shock");
     prog.textContent = "Done";
     await write(20, 70, `You got ${score} of ${L.steps.length}`, 32, "r"); if (my !== token) return;
-    await write(20, 118, score >= 5 ? "Pumps fear you now." : score >= 3 ? "Not bad. Bubbles is watching." : "Bubbles wins this round.", 20, "k");
-    navBtns([{ t: "Open the NPSH calculator", prim: true, fn: () => (location.href = L.calc) }, { t: "Start again", fn: () => { score = 0; stepIx = 0; ask(); } }], true);
+    const E = L.ends || ["Well done.", "Not bad. Bubbles is watching.", "Bubbles wins this round."];
+    await write(20, 118, score >= 5 ? E[0] : score >= 3 ? E[1] : E[2], 20, "k");
+    const again = { t: "Start again", fn: () => { score = 0; stepIx = 0; ask(); } };
+    navBtns(L.calc ? [{ t: L.calcLabel || "Open the calculator", prim: true, fn: () => (location.href = L.calc) }, again] : [Object.assign(again, { prim: true })], true);
     try { await say(L.outroWeb, my); } catch (e) { /* stopped */ }
   }
   async function start() {

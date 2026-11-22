@@ -316,7 +316,7 @@
       children:
         - { title: "Interview questions and answers", url: /process-engineering-faq/ }
         - { title: "Industry readiness score (free)", url: /freshers/industry-readiness-score/ }
-        - { title: "Whiteboard lesson: NPSH and cavitation", url: /whiteboard/npsh-cavitation/ }
+        - { title: "Whiteboard lessons", url: /whiteboard/ }
     - title: "Go further"
       children:
         - { title: "First 30 Days in a chemical plant (Paid)", url: /exclusive/first-30-days-chemical-plant/ }

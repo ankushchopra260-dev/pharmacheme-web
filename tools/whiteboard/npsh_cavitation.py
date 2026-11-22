@@ -1,38 +1,14 @@
-"""Whiteboard lesson: NPSH and cavitation.
+"""Whiteboard lesson: NPSH and cavitation. Run: python3 tools/whiteboard/npsh_cavitation.py [--no-audio]
+Drawing items and voice setup: see wblib.py."""
+import os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from wblib import ask, main  # noqa: F401
 
-Builds assets/data/wb-npsh-cavitation.json and the voice clips in assets/audio/wb/npsh-cavitation/.
-Voice: Kokoro (open model, run locally). Run:  python3 tools/whiteboard/npsh_cavitation.py [--no-audio]
-Model files (not committed): set WB_TTS_DIR to a folder holding kokoro.onnx and voices.bin.
-
-Drawing items (board is 360 x 400):
-  ["t", x, y, text, size, colour]        handwritten text
-  ["p", d, colour, width]                pen stroke (SVG path)
-  ["c", cx, cy, r, colour, width]        circle
-  ["a", x1, y1, x2, y2, colour]          arrow
-  ["dim", x, y1, y2, colour]             two-headed dimension arrow
-  ["pump", cx, cy, r]                    pump casing with eye and nozzle
-  ["tank", x, y, w, h, levelY]           open tank with liquid
-  ["v", cx, cy]                          valve (bow tie)
-  ["x", cx, cy, size, colour]            cross
-  ["k", x, y, colour]                    tick
-Colours: k black, r red, b blue, g green, o orange.
-"""
-import hashlib, json, os, re, subprocess, sys, textwrap
-
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SLUG = 'npsh-cavitation'
-OUT_JSON = os.path.join(ROOT, 'assets', 'data', f'wb-{SLUG}.json')
-OUT_AUDIO = os.path.join(ROOT, 'assets', 'audio', 'wb', SLUG)
-VOICE = 'af_heart'
-
-
-def ask(n, text):
-    """Question card: number and the question in handwriting, wrapped."""
-    items = [["t", 20, 46, f"Q{n}", 30, "r"]]
-    for i, line in enumerate(textwrap.wrap(text, 26)):
-        items.append(["t", 20, 92 + i * 30, line, 22, "k"])
-    return items
-
+TITLE = 'NPSH and cavitation'
+CALC = '/calculators/npsh-calculator/'
+CALC_LABEL = 'Open the NPSH calculator'
+ENDS = ['Pumps fear you now.', 'Not bad. Bubbles is watching.', 'Bubbles wins this round.']
 
 STEPS = [
     {
@@ -191,63 +167,5 @@ INTRO = "Hi, I'm Bubbles. Pumps are my enemy, and I'm theirs. Six questions on N
 OUTRO_WEB = "That's the lesson. Now try your own pump in the NPSH calculator."
 
 
-def spoken(s):
-    """Text as the voice should say it."""
-    s = s.replace('NPSHr', 'N P S H required').replace('NPSHa', 'N P S H available').replace('NPSH', 'N P S H')
-    s = s.replace('°C', ' degrees').replace('→', 'to')
-    return s
-
-
-def build():
-    lines = {}  # id -> caption text
-
-    def line(lid, text):
-        lines[lid] = text
-        return lid
-
-    out = {"slug": SLUG, "title": "NPSH and cavitation", "mascot": "Bubbles",
-           "intro": line("intro", INTRO), "outroWeb": line("outro-web", OUTRO_WEB),
-           "calc": "/calculators/npsh-calculator/", "steps": []}
-    for i, s in enumerate(STEPS, 1):
-        st = {"n": i, "q": s["q"], "say": line(f"q{i}", f"Question {i}. {s['q']}"), "board": ask(i, s["q"]), "title": s["title"],
-              "summary": s["summary"], "opts": [], "beats": []}
-        for j, (t, ok, react) in enumerate(s["opts"]):
-            st["opts"].append({"t": t, "ok": ok, "react": line(f"q{i}-r{j}", react)})
-        for k, (say, draw) in enumerate(s["beats"]):
-            st["beats"].append({"say": line(f"q{i}-b{k}", say), "draw": draw})
-        out["steps"].append(st)
-    out["lines"] = {k: {"text": v} for k, v in lines.items()}
-    return out
-
-
-def tts(data):
-    from kokoro_onnx import Kokoro
-    import soundfile as sf
-    d = os.environ.get('WB_TTS_DIR', '/home/claude/work/tts')
-    k = Kokoro(os.path.join(d, 'kokoro.onnx'), os.path.join(d, 'voices.bin'))
-    os.makedirs(OUT_AUDIO, exist_ok=True)
-    cache = os.path.join(d, 'cache'); os.makedirs(cache, exist_ok=True)
-    for lid, L in data["lines"].items():
-        text = spoken(L["text"])
-        wav = os.path.join(cache, VOICE + '_' + hashlib.sha1(text.encode()).hexdigest()[:16] + '.wav')
-        if not os.path.exists(wav):
-            samples, sr = k.create(text, voice=VOICE, speed=1.06, lang='en-us')
-            sf.write(wav, samples, sr)
-        mp3 = os.path.join(OUT_AUDIO, lid + '.mp3')
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', wav, '-af', 'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse',
-                        '-ac', '1', '-ar', '24000', '-b:a', '48k', mp3], check=True)
-        dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', mp3], capture_output=True, text=True).stdout)
-        L["dur"] = round(dur, 3)
-        print(f'{lid:12s} {dur:5.2f}s  {L["text"][:60]}')
-
-
 if __name__ == '__main__':
-    data = build()
-    if '--no-audio' not in sys.argv:
-        tts(data)
-    else:
-        old = json.load(open(OUT_JSON)) if os.path.exists(OUT_JSON) else {"lines": {}}
-        for lid, L in data["lines"].items():
-            L["dur"] = old["lines"].get(lid, {}).get("dur") or round(len(L["text"].split()) / 2.6, 2)
-    json.dump(data, open(OUT_JSON, 'w'), ensure_ascii=False, separators=(',', ':'))
-    print('wrote', OUT_JSON, len(data["lines"]), 'lines')
+    main(globals())

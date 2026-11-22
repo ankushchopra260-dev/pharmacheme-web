@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Vacuum and ejectors: Whiteboard Lesson with Bubbles"
+seo_title: "Vacuum Systems and Steam Ejectors: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on vacuum: gauge vs absolute, finding leaks, the rate-of-rise test, steam ejectors breaking and why to condense first."
+image: /assets/img/share/whiteboard-vacuum-ejectors.jpg
+keywords: "vacuum explained, gauge vs absolute pressure, vacuum leak test, rate of rise test, steam ejector, ejector breaking, vacuum pump condenser, vacuum interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Vacuum and ejectors"
+    url: /whiteboard/vacuum-ejectors/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Vacuum and ejectors: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on vacuum: gauge vs absolute, finding leaks, the rate-of-rise test, steam ejectors breaking and why to condense first.",
+        "url": "https://www.pharmacheme.in/whiteboard/vacuum-ejectors/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Vacuum measurement",
+          "Vacuum leak testing",
+          "Steam ejectors"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "At sea level, the vacuum gauge reads −740 mmHg. What is the absolute pressure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A vacuum gauge reads relative to the local atmosphere, about 760 mmHg at sea level. Absolute pressure is atmosphere minus vacuum: 760 − 740 = 20 mmHg absolute, about 27 mbar. At altitude the atmosphere is lower, so the same gauge reading is a different absolute pressure; specify vacuum in absolute units."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Isolated from the system, the pump pulls its normal vacuum on the same gauge. Where is the problem?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Isolate the vacuum pump from the system and check the vacuum it reaches on its own. If the pump alone reaches its normal vacuum, it is healthy and the problem is upstream: either air leaking into the system, or a vapour load from wet product, solvent in the lines or a warm condenser."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You isolate the system and watch the pressure rise. How do you tell a leak from vapour?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pull the system down, isolate it and log the pressure every minute. Air leaking in arrives at a steady rate, so the pressure rises in a straight line. Vapour from the contents stops once the space reaches the vapour pressure, so the curve flattens. At about 20 °C the air leak in kg/h is about 0.07 × volume (m³) × pressure rise (mbar/min); a 2 m³ system rising 10 mbar in 10 minutes takes in about 0.14 kg/h of air."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The motive steam pressure to an ejector falls below design. What happens?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A steam ejector has no moving parts: motive steam through a nozzle entrains gas from the suction and compresses the mixture to the discharge pressure. It needs its full design steam pressure to do that. Below design, an ejector does not weaken gradually; it breaks and the vacuum falls off suddenly. Keep motive steam at or slightly above design pressure, and dry, since wet steam erodes the nozzle."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Summer. The inter-condenser cooling water runs warmer. What happens to a two-stage ejector?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a two-stage ejector, the inter-condenser condenses steam and vapour from the first stage so the second stage only handles the remainder. Warmer cooling water condenses less, so more vapour passes to the second stage. If that exceeds its design load, the second stage breaks and the first follows. When vacuum fails in summer, check cooling water temperature and flow and clean the condensers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Stripping solvent under vacuum. Why put a condenser before the vacuum pump?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vapour at low pressure has a huge volume: 1 kg of toluene vapour at 50 mbar and 40 °C occupies about 6 m³, but condenses to about 1.2 litres of liquid. A condenser before the vacuum pump leaves the pump mostly air to handle, so it can be much smaller and the solvent is recovered. At 50 mbar toluene condenses at only about 30 °C, so use chilled water or brine in the condenser, and fit a catch pot before the pump."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Vacuum and Ejectors: Whiteboard Lesson</h1>
+  <p>Six questions on vacuum systems in the plant: gauge and absolute pressure, splitting a vacuum problem, telling a leak from vapour, why ejectors break, summer vacuum trouble and condensers before the pump. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-vacuum-ejectors.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/vacuum-ejectors/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>At sea level, the vacuum gauge reads −740 mmHg. What is the absolute pressure?</h3>
+  <p>A vacuum gauge reads relative to the local atmosphere, about 760 mmHg at sea level. Absolute pressure is atmosphere minus vacuum: 760 − 740 = 20 mmHg absolute, about 27 mbar. At altitude the atmosphere is lower, so the same gauge reading is a different absolute pressure; specify vacuum in absolute units.</p>
+  <h3>Isolated from the system, the pump pulls its normal vacuum on the same gauge. Where is the problem?</h3>
+  <p>Isolate the vacuum pump from the system and check the vacuum it reaches on its own. If the pump alone reaches its normal vacuum, it is healthy and the problem is upstream: either air leaking into the system, or a vapour load from wet product, solvent in the lines or a warm condenser.</p>
+  <h3>You isolate the system and watch the pressure rise. How do you tell a leak from vapour?</h3>
+  <p>Pull the system down, isolate it and log the pressure every minute. Air leaking in arrives at a steady rate, so the pressure rises in a straight line. Vapour from the contents stops once the space reaches the vapour pressure, so the curve flattens. At about 20 °C the air leak in kg/h is about 0.07 × volume (m³) × pressure rise (mbar/min); a 2 m³ system rising 10 mbar in 10 minutes takes in about 0.14 kg/h of air.</p>
+  <h3>The motive steam pressure to an ejector falls below design. What happens?</h3>
+  <p>A steam ejector has no moving parts: motive steam through a nozzle entrains gas from the suction and compresses the mixture to the discharge pressure. It needs its full design steam pressure to do that. Below design, an ejector does not weaken gradually; it breaks and the vacuum falls off suddenly. Keep motive steam at or slightly above design pressure, and dry, since wet steam erodes the nozzle.</p>
+  <h3>Summer. The inter-condenser cooling water runs warmer. What happens to a two-stage ejector?</h3>
+  <p>In a two-stage ejector, the inter-condenser condenses steam and vapour from the first stage so the second stage only handles the remainder. Warmer cooling water condenses less, so more vapour passes to the second stage. If that exceeds its design load, the second stage breaks and the first follows. When vacuum fails in summer, check cooling water temperature and flow and clean the condensers.</p>
+  <h3>Stripping solvent under vacuum. Why put a condenser before the vacuum pump?</h3>
+  <p>Vapour at low pressure has a huge volume: 1 kg of toluene vapour at 50 mbar and 40 °C occupies about 6 m³, but condenses to about 1.2 litres of liquid. A condenser before the vacuum pump leaves the pump mostly air to handle, so it can be much smaller and the solvent is recovered. At 50 mbar toluene condenses at only about 30 °C, so use chilled water or brine in the condenser, and fit a catch pot before the pump.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/vacuum-systems/' | relative_url }}">Vacuum systems guide</a>
+    <a href="{{ '/articles/steam-energy-and-condenser-selection/' | relative_url }}">Steam energy and condenser selection</a>
+    <a href="{{ '/articles/solvent-recovery-troubleshooting/' | relative_url }}">Solvent recovery troubleshooting</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
