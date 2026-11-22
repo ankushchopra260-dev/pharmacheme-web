@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Cooling towers: Whiteboard Lesson with Bubbles"
+seo_title: "Cooling Towers Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on cooling towers: range and approach, the wet bulb limit, evaporation loss, cycles of concentration, blowdown and fouled fill."
+image: /assets/img/share/whiteboard-cooling-towers.jpg
+keywords: "cooling tower explained, range and approach, wet bulb temperature, cooling tower evaporation loss, cycles of concentration, blowdown formula, cooling tower interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Cooling towers"
+    url: /whiteboard/cooling-towers/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Cooling towers: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on cooling towers: range and approach, the wet bulb limit, evaporation loss, cycles of concentration, blowdown and fouled fill.",
+        "url": "https://www.pharmacheme.in/whiteboard/cooling-towers/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Cooling tower range and approach",
+          "Evaporation and blowdown",
+          "Cooling tower performance"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Hot water enters at 40 °C and leaves at 32 °C. Wet bulb is 28 °C. What is the approach?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Range is hot water in minus cold water out: 40 − 32 = 8 °C, which is how much the tower cools the water. Approach is cold water out minus the wet bulb temperature of the air: 32 − 28 = 4 °C, which is how close the tower gets to its limit. A smaller approach needs a much bigger tower; many are designed for about 4 to 6 °C."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why can't a cooling tower cool water below the wet bulb temperature?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A cooling tower cools mainly by evaporation: a small part of the water evaporates and takes heat from the rest. The wet bulb temperature is the lowest temperature evaporation can reach in that air, so cold water can approach it but never go below it. On a humid day the wet bulb is higher, so the tower delivers warmer water whatever the fans do."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The range is 10 °C. Roughly what share of the circulating water evaporates?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cooling 1 kg of water by 10 °C removes 10 kcal, and evaporating water takes about 580 kcal/kg, so about 1.7 % would evaporate if all the heat left that way. Some heat leaves as sensible heat in the air, so the usual figure is about 1.5 %, or roughly 0.15 % of circulation per °C of range. For 1000 m³/h at a 10 °C range, about 15 m³/h evaporates."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cycles of concentration rise from 3 to 6. What happens to blowdown?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Evaporation leaves dissolved salts behind, so basin water is more concentrated than make-up; cycles of concentration (COC) is the ratio, controlled by blowdown. Blowdown = evaporation ÷ (COC − 1), so raising COC from 3 to 6 cuts blowdown from half the evaporation to a fifth of it, a fall of 60 %. Higher cycles save water and chemicals only if the water treatment controls scale."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "In summer the cold water is 3 °C hotter, with all fans running. What do you check first?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cold water temperature equals wet bulb plus approach. If the wet bulb has risen by the same amount, the tower is fine and the weather is to blame. If the approach has grown at the same heat load and water flow, the tower has a problem, such as fouled fill, blocked nozzles or weak fans and belts. Logging wet bulb and cold water daily and trending the approach shows which."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The fill slowly clogs with scale and algae. What happens to the tower?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fill spreads water into thin films so it meets the air over a large area. Scale and algae block it, cutting air flow and making water channel, so contact falls and the cold water cannot get as close to the wet bulb: the approach widens. Keep biocide and scale treatment on target and clean the fill at shutdowns with the fan isolated and locked out."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Cooling Towers: Whiteboard Lesson</h1>
+  <p>Six questions on cooling towers: range and approach, why the wet bulb is the floor, how much water evaporates, cycles and blowdown, telling weather from a tower problem, and fouled fill. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-cooling-towers.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/cooling-towers/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Hot water enters at 40 °C and leaves at 32 °C. Wet bulb is 28 °C. What is the approach?</h3>
+  <p>Range is hot water in minus cold water out: 40 − 32 = 8 °C, which is how much the tower cools the water. Approach is cold water out minus the wet bulb temperature of the air: 32 − 28 = 4 °C, which is how close the tower gets to its limit. A smaller approach needs a much bigger tower; many are designed for about 4 to 6 °C.</p>
+  <h3>Why can&#x27;t a cooling tower cool water below the wet bulb temperature?</h3>
+  <p>A cooling tower cools mainly by evaporation: a small part of the water evaporates and takes heat from the rest. The wet bulb temperature is the lowest temperature evaporation can reach in that air, so cold water can approach it but never go below it. On a humid day the wet bulb is higher, so the tower delivers warmer water whatever the fans do.</p>
+  <h3>The range is 10 °C. Roughly what share of the circulating water evaporates?</h3>
+  <p>Cooling 1 kg of water by 10 °C removes 10 kcal, and evaporating water takes about 580 kcal/kg, so about 1.7 % would evaporate if all the heat left that way. Some heat leaves as sensible heat in the air, so the usual figure is about 1.5 %, or roughly 0.15 % of circulation per °C of range. For 1000 m³/h at a 10 °C range, about 15 m³/h evaporates.</p>
+  <h3>Cycles of concentration rise from 3 to 6. What happens to blowdown?</h3>
+  <p>Evaporation leaves dissolved salts behind, so basin water is more concentrated than make-up; cycles of concentration (COC) is the ratio, controlled by blowdown. Blowdown = evaporation ÷ (COC − 1), so raising COC from 3 to 6 cuts blowdown from half the evaporation to a fifth of it, a fall of 60 %. Higher cycles save water and chemicals only if the water treatment controls scale.</p>
+  <h3>In summer the cold water is 3 °C hotter, with all fans running. What do you check first?</h3>
+  <p>Cold water temperature equals wet bulb plus approach. If the wet bulb has risen by the same amount, the tower is fine and the weather is to blame. If the approach has grown at the same heat load and water flow, the tower has a problem, such as fouled fill, blocked nozzles or weak fans and belts. Logging wet bulb and cold water daily and trending the approach shows which.</p>
+  <h3>The fill slowly clogs with scale and algae. What happens to the tower?</h3>
+  <p>Fill spreads water into thin films so it meets the air over a large area. Scale and algae block it, cutting air flow and making water channel, so contact falls and the cold water cannot get as close to the wet bulb: the approach widens. Keep biocide and scale treatment on target and clean the fill at shutdowns with the fan isolated and locked out.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/cooling-tower-calculations/' | relative_url }}">Cooling tower calculations</a>
+    <a href="{{ '/articles/water-and-power-utilities/' | relative_url }}">Water and power utilities</a>
+    <a href="{{ '/articles/utility-load-estimation/' | relative_url }}">Utility load estimation</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

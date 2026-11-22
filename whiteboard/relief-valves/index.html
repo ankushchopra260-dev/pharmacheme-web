@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Relief valves: Whiteboard Lesson with Bubbles"
+seo_title: "Relief Valves Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on relief valves: set pressure and MAWP, thermal relief, back pressure and bellows, rupture discs, isolation valves, chatter."
+image: /assets/img/share/whiteboard-relief-valves.jpg
+keywords: "relief valve explained, PSV set pressure MAWP, accumulation 10 % 21 %, thermal relief valve, balanced bellows valve, rupture disc under relief valve, relief valve chatter, interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Relief valves"
+    url: /whiteboard/relief-valves/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Relief valves: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on relief valves: set pressure and MAWP, thermal relief, back pressure and bellows, rupture discs, isolation valves, chatter.",
+        "url": "https://www.pharmacheme.in/whiteboard/relief-valves/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Relief valve set pressure and accumulation",
+          "Thermal relief",
+          "Relief valve chatter"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What sets the highest set pressure allowed for a vessel's single relief valve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A single relief valve is set at or below the vessel's maximum allowable working pressure (MAWP). Normal operating pressure is kept below about 90 % of set pressure so the valve does not simmer and leak. While relieving, pressure may rise above MAWP by the allowed accumulation: 10 % for a single valve in a non-fire case and 21 % for the fire case."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A liquid-full pipe, blocked in at both ends, sits in the sun. Why fit a small relief valve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Liquid trapped between closed valves expands when it warms, more than the steel pipe does, so the pressure can climb by several bar for each degree. A small thermal relief valve releases a few drops to stop gaskets and flanges failing. Route its outlet to a tank or closed drain."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A relief valve discharges into a header with varying back pressure. Which type suits it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a conventional spring-loaded valve, back pressure acts on the disc and changes the opening pressure, and it reduces capacity. Where back pressure varies, as in a shared header, a balanced bellows valve shields the disc so the set point stays put; keep the bellows bonnet vent open and routed to a safe place, since gas there means the bellows has failed. A conventional valve is usually limited to built-up back pressure of about 10 % of set pressure."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A rupture disc sits under a relief valve. Why is there a pressure gauge between them?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A rupture disc under a relief valve keeps corrosive or sticky process away from the valve and stops leakage. A disc bursts on the pressure difference across it, so a pinhole that lets pressure build in the space between disc and valve makes it burst late. A pressure gauge or tell-tale in that space shows it is at zero; check it on every round."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you fit an isolation valve under a relief valve on a process vessel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Isolation valves under relief valves are allowed so a valve can be removed for testing without a shutdown, but a closed one leaves the vessel unprotected. They must be full bore, locked or car-sealed open and listed on a register, and closed only under a permit with a spare relief valve in service, or a person posted full time who can stop the pressure source. Steam boiler safety valves must never have an isolation valve under them."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A relief valve chatters: it slams open and shut again and again. What is the likely cause?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Chatter is rapid opening and closing. If the inlet pipe loses too much pressure when the valve flows, the pressure at the disc falls below the reseat point, the valve slams shut, pressure rebuilds and it reopens. An oversized valve chatters for a similar reason. Keep inlet pressure loss below 3 % of set pressure and size the valve for the real relieving flow."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Relief Valves: Whiteboard Lesson</h1>
+  <p>Six questions on pressure relief: where the set pressure comes from, why blocked-in liquid needs a thermal relief, back pressure and bellows valves, rupture discs, isolation valves under relief valves and chatter. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-relief-valves.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/relief-valves/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>What sets the highest set pressure allowed for a vessel&#x27;s single relief valve?</h3>
+  <p>A single relief valve is set at or below the vessel&#x27;s maximum allowable working pressure (MAWP). Normal operating pressure is kept below about 90 % of set pressure so the valve does not simmer and leak. While relieving, pressure may rise above MAWP by the allowed accumulation: 10 % for a single valve in a non-fire case and 21 % for the fire case.</p>
+  <h3>A liquid-full pipe, blocked in at both ends, sits in the sun. Why fit a small relief valve?</h3>
+  <p>Liquid trapped between closed valves expands when it warms, more than the steel pipe does, so the pressure can climb by several bar for each degree. A small thermal relief valve releases a few drops to stop gaskets and flanges failing. Route its outlet to a tank or closed drain.</p>
+  <h3>A relief valve discharges into a header with varying back pressure. Which type suits it?</h3>
+  <p>In a conventional spring-loaded valve, back pressure acts on the disc and changes the opening pressure, and it reduces capacity. Where back pressure varies, as in a shared header, a balanced bellows valve shields the disc so the set point stays put; keep the bellows bonnet vent open and routed to a safe place, since gas there means the bellows has failed. A conventional valve is usually limited to built-up back pressure of about 10 % of set pressure.</p>
+  <h3>A rupture disc sits under a relief valve. Why is there a pressure gauge between them?</h3>
+  <p>A rupture disc under a relief valve keeps corrosive or sticky process away from the valve and stops leakage. A disc bursts on the pressure difference across it, so a pinhole that lets pressure build in the space between disc and valve makes it burst late. A pressure gauge or tell-tale in that space shows it is at zero; check it on every round.</p>
+  <h3>Can you fit an isolation valve under a relief valve on a process vessel?</h3>
+  <p>Isolation valves under relief valves are allowed so a valve can be removed for testing without a shutdown, but a closed one leaves the vessel unprotected. They must be full bore, locked or car-sealed open and listed on a register, and closed only under a permit with a spare relief valve in service, or a person posted full time who can stop the pressure source. Steam boiler safety valves must never have an isolation valve under them.</p>
+  <h3>A relief valve chatters: it slams open and shut again and again. What is the likely cause?</h3>
+  <p>Chatter is rapid opening and closing. If the inlet pipe loses too much pressure when the valve flows, the pressure at the disc falls below the reseat point, the valve slams shut, pressure rebuilds and it reopens. An oversized valve chatters for a similar reason. Keep inlet pressure loss below 3 % of set pressure and size the valve for the real relieving flow.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/relief-valve-sizing/' | relative_url }}">Relief valve sizing tool</a>
+    <a href="{{ '/articles/relief-valve-sizing/' | relative_url }}">Relief valve sizing article</a>
+    <a href="{{ '/articles/lopa-and-sil-basics/' | relative_url }}">LOPA and SIL basics</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

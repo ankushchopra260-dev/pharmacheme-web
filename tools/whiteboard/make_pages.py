@@ -7,7 +7,7 @@ HERE = os.path.dirname(__file__)
 sys.path.insert(0, HERE)
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 SITE = 'https://www.pharmacheme.in'
-TODAY = '2026-11-22'
+TODAY = os.environ.get('WB_DATE', '2026-11-22')
 
 PAGES = {
     'heat-exchangers': dict(
@@ -58,6 +58,54 @@ PAGES = {
         related=[('/articles/vacuum-systems/', 'Vacuum systems guide'),
                  ('/articles/steam-energy-and-condenser-selection/', 'Steam energy and condenser selection'),
                  ('/articles/solvent-recovery-troubleshooting/', 'Solvent recovery troubleshooting')]),
+    'relief-valves': dict(
+        module='relief_valves',
+        h1='Relief Valves: Whiteboard Lesson',
+        seo_title='Relief Valves Explained: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on relief valves: set pressure and MAWP, thermal relief, back pressure and bellows, rupture discs, isolation valves, chatter.',
+        intro='Six questions on pressure relief: where the set pressure comes from, why blocked-in liquid needs a thermal relief, back pressure and bellows valves, rupture discs, isolation valves under relief valves and chatter.',
+        keywords='relief valve explained, PSV set pressure MAWP, accumulation 10 % 21 %, thermal relief valve, balanced bellows valve, rupture disc under relief valve, relief valve chatter, interview questions',
+        teaches=['Relief valve set pressure and accumulation', 'Thermal relief', 'Relief valve chatter'],
+        image='/assets/img/share/whiteboard-relief-valves.jpg',
+        related=[('/calculators/relief-valve-sizing/', 'Relief valve sizing tool'),
+                 ('/articles/relief-valve-sizing/', 'Relief valve sizing article'),
+                 ('/articles/lopa-and-sil-basics/', 'LOPA and SIL basics')]),
+    'cooling-towers': dict(
+        module='cooling_towers',
+        h1='Cooling Towers: Whiteboard Lesson',
+        seo_title='Cooling Towers Explained: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on cooling towers: range and approach, the wet bulb limit, evaporation loss, cycles of concentration, blowdown and fouled fill.',
+        intro='Six questions on cooling towers: range and approach, why the wet bulb is the floor, how much water evaporates, cycles and blowdown, telling weather from a tower problem, and fouled fill.',
+        keywords='cooling tower explained, range and approach, wet bulb temperature, cooling tower evaporation loss, cycles of concentration, blowdown formula, cooling tower interview questions',
+        teaches=['Cooling tower range and approach', 'Evaporation and blowdown', 'Cooling tower performance'],
+        image='/assets/img/share/whiteboard-cooling-towers.jpg',
+        related=[('/articles/cooling-tower-calculations/', 'Cooling tower calculations'),
+                 ('/articles/water-and-power-utilities/', 'Water and power utilities'),
+                 ('/articles/utility-load-estimation/', 'Utility load estimation')]),
+    'agitation-mixing': dict(
+        module='agitation_mixing',
+        h1='Agitation and Mixing: Whiteboard Lesson',
+        seo_title='Agitation and Mixing Explained: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on agitators: power and speed, baffles and vortex, impellers for solids and gas, scale-up blend time and the dosing point.',
+        intro='Six questions on agitation: how power climbs with speed, why baffles matter, which impeller lifts solids or disperses gas, why blend time grows on scale-up and where to dose a fast reaction.',
+        keywords='agitator power number, agitator speed power, baffles vortex, pitched blade turbine solids, disc turbine gas dispersion, mixing scale-up blend time, agitator interview questions',
+        teaches=['Agitator power', 'Impeller selection', 'Mixing scale-up'],
+        image='/assets/img/share/whiteboard-agitation-mixing.jpg',
+        related=[('/calculators/mixing-scale-up-calculator/', 'Mixing scale-up calculator'),
+                 ('/calculators/agitator-simulator/', 'Agitator simulator'),
+                 ('/articles/agitator-design/', 'Agitator design')]),
+    'pid-control': dict(
+        module='pid_control',
+        h1='PID Control: Whiteboard Lesson',
+        seo_title='PID Control Explained: Whiteboard Lesson',
+        description='Six-question whiteboard lesson on PID control: offset and integral, too much gain, derivative and noise, valve fail positions, cascade and integral windup.',
+        intro='Six questions on control loops: why P-only leaves an offset, what too much gain does, why flow loops skip derivative, which way valves should fail, cascade control and integral windup.',
+        keywords='PID control explained, proportional offset, integral action, derivative noise, fail open fail closed valve, cascade control reactor, integral windup, instrumentation interview questions',
+        teaches=['PID control', 'Cascade control', 'Control valve fail positions'],
+        image='/assets/img/share/whiteboard-pid-control.jpg',
+        related=[('/articles/pid-control-tuning/', 'PID control tuning'),
+                 ('/articles/instrumentation-basics/', 'Instrumentation basics'),
+                 ('/articles/reading-process-trends-to-find-faults/', 'Reading process trends to find faults')]),
 }
 
 HUB = [
@@ -66,6 +114,10 @@ HUB = [
     ('runaway-reactions', 'Runaway reactions', 'Heat made vs heat removed, accumulation, MTSR, adiabatic rise and agitator trips.'),
     ('distillation-basics', 'Distillation basics', 'Reflux ratio, minimum reflux, flooding, weeping, azeotropes and batch distillation cuts.'),
     ('vacuum-ejectors', 'Vacuum and ejectors', 'Gauge vs absolute, finding leaks, the rate-of-rise test, ejectors and condensers.'),
+    ('relief-valves', 'Relief valves', 'Set pressure and MAWP, thermal relief, back pressure, rupture discs, isolation valves and chatter.'),
+    ('cooling-towers', 'Cooling towers', 'Range and approach, the wet bulb limit, evaporation, cycles, blowdown and fouled fill.'),
+    ('agitation-mixing', 'Agitation and mixing', 'Power and speed, baffles, impellers for solids and gas, scale-up blend time and dosing point.'),
+    ('pid-control', 'PID control', 'Offset, gain, derivative and noise, fail positions, cascade and integral windup.'),
 ]
 
 E = lambda s: html.escape(s, quote=True)
@@ -149,7 +201,7 @@ def hub_page():
 layout: default
 title: "Whiteboard Lessons for Chemical Engineers"
 seo_title: "Chemical Engineering Whiteboard Lessons | PharmaChemE"
-description: "Free voiced whiteboard lessons for chemical engineers: six interview questions each on pumps, heat exchangers, runaway reactions, distillation and vacuum."
+description: "Free voiced whiteboard lessons for chemical engineers: pumps, heat exchangers, reactions, distillation, vacuum, relief valves, cooling towers, mixing and PID."
 image: /assets/img/share/whiteboard-npsh.jpg
 breadcrumbs:
   - label: Interview Prep

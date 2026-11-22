@@ -17,7 +17,7 @@ Drawing items (board is 360 x 400):
   ["x", cx, cy, size, colour]            cross
   ["k", x, y, colour]                    tick
 Colours: k black, r red, b blue, g green, o orange.
-The helpers below (hx, column, reactor, ejector, coil, axes) return lists of these items.
+The helpers below (hx, column, reactor, ejector, coil, axes, relief, box, tower) return lists of these items.
 """
 import hashlib, json, os, subprocess, sys, textwrap
 
@@ -83,6 +83,28 @@ def coil(x1, x2, y, amp=6, n=6, col="r"):
 def axes(x0, y0, x1, y1, xl, yl):
     """L-shaped axes with labels: origin (x0,y1), top (x0,y0), right end (x1,y1)."""
     return [["p", f"M{x0},{y0} L{x0},{y1} L{x1},{y1}", "k", 2], ["t", x0 + 6, y0 + 2, yl, 13, "k"], ["t", x1 - 7 * len(xl), y1 + 18, xl, 13, "k"]]
+
+
+def relief(cx, cy, s=1.0):
+    """Relief valve: inlet from below, outlet to the side, spring bonnet on top."""
+    k = lambda v: v * s
+    return [["p", f"M{cx},{cy + k(40)} L{cx},{cy + k(12)} M{cx - k(14)},{cy + k(12)} L{cx + k(14)},{cy + k(12)} L{cx},{cy - k(8)} Z", "k", 2.5],
+            ["p", f"M{cx},{cy} L{cx + k(40)},{cy}", "k", 2.5],
+            ["p", f"M{cx},{cy - k(8)} L{cx},{cy - k(14)} l{k(-7)},{k(-4)} l{k(14)},{k(-5)} l{k(-14)},{k(-5)} l{k(14)},{k(-5)} l{k(-7)},{k(-4)} L{cx},{cy - k(46)}", "r", 2]]
+
+
+def box(x, y, w, h, text, col="k", size=15):
+    """Rectangle with a label inside, e.g. a controller or a block."""
+    return [["p", f"M{x},{y} L{x + w},{y} L{x + w},{y + h} L{x},{y + h} Z", col, 2.5], ["t", x + 8, y + h / 2 + size / 3, text, size, col]]
+
+
+def tower(x, y, w, h):
+    """Induced-draft cooling tower: casing, fan on top, fill in the middle, basin."""
+    return [["p", f"M{x},{y + 20} L{x + w},{y + 20} L{x + w},{y + h} L{x},{y + h} Z", "k", 3],
+            ["p", f"M{x + w * 0.3},{y + 20} L{x + w * 0.3},{y} L{x + w * 0.7},{y} L{x + w * 0.7},{y + 20}", "k", 2.5],
+            ["p", f"M{x + w * 0.36},{y + 8} L{x + w * 0.64},{y + 12} M{x + w * 0.36},{y + 12} L{x + w * 0.64},{y + 8}", "k", 2],
+            ["p", f"M{x + 6},{y + h * 0.42} L{x + w - 6},{y + h * 0.42} M{x + 6},{y + h * 0.52} L{x + w - 6},{y + h * 0.52} M{x + 6},{y + h * 0.62} L{x + w - 6},{y + h * 0.62}", "o", 1.5],
+            ["p", f"M{x + 4},{y + h - 14} q{w / 4},-4 {w / 2},0 t{w / 2 - 8},0", "b", 2.5]]
 
 
 # ---------- build ----------

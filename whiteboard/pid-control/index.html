@@ -1,0 +1,142 @@
+---
+layout: default
+title: "PID control: Whiteboard Lesson with Bubbles"
+seo_title: "PID Control Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on PID control: offset and integral, too much gain, derivative and noise, valve fail positions, cascade and integral windup."
+image: /assets/img/share/whiteboard-pid-control.jpg
+keywords: "PID control explained, proportional offset, integral action, derivative noise, fail open fail closed valve, cascade control reactor, integral windup, instrumentation interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "PID control"
+    url: /whiteboard/pid-control/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "PID control: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on PID control: offset and integral, too much gain, derivative and noise, valve fail positions, cascade and integral windup.",
+        "url": "https://www.pharmacheme.in/whiteboard/pid-control/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "PID control",
+          "Cascade control",
+          "Control valve fail positions"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "A P-only level loop settles a little below set point. What removes that offset?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A proportional-only controller changes output in proportion to error, so after a load change it needs a standing error to hold the new valve position, and the process settles off set point. Integral action adds up the error over time and keeps moving the output until the error is zero. Most process loops are PI."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You keep raising the controller gain to make a loop faster. What happens in the end?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Raising controller gain makes a loop respond faster, but past a point it overreacts and oscillates around set point, and can become unstable. Low gain is slow; good gain gives a quick response with a small, settling overshoot. If a loop cycles, put it in manual: if the cycling stops, look at tuning or a sticking valve; if it continues, the disturbance is coming from upstream."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do most flow loops run without derivative action?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Flow measurements are noisy, and derivative action responds to the rate of change, so each jitter produces a large output kick. The valve then twitches constantly, wearing it out and making control worse. Flow and pressure loops are usually PI; derivative is mainly useful on slow loops with clean signals, such as some temperature loops."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cooling water valve on the jacket of an exothermic reactor. Which way should it fail on loss of air?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Choose each valve's failure position by asking what is safe if the air or signal is lost. On an exothermic reactor, losing cooling is the danger, so the jacket cooling water valve fails open. Steam or heating valves fail closed so heat stops, and dosing valves fail closed so addition stops. Confirm each fail position in the HAZOP, since overcooling can be a hazard on some batches."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "In a cascade for reactor temperature, which loop is the inner (slave) loop?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a reactor temperature cascade, the outer (master) loop controls batch temperature and its output is the set point of the inner (slave) loop, which controls jacket temperature by moving the valve. The fast inner loop corrects upsets such as cooling water temperature changes before the batch feels them. Tune the inner loop first; it must be several times faster than the outer loop."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A valve sits at 100 % for a long time, then the PV overshoots badly. What is this?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When a valve is saturated, for example fully open, and the process still cannot reach set point, integral action keeps accumulating error and the controller output winds up far beyond its limit. When the process variable finally reaches set point, the integral must unwind before the valve moves, so the process overshoots. Anti-windup clamps the integral at the output limit; check it is enabled."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>PID Control: Whiteboard Lesson</h1>
+  <p>Six questions on control loops: why P-only leaves an offset, what too much gain does, why flow loops skip derivative, which way valves should fail, cascade control and integral windup. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-pid-control.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/pid-control/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>A P-only level loop settles a little below set point. What removes that offset?</h3>
+  <p>A proportional-only controller changes output in proportion to error, so after a load change it needs a standing error to hold the new valve position, and the process settles off set point. Integral action adds up the error over time and keeps moving the output until the error is zero. Most process loops are PI.</p>
+  <h3>You keep raising the controller gain to make a loop faster. What happens in the end?</h3>
+  <p>Raising controller gain makes a loop respond faster, but past a point it overreacts and oscillates around set point, and can become unstable. Low gain is slow; good gain gives a quick response with a small, settling overshoot. If a loop cycles, put it in manual: if the cycling stops, look at tuning or a sticking valve; if it continues, the disturbance is coming from upstream.</p>
+  <h3>Why do most flow loops run without derivative action?</h3>
+  <p>Flow measurements are noisy, and derivative action responds to the rate of change, so each jitter produces a large output kick. The valve then twitches constantly, wearing it out and making control worse. Flow and pressure loops are usually PI; derivative is mainly useful on slow loops with clean signals, such as some temperature loops.</p>
+  <h3>Cooling water valve on the jacket of an exothermic reactor. Which way should it fail on loss of air?</h3>
+  <p>Choose each valve&#x27;s failure position by asking what is safe if the air or signal is lost. On an exothermic reactor, losing cooling is the danger, so the jacket cooling water valve fails open. Steam or heating valves fail closed so heat stops, and dosing valves fail closed so addition stops. Confirm each fail position in the HAZOP, since overcooling can be a hazard on some batches.</p>
+  <h3>In a cascade for reactor temperature, which loop is the inner (slave) loop?</h3>
+  <p>In a reactor temperature cascade, the outer (master) loop controls batch temperature and its output is the set point of the inner (slave) loop, which controls jacket temperature by moving the valve. The fast inner loop corrects upsets such as cooling water temperature changes before the batch feels them. Tune the inner loop first; it must be several times faster than the outer loop.</p>
+  <h3>A valve sits at 100 % for a long time, then the PV overshoots badly. What is this?</h3>
+  <p>When a valve is saturated, for example fully open, and the process still cannot reach set point, integral action keeps accumulating error and the controller output winds up far beyond its limit. When the process variable finally reaches set point, the integral must unwind before the valve moves, so the process overshoots. Anti-windup clamps the integral at the output limit; check it is enabled.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/pid-control-tuning/' | relative_url }}">PID control tuning</a>
+    <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">Instrumentation basics</a>
+    <a href="{{ '/articles/reading-process-trends-to-find-faults/' | relative_url }}">Reading process trends to find faults</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Agitation and mixing: Whiteboard Lesson with Bubbles"
+seo_title: "Agitation and Mixing Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on agitators: power and speed, baffles and vortex, impellers for solids and gas, scale-up blend time and the dosing point."
+image: /assets/img/share/whiteboard-agitation-mixing.jpg
+keywords: "agitator power number, agitator speed power, baffles vortex, pitched blade turbine solids, disc turbine gas dispersion, mixing scale-up blend time, agitator interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Agitation and mixing"
+    url: /whiteboard/agitation-mixing/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Agitation and mixing: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on agitators: power and speed, baffles and vortex, impellers for solids and gas, scale-up blend time and the dosing point.",
+        "url": "https://www.pharmacheme.in/whiteboard/agitation-mixing/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Agitator power",
+          "Impeller selection",
+          "Mixing scale-up"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-22"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "In turbulent flow, you double the agitator speed. What happens to the power draw?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In turbulent flow, agitator power P = Np × ρ × N³ × D⁵, where Np is the power number, N the speed and D the impeller diameter. Doubling the speed raises power 2³ = 8 times; doubling the diameter at the same speed raises it 2⁵ = 32 times. Check motor current whenever agitator speed is changed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A tank with no baffles, agitator at high speed. What forms?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Without baffles the liquid rotates with the impeller like a solid body, giving poor top-to-bottom mixing, and the surface forms a vortex that can draw air or vapour into the batch. Wall baffles, usually four about one-tenth of the vessel diameter wide, break the rotation into axial flow. Glass-lined reactors have only one or two baffles and vortex more easily."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You need to keep heavy solids off the bottom. Which impeller is the usual choice?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A pitched-blade turbine pumping down sends flow to the base, across the bottom and up the walls, lifting solids. Mount it low, about a quarter of the tank diameter off the base, to reach the corners. Radial disc turbines throw flow sideways and are better suited to gas dispersion than solids suspension."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Scale up 10 times in diameter at the same power per volume. What happens to blend time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "At constant power per volume, impeller speed scales with diameter to the power −2/3, and in turbulent flow blend time scales with 1/speed, so it grows with diameter to the power 2/3. Ten times the diameter gives about 4.6 times the blend time: a 10 s lab blend becomes about 46 s in the plant. Fast reactions may give more impurities on scale-up unless dosing is slower or into a better-mixed spot."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A fast reaction where local excess makes impurities. Where should the reagent go in?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For a fast reaction where local excess gives impurities, dose below the surface near the impeller, where turbulence spreads the reagent quickly. Dosing onto the surface near the wall leaves a rich patch in slow flow, giving side reactions a chance. Dose only with the agitator running and proven, fit the dip pipe with a siphon break so the batch cannot suck back, and dose slowly enough that each addition is mixed before the next arrives."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Gas is fed through a ring sparger under the impeller. Which impeller handles the most gas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With gas from a sparger under the impeller, a radial disc turbine handles the most gas: it throws gas and liquid outward through a high-shear zone, making small bubbles. Pitched-blade turbines flood at lower gas rates. If the gas rate is too high for the speed, the impeller floods, spinning in a gas pocket while gas rises straight through; large bubbles erupting around the shaft, with power falling further as gas increases, are the signs. Reduce gas, or raise speed if the motor has margin."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-22
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Agitation and Mixing: Whiteboard Lesson</h1>
+  <p>Six questions on agitation: how power climbs with speed, why baffles matter, which impeller lifts solids or disperses gas, why blend time grows on scale-up and where to dose a fast reaction. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-agitation-mixing.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/agitation-mixing/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>In turbulent flow, you double the agitator speed. What happens to the power draw?</h3>
+  <p>In turbulent flow, agitator power P = Np × ρ × N³ × D⁵, where Np is the power number, N the speed and D the impeller diameter. Doubling the speed raises power 2³ = 8 times; doubling the diameter at the same speed raises it 2⁵ = 32 times. Check motor current whenever agitator speed is changed.</p>
+  <h3>A tank with no baffles, agitator at high speed. What forms?</h3>
+  <p>Without baffles the liquid rotates with the impeller like a solid body, giving poor top-to-bottom mixing, and the surface forms a vortex that can draw air or vapour into the batch. Wall baffles, usually four about one-tenth of the vessel diameter wide, break the rotation into axial flow. Glass-lined reactors have only one or two baffles and vortex more easily.</p>
+  <h3>You need to keep heavy solids off the bottom. Which impeller is the usual choice?</h3>
+  <p>A pitched-blade turbine pumping down sends flow to the base, across the bottom and up the walls, lifting solids. Mount it low, about a quarter of the tank diameter off the base, to reach the corners. Radial disc turbines throw flow sideways and are better suited to gas dispersion than solids suspension.</p>
+  <h3>Scale up 10 times in diameter at the same power per volume. What happens to blend time?</h3>
+  <p>At constant power per volume, impeller speed scales with diameter to the power −2/3, and in turbulent flow blend time scales with 1/speed, so it grows with diameter to the power 2/3. Ten times the diameter gives about 4.6 times the blend time: a 10 s lab blend becomes about 46 s in the plant. Fast reactions may give more impurities on scale-up unless dosing is slower or into a better-mixed spot.</p>
+  <h3>A fast reaction where local excess makes impurities. Where should the reagent go in?</h3>
+  <p>For a fast reaction where local excess gives impurities, dose below the surface near the impeller, where turbulence spreads the reagent quickly. Dosing onto the surface near the wall leaves a rich patch in slow flow, giving side reactions a chance. Dose only with the agitator running and proven, fit the dip pipe with a siphon break so the batch cannot suck back, and dose slowly enough that each addition is mixed before the next arrives.</p>
+  <h3>Gas is fed through a ring sparger under the impeller. Which impeller handles the most gas?</h3>
+  <p>With gas from a sparger under the impeller, a radial disc turbine handles the most gas: it throws gas and liquid outward through a high-shear zone, making small bubbles. Pitched-blade turbines flood at lower gas rates. If the gas rate is too high for the speed, the impeller floods, spinning in a gas pocket while gas rises straight through; large bubbles erupting around the shaft, with power falling further as gas increases, are the signs. Reduce gas, or raise speed if the motor has margin.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/mixing-scale-up-calculator/' | relative_url }}">Mixing scale-up calculator</a>
+    <a href="{{ '/calculators/agitator-simulator/' | relative_url }}">Agitator simulator</a>
+    <a href="{{ '/articles/agitator-design/' | relative_url }}">Agitator design</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
