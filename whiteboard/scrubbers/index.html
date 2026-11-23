@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Scrubbers: Whiteboard Lesson with Bubbles"
+seo_title: "Scrubbers and Gas Absorption: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on vent scrubbers: choosing the liquid, caustic needed for HCl, wetting the packing, spent caustic, ammonia and pump trips."
+image: /assets/img/share/whiteboard-scrubbers.jpg
+keywords: "scrubber explained, HCl scrubber caustic, caustic consumption HCl, packed column distributor, spent caustic pH, ammonia scrubber sulphuric acid, scrubber interlock, interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Scrubbers"
+    url: /whiteboard/scrubbers/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Scrubbers: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on vent scrubbers: choosing the liquid, caustic needed for HCl, wetting the packing, spent caustic, ammonia and pump trips.",
+        "url": "https://www.pharmacheme.in/whiteboard/scrubbers/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Gas absorption",
+          "Scrubber liquid selection",
+          "Scrubber safety"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "HCl gas comes off a reactor vent. Which scrubbing liquid is the usual choice?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HCl is very soluble in water, so a water stage absorbs most of it, producing weak acid that may be reusable, and a second stage with dilute caustic soda neutralises the remainder. In general, scrub acid gases with alkali and alkaline gases with acid."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much caustic soda (100 % basis) neutralises 100 kg of HCl?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HCl + NaOH → NaCl + H₂O, one mole each. With molecular weights of 36.5 and 40, 100 kg of HCl needs about 110 kg of NaOH on a 100 % basis, or about 1100 kg of 10 % solution. Neutralisation releases about 13.7 kcal per mole and dissolving gaseous HCl about 18 kcal per mole more, so a large HCl surge can make the liquor very hot."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The scrubber outlet still shows acid fumes. Flow is fine, but half the packing looks dry. Why?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Gas absorption happens on wetted packing; dry packing does nothing. A blocked or tilted distributor, or a tall bed without redistribution, lets liquid channel down one side while gas rises through the dry side unscrubbed. Clean and level the distributor and fit redistributors every few metres in tall beds."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should the caustic in a scrubber be changed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Caustic soda turns into salt as it reacts, so the scrubber liquor's pH falls with use. Below a certain pH it can no longer hold the gas and breakthrough occurs. Set a limit (often around pH 10, or better, a free-caustic titration), check it every shift or online, and start large acid-gas steps with fresh caustic."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ammonia comes off a vent. Which scrubbing liquid suits it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ammonia is alkaline, so it is scrubbed with dilute sulphuric acid, forming ammonium sulphate that stays in solution. Water alone absorbs ammonia but loses effectiveness as it loads and warms. Control an acid scrubber on pH too; its pH rises as the acid is consumed, so change it at the upper limit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The scrubber circulation pump trips while a reaction is giving off HCl. What should happen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If the scrubber circulation pump trips, the packing dries and gas passes straight through. Interlock low scrubber flow, or the pump, to stop the dosing or heating that generates the gas, add low-flow and low-pH alarms, and test the interlocks regularly."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Scrubbers: Whiteboard Lesson</h1>
+  <p>Six questions on vent scrubbers: which liquid for which gas, how much caustic HCl needs, why dry packing lets gas through, when to change caustic, scrubbing ammonia and what must happen when the pump trips. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-scrubbers.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/scrubbers/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>HCl gas comes off a reactor vent. Which scrubbing liquid is the usual choice?</h3>
+  <p>HCl is very soluble in water, so a water stage absorbs most of it, producing weak acid that may be reusable, and a second stage with dilute caustic soda neutralises the remainder. In general, scrub acid gases with alkali and alkaline gases with acid.</p>
+  <h3>How much caustic soda (100 % basis) neutralises 100 kg of HCl?</h3>
+  <p>HCl + NaOH → NaCl + H₂O, one mole each. With molecular weights of 36.5 and 40, 100 kg of HCl needs about 110 kg of NaOH on a 100 % basis, or about 1100 kg of 10 % solution. Neutralisation releases about 13.7 kcal per mole and dissolving gaseous HCl about 18 kcal per mole more, so a large HCl surge can make the liquor very hot.</p>
+  <h3>The scrubber outlet still shows acid fumes. Flow is fine, but half the packing looks dry. Why?</h3>
+  <p>Gas absorption happens on wetted packing; dry packing does nothing. A blocked or tilted distributor, or a tall bed without redistribution, lets liquid channel down one side while gas rises through the dry side unscrubbed. Clean and level the distributor and fit redistributors every few metres in tall beds.</p>
+  <h3>When should the caustic in a scrubber be changed?</h3>
+  <p>Caustic soda turns into salt as it reacts, so the scrubber liquor&#x27;s pH falls with use. Below a certain pH it can no longer hold the gas and breakthrough occurs. Set a limit (often around pH 10, or better, a free-caustic titration), check it every shift or online, and start large acid-gas steps with fresh caustic.</p>
+  <h3>Ammonia comes off a vent. Which scrubbing liquid suits it?</h3>
+  <p>Ammonia is alkaline, so it is scrubbed with dilute sulphuric acid, forming ammonium sulphate that stays in solution. Water alone absorbs ammonia but loses effectiveness as it loads and warms. Control an acid scrubber on pH too; its pH rises as the acid is consumed, so change it at the upper limit.</p>
+  <h3>The scrubber circulation pump trips while a reaction is giving off HCl. What should happen?</h3>
+  <p>If the scrubber circulation pump trips, the packing dries and gas passes straight through. Interlock low scrubber flow, or the pump, to stop the dosing or heating that generates the gas, add low-flow and low-pH alarms, and test the interlocks regularly.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/packed-scrubber-calculator/' | relative_url }}">Packed scrubber calculator</a>
+    <a href="{{ '/calculators/scrubber-solution-calculator/' | relative_url }}">Scrubber solution calculator</a>
+    <a href="{{ '/articles/scrubber-design/' | relative_url }}">Scrubber design</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

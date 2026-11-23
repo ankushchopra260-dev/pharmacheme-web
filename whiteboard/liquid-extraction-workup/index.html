@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Extraction and workup: Whiteboard Lesson with Bubbles"
+seo_title: "Liquid-Liquid Extraction and Workup: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on workup: partition coefficient, split extractions, emulsions, pH swings, which layer is on top and the rag layer."
+image: /assets/img/share/whiteboard-liquid-extraction-workup.jpg
+keywords: "liquid liquid extraction explained, partition coefficient, multiple extractions, emulsion brine, pH swing extraction pKa, DCM water layer, rag layer separator, workup interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Extraction and workup"
+    url: /whiteboard/liquid-extraction-workup/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Extraction and workup: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on workup: partition coefficient, split extractions, emulsions, pH swings, which layer is on top and the rag layer.",
+        "url": "https://www.pharmacheme.in/whiteboard/liquid-extraction-workup/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Partition coefficient",
+          "Workup and phase separation",
+          "pH-controlled extraction"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Partition coefficient 4 (organic over water), one extraction, equal volumes. How much is extracted?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The partition coefficient K is the product's concentration in the organic layer divided by its concentration in the water. With K = 4 and equal volumes the product splits four parts to one, so 4 ÷ 5 = 80 % is extracted in one pass. In general the fraction extracted is KR ÷ (1 + KR), where R is organic volume over water volume."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Same K of 4. Is one extraction with the full solvent better, or two with half each?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With K = 4, one extraction with the full solvent volume leaves 1/(1+4) = 20 % behind. With half the volume each pass leaves 1/(1+2) = 1/3, so two passes leave 1/9, about 11 %, extracting about 89 %. Several smaller extractions always beat one large one, though two or three passes are usually enough in practice."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A stubborn emulsion forms after a wash. What is a good first fix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An emulsion is fine droplets that will not settle, often caused by fine solids, surfactant-like by-products or too much stirring. Adding brine raises the water layer's density and ionic strength so droplets coalesce. Other fixes are time, gentle warming (well below the solvent's boiling point), adjusting pH or filtering out stabilising solids; gentler stirring prevents it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "An acid product (pKa 4.5) must move into the water layer. Roughly what pH should the water be?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An acid is mostly neutral below its pKa and ionised above it. Two pH units above the pKa (here pH 6.5 or higher) about 99 % is ionised and moves into water; two units below (about pH 2.5) it is neutral and stays in the organic layer. Extract the acid into water at high pH, separate, then acidify to recover it; bases behave the other way round."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Dichloromethane (DCM) and water in a separator. Which layer is on top?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Density decides which layer is on top. Water is 1.0 and dichloromethane about 1.33, so DCM sinks and water floats; toluene (0.87) and ethyl acetate (0.90) float on water. Salty water layers are heavier than expected and close densities can invert layers, so when in doubt, add a few drops of water to a sample and see which layer grows."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "In the plant separator, a hazy rag layer sits between the two phases. What do you do with it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A rag layer at the interface holds fine solids, emulsion and impurities, and often some product. Drain the bottom layer slowly while watching the sight glass, stop at the rag, and take it as a separate cut to settle, filter or rework as the approved procedure allows. Drain flammable solvents slowly with the vessel and container earthed."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Extraction and Workup: Whiteboard Lesson</h1>
+  <p>Six questions on liquid-liquid extraction and workup: how much one wash extracts, why two smaller washes win, breaking emulsions, using pH to move acids and bases, which layer floats and what to do with the rag layer. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-liquid-extraction-workup.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/liquid-extraction-workup/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Partition coefficient 4 (organic over water), one extraction, equal volumes. How much is extracted?</h3>
+  <p>The partition coefficient K is the product&#x27;s concentration in the organic layer divided by its concentration in the water. With K = 4 and equal volumes the product splits four parts to one, so 4 ÷ 5 = 80 % is extracted in one pass. In general the fraction extracted is KR ÷ (1 + KR), where R is organic volume over water volume.</p>
+  <h3>Same K of 4. Is one extraction with the full solvent better, or two with half each?</h3>
+  <p>With K = 4, one extraction with the full solvent volume leaves 1/(1+4) = 20 % behind. With half the volume each pass leaves 1/(1+2) = 1/3, so two passes leave 1/9, about 11 %, extracting about 89 %. Several smaller extractions always beat one large one, though two or three passes are usually enough in practice.</p>
+  <h3>A stubborn emulsion forms after a wash. What is a good first fix?</h3>
+  <p>An emulsion is fine droplets that will not settle, often caused by fine solids, surfactant-like by-products or too much stirring. Adding brine raises the water layer&#x27;s density and ionic strength so droplets coalesce. Other fixes are time, gentle warming (well below the solvent&#x27;s boiling point), adjusting pH or filtering out stabilising solids; gentler stirring prevents it.</p>
+  <h3>An acid product (pKa 4.5) must move into the water layer. Roughly what pH should the water be?</h3>
+  <p>An acid is mostly neutral below its pKa and ionised above it. Two pH units above the pKa (here pH 6.5 or higher) about 99 % is ionised and moves into water; two units below (about pH 2.5) it is neutral and stays in the organic layer. Extract the acid into water at high pH, separate, then acidify to recover it; bases behave the other way round.</p>
+  <h3>Dichloromethane (DCM) and water in a separator. Which layer is on top?</h3>
+  <p>Density decides which layer is on top. Water is 1.0 and dichloromethane about 1.33, so DCM sinks and water floats; toluene (0.87) and ethyl acetate (0.90) float on water. Salty water layers are heavier than expected and close densities can invert layers, so when in doubt, add a few drops of water to a sample and see which layer grows.</p>
+  <h3>In the plant separator, a hazy rag layer sits between the two phases. What do you do with it?</h3>
+  <p>A rag layer at the interface holds fine solids, emulsion and impurities, and often some product. Drain the bottom layer slowly while watching the sight glass, stop at the rag, and take it as a separate cut to settle, filter or rework as the approved procedure allows. Drain flammable solvents slowly with the vessel and container earthed.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/workup-and-phase-separation/' | relative_url }}">Workup and phase separation</a>
+    <a href="{{ '/whiteboard/crystallisation/' | relative_url }}">Crystallisation: whiteboard lesson</a>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
