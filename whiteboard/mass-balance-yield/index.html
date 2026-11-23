@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Mass balance and yield: Whiteboard Lesson with Bubbles"
+seo_title: "Mass Balance and Yield Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on mass balance and yield: molar vs weight yield, limiting reagent, conversion and selectivity, closing a balance and recycle."
+image: /assets/img/share/whiteboard-mass-balance-yield.jpg
+keywords: "molar yield vs weight yield, limiting reagent excess, conversion selectivity yield, mass balance closure, mother liquor recycle purge, chemical engineering interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Mass balance and yield"
+    url: /whiteboard/mass-balance-yield/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Mass balance and yield: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on mass balance and yield: molar vs weight yield, limiting reagent, conversion and selectivity, closing a balance and recycle.",
+        "url": "https://www.pharmacheme.in/whiteboard/mass-balance-yield/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Molar and weight yield",
+          "Limiting reagent",
+          "Mass balance closure"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "1 kmol of limiting reagent (MW 150) reacts 1 to 1, giving 160 kg of product (MW 200). Molar yield?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Molar yield is moles of product made divided by moles that could have been made from the limiting reagent. 160 kg of product with molecular weight 200 is 0.8 kmol; with 1:1 stoichiometry, 1 kmol of starting material could give 1 kmol, so the molar yield is 80 %. Always state whether a yield is molar or by weight."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The same batch gives a weight yield of 107 %. How can that be over 100 %?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Weight yield is kilograms of product per kilogram of starting material: 160 ÷ 150 = 107 %. It can exceed 100 % when the product molecule is heavier than the starting material, here 200 against 150. Costing usually uses weight yield, while chemists judge reactions by molar yield."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "1.0 kmol of A and 1.3 kmol of B react 1 to 1. Which is limiting, and what is B's excess?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With 1:1 stoichiometry, the reagent with fewer moles, A at 1.0 kmol, runs out first and is limiting. B's excess is 0.3 ÷ 1.0 = 30 %. Yield is based on the limiting reagent; the excess costs money and has to be removed later."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Conversion is 90 % and selectivity to product is 80 %. What is the yield?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Conversion is the fraction of starting material that reacted (90 %); selectivity is the fraction of what reacted that became product (80 %). Yield is conversion × selectivity: 0.9 × 0.8 = 72 %. Low conversion points to time, temperature or catalyst; low selectivity points to side reactions and mixing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "1000 kg went into a batch, but everything measured out adds up to 900 kg. What do you do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A mass balance must close: in = out + accumulation. A 100 kg gap means something is unmeasured, typically vapour lost to vents or scrubbers, hold-up in lines, filters and dryers, samples or spills, or wrong weights or liquid densities. Close the balance to within a few percent before trusting yield or waste figures."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Recycling mother liquor raises the overall yield. What is the catch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Mother liquor still contains dissolved product, so recycling it raises overall yield. But impurities return too and accumulate each cycle until they crystallise with the product and the batch fails purity. Purge part of the liquor each time and set a limit on the number of recycles."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Mass Balance and Yield: Whiteboard Lesson</h1>
+  <p>Six questions on yield and mass balance: molar and weight yield, the limiting reagent and excess, conversion times selectivity, finding missing kilograms and the catch with recycling mother liquor. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-mass-balance-yield.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/mass-balance-yield/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>1 kmol of limiting reagent (MW 150) reacts 1 to 1, giving 160 kg of product (MW 200). Molar yield?</h3>
+  <p>Molar yield is moles of product made divided by moles that could have been made from the limiting reagent. 160 kg of product with molecular weight 200 is 0.8 kmol; with 1:1 stoichiometry, 1 kmol of starting material could give 1 kmol, so the molar yield is 80 %. Always state whether a yield is molar or by weight.</p>
+  <h3>The same batch gives a weight yield of 107 %. How can that be over 100 %?</h3>
+  <p>Weight yield is kilograms of product per kilogram of starting material: 160 ÷ 150 = 107 %. It can exceed 100 % when the product molecule is heavier than the starting material, here 200 against 150. Costing usually uses weight yield, while chemists judge reactions by molar yield.</p>
+  <h3>1.0 kmol of A and 1.3 kmol of B react 1 to 1. Which is limiting, and what is B&#x27;s excess?</h3>
+  <p>With 1:1 stoichiometry, the reagent with fewer moles, A at 1.0 kmol, runs out first and is limiting. B&#x27;s excess is 0.3 ÷ 1.0 = 30 %. Yield is based on the limiting reagent; the excess costs money and has to be removed later.</p>
+  <h3>Conversion is 90 % and selectivity to product is 80 %. What is the yield?</h3>
+  <p>Conversion is the fraction of starting material that reacted (90 %); selectivity is the fraction of what reacted that became product (80 %). Yield is conversion × selectivity: 0.9 × 0.8 = 72 %. Low conversion points to time, temperature or catalyst; low selectivity points to side reactions and mixing.</p>
+  <h3>1000 kg went into a batch, but everything measured out adds up to 900 kg. What do you do?</h3>
+  <p>A mass balance must close: in = out + accumulation. A 100 kg gap means something is unmeasured, typically vapour lost to vents or scrubbers, hold-up in lines, filters and dryers, samples or spills, or wrong weights or liquid densities. Close the balance to within a few percent before trusting yield or waste figures.</p>
+  <h3>Recycling mother liquor raises the overall yield. What is the catch?</h3>
+  <p>Mother liquor still contains dissolved product, so recycling it raises overall yield. But impurities return too and accumulate each cycle until they crystallise with the product and the batch fails purity. Purge part of the liquor each time and set a limit on the number of recycles.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/material-and-energy-balance/' | relative_url }}">Material and energy balance</a>
+    <a href="{{ '/articles/improve-reaction-conversion-and-yield/' | relative_url }}">Improve reaction conversion and yield</a>
+    <a href="{{ '/calculators/batch-size-calculator/' | relative_url }}">Batch size calculator</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

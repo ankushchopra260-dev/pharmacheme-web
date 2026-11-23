@@ -109,10 +109,12 @@ def tower(x, y, w, h):
 
 # ---------- build ----------
 def spoken(s, extra=()):
-    """Text as the voice should say it."""
+    """Text as the voice should say it. Lesson-specific replacements (extra) run first."""
+    for a, b in tuple(extra):
+        s = s.replace(a, b)
     for a, b in (('NPSHr', 'N P S H required'), ('NPSHa', 'N P S H available'), ('NPSH', 'N P S H'), ('LMTD', 'L M T D'),
                  ('MTSR', 'M T S R'), ('°C', ' degrees'), ('→', 'to'), ('kcal', 'kilocalories'), ('mmHg', 'millimetres of mercury'),
-                 ('mbar', 'millibar'), (' vs ', ' versus ')) + tuple(extra):
+                 ('mbar', 'millibar'), (' vs ', ' versus ')):
         s = s.replace(a, b)
     return s
 

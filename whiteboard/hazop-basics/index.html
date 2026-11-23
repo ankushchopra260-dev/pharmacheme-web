@@ -1,0 +1,142 @@
+---
+layout: default
+title: "HAZOP basics: Whiteboard Lesson with Bubbles"
+seo_title: "HAZOP Basics Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on HAZOP: guide words and deviations, the order of a HAZOP row, safeguard strength, timing, the team and management of change."
+image: /assets/img/share/whiteboard-hazop-basics.jpg
+keywords: "HAZOP explained, HAZOP guide words, HAZOP deviation causes consequences safeguards, independent safeguard, HAZOP team, management of change MOC, process safety interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "HAZOP basics"
+    url: /whiteboard/hazop-basics/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "HAZOP basics: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on HAZOP: guide words and deviations, the order of a HAZOP row, safeguard strength, timing, the team and management of change.",
+        "url": "https://www.pharmacheme.in/whiteboard/hazop-basics/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "HAZOP method",
+          "Safeguards",
+          "Management of change"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "In a HAZOP, what is a deviation made of?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A HAZOP deviation is a guide word combined with a process parameter: 'no' + flow gives no flow, 'more' + pressure gives high pressure. Parameters include flow, pressure, temperature, level and composition; guide words include no, more, less, reverse and other than. The team works through each section of the process and every sensible deviation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The deviation is 'high pressure in the reactor'. What does the team write down next?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A HAZOP row runs deviation, causes, consequences, safeguards, actions. For high reactor pressure the team first lists causes, such as cooling failure, a blocked vent or fast dosing, then the consequences if nothing intervenes, then the existing safeguards. If they are not enough, an action is recorded with an owner and a date."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which is usually the strongest safeguard against reactor overpressure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Alarms depend on someone noticing and acting in time, and procedures depend on people following them every time. A relief valve or bursting disc sized for the specific overpressure case works without human action, so it is usually the strongest safeguard. Count a safeguard only if it is independent of the cause and is sized and tested for that case."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should a new plant's HAZOP be done?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A plant HAZOP is done when the P&IDs are firm but before construction, when changes are still cheap on paper. A lighter review such as a what-if study is useful at the concept stage, and the HAZOP should be revisited whenever the plant changes and periodically every few years."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who should be in a HAZOP team?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A HAZOP team is cross-functional: process, operations, instrumentation, maintenance and safety, plus a chemist for batch processes. Operators are especially valuable because they know how the plant is really run. An independent, trained chair keeps the team on the method, and a scribe records every row."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You want to swap the reaction solvent for a cheaper one. Does that need a hazard review?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Changing a solvent changes flash point, boiling point, toxicity and static behaviour, and can affect heat removal, the relief case and the reaction itself. It must go through management of change, with a hazard review (often a focused HAZOP) before the first batch, followed by updated procedures and training."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>HAZOP Basics: Whiteboard Lesson</h1>
+  <p>Six questions on HAZOP: how deviations are built, what goes in each column, which safeguards count most, when to hold the study, who should be in the room and why a small change still needs a review. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-hazop-basics.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/hazop-basics/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>In a HAZOP, what is a deviation made of?</h3>
+  <p>A HAZOP deviation is a guide word combined with a process parameter: &#x27;no&#x27; + flow gives no flow, &#x27;more&#x27; + pressure gives high pressure. Parameters include flow, pressure, temperature, level and composition; guide words include no, more, less, reverse and other than. The team works through each section of the process and every sensible deviation.</p>
+  <h3>The deviation is &#x27;high pressure in the reactor&#x27;. What does the team write down next?</h3>
+  <p>A HAZOP row runs deviation, causes, consequences, safeguards, actions. For high reactor pressure the team first lists causes, such as cooling failure, a blocked vent or fast dosing, then the consequences if nothing intervenes, then the existing safeguards. If they are not enough, an action is recorded with an owner and a date.</p>
+  <h3>Which is usually the strongest safeguard against reactor overpressure?</h3>
+  <p>Alarms depend on someone noticing and acting in time, and procedures depend on people following them every time. A relief valve or bursting disc sized for the specific overpressure case works without human action, so it is usually the strongest safeguard. Count a safeguard only if it is independent of the cause and is sized and tested for that case.</p>
+  <h3>When should a new plant&#x27;s HAZOP be done?</h3>
+  <p>A plant HAZOP is done when the P&amp;IDs are firm but before construction, when changes are still cheap on paper. A lighter review such as a what-if study is useful at the concept stage, and the HAZOP should be revisited whenever the plant changes and periodically every few years.</p>
+  <h3>Who should be in a HAZOP team?</h3>
+  <p>A HAZOP team is cross-functional: process, operations, instrumentation, maintenance and safety, plus a chemist for batch processes. Operators are especially valuable because they know how the plant is really run. An independent, trained chair keeps the team on the method, and a scribe records every row.</p>
+  <h3>You want to swap the reaction solvent for a cheaper one. Does that need a hazard review?</h3>
+  <p>Changing a solvent changes flash point, boiling point, toxicity and static behaviour, and can affect heat removal, the relief case and the reaction itself. It must go through management of change, with a hazard review (often a focused HAZOP) before the first batch, followed by updated procedures and training.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hazop-made-practical/' | relative_url }}">HAZOP made practical</a>
+    <a href="{{ '/articles/lopa-and-sil-basics/' | relative_url }}">LOPA and SIL basics</a>
+    <a href="{{ '/whiteboard/relief-valves/' | relative_url }}">Relief valves: whiteboard lesson</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

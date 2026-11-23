@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Batch heating and cooling: Whiteboard Lesson with Bubbles"
+seo_title: "Batch Heating and Cooling Time: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on jacketed reactors: heat needed, why heating slows, heat-up time, wetted area, glass-lined U and thermal shock."
+image: /assets/img/share/whiteboard-batch-heating-cooling.jpg
+keywords: "batch heating time, jacketed reactor heat transfer, heat up time formula, wetted area reactor, glass lined reactor U value, thermal shock glass lined, interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Batch heating and cooling"
+    url: /whiteboard/batch-heating-cooling/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Batch heating and cooling: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on jacketed reactors: heat needed, why heating slows, heat-up time, wetted area, glass-lined U and thermal shock.",
+        "url": "https://www.pharmacheme.in/whiteboard/batch-heating-cooling/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Batch heat-up time",
+          "Jacketed vessel heat transfer",
+          "Glass-lined reactor limits"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much heat does it take to warm 5000 kg of batch (Cp 0.5 kcal/kg °C) from 25 to 75 °C?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat required is mass × heat capacity × temperature rise: 5000 kg × 0.5 kcal/kg °C × 50 °C = 125,000 kcal, plus some heat for the vessel steel. How long it takes depends on the jacket's heat transfer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A batch heats quickly at first, then slows down near the jacket temperature. Why?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat flow is U × A × (jacket temperature − batch temperature). As the batch warms, the temperature difference shrinks, so heat flow falls and the batch approaches the jacket temperature ever more slowly. The last few degrees always take the longest."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Jacket 120 °C, batch 25 → 75 °C, mCp 2500 kcal/°C, UA 2500 kcal/h °C. How long?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "With a jacket at constant temperature, heat-up time t = (mCp ÷ UA) × ln[(Tj − T1) ÷ (Tj − T2)]. Here mCp ÷ UA = 2500 ÷ 2500 = 1 h and ln(95 ÷ 45) ≈ 0.75, so t ≈ 0.75 h, about 45 minutes. Heating on from 75 to 115 °C takes ln(45 ÷ 5) ≈ 2.2 h, three times longer for fewer degrees."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The same batch, in a taller reactor, covers only half the jacket. Heat-up time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only the vessel wall in contact with the batch transfers heat, so the same batch in a taller vessel, covering only part of the jacket, heats more slowly. A hot jacket above the liquid can also bake product onto the dry wall. Use the heat transfer area at the actual level, heat only the zones below it where possible, and make sure the temperature probe and agitator are submerged."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A glass-lined reactor cools slowly, even with brine. What usually limits it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Heat crosses the batch-side film, the glass lining, the steel wall and the jacket-side film. Glass conducts heat roughly forty times worse than steel, so even a thin lining is a large resistance and glass-lined reactors have a much lower overall coefficient U than steel vessels, often a few hundred kcal/h m² °C. Faster agitation helps only a little; plan for longer cooling times."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A glass-lined reactor is at 150 °C. Why not send cold brine straight into the jacket?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Glass and steel expand differently, so a sudden temperature change on either side stresses the lining and can crack or spall the glass, taking the vessel out of service. Every glass-lined vessel has a thermal shock chart from its manufacturer; stay within it and cool in stages, for example hot water, then cooling water, then brine, draining the jacket between each."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Batch Heating and Cooling: Whiteboard Lesson</h1>
+  <p>Six questions on heating and cooling a batch in a jacketed reactor: how much heat, why the last degrees are slow, working out heat-up time, low batch levels, glass-lined reactors and thermal shock. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-batch-heating-cooling.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/batch-heating-cooling/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>How much heat does it take to warm 5000 kg of batch (Cp 0.5 kcal/kg °C) from 25 to 75 °C?</h3>
+  <p>Heat required is mass × heat capacity × temperature rise: 5000 kg × 0.5 kcal/kg °C × 50 °C = 125,000 kcal, plus some heat for the vessel steel. How long it takes depends on the jacket&#x27;s heat transfer.</p>
+  <h3>A batch heats quickly at first, then slows down near the jacket temperature. Why?</h3>
+  <p>Heat flow is U × A × (jacket temperature − batch temperature). As the batch warms, the temperature difference shrinks, so heat flow falls and the batch approaches the jacket temperature ever more slowly. The last few degrees always take the longest.</p>
+  <h3>Jacket 120 °C, batch 25 → 75 °C, mCp 2500 kcal/°C, UA 2500 kcal/h °C. How long?</h3>
+  <p>With a jacket at constant temperature, heat-up time t = (mCp ÷ UA) × ln[(Tj − T1) ÷ (Tj − T2)]. Here mCp ÷ UA = 2500 ÷ 2500 = 1 h and ln(95 ÷ 45) ≈ 0.75, so t ≈ 0.75 h, about 45 minutes. Heating on from 75 to 115 °C takes ln(45 ÷ 5) ≈ 2.2 h, three times longer for fewer degrees.</p>
+  <h3>The same batch, in a taller reactor, covers only half the jacket. Heat-up time?</h3>
+  <p>Only the vessel wall in contact with the batch transfers heat, so the same batch in a taller vessel, covering only part of the jacket, heats more slowly. A hot jacket above the liquid can also bake product onto the dry wall. Use the heat transfer area at the actual level, heat only the zones below it where possible, and make sure the temperature probe and agitator are submerged.</p>
+  <h3>A glass-lined reactor cools slowly, even with brine. What usually limits it?</h3>
+  <p>Heat crosses the batch-side film, the glass lining, the steel wall and the jacket-side film. Glass conducts heat roughly forty times worse than steel, so even a thin lining is a large resistance and glass-lined reactors have a much lower overall coefficient U than steel vessels, often a few hundred kcal/h m² °C. Faster agitation helps only a little; plan for longer cooling times.</p>
+  <h3>A glass-lined reactor is at 150 °C. Why not send cold brine straight into the jacket?</h3>
+  <p>Glass and steel expand differently, so a sudden temperature change on either side stresses the lining and can crack or spall the glass, taking the vessel out of service. Every glass-lined vessel has a thermal shock chart from its manufacturer; stay within it and cool in stages, for example hot water, then cooling water, then brine, draining the jacket between each.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/jacketed-vessel-heat-transfer/' | relative_url }}">Jacketed vessel heat transfer calculator</a>
+    <a href="{{ '/calculators/batch-cooling-tr-calculator/' | relative_url }}">Batch cooling TR calculator</a>
+    <a href="{{ '/articles/jacket-and-limpet-coil-design/' | relative_url }}">Jacket and limpet coil design</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

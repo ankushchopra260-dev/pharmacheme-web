@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Steam and steam traps: Whiteboard Lesson with Bubbles"
+seo_title: "Steam and Steam Traps Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on steam: saturated vs superheated, lower pressure for heating, what traps do, flash steam and water hammer in mains."
+image: /assets/img/share/whiteboard-steam-and-steam-traps.jpg
+keywords: "steam trap explained, saturated vs superheated steam, steam pressure latent heat, flash steam calculation, failed steam trap, steam main water hammer, utilities interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Steam and steam traps"
+    url: /whiteboard/steam-and-steam-traps/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Steam and steam traps: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on steam: saturated vs superheated, lower pressure for heating, what traps do, flash steam and water hammer in mains.",
+        "url": "https://www.pharmacheme.in/whiteboard/steam-and-steam-traps/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Steam for process heating",
+          "Steam traps",
+          "Flash steam"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why do process heaters use saturated steam rather than superheated steam?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Saturated steam heats by condensing on the surface, giving up its latent heat at a single fixed temperature with a very high film coefficient. Superheated steam must first cool like a gas, with poor heat transfer and uneven temperatures, so steam is usually desuperheated before process heaters and jackets."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why reduce steam from 10 barg to 3.5 barg for heating, if the process allows?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Steam at 10 barg condenses at about 184 °C and releases about 477 kcal/kg; at 3.5 barg it condenses at about 148 °C and releases about 506 kcal/kg. Lower-pressure steam gives more latent heat per kilogram, a gentler wall temperature and less flash steam, but the smaller temperature difference may need more heat transfer area."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does a steam trap do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A steam trap lets condensate and air out while holding steam in, so equipment does not flood and steam stays to give up its heat. Float traps suit heat exchangers with varying loads; thermodynamic traps suit steam main drains. Air must also be removed, because it blankets heat transfer surfaces and lowers the effective steam temperature."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "An open trap discharge shows a big white cloud. Has the trap failed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When hot condensate drops to atmospheric pressure, part of it flashes to steam, forming a lazy white cloud, which is normal. Live steam blowing through a failed-open trap shows as a fast, nearly clear jet at the outlet that turns white further away. Stand clear of the outlet, since live steam near it is invisible and burns, and confirm with an ultrasonic check; a trap failed open wastes steam continuously."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Condensate at 7 barg is let down to atmosphere. Roughly what share flashes to steam?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Condensate at 7 barg is at about 170 °C and holds about 172 kcal/kg. At atmospheric pressure water can hold only about 100 kcal/kg, so the extra 72 kcal/kg evaporates part of it; at about 539 kcal/kg latent heat, that is 72 ÷ 539 ≈ 13 %. Flash steam can be recovered in a flash vessel for low-pressure heating."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Steam mains bang loudly when steam is let in at start-up. What is the main cause?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When steam enters a cold main, condensate forms and collects at low points. Fast steam picks it up into slugs that strike bends with great force: water hammer. Fit drip legs with traps at every low point and every 30 to 50 m on long runs, and warm mains up slowly with the drains open."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Steam and Steam Traps: Whiteboard Lesson</h1>
+  <p>Six questions on steam systems: why heaters use saturated steam, why lower pressure gives more heat per kilogram, what a trap does, telling flash steam from a failed trap, how much flashes and draining the mains. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-steam-and-steam-traps.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/steam-and-steam-traps/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Why do process heaters use saturated steam rather than superheated steam?</h3>
+  <p>Saturated steam heats by condensing on the surface, giving up its latent heat at a single fixed temperature with a very high film coefficient. Superheated steam must first cool like a gas, with poor heat transfer and uneven temperatures, so steam is usually desuperheated before process heaters and jackets.</p>
+  <h3>Why reduce steam from 10 barg to 3.5 barg for heating, if the process allows?</h3>
+  <p>Steam at 10 barg condenses at about 184 °C and releases about 477 kcal/kg; at 3.5 barg it condenses at about 148 °C and releases about 506 kcal/kg. Lower-pressure steam gives more latent heat per kilogram, a gentler wall temperature and less flash steam, but the smaller temperature difference may need more heat transfer area.</p>
+  <h3>What does a steam trap do?</h3>
+  <p>A steam trap lets condensate and air out while holding steam in, so equipment does not flood and steam stays to give up its heat. Float traps suit heat exchangers with varying loads; thermodynamic traps suit steam main drains. Air must also be removed, because it blankets heat transfer surfaces and lowers the effective steam temperature.</p>
+  <h3>An open trap discharge shows a big white cloud. Has the trap failed?</h3>
+  <p>When hot condensate drops to atmospheric pressure, part of it flashes to steam, forming a lazy white cloud, which is normal. Live steam blowing through a failed-open trap shows as a fast, nearly clear jet at the outlet that turns white further away. Stand clear of the outlet, since live steam near it is invisible and burns, and confirm with an ultrasonic check; a trap failed open wastes steam continuously.</p>
+  <h3>Condensate at 7 barg is let down to atmosphere. Roughly what share flashes to steam?</h3>
+  <p>Condensate at 7 barg is at about 170 °C and holds about 172 kcal/kg. At atmospheric pressure water can hold only about 100 kcal/kg, so the extra 72 kcal/kg evaporates part of it; at about 539 kcal/kg latent heat, that is 72 ÷ 539 ≈ 13 %. Flash steam can be recovered in a flash vessel for low-pressure heating.</p>
+  <h3>Steam mains bang loudly when steam is let in at start-up. What is the main cause?</h3>
+  <p>When steam enters a cold main, condensate forms and collects at low points. Fast steam picks it up into slugs that strike bends with great force: water hammer. Fit drip legs with traps at every low point and every 30 to 50 m on long runs, and warm mains up slowly with the drains open.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/calculators/steam-heating-calculator/' | relative_url }}">Steam heating calculator</a>
+    <a href="{{ '/calculators/steam-tables/' | relative_url }}">Steam tables</a>
+    <a href="{{ '/articles/steam-system-efficiency/' | relative_url }}">Steam system efficiency</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
