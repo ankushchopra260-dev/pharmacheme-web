@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Hydrogenation safety: Whiteboard Lesson with Bubbles"
+seo_title: "Hydrogenation Safety Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on hydrogenation: hydrogen flammability, nitrogen purging, pyrophoric catalyst, mass transfer, heat control and leak detection."
+image: /assets/img/share/whiteboard-hydrogenation-safety.jpg
+keywords: "hydrogenation safety, hydrogen flammable range, nitrogen purge hydrogenation, pyrophoric palladium carbon, hydrogen mass transfer, nitro reduction exotherm, hydrogen detector placement, interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Hydrogenation safety"
+    url: /whiteboard/hydrogenation-safety/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Hydrogenation safety: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on hydrogenation: hydrogen flammability, nitrogen purging, pyrophoric catalyst, mass transfer, heat control and leak detection.",
+        "url": "https://www.pharmacheme.in/whiteboard/hydrogenation-safety/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Hydrogen hazards",
+          "Catalyst handling",
+          "Hydrogenation heat control"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is hydrogen's flammable range in air?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen is flammable in air from about 4 % to about 75 %, a far wider range than toluene (about 1 to 7 %), and its minimum ignition energy is only about 0.02 mJ. Assume any hydrogen leak can ignite: keep air out of the system and hydrogen in."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Before letting hydrogen into a reactor, what must you do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen and air must never mix inside the reactor. Before hydrogen goes in, purge the air out with nitrogen, usually by repeated pressure-and-vent cycles, and confirm low oxygen with an analyser. At the end, purge the hydrogen out with nitrogen before opening the reactor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Filtering spent palladium-on-carbon catalyst. What is the key hazard?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Spent hydrogenation catalysts such as palladium on carbon hold hydrogen and are very active; if the cake dries in air it can glow and ignite the solvent. Never let it run dry, filter under nitrogen, wash with water before exposure, and store it water-wet in a closed container for metal recovery."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Raising the stirrer speed makes hydrogen uptake much faster. What does that tell you?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen must dissolve into the liquid before it reaches the catalyst, and its low solubility often makes this the slowest step. If faster stirring increases uptake, gas-liquid mass transfer is limiting; better dispersion, higher pressure or a gas-inducing impeller help. Faster uptake also means faster heat release."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Reducing a nitro group with hydrogen is strongly exothermic. How is the heat usually controlled?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Reducing a nitro group to an amine releases around 130 kcal per mole. In hydrogenation, hydrogen is the dosed reagent, so the heat release is controlled through the hydrogen feed rate, using a pressure controller or flow limit interlocked to high temperature. Some nitro intermediates are thermally unstable, so check thermal data and never run hot to finish faster."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where should hydrogen gas detectors be placed in a hydrogenation room?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hydrogen is about fourteen times lighter than air and collects under the roof, so detectors go at high points and above likely leak sources such as flanges and valves. Provide high-level ventilation and exclude ignition sources. Hydrogen flames are nearly invisible in daylight, so do not approach a suspected leak; isolate it remotely and check with a thermal camera or flame detector."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Hydrogenation Safety: Whiteboard Lesson</h1>
+  <p>Six questions on running hydrogenations safely: how flammable hydrogen is, purging before and after, handling spent catalyst, why stirring speeds uptake, controlling the exotherm and where to put gas detectors. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-hydrogenation-safety.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/hydrogenation-safety/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>What is hydrogen&#x27;s flammable range in air?</h3>
+  <p>Hydrogen is flammable in air from about 4 % to about 75 %, a far wider range than toluene (about 1 to 7 %), and its minimum ignition energy is only about 0.02 mJ. Assume any hydrogen leak can ignite: keep air out of the system and hydrogen in.</p>
+  <h3>Before letting hydrogen into a reactor, what must you do?</h3>
+  <p>Hydrogen and air must never mix inside the reactor. Before hydrogen goes in, purge the air out with nitrogen, usually by repeated pressure-and-vent cycles, and confirm low oxygen with an analyser. At the end, purge the hydrogen out with nitrogen before opening the reactor.</p>
+  <h3>Filtering spent palladium-on-carbon catalyst. What is the key hazard?</h3>
+  <p>Spent hydrogenation catalysts such as palladium on carbon hold hydrogen and are very active; if the cake dries in air it can glow and ignite the solvent. Never let it run dry, filter under nitrogen, wash with water before exposure, and store it water-wet in a closed container for metal recovery.</p>
+  <h3>Raising the stirrer speed makes hydrogen uptake much faster. What does that tell you?</h3>
+  <p>Hydrogen must dissolve into the liquid before it reaches the catalyst, and its low solubility often makes this the slowest step. If faster stirring increases uptake, gas-liquid mass transfer is limiting; better dispersion, higher pressure or a gas-inducing impeller help. Faster uptake also means faster heat release.</p>
+  <h3>Reducing a nitro group with hydrogen is strongly exothermic. How is the heat usually controlled?</h3>
+  <p>Reducing a nitro group to an amine releases around 130 kcal per mole. In hydrogenation, hydrogen is the dosed reagent, so the heat release is controlled through the hydrogen feed rate, using a pressure controller or flow limit interlocked to high temperature. Some nitro intermediates are thermally unstable, so check thermal data and never run hot to finish faster.</p>
+  <h3>Where should hydrogen gas detectors be placed in a hydrogenation room?</h3>
+  <p>Hydrogen is about fourteen times lighter than air and collects under the roof, so detectors go at high points and above likely leak sources such as flanges and valves. Provide high-level ventilation and exclude ignition sources. Hydrogen flames are nearly invisible in daylight, so do not approach a suspected leak; isolate it remotely and check with a thermal camera or flame detector.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/hydrogenation-safety/' | relative_url }}">Hydrogenation safety</a>
+    <a href="{{ '/articles/hydrogenation-and-reduction/' | relative_url }}">Hydrogenation and reduction</a>
+    <a href="{{ '/calculators/hydrogen-solubility-calculator/' | relative_url }}">Hydrogen solubility calculator</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

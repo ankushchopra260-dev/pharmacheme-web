@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Compressed air and nitrogen: Whiteboard Lesson with Bubbles"
+seo_title: "Compressed Air and Nitrogen: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on compressed air and nitrogen: air cost, pressure and power, dew point, PSA purity, nitrogen asphyxiation and solvent transfers."
+image: /assets/img/share/whiteboard-compressed-air-nitrogen.jpg
+keywords: "compressed air efficiency, compressor pressure power saving, instrument air dew point, PSA nitrogen purity output, nitrogen asphyxiation confined space, solvent transfer nitrogen, utilities interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Compressed air and nitrogen"
+    url: /whiteboard/compressed-air-nitrogen/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Compressed air and nitrogen: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on compressed air and nitrogen: air cost, pressure and power, dew point, PSA purity, nitrogen asphyxiation and solvent transfers.",
+        "url": "https://www.pharmacheme.in/whiteboard/compressed-air-nitrogen/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Compressed air efficiency",
+          "Nitrogen generation",
+          "Nitrogen safety"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Of the electricity a compressor uses, roughly how much ends up as useful work at the air tool?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compressing air turns most of the motor's power into heat, and leaks, pressure drops and over-pressure waste more, so only about 10 % ends up as useful work. Avoid using compressed air for jobs a fan or blower can do, and fix leaks first, since plants often lose a fifth or more of their air through them."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You lower the compressor discharge pressure by 1 bar. Roughly what power saving?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compression power rises with the pressure ratio, so around a typical 7 bar, each 1 bar reduction saves roughly 6 to 8 % of compressor power, and leaks fall too. If one user needs higher pressure, serve it with a local booster rather than running the whole system high."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does instrument air need a low dew point?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compressed air carries water vapour that condenses as the air cools in the lines, causing rust, blocked positioner ports and sticking valves. Instrument air is dried to a dew point below the coldest temperature it will meet, often around −40 °C. Check the dryer and drain receivers and filters regularly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "You ask a PSA nitrogen plant for 99.99 % purity instead of 99 %. What happens to its output?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A PSA nitrogen generator holds oxygen back on an adsorbent bed and lets nitrogen through. Higher purity means less of the air leaves as product, so raising purity from 99 % to 99.99 % can roughly halve the output from the same compressor. Specify the purity each user really needs; blanketing and purging often manage with 98 to 99 %."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A vessel was purged with nitrogen. Someone has to go inside. What must be checked?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nitrogen is colourless and odourless and displaces oxygen; a few breaths of nitrogen-rich air can cause collapse without warning. Before entry, isolate and blind the nitrogen and every other line, ventilate with air, confirm oxygen of at least 19.5 % and test for flammable and toxic gas with a calibrated meter, recorded on the entry permit. Keep a standby person outside, monitor continuously, and never attempt rescue without breathing apparatus."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you use compressed air to pressure-transfer a flammable solvent?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compressed air brings 21 % oxygen into a solvent's vapour space, creating a flammable mixture that static from the flow or any spark can ignite. Use nitrogen for pressure transfers and blanketing, within the vessel's pressure rating, and use different couplings for air and nitrogen hoses, as well as labels, so they cannot be swapped."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Compressed Air and Nitrogen: Whiteboard Lesson</h1>
+  <p>Six questions on two everyday utilities: how little compressor power does useful work, what each bar costs, why instrument air must be dry, the price of nitrogen purity, nitrogen in confined spaces and why air never pushes solvent. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-compressed-air-nitrogen.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/compressed-air-nitrogen/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>Of the electricity a compressor uses, roughly how much ends up as useful work at the air tool?</h3>
+  <p>Compressing air turns most of the motor&#x27;s power into heat, and leaks, pressure drops and over-pressure waste more, so only about 10 % ends up as useful work. Avoid using compressed air for jobs a fan or blower can do, and fix leaks first, since plants often lose a fifth or more of their air through them.</p>
+  <h3>You lower the compressor discharge pressure by 1 bar. Roughly what power saving?</h3>
+  <p>Compression power rises with the pressure ratio, so around a typical 7 bar, each 1 bar reduction saves roughly 6 to 8 % of compressor power, and leaks fall too. If one user needs higher pressure, serve it with a local booster rather than running the whole system high.</p>
+  <h3>Why does instrument air need a low dew point?</h3>
+  <p>Compressed air carries water vapour that condenses as the air cools in the lines, causing rust, blocked positioner ports and sticking valves. Instrument air is dried to a dew point below the coldest temperature it will meet, often around −40 °C. Check the dryer and drain receivers and filters regularly.</p>
+  <h3>You ask a PSA nitrogen plant for 99.99 % purity instead of 99 %. What happens to its output?</h3>
+  <p>A PSA nitrogen generator holds oxygen back on an adsorbent bed and lets nitrogen through. Higher purity means less of the air leaves as product, so raising purity from 99 % to 99.99 % can roughly halve the output from the same compressor. Specify the purity each user really needs; blanketing and purging often manage with 98 to 99 %.</p>
+  <h3>A vessel was purged with nitrogen. Someone has to go inside. What must be checked?</h3>
+  <p>Nitrogen is colourless and odourless and displaces oxygen; a few breaths of nitrogen-rich air can cause collapse without warning. Before entry, isolate and blind the nitrogen and every other line, ventilate with air, confirm oxygen of at least 19.5 % and test for flammable and toxic gas with a calibrated meter, recorded on the entry permit. Keep a standby person outside, monitor continuously, and never attempt rescue without breathing apparatus.</p>
+  <h3>Can you use compressed air to pressure-transfer a flammable solvent?</h3>
+  <p>Compressed air brings 21 % oxygen into a solvent&#x27;s vapour space, creating a flammable mixture that static from the flow or any spark can ignite. Use nitrogen for pressure transfers and blanketing, within the vessel&#x27;s pressure rating, and use different couplings for air and nitrogen hoses, as well as labels, so they cannot be swapped.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/compressed-air-and-nitrogen/' | relative_url }}">Compressed air and nitrogen</a>
+    <a href="{{ '/articles/inerting-and-loc/' | relative_url }}">Inerting and LOC</a>
+    <a href="{{ '/whiteboard/steam-and-steam-traps/' | relative_url }}">Steam and steam traps: whiteboard lesson</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

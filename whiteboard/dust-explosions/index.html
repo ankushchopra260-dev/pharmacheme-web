@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Dust explosions: Whiteboard Lesson with Bubbles"
+seo_title: "Dust Explosions Explained: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on dust explosions: the explosion pentagon, Kst classes, secondary explosions, venting, particle size and safe housekeeping."
+image: /assets/img/share/whiteboard-dust-explosions.jpg
+keywords: "dust explosion explained, explosion pentagon, Kst St1 St2 St3, secondary dust explosion, explosion vent panel, minimum ignition energy powder, dust housekeeping, process safety interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Dust explosions"
+    url: /whiteboard/dust-explosions/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Dust explosions: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on dust explosions: the explosion pentagon, Kst classes, secondary explosions, venting, particle size and safe housekeeping.",
+        "url": "https://www.pharmacheme.in/whiteboard/dust-explosions/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Dust explosion hazards",
+          "Kst classification",
+          "Dust explosion protection"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "A fire needs fuel, oxygen and ignition. What two more does a dust explosion need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A dust explosion needs the fire triangle (fuel, oxygen, ignition) plus dispersion, meaning the dust is suspended as a cloud, and confinement, which lets pressure build. Remove any one of the five and there is no explosion, though an unconfined cloud can still flash and burn people; protection targets the dust cloud, ignition sources, oxygen (by nitrogen inerting) or confinement (by venting)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A powder has a Kst of 250 bar·m/s. Which dust class is it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kst describes how violently a dust explodes, from the rate of pressure rise in a standard test. Dusts with Kst up to 200 bar·m/s are class St 1, 200 to 300 St 2 and above 300 St 3, so 250 is St 2. Explosion vents and suppression are sized on Kst, so test the actual powder rather than borrowing a value."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is a thin dust layer on beams and ledges so dangerous?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A small primary explosion in equipment sends a pressure wave into the room that lifts dust from beams and ledges into a large cloud, which the flame then ignites. This secondary explosion is usually far larger and causes most of the harm. A layer around a millimetre thick over a large area is enough, so clean dust before it builds up."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A dust collector stands outdoors. What is the most common explosion protection for it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Explosion vent panels burst at a low pressure and release the explosion before the collector housing fails; the fireball must discharge to a safe area away from people and buildings. Indoors, suppression systems or flameless vents are used, and isolation valves stop flame travelling back through ducts. Keep the area in front of vents clear and inspect panels regularly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "The same powder is milled finer. What happens to its explosion risk?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Milling a powder finer gives far more surface area for the same mass, so it ignites more easily (lower minimum ignition energy) and burns faster (higher Kst), making explosions more likely and more violent. Test the powder as it is after milling, including fines collected in filters."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the right way to clean powder dust off machines and ledges?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Blowing dust off with compressed air creates the dust cloud an explosion needs. Use an industrial vacuum approved for combustible dust (earthed, with no sparking parts), or gentle wet wiping where it cannot reach, and stop leaks at the source with good seals, covers and dust extraction."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Dust Explosions: Whiteboard Lesson</h1>
+  <p>Six questions on combustible dust: what a dust explosion needs, what Kst classes mean, why thin layers cause secondary explosions, how collectors are protected, why finer powder is worse and how to clean up safely. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-dust-explosions.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/dust-explosions/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>A fire needs fuel, oxygen and ignition. What two more does a dust explosion need?</h3>
+  <p>A dust explosion needs the fire triangle (fuel, oxygen, ignition) plus dispersion, meaning the dust is suspended as a cloud, and confinement, which lets pressure build. Remove any one of the five and there is no explosion, though an unconfined cloud can still flash and burn people; protection targets the dust cloud, ignition sources, oxygen (by nitrogen inerting) or confinement (by venting).</p>
+  <h3>A powder has a Kst of 250 bar·m/s. Which dust class is it?</h3>
+  <p>Kst describes how violently a dust explodes, from the rate of pressure rise in a standard test. Dusts with Kst up to 200 bar·m/s are class St 1, 200 to 300 St 2 and above 300 St 3, so 250 is St 2. Explosion vents and suppression are sized on Kst, so test the actual powder rather than borrowing a value.</p>
+  <h3>Why is a thin dust layer on beams and ledges so dangerous?</h3>
+  <p>A small primary explosion in equipment sends a pressure wave into the room that lifts dust from beams and ledges into a large cloud, which the flame then ignites. This secondary explosion is usually far larger and causes most of the harm. A layer around a millimetre thick over a large area is enough, so clean dust before it builds up.</p>
+  <h3>A dust collector stands outdoors. What is the most common explosion protection for it?</h3>
+  <p>Explosion vent panels burst at a low pressure and release the explosion before the collector housing fails; the fireball must discharge to a safe area away from people and buildings. Indoors, suppression systems or flameless vents are used, and isolation valves stop flame travelling back through ducts. Keep the area in front of vents clear and inspect panels regularly.</p>
+  <h3>The same powder is milled finer. What happens to its explosion risk?</h3>
+  <p>Milling a powder finer gives far more surface area for the same mass, so it ignites more easily (lower minimum ignition energy) and burns faster (higher Kst), making explosions more likely and more violent. Test the powder as it is after milling, including fines collected in filters.</p>
+  <h3>What is the right way to clean powder dust off machines and ledges?</h3>
+  <p>Blowing dust off with compressed air creates the dust cloud an explosion needs. Use an industrial vacuum approved for combustible dust (earthed, with no sparking parts), or gentle wet wiping where it cannot reach, and stop leaks at the source with good seals, covers and dust extraction.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/dust-explosions/' | relative_url }}">Dust explosions</a>
+    <a href="{{ '/articles/static-electricity-solvent-fires/' | relative_url }}">Static electricity and solvent fires</a>
+    <a href="{{ '/whiteboard/drying-basics/' | relative_url }}">Drying basics: whiteboard lesson</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Flow, level and pressure measurement: Whiteboard Lesson with Bubbles"
+seo_title: "Flow, Level and Pressure Measurement: Whiteboard Lesson"
+description: "Six-question whiteboard lesson on plant instruments: DP flow and square roots, turndown, DP level and density, mass flowmeters, gauge siphons and thermowells."
+image: /assets/img/share/whiteboard-process-measurement.jpg
+keywords: "DP flowmeter square root, orifice turndown, DP level density error, mass flowmeter dosing, pressure gauge siphon, thermowell immersion, instrumentation interview questions"
+breadcrumbs:
+  - label: Interview Prep
+    url: /process-engineering-faq/
+  - label: Whiteboard lessons
+    url: /whiteboard/
+  - label: "Flow, level and pressure measurement"
+    url: /whiteboard/process-measurement/
+structured_data: |
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "name": "Flow, level and pressure measurement: whiteboard lesson",
+        "description": "Six-question whiteboard lesson on plant instruments: DP flow and square roots, turndown, DP level and density, mass flowmeters, gauge siphons and thermowells.",
+        "url": "https://www.pharmacheme.in/whiteboard/process-measurement/",
+        "learningResourceType": "Interactive lesson",
+        "educationalLevel": "Beginner",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "timeRequired": "PT8M",
+        "teaches": [
+          "Flow measurement",
+          "Level measurement",
+          "Pressure and temperature measurement"
+        ],
+        "author": {
+          "@type": "Person",
+          "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
+          "name": "Ankush Chopra",
+          "url": "https://www.pharmacheme.in/about/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.pharmacheme.in/#organization",
+          "name": "PharmaChemE",
+          "url": "https://www.pharmacheme.in/"
+        },
+        "datePublished": "2026-11-22",
+        "dateModified": "2026-11-23"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "A DP flowmeter's pressure drop reads 25 % of its range. What is the flow, as % of maximum?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An orifice or venturi produces a pressure drop proportional to flow squared, so flow goes with the square root of the DP: 25 % of DP range is √0.25 = 50 % of maximum flow. Check whether the square root is applied in the transmitter or the control system; applying it twice, or not at all, makes every reading wrong."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does an orifice flowmeter read poorly at low flow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Because DP goes with flow squared, it falls away quickly at low flow: at 10 % flow the DP is only 1 % of range, so small errors become large flow errors. An orifice meter is typically good over about a 4:1 flow range; for wider ranges use two transmitters or a different meter type, such as a mass flowmeter, or a magnetic flowmeter for conductive liquids like water."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "DP level set up for water, but the tank holds toluene (0.87). Real level 2 metres. Reading?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A DP level transmitter measures the hydrostatic pressure ρ × g × h. If it is set up for water but the tank holds toluene (relative density 0.87), the pressure is only 0.87 times that of water and a real 2 m level reads about 1.74 m, so the tank is fuller than shown. Set the actual density, remembering it changes with temperature and composition."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is a mass flowmeter often chosen for dosing solvents and reagents?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most flowmeters measure volume or velocity, so converting to kilograms needs a density that changes with temperature. A mass flowmeter vibrates its tubes, and the flow twists them in proportion to mass flow, so it reads mass directly and gives density too, which suits dosing to a recipe. Keep it full of liquid; gas bubbles spoil the reading."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should sit between a steam line and its pressure gauge?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Live steam would overheat and ruin a pressure gauge, so a siphon (a coil or U of pipe) is fitted; it fills with condensate that passes pressure but keeps heat away. Add an isolation valve so the gauge can be changed in service, use a snubber on pulsing services, and choose a range that puts normal pressure near mid-scale."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A reactor temperature reads low and lags during heating. What is a common cause?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A temperature probe sits in a thermowell that must be well under the liquid at the lowest working level. If it barely dips in, it partly senses the vapour space and the cooler nozzle and reads low and slowly; air gaps or a probe not pushed to the bottom of the well add lag. Check well length against the minimum batch level."
+            }
+          }
+        ]
+      }
+    ]
+  }
+last_modified_at: 2026-11-23
+---
+<link rel="stylesheet" href="{{ '/assets/css/whiteboard.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+<div class="container calc-page-head">
+  <h1>Flow, Level and Pressure Measurement: Whiteboard Lesson</h1>
+  <p>Six questions on plant measurement: reading a DP flowmeter, why it struggles at low flow, how density fools a level transmitter, why mass flowmeters suit dosing, protecting steam gauges and getting temperature probes into the liquid. Pick an answer, hear what Bubbles thinks of it, then watch the whiteboard explain it. Turn the sound on; there are captions too.</p>
+</div>
+<div class="container">
+  <div class="wb" id="wb" data-src="{{ '/assets/data/wb-process-measurement.json' | relative_url }}?v={{ site.time | date: '%s' }}" data-audio="{{ '/assets/audio/wb/process-measurement/' | relative_url }}"></div>
+</div>
+
+<div class="container article-body" style="padding:8px 20px 64px;">
+  <h2 id="answers">The six questions and answers</h2>
+  <p>The same lesson as text, for reading or revision. More lessons: <a href="{{ '/whiteboard/' | relative_url }}">all whiteboard lessons</a>. More interview questions: <a href="{{ '/process-engineering-faq/' | relative_url }}">Interview Prep</a>.</p>
+  <h3>A DP flowmeter&#x27;s pressure drop reads 25 % of its range. What is the flow, as % of maximum?</h3>
+  <p>An orifice or venturi produces a pressure drop proportional to flow squared, so flow goes with the square root of the DP: 25 % of DP range is √0.25 = 50 % of maximum flow. Check whether the square root is applied in the transmitter or the control system; applying it twice, or not at all, makes every reading wrong.</p>
+  <h3>Why does an orifice flowmeter read poorly at low flow?</h3>
+  <p>Because DP goes with flow squared, it falls away quickly at low flow: at 10 % flow the DP is only 1 % of range, so small errors become large flow errors. An orifice meter is typically good over about a 4:1 flow range; for wider ranges use two transmitters or a different meter type, such as a mass flowmeter, or a magnetic flowmeter for conductive liquids like water.</p>
+  <h3>DP level set up for water, but the tank holds toluene (0.87). Real level 2 metres. Reading?</h3>
+  <p>A DP level transmitter measures the hydrostatic pressure ρ × g × h. If it is set up for water but the tank holds toluene (relative density 0.87), the pressure is only 0.87 times that of water and a real 2 m level reads about 1.74 m, so the tank is fuller than shown. Set the actual density, remembering it changes with temperature and composition.</p>
+  <h3>Why is a mass flowmeter often chosen for dosing solvents and reagents?</h3>
+  <p>Most flowmeters measure volume or velocity, so converting to kilograms needs a density that changes with temperature. A mass flowmeter vibrates its tubes, and the flow twists them in proportion to mass flow, so it reads mass directly and gives density too, which suits dosing to a recipe. Keep it full of liquid; gas bubbles spoil the reading.</p>
+  <h3>What should sit between a steam line and its pressure gauge?</h3>
+  <p>Live steam would overheat and ruin a pressure gauge, so a siphon (a coil or U of pipe) is fitted; it fills with condensate that passes pressure but keeps heat away. Add an isolation valve so the gauge can be changed in service, use a snubber on pulsing services, and choose a range that puts normal pressure near mid-scale.</p>
+  <h3>A reactor temperature reads low and lags during heating. What is a common cause?</h3>
+  <p>A temperature probe sits in a thermowell that must be well under the liquid at the lowest working level. If it barely dips in, it partly senses the vapour space and the cooler nozzle and reads low and slowly; air gaps or a probe not pushed to the bottom of the well add lag. Check well length against the minimum batch level.</p>
+
+  <div class="related-box">
+    <h3>Related</h3>
+    <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">Instrumentation basics</a>
+    <a href="{{ '/whiteboard/control-valves/' | relative_url }}">Control valves: whiteboard lesson</a>
+    <a href="{{ '/whiteboard/pid-control/' | relative_url }}">PID control: whiteboard lesson</a>
+    <a href="{{ '/whiteboard/' | relative_url }}">More whiteboard lessons</a>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/whiteboard.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
