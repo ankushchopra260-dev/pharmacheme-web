@@ -16,7 +16,7 @@ structured_data: |
         "@type": "Article",
         "headline": "AI in the Chemical Industry: Real Plant Examples, Use Cases and GMP",
         "description": "Real examples of AI in chemical, pharma and process plants with reported results, use cases by department, the digital foundations, GMP rules and a readiness self-check.",
-        "keywords": "AI in chemical industry, AI case studies chemical plant, predictive maintenance, model predictive control, soft sensor, digital twin, Industry 4.0, digitalization, GMP Annex 22",
+        "keywords": "AI in chemical industry, AI case studies chemical plant, predictive maintenance, model predictive control, soft sensor, digital twin, Industry 4.0, digitalization, GMP Annex 22, AI P&ID, DEXPI, instrument index",
         "author": {
           "@type": "Person",
           "@id": "https://www.pharmacheme.in/about/#ankush-chopra",
@@ -30,7 +30,7 @@ structured_data: |
           "url": "https://www.pharmacheme.in/"
         },
         "datePublished": "2026-10-21",
-        "dateModified": "2026-11-06"
+        "dateModified": "2026-11-27"
       },
       {
         "@type": "FAQPage",
@@ -66,12 +66,20 @@ structured_data: |
               "@type": "Answer",
               "text": "Projects where the data already exists and a person still makes the decision: predictive maintenance on critical rotating equipment, a soft sensor for a slow lab result, or text search across SOPs and past deviations."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Can AI draw or check P&IDs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It can read scanned P&IDs into a database, and research tools can flag rule breaks or suggest control loops on P&IDs stored in open formats such as DEXPI. Digitising old drawings is in commercial use; checking and drafting are still mostly research and pilots. An engineer still checks and signs every drawing."
+            }
           }
         ]
       }
     ]
   }
-last_modified_at: 2026-11-06
+last_modified_at: 2026-11-27
 ---
 <link rel="stylesheet" href="{{ '/assets/css/articles.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 <style>
@@ -181,6 +189,7 @@ last_modified_at: 2026-11-06
     <li><a href="#uses">Use cases by department (explorer)</a><span>Working level</span></li>
     <li><a href="#softsensor">How a soft sensor works (demo)</a><span>Working level</span></li>
     <li><a href="#gmp">AI under GMP: FDA, EU Annex 22, GAMP</a><span>Going deeper</span></li>
+    <li><a href="#engineering">AI in design and instrumentation engineering</a><span>Working level</span></li>
     <li><a href="#roles">The people: plant digital transformation roles</a></li>
     <li><a href="#start">Readiness self-check and a 90-day start</a></li>
     <li><a href="#faq">Questions people ask</a></li>
@@ -319,6 +328,33 @@ last_modified_at: 2026-11-06
   </table></div>
   </details>
 
+  <h2 id="engineering">AI in design and instrumentation engineering <span class="lvl l2">Working level</span></h2>
+  <p>Most published plant results are in operations: maintenance, control and quality. A second wave is aimed at engineering documents: P&amp;IDs, instrument indexes, datasheets, simulation models and control logic. These documents feed construction, HAZOP and relief design, so a mistake travels further and is harder to catch later. Treat the claims with more caution than in operations, not less.</p>
+  <div class="art-table-wrap"><table class="art-table">
+    <tr><th>Task</th><th>What AI does</th><th>How far along (late 2026)</th><th>What an engineer must still check</th></tr>
+    <tr><td>Digitising scanned P&amp;IDs</td><td>Reads symbols, tags and line numbers from old drawings into a database</td><td>Sold and in use on brownfield projects</td><td>Spot-check tags and lines against the drawing; look for missed, merged and duplicated tags</td></tr>
+    <tr><td>Instrument index and datasheets</td><td>Drafts index rows and datasheet fields from P&amp;ID data and vendor documents</td><td>Early commercial use and pilots</td><td>Ranges, units, materials, hazardous-area rating and SIL fields, line by line, before sign-off</td></tr>
+    <tr><td>Checking P&amp;IDs for errors</td><td>Applies engineering rules to a P&amp;ID stored as a graph and flags or corrects mistakes</td><td>Research and early pilots</td><td>Use it as a checklist aid; the reviewer still approves</td></tr>
+    <tr><td>Proposing control structure from a PFD</td><td>Suggests where instruments and loops go, learned from earlier P&amp;IDs</td><td>Research</td><td>Not for project use yet</td></tr>
+    <tr><td>Setting up simulation models</td><td>Helps write and run flowsheet models, especially in scriptable, equation-based tools</td><td>Pilots and research</td><td>Mass and energy balance closure, property method, and a comparison with plant or lab data</td></tr>
+    <tr><td>Drafting PLC/DCS logic and cause-and-effect charts</td><td>Writes first drafts from narratives and tables</td><td>Early use, mostly for routine logic</td><td>Full factory and site acceptance testing; safety logic written and verified by people</td></tr>
+  </table></div>
+  <p>&ldquo;How far along&rdquo; is our reading of public papers and announcements, not a test. Ask any supplier to run their tool on <b>your</b> drawings, not their demo set.</p>
+
+  <h3>Why open data formats matter</h3>
+  <p>AI can only work on drawings it can read as data. <b>DEXPI</b> is a vendor-independent, machine-readable exchange format for P&amp;IDs, built on ISO 15926, and its current version also covers block flow diagrams and PFDs. <b>pyDEXPI</b> is an open-source Python library that reads DEXPI files and turns them into graphs that rules and machine-learning models can work on. <b>SFILES 2.0</b> writes a flowsheet as a line of text, the way SMILES writes a molecule, including the control structure, which lets language models read and write flowsheets. On the simulation side, <b>IDAES</b> is an open-source, equation-oriented process modelling framework built on Pyomo, aimed at engineers who want models they can script rather than click through.</p>
+  <p>One limit is worth remembering: a standard file carries a design between tools, but it does not tell you whether the equipment list, the simulation or the HAZOP still agrees with the latest revision. Keeping those in step is still an engineering job.</p>
+
+  <h3>Rules before trusting an AI-made engineering document</h3>
+  <ol>
+    <li>Treat it as a draft from a new graduate engineer: the same checker, the same sign-off, the same revision control.</li>
+    <li>Trace every tag and number back to the source drawing and its revision. Data pulled from revision B is wrong once revision C is issued.</li>
+    <li>Never use it unchecked for relief sizing, SIL targets, hazardous-area classification or safety interlocks. Do an independent calculation.</li>
+    <li>Keep project and client drawings out of public chat tools. Use an approved, access-controlled system.</li>
+    <li>Judge a tool on your own drawings and your own error rate, not on a demo or a research paper.</li>
+  </ol>
+  <p>For the instruments themselves, see the <a href="{{ '/whiteboard/process-measurement/' | relative_url }}">flow, level and pressure measurement whiteboard lesson</a> and <a href="{{ '/articles/instrumentation-basics/' | relative_url }}">instrumentation basics</a>.</p>
+
   <h2 id="roles">The people: plant digital transformation roles</h2>
   <p>Plants are now hiring for this directly. A typical 2026 posting for a &ldquo;Plant Digital Transformation&rdquo; role at a manufacturing site in India asks for someone who can <b>bridge plant operations and digital technology</b>, and says plainly that it is <b>not a dashboarding or MIS job</b>: the person must take a problem from the shop floor through business case, solution, adoption and measured results. The technologies it lists are the ones in this article: IoT and IIoT, MES, automation, AI and machine learning, analytics and Power BI, SAP, and IT/OT integration.</p>
   <div class="art-table-wrap"><table class="art-table">
@@ -357,6 +393,8 @@ last_modified_at: 2026-11-06
   <p>Yes, with validation and human oversight. The EU draft GMP Annex 22 (July 2025) covers static, trained models in critical GMP use and keeps generative AI out of critical decisions in the draft. FDA's January 2025 draft guidance describes a risk-based credibility framework. Both were still drafts when checked in November 2026.</p>
   <h3>What is the easiest first AI project in a chemical plant?</h3>
   <p>Projects where the data already exists and a person still makes the decision: predictive maintenance on critical rotating equipment, a soft sensor for a slow lab result, or text search across SOPs and past deviations.</p>
+  <h3>Can AI draw or check P&amp;IDs?</h3>
+  <p>It can read scanned P&amp;IDs into a database, and research tools can flag rule breaks or suggest control loops on P&amp;IDs stored in open formats such as DEXPI. Digitising old drawings is in commercial use; checking and drafting are still mostly research and pilots. An engineer still checks and signs every drawing.</p>
   <h3>Will AI replace process engineers?</h3>
   <p>The published lighthouse results come with reskilling, not fewer engineers: Jubilant Ingrevia reports reskilling more than 2,000 employees. The models need people who understand the chemistry to choose inputs, judge results and own the decisions.</p>
   <p>Questions about getting started, prompts and tools are answered in <a href="{{ '/articles/ai-basics-for-chemical-engineers/' | relative_url }}">AI basics for chemical engineers</a>.</p>
@@ -380,6 +418,13 @@ last_modified_at: 2026-11-06
     <li>Genheden S. et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7672904/" rel="noopener">AiZynthFinder: a fast, robust and flexible open-source software for retrosynthetic planning</a>, Journal of Cheminformatics (2020).</li>
     <li>Tools: <a href="https://www.cas.org/solutions/cas-scifinder-discovery-platform/retrosynthesis" rel="noopener">CAS SciFinder predictive retrosynthesis</a>; <a href="https://www.arcweb.com/node/111626" rel="noopener">ARC Advisory: AspenTech machine learning (Aspen Mtell) for asset management</a>; <a href="https://aws.amazon.com/blogs/industries/seeq-and-aspentech-accelerate-self-service-industrial-analytics-on-aws" rel="noopener">AWS: Seeq self-service industrial analytics</a>; <a href="https://www.iotworldtoday.com/iiot/siemens-debuts-generative-ai-powered-industrial-copilot-at-hannover-messe-2024" rel="noopener">Siemens Industrial Copilot, Hannover Messe 2024</a>.</li>
     <li>Plant examples: <a href="https://www.weforum.org/press/2026/06/new-global-lighthouse-sites-demonstrate-how-ai-is-rewiring-manufacturing-and-supply-chains/" rel="noopener">WEF Global Lighthouse Network, June 2026</a> (DCM Shriram, Saudi Aramco Hawiyah NGL); <a href="https://www.emerson.com/documents/automation/case-study-covestro-increases-efficiency-of-polyester-production-using-advanced-process-control-deltav-en-10193330.pdf" rel="noopener">Emerson: Covestro Barcelona case study</a>; <a href="https://www.yokogawa.com/uk/library/resources/references/successstory-basf-ludwigshafen/" rel="noopener">Yokogawa: BASF Ludwigshafen</a>; <a href="https://www.biospace.com/business/drugmakers-hail-early-wins-in-ai-driven-transformation-of-manufacturing" rel="noopener">BioSpace: drugmakers&rsquo; early wins with AI in manufacturing</a> (AstraZeneca, Roche, Sanofi), August 2025.</li>
+    <li>Goldstein D.P., Schulze Balhorn L., Alimin A.A., Schweidtmann A.M., <a href="https://psecommunity.org/LAPSE:2025.0371" rel="noopener">pyDEXPI: a Python framework for P&amp;IDs using the DEXPI information model</a>, 2025.</li>
+    <li>Oeing J. et al., <a href="https://doaj.org/article/facac2550ee94a79b7092f35877cefdb" rel="noopener">Using artificial intelligence to support the drawing of piping and instrumentation diagrams using DEXPI standard</a>, Digital Chemical Engineering, 2022.</li>
+    <li><a href="https://arxiv.org/html/2502.18493v1" rel="noopener">Rule-based autocorrection of P&amp;IDs on graphs</a>, arXiv, 2025.</li>
+    <li>Vogel G. et al., <a href="https://research.tudelft.nl/en/publications/sfiles-20-an-extended-text-based-flowsheet-representation" rel="noopener">SFILES 2.0: an extended text-based flowsheet representation</a>, Optimization and Engineering, 2023.</li>
+    <li>Lee A. et al., <a href="https://escholarship.org/uc/item/602146tv" rel="noopener">The IDAES process modeling framework and model library</a>, Journal of Advanced Manufacturing and Processing, 2021.</li>
+    <li><a href="https://arxiv.org/pdf/2611.07947" rel="noopener">ChemE-as-Code: an open-source platform for agentic AI in chemical engineering</a>, arXiv, November 2026 (on DEXPI and revision consistency).</li>
+    <li>World of Instrumentation, <a href="https://worldofinstrumentation.com/ai-in-process-instrumentation-engineering-platforms-2027/" rel="noopener">AI in process and instrumentation engineering: platforms to watch in 2027</a>, November 2026 (a wider list, including commercial tools).</li>
     <li>McKinsey &amp; Company, <a href="https://www.mckinsey.com/industries/chemicals/our-insights/how-ai-enables-new-possibilities-in-chemicals" rel="noopener">How AI enables new possibilities in chemicals</a>, November 2024.</li>
   </ul>
   <div class="related-box">
